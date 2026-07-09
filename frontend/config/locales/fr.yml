@@ -765,7 +765,6 @@ fr:
     dismiss: Abandonner les modifications
 
   linker:
-    link_to: Lier
     create_and_link: Créer et lier
     hint_text: Tapez pour rechercher des notices disponibles...
     placeholder: Tapez pour rechercher des notices disponibles...
@@ -1563,7 +1562,6 @@ fr:
         create_account: Créer compte
         update_account: Actualiser compte
         create: Créer utilisateur
-        hide_inactive: Masquer les utilisateurs inactifs
         show_inactive: Afficher les utilisateurs inactifs
         deactivate_user: Désactiver
         deactivate_user_confirm: Êtes-vous sûr de vouloir désactiver cet 
@@ -1679,9 +1677,6 @@ fr:
           <strong>basique</strong>, sélectionnez la <strong>Colonne</strong> 
           cible, entrez la <strong>Valeur de remplissage</strong> souhaitée et 
           cliquez sur <strong>Appliquer le remplissage</strong>.
-      resize_and_reorder_columns: |
-        <div><strong>Réordonner colonnes</strong></div>
-        <div><small>Cliquer <strong>Réordonner colonnes</strong>, sélectionner le(s) rangée(s) à réordonner et utiliser les boutons flèches haut/bas pour changer leur position dans la liste. Quand l'ordre souhaité est obtenu, cliquer <strong>Appliquer ordre de colonne</strong></small></div>
       reset:
         title: Réinitialiser le forumulaire
         description: Cliquez sur <strong>Réinitialiser</strong> pour effacer le 
@@ -2317,7 +2312,6 @@ fr:
 
   custom_report_template:
     _frontend:
-      new_title: Nouveau modèle de rapport personnalisé
       section:
         template_information: Informations sur le modèle
         basic_information_fields: Informations de base
@@ -2327,7 +2321,6 @@ fr:
         create: Créer un modèle
         save: Enregistrer le modèle
         search_usernames: Recherche noms d'utilisateur
-        search_agent_persons: Rechercher des personnes agents
       messages:
         copied: Modèle de rapport personnalisé copié
         created: Modèle de rapport personnalisé créé
@@ -2420,20 +2413,6 @@ fr:
     date_era: Ère
     date_calendar: Calendrier
 
-  structured_date_label_existence:
-    date_label: Étiqueter
-    date_type_structured: Type de date
-    date_certainty: Certitude
-    date_era: Ère
-    date_calendar: Calendrier
-
-  structured_date_label_usage:
-    date_label: Étiqueter
-    date_type_structured: Type de date
-    date_certainty: Certitude
-    date_era: Ère
-    date_calendar: Calendrier
-
   structured_date_single_fields:
     date_role: Rôle de date
     date_expression: Expression de la date
@@ -2477,101 +2456,13 @@ fr:
     language_note: Note de langue
 
   agent_record_controls:
-    _plural: Enregistrer les informations
-    _singular: Enregistrer les informations
-    _frontend:
-      action:
-        add: Ajouter des informations d'enregistrement
-    maintenance_status: État de la maintenance du contrôle des enregistrements
-    publication_status: État de la publication de contrôle des enregistrements
-    romanization: Romanisation
-    government_agency_type: Type d'agence gouvernementale de contrôle des 
-      enregistrements
-    reference_evaluation: Évaluation de la référence de contrôle des 
-      enregistrements
-    name_type: Type de nom de contrôle d'enregistrement
-    level_of_detail: Contrôle des enregistrements Niveau de détail
-    modified_record: Type modifié de contrôle d'enregistrement
-    cataloging_source: Source de catalogage de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-    agency_name: Nom d'agence
-    maintenance_agency_note: Note de l'agence de maintenance
-    language: Langue
-    script: Scénario
-    language_note: Note de langue
-
+    _frontend: {}
   agent_record_control_required:
-    _plural: Enregistrer les informations
-    _singular: Enregistrer les informations
-    _frontend:
-      action:
-        add: Ajouter des informations d'enregistrement
-    maintenance_status: État de la maintenance du contrôle des enregistrements
-    publication_status: État de la publication de contrôle des enregistrements
-    romanization: Romanisation
-    government_agency_type: Type d'agence gouvernementale de contrôle des 
-      enregistrements
-    reference_evaluation: Évaluation de la référence de contrôle des 
-      enregistrements
-    name_type: Type de nom de contrôle d'enregistrement
-    level_of_detail: Contrôle des enregistrements Niveau de détail
-    modified_record: Type modifié de contrôle d'enregistrement
-    cataloging_source: Source de catalogage de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-    agency_name: Nom d'agence
-    maintenance_agency_note: Note de l'agence de maintenance
-    language: Langue
-    script: Scénario
-    language_note: Note de langue
-
+    _frontend: {}
   agent_record_control_merge_destination:
-    _plural: Enregistrer les informations
-    _singular: Enregistrer les informations
-    _frontend:
-      action:
-        add: Ajouter des informations d'enregistrement
-    maintenance_status: État de la maintenance du contrôle des enregistrements
-    publication_status: État de la publication de contrôle des enregistrements
-    romanization: Romanisation
-    government_agency_type: Type d'agence gouvernementale de contrôle des 
-      enregistrements
-    reference_evaluation: Évaluation de la référence de contrôle des 
-      enregistrements
-    name_type: Type de nom de contrôle d'enregistrement
-    level_of_detail: Contrôle des enregistrements Niveau de détail
-    modified_record: Type modifié de contrôle d'enregistrement
-    cataloging_source: Source de catalogage de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-    agency_name: Nom d'agence
-    maintenance_agency_note: Note de l'agence de maintenance
-    language: Langue
-    script: Scénario
-    language_note: Note de langue
-
+    _frontend: {}
   agent_record_control_merge_candidate:
-    _plural: Enregistrer les informations
-    _singular: Enregistrer les informations
-    _frontend:
-      action:
-        add: Ajouter des informations d'enregistrement
-    maintenance_status: État de la maintenance du contrôle des enregistrements
-    publication_status: État de la publication de contrôle des enregistrements
-    romanization: Romanisation
-    government_agency_type: Type d'agence gouvernementale de contrôle des 
-      enregistrements
-    reference_evaluation: Évaluation de la référence de contrôle des 
-      enregistrements
-    name_type: Type de nom de contrôle d'enregistrement
-    level_of_detail: Contrôle des enregistrements Niveau de détail
-    modified_record: Type modifié de contrôle d'enregistrement
-    cataloging_source: Source de catalogage de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-    agency_name: Nom d'agence
-    maintenance_agency_note: Note de l'agence de maintenance
-    language: Langue
-    script: Scénario
-    language_note: Note de langue
-
+    _frontend: {}
   agent_gender:
     _plural: Les genres
     _singular: Le sexe
@@ -2583,45 +2474,13 @@ fr:
     dates: Dates
 
   agent_genders:
-    _plural: Les genres
-    _singular: Le sexe
-    _frontend:
-      action:
-        add: Ajouter le sexe
-    gender: Le sexe
-    note: Noter
-    dates: Rendez-vous
-
+    _frontend: {}
   agent_gender_required:
-    _plural: Les genres
-    _singular: Le sexe
-    _frontend:
-      action:
-        add: Ajouter le sexe
-    gender: Le sexe
-    note: Noter
-    dates: Rendez-vous
-
+    _frontend: {}
   agent_gender_merge_destination:
-    _plural: Les genres
-    _singular: Le sexe
-    _frontend:
-      action:
-        add: Ajouter le sexe
-    gender: Le sexe
-    note: Noter
-    dates: Rendez-vous
-
+    _frontend: {}
   agent_gender_merge_candidate:
-    _plural: Les genres
-    _singular: Le sexe
-    _frontend:
-      action:
-        add: Ajouter le sexe
-    gender: Le sexe
-    note: Noter
-    dates: Rendez-vous
-
+    _frontend: {}
   used_language:
     _plural: Langues utilisées
     _singular: Langue utilisée
@@ -2632,41 +2491,13 @@ fr:
     script: Scénario
 
   used_language_required:
-    _plural: Langues utilisées
-    _singular: Langue utilisée
-    _frontend:
-      action:
-        add: Ajouter une langue
-    language: Langue
-    script: Scénario
-
+    _frontend: {}
   used_languages:
-    _plural: Langues utilisées
-    _singular: Langue utilisée
-    _frontend:
-      action:
-        add: Ajouter une langue
-    language: Langue
-    script: Scénario
-
+    _frontend: {}
   used_language_merge_candidate:
-    _plural: Langues utilisées
-    _singular: Langue utilisée
-    _frontend:
-      action:
-        add: Ajouter une langue
-    language: Langue
-    script: Scénario
-
+    _frontend: {}
   used_language_merge_destination:
-    _plural: Langues utilisées
-    _singular: Langue utilisée
-    _frontend:
-      action:
-        add: Ajouter une langue
-    language: Langue
-    script: Scénario
-
+    _frontend: {}
   agent_identifier:
     _plural: ID d'entité
     _singular: Identifiant
@@ -2677,41 +2508,13 @@ fr:
     entity_identifier: ID d'entité
 
   agent_identifiers:
-    _plural: ID d'entité
-    _singular: Identifiant
-    _frontend:
-      action:
-        add: Ajouter un ID d'entité
-    identifier_type: Type d'identifiant
-    entity_identifier: ID d'entité
-
+    _frontend: {}
   agent_identifier_required:
-    _plural: ID d'entité
-    _singular: Identifiant
-    _frontend:
-      action:
-        add: Ajouter un ID d'entité
-    identifier_type: Type d'identifiant
-    entity_identifier: ID d'entité
-
+    _frontend: {}
   agent_identifier_merge_destination:
-    _plural: ID d'entité
-    _singular: Identifiant
-    _frontend:
-      action:
-        add: Ajouter un ID d'entité
-    identifier_type: Type d'identifiant
-    entity_identifier: ID d'entité
-
+    _frontend: {}
   agent_identifier_merge_candidate:
-    _plural: ID d'entité
-    _singular: Identifiant
-    _frontend:
-      action:
-        add: Ajouter un ID d'entité
-    identifier_type: Type d'identifiant
-    entity_identifier: ID d'entité
-
+    _frontend: {}
   agent_place:
     _frontend:
       action:
@@ -2727,61 +2530,13 @@ fr:
     publish: Publié
 
   agent_place_required:
-    _frontend:
-      action:
-        add: Ajouter un lieu
-    section:
-      dates: Rendez-vous
-    _plural: Des endroits
-    _singular: Lieu
-    place_role: Rôle de place d'agent
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_places:
-    _frontend:
-      action:
-        add: Ajouter un lieu
-    section:
-      dates: Rendez-vous
-    _plural: Des endroits
-    _singular: Lieu
-    place_role: Rôle de place d'agent
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_place_merge_destination:
-    _frontend:
-      action:
-        add: Ajouter un lieu
-    section:
-      dates: Rendez-vous
-    _plural: Des endroits
-    _singular: Lieu
-    place_role: Rôle de place d'agent
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_place_merge_candidate:
-    _frontend:
-      action:
-        add: Ajouter un lieu
-    section:
-      dates: Rendez-vous
-    _plural: Des endroits
-    _singular: Lieu
-    place_role: Rôle de place d'agent
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_occupation:
     _frontend:
       action:
@@ -2797,61 +2552,13 @@ fr:
     publish: Publié
 
   agent_occupation_required:
-    _frontend:
-      action:
-        add: Ajouter une profession
-    section:
-      dates: Rendez-vous
-    _plural: Professions
-    _singular: Occupation
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Professions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_occupations:
-    _frontend:
-      action:
-        add: Ajouter une profession
-    section:
-      dates: Rendez-vous
-    _plural: Professions
-    _singular: Occupation
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Professions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_occupation_merge_destination:
-    _frontend:
-      action:
-        add: Ajouter une profession
-    section:
-      dates: Rendez-vous
-    _plural: Professions
-    _singular: Occupation
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Professions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_occupation_merge_candidate:
-    _frontend:
-      action:
-        add: Ajouter une profession
-    section:
-      dates: Rendez-vous
-    _plural: Professions
-    _singular: Occupation
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Professions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_function:
     _frontend:
       action:
@@ -2867,61 +2574,13 @@ fr:
     publish: Publié
 
   agent_function_required:
-    _frontend:
-      action:
-        add: Ajouter une fonction
-    section:
-      dates: Rendez-vous
-    _plural: Les fonctions
-    _singular: Une fonction
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les fonctions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_functions:
-    _frontend:
-      action:
-        add: Ajouter une fonction
-    section:
-      dates: Rendez-vous
-    _plural: Les fonctions
-    _singular: Une fonction
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les fonctions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_function_merge_destination:
-    _frontend:
-      action:
-        add: Ajouter une fonction
-    section:
-      dates: Rendez-vous
-    _plural: Les fonctions
-    _singular: Une fonction
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les fonctions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_function_merge_candidate:
-    _frontend:
-      action:
-        add: Ajouter une fonction
-    section:
-      dates: Rendez-vous
-    _plural: Les fonctions
-    _singular: Une fonction
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les fonctions
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_topic:
     _frontend:
       action:
@@ -2937,61 +2596,13 @@ fr:
     publish: Publié
 
   agent_topic_required:
-    _frontend:
-      action:
-        add: Ajouter un sujet
-    section:
-      dates: Rendez-vous
-    _plural: Les sujets
-    _singular: Sujet
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les sujets
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_topics:
-    _frontend:
-      action:
-        add: Ajouter un sujet
-    section:
-      dates: Rendez-vous
-    _plural: Les sujets
-    _singular: Sujet
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les sujets
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_topic_merge_destination:
-    _frontend:
-      action:
-        add: Ajouter un sujet
-    section:
-      dates: Rendez-vous
-    _plural: Les sujets
-    _singular: Sujet
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les sujets
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   agent_topic_merge_candidate:
-    _frontend:
-      action:
-        add: Ajouter un sujet
-    section:
-      dates: Rendez-vous
-    _plural: Les sujets
-    _singular: Sujet
-    text_note: Noter
-    dates: Rendez-vous
-    subjects: Les sujets
-    places: Des endroits
-    publish: Publié
-
+    _frontend: {}
   place:
     _plural: Des endroits
     _frontend:
@@ -3015,69 +2626,13 @@ fr:
     last_verified_date: Date de la dernière vérification
 
   agent_alternate_sets:
-    _plural: Ensembles alternatifs
-    _singular: Ensemble alternatif
-    _frontend:
-      action:
-        add: Ajouter un ensemble alternatif
-    set_component: Définir le composant
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_alternate_set_required:
-    _plural: Ensembles alternatifs
-    _singular: Ensemble alternatif
-    _frontend:
-      action:
-        add: Ajouter un ensemble alternatif
-    set_component: Définir le composant
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_alternate_set_merge_destination:
-    _plural: Ensembles alternatifs
-    _singular: Ensemble alternatif
-    _frontend:
-      action:
-        add: Ajouter un ensemble alternatif
-    set_component: Définir le composant
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_alternate_set_merge_candidate:
-    _plural: Ensembles alternatifs
-    _singular: Ensemble alternatif
-    _frontend:
-      action:
-        add: Ajouter un ensemble alternatif
-    set_component: Définir le composant
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_conventions_declaration:
     _plural: Déclarations de convention
     _singular: Déclaration de convention
@@ -3096,73 +2651,13 @@ fr:
     last_verified_date: Date de la dernière vérification
 
   agent_conventions_declarations:
-    _plural: Déclarations de convention
-    _singular: Déclaration de convention
-    _frontend:
-      action:
-        add: Ajouter une déclaration de convention
-    name_rule: Convention
-    citation: Citation
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_conventions_declaration_required:
-    _plural: Déclarations de convention
-    _singular: Déclaration de convention
-    _frontend:
-      action:
-        add: Ajouter une déclaration de convention
-    name_rule: Convention
-    citation: Citation
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_conventions_declaration_merge_destination:
-    _plural: Déclarations de convention
-    _singular: Déclaration de convention
-    _frontend:
-      action:
-        add: Ajouter une déclaration de convention
-    name_rule: Convention
-    citation: Citation
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_conventions_declaration_merge_candidate:
-    _plural: Déclarations de convention
-    _singular: Déclaration de convention
-    _frontend:
-      action:
-        add: Ajouter une déclaration de convention
-    name_rule: Convention
-    citation: Citation
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_other_agency_code:
     _plural: Autres codes d'agence
     _singular: Autre code d'agence
@@ -3173,41 +2668,13 @@ fr:
     maintenance_agency: Agence de maintenance
 
   agent_other_agency_codes:
-    _plural: Autres codes d'agence
-    _singular: Autre code d'agence
-    _frontend:
-      action:
-        add: Ajouter un code d'agence
-    agency_code_type: Type de code d'agence de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-
+    _frontend: {}
   agent_other_agency_code_required:
-    _plural: Autres codes d'agence
-    _singular: Autre code d'agence
-    _frontend:
-      action:
-        add: Ajouter un code d'agence
-    agency_code_type: Type de code d'agence de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-
+    _frontend: {}
   agent_other_agency_code_merge_destination:
-    _plural: Autres codes d'agence
-    _singular: Autre code d'agence
-    _frontend:
-      action:
-        add: Ajouter un code d'agence
-    agency_code_type: Type de code d'agence de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-
+    _frontend: {}
   agent_other_agency_code_merge_candidate:
-    _plural: Autres codes d'agence
-    _singular: Autre code d'agence
-    _frontend:
-      action:
-        add: Ajouter un code d'agence
-    agency_code_type: Type de code d'agence de contrôle des enregistrements
-    maintenance_agency: Agence de maintenance
-
+    _frontend: {}
   agent_maintenance_history:
     _plural: Historique de la maintenance
     _singular: Historique de maintenance de l'agent
@@ -3223,61 +2690,13 @@ fr:
     event_date: Date de l'événement
 
   agent_maintenance_histories:
-    _plural: Historique de la maintenance
-    _singular: Historique de maintenance de l'agent
-    _frontend:
-      action:
-        add: Ajouter un évènement
-    maintenance_event_type: Type d'événement de maintenance de contrôle des 
-      enregistrements
-    maintenance_agent_type: Type d'agent de maintenance de contrôle des 
-      enregistrements
-    agent: Agent
-    descriptive_note: Note descriptive
-    event_date: Date de l'événement
-
+    _frontend: {}
   agent_maintenance_history_required:
-    _plural: Historique de la maintenance
-    _singular: Historique de maintenance de l'agent
-    _frontend:
-      action:
-        add: Ajouter un évènement
-    maintenance_event_type: Type d'événement de maintenance de contrôle des 
-      enregistrements
-    maintenance_agent_type: Type d'agent de maintenance de contrôle des 
-      enregistrements
-    agent: Agent
-    descriptive_note: Note descriptive
-    event_date: Date de l'événement
-
+    _frontend: {}
   agent_maintenance_history_merge_destination:
-    _plural: Historique de la maintenance
-    _singular: Historique de maintenance de l'agent
-    _frontend:
-      action:
-        add: Ajouter un évènement
-    maintenance_event_type: Type d'événement de maintenance de contrôle des 
-      enregistrements
-    maintenance_agent_type: Type d'agent de maintenance de contrôle des 
-      enregistrements
-    agent: Agent
-    descriptive_note: Note descriptive
-    event_date: Date de l'événement
-
+    _frontend: {}
   agent_maintenance_history_merge_candidate:
-    _plural: Historique de la maintenance
-    _singular: Historique de maintenance de l'agent
-    _frontend:
-      action:
-        add: Ajouter un évènement
-    maintenance_event_type: Type d'événement de maintenance de contrôle des 
-      enregistrements
-    maintenance_agent_type: Type d'agent de maintenance de contrôle des 
-      enregistrements
-    agent: Agent
-    descriptive_note: Note descriptive
-    event_date: Date de l'événement
-
+    _frontend: {}
   agent_record_identifier:
     _plural: ID d'enregistrement
     _singular: ID d'enregistrement
@@ -3291,53 +2710,13 @@ fr:
     record_identifier: Identificateur d'enregistrement
 
   agent_record_identifiers:
-    _plural: ID d'enregistrement
-    _singular: ID d'enregistrement
-    _frontend:
-      action:
-        add: Ajouter un ID d'enregistrement
-    identifier_type: Type d'identifiant de contrôle d'enregistrement
-    source: La source
-    primary_identifier: Est l'identifiant principal?
-    primary: Primaire
-    record_identifier: Identificateur d'enregistrement
-
+    _frontend: {}
   agent_record_identifier_required:
-    _plural: ID d'enregistrement
-    _singular: ID d'enregistrement
-    _frontend:
-      action:
-        add: Ajouter un ID d'enregistrement
-    identifier_type: Type d'identifiant de contrôle d'enregistrement
-    source: La source
-    primary_identifier: Est l'identifiant principal?
-    primary: Primaire
-    record_identifier: Identificateur d'enregistrement
-
+    _frontend: {}
   agent_record_identifier_merge_destination:
-    _plural: ID d'enregistrement
-    _singular: ID d'enregistrement
-    _frontend:
-      action:
-        add: Ajouter un ID d'enregistrement
-    identifier_type: Type d'identifiant de contrôle d'enregistrement
-    source: La source
-    primary_identifier: Est l'identifiant principal?
-    primary: Primaire
-    record_identifier: Identificateur d'enregistrement
-
+    _frontend: {}
   agent_record_identifier_merge_candidate:
-    _plural: ID d'enregistrement
-    _singular: ID d'enregistrement
-    _frontend:
-      action:
-        add: Ajouter un ID d'enregistrement
-    identifier_type: Type d'identifiant de contrôle d'enregistrement
-    source: La source
-    primary_identifier: Est l'identifiant principal?
-    primary: Primaire
-    record_identifier: Identificateur d'enregistrement
-
+    _frontend: {}
   agent_source:
     _plural: Sources
     _singular: Source de l'agent
@@ -3355,69 +2734,13 @@ fr:
     last_verified_date: Date de la dernière vérification
 
   agent_sources:
-    _plural: Sources
-    _singular: Source de l'agent
-    _frontend:
-      action:
-        add: Ajouter une source
-    source_entry: Entrée source
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_source_required:
-    _plural: Sources
-    _singular: Source de l'agent
-    _frontend:
-      action:
-        add: Ajouter une source
-    source_entry: Entrée source
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_source_merge_destination:
-    _plural: Sources
-    _singular: Source de l'agent
-    _frontend:
-      action:
-        add: Ajouter une source
-    source_entry: Entrée source
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_source_merge_candidate:
-    _plural: Sources
-    _singular: Source de l'agent
-    _frontend:
-      action:
-        add: Ajouter une source
-    source_entry: Entrée source
-    descriptive_note: Note descriptive
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_parallel_name:
     _plural: Noms parallèles
     use_dates: Utiliser des dates
@@ -3449,97 +2772,13 @@ fr:
     last_verified_date: Date de la dernière vérification
 
   agent_resources:
-    _frontend:
-      action:
-        add: Ajouter une ressource externe associée
-    section:
-      dates: Rendez-vous
-      places: Des endroits
-    _plural: Ressources externes connexes
-    _singular: Ressource externe associée
-    dates: Rendez-vous
-    places: Des endroits
-    publish: Publié
-    linked_agent_role: Type de relation de ressource
-    linked_resource: Ressource externe associée
-    linked_resource_description: La description
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_resource_required:
-    _frontend:
-      action:
-        add: Ajouter une ressource externe associée
-    section:
-      dates: Rendez-vous
-      places: Des endroits
-    _plural: Ressources externes connexes
-    _singular: Ressource externe associée
-    dates: Rendez-vous
-    places: Des endroits
-    publish: Publié
-    linked_agent_role: Type de relation de ressource
-    linked_resource: Ressource externe associée
-    linked_resource_description: La description
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_resource_merge_candidate:
-    _frontend:
-      action:
-        add: Ajouter une ressource externe associée
-    section:
-      dates: Rendez-vous
-      places: Des endroits
-    _plural: Ressources externes connexes
-    _singular: Ressource externe associée
-    dates: Rendez-vous
-    places: Des endroits
-    publish: Publié
-    linked_agent_role: Type de relation de ressource
-    linked_resource: Ressource externe associée
-    linked_resource_description: La description
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   agent_resource_merge_destination:
-    _frontend:
-      action:
-        add: Ajouter une ressource externe associée
-    section:
-      dates: Rendez-vous
-      places: Des endroits
-    _plural: Ressources externes connexes
-    _singular: Ressource externe associée
-    dates: Rendez-vous
-    places: Des endroits
-    publish: Publié
-    linked_agent_role: Type de relation de ressource
-    linked_resource: Ressource externe associée
-    linked_resource_description: La description
-    file_uri: URI du fichier
-    xlink_title_attribute: Attribut de titre Xlink
-    xlink_role_attribute: Attribut de rôle Xlink
-    xlink_arcrole_attribute: Attribut Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attribut Xlink Actuate
-    file_version_xlink_show_attribute: Attribut Xlink Show
-    last_verified_date: Date de la dernière vérification
-
+    _frontend: {}
   subsections:
     notes: Remarques
     dates: Dates
