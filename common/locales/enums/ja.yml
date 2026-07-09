@@ -1477,7 +1477,6 @@ ja:
       new: 新しい
       revised_corrected: 修正/修正
       upgraded: アップグレード済み
-      deleted_merged: ''
     modified_record:
       missing_characters: 行方不明の文字
       natc: コーディングしようとしない
@@ -1979,10 +1978,6 @@ ja:
       rbgenr: ジャンル用語：レアブックや特別コレクションのカタログ化に使用するシソーラス
       rvm: 件名見出しディレクトリ
       tgn: Geographic Namesのゲットシソーラス
-      other: ''
-      sears: ''
-      not_specified: ''
-      not_applicable: ''
     subject_term_type:
       cultural_context: 文化的背景
       function: 関数
