@@ -2148,7 +2148,6 @@ uk:
         create: Створити шаблон
         save: Зберегти шаблон
         search_usernames: Пошук імен користувачів
-        search_agent_persons: Пошук агентів-осіб
       messages:
         copied: Шаблон спеціального звіту скопійовано
         created: Шаблон спеціального звіту створено
@@ -2386,6 +2385,7 @@ uk:
           розблоковано
         published: Цифровий об'єкт <strong>%{digital_object_title</strong>, його
           підзаписи та компоненти опубліковано
+        transfer_description: ''
       section:
         basic_information: Основна інформація
       action:
