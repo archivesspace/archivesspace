@@ -945,6 +945,28 @@ AppConfig[:iiif_use_bundled_viewer] = true
 #   'myrepo' => proc{|manifest_uri| "http://myrepo-iiif-viewer.com/?m=#{CGI::escape(manifest_uri)}&other_param=value" },
 ## }
 #
+# Most third party viewers accept the manifest URI in one of two shapes, and
+# both work with the `String` form above.
+#
+# 1. The IIIF Content State API `iiif-content` query parameter, which is what
+#    Mirador (https://projectmirador.org) and Clover
+#    (https://github.com/samvera/clover-iiif) both read:
+## AppConfig[:iiif_viewer_url] = {
+#   :default => 'https://mirador.example.com/embed/?iiif-content=',
+## }
+#
+# 2. A hash fragment parameter, which is what the Universal Viewer reads. Use
+#    this to point at an externally hosted UV rather than the bundled one:
+## AppConfig[:iiif_viewer_url] = {
+#   :default => 'https://uv.example.com/uv.html#?manifest=',
+## }
+#
+# The example hosts above are placeholders. Host your own, or use the bundled viewer.
+#
+# Note that the viewer must be served over the same scheme as ArchivesSpace
+# (https to https); a http viewer embedded in a https page is blocked by
+# browsers as mixed content. Self-hosting the bundled viewer avoids this.
+#
 # For a Digital Object's File Version to be considered an IIIF Manifest and
 # suitable for embed, it must satisfy the following fields:
 # - `file_format_name` is 'iiif'
