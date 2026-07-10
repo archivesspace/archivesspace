@@ -1,4 +1,6 @@
 nl:
+  archival_object: &archival_object_attributes
+    lang_materials: Talen van materialen
   reports:
     formats:
       json: JSON
@@ -59,3 +61,14 @@ nl:
     number_type: Soort nummer
     number: Nummer
     ext: Doorkiesnummer
+  lang_description: &lang_description
+    _plural: Talen van beschrijving
+    _singular: Taal van beschrijving
+    is_primary: Hoofdtaal
+    language: Taal
+    script: Script
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: Talen van materialen
+    _singular: Taal van het materiaal

@@ -2601,3 +2601,20 @@ uk:
     _frontend:
       action:
         save: Зберегти особу
+  lang_description:
+    current_language: Поточна мова
+    default: За замовчуванням
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: англійська
+      spa: Іспанська
+      fre: французька
+      ger: Німецький
+    mlc_field: Значення цього поля може змінюватися залежно від поточної мови опису.
+    _frontend:
+      action:
+        add: Додати мову опису
+        make_primary_tooltip: >
+          <p>Використовуйте, щоб вказати, яка мова та набір шрифтів є основними.
+          Тільки одну мову можна призначити основною.</p>
+        make_primary: Зробити основною мовою

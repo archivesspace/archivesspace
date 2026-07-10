@@ -1,1 +1,24 @@
-{}
+pt:
+  lang_description:
+    current_language: Idioma atual
+    default: Padrão
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: Inglês
+      spa: Espanhol
+      fre: Francês
+      ger: Alemão
+    mlc_field: O valor deste campo pode mudar com base no idioma de descrição atual.
+    _frontend:
+      action:
+        add: Adicionar idioma da descrição
+        make_primary_tooltip: >
+          <p>Utilize para indicar qual o idioma e conjunto de scripts que é o principal. 
+          Apenas um idioma pode ser designado como principal.</p>
+        make_primary: Definir como idioma principal
+  lang_material:
+    _plural: Linguagens dos Materiais
+    _frontend:
+      action:
+        add: Adicionar idioma dos materiais
+        add_note: Adicionar nota de idioma

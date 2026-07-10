@@ -1,8 +1,10 @@
 Feature: Accession Spawn Resource
+
   Background:
     Given an administrator user is logged in
       And an Accession has been created
       And the Accession is opened in edit mode
+
   Scenario: Resource form is prefilled with Accession data
      When the user clicks on 'Spawn'
       And the user clicks on 'Resource' in the spawn dropdown menu
@@ -16,12 +18,13 @@ Feature: Accession Spawn Resource
         | Agent Links                  |
         | Related Accessions           |
         | Subjects                     |
-        | Languages                    |
+        | Languages of Materials       |
         | Dates                        |
         | Extents                      |
         | Rights Statements            |
         | Metadata Rights Declarations |
         | Classifications              |
+
   Scenario: Return to Accession
      When the user clicks on 'Spawn'
       And the user clicks on 'Resource' in the spawn dropdown menu

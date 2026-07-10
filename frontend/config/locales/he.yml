@@ -1,1 +1,24 @@
 he:
+  lang_description:
+    current_language: שפה נוכחית
+    default: בְּרִירַת מֶחדָל
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: אַנגְלִית
+      spa: סְפָרַדִית
+      fre: צָרְפָתִית
+      ger: גֶרמָנִיָת
+    mlc_field: הערך של שדה זה יכול להשתנות בהתאם לשפת התיאור הנוכחית.
+    _frontend:
+      action:
+        add: הוסף שפת תיאור
+        make_primary_tooltip: >
+          <p>השתמש כדי לציין איזו שפה וערכת סקריפט היא הראשית.
+          ניתן להגדיר רק שפה אחת כראשי.</p>
+        make_primary: 
+  lang_material:
+    _plural: שפות של חומרים
+    _frontend:
+      action:
+        add: הוסף שפת חומרים
+        add_note: הוסף הערת שפה

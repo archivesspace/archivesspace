@@ -1,9 +1,11 @@
 <div class="mt-3 d-flex">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <%= render_aspace_partial :partial => "digital_objects/sidebar" %>
   </div>
-  <div class="col-md-9">
+
+  <div class="col-md-10">
     <%= render_aspace_partial :partial => "toolbar" %>
+
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
         <h2><%= clean_mixed_content(digital_object.title) %> <span class="label label-info badge"><%= t("digital_object._singular") %></span></h2>
@@ -30,6 +32,7 @@
           <%= render_plugin_partials("basic_information_digital_object",
                                      :form => readonly,
                                      :record => digital_object) %>
+
           <div class="pb-4">
             <%= display_audit_info(digital_object) %>
           </div>
@@ -39,8 +42,12 @@
           <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_", :title => digital_object.title } %>
         <% end %>
 
+        <% if digital_object.lang_descriptions.length > 0 %>
+          <%= render_aspace_partial :partial => "lang_descriptions/show", :locals => { :lang_descriptions => digital_object.lang_descriptions, :section_id => "digital_object_lang_descriptions_" } %>
+        <% end %>
+
         <% if digital_object.lang_materials.length > 0 %>
-          <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => digital_object.lang_materials, :section_id => "resource_lang_materials_" } %>
+          <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => digital_object.lang_materials, :section_id => "digital_object_lang_materials_" } %>
         <% end %>
 
         <% if digital_object.dates.length > 0 %>
@@ -58,6 +65,7 @@
         <% if digital_object.linked_instances.length > 0 %>
           <section id="digital_object_linked_instances_" class="subrecord-form-dummy">
             <h3><%= t("linked_record._plural") %></h3>
+
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
                 <div class="row label-and-value">
@@ -68,6 +76,7 @@
                       <%= t("linked_record.ref") %>
                     <% end %>
                   </div>
+
                   <div class="col-md-9 token-list">
                     <% digital_object.linked_instances.each do | ref | %>
                       <%= render_token :object => ref,
@@ -99,9 +108,8 @@
         <% end %>
 
         <% if digital_object.metadata_rights_declarations.length > 0 %>
-            <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => digital_object.metadata_rights_declarations, :section_id => "digital_object_metadata_rights_declarations_"  } %>
+          <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => digital_object.metadata_rights_declarations, :section_id => "digital_object_metadata_rights_declarations_"  } %>
         <% end %>
-
 
         <% if digital_object.collection_management %>
           <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => digital_object.collection_management, :section_id => "digital_object_collection_management_"  } %>
@@ -116,7 +124,6 @@
         <% if digital_object.external_ids.length > 0 && show_external_ids? %>
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => digital_object.external_ids, :context => readonly, :section_id => "digital_object_external_ids_" } %>
         <% end %>
-
 
         <% if digital_object.classifications && !digital_object.classifications.empty? %>
           <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => digital_object.classifications, :context => readonly, :section_id => "digital_object_classifications_" } %>

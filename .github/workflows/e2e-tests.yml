@@ -56,39 +56,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup-e2e
         with:
-          ruby-version: '3.2.0'
-          working-directory: e2e-tests
-      - name: Cache gems
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Install gems
-        run: |
-          gem install parallel_tests
-          bundle config path vendor/bundle
-          bundle install --quiet --jobs 4 --retry 3
-      - uses: browser-actions/setup-geckodriver@latest
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get geckodriver and firefox versions
-        run: |
-          geckodriver --version
-          firefox --version
-      - name: Set up Docker
-        env:
-          IMAGE_TAG: ${{ inputs.image_tag }}
-        run: |
-          docker compose -f docker-compose.yml up --quiet-pull --detach
-      - name: Wait until the web server is ready
-        run: |
-          echo "Waiting for ArchivesSpace to start..."
-          timeout 120 bash -c 'until curl -sf http://localhost:8080 > /dev/null; do sleep 2; done' || echo "Timeout waiting for ArchivesSpace"
+          image_tag: ${{ inputs.image_tag }}
+
       - name: Get feature files for this shard
         id: shard-files
         working-directory: e2e-tests
@@ -116,13 +87,13 @@ jobs:
       - name: Run Cucumber tests (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
         working-directory: e2e-tests
         run: |
-          mkdir reports
+          mkdir -p reports
           bundle exec cucumber \
             --publish-quiet \
             --format pretty \
             --format json --out reports/cucumber_shard_${{ matrix.shard }}.json \
             --format html --out reports/cucumber_shard_${{ matrix.shard }}.html \
-            --tags "not @wip" \
+            --tags "not @wip and not @mlc_enabled" \
             ${{ steps.shard-files.outputs.files }}
 
       - name: Upload test results
@@ -141,10 +112,48 @@ jobs:
           name: e2e-failure-screenshots-shard-${{ matrix.shard }}
           path: /tmp/screenshots/
 
+  e2e-tests-mlc:
+    name: E2E Tests (MLC enabled)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./e2e-tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-e2e
+        with:
+          image_tag: ${{ inputs.image_tag }}
+          multilingual_content: "true"
+
+      - name: Run MLC Cucumber tests
+        run: |
+          mkdir -p reports
+          bundle exec cucumber -p mlc \
+            --publish-quiet \
+            --format pretty \
+            --format json --out reports/cucumber_mlc.json \
+            --format html --out reports/cucumber_mlc.html
+      - name: Upload MLC test results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-mlc-results
+          path: e2e-tests/reports/
+          retention-days: 7
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-mlc-failure-screenshots
+          path: /tmp/screenshots/
+
   # Summary job to check overall status
   test-summary:
     name: Test Summary
-    needs: e2e-tests
+    needs: [e2e-tests, e2e-tests-mlc]
     runs-on: ubuntu-latest
     if: always()
 
@@ -156,7 +165,7 @@ jobs:
           echo "All shards completed. Check individual shard results above." >> $GITHUB_STEP_SUMMARY
 
           # This job will fail if any shard failed
-          if [ "${{ needs.e2e-tests.result }}" != "success" ]; then
+          if [ "${{ needs.e2e-tests.result }}" != "success" ] || [ "${{ needs.e2e-tests-mlc.result }}" != "success" ]; then
             echo "❌ Some tests failed" >> $GITHUB_STEP_SUMMARY
             exit 1
           else

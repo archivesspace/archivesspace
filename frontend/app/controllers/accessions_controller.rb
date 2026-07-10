@@ -53,6 +53,12 @@ class AccessionsController < ApplicationController
       end
     end
 
+    if AppConfig[:multilingual_content]
+      if !@accession.lang_descriptions || @accession.lang_descriptions.empty?
+        @accession.lang_descriptions = [JSONModel(:language_and_script_of_description).new._always_valid!]
+      end
+    end
+
     render_aspace_partial :partial => "accessions/new" if inline?
   end
 

@@ -1058,9 +1058,9 @@ ja:
   lang_material:
     _frontend:
       action:
-        add: 言語を追加
+        add: 資料の言語を追加する
         add_note: 言語メモを追加
-    _plural: 言語
+    _plural: 素材の言語
 
   linked_agent:
     is_primary: 主要な
@@ -2364,3 +2364,21 @@ ja:
 
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
+  
+  lang_description:
+    current_language: 現在の言語
+    default: デフォルト
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: 英語
+      spa: スペイン語
+      fre: フランス語
+      ger: ドイツ語
+    mlc_field: このフィールドの値は、現在の説明言語に基づいて変更される可能性があります。
+    _frontend:
+      action:
+        add: 説明言語を追加
+        make_primary_tooltip: >
+          <p>どの言語とスクリプト セットがプライマリであるかを示すために使用します。
+          プライマリ言語として指定できる言語は 1 つだけです。</p>
+        make_primary: 第一言語にする

@@ -1,12 +1,13 @@
 <div class="d-flex">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <%= render_aspace_partial :partial => "resources/sidebar" %>
   </div>
-  <div class="col-md-9">
+
+  <div class="col-md-10">
     <%= render_aspace_partial :partial => "toolbar" %>
+
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
-
         <h2><%= clean_mixed_content(@resource.title) %> <span class="label label-info badge"><%= t("resource._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
@@ -20,7 +21,10 @@
                                        :record => @resource) %>
 
             <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
-            <% if resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
+
+            <% if resource.id_0 %>
+              <%= readonly.label_and_fourpartid %>
+            <% end %>
 
             <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
             <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
@@ -33,10 +37,15 @@
             <%= render_plugin_partials("basic_information_resource",
                                        :form => readonly,
                                        :record => @resource) %>
+
             <div class="pb-4">
               <%= display_audit_info(@resource) %>
             </div>
           </section>
+
+          <% if @resource.lang_descriptions.length > 0 %>
+            <%= render_aspace_partial :partial => "lang_descriptions/show", :locals => { :lang_descriptions => @resource.lang_descriptions, :section_id => "resource_lang_descriptions_" } %>
+          <% end %>
 
           <% if @resource.lang_materials.length > 0 %>
             <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @resource.lang_materials, :section_id => "resource_lang_materials_" } %>
@@ -50,13 +59,15 @@
 
           <section id="finding_aid" class="subrecord-form-dummy">
             <h3><%= t("resource._frontend.section.finding_aid") %></h3>
+
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
                 <% if resource.ead_id or resource.ead_location %>
                   <%= readonly.label_and_textfield "ead_id" %>
                   <%= readonly.label_and_textfield "ead_location" %>
-                  <hr/>
+                  <hr />
                 <% end %>
+
                 <%= readonly.label_and_textfield "finding_aid_title" %>
                 <%= readonly.label_and_textfield "finding_aid_subtitle" %>
                 <%= readonly.label_and_textfield "finding_aid_filing_title" %>
@@ -77,6 +88,7 @@
         <% end %>
 
         <% readonly.emit_template("resource", @resource) %>
+
         <% if @resource.revision_statements.length > 0 %>
           <%= render_aspace_partial :partial => "revision_statements/show", :locals => { :revision_statements => @resource.revision_statements, :section_id => "resource_revision_statements_" } %>
         <% end %>
@@ -106,7 +118,7 @@
         <% end %>
 
         <% if @resource.metadata_rights_declarations.length > 0 %>
-            <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @resource.metadata_rights_declarations, :section_id => "resource_metadata_rights_declarations_"  } %>
+          <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @resource.metadata_rights_declarations, :section_id => "resource_metadata_rights_declarations_"  } %>
         <% end %>
 
         <% if @resource.instances.length > 0 %>
@@ -138,7 +150,6 @@
         <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @resource, :filter_term => {"assessment_record_uris" => @resource.uri}.to_json, :heading_text => t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
 
         <%= show_plugins_for(@resource, readonly) %>
-
       <% end %>
     </div>
   </div>

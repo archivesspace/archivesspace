@@ -770,8 +770,8 @@ ja:
     _singular: エクステント
 
   lang_material: &lang_material_attributes
-    _plural: 言語
-    _singular: 言語
+    _plural: 素材の言語
+    _singular: 資料の言語
 
   language_and_script:
     <<: *lang_material_attributes
@@ -1083,7 +1083,7 @@ ja:
     ref_id_export_prefix: aspace_
     dates: 日付
     extents: エクステント
-    lang_materials: 言語
+    lang_materials: 素材の言語
     ref_id_auto_generation_message: "- 保存時に自動生成 -"
     component_id: コンポーネント一意識別子
     component_id_tooltip: "<p>コンポーネントの部品について、リソース記述のコンテキスト内で一意のIDを表します。 </p><p>例： </p><ul><li>シリーズI </li><li>サブシリーズ8
@@ -2329,3 +2329,11 @@ ja:
   user_mtime: 更新日
   groups:
     _plural: グループ
+  lang_description: &lang_description
+    _plural: 記述の言語
+    _singular: 説明言語
+    is_primary: 第一言語
+    language: 言語
+    script: スクリプト
+  language_and_script_of_description:
+    <<: *lang_description

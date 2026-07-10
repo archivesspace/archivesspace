@@ -1160,11 +1160,30 @@ en:
         add_digital_object: Add Digital Object
         add: Add Instance
 
-  lang_material:
-    _plural: Languages
+  lang_description:
+    current_language: Current Language
+    default: Default
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: English
+      spa: Spanish
+      fre: French
+      ger: German
+    mlc_field: >-
+      The value of this field can change based on the current language of
+      description.
     _frontend:
       action:
-        add: Add Language
+        add: Add Language of Description
+        make_primary_tooltip: >
+          <p>Use to indicate which language and script set is primary.
+          Only one language can be designated as primary.</p>
+        make_primary: Make Primary Language
+  lang_material:
+    _plural: Languages of Materials
+    _frontend:
+      action:
+        add: Add Language of Materials
         add_note: Add Language Note
 
   linked_agent:
@@ -1173,8 +1192,8 @@ en:
       action:
         add: Add Agent Link
         make_primary_tooltip: |
-            <p>Use to indicate which agent linked to the record is the primary agent. Only one linked agent can be designated as primary.</p> 
-            <p>In the MARCXML export, the primary agent will be the 1XX value.</p> 
+            <p>Use to indicate which agent linked to the record is the primary agent. Only one linked agent can be designated as primary.</p>
+            <p>In the MARCXML export, the primary agent will be the 1XX value.</p>
         make_primary: Make Primary
 
   linked_record:
@@ -1970,8 +1989,8 @@ en:
     too_many_rows_warning:
       "Warning: The number of rows that will be generated in this spreadsheet exceeds the number of rows that can be updated
       via the Bulk Archival Object Updater background job. If you plan to run the Bulk Archival Object Updater job using
-      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to 
-      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.  
+      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to
+      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.
       This warning can be safely ignored if you do not intend to run a Bulk Archival Object Updater job with this data."
 
   assessment:

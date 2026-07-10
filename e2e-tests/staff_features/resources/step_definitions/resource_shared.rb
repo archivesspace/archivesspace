@@ -21,7 +21,7 @@ Given 'a Resource with a Top Container has been created' do
   click_on 'Create and Link'
   expect(page).to have_css('.top_container')
 
-  click_on 'Add Language'
+  click_on 'Add Language of Materials'
 
   within('#resource_lang_materials_ li.sort-enabled.initialised', match: :first) do
     element = find('#resource_lang_materials__0__language_and_script__language_')
@@ -71,6 +71,13 @@ Given 'the Resource is opened in edit mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Resource')
   wait_for_ajax # still needed for dropdown menus to become active
+end
+
+Given 'a second language of description has been added to the Resource' do
+  visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
+  add_lang_description('resource', language: 'German', script: 'Latin')
+  find('button', text: 'Save Resource', match: :first).click
+  expect(page).to have_css('.alert.alert-success', text: /Resource.*updated/i)
 end
 
 Given 'the Resource is published' do

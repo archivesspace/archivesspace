@@ -1,10 +1,12 @@
 Feature: Accession spawn Archival Object
+
   Background:
     Given an administrator user is logged in
       And an Accession has been created
       And a Resource has been created
       And the Accession is opened in edit mode
-  Scenario:  Archival Object form is prefilled with Accession data
+
+  Scenario: Archival Object form is prefilled with Accession data
      When the user clicks on 'Spawn'
       And the user clicks on 'Archival Object' in the spawn dropdown menu
       And the user selects Resource in the modal
@@ -17,10 +19,10 @@ Feature: Accession spawn Archival Object
       And the Archival Object publish is set from the Accession publish
       And the Archival Object notes are set from the Accession Content Description and Condition Description
       And the following Archival Object forms have the same values as the Accession
-        | Agent Links       |
-        | Accession Links   |
-        | Subjects          |
-        | Languages         |
-        | Dates             |
-        | Extents           |
-        | Rights Statements |
+        | Agent Links            |
+        | Accession Links        |
+        | Subjects               |
+        | Languages of Materials |
+        | Dates                  |
+        | Extents                |
+        | Rights Statements      |

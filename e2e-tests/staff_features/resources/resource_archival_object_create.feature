@@ -1,6 +1,8 @@
 Feature: Resource Archival Object create
+
   Background:
     Given an administrator user is logged in
+
   Scenario: Create a Child Archival Object
     Given a Resource has been created
       And the Resource is opened in edit mode
@@ -10,6 +12,7 @@ Feature: Resource Archival Object create
       And the user clicks on 'Save'
      Then the 'Archival Object' created message is displayed
       And the Archival Object with Title 'Archival Object Title Child' is saved as a child of the Resource
+
   Scenario: Create a Sibling Archival Object
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
@@ -20,6 +23,7 @@ Feature: Resource Archival Object create
       And the user clicks on 'Save'
      Then the 'Archival Object' created message is displayed
       And the Archival Object with Title 'Archival Object Title Sibling' is saved as a sibling of the selected Archival Object
+
   Scenario: Duplicate Archival Object
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
@@ -28,13 +32,13 @@ Feature: Resource Archival Object create
      Then the New Archival Object page is displayed
       And the 'Archival Object' duplicated message is displayed
       And the following Archival Object forms have the same values as the Archival Object
-        | Basic Information  |
-        | Languages          |
-        | Dates              |
-        | Extents            |
-        | Agent Links        |
-        | Accession Links    |
-        | Subjects           |
-        | Notes              |
-        | External Documents |
-        | Rights Statements  |
+        | Basic Information      |
+        | Languages of Materials |
+        | Dates                  |
+        | Extents                |
+        | Agent Links            |
+        | Accession Links        |
+        | Subjects               |
+        | Notes                  |
+        | External Documents     |
+        | Rights Statements      |

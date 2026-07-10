@@ -1,4 +1,6 @@
 he:
+  archival_object: &archival_object_attributes
+    lang_materials: שפות של חומרים
   reports:
     formats:
       json: JSON
@@ -20,3 +22,14 @@ he:
       וודא שהתגים מעוצבים כהלכה."
     mixed_content_disallowed_tag: "התגלה תג HTML לא מורשה. מטעמי אבטחה, תגים כגון &lt;script&gt;, &lt;style&gt;,
       &lt;iframe&gt; ואלמנטי טפסים אינם מורשים בשדות תוכן מעורב."
+  lang_description: &lang_description
+    _plural: שפות תיאור
+    _singular: שפת התיאור
+    is_primary: שפה ראשית
+    language: שָׂפָה
+    script: תַסרִיט
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: שפות של חומרים
+    _singular: שפת החומר

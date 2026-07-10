@@ -1329,8 +1329,8 @@ en:
     _singular: Extent
 
   lang_material: &lang_material_attributes
-    _plural: Languages
-    _singular: Language
+    _plural: Languages of Materials
+    _singular: Language of Material
 
   language:
     _plural: Languages
@@ -1764,7 +1764,7 @@ en:
     agent_identifiers_tooltip: |
         <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
     agent_genders_tooltip: Gender of the subject.
-    agent_places_tooltip: Place information associated with the agent.</p><p>See DACS 11.3, ISAAR (CPF) 5.2.3 
+    agent_places_tooltip: Place information associated with the agent.</p><p>See DACS 11.3, ISAAR (CPF) 5.2.3
     agent_occupations_tooltip: Occupation information associated with the agent.</p><p>See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p><p>See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: A subject associated with the agent.
@@ -1832,7 +1832,7 @@ en:
     dates_tooltip: |
         <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
     extents: Extents
-    lang_materials: Languages
+    lang_materials: Languages of Materials
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
     component_id_tooltip: |
@@ -2594,7 +2594,7 @@ en:
     bulk_import_DO_csv: Bulk Import DO CSV
     bulk_import_DO_xlsx: Bulk Import DO XLSX
     import_type_digital_object_csv: Digital Object CSV
-    import_subject_csv:  Subject CSV
+    import_subject_csv: Subject CSV
     import_type_eac_xml: EAC-CPF
     import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML Bibliographic (Resource)
@@ -2650,12 +2650,12 @@ en:
     could_not_find_resource: Could not find provided resource with id %{resource_id}.
 
   ns2_remover_job:
-      description: >
+    description: >
         Archivists' Toolit-era EADs imported into ASpace may have vestigal "ns2" namespace references pre-pended to various EAD tag attributes inside note subrecords.
         This may produce validation errors on EAD export from ArchivesSpace, as the root <ead> tag doesn't declare the "ns2" namespace.
         This job bulk deletes "ns2" references within Notes subrecords attached to resource, archival_object, digital_object, and digital_object_component
         records. As this job works across all repositories, it is restricted to users with <b>System Administrator permissions only</b>.
-      dry_run: Dry run?
+    dry_run: Dry run?
 
   advanced_search:
     type:
@@ -3125,3 +3125,11 @@ en:
     new_title: New Container Profile
   location_profile:
     new_title: New Location Profile
+  lang_description: &lang_description
+    _plural: Languages of Description
+    _singular: Language of Description
+    is_primary: Primary Language
+    language: Language
+    script: Script
+  language_and_script_of_description:
+    <<: *lang_description

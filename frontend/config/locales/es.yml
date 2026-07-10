@@ -1147,9 +1147,9 @@ es:
   lang_material:
     _frontend:
       action:
-        add: Añadir idioma
+        add: Agregar idioma de los materiales
         add_note: Añadir nota de idioma
-    _plural: Idiomas
+    _plural: Lenguajes de los materiales
 
   linked_agent:
     is_primary: Primario
@@ -2657,3 +2657,22 @@ es:
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Comentarios o preguntas</a>
     public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
+  lang_description:
+    current_language: Idioma actual
+    default: Por defecto
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: Inglés
+      spa: Español
+      fre: Francés
+      ger: Alemán
+    mlc_field: >-
+      El valor de este campo puede cambiar según el idioma actual de
+      descripción.
+    _frontend:
+      action:
+        add: Agregar idioma de descripción
+        make_primary_tooltip: >
+          <p>Se utiliza para indicar qué idioma y conjunto de escritura son principales.
+          Sólo se puede designar un idioma como principal.</p>
+        make_primary: Hacer idioma principal

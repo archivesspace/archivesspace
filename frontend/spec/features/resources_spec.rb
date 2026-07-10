@@ -293,7 +293,7 @@ describe 'Resources', js: true do
 
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    archival_objects = (0...10).map do |index|
+    (0...10).map do |index|
       create(
         :archival_object,
         title: "Archival Object Title #{index} #{now}",
@@ -711,8 +711,8 @@ describe 'Resources', js: true do
   it 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    person = create(:agent_person)
-    agent_corporate_entity = create(:agent_corporate_entity)
+    create(:agent_person)
+    create(:agent_corporate_entity)
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -1911,5 +1911,78 @@ describe 'Resources', js: true do
         expect(page).not_to have_css('.inline-tc-edit-btn')
       end
     end
+  end
+
+  context 'when multilingual content enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a multilingual parent record', 'resource'
+
+    it 'can create a resource, but lang_description is required' do
+      now = Time.now.to_i
+
+      click_on 'Create'
+      click_on 'Resource'
+      fill_in 'resource_title_', with: "MLC Resource Title #{now}"
+      fill_in 'resource_id_0_', with: "mlc #{now}"
+      fill_in 'resource_id_1_', with: "1 #{now}"
+
+      element = find('#resource_lang_materials__0__language_and_script__language_')
+      element.click
+      element.send_keys('AU')
+      element.send_keys(:tab)
+
+      element = find('#resource_finding_aid_language_')
+      element.click
+      element.send_keys('ENG')
+      element.send_keys(:tab)
+
+      element = find('#resource_finding_aid_script_')
+      element.click
+      element.send_keys('Latin')
+      element.send_keys(:tab)
+
+      select 'Single', from: 'resource_dates__0__date_type_'
+      wait_for_ajax
+      fill_in 'resource_dates__0__begin_', with: '2000'
+      select 'Collection', from: 'resource_level_'
+      fill_in 'resource_extents__0__number_', with: '1'
+      select 'Cubic Feet', from: 'resource_extents__0__extent_type_'
+
+      # Click on save
+      find('button', text: 'Save Resource', match: :first).click
+
+      expect(page).to have_text "Language - Property is required but was missing"
+      expect(page).to have_text "Script - Property is required but was missing"
+
+      element = find('#resource_lang_descriptions__0__language_')
+      element.click
+      element.send_keys('Eng')
+      element.send_keys(:tab)
+
+      element = find('#resource_lang_descriptions__0__script_')
+      element.click
+      element.send_keys('Lat')
+      element.send_keys(:tab)
+
+      find('button', text: 'Save Resource', match: :first).click
+
+      expect(page).to have_text "Resource MLC Resource Title #{now} created"
+    end
+  end
+
+  context 'when multilingual content disabled' do
+    before do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a non-multilingual parent record', 'resource'
+
   end
 end

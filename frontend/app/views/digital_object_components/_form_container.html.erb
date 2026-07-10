@@ -23,8 +23,9 @@
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
       <header class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
-        <h3 class="flex-grow-1 mb-0 border-0">
+        <h3 class="flex-grow-1 d-flex align-items-center mb-0 border-0">
           <%= t("digital_object_component._frontend.section.basic_information") %>
+          <%= primary_language_badge(@digital_object_component) %>
         </h3>
         <%= link_to_help :topic => "digital_object_component_basic_information" %>
       </header>
@@ -33,10 +34,13 @@
                                  :form => form,
                                  :record => @digital_object_component) %>
 
-      <%= form.label_and_textfield "label", :required => :conditionally %>
-      <%= form.label_and_textarea "title", :required => :conditionally, :field_opts => {
-        :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
-      } %>
+      <%= mlc_textarea_field(form, "label", :required => :conditionally) %>
+      <%= mlc_textarea_field(form, 
+                      "title",
+                      :required => :conditionally,
+                      :field_opts => {
+                            :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
+                      }) %>
       <%= form.label_and_textfield "component_id" %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object_component} if AppConfig[:use_human_readable_urls] %>
