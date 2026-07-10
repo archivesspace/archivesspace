@@ -1,0 +1,15 @@
+{
+  "name": "IIIF manifest book - image",
+  "request": {
+    "method": "GET",
+    "urlPath": "/iiif/image/book.png"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "image/png",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "bodyFileName": "iiif-image-book.png"
+  }
+}
