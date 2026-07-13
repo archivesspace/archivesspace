@@ -300,8 +300,6 @@ def create_resource(uuid)
   uri_parts = current_url.split('/')
   uri_parts.pop
   @resource_id = uri_parts.pop
-
-  create_resource_archival_object(uuid)
 end
 
 def create_resource_archival_object(uuid)
@@ -312,12 +310,70 @@ def create_resource_archival_object(uuid)
   fill_in 'Title', with: "Archival Object #{uuid}"
   fill_in 'Component Unique Identifier', with: uuid
   select 'Class', from: 'Level of Description'
+  check 'Publish?'
+  check 'Restrictions Apply?'
+
+  fill_in 'Repository Processing Note', with: "Repository Processing Note #{@uuid}"
+
+  click_on 'Add Language'
+  within 'li.sort-enabled.initialised' do
+    fill_in 'Language', with: 'English'
+    dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
+    dropdown_items.first.click
+    fill_in 'Script', with: 'adlam'
+    dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
+    dropdown_items.first.click
+  end
 
   click_on 'Add Date'
   within '#archival_object_dates_' do
     select 'Single', from: 'Type'
     fill_in 'Begin', with: '2020-01-01'
   end
+
+  click_on 'Add Extent'
+  fill_in 'Number', with: @uuid
+  select 'Cassettes', from: 'archival_object_extents__0__extent_type_'
+
+  click_on 'Add Agent Link'
+  select 'Creator', from: 'archival_object_linked_agents__0__role_'
+  fill_in 'archival_object_linked_agents__0__title_', with: "Accession #{@uuid} Agent Title"
+  fill_in 'archival_object_linked_agents__0__relator_', with: 'annotator'
+  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
+  dropdown_items.first.click
+  fill_in 'token-input-archival_object_linked_agents__0__ref_', with: 'test_agent'
+  dropdown_items = all('li.token-input-dropdown-item2')
+  dropdown_items.first.click
+
+  click_on 'Add Accession Link'
+  fill_in 'token-input-archival_object_accession_links__0__ref_', with: 'test_accession'
+  dropdown_items = all('li.token-input-dropdown-item2')
+  dropdown_items.first.click
+
+  click_on 'Add Subject'
+  fill_in 'token-input-archival_object_subjects__0__ref_', with: 'test_subject'
+  dropdown_items = all('li.token-input-dropdown-item2')
+  dropdown_items.first.click
+
+  click_on 'Add Note'
+  note_type = find('#notes select')
+  note_type.select 'Abstract'
+  fill_in 'archival_object_notes__0__persistent_id_', with: "Persistent ID #{@uuid}"
+  fill_in 'archival_object_notes__0__label_', with: "Label #{@uuid}"
+  check 'archival_object_notes__0__publish_'
+  page.execute_script("$('#archival_object_notes__0__content__0_').data('CodeMirror').setValue('Content #{@uuid}')")
+
+  click_on 'Add External Document'
+  fill_in 'archival_object_external_documents__0__title_', with: "External Document Title #{@uuid}"
+  fill_in 'archival_object_external_documents__0__location_', with: "External Document Location #{@uuid}"
+  check 'archival_object_external_documents__0__publish_'
+
+  click_on 'Add Rights Statement'
+  select 'Copyright', from: 'archival_object_rights_statements__0__rights_type_'
+  fill_in 'archival_object_rights_statements__0__jurisdiction_', with: 'andorra'
+  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
+  dropdown_items.first.click
+  fill_in 'archival_object_rights_statements__0__start_date_', with: ORIGINAL_ACCESSION_RIGHTS_STATEMENT_START_DATE
 
   find('button', text: 'Save Archival Object', match: :first).click
   expect(page).to have_text "Archival Object Archival Object #{uuid} on Resource Resource #{uuid} created"

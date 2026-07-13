@@ -1,7 +1,8 @@
 Feature: Container Labels
   Background:
     Given an administrator user is logged in
-      And a Resource with an Archival Object and a Container Instances has been created
+      And a Resource with an Archival Object has been created
+      And a Container Instance for the Archival Object has been created
   Scenario: Run Container Labels background job
     Given the user is on the 'Container Labels' background job page
       And the user fills in and selects the Resource from the search field
