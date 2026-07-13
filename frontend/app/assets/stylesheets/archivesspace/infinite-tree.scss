@@ -226,6 +226,14 @@
     }
   }
 
+  // Remove doubled-up borders between visually adjacent explicitly multiselected nodes
+  &.multiselected:not([aria-expanded='true'])
+    + .node.multiselected
+    > .node-row
+    > .node-body::after {
+    border-top: none;
+  }
+
   // In reorder mode, keep a single border treatment when current selection and
   // multiselect overlap, using the multiselect stroke for consistency.
   &.selected.multiselected > .node-row > .node-body::after {
