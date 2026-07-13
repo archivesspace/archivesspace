@@ -302,6 +302,8 @@ def create_resource(uuid)
   @resource_id = uri_parts.pop
 end
 
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+
 def create_resource_archival_object(uuid)
   click_on 'Add Child'
 
@@ -378,6 +380,8 @@ def create_resource_archival_object(uuid)
   find('button', text: 'Save Archival Object', match: :first).click
   expect(page).to have_text "Archival Object Archival Object #{uuid} on Resource Resource #{uuid} created"
 end
+
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def create_accession(uuid)
   visit "#{STAFF_URL}/accessions/new"
