@@ -629,6 +629,9 @@
   <target name="rspec" depends="set-classpath" description="Run rspec">
     <property name="dir" value="../build/null"/><!--must be set by caller -->
     <property name="extra-spec-paths" value="" />
+    <condition property="spec-arg" value="${specs}">
+        <isset property="specs"/>
+    </condition>
     <condition property="spec-arg" value="spec/${spec}" else="spec">
         <isset property="spec"/>
     </condition>
