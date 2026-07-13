@@ -1756,6 +1756,16 @@ it:
         arrow_keys: Tasti freccia
         return: Ritorno
         move_term: Salto da cellula a cellula
+        new_term: Crea una nuova riga (a partire dall'ultima riga)
+      sticky_columns:
+        title: Colonne adesive
+        p_one: Le colonne evidenziate rimangono fisse e verranno replicate 
+          quando si aggiungono nuove righe. Per attivare o disattivare la 
+          modalità "fissa" fai clic sull'intestazione della tabella 
+          corrispondente.
+        p_two: Facendo clic su <strong>Aggiungi riga</strong> verranno copiati i
+          valori dall'ultima riga. Il pulsante <strong>+</strong> della riga 
+          copierà i valori dalla riga attualmente selezionata.
   instance_container:
     container: Contenitrice
   sub_container:
