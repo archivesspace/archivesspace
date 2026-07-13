@@ -2,13 +2,10 @@
 
 require 'pdf-reader'
 
-Given 'a PDF file is downloaded for the resource' do
-  files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
-
-  downloaded_file = nil
-  files.each do |file|
-    downloaded_file = file if file.include?('job')
-  end
+Then 'a PDF file is downloaded for the resource' do
+  downloaded_file = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
+                       .select { |file| File.basename(file).include?('job') }
+                       .max_by { |file| File.mtime(file) }
 
   expect(downloaded_file).to_not eq nil
 
