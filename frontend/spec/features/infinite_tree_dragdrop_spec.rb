@@ -314,6 +314,24 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     "tree::#{parts[-2].sub(/s$/, '')}_#{parts[-1]}"
   end
 
+  # The drag preview list stays positioned off-screen unless a dragover event
+  # repositions it, so `visible: :all` and `text(:all)` are needed to read its
+  # content: Capybara's default visible-text lookup treats off-screen elements
+  # as not visible.
+  def drag_preview_item_texts
+    page.all('.infinite-tree-drag-preview__item', visible: :all).map { |el| el.text(:all) }
+  end
+
+  def dispatch_dragend(uri)
+    execute_js(<<~JS)
+      window.__itreeDispatchDrag(
+        'dragend',
+        "#infinite-tree-container li.node[data-uri='#{uri}'] > .node-row",
+        0.5
+      );
+    JS
+  end
+
   before do
     visit "#{edit_path}#{root_hash}"
     wait_for_ajax
@@ -690,5 +708,250 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(state['draggedCount']).to eq(0)
     expect(state['edgeCount']).to eq(0)
     expect(state['blockedCount']).to eq(0)
+  end
+
+  describe 'root node drop target behavior' do
+    def dragover_root(y_ratio)
+      execute_js(<<~JS)
+        window.__itreeDispatchDrag(
+          'dragover',
+          "#infinite-tree-container li.node.root > .node-row",
+          #{y_ratio}
+        );
+      JS
+    end
+
+    def drop_root(y_ratio = 0.5)
+      execute_js(<<~JS)
+        window.__itreeDispatchDrag(
+          'drop',
+          "#infinite-tree-container li.node.root > .node-row",
+          #{y_ratio}
+        );
+      JS
+    end
+
+    def root_drop_edge
+      evaluate_js(<<~JS)
+        document.querySelector('#infinite-tree-container li.node.root > .node-row').getAttribute('data-drop-edge')
+      JS
+    end
+
+    it 'converts top-edge to into-edge when dragging over the root node' do
+      dragstart_from(ao.uri)
+
+      dragover_root(0.1)
+      expect(root_drop_edge).to eq('into')
+
+      dragover_root(0.5)
+      expect(root_drop_edge).to eq('into')
+
+      dragover_root(0.9)
+      expect(root_drop_edge).to eq('bottom')
+    end
+
+    it 'appends to children when dropping into the root node' do
+      before_order = root_child_uris
+      source_uri = before_order.first
+      expected_order = (before_order - [source_uri]) + [source_uri]
+
+      dragstart_from(source_uri)
+      dragover_root(0.5)
+      drop_root(0.5)
+      wait_for_reorder_idle
+
+      intent = last_drop_intent
+      params = last_accept_children_params
+
+      aggregate_failures do
+        expect(intent['edge']).to eq('into')
+        expect(intent['targetUri']).to eq(resource.uri)
+        expect(intent['targetParentUri']).to eq(resource.uri)
+        expect(params['children']).to eq([source_uri])
+        expect(root_child_uris).to eq(expected_order)
+      end
+    end
+
+    it 'prepends to children when dropping after the root node' do
+      before_order = root_child_uris
+      source_uri = before_order.last
+      expected_order = [source_uri] + (before_order - [source_uri])
+
+      dragstart_from(source_uri)
+      dragover_root(0.9)
+      drop_root(0.9)
+      wait_for_reorder_idle
+
+      intent = last_drop_intent
+      params = last_accept_children_params
+
+      aggregate_failures do
+        expect(intent['edge']).to eq('bottom')
+        expect(intent['targetUri']).to eq(resource.uri)
+        expect(intent['targetParentUri']).to eq(resource.uri)
+        expect(intent['targetIndex']).to eq(0)
+        expect(params['children']).to eq([source_uri])
+        expect(params['index']).to eq('0')
+        expect(root_child_uris).to eq(expected_order)
+      end
+    end
+  end
+
+  describe 'custom drag preview system' do
+    describe 'empty drag image element' do
+      it 'is appended to the DOM on the first drag event' do
+        expect(page).to have_no_css('.infinite-tree-empty-drag-image', visible: :all)
+
+        dragstart_from(ao.uri)
+
+        aggregate_failures do
+          expect(page).to have_css(
+            'body > .infinite-tree-drag-preview + .infinite-tree-empty-drag-image', visible: :all
+          )
+
+          positioning = evaluate_js(<<~JS)
+            (function() {
+              const el = document.body.querySelector('.infinite-tree-empty-drag-image');
+              const style = window.getComputedStyle(el);
+              return {
+                position: style.position,
+                top: style.top,
+                left: style.left
+              };
+            })()
+          JS
+
+          expect(positioning['position']).to eq('fixed')
+          expect(positioning['top']).to eq('-1000px')
+          expect(positioning['left']).to eq('-1000px')
+        end
+      end
+
+      it 'is reused across multiple drag events' do
+        dragstart_from(ao.uri)
+        expect(page).to have_css(
+            'body > .infinite-tree-drag-preview + .infinite-tree-empty-drag-image', visible: :all
+          )
+        dispatch_dragend(ao.uri)
+
+        dragstart_from(ao2.uri)
+        expect(page).to have_css(
+            'body > .infinite-tree-empty-drag-image + .infinite-tree-drag-preview', visible: :all
+          )
+      end
+    end
+
+    describe 'drag preview' do # for small selection (< 20 nodes)' do
+      it 'is created on dragstart' do
+        expect(page).to have_no_css('body > .infinite-tree-drag-preview', visible: :all)
+
+        dragstart_from(ao.uri)
+
+        expect(page).to have_css('body > .infinite-tree-drag-preview', visible: :all)
+      end
+
+      context 'when there are 20 or less multi-selected nodes' do
+        it 'shows the selected node title in a numbered list for single-node drag' do
+          dragstart_from(ao.uri)
+
+          aggregate_failures do
+            expect(drag_preview_item_texts).to eq([ao.title])
+            expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+          end
+        end
+
+        it 'shows all selected node titles for multi-node drag' do
+          click_row(ao.uri, meta: true)
+          click_row(ao2.uri, meta: true)
+          click_row(ao3.uri, meta: true)
+
+          dragstart_from(ao.uri)
+
+          aggregate_failures do
+            expect(drag_preview_item_texts).to eq([ao.title, ao2.title, ao3.title])
+            expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+          end
+        end
+
+        it 'does not show a remaining count badge' do
+          dragstart_from(ao.uri)
+
+          expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+        end
+      end
+
+      context 'when there are more than 20 multi-selected nodes' do
+        it 'truncates the list to 20 nodes and shows a remaining count badge' do
+          # WAYPOINT_SIZE is 30 under ASPACE_INTEGRATION (see backend/app/model/large_tree.rb),
+          # so 22 root-level siblings all load in a single waypoint with no extra
+          # scrolling/pagination needed to bring them into the DOM.
+          extra_aos = Array.new(19) do |i|
+            create(
+              :archival_object,
+              resource: { 'ref' => resource.uri },
+              title: "Extra AO #{format('%02d', i + 1)} #{now}"
+            )
+          end
+          selected_records = [ao, ao2, ao3] + extra_aos
+
+          # The records above were created after the tree already loaded in the
+          # outer `before` block. Visiting the same URL again doesn't reliably
+          # force a fresh navigation (same path + hash), so reload directly.
+          execute_js('window.location.reload()')
+          wait_for_ajax
+          enable_reorder_mode
+          install_drag_helpers_and_capture
+
+          selected_records.each { |record| click_row(record.uri, meta: true) }
+          expect(selection_uris).to eq(selected_records.map(&:uri))
+
+          dragstart_from(selected_records.first.uri)
+
+          aggregate_failures do
+            expect(page).to have_css('.infinite-tree-drag-preview__item', count: 20, visible: :all)
+            expect(page.find('.infinite-tree-drag-preview__count', visible: :all).text(:all)).to eq('+2')
+            expect(drag_preview_item_texts).to eq(selected_records.first(20).map(&:title))
+          end
+        end
+      end
+    end
+
+    describe 'drag preview removal' do
+      it 'removes the preview immediately on valid drop' do
+        dragstart_from(ao.uri)
+        expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+
+        dragover_row(ao3.uri, 0.5)
+        drop_row(ao3.uri, 0.5)
+
+        expect(page).to have_no_css('.infinite-tree-drag-preview', visible: :all)
+      end
+
+      it 'removes the preview after snapback animation on invalid drop (blocked target)' do
+        expand_node(ao2.uri)
+        wait_for_ajax
+
+        dragstart_from(ao2.uri)
+        expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+
+        dragover_row(child_ao.uri, 0.5)
+        drop_row(child_ao.uri, 0.5)
+
+        using_wait_time(2) do
+          expect(page).to have_no_css('.infinite-tree-drag-preview', visible: :all)
+        end
+      end
+
+      it 'removes the preview after dragend (e.g. ESC key cancellation)' do
+        dragstart_from(ao.uri)
+        expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+
+        dispatch_dragend(ao.uri)
+
+        using_wait_time(2) do
+          expect(page).to have_no_css('.infinite-tree-drag-preview', visible: :all)
+        end
+      end
+    end
   end
 end

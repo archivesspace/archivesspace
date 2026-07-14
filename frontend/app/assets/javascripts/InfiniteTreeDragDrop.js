@@ -1,50 +1,63 @@
 class InfiniteTreeDragDrop {
   static EVENT_DROP_INTENT = 'infiniteTreeDragDrop:dropIntent';
+  static DRAG_PREVIEW_CURSOR_OFFSET = 12;
+  static DRAG_PREVIEW_SNAPBACK_DURATION = 300;
+  static DRAG_PREVIEW_SNAPBACK_HOLD = 75;
+  static DRAG_PREVIEW_SNAPBACK_FADE = 125;
 
   constructor() {
-    this.componentEl = document.getElementById('infinite-tree-component');
-    if (!this.componentEl) return;
+    this.treeComponentEl = document.getElementById('infinite-tree-component');
+    if (!this.treeComponentEl) return;
 
-    this.containerEl = this.componentEl.querySelector(
+    this.treeContainerEl = this.treeComponentEl.querySelector(
       '#infinite-tree-container'
     );
-    if (!this.containerEl) return;
+    if (!this.treeContainerEl) return;
 
-    this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
+    this.rootUri = this.treeComponentEl.getAttribute('data-root-uri') || '';
     this.reorderMode = false;
-
     this.explicitSelectionNodes = [];
     this.dragSelectionNodes = [];
     this.dragEffectiveNodes = [];
     this.dragPreviewEl = null;
+    this.dragStartPoint = null;
+    this.dragOverHandler = this.#onDocumentDragOver.bind(this);
+    this.documentDropHandler = this.#onDocumentDrop.bind(this);
+    this.emptyDragImage = null;
     this.activeDropRow = null;
     this.activeDropChildrenList = null;
-    this.dragging = false;
+    this.isDragging = false;
     this.observer = null;
 
     this.#bindEvents();
   }
 
   #bindEvents() {
-    this.containerEl.addEventListener(
+    this.treeContainerEl.addEventListener(
       'infiniteTreeToolbar:reorderModeChanged',
       this.#onReorderModeChanged.bind(this)
     );
-    this.containerEl.addEventListener(
+    this.treeContainerEl.addEventListener(
       InfiniteTreeSelection.EVENT_CHANGED,
       this.#onSelectionChanged.bind(this)
     );
-    this.containerEl.addEventListener(
+    this.treeContainerEl.addEventListener(
       InfiniteTreeSelection.EVENT_CLEARED,
       this.#onSelectionCleared.bind(this)
     );
-    this.containerEl.addEventListener(
+    this.treeContainerEl.addEventListener(
       'dragstart',
       this.#onDragStart.bind(this)
     );
-    this.containerEl.addEventListener('dragover', this.#onDragOver.bind(this));
-    this.containerEl.addEventListener('drop', this.#onDrop.bind(this));
-    this.containerEl.addEventListener('dragend', this.#onDragEnd.bind(this));
+    this.treeContainerEl.addEventListener(
+      'dragover',
+      this.#onDragOver.bind(this)
+    );
+    this.treeContainerEl.addEventListener('drop', this.#onDrop.bind(this));
+    this.treeContainerEl.addEventListener(
+      'dragend',
+      this.#onDragEnd.bind(this)
+    );
   }
 
   #onReorderModeChanged(event) {
@@ -70,9 +83,10 @@ class InfiniteTreeDragDrop {
   }
 
   #refreshDraggables() {
-    const rows = this.containerEl.querySelectorAll(
+    const rows = this.treeContainerEl.querySelectorAll(
       'li.node:not(.root):not(.js-itree-synthetic-new) > .node-row'
     );
+
     rows.forEach(row => {
       row.setAttribute('draggable', 'true');
       row.setAttribute('title', 'Drag to reorder');
@@ -81,11 +95,13 @@ class InfiniteTreeDragDrop {
   }
 
   #disableDraggables() {
-    this.containerEl.querySelectorAll('.node-row[draggable]').forEach(row => {
-      row.removeAttribute('draggable');
-      row.removeAttribute('title');
-      row.removeAttribute('aria-label');
-    });
+    this.treeContainerEl
+      .querySelectorAll('.node-row[draggable]')
+      .forEach(row => {
+        row.removeAttribute('draggable');
+        row.removeAttribute('title');
+        row.removeAttribute('aria-label');
+      });
   }
 
   #startObserving() {
@@ -93,7 +109,10 @@ class InfiniteTreeDragDrop {
     this.observer = new MutationObserver(() => {
       this.#refreshDraggables();
     });
-    this.observer.observe(this.containerEl, { childList: true, subtree: true });
+    this.observer.observe(this.treeContainerEl, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   #stopObserving() {
@@ -129,24 +148,71 @@ class InfiniteTreeDragDrop {
 
     this.dragSelectionNodes = hasSourceInExplicit ? explicit : [sourceLi];
     this.dragEffectiveNodes = this.#effectiveMoveSet(this.dragSelectionNodes);
-    this.dragging = true;
+    this.isDragging = true;
+    this.dragStartPoint = { x: event.clientX, y: event.clientY };
+    this.dragPreviewEl = this.#buildDragPreview(this.dragSelectionNodes);
 
     this.dragSelectionNodes.forEach(node =>
       node.classList.add('is-being-dragged')
     );
-    this.dragPreviewEl = this.#buildDragPreview(this.dragSelectionNodes);
 
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', 'infinite-tree-drag');
-      if (this.dragPreviewEl) {
-        event.dataTransfer.setDragImage(this.dragPreviewEl, 12, 12);
-      }
+      event.dataTransfer.setDragImage(this.#getEmptyDragImage(), 0, 0);
     }
+
+    document.addEventListener('dragover', this.dragOverHandler);
+    document.addEventListener('drop', this.documentDropHandler);
+  }
+
+  /**
+   * Returns an invisible element to pass to setDragImage.
+   * The browser applies semi-transparency to the drag image, so we pass it
+   * an invisible element then render a fully-opaque drag preview instead.
+   * @returns {HTMLElement}
+   */
+  #getEmptyDragImage() {
+    if (!this.emptyDragImage) {
+      const template = document
+        .querySelector('#infinite-tree-empty-drag-image-template')
+        .content.cloneNode(true);
+
+      this.emptyDragImage = template.querySelector('div');
+
+      document.body.appendChild(this.emptyDragImage);
+    }
+
+    return this.emptyDragImage;
+  }
+
+  /**
+   * Positions our manually created drag preview near the cursor during drag.
+   * @param {DragEvent} event
+   */
+  #onDocumentDragOver(event) {
+    if (!this.isDragging || !this.dragPreviewEl) return;
+    event.preventDefault();
+
+    const offset = InfiniteTreeDragDrop.DRAG_PREVIEW_CURSOR_OFFSET;
+    this.dragPreviewEl.style.left = `${event.clientX + offset}px`;
+    this.dragPreviewEl.style.top = `${event.clientY + offset}px`;
+  }
+
+  /**
+   * Handles drops outside the tree container.
+   * @param {DragEvent} event
+   */
+  #onDocumentDrop(event) {
+    if (!this.isDragging) return;
+    event.preventDefault();
+
+    this.#snapBackAndRemoveDragPreview();
+    this.#cleanupDragState();
   }
 
   #onDragOver(event) {
-    if (!this.dragging || !this.reorderMode) return;
+    if (!this.isDragging || !this.reorderMode) return;
     this.#clearActiveDropIndicators();
 
     const row = event.target.closest('.node-row');
@@ -176,33 +242,44 @@ class InfiniteTreeDragDrop {
     this.activeDropRow = row;
     this.activeDropChildrenList = null;
 
-    if (!blocked) {
-      event.preventDefault();
-    }
+    // Always accept the dragover, even for blocked drop targets, so the browser
+    // fires a `drop` event instead of running its native cancel animation,
+    // which introduces a pause before `dragend`. Blocked targets are rejected
+    // in #onDrop, where the drag preview snapback starts immediately.
+    event.preventDefault();
   }
 
   #onDrop(event) {
-    if (!this.dragging || !this.reorderMode) return;
+    if (!this.isDragging || !this.reorderMode) return;
+
+    // Always prevent the default drop action, including for invalid drop targets,
+    // so the browser never runs its native return animation, which delays the
+    // start of the drag preview snapback.
+    event.preventDefault();
 
     const row = event.target.closest('.node-row');
     if (!row) {
+      this.#snapBackAndRemoveDragPreview();
       this.#cleanupDragState();
+
       return;
     }
 
     const targetLi = row.closest('li.node');
     if (!targetLi || this.#isBlockedTarget(targetLi)) {
+      this.#snapBackAndRemoveDragPreview();
       this.#cleanupDragState();
+
       return;
     }
 
     const edge = row.getAttribute('data-drop-edge');
     if (!edge) {
+      this.#snapBackAndRemoveDragPreview();
       this.#cleanupDragState();
+
       return;
     }
-
-    event.preventDefault();
 
     const targetPosition = this.#targetPosition(targetLi, edge);
     const effectiveUris = this.dragEffectiveNodes.map(node =>
@@ -218,7 +295,7 @@ class InfiniteTreeDragDrop {
       sourceParentUris.length > 0 &&
       sourceParentUris.every(uri => uri === targetPosition.parentUri);
 
-    this.containerEl.dispatchEvent(
+    this.treeContainerEl.dispatchEvent(
       new CustomEvent(InfiniteTreeDragDrop.EVENT_DROP_INTENT, {
         bubbles: true,
         detail: {
@@ -236,27 +313,105 @@ class InfiniteTreeDragDrop {
       })
     );
 
+    // Valid drop, so remove the drag preview immediately with no snapback.
+    this.#removeDragPreview();
     this.#cleanupDragState();
   }
 
+  /**
+   * Handles the dragend event, which fires after every drag operation ends.
+   * For valid drops and invalid drops that fire a drop event, the preview is
+   * already removed by the time this runs. For cancelled drags (e.g. ESC key),
+   * no drop event fires, so this is the only handler that can clean up.
+   */
   #onDragEnd() {
+    this.#snapBackAndRemoveDragPreview();
     this.#cleanupDragState();
   }
 
   #cleanupDragState() {
+    document.removeEventListener('dragover', this.dragOverHandler);
+    document.removeEventListener('drop', this.documentDropHandler);
+
     this.dragSelectionNodes.forEach(node =>
       node.classList.remove('is-being-dragged')
     );
     this.dragSelectionNodes = [];
     this.dragEffectiveNodes = [];
-    this.dragging = false;
-
+    this.isDragging = false;
+    this.dragStartPoint = null;
     this.#clearActiveDropIndicators();
+  }
 
+  /**
+   * Removes the drag preview element immediately, without animation.
+   */
+  #removeDragPreview() {
     if (this.dragPreviewEl && this.dragPreviewEl.parentNode) {
       this.dragPreviewEl.parentNode.removeChild(this.dragPreviewEl);
     }
+
     this.dragPreviewEl = null;
+  }
+
+  /**
+   * Animates the drag preview back to where the drag started, holds
+   * briefly, then fades it out before removing it.
+   * This mimics the native drag image "snapback" that occurs on a cancelled drop.
+   */
+  #snapBackAndRemoveDragPreview() {
+    const preview = this.dragPreviewEl;
+    this.dragPreviewEl = null;
+    if (!preview) return;
+
+    if (!this.dragStartPoint) {
+      if (preview.parentNode) preview.parentNode.removeChild(preview);
+      return;
+    }
+
+    const moveDuration = InfiniteTreeDragDrop.DRAG_PREVIEW_SNAPBACK_DURATION;
+    const holdDuration = InfiniteTreeDragDrop.DRAG_PREVIEW_SNAPBACK_HOLD;
+    const fadeDuration = InfiniteTreeDragDrop.DRAG_PREVIEW_SNAPBACK_FADE;
+
+    preview.style.transition = `left ${moveDuration}ms ease-out, top ${moveDuration}ms ease-out`;
+
+    // Force a reflow so the transition applies from the current position.
+    void preview.offsetWidth;
+
+    const offset = InfiniteTreeDragDrop.DRAG_PREVIEW_CURSOR_OFFSET;
+    preview.style.left = `${this.dragStartPoint.x + offset}px`;
+    preview.style.top = `${this.dragStartPoint.y + offset}px`;
+
+    // Each stage can be triggered by either `transitionend` or its `setTimeout`
+    // fallback, so guard against running twice.
+    let removePreviewCalled = false;
+    let onMoveEndCalled = false;
+
+    preview.addEventListener('transitionend', onMoveEnd, { once: true });
+
+    // Fallback in case transitionend doesn't fire (e.g. no position change).
+    setTimeout(onMoveEnd, moveDuration + 50);
+
+    function onMoveEnd() {
+      if (onMoveEndCalled) return;
+      onMoveEndCalled = true;
+      setTimeout(fadeOut, holdDuration);
+    }
+
+    function fadeOut() {
+      preview.style.transition = `opacity ${fadeDuration}ms ease`;
+      void preview.offsetWidth;
+      preview.style.opacity = '0';
+
+      preview.addEventListener('transitionend', removePreview, { once: true });
+      setTimeout(removePreview, fadeDuration + 50);
+    }
+
+    function removePreview() {
+      if (removePreviewCalled) return;
+      removePreviewCalled = true;
+      if (preview.parentNode) preview.parentNode.removeChild(preview);
+    }
   }
 
   #clearActiveDropIndicators() {
@@ -273,36 +428,51 @@ class InfiniteTreeDragDrop {
   }
 
   #buildDragPreview(selectedNodes) {
-    const node = document.createElement('div');
-    node.className = 'infinite-tree-drag-preview';
-    const first = selectedNodes[0];
-    const title = first
-      ? (first.querySelector('.record-title')?.textContent || '').trim()
-      : '';
-    const extraCount = Math.max(selectedNodes.length - 1, 0);
+    const MAX_VISIBLE_ITEMS = 20;
+    const containerTemplate = document
+      .querySelector('#infinite-tree-drag-preview-template')
+      .content.cloneNode(true);
+    const containerEl = containerTemplate.querySelector('div');
+    const listEl = containerEl.querySelector('ol');
+    const itemTemplate = document.querySelector(
+      '#infinite-tree-drag-preview-item-template'
+    );
+    const visibleNodes = selectedNodes.slice(0, MAX_VISIBLE_ITEMS);
 
-    node.innerHTML =
-      '<div class="infinite-tree-drag-preview__row">' +
-      '<span class="infinite-tree-drag-preview__title"></span>' +
-      '<span class="infinite-tree-drag-preview__count"></span>' +
-      '</div>';
-    node.querySelector('.infinite-tree-drag-preview__title').textContent =
-      title;
+    visibleNodes.forEach(selectedNode => {
+      const title = selectedNode
+        ? (
+            selectedNode.querySelector('.record-title')?.textContent || ''
+          ).trim()
+        : '';
+      const itemEl = itemTemplate.content.cloneNode(true).querySelector('li');
 
-    const badge = node.querySelector('.infinite-tree-drag-preview__count');
-    if (extraCount > 0) {
-      badge.textContent = '+' + String(extraCount);
-    } else {
-      badge.hidden = true;
+      itemEl.textContent = title;
+      listEl.appendChild(itemEl);
+    });
+
+    const remainingCount = selectedNodes.length - MAX_VISIBLE_ITEMS;
+
+    if (remainingCount > 0) {
+      const badgeTemplate = document
+        .querySelector('#infinite-tree-drag-preview-count-template')
+        .content.cloneNode(true);
+      const badgeEl = badgeTemplate.querySelector('div');
+
+      badgeEl.textContent = `+${String(remainingCount)}`;
+
+      containerEl.appendChild(badgeEl);
     }
 
-    document.body.appendChild(node);
-    return node;
+    document.body.appendChild(containerEl);
+
+    return containerEl;
   }
 
   #isBlockedTarget(targetLi) {
     return this.dragEffectiveNodes.some(source => {
       if (source === targetLi) return true;
+
       return source.contains(targetLi);
     });
   }
@@ -324,6 +494,7 @@ class InfiniteTreeDragDrop {
               ':scope > li.node:not(.js-itree-synthetic-new)'
             ).length
           : 0;
+
       return {
         parentUri: targetLi.getAttribute('data-uri') || this.rootUri,
         index: childCount,
@@ -336,8 +507,8 @@ class InfiniteTreeDragDrop {
       )
     );
     let index = siblings.indexOf(targetLi);
-
     const positionAttr = targetLi.getAttribute('data-tree-position');
+
     if (positionAttr !== null && positionAttr !== '') {
       index = parseInt(positionAttr, 10);
     }
@@ -353,6 +524,7 @@ class InfiniteTreeDragDrop {
   #parentUriForNode(node) {
     const parentLi = node.parentElement.closest('li.node');
     if (!parentLi) return this.rootUri;
+
     return parentLi.getAttribute('data-uri') || this.rootUri;
   }
 }
