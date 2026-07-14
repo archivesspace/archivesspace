@@ -1,4 +1,4 @@
-<% if IIIF.enabled? %>
+<% if IIIF.enabled?(result.resolved_repository.fetch('repo_code')) %>
   <div class="iiif-embed">
     <%= content_tag(:iframe, nil, {
       :src => IIIF.viewer_url(result.resolved_repository.fetch('repo_code'), result.iiif_manifest.fetch('file_uri'), AppConfig[:public_proxy_prefix]),

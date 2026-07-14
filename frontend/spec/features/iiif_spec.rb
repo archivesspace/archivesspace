@@ -29,13 +29,12 @@ describe 'IIIF viewer', js: true do
     select_repository(@repo)
   end
 
-  context 'when using the bundled viewer' do
+  context 'when using the bundled Universal Viewer' do
     before(:each) do
       allow(AppConfig).to receive(:[]).and_call_original
       allow(AppConfig).to receive(:has_key?).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(false)
-      allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(true)
-      allow(AppConfig).to receive(:[]).with(:iiif_use_bundled_viewer).and_return(true)
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer).and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer).and_return('universal_viewer')
     end
 
     it 'embeds the bundled Universal Viewer and renders the manifest' do
@@ -55,13 +54,37 @@ describe 'IIIF viewer', js: true do
     end
   end
 
+  context 'when using the bundled Mirador viewer' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:has_key?).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer).and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer).and_return('mirador')
+    end
+
+    it 'embeds the bundled Mirador viewer and renders the manifest' do
+      visit "/resolve/readonly?uri=#{@digital_object.uri}"
+
+      expect(page).to have_css('.iiif-embed iframe', visible: :all)
+      find('.accordion-toggle[href*="_file_version_"]', match: :first).click
+      expect(page).to have_css('.iiif-embed iframe', visible: true)
+
+      iiif_iframe = find('.iiif-embed iframe')
+      expect(iiif_iframe['src']).to end_with("/mirador/index.html?manifest=#{CGI.escape(@manifest_url)}")
+      expect(iiif_iframe['allow']).to eq('fullscreen')
+
+      within_frame(iiif_iframe) do
+        expect(page).to have_content('Simple Manifest - Book', wait: 30)
+      end
+    end
+  end
+
   context 'when disabled' do
     before(:each) do
       allow(AppConfig).to receive(:[]).and_call_original
       allow(AppConfig).to receive(:has_key?).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(false)
-      allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(true)
-      allow(AppConfig).to receive(:[]).with(:iiif_use_bundled_viewer).and_return(false)
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer).and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer).and_return('none')
     end
 
     it 'does not embed a viewer on the digital object page' do

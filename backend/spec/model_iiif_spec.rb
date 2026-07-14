@@ -4,15 +4,19 @@ require_relative '../../common/iiif'
 
 describe "IIIF" do
 
+  def stub_iiif_viewer(value)
+    allow(AppConfig).to receive(:has_key?).with(:iiif_viewer).and_return(true)
+    allow(AppConfig).to receive(:[]).with(:iiif_viewer).and_return(value)
+  end
+
+  def stub_iiif_viewer_unset
+    allow(AppConfig).to receive(:has_key?).with(:iiif_viewer).and_return(false)
+  end
+
   describe ".viewer_url" do
 
-    context "when a String viewer URL is configured" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url)
-                                        .and_return({ :default => 'http://iiif-viewer.com?manifest=' })
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-      end
+    context "when a URL String is configured" do
+      before { stub_iiif_viewer('http://iiif-viewer.com?manifest=') }
 
       it "appends the escaped manifest URI to the viewer URL" do
         url = IIIF.viewer_url('anyrepo', 'http://example.com/manifests/foo bar.json')
@@ -21,13 +25,9 @@ describe "IIIF" do
       end
     end
 
-    context "when a Proc viewer URL is configured" do
+    context "when a Proc is configured" do
       before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url).and_return(
-          { :default => proc { |manifest_uri| "http://iiif-viewer.com/?m=#{CGI::escape(manifest_uri)}&other_param=value" } }
-        )
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
+        stub_iiif_viewer(proc { |manifest_uri| "http://iiif-viewer.com/?m=#{CGI::escape(manifest_uri)}&other_param=value" })
       end
 
       it "calls the Proc with the manifest URI" do
@@ -37,80 +37,58 @@ describe "IIIF" do
       end
     end
 
-    context "when a repository specific viewer URL is configured" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url).and_return(
-          {
-            :default => 'http://default-viewer.com?manifest=',
-            'myrepo' => 'http://myrepo-viewer.com?manifest='
-          }
-        )
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-      end
+    context "when the bundled Universal Viewer is configured" do
+      before { stub_iiif_viewer('universal_viewer') }
 
-      it "uses the repository specific viewer URL for that repo_code" do
-        url = IIIF.viewer_url('myrepo', 'http://example.com/manifests/foo.json')
-
-        expect(url).to eq('http://myrepo-viewer.com?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo.json')
-      end
-
-      it "falls back to the default viewer URL for other repo_codes" do
-        url = IIIF.viewer_url('otherrepo', 'http://example.com/manifests/foo.json')
-
-        expect(url).to eq('http://default-viewer.com?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo.json')
-      end
-    end
-
-    context "when the configured viewer URL is neither a String nor a Proc" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url).and_return({ :default => 12345 })
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-      end
-
-      it "raises" do
-        expect {
-          IIIF.viewer_url('anyrepo', 'http://example.com/manifests/foo.json')
-        }.to raise_error('IIIF viewer URL configuration must be a String or a Proc')
-      end
-    end
-
-    context "when no external viewer is configured but the bundled viewer is enabled" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(false)
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_use_bundled_viewer).and_return(true)
-      end
-
-      it "falls back to the bundled Universal Viewer" do
+      it "builds the bundled Universal Viewer URL" do
         url = IIIF.viewer_url('anyrepo', 'http://example.com/manifests/foo bar.json', '/staff/')
 
         expect(url).to eq('/staff/uv/uv.html#?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo+bar.json')
       end
     end
 
-    context "when both an external viewer and the bundled viewer are configured" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url)
-                                        .and_return({ :default => 'http://iiif-viewer.com?manifest=' })
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_use_bundled_viewer).and_return(true)
-      end
+    context "when the bundled Mirador viewer is configured" do
+      before { stub_iiif_viewer('mirador') }
 
-      it "prefers the external viewer" do
-        url = IIIF.viewer_url('anyrepo', 'http://example.com/manifests/foo.json', '/staff/')
+      it "builds the bundled Mirador URL" do
+        url = IIIF.viewer_url('anyrepo', 'http://example.com/manifests/foo bar.json', '/staff/')
 
-        expect(url).to eq('http://iiif-viewer.com?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo.json')
+        expect(url).to eq('/staff/mirador/index.html?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo+bar.json')
       end
     end
 
-    context "when neither an external viewer nor the bundled viewer is available" do
+    context "when a Hash keyed on repo_code is configured" do
       before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(false)
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
+        stub_iiif_viewer(
+          {
+            :default => 'universal_viewer',
+            'mirador_repo' => 'mirador',
+            'external_repo' => 'http://myrepo-viewer.com?manifest='
+          }
+        )
       end
+
+      it "uses the bundled viewer selected for that repo_code" do
+        url = IIIF.viewer_url('mirador_repo', 'http://example.com/manifests/foo.json', '/staff/')
+
+        expect(url).to eq('/staff/mirador/index.html?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo.json')
+      end
+
+      it "uses the external viewer URL selected for that repo_code" do
+        url = IIIF.viewer_url('external_repo', 'http://example.com/manifests/foo.json', '/staff/')
+
+        expect(url).to eq('http://myrepo-viewer.com?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo.json')
+      end
+
+      it "falls back to the :default for other repo_codes" do
+        url = IIIF.viewer_url('otherrepo', 'http://example.com/manifests/foo.json', '/staff/')
+
+        expect(url).to eq('/staff/uv/uv.html#?manifest=http%3A%2F%2Fexample.com%2Fmanifests%2Ffoo.json')
+      end
+    end
+
+    context "when the viewer is configured as 'none'" do
+      before { stub_iiif_viewer('none') }
 
       it "raises" do
         expect {
@@ -118,67 +96,87 @@ describe "IIIF" do
         }.to raise_error('IIIF viewer URL configuration must be a String or a Proc')
       end
     end
+
+    context "when no viewer is configured" do
+      before { stub_iiif_viewer_unset }
+
+      it "raises" do
+        expect {
+          IIIF.viewer_url('anyrepo', 'http://example.com/manifests/foo.json', '/staff/')
+        }.to raise_error('IIIF viewer URL configuration must be a String or a Proc')
+      end
+    end
+
+    context "when a Hash has no entry for the repo and no :default" do
+      before { stub_iiif_viewer({ 'myrepo' => 'mirador' }) }
+
+      it "raises for other repo_codes" do
+        expect {
+          IIIF.viewer_url('otherrepo', 'http://example.com/manifests/foo.json', '/staff/')
+        }.to raise_error('IIIF viewer URL configuration must be a String or a Proc')
+      end
+    end
   end
 
   describe ".enabled?" do
 
-    context "when iiif_viewer_url is a Hash with a :default key" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url)
-                                        .and_return({ :default => 'http://iiif-viewer.com?manifest=' })
-      end
+    context "when a bundled viewer is configured" do
+      before { stub_iiif_viewer('universal_viewer') }
 
       it "returns true" do
         expect(IIIF.enabled?).to be(true)
       end
     end
 
-    context "when the bundled viewer is enabled" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_use_bundled_viewer).and_return(true)
-      end
+    context "when a URL String is configured" do
+      before { stub_iiif_viewer('http://iiif-viewer.com?manifest=') }
 
       it "returns true" do
         expect(IIIF.enabled?).to be(true)
       end
     end
 
-    context "when neither an external viewer nor the bundled viewer is configured" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(false)
+    context "when a Proc is configured" do
+      before { stub_iiif_viewer(proc { |manifest_uri| manifest_uri }) }
+
+      it "returns true" do
+        expect(IIIF.enabled?).to be(true)
       end
+    end
+
+    context "when the viewer is configured as 'none'" do
+      before { stub_iiif_viewer('none') }
 
       it "returns false" do
         expect(IIIF.enabled?).to be(false)
       end
     end
 
-    context "when iiif_viewer_url is not a Hash and the bundled viewer is off" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url).and_return('http://iiif-viewer.com?manifest=')
-      end
+    context "when no viewer is configured" do
+      before { stub_iiif_viewer_unset }
 
       it "returns false" do
         expect(IIIF.enabled?).to be(false)
       end
     end
 
-    context "when iiif_viewer_url is a Hash without a :default key and the bundled viewer is off" do
-      before do
-        allow(AppConfig).to receive(:has_key?).with(:iiif_use_bundled_viewer).and_return(false)
-        allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:iiif_viewer_url)
-                                        .and_return({ 'myrepo' => 'http://myrepo-viewer.com?manifest=' })
+    context "when a Hash with a :default is configured" do
+      before { stub_iiif_viewer({ :default => 'universal_viewer' }) }
+
+      it "returns true" do
+        expect(IIIF.enabled?).to be(true)
+      end
+    end
+
+    context "when a Hash without a matching entry or :default is configured" do
+      before { stub_iiif_viewer({ 'myrepo' => 'mirador' }) }
+
+      it "returns true for the configured repo_code" do
+        expect(IIIF.enabled?('myrepo')).to be(true)
       end
 
-      it "returns false" do
-        expect(IIIF.enabled?).to be(false)
+      it "returns false for other repo_codes" do
+        expect(IIIF.enabled?('otherrepo')).to be(false)
       end
     end
   end
