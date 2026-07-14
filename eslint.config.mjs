@@ -11,6 +11,8 @@ export default defineConfig([
     'public/vendor/assets/javascripts/',
     'frontend/public/uv/',
     'public/public/uv/',
+    'frontend/public/mirador/',
+    'public/public/mirador/',
   ]),
   js.configs.recommended,
   prettier,
