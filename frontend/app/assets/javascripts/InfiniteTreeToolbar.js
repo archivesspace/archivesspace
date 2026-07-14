@@ -288,12 +288,11 @@ class InfiniteTreeToolbar {
     event.preventDefault();
     this.expandAllMode = !this.expandAllMode;
 
-    if (btn) {
-      btn.classList.toggle('btn-success', this.expandAllMode);
-      btn.textContent = this.expandAllMode
-        ? this.#translate('actions.expand_tree_mode_off', 'Disable Auto-Expand')
-        : this.#translate('actions.expand_tree_mode_on', 'Auto-Expand All');
-    }
+    btn.classList.toggle('btn-success', this.expandAllMode);
+    btn.classList.toggle('btn-default', !this.expandAllMode);
+    btn.textContent = this.expandAllMode
+      ? this.#translate('actions.expand_tree_mode_off', 'Disable Auto-Expand')
+      : this.#translate('actions.expand_tree_mode_on', 'Auto-Expand All');
 
     this.#emitSimpleEvent('infiniteTreeToolbar:expandModeChanged', {
       enabled: this.expandAllMode,
@@ -367,6 +366,7 @@ class InfiniteTreeToolbar {
 
       if (expandBtn) {
         expandBtn.classList.remove('btn-success');
+        expandBtn.classList.add('btn-default');
         expandBtn.textContent = this.#translate(
           'actions.expand_tree_mode_on',
           'Auto-Expand All'
