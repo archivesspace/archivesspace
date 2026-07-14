@@ -166,27 +166,34 @@
   box-shadow: 0 2px 8px rgba(9, 30, 66, 0.25);
 }
 
-.infinite-tree-drag-preview__row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  max-width: 28rem;
+.infinite-tree-drag-preview__list {
+  margin: 0;
+  padding: 0;
+  list-style: decimal inside;
 }
 
-.infinite-tree-drag-preview__title {
-  display: inline-block;
-  max-width: 24rem;
+.infinite-tree-drag-preview__item {
+  max-width: 28rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .infinite-tree-drag-preview__count {
-  display: inline-block;
+  margin-top: 0.25rem;
   border-radius: 999px;
   background: #0a6aa1;
   color: #fff;
   font-size: 0.75rem;
   line-height: 1rem;
   padding: 0 0.35rem;
+  width: fit-content;
+}
+
+.infinite-tree-empty-drag-image {
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  width: 1px;
+  height: 1px;
 }
