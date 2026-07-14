@@ -169,11 +169,18 @@ describe 'Infinite Tree Toolbar', js: true do
     reorder_btn.click
     expect(page).to have_no_css('.js-itree-toolbar-reorder-toggle.active')
 
-    expand_btn.click
-    expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+    expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-default')
+    expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
 
     expand_btn.click
+
+    expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+    expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-default')
+
+    expand_btn.click
+
     expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
+    expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-default')
   end
 
   describe 'expand and collapse tree functionalities' do
@@ -377,11 +384,14 @@ describe 'Infinite Tree Toolbar', js: true do
       end
 
       it 'collapses all expanded parent nodes and turns off auto-expand mode if it is on' do
+        expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+
         collapse_tree_button.click
 
         aggregate_failures do
           expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
           expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+          expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
           expect(page).to have_css(collapsed_parent_selector, visible: :all, count: parent_count)
           expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: false)
           expect(page).to have_css("#archival_object_#{ao_child_02_child_01_child_01.id}", visible: false)
