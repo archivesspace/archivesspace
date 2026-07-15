@@ -592,7 +592,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(selection_uris).to eq([ao.uri, ao2.uri])
   end
 
-  it 'plain record-link click clears multiselection and navigates' do
+  it 'plain record-link click collapses multiselection to clicked record and navigates' do
     click_row(ao.uri, meta: true)
     click_row(ao2.uri, meta: true)
     expect(selection_uris).to eq([ao.uri, ao2.uri])
@@ -602,7 +602,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     end
     wait_for_ajax
 
-    expect(selection_uris).to eq([])
+    expect(selection_uris).to eq([ao3.uri])
     expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
   end
 
@@ -640,24 +640,9 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     end
   end
 
-  it 'dedupes ancestor and descendant in effectiveSourceUris' do
-    expand_node(ao2.uri)
-    wait_for_ajax
-
-    click_row(ao2.uri, meta: true)
-    click_row(child_ao.uri, meta: true)
-
-    dragstart_from(ao2.uri)
-    dragover_row(ao3.uri, 0.9)
-    drop_row(ao3.uri, 0.9)
-
-    intent = last_drop_intent
-    expect(intent['sourceUris']).to eq([ao2.uri, child_ao.uri])
-    expect(intent['effectiveSourceUris']).to eq([ao2.uri])
-    expect(intent['edge']).to eq('bottom')
-    wait_for_reorder_idle
-    expect(last_accept_children_params['children']).to eq([ao2.uri])
-  end
+  # TODO: Deleted an outdated test for "multi-select deduplication" from before the multi-select rules were finalized.
+  # There is no deduplication anymore, so investigate what new tests need to be added for the
+  # new Ancestor-Exclusive, Descendant-Inclusive (AEDI) rule model.
 
   it 'blocks drops onto descendants of a dragged source subtree' do
     expand_node(ao2.uri)
@@ -679,7 +664,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     JS
 
     expect(blocked['blockedAttr']).to eq('true')
-    expect(blocked['prevented']).to eq(false)
+    expect(blocked['prevented']).to eq(true)
     drop_row(child_ao.uri, 0.5)
     expect(accept_children_request_count).to eq(before_requests)
   end
@@ -841,7 +826,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       end
     end
 
-    describe 'drag preview' do # for small selection (< 20 nodes)' do
+    describe 'drag preview' do
       it 'is created on dragstart' do
         expect(page).to have_no_css('body > .infinite-tree-drag-preview', visible: :all)
 
@@ -882,9 +867,6 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
       context 'when there are more than 20 multi-selected nodes' do
         it 'truncates the list to 20 nodes and shows a remaining count badge' do
-          # WAYPOINT_SIZE is 30 under ASPACE_INTEGRATION (see backend/app/model/large_tree.rb),
-          # so 22 root-level siblings all load in a single waypoint with no extra
-          # scrolling/pagination needed to bring them into the DOM.
           extra_aos = Array.new(19) do |i|
             create(
               :archival_object,

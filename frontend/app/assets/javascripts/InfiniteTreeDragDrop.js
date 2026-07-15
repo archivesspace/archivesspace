@@ -234,7 +234,10 @@ class InfiniteTreeDragDrop {
       row.getBoundingClientRect()
     );
 
-    row.setAttribute('data-drop-edge', edge);
+    const isRoot = targetLi.classList.contains('root');
+    const adjustedEdge = isRoot && edge === 'top' ? 'into' : edge;
+
+    row.setAttribute('data-drop-edge', adjustedEdge);
     if (blocked) {
       row.setAttribute('data-drop-blocked', 'true');
     }
@@ -484,6 +487,15 @@ class InfiniteTreeDragDrop {
   }
 
   #targetPosition(targetLi, edge) {
+    const isRoot = targetLi.classList.contains('root');
+
+    if (isRoot && edge === 'bottom') {
+      return {
+        parentUri: targetLi.getAttribute('data-uri') || this.rootUri,
+        index: 0,
+      };
+    }
+
     if (edge === 'into') {
       const list = targetLi.querySelector(':scope > .node-children');
       const childCountAttr = targetLi.getAttribute('data-child-count');
