@@ -20,7 +20,7 @@ class AbstractReport
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
     @format = params[:format] if params.has_key?(:format) && params[:format] != ''
     @expand_csv = !(params.has_key?('csv_show_json') ? params['csv_show_json'] : false)
-    @include_suppressed =params.has_key?(:include_suppressed) ? params[:include_suppressed] : false
+    @include_suppressed = params.has_key?('include_suppressed') ? params['include_suppressed'] : false
     @params = params
     @db = db
     @job = job
