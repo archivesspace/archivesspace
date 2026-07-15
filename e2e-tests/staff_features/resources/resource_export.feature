@@ -1,7 +1,7 @@
 Feature: Resource Export
   Background:
     Given an administrator user is logged in
-      And a Resource has been created
+      And a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
   Scenario: Resource export EAD
      When the user clicks on 'Export'
