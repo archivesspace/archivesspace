@@ -12,28 +12,64 @@ describe 'Report suppression filtering' do
   let(:report) { DB.open { |db| report_class.new(params, nil, db) } }
 
   describe 'AbstractReport#suppressed_filter' do
-    context 'when include_suppressed is not set' do
+    context 'when include_suppressed is not provided' do
       let(:params) { { repo_id: $repo_id, format: 'html' } }
 
-      it 'returns a suppression clause' do
+      it 'appends a suppression clause' do
         expect(report.suppressed_filter('resource')).to eq(' AND resource.suppressed = 0')
       end
     end
 
-    context 'when include_suppressed is set to boolean true' do
-      let(:params) { { repo_id: $repo_id, format: 'html', include_suppressed: true } }
+    context 'when include_suppressed is the checked-checkbox value "1"' do
+      let(:params) { { repo_id: $repo_id, format: 'html', 'include_suppressed' => '1' } }
 
-      it 'returns an empty string when include_suppressed is the boolean true' do
+      it 'returns an empty clause so suppressed rows are kept' do
         expect(report.suppressed_filter('resource')).to eq('')
       end
     end
 
-    context 'when include_suppressed is set to the string "true"' do
-      let(:params) { { repo_id: $repo_id, format: 'html', include_suppressed: 'true' } }
+    context 'when include_suppressed is the boolean true' do
+      let(:params) { { repo_id: $repo_id, format: 'html', 'include_suppressed' => true } }
 
-      it 'returns an empty string when include_suppressed is the string "true"' do
+      it 'returns an empty clause so suppressed rows are kept' do
         expect(report.suppressed_filter('resource')).to eq('')
       end
+    end
+
+    context 'when include_suppressed is forced to false by the runner' do
+      let(:params) { { repo_id: $repo_id, format: 'html', 'include_suppressed' => false } }
+
+      it 'appends the suppression clause' do
+        expect(report.suppressed_filter('resource')).to eq(' AND resource.suppressed = 0')
+      end
+    end
+  end
+
+  describe 'end-to-end report filtering' do
+    let!(:visible_accession) { create_accession(:title => 'Visible accession report record') }
+    let!(:suppressed_accession) do
+      accession = create_accession(:title => 'Suppressed accession report record')
+      accession.set_suppressed(true)
+      accession
+    end
+
+    def report_titles(extra_params = {})
+      params = { repo_id: $repo_id, format: 'html' }.merge(extra_params)
+      DB.open do |db|
+        AccessionReport.new(params, nil, db).query.map { |row| row[:record_title] }
+      end
+    end
+
+    it 'excludes suppressed accessions by default' do
+      titles = report_titles
+      expect(titles).to include(visible_accession.title)
+      expect(titles).not_to include(suppressed_accession.title)
+    end
+
+    it 'includes suppressed accessions when include_suppressed is set' do
+      titles = report_titles('include_suppressed' => '1')
+      expect(titles).to include(visible_accession.title)
+      expect(titles).to include(suppressed_accession.title)
     end
   end
 
