@@ -7,6 +7,8 @@ nl:
       html: HTML
       rtf: RTF
     linked_records_in_json: Gekoppelde records in JSON
+    parameters:
+      include_suppressed: Onderdrukte records opnemen
     headings:
       context: Bron/Toewijzing
       container_profile: Containerprofiel

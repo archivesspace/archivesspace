@@ -2182,6 +2182,7 @@ de:
     parameters:
       locations: Standorte
       scope_by_date: Geltungsbereich nach Datum
+      include_suppressed: Unterdrückte Datensätze einbeziehen
       template: Vorlage
       from: Von
       to: Bis

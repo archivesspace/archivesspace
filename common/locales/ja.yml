@@ -1494,6 +1494,7 @@ ja:
       to: に
       locations: 場所
       scope_by_date: 日付範囲
+      include_suppressed: 抑制されたレコードを含める
       template: テンプレート
     formats:
       json: JSON
