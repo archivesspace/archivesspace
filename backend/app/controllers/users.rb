@@ -15,6 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     check_admin_access
+    check_pui_viewer_access
     params[:user].username = Username.value(params[:user].username)
 
     params[:user].is_active_user = true if params[:user]["is_active_user"].nil?
@@ -165,15 +166,19 @@ class ArchivesSpaceService < Sinatra::Base
     if params[:user].username == User.to_jsonmodel(current_user).username
       user = User.get_or_die(params[:id])
 
-      # overwrite whatever is the params with the current admin and groups status
-      # to prevent a user from adding themselves to groups or giving themselves admin access
-      current_admin_setting  = user[:is_admin]
-      current_groups_setting = user[:groups]
+      # overwrite whatever is the params with the current admin, groups, and pui
+      # viewer status to prevent a user from adding themselves to groups or
+      # giving themselves admin or PUI viewer access
+      current_admin_setting       = user[:is_admin]
+      current_groups_setting      = user[:groups]
+      current_pui_viewer_setting  = user.can?(:view_pui)
 
-      params[:user][:is_admin] = current_admin_setting
-      params[:user][:groups]   = current_groups_setting
+      params[:user][:is_admin]      = current_admin_setting
+      params[:user][:groups]        = current_groups_setting
+      params[:user][:is_pui_viewer] = current_pui_viewer_setting
     else
       check_admin_access
+      check_pui_viewer_access
       user = User.get_or_die(params[:id])
 
       # High security: update the user themselves.
@@ -398,6 +403,18 @@ class ArchivesSpaceService < Sinatra::Base
 
     RequestContext.put(:apply_admin_access,
                        current_user.can?(:administer_system) && !about_to_remove_own_permission)
+  end
+
+  def check_pui_viewer_access
+    if params[:user].is_pui_viewer && !current_user.can?(:manage_users)
+      raise AccessDeniedException.new("Only users with manage_users permission can grant PUI viewer access")
+    end
+
+    # Saving people from themselves :)
+    about_to_remove_own_permission = (params[:user].username == current_user.username)
+
+    RequestContext.put(:apply_pui_viewer_access,
+                       current_user.can?(:manage_users) && !about_to_remove_own_permission)
   end
 
 end

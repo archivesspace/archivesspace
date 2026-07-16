@@ -518,3 +518,5 @@ ja:
     username_placeholder: ユーザー名
     password_placeholder: パスワード
     required: 必須
+    pui_permission_denied: "ユーザー「%{username}」にはPUIを表示する権限がありません。"
+    login_failed: "ログインに失敗しました。ユーザー名とパスワードを確認してください。"

@@ -1426,7 +1426,6 @@ uk:
           користувача?
         update_self: Керування обліковим записом користувача
     is_pui_viewer: Переглядач PUI
-    none: Немає користувачів.
   user_defined:
     _frontend:
       action:

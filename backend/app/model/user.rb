@@ -72,6 +72,8 @@ class User < Sequel::Model(:user)
 
 
   def self.make_pui_viewer_if_requested(obj, json)
+    return if !RequestContext.get(:apply_pui_viewer_access)
+
     # Nothing to do if these already agree
     begin
       return if (json.is_pui_viewer === obj.can?(:view_pui))

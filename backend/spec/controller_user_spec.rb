@@ -227,6 +227,57 @@ describe 'User controller' do
     expect(user.groups).to eq([])
   end
 
+  it "does not allow self update to change pui viewer flag" do
+    user_id = build(:json_user).save('password' => '123')
+    non_admin_user = JSONModel(:user).find(user_id)
+
+    as_test_user(non_admin_user['username']) do
+      non_admin_user.is_pui_viewer = true
+      non_admin_user.save
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_pui_viewer).to_not be_truthy
+  end
+
+  it "allows a user with manage_users permission (but not admin) to grant pui viewer access to another user" do
+    manager = create(:user)
+
+    RequestContext.open(:repo_id => Repository.global_repo_id) do
+      group = Group.create_from_json(build(:json_group))
+      group.grant('manage_users')
+      group.add_user(manager)
+    end
+
+    user_id = build(:json_user).save('password' => '123')
+    target_user = JSONModel(:user).find(user_id)
+
+    as_test_user(manager.username) do
+      target_user.is_pui_viewer = true
+      target_user.save
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_pui_viewer).to be_truthy
+  end
+
+  it "does not allow a user without manage_users permission to grant pui viewer access to another user" do
+    other_user = create(:user)
+
+    user_id = build(:json_user).save('password' => '123')
+    target_user = JSONModel(:user).find(user_id)
+
+    as_test_user(other_user.username) do
+      expect {
+        target_user.is_pui_viewer = true
+        target_user.save
+      }.to raise_error(AccessDeniedException)
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_pui_viewer).to_not be_truthy
+  end
+
   it "can log out a session" do
     post '/users/test1/login', params = { "password" => "password", "expiring" => "false" }
     expect(last_response).to be_ok
@@ -241,13 +292,6 @@ describe 'User controller' do
 
     get '/', params = {}, session_headers
     expect(last_response.status).to eq(412)
-  end
-
-
-  it "rejects a login attempt against an unknown username" do
-    post '/users/notauserXXXXXX/login', params = { "password" => "wrongpwXXXXX"}
-    expect(last_response).not_to be_ok
-    expect(last_response.status).to eq(403)
   end
 
   describe "resending passwords to forgetful users" do

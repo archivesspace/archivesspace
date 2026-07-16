@@ -1,4 +1,6 @@
 class DigitalObjectsController < ApplicationController
+  json_response_for :tree_root, :tree_node, :tree_waypoint, :tree_node_from_root
+
   def tree_root
     @root_uri = "/repositories/#{params[:rid]}/digital_objects/#{params[:id]}"
     render json: archivesspace.get_raw_record(@root_uri + '/tree/root')

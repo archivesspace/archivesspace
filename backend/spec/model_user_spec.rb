@@ -166,37 +166,58 @@ describe 'User model' do
 
   it "grants view_pui permission when is_pui_viewer is true on create" do
     json = build(:json_user, :is_pui_viewer => true)
-    user = User.create_from_json(json)
+
+    user = RequestContext.open(:apply_pui_viewer_access => true) do
+      User.create_from_json(json)
+    end
 
     expect(user.can?(:view_pui)).to be true
   end
 
   it "does not grant view_pui permission when is_pui_viewer is false on create" do
     json = build(:json_user, :is_pui_viewer => false)
-    user = User.create_from_json(json)
+
+    user = RequestContext.open(:apply_pui_viewer_access => true) do
+      User.create_from_json(json)
+    end
 
     expect(user.can?(:view_pui)).to be false
   end
 
   it "grants view_pui permission when is_pui_viewer is set to true on update" do
-    user = User.create_from_json(build(:json_user, :is_pui_viewer => false))
+    user = RequestContext.open(:apply_pui_viewer_access => true) do
+      User.create_from_json(build(:json_user, :is_pui_viewer => false))
+    end
     expect(user.can?(:view_pui)).to be false
 
     user_json = User.to_jsonmodel(user.id)
     user_json[:is_pui_viewer] = true
 
-    user.update_from_json(user_json)
+    RequestContext.open(:apply_pui_viewer_access => true) do
+      user.update_from_json(user_json)
+    end
     expect(user.can?(:view_pui)).to be true
   end
 
   it "revokes view_pui permission when is_pui_viewer is set to false on update" do
-    user = User.create_from_json(build(:json_user, :is_pui_viewer => true))
+    user = RequestContext.open(:apply_pui_viewer_access => true) do
+      User.create_from_json(build(:json_user, :is_pui_viewer => true))
+    end
     expect(user.can?(:view_pui)).to be true
 
     user_json = User.to_jsonmodel(user.id)
     user_json[:is_pui_viewer] = false
 
-    user.update_from_json(user_json)
+    RequestContext.open(:apply_pui_viewer_access => true) do
+      user.update_from_json(user_json)
+    end
+    expect(user.can?(:view_pui)).to be false
+  end
+
+  it "does not grant view_pui permission when not explicitly authorized, even if requested" do
+    json = build(:json_user, :is_pui_viewer => true)
+    user = User.create_from_json(json)
+
     expect(user.can?(:view_pui)).to be false
   end
 end

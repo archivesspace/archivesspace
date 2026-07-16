@@ -19,7 +19,7 @@ Sequel.migration do
       # grant new permission to group if it exists (it probably doesn't)
       pui_viewer_group = self[:group].filter(group_code: 'pui-viewers').get(:id)
       if view_pui_permission && pui_viewer_group
-        self[:group_permission].insert(permission_id: view_pui_permission, group_id: pui_viewer_group[:id])
+        self[:group_permission].insert(permission_id: view_pui_permission, group_id: pui_viewer_group)
       end
 
     end

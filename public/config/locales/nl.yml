@@ -541,3 +541,5 @@ nl:
     username_placeholder: Gebruikersnaam
     password_placeholder: Wachtwoord
     required: vereist
+    pui_permission_denied: "Gebruiker `%{username}` heeft geen toestemming om de PUI te bekijken."
+    login_failed: "Inloggen mislukt. Controleer uw gebruikersnaam en wachtwoord."

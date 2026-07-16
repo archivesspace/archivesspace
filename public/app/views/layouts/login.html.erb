@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="<%= session[:locale] ? session[:locale] : AppConfig[:locale] %>">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <% if AppConfig[:pui_show_favicon] %>
+      <%= render "shared/favicon" %>
+    <% end %>
+
+    <title>
+      <%= t('login.login') %> | <%= t('brand.title') %>
+    </title>
+
+    <%= csrf_meta_tags %>
+
+    <script>
+      var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+      FRONTEND_URL = '<%= j(AppConfig[:frontend_proxy_url]) %>';
+    </script>
+
+    <%= stylesheet_link_tag 'application.css', media: 'all' %>
+    <%= javascript_include_tag 'application.js' %>
+
+    <% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
+      <!-- Begin plugin layout -->
+      <%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+
+      <!-- End plugin layout -->
+    <% end %>
+  </head>
+
+  <body class="min-h-screen d-flex flex-column">
+    <% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
+      <!-- Begin plugin layout -->
+      <%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+
+      <!-- End plugin layout -->
+    <% end %>
+
+    <%= render partial: 'shared/skipnav' %>
+
+    <div class="container-fluid no-pad">
+      <%= render partial: 'shared/header' %>
+    </div>
+
+    <section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
+      <a id="maincontent" tabindex="-1" href="#maincontent"></a>
+      <%= flash_messages %>
+      <%= yield %>
+    </section>
+
+    <%= render partial: 'shared/footer' %>
+  </body>
+</html>

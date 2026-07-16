@@ -61,8 +61,6 @@ class ArchivesSpaceService
     self.create_system_user(User.ADMIN_USERNAME, "Administrator", AppConfig[:default_admin_password])
     self.create_group(Group.ADMIN_GROUP_CODE, "Administrators", [User.ADMIN_USERNAME], [])
 
-    self.create_group(Group.PUI_VIEWERS_GROUP_CODE, "PUI Viewers", [User.ADMIN_USERNAME], ['view_pui'])
-    User.where(username: User.ADMIN_USERNAME).update( :is_pui_viewer => 1 )
 
     ## Standard permissions
     Permission.define("administer_system",
@@ -85,6 +83,10 @@ class ArchivesSpaceService
     Permission.define("view_pui",
                       "The ability to view the PUI",
                       :level => "global")
+
+    # PUI viewers group depends on the view_pui permission just defined above.
+    self.create_group(Group.PUI_VIEWERS_GROUP_CODE, "PUI Viewers", [User.ADMIN_USERNAME], ['view_pui'])
+    User.where(username: User.ADMIN_USERNAME).update( :is_pui_viewer => 1 )
 
     Permission.define("create_repository",
                       "The ability to create new repositories",

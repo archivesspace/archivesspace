@@ -646,3 +646,5 @@ fr:
     username_placeholder: Nom d'utilisateur
     password_placeholder: Mot de passe
     required: Champs obligatoires
+    pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter la PUI."
+    login_failed: "Échec de la connexion. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."
