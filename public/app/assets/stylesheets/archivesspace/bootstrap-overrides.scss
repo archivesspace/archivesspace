@@ -4,9 +4,23 @@
   border: var(--default-border);
 }
 
-.accordion > .card:first-of-type:last-of-type {
-  border-bottom: var(--default-border);
-  border-radius: 4px;
+.acc_holder > .accordion > .accordion-item {
+  border: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+  border-left: var(--default-border);
+  border-right: var(--default-border);
+}
+
+.acc_holder > .accordion > .accordion-item:first-of-type {
+  border-top: var(--default-border);
+  border-top-left-radius: var(--bs-accordion-border-radius);
+  border-top-right-radius: var(--bs-accordion-border-radius);
+}
+
+.acc_holder > .accordion > .accordion-item:last-of-type {
+  border-bottom-left-radius: var(--bs-accordion-border-radius);
+  border-bottom-right-radius: var(--bs-accordion-border-radius);
 }
 
 /* Bootstrap v4 removed .btn-default but they were not removed or patched in
@@ -43,13 +57,77 @@
   border-color: $primary-color;
 }
 
+.acc_button:hover,
+.acc_button:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.acc_holder .accordion .accordion-button:hover,
+.acc_holder .accordion .accordion-button:focus {
+  text-decoration: none;
+}
+
+.acc_holder .accordion .accordion-button,
+.acc_holder .accordion .accordion-button:not(.collapsed) {
+  background-color: var(--bs-tertiary-bg);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $primary-color;
+  border-bottom: var(--default-border);
+  box-shadow: none;
+}
+
+.acc_holder .accordion .accordion-button:focus {
+  box-shadow: none;
+}
+
+.acc_holder > .accordion > .accordion-item > .accordion-collapse.show {
+  border-bottom: var(--default-border);
+}
+
+.acc_holder
+  > .accordion
+  > .accordion-item:last-of-type
+  > .accordion-header
+  > .accordion-button.collapsed {
+  border-bottom-left-radius: var(--bs-accordion-inner-border-radius);
+  border-bottom-right-radius: var(--bs-accordion-inner-border-radius);
+}
+
+.acc_holder
+  > .accordion
+  > .accordion-item:last-of-type
+  > .accordion-collapse.show {
+  border-bottom-left-radius: var(--bs-accordion-inner-border-radius);
+  border-bottom-right-radius: var(--bs-accordion-inner-border-radius);
+}
+
 .page-link {
   color: $primary-color;
 }
 
-.page-item.active .page-link {
-  background-color: $primary-color;
-  border-color: $primary-color;
+.page-item {
+  .page-link {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &.active {
+    .page-link {
+      background-color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Bootstrap v5 removed breadcrumb padding/background/radius.
+// Restore v4-like visual treatment for public UI parity.
+.breadcrumb {
+  padding: 0.75rem 1rem;
+  background-color: var(--bs-tertiary-bg);
+  border-radius: var(--bootstrap-rounded-border-radius);
 }
 
 // Bootstrap v4 moved <blockquote> support to .blockquote

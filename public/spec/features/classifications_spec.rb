@@ -29,7 +29,7 @@ describe 'Classifications', js: true do
 
     click_on 'Repositories'
     click_on 'Test Repo 1'
-    find('#whats-in-container form .btn.btn-default.classification').click
+    find('#whats-in-container form .btn.classification').click
 
     expect(page).to_not have_text Pathname.new(current_path).parent.to_s
   end

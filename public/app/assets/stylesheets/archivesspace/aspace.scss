@@ -117,6 +117,12 @@ a img {
   background-color: $accent-color;
   color: $white;
 }
+
+.tabbing.nav-pills > li > a:hover,
+.tabbing.nav-pills > li > a:focus {
+  text-decoration: none;
+}
+
 .tabbing-item li:first-child a {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -136,6 +142,11 @@ a img {
   text-decoration: none;
   background-color: transparent;
   cursor: not-allowed;
+}
+
+.tabbing.nav-pills > li > a.active:hover,
+.tabbing.nav-pills > li > a.active:focus {
+  cursor: default;
 }
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
@@ -259,6 +270,12 @@ a img {
 
 #whats-in-container {
   border: 1px solid $border;
+
+  .btn:disabled,
+  .btn.disabled {
+    --bs-btn-disabled-border-color: transparent;
+  }
+
   > h3 {
     margin-top: 0;
     margin-left: rem-calc(-20);
@@ -409,8 +426,18 @@ h1,
   font-size: rem-calc(24);
   font-weight: bold;
   color: $primary-color;
+}
 
-  @include media-breakpoint-down(sm) {
+h1,
+.h1 {
+  font-size: rem-calc(24);
+}
+
+/* we want to shrink the font size of h1 in smaller sizes */
+
+h1,
+.h1 {
+  @include media-breakpoint-down(md) {
     font-size: rem-calc(22);
   }
 }
@@ -462,6 +489,11 @@ h5,
 
 .navbar-toggler {
   border: 0;
+
+  &:focus {
+    box-shadow: 0 0 0 var(--bs-navbar-toggler-focus-width)
+      rgba($primary-color, 0.5);
+  }
 }
 
 .spacer {
@@ -489,7 +521,14 @@ h5,
 #submit_search {
   width: 100%;
   font-size: 16px;
-  background-color: #006f9b;
+  background-color: $primary-color;
+  border-color: $primary-color;
+  color: #fff;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    border-color: darken($primary-color, 10%);
+  }
 }
 .searchstatement {
   background-color: $row-background;

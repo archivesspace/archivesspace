@@ -1,7 +1,11 @@
 function setupCite() {
-  $('#cite_sub').submit(function () {
+  $('#cite_sub').on('submit', function (e) {
+    e.preventDefault();
+
     new Clipboard('.clip-btn');
-    $('#cite_modal').modal('show');
+
+    new bootstrap.Modal(document.querySelector('#cite_modal')).show();
+
     return false;
   });
 }

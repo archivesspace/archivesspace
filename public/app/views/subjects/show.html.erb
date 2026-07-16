@@ -30,7 +30,7 @@
     <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
       <h3><%= t('more_about') %> '<%== process_mixed_content(@result.display_string) %>'</h3>
       <div class="acc_holder clear" >
-        <div class="panel-group" id="res_accordion">
+        <div class="accordion" id="res_accordion">
           <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
             <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
             <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
