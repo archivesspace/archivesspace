@@ -1,6 +1,6 @@
 class SessionController < ApplicationController
 
-  set_access_control  :public => [:login, :token_login, :logout, :check_session, :check_pui_session, :logout_pui_session, :has_session, :login_inline],
+  set_access_control  :public => [:login, :token_login, :logout, :check_session, :check_pui_session, :has_session, :login_inline],
                       "become_user" => [:select_user, :become_user]
 
 
@@ -38,13 +38,7 @@ class SessionController < ApplicationController
 
 
   def logout
-    if AppConfig[:pui_require_authentication] && AppConfig.has_key?(:public_proxy_url)
-      uri = URI("#{AppConfig[:public_proxy_url]}/logout_staff_session")
-      http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request['X-ArchivesSpace-Session'] = session[:session]
-      http.request(request)
-    end
+    User.logout
 
     reset_session
     redirect_to :root
@@ -77,15 +71,6 @@ class SessionController < ApplicationController
     else
       render json: { view_pui: false }
     end
-  end
-
-
-  def logout_pui_session
-    return head :forbidden unless AppConfig[:pui_require_authentication]
-
-    set_pui_cors_headers
-    reset_session
-    render json: { success: true }
   end
 
 

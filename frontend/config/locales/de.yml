@@ -1640,7 +1640,6 @@ de:
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
     is_pui_viewer: PUI-Viewer
-    none: Keine Benutzer.
   use_date:
     _frontend:
       action:

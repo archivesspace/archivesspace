@@ -1,69 +1,62 @@
 (function () {
-  if (!PUI_REQUIRE_AUTH) return;
-  if (window.location.pathname === '/login') {
-    return;
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
-    function showApp() {
-      var authCheck = document.getElementById('auth-check');
-      var appContainer = document.getElementById('pui-container');
-      if (authCheck) authCheck.style.display = 'none';
-      if (appContainer) appContainer.style.display = '';
+    var authCheck = document.getElementById('auth-check');
+
+    if (!authCheck) return;
+
+    function showForm() {
+      authCheck.style.display = 'none';
+      var formWrapper = document.getElementById('login-form-wrapper');
+      if (formWrapper) formWrapper.style.display = '';
     }
 
-    // Already logged into PUI
-    if (typeof PUI_USER === 'string' && PUI_USER.trim() !== '') {
-      console.log('Logged in via PUI');
-      var userDropdown = document.getElementById('user-menu-dropdown');
-      if (userDropdown) {
-        userDropdown.innerHTML += PUI_USER;
-        userDropdown.style.display = 'block';
-      }
-      showApp();
+    function csrfToken() {
+      var meta = document.querySelector('meta[name="csrf-token"]');
+      return meta ? meta.content : '';
+    }
+
+    if (PUI_SKIP_AUTOCHECK) {
+      showForm();
       return;
     }
 
-    // Not logged into PUI, check for existing staff session
     if (typeof FRONTEND_URL === 'undefined') {
-      window.location.href = '/login';
+      showForm();
       return;
     }
 
-    console.log('Checking for staff session...');
-    $.ajax(FRONTEND_URL + '/check_pui_session', {
-      type: 'GET',
-      dataType: 'json',
-      xhrFields: {
-        withCredentials: true,
-      },
+    fetch(FRONTEND_URL + '/check_pui_session', {
+      method: 'GET',
+      credentials: 'include',
     })
-      .done(function (response) {
-        if (response.view_pui === true) {
-          console.log(
-            'Found staff session, logging in as: ' + response.username
-          );
-          // Exchange staff session for PUI session
-          $.ajax('/login/staff_handoff', {
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              session: response.session,
-              username: response.username,
-            },
-          })
-            .done(function () {
-              window.location.reload();
-            })
-            .fail(function () {
-              window.location.href = '/login';
-            });
-        } else {
-          window.location.href = '/login';
-        }
+      .then(function (response) {
+        if (!response.ok) throw new Error('check_pui_session request failed');
+        return response.json();
       })
-      .fail(function () {
-        window.location.href = '/login';
-      });
+      .then(function (data) {
+        if (data.view_pui !== true) {
+          showForm();
+          return;
+        }
+
+        var body = new URLSearchParams();
+        body.set('session', data.session);
+        body.set('username', data.username);
+
+        fetch(AS.app_prefix('/login/staff_handoff'), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-Token': csrfToken(),
+          },
+          body: body.toString(),
+        })
+          .then(function (response) {
+            if (!response.ok) throw new Error('staff_handoff request failed');
+            window.location.reload();
+          })
+          .catch(showForm);
+      })
+      .catch(showForm);
   });
 })();

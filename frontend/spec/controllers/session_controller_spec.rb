@@ -203,25 +203,13 @@ describe SessionController, type: :controller do
   end
 
   describe '#logout' do
-    context 'when pui_require_authentication is enabled and public_proxy_url is set' do
-      before(:each) do
-        allow(AppConfig).to receive(:[]).and_call_original
-        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
-        allow(AppConfig).to receive(:has_key?).and_call_original
-        allow(AppConfig).to receive(:has_key?).with(:public_proxy_url).and_return(true)
-        allow(AppConfig).to receive(:[]).with(:public_proxy_url).and_return('http://localhost:3001')
+    around(:each) do |example|
+      original_backend_session = JSONModel::HTTP.current_backend_session
+      example.run
+      JSONModel::HTTP.current_backend_session = original_backend_session
+    end
 
-        @mock_http = instance_double(Net::HTTP)
-        @mock_request = instance_double(Net::HTTP::Post)
-
-        allow(Net::HTTP).to receive(:new).and_call_original
-        allow(Net::HTTP).to receive(:new).with('localhost', 3001).and_return(@mock_http)
-        allow(Net::HTTP::Post).to receive(:new).and_call_original
-        allow(Net::HTTP::Post).to receive(:new).with('/logout_staff_session').and_return(@mock_request)
-        allow(@mock_request).to receive(:[]=)
-        allow(@mock_http).to receive(:request)
-      end
-
+    shared_examples 'a complete logout' do
       it 'resets the session and redirects to root' do
         session = User.login('admin', 'admin')
         User.establish_session(controller, session, 'admin')
@@ -232,29 +220,61 @@ describe SessionController, type: :controller do
         expect(response).to redirect_to('/')
       end
 
-      it 'attempts to notify the public app of the logout' do
+      it 'expires the backend session so it can no longer be used' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+        session_token = session['session']
+
         delete :logout
 
-        expect(@mock_http).to have_received(:request).with(@mock_request)
+        uri = URI("#{AppConfig[:backend_url]}/users/current-user")
+        http = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        request['X-ArchivesSpace-Session'] = session_token
+
+        expect(http.request(request).code).not_to eq('200')
+      end
+
+      it 'does not raise an error when the backend session is already gone' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        JSONModel::HTTP.current_backend_session = session['session']
+        JSONModel::HTTP.post_form('/logout')
+
+        expect { delete :logout }.not_to raise_error
+        expect(controller.session[:user]).to be_nil
+      end
+
+      it 'resets the local session even if the backend is unreachable' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        allow(JSONModel::HTTP).to receive(:post_form).with('/logout').and_raise(Errno::ECONNREFUSED)
+
+        expect { delete :logout }.not_to raise_error
+
+        expect(controller.session[:user]).to be_nil
+        expect(response).to redirect_to('/')
       end
     end
 
     context 'when pui_require_authentication is disabled' do
-      before(:each) do
+      before do
         allow(AppConfig).to receive(:[]).and_call_original
         allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
       end
 
-      it 'resets the session and redirects to root without calling public app' do
-        session = User.login('admin', 'admin')
-        User.establish_session(controller, session, 'admin')
+      it_behaves_like 'a complete logout'
+    end
 
-        delete :logout
-
-        expect(controller.session[:user]).to be_nil
-        expect(response).to redirect_to('/')
-        expect(Net::HTTP).not_to receive(:new).with('localhost', 3001)
+    context 'when pui_require_authentication is enabled' do
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
       end
+
+      it_behaves_like 'a complete logout'
     end
   end
 
@@ -269,6 +289,37 @@ describe SessionController, type: :controller do
         get :check_pui_session
 
         expect(response.status).to eq(403)
+      end
+    end
+
+    context 'when pui_require_authentication is enabled' do
+      before(:each) do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+      end
+
+      context 'when the user has view_pui permission' do
+        before(:each) do
+          session = User.login('admin', 'admin')
+          User.establish_session(controller, session, 'admin')
+        end
+
+        it 'returns the session and view_pui: true' do
+          get :check_pui_session
+
+          json = JSON.parse(response.body)
+          expect(json['view_pui']).to be true
+          expect(json['username']).to eq('admin')
+        end
+      end
+
+      context 'when there is no logged-in user' do
+        it 'returns view_pui: false' do
+          get :check_pui_session
+
+          json = JSON.parse(response.body)
+          expect(json['view_pui']).to be false
+        end
       end
     end
   end

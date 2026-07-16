@@ -537,3 +537,5 @@ de:
     username_placeholder: Benutzername
     password_placeholder: Passwort
     required: Erforderliche Felder
+    pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die PUI anzuzeigen."
+    login_failed: "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort."

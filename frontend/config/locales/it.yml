@@ -1645,7 +1645,6 @@ it:
     inactive: falsa
     source: Autenticazione
     is_pui_viewer: Visualizzatore PUI
-    none: Nessun utente.
     _frontend:
       messages:
         access_denied: Accesso negato. Accedi come utente amministratore per 

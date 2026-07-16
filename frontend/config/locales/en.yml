@@ -1450,7 +1450,6 @@ en:
         activate_user_confirm: Are you sure you want to activate this user?
         update_self: Manage User Account
     is_pui_viewer: PUI Viewer
-    none: No Users.
   user_defined:
     _frontend:
       action:

@@ -536,3 +536,5 @@ uk:
     username_placeholder: Ім'я користувача
     password_placeholder: Пароль
     required: потрібно
+    pui_permission_denied: "Користувач `%{username}` не має дозволу переглядати PUI."
+    login_failed: "Помилка входу. Перевірте своє ім'я користувача та пароль."

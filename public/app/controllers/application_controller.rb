@@ -1,4 +1,11 @@
 class ApplicationController < ActionController::Base
+  class_attribute :json_auth_actions, default: []
+
+  # JSON-only actions (tree/waypoint data) get a 401, not the HTML login screen.
+  def self.json_response_for(*actions)
+    self.json_auth_actions = actions.map(&:to_sym)
+  end
+
   include ManipulateNode
   helper_method :process_mixed_content
   helper_method :process_mixed_content_title
@@ -48,30 +55,50 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     return unless AppConfig[:pui_require_authentication]
-    return unless session[:pui_username]
 
-    uri = URI("#{AppConfig[:backend_url]}/users/current-user")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request['X-ArchivesSpace-Session'] = session[:session]
+    status = pui_auth_status
+    return if status == :ok
 
-    response = http.request(request)
-
-    parsed_body = begin
-      JSON.parse(response.body)
-    rescue JSON::ParserError
-      nil
+    if status == :forbidden
+      flash.now[:error] = I18n.t('login.pui_permission_denied', username: session[:pui_username])
     end
 
-    if response.code == '200' && parsed_body
-      unless parsed_body['is_pui_viewer']
-        flash.now[:error] = "User `#{session[:pui_username]}` does not have permission to view the PUI."
-        render 'shared/login'
-      end
+    session[:session] = nil
+    session[:pui_username] = nil
+
+    if json_auth_actions.include?(action_name.to_sym)
+      render json: { error: 'authentication_required' }, status: :unauthorized
     else
-      session[:session] = nil
-      render 'shared/login'
+      render 'shared/login', layout: 'login', status: :unauthorized
     end
+  end
+
+  def pui_auth_status
+    return :unauthenticated if session[:session].blank?
+
+    parsed_body = get_json_as_backend_session('/users/current-user', session[:session])
+    session[:pui_username] = parsed_body['username']
+    parsed_body['is_pui_viewer'] ? :ok : :forbidden
+  rescue StandardError => e
+    Rails.logger.error("pui_auth_status: could not verify the session with the backend (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    :unauthenticated
+  end
+
+  def get_json_as_backend_session(uri, token)
+    with_backend_session(token) { JSONModel::HTTP.get_json(uri) }
+  end
+
+  # Run the block authenticated as `token` rather than whatever session (if
+  # any) is already active on this thread, restoring the prior value
+  # afterwards so we don't leak `token` into unrelated requests on a
+  # threaded server.
+  def with_backend_session(token)
+    original_session = JSONModel::HTTP.current_backend_session
+    JSONModel::HTTP.current_backend_session = token
+    yield
+  ensure
+    JSONModel::HTTP.current_backend_session = original_session
   end
 
   def render_backend_failure(exception)

@@ -503,3 +503,5 @@ pl:
     username_placeholder: Nazwa użytkownika
     password_placeholder: Hasło
     required: wymagany
+    pui_permission_denied: "Użytkownik `%{username}` nie ma uprawnień do przeglądania PUI."
+    login_failed: "Logowanie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło."

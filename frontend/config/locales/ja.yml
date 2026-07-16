@@ -1334,7 +1334,6 @@ ja:
     inactive: 偽
     active: 'true'
     is_pui_viewer: PUI ビューア
-    none: ユーザーがいません。
   user_defined:
     _frontend:
       action:

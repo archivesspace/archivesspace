@@ -543,3 +543,5 @@ it:
     username_placeholder: Nome utente
     password_placeholder: Password
     required: Campi obbligatori
+    pui_permission_denied: "L'utente `%{username}` non ha il permesso di visualizzare la PUI."
+    login_failed: "Accesso non riuscito. Controlla il tuo nome utente e la password."

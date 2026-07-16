@@ -228,6 +228,8 @@ en:
     username_placeholder: Username
     password_placeholder: Password
     required: required
+    pui_permission_denied: "User `%{username}` does not have permission to view the PUI."
+    login_failed: "Login failed. Please check your username and password."
 
   navbar:
     search_placeholder: Enter your search terms

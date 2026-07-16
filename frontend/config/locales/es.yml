@@ -1435,7 +1435,6 @@ es:
     active: 'true'
     inactive: falso
     is_pui_viewer: Visor PUI
-    none: Sin usuarios.
   user_defined:
     _frontend:
       action:

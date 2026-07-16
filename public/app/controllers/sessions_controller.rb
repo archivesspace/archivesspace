@@ -1,21 +1,21 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!
+  layout 'login'
 
   def show
+    return head :forbidden unless AppConfig[:pui_require_authentication]
+    return redirect_to('/') if pui_auth_status == :ok
+
     render 'shared/login'
   end
 
   def login
-    uri = URI("#{AppConfig[:backend_url]}/users/#{params[:user_name]}/login")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request.set_form_data(
-      password: params[:password],
-      pui: true,
-      expiring: true
-    )
+    return head :forbidden unless AppConfig[:pui_require_authentication]
 
-    response = http.request(request)
+    response = JSONModel::HTTP.post_form("/users/#{params[:user_name]}/login",
+                                         :password => params[:password],
+                                         :pui => true,
+                                         :expiring => true)
 
     parsed_body = begin
       JSON.parse(response.body)
@@ -25,67 +25,51 @@ class SessionsController < ApplicationController
 
     if response.code == '200' && parsed_body
       session[:session] = parsed_body['session']
-      session[:username] = parsed_body['user']['username']
       session[:pui_username] = parsed_body['user']['username']
       redirect_to '/'
     elsif response.code == '403'
-      flash.now[:error] = "User `#{params[:user_name]}` does not have permission to view the PUI."
+      flash.now[:error] = I18n.t('login.pui_permission_denied', username: params[:user_name])
       render 'shared/login'
     else
-      flash.now[:error] = "Login failed. Please check your username and password."
+      flash.now[:error] = I18n.t('login.login_failed')
       render 'shared/login'
     end
+  rescue StandardError => e
+    Rails.logger.error("SessionsController#login: could not reach the backend (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    flash.now[:error] = I18n.t('login.login_failed')
+    render 'shared/login'
   end
 
   def staff_handoff
     return head :forbidden unless AppConfig[:pui_require_authentication]
 
-    uri = URI("#{AppConfig[:backend_url]}/users/current-user")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request['X-ArchivesSpace-Session'] = params[:session]
+    parsed_body = get_json_as_backend_session('/users/current-user', params[:session])
 
-    response = http.request(request)
-    parsed_body = begin
-      JSON.parse(response.body)
-    rescue JSON::ParserError
-      nil
-    end
-
-    if response.code == '200' && parsed_body && parsed_body['is_pui_viewer']
+    if parsed_body['is_pui_viewer']
       session[:session] = params[:session]
-      session[:username] = parsed_body['username']
       session[:pui_username] = parsed_body['username']
       render json: { success: true }
     else
       render json: { success: false }, status: 403
     end
+  rescue StandardError => e
+    Rails.logger.error("SessionsController#staff_handoff: could not verify the session with the backend (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    render json: { success: false }, status: 403
   end
 
   def logout
-    if AppConfig[:pui_require_authentication]
-      if AppConfig.has_key?(:frontend_proxy_url)
-        uri = URI("#{AppConfig[:frontend_proxy_url]}/logout_pui_session")
-        http = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Post.new(uri.request_uri)
-        request['X-ArchivesSpace-Session'] = session[:session]
-        http.request(request)
+    if AppConfig[:pui_require_authentication] && session[:session].present?
+      begin
+        with_backend_session(session[:session]) { JSONModel::HTTP.post_form('/logout') }
+      rescue StandardError => e
+        Rails.logger.error("SessionsController#logout: could not reach the backend (#{e.class}: #{e.message})")
+        Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
       end
-
-      uri = URI("#{AppConfig[:backend_url]}/logout")
-      http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request['X-ArchivesSpace-Session'] = session[:session]
-      http.request(request)
     end
 
     reset_session
     redirect_to '/', notice: "Logged out successfully."
-  end
-
-  def logout_staff_session
-    return head :forbidden unless AppConfig[:pui_require_authentication]
-    reset_session
-    render json: { success: true }
   end
 end
