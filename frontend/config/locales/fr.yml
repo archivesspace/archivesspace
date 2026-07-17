@@ -1222,6 +1222,8 @@ fr:
 
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "Aucune visionneuse IIIF n'est disponible. Définissez AppConfig[:iiif_viewer] sur 'universal_viewer', 'mirador' ou l'URL d'une visionneuse IIIF hébergée en externe."
       action:
         add: Ajouter version de fichier
         make_representative: Rendre représentatif

@@ -2290,3 +2290,7 @@ uk:
     aspace_subject_import_template_csv: Створення нових записів тем. Зверніть 
       увагу, що цей шаблон призначений для створення самих записів тем, а не для
       їх зв’язування з іншими записами.
+  file_version:
+    _frontend:
+      messages:
+        no_iiif_viewer: "Переглядач IIIF недоступний. Встановіть для AppConfig[:iiif_viewer] значення 'universal_viewer', 'mirador' або URL-адресу переглядача IIIF, розміщеного на зовнішньому сервері."

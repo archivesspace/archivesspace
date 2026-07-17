@@ -1105,6 +1105,8 @@ pl:
         add: Dodaj dokument zewnętrzny
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "Brak dostępnej przeglądarki IIIF. Ustaw AppConfig[:iiif_viewer] na 'universal_viewer', 'mirador' lub adres URL przeglądarki IIIF hostowanej zewnętrznie."
       action:
         add: Dodaj wersję pliku
         make_representative_tooltip: Służy do wskazania, że ten obraz powinien 

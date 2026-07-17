@@ -41,8 +41,19 @@ describe 'IIIF viewer', js: true do
       visit "/resolve/readonly?uri=#{@digital_object.uri}"
 
       expect(page).to have_css('.iiif-embed iframe', visible: :all)
+
+      # The viewer must not load while its subrecord is collapsed: Universal
+      # Viewer sizes itself from the iframe viewport as it loads, so loading
+      # while hidden leaves it blank once expanded.
+      collapsed_iframe = find('.iiif-embed iframe', visible: :all)
+      expect(collapsed_iframe['src'].to_s).to be_empty
+      expect(collapsed_iframe['data-iiif-src']).to end_with("/uv/uv.html#?manifest=#{CGI.escape(@manifest_url)}")
+
       find('.accordion-toggle[href*="_file_version_"]', match: :first).click
-      expect(page).to have_css('.iiif-embed iframe', visible: true)
+
+      # The src is set once the subrecord has finished expanding, so wait for it
+      # rather than reading the attribute the moment the iframe becomes visible.
+      expect(page).to have_css('.iiif-embed iframe[src]')
 
       iiif_iframe = find('.iiif-embed iframe')
       expect(iiif_iframe['src']).to end_with("/uv/uv.html#?manifest=#{CGI.escape(@manifest_url)}")
@@ -66,8 +77,14 @@ describe 'IIIF viewer', js: true do
       visit "/resolve/readonly?uri=#{@digital_object.uri}"
 
       expect(page).to have_css('.iiif-embed iframe', visible: :all)
+
+      collapsed_iframe = find('.iiif-embed iframe', visible: :all)
+      expect(collapsed_iframe['src'].to_s).to be_empty
+      expect(collapsed_iframe['data-iiif-src']).to end_with("/mirador/index.html?manifest=#{CGI.escape(@manifest_url)}")
+
       find('.accordion-toggle[href*="_file_version_"]', match: :first).click
-      expect(page).to have_css('.iiif-embed iframe', visible: true)
+
+      expect(page).to have_css('.iiif-embed iframe[src]')
 
       iiif_iframe = find('.iiif-embed iframe')
       expect(iiif_iframe['src']).to end_with("/mirador/index.html?manifest=#{CGI.escape(@manifest_url)}")
@@ -92,6 +109,14 @@ describe 'IIIF viewer', js: true do
 
       expect(page).to have_css('h3', text: 'File Versions', visible: :all)
       expect(page).to_not have_css('.iiif-embed')
+    end
+
+    it 'explains how to configure a viewer' do
+      visit "/resolve/readonly?uri=#{@digital_object.uri}"
+
+      expect(page).to have_css('.alert-warning',
+                               text: 'No IIIF viewer is available.',
+                               visible: :all)
     end
   end
 end

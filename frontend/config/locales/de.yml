@@ -1322,6 +1322,8 @@ de:
         add: Externes Dokument hinzufügen
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "Es ist kein IIIF-Viewer verfügbar. Setzen Sie AppConfig[:iiif_viewer] auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
       action:
         add: Dateiversion hinzufügen
         make_representative: Repräsentativ machen

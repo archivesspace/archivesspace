@@ -53,6 +53,8 @@ When 'the user is on the Digital Object page in the public interface' do
 end
 
 Then 'the bundled Universal Viewer is embedded' do
+  expect(page).to have_css('.iiif-embed iframe[src]')
+
   iframe = find('.iiif-embed iframe')
 
   expect(iframe['src']).to end_with "/uv/uv.html#?manifest=#{CGI.escape(IIIF_MANIFEST_URL)}"

@@ -1141,6 +1141,8 @@ en:
 
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "No IIIF viewer is available. Set AppConfig[:iiif_viewer] to 'universal_viewer', 'mirador', or the URL of an externally hosted IIIF viewer."
       action:
         add: Add File Version
         make_representative: Make Representative
