@@ -1,0 +1,199 @@
+// Drop-indicator visuals derived from Atlassian's Pragmatic drag and drop
+// (Apache-2.0). Source references:
+// - packages/react-drop-indicator/src/internal/line.tsx
+// - packages/react-drop-indicator/src/border.tsx
+// The variable geometry model is intentionally preserved.
+
+#infinite-tree-container.reorder-mode {
+  --drop-stroke-color: var(--green-600);
+  --drop-stroke-color-blocked: #ae2a19;
+  --drop-stroke-width: 2px;
+  --drop-terminal-diameter: 8px;
+  --drop-gap: 1px;
+  --drop-indent: 0;
+}
+
+#infinite-tree-container.reorder-mode .node-row {
+  &[data-drop-blocked='true'] {
+    --drop-stroke-color: var(--drop-stroke-color-blocked);
+  }
+
+  // Raise only the active drop row above adjacent siblings so the
+  // bottom terminal marker is not occluded by the following row.
+  &[data-drop-edge] {
+    z-index: 2;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: var(--drop-indent);
+    inset-inline-end: 0;
+    height: var(--drop-stroke-width);
+    background-color: var(--drop-stroke-color);
+    pointer-events: none;
+    z-index: 3;
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: var(--drop-terminal-diameter);
+    height: var(--drop-terminal-diameter);
+    border: var(--drop-stroke-width) solid var(--drop-stroke-color);
+    background-color: #fff;
+    border-radius: 50%;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 3;
+    display: none;
+    inset-inline-start: calc(
+      var(--drop-indent) - var(--drop-terminal-diameter)
+    );
+  }
+
+  &[data-drop-edge='top'],
+  &[data-drop-edge='bottom'],
+  &[data-drop-edge='into'] {
+    > .node-body {
+      background-color: var(--tree-drop-hover-bg);
+
+      .node-indentation {
+        --indent-fill: var(--tree-drop-hover-bg);
+        --indent-line: transparent;
+      }
+
+      .node-expand {
+        background-color: var(--tree-drop-hover-bg);
+      }
+    }
+  }
+
+  &[data-drop-edge='top'] {
+    &::before,
+    &::after {
+      display: block;
+    }
+
+    &::before {
+      top: calc(-0.5 * (var(--drop-stroke-width) + var(--drop-gap)));
+    }
+
+    &::after {
+      top: calc(-0.5 * (var(--drop-gap) + var(--drop-terminal-diameter)));
+    }
+  }
+
+  &[data-drop-edge='bottom'] {
+    &::before,
+    &::after {
+      display: block;
+    }
+
+    &::before {
+      bottom: calc(-0.5 * (var(--drop-stroke-width) + var(--drop-gap)));
+    }
+
+    &::after {
+      bottom: calc(-0.5 * (var(--drop-gap) + var(--drop-terminal-diameter)));
+    }
+  }
+
+  &[data-drop-edge='into'] > .node-body::before {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    border: var(--drop-stroke-width) solid var(--drop-stroke-color);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+}
+
+#infinite-tree-container.reorder-mode
+  .node:not(.root)
+  > .node-row[draggable='true'] {
+  cursor: grab;
+}
+
+#infinite-tree-container.reorder-mode
+  .node:not(.root)
+  > .node-row[draggable='true']:active {
+  cursor: grabbing;
+}
+
+#infinite-tree-container.reorder-mode
+  .node:not(.root, .multiselected)
+  > .node-row[draggable='true']:hover
+  .node-body {
+  background-color: var(--tree-reorder-row-hover-bg);
+}
+
+#infinite-tree-container.reorder-mode
+  .node.multiselected
+  > .node-row[draggable='true']:hover
+  .node-body {
+  background-color: #a8d4ee;
+}
+
+#infinite-tree-container.reorder-mode .node-children[data-drop-edge='into'] {
+  box-shadow: inset 0 0 0 var(--drop-stroke-width) var(--drop-stroke-color);
+  border-radius: 3px;
+  min-height: 1.5rem;
+}
+
+#infinite-tree-container.reorder-mode
+  .node.is-being-dragged
+  > .node-row
+  > .node-body {
+  opacity: 0.4;
+}
+
+.infinite-tree-drag-preview {
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  z-index: 3000;
+  border: 1px solid #c1c7d0;
+  border-radius: 3px;
+  background: #fff;
+  padding: 0.35rem 0.5rem;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(9, 30, 66, 0.25);
+}
+
+.infinite-tree-drag-preview__list {
+  margin: 0;
+  padding: 0;
+  list-style: decimal inside;
+}
+
+.infinite-tree-drag-preview__item {
+  max-width: 28rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.infinite-tree-drag-preview__count {
+  margin-top: 0.25rem;
+  border-radius: 999px;
+  background: #0a6aa1;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0 0.35rem;
+  width: fit-content;
+}
+
+.infinite-tree-empty-drag-image {
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  width: 1px;
+  height: 1px;
+}

@@ -32,59 +32,6 @@
     </button>
   </div>
 
-  <ol
-    class="btn-group btn-group__radio infinite-tree-toolbar__group ml-1 js-itree-toolbar-drop-behavior-group"
-    role="group"
-    data-radio-group="drop-behavior"
-    aria-label="<%= I18n.t('actions.drop_behavior_group', default: 'Drop behavior') %>"
-  >
-    <li>
-      <input
-        type="radio"
-        name="drop-behavior"
-        id="infinite-drop-before"
-        value="before"
-      />
-      <label
-        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn drop-before js-itree-toolbar-drop-before"
-        data-radio-btn
-        for="infinite-drop-before"
-      >
-        <%= I18n.t('actions.drop_before') %>
-      </label>
-    </li>
-    <li>
-      <input
-        type="radio"
-        name="drop-behavior"
-        id="infinite-drop-into"
-        value="into"
-      />
-      <label
-        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn drop-into js-itree-toolbar-drop-into"
-        data-radio-btn
-        for="infinite-drop-into"
-      >
-        <%= I18n.t('actions.drop_into') %>
-      </label>
-    </li>
-    <li>
-      <input
-        type="radio"
-        name="drop-behavior"
-        id="infinite-drop-after"
-        value="after"
-      />
-      <label
-        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn drop-after js-itree-toolbar-drop-after"
-        data-radio-btn
-        for="infinite-drop-after"
-      >
-        <%= I18n.t('actions.drop_after') %>
-      </label>
-    </li>
-  </ol>
-
   <div
     class="btn-group dropdown infinite-tree-toolbar__group ml-1 js-itree-toolbar-move-group"
     role="group"
