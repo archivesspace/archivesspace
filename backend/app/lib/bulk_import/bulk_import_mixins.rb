@@ -96,16 +96,20 @@ module BulkImportMixins
   end
 
   # accepts either the full URI or just the ID
+  def record_from_uri(model, uri, error_key)
+    parts = uri.split("/")
+    id = parts.length == 1 ? uri : parts[4]
+    model.to_jsonmodel(Integer(id))
+  rescue ArgumentError, TypeError, NotFoundException
+    raise BulkImportException.new(I18n.t(error_key, :uri => uri))
+  end
+
   def archival_object_from_uri(uri)
-    ao = nil
-    begin
-      uris = uri.split("/")
-      aoid = uris.length == 1 ? uri : uris[4]
-      ao = ArchivalObject.to_jsonmodel(Integer(aoid))
-    rescue
-      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao_uri", :uri => uri))
-    end
-    ao
+    record_from_uri(ArchivalObject, uri, "bulk_import.error.bad_ao_uri")
+  end
+
+  def accession_from_uri(uri)
+    record_from_uri(Accession, uri, "bulk_import.error.bad_accession_uri")
   end
 
   #Finds the top container using the hash values (AND clause only)

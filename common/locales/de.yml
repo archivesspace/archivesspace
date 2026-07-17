@@ -2737,6 +2737,7 @@ de:
       script_code: Schrift (%{script}) kann nicht validiert werden
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
       bad_ao_uri: ' mit URI %{uri}'
+      bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'
       bad_ao_ref_id: ' mit Ref-ID %{ref_id}'
       bad_ao: Archiv-Objekt kann nicht gefunden werden %{errs}
       wrong_file_type: Die Datei ist weder eine Excel-Tabelle noch eine CSV-Datei
