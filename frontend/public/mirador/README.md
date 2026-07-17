@@ -15,9 +15,8 @@ use (see the IIIF section of `common/config/config-defaults.rb` and
 > way (`frontend/public/uv/` and `public/public/uv/`), so upgrading both bundled
 > viewers means updating four directories.
 
-- Version: **3.4.3** (from the `mirador` npm package `dist/`)
-- License: Apache-2.0 (see `LICENSE.txt`; bundled dependency notices are in
-  `mirador.min.js.LICENSE.txt`)
+- Version: **4.1.0** (from the `mirador` npm package `dist/`)
+- License: Apache-2.0 (see `LICENSE.txt`)
 
 Select Mirador with `AppConfig[:iiif_viewer] = 'mirador'` (globally, or per
 repo_code via a Hash). The embed URL is `mirador/index.html?manifest=<manifest-uri>`
@@ -27,16 +26,20 @@ query parameter and initializes Mirador with a single window.
 ## Updating
 
 To upgrade, install the desired `mirador` release in a scratch dir and copy the
-UMD bundle and licenses here, preserving the layout:
+UMD bundle and license here, preserving the layout:
 
 ```
-mirador.min.js   mirador.min.js.LICENSE.txt   LICENSE.txt   index.html
+mirador.min.js   LICENSE.txt   index.html
 ```
 
-Copy only the UMD `dist/mirador.min.js`, not `dist/es/`, `dist/cjs/`, or the
-`.map` sourcemap, which are for bundler consumption and not needed to self-host.
-`index.html` is maintained by ArchivesSpace and is not part of the Mirador
-package, so keep it when replacing the bundle.
+`mirador.min.js` is the package's `dist/mirador.min.js` (the UMD build, which
+exposes the global `Mirador` used by `index.html`). `LICENSE.txt` is the
+package's root `LICENSE`. Do not copy `dist/mirador.es.js` or the `.map`
+sourcemap, which are for bundler consumption and not needed to self-host. The
+Vite build used since 4.x ships no `mirador.min.js.LICENSE.txt` third-party
+notices sidecar, so there is none to copy. `index.html` is maintained by
+ArchivesSpace and is not part of the Mirador package, so keep it when replacing
+the bundle.
 
 Then repeat the copy into the other app's `mirador/` directory (see the note
 above) and update the version recorded in both READMEs.
