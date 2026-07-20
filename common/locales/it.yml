@@ -922,3 +922,83 @@ it:
     content: Contenuto
     content_tooltip: |
       <p>Il contenuto della nota.</p>
+    items: Elementi
+    items_singular: elemento
+    item_singular: elemento
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questa Nota è destinata alle interfacce pubbliche (dei clienti).</p>
+    title: Titolo
+    title_tooltip: |
+      <p>Un elemento per registrare un'etichetta o un titolo specifico per la nota secondaria.</p>
+    type: Tipo
+    type_tooltip: |
+      <p>Il tipo di nota per il contenuto. I tipi di nota vengono utilizzati per guidare l'esportazione del contenuto delle note in determinati elementi e in specifici formati di dati.</p>
+  related_agent:
+    relationship_type: Tipo di relazione generale
+    relationship_type_tooltip: <p>Un termine controllato che descrive, in termini generali, la 
+      natura della relazione tra l'agente primario e l'agente correlato.</p><p>Vedi DACS 12.3.1, 
+      ISAAR (CPF) 5.3.2</p>
+    relator: Tipo di relazione direzionale
+    specific_relator: Tipo di relazione specifico
+    specific_relator_tooltip: Un termine controllato che descrive in modo più specifico la natura 
+      della relazione tra l'agente primario e l'agente correlato.</p><p>Vedi DACS 12.3.2, ISAAR 
+      (CPF) 5.3.3
+    relationship_uri: URI della relazione
+    relationship_uri_tooltip: Un URI che punta a una voce in un'ontologia o altra risorsa per i tipi
+      di relazioni tra agenti. Utilizzato principalmente ai fini di EAC-CPF.
+    relator_tooltip: Quando un tipo di relazione generale fa parte di una coppia con due possibili 
+      direzioni (come Genitore-Figlio), un termine controllato indica la direzione della relazione.
+    description: Descrizione
+    description_tooltip: Una descrizione in formato testo libero della natura della 
+      relazione.</p><p>Vedi DACS 12.3.2, ISAAR (CPF) 5.3.3
+    date: Data
+    dates: Dati
+    ref: Agente correlato
+    related_agent_tooltip: La persona, la famiglia o l'entità aziendale correlata all'agente 
+      principale.</p><p>Vedi DACS 12.1-12.2, ISAAR (CPF) 5.3.1
+    _singular: Agente correlato
+    _plural: Agenti correlati
+  agent_relationship_parentchild:
+    _singular: Rapporto genitori/figli
+  agent_relationship_earlierlater:
+    _singular: Relazione precedente/successiva
+  agent_relationship_subordinatesuperior:
+    _singular: Rapporto subordinato/superiore
+  agent_relationship_associative:
+    _singular: Relazione associativa
+  agent_relationship_identity:
+    _singular: Relazione di identità
+  agent_relationship_hierarchical:
+    _singular: Relazione gerarchica
+  agent_relationship_temporal:
+    _singular: Relazione temporale
+  agent_relationship_family:
+    _singular: Relazione familiare
+  note:
+    item: elemento
+    content_item: Elemento di contenuto
+    note_singlepart: Nota a parte singola
+    note_orderedlist: Elenco ordinato
+    note_multipart: Nota multiparte
+    note_definedlist: Elenco definito
+    note_chronology: Cronologia
+    note_index: Indice
+    note_bibliography: Bibliografia
+    note_digital_object: Nota sull'oggetto digitale
+    note_langmaterial: Nota sulla lingua dei materiali
+    note_bioghist: Biografia/Nota storica
+    note_citation: Citazione
+    note_abstract: Astratto
+    note_outline: compendio
+    note_text: Testo
+    note_type: Tipo di nota
+    note_rights_statement: Nota sulla dichiarazione dei diritti
+    note_rights_statement_act: Nota dell'atto
+    note_agent_rights_statement: Nota sulla dichiarazione dei diritti (non utilizzare)
+    note_general_context: Contesto generale
+    note_mandate: Mandato
+    note_contact_note: Nota di contatto
+    note_legal_status: status giuridico
+    note_structure_or_genealogy: Struttura o genealogia
+    _singular: Nota
