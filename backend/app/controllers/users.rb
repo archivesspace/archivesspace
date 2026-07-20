@@ -65,6 +65,7 @@ class ArchivesSpaceService < Sinatra::Base
     else
       json = User.to_jsonmodel(current_user)
       json.permissions = current_user.permissions
+      json.is_pui_viewer = json.permissions[Repository.GLOBAL].include?('view_pui')
       json_response(json)
     end
   end

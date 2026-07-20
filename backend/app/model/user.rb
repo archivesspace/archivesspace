@@ -109,6 +109,10 @@ class User < Sequel::Model(:user)
       if obj.can?(:administer_system)
         json['is_admin'] = true
       end
+
+      if obj.can?(:view_pui)
+        json['is_pui_viewer'] = true
+      end
     end
     jsons
   end
