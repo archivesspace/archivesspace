@@ -69,7 +69,8 @@ module MultilingualContent
   # configured +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
   #
   # If the record has not yet been persisted (id is nil), the value is buffered
-  # and flushed to the database in +after_save+.
+  # and flushed to the database in +apply_nested_records+, once the record's own
+  # +lang_descriptions+ exist.
   #
   # @param field_name [Symbol, String] the multilingual field to write
   # @param value [String, nil] the value to store
@@ -102,12 +103,28 @@ module MultilingualContent
     @_mlc_row_cache&.delete([lang[:language_id], lang[:script_id]])
   end
 
-  # Flushes any field values buffered before the record was first saved.
+  # Applies nested records, then flushes any field values that were buffered
+  # before the record's first save.
+  #
+  # The flush has to happen here rather than in +after_save+.  Nested records --
+  # including the record's own +lang_descriptions+ -- are applied by
+  # +create_from_json+ *after* the row itself is inserted, so at +after_save+
+  # time no +language_and_script_of_description+ row exists yet.
+  # +mlc_write_language+ would find no primary language and fall through to
+  # +AppConfig[:mlc_default_language]+, storing the record's first-save content
+  # under the wrong language.
+  def apply_nested_records(json, new_record = false)
+    super
+    # The primary language may have just been created by the nested records above.
+    reset_mlc_memos
+    flush_mlc_pending
+  end
+
+  # Drops memoised language state after a save so that later reads in the same
+  # request reflect any change the save made.  Values buffered before the first
+  # save are flushed in +apply_nested_records+, not here -- see the comment there.
   def after_save
-    return unless @_mlc_pending
-    @_mlc_pending.each { |field_name, value| set_field_value(field_name, value) }
-    @_mlc_pending = nil
-    remove_instance_variable(:@_primary_lang) if defined?(@_primary_lang)
+    reset_mlc_memos
   end
 
   # Overrides Sequel's raw column reader so that +record[:title]+ is equivalent
@@ -166,6 +183,25 @@ module MultilingualContent
     RequestContext.requested_description_language ||
       primary_description_language ||
       RequestContext.default_description_language
+  end
+
+  # Writes out values buffered while the record had no id yet.
+  def flush_mlc_pending
+    return unless @_mlc_pending
+    pending = @_mlc_pending
+    # Cleared before writing so that the writes below read through to the
+    # database rather than seeing the buffer they are draining.
+    @_mlc_pending = nil
+    pending.each { |field_name, value| set_field_value(field_name, value) }
+  end
+
+  # Drops every memoised lookup that a save or a nested-record update can
+  # invalidate: the primary language pair, the per-language row cache, and
+  # Sequel's own cache of the language_and_script_of_description association.
+  def reset_mlc_memos
+    remove_instance_variable(:@_primary_lang) if defined?(@_primary_lang)
+    @_mlc_row_cache = nil
+    associations.delete(:language_and_script_of_description)
   end
 
   def db_mlc_table
