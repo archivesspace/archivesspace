@@ -61,7 +61,7 @@ nl:
   footer:
     keyboard_shortcuts: Sneltoetsen
     public_interface_html: Bekijk <a href="%{public_url}">Openbare interface</a>
-    archivesspace_home_html: Mogelijk gemaakt door <a
+    archivesspace_home_html: Mogelijk gemaakt door <a 
       href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Feedback of vragen</a>

@@ -476,7 +476,8 @@ it:
     _plural: Lingue usate
   footer:
     staff_interface_html: <a href="%{staff_url}">Interfaccia staff</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback o domande</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback o 
+      domande</a>
     archivesspace_home_html: Basato su <a href='http://archivesspace.org'>ArchivesSpace</a>
   skipnav:
     search_results: Passa ai risultati della ricerca

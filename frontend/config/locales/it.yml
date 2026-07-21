@@ -249,8 +249,8 @@ it:
     text_placeholder: Filtrato per testo
     component_switch: Mostra componenti
     help:
-      row_selection: Clicca una riga per selezionarla per le operazioni in
-        blocco. Tieni premuto ALT/Opzione mentre clicchi una casella di spunta per
+      row_selection: Clicca una riga per selezionarla per le operazioni in 
+        blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
         selezionare, o deselezionare, precedenti righe multiple.
     clear_all: Cancella tutto
   search_sorting:
@@ -596,7 +596,7 @@ it:
     top_containers_for: "Top Container per %{record_title}"
     no_top_containers: Nessun top container collegato
     edit_top_container: Modifica Top Container
-    view_top_container: Visualizza Top Container
+    view_top_container: Top Container
     become-user: Diventa utente
     brand: Spazio archivi
     create: Creare
@@ -766,6 +766,8 @@ it:
         add_file: Aggiungi file
         follow_log: Segui il registro
         following_log: Registro seguente
+        create: Crea lavoro
+        save: Inizia il lavoro
       section:
         basic_information: Informazioni di base
         status: Stato occupazionale
@@ -800,6 +802,36 @@ it:
           proprietà di tale tipo. L'operazione verrà eseguita su ogni record di 
           destinazione nell'albero del record di base, oppure sul record di base
           stesso se il tipo di destinazione è "Risorsa".
+        slug_generation: Questo processo genererà slug per tutte le 
+          <b>Risorse</b>, <b>Oggetti di archivio</b>, <b>Oggetti digitali</b>, 
+          <b>Componenti di oggetti digitali</b>, <b>Accensioni</b>, 
+          <b>Classificazioni</b>, <b>Agenti</b>, <b>Soggetti</b> e 
+          <b>Repository</b> che non dispongono già di uno slug aggiunto 
+          manualmente. <br /><br /><em>Gli slug aggiunti manualmente non 
+          verranno modificati, a meno che non sia stata selezionata la casella 
+          "Genera automaticamente slug" nel record per indicare che lo slug deve
+          essere sostituito.</em>
+        slug_lost_warning: ATTENZIONE! Tutti gli slug generati automaticamente 
+          verranno rigenerati! Questa operazione si applica a tutti i record in 
+          tutti i repository.
+        slug_config_cuid: Gli slug per gli <b>oggetti di archivio</b> verranno 
+          generati utilizzando l'ID univoco del componente, ove appropriato.
+        slug_config_id: Gli slug verranno generati utilizzando l'identificativo 
+          dell'entità, ove appropriato.
+        slug_config_title: Gli slug verranno generati utilizzando il nome o il 
+          titolo dell'entità.
+        report_instructions: Seleziona il report da eseguire utilizzando il 
+          pulsante <b>Seleziona</b>.
+        ark_generation: Questo processo genererà ARK per tutte le <b>Risorse</b>
+          e gli <b>Oggetti di archivio</b> che non ne possiedono già uno. <br 
+          /><br /><em>Gli ARK esterni non verranno modificati.</em>
+        slug_config_msg: <b>In base alle impostazioni di configurazione presenti
+          nel file config.rb:</b>
+        slug_config_eadid: Gli slug per le <b>Risorse</b> verranno generati 
+          utilizzando l'ID EAD, ove appropriato.
+      singular: Lavoro
+      plural: Lavoro
+      external_repo: Il record appartiene a un archivio diverso
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
@@ -1731,3 +1763,57 @@ it:
         arrow_keys: Tasti freccia
         return: Ritorno
         move_term: Salto da cellula a cellula
+        new_term: Crea una nuova riga (a partire dall'ultima riga)
+      sticky_columns:
+        title: Colonne adesive
+        p_one: Le colonne evidenziate rimangono fisse e verranno replicate 
+          quando si aggiungono nuove righe. Per attivare o disattivare la 
+          modalità "fissa" fai clic sull'intestazione della tabella 
+          corrispondente.
+        p_two: Facendo clic su <strong>Aggiungi riga</strong> verranno copiati i
+          valori dall'ultima riga. Il pulsante <strong>+</strong> della riga 
+          copierà i valori dalla riga attualmente selezionata.
+      fill_column:
+        basic_title: Colonna di riempimento - Base
+        basic_description: Per riempire una colonna con un singolo valore, fai 
+          clic su <strong>Riempi colonna</strong> e nella scheda 
+          <strong>Base</strong> seleziona la <strong>Colonna</strong> di 
+          destinazione, inserisci il <strong>Valore di riempimento</strong> 
+          desiderato e fai clic su <strong>Applica riempimento</strong>.
+        sequence_title: Riempi colonna - Sequenza
+        sequence_description: Per applicare una sequenza a una colonna, fai clic
+          su <strong>Riempi colonna</strong> e nella scheda 
+          <strong>Sequenza</strong> seleziona la <strong>Colonna</strong> di 
+          destinazione e compila i campi <strong>Valore di riempimento</strong> 
+          per generare la sequenza desiderata. Verrà visualizzato un avviso se 
+          la sequenza generata non corrisponde al numero di righe del modulo.
+      reorder_columns:
+        title: Riordina le colonne
+        description: Fai clic su <strong>Riordina colonne</strong>, seleziona 
+          la/le riga/e che desideri riordinare e usa i pulsanti freccia su/giù 
+          per modificarne la posizione nell'elenco. Quando sei soddisfatto del 
+          nuovo ordinamento, fai clic su <strong>Applica ordine 
+          colonne</strong>.
+      reset:
+        title: Forma di rinascita
+        description: Fai clic su <strong>Ripristina</strong> per cancellare il 
+          modulo e ripristinare i valori predefiniti di visibilità, aderenza e 
+          ordine delle colonne.
+  instance_container:
+    container: Contenitrice
+  sub_container:
+    type_2: Tipo di bambino
+    top_container_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
+      <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
+    top_container: Contenitore superiore
+  update_monitor:
+    save_failed: Impossibile salvare le modifiche.
+    stale_record: Questo record è stato aggiornato da un altro utente. Aggiorna 
+      la pagina per accedere alla versione più recente.
+    other_editors: 'Questo record è attualmente in fase di modifica da parte di un
+      altro utente. Si prega di contattare i seguenti utenti per evitare conflitti:
+      <strong>%{user_ids}</strong>'
+    repository_changed: Impossibile salvare questo record perché il repository 
+      attivo è cambiato. Per salvare il record, apri un'altra finestra e 
+      reimposta il repository attivo.

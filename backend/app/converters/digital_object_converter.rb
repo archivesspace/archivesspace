@@ -162,19 +162,6 @@ class DigitalObjectConverter < Converter
       'user_defined_enum_3' => 'user_defined.enum_3',
       'user_defined_enum_4' => 'user_defined.enum_4',
 
-      'file_version_file_uri' => 'file_version.file_uri',
-      'file_version_publish' => [normalize_boolean, 'file_version.publish'],
-      'file_version_use_statement' => 'file_version.use_statement',
-      'file_version_xlink_actuate_attribute' => 'file_version.xlink_actuate_attribute',
-      'file_version_xlink_show_attribute' => 'file_version.xlink_show_attribute',
-      'file_version_file_format_name' => 'file_version.file_format_name',
-      'file_version_file_format_version' => 'file_version.file_format_version',
-      'file_version_file_size_bytes' => 'file_version.file_size_bytes',
-      'file_version_checksum' => 'file_version.checksum',
-      'file_version_checksum_method' => 'file_version.checksum_method',
-      'file_version_is_representative' => [normalize_boolean, 'file_version.is_representative'],
-      'file_version_caption' => 'file_version.caption',
-
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)
       #    :defaults - hash which maps property keys to default values if nothing shows up in the source date
@@ -340,17 +327,86 @@ class DigitalObjectConverter < Converter
         }
       },
 
-      :file_version => {
-        :on_row_complete => Proc.new {|cache, this|
-          digital_object = cache.find {|obj| obj.class.record_type =~ /^digital_object/ }
-          digital_object.file_versions << this
-        }
-      },
     }
   end
 
 
+  def self.configure_cell_handlers(row)
+    @headers = row.map { |s| s ||= ""; s.strip }
+
+    dups = @headers.select { |h| h.match(/^file_version_/) }
+                   .tally
+                   .select { |_, count| count > 1 }
+                   .keys
+    raise ASpaceImport::CSVConvert::CSVSyntaxException.new(:duplicate_file_version_headers, dups) unless dups.empty?
+
+    cell_handlers, bad_headers = super
+    bad_headers.reject! { |h| h.match(/^file_version_[a-z_]+(_\d+)?$/) }
+    [cell_handlers, bad_headers]
+  end
+
+
+  def self.headers
+    @headers
+  end
+
+
   private
+
+  def after_row_parsed(row)
+    row_hash = Hash[self.class.headers.zip(row)]
+    digital_object = @batch.working_area.find { |obj| obj.class.record_type =~ /^digital_object/ }
+    append_file_versions(row_hash, digital_object) if digital_object
+  end
+
+
+  def append_file_versions(row_hash, digital_object)
+    file_version_suffixes(row_hash).each do |suffix|
+      uri = normalized_file_version_value('file_uri', suffix, row_hash)
+      next if uri.nil? || uri.empty?
+
+      fv = ASpaceImport::JSONModel(:file_version).new
+      fv.file_uri = uri
+
+      file_version_properties.each do |property|
+        next if property == 'file_uri'
+
+        value = normalized_file_version_value(property, suffix, row_hash)
+        fv.send("#{property}=", value) unless value.nil?
+      end
+
+      digital_object.file_versions << fv
+    end
+  end
+
+
+  def normalized_file_version_value(property, suffix, row_hash)
+    raw = row_hash["file_version_#{property}#{suffix}"]
+    return nil if raw.nil? || raw == 'NULL'
+
+    property_def = ASpaceImport::JSONModel(:file_version).schema['properties'][property]
+    filter_type = ASpaceImport::Utils.get_property_type(property_def)[0]
+
+    raw = self.class.normalize_boolean.call(raw) if filter_type == :boolean
+
+    ASpaceImport::Utils.value_filter(filter_type).call(raw)
+  end
+
+
+  def file_version_suffixes(row_hash)
+    row_hash.keys
+      .grep(/^file_version_file_uri(_\d+)?$/)
+      .sort_by { |key| key[/\d+/].to_i }
+      .map { |key| key[/_\d+$/] || "" }
+  end
+
+
+  def file_version_properties
+    ASpaceImport::JSONModel(:file_version).schema['properties'].reject do |_name, defn|
+      defn['readonly']
+    end.keys
+  end
+
 
   def self.event_template(event_type)
     {

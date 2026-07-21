@@ -68,11 +68,52 @@ it:
     country: Nazione
     region: Stato/Regione
     salutation: Saluti
+    name_tooltip: |
+      <p>Nome della persona che funge da referente per l'entità nel record principale.</p>
+      <p>Per gli agenti delle entità aziendali del repository, il nome verrà generato automaticamente dall'applicazione se il campo è vuoto.</p>
+    salutation_tooltip: |
+      <p>Un saluto alla persona di contatto.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    address_1_tooltip: |
+      <p>Indirizzo della persona di contatto.</p>
+    address_2_tooltip: |
+      <p>Di seguito l'indirizzo del referente.</p>
+    address_3_tooltip: |
+      <p>Di seguito l'indirizzo del referente.</p>
+    city_tooltip: |
+      <p>Città in cui si trova la persona di contatto.</p>
+    region_tooltip: |
+      <p>Stato o regione in cui si trova la città</p>
+    country_tooltip: |
+      <p>Paese in cui si trova la persona di contatto.</p>
+    post_code_tooltip: |
+      <p>Indirizzo email o codice postale della persona da contattare.</p>
+    telephone: Telefono
+    telephone_ext: Interno telefonico
+    fax_tooltip: |
+      <p>Numero di fax della persona di contatto.</p>
+    email_tooltip: |
+      <p>Indirizzo e-mail della persona di contatto.</p>
+    email_signature: Firma e-mail
+    email_signature_tooltip: |
+      <p>Firma e-mail della persona di contatto.</p>
+    note: Suggerimenti di contatto
+    note_tooltip: |
+      <p>Note aggiuntive o informazioni di contatto per la persona di riferimento.</p>
+    telephones: Numeri di telefono
+    _singular: Contatto
+    _plural: Informazioni di contatto
   telephone:
     _plural: Numeri telefonici
     number_type: Tipo di numero
     number: Numero
     ext: Interno telefonico
+    number_tooltip: |
+      <p>Numero di telefono della persona di contatto.</p>
+    ext_tooltip: |
+      <p>Numero di interno telefonico della persona di contatto.</p>
+    number_type_tooltip: |
+      <p>Indica il tipo di numero di telefono.</p>
   agent_person:
     _singular: Persona
     _plural: Persone
@@ -414,6 +455,9 @@ it:
     disposition_tooltip: "<p>Una descrizione che indica cosa è stato fatto con i materiali deaccessionati.</p>\n\
       \ <p>Esempi:</p>\n<ul>\n<li>Rendiconto finanziario restituito alla famiglia.</li>\n<li>Trofei della
       mostra canina restituiti alla moglie del donatore.</li>\n</ul>\n"
+    scope: Porzione
+    scope_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Utilizzato per specificare se un'istruzione di estensione si riferisce all'intero o a una parte di un'aggregazione o di un oggetto descritto.</p>
   agent_name:
     source: Fonte
     rules: Regole
@@ -471,8 +515,43 @@ it:
       descrittore adatto.</p>\n<p>Esempi:</p>\n<ul>\n<li>Fioristi <em>(per famiglia Bianchi (fioristi))</em>)</li>\n\
       \ <li>Santa Maria Novella, Firenze, Toscana <em>(per Chiesa di Santa Maria Novella (Santa Maria
       Novella, Firenze, Toscana))</em></li>\n</ul>\n"
+    authority_id: ID di autorizzazione
+    authority_id_tooltip: |
+      <p>L'identificativo univoco per il Nome di un Agente all'interno della fonte da cui è stato acquisito (ovvero, un identificativo di record MADS o un identificativo di record EAC). L'identificativo può essere rappresentato come un URI.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>nr92045078 <em>per un'intestazione di nome LCNAF</em></li>
+      <li>500115393 <em>per un'intestazione di nome ULAN</em></li>
+      <li>http://viaf.org/viaf/134138653 <em>per un'intestazione di nome VIAF</em>
+      </ul>
+    source_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE, se non si utilizzano le Regole Nome. Indica la fonte autorevole da cui è stato tratto il nome.</p>
+      <p>I valori in questo Elenco di valori controllati possono essere modificati.</p>
+    rules_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE, se non si utilizza l'origine del nome. Indica le regole utilizzate per formulare la voce del nome.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+      <p>Vedere DACS 13.3, ISAAR (CPF) 5.4.3</p>
+    name_order: Ordine dei nomi
+    use_dates: Date di utilizzo
+    use_dates_tooltip: |
+      <p>Date in cui questo nome è stato utilizzato per l'agente.</p>
+    parallel_names_tooltip: |
+      <p>Può essere utilizzato per registrare una forma parallela del nome in diverse lingue e/o alfabeti o forme traslitterate del nome.</p>
+      <p>Vedi DACS 10.3.1, ISAAR (CPF) 5.1.3</p>
+    sort_name: Nome di ordinamento
+    sort_name_tooltip: |
+      <p>Una versione del nome che concatena tutte le parti del nome fornite in un determinato record dell'agente. Utilizzata a scopo di visualizzazione nell'applicazione e per alcune esportazioni.</p>
+      <p>Il nome di ordinamento può essere modificato deselezionando la casella di controllo "Genera automaticamente" e quindi inserendo il formato desiderato per il nome di ordinamento.</p>
+    _singular: Modulo Nome
+    _plural: Moduli del nome
   agent_record_identifiers:
     is_primary: Primario
+    identifier_type_tooltip: |
+      <p>Indica il tipo o il formato dell'identificativo del record di autorità. I valori in questo elenco di valori controllati possono essere modificati.</p>
+    source_tooltip: |
+      <p>Indica il file di autorità di origine di un identificatore associato. Esempio: NAF (per nr2003017069). I valori in questo elenco di valori controllati possono essere modificati.</p>
+    record_identifier_tooltip: |
+      <p>L'identificativo per il record dell'agente, solitamente costituito da una stringa alfanumerica univoca. L'identificativo può provenire da un file di autorità esterno o essere generato localmente.</p> <p>Vedi DACS 13.2, ISAAR (CPF) 5.4.1</p>
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra gli identificatori associati a un'entità, come un identificatore
       legale assegnato da un'agenzia autorevole.</p><p>Vedi DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
@@ -536,6 +615,11 @@ it:
     location_tooltip: "<p>Un'ubicazione usata come qualificativo per distinguere voci di nomi simili.
       Esempi: Mugello, Firenze. (per Medici (famiglia : 1169-1737 : Mugello, Firenze.)), Ambasciata canadese,
       Tokyo (per Canada-Giappone Twinning Conference (1991 : Ambasciata canadese, Tokyo))</p>\n"
+    jurisdiction_tooltip: |
+      <p>Indica se l'entità è una voce relativa a una giurisdizione legale.</p>
+    conference_meeting: Riunione di conferenza?
+    conference_meeting_tooltip: |
+      <p>Indica se l'entità è una persona giuridica standard oppure una conferenza, una riunione o un altro evento denominato.</p>
   external_document:
     location: Ubicazione
   assessment:
@@ -572,3 +656,349 @@ it:
       a contenuto misto."
   lang_material:
     _plural: Lingue
+  parallel_name:
+    _frontend:
+      action:
+        add: Aggiungi nome parallelo
+  parallel_name_person:
+    _singular: Nome parallelo
+    _plural: Nomi paralleli
+  name_software:
+    software_name: Nome del software
+    software_name_tooltip: |
+      <p>Il nome di un pacchetto software.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Photoshop <em>(per Adobe Photoshop CS3)</em></li>
+      <li>Bagger <em>(per Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    version: Versione
+    version_tooltip: |
+      <p>Il numero di versione o altro indicatore per una versione specifica di un pacchetto software.</p>
+      <p>Esempi</p>
+      <ul>
+      <li>CS3 <em>(per Adobe Photoshop CS3)</em></li>
+      <li>2.1.2 <em>(per Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    manufacturer: Produttore
+    manufacturer_tooltip: |
+      <p>Il produttore, il creatore o altra parte responsabile della distribuzione, dello sviluppo o della manutenzione di un pacchetto software.</p>
+      <p>Esempi</p>
+      <ul>
+      <li>Adobe <em>(per Adobe Photoshop CS3)</em></li>
+      <li>Biblioteca del Congresso <em>(per Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+  agent_record_control:
+    maintenance_status_tooltip: |
+      <p>Indica lo stato attuale del record.</p><p>Vedi DACS 13.4, ISAAR (CPF) 5.4.4</p>
+    publication_status_tooltip: |
+      <p>Indica se un record di un agente deve essere reso pubblico.</p>
+    romanization_tooltip: |
+      <p>Indica se la forma autorizzata del nome è stata romanizzata da un alfabeto non latino e il tipo di schema di romanizzazione. Esempio: standard della biblioteca nazionale o dell'agenzia bibliografica (per la tabella di romanizzazione ALA-LC (ad esempio, Kasparov, G. K. (Garri Kimovich) per Каспаров, Г. К. (Гарри Кимович)).</p>
+    government_agency_type_tooltip: |
+      <p>Indica il tipo di ente o giurisdizione rappresentato dalla denominazione autorizzata.</p>
+    reference_evaluation_tooltip: |
+      <p>Indica il livello di coerenza tra la forma del nome autorizzato e le altre forme del nome presenti nel record dell'agente. In assenza di forme aggiuntive, il campo deve essere contrassegnato come "Non applicabile".</p>
+    name_type_tooltip: |
+      <p>Indica l'unicità del nome autorizzato all'interno del modulo Agenti. Le voci con nome univoco devono essere registrate come "Differenziate", mentre i record degli agenti utilizzati per raggruppare più agenti con nomi identici devono essere contrassegnati come "Non differenziati".</p>
+    level_of_detail_tooltip: |
+      <p>Indica la completezza del record dell'agente in conformità ai requisiti consortili o locali.</p><p>Vedi DACS 13.5, ISAAR (CPF) 5.4.5</p>
+    modified_record_tooltip: |
+      <p>Indica se un record di un agente è stato modificato e in che modo.</p>
+    cataloging_source_tooltip: |
+      <p>Indica la provenienza di un record dell'agente. I record prodotti localmente e non inviati a un programma di catalogazione cooperativa devono essere registrati come "Altro".</p>
+    maintenance_agency_tooltip: |
+      <p>Codice identificativo dell'agenzia o organizzazione responsabile della creazione o della gestione di un record Agente. Il codice deve essere ricavato da un registro e registrato secondo le convenzioni ISO 15511.</p><p>Vedere DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Esempio: US-UPB (per la Brigham Young University, utilizzando il codice organizzativo MARC della Biblioteca del Congresso).</p>
+    agency_name_tooltip: |
+      <p>Il nome dell'agenzia o dell'organizzazione responsabile della creazione o della gestione di un record dell'agente. Il nome registrato deve corrispondere alla forma del nome associata al valore del codice nel registro.</p><p>Vedere ISAAR (CPF) 5.4.2.</p><p>Esempio: Brigham Young University, Harold B. Lee Library (per il valore del codice UPB, utilizzando il codice organizzativo MARC della Biblioteca del Congresso).</p>
+    maintenance_agency_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sull'agenzia di manutenzione responsabile della descrizione dell'agente.</p>
+    language_tooltip: |
+      <p>La lingua utilizzata nella preparazione della descrizione dell'agente.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Esempio: inglese.</p>
+    script_tooltip: |
+      <p>Il testo utilizzato per la preparazione della descrizione dell'agente.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Esempio: latino.</p>
+    language_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sulla lingua e sugli script utilizzati nella preparazione della descrizione dell'agente.</p>
+  agent_alternate_set:
+    set_component_tooltip: |
+      <p>Una didascalia per fornire identificazione e accesso a un record di autorità collegato equivalente.</p>
+    descriptive_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sul record di autorità collegato.</p>
+    file_uri_tooltip: |
+      <p>URI per un record equivalente in un file di autorità esterno.</p>
+      <p>Esempio: http://id.loc.gov/authorities/names/n80060393 (per la voce del Linked Data Service della Biblioteca del Congresso relativa a Robert W. Service).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Indica se l'URI associato deve essere risolto al momento del rendering del record dell'agente.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Indica dove deve essere visualizzata la risorsa remota collegata nell'URI associato.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Titolo della risorsa remota collegata tramite l'URI associato, che può essere utilizzato come didascalia.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    last_verified_date_tooltip: |
+      <p>Ultima data o data e ora di verifica della risorsa collegata nell'URI associato.</p>
+  agent_conventions_declaration:
+    name_rule_tooltip: |
+      <p>Uno standard di contenuto utilizzato nella formulazione del contenuto del record dell'agente. Esempio: Descrizione degli archivi: uno standard di contenuto.</p>
+    citation_tooltip: |
+      <p>Citazione bibliografica per una convenzione utilizzata nella formulazione del contenuto del record dell'agente. Esempio: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
+    descriptive_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sulla convenzione, è stato utilizzato nella preparazione della descrizione dell'agente. Esempio: Utilizzato per formulare il contenuto della nota sulla storia biografica. (per Describing Archives: A Content Standard).</p>
+    file_uri_tooltip: |
+      <p>URI per l'indirizzo online della convenzione utilizzata nella preparazione della descrizione dell'agente. Esempio: http://www2.archivists.org/standards/DACS/ (per Describing Archives: A Content Standard).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Indica se l'URI associato deve essere risolto al momento del rendering del record dell'agente.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Indica dove deve essere visualizzata la risorsa remota collegata nell'URI associato.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Titolo della risorsa remota collegata tramite l'URI associato, che può essere utilizzato come didascalia.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    last_verified_date_tooltip: |
+      <p>Ultima data o data e ora di verifica della risorsa collegata nell'URI associato.</p>
+  agent_other_agency_codes:
+    agency_code_type_tooltip: |
+      <p>La fonte del codice dell'agenzia di manutenzione. Esempio: OCLC.</p>
+    maintenance_agency_tooltip: |
+      <p>Codici alternativi per l'agenzia o l'organizzazione responsabile della creazione o della gestione di un record Agente. Il codice deve essere ricavato da un registro e registrato secondo le convenzioni ISO 15511. Esempio: OCLC-UBY (per gli Stati Uniti, Brigham Young University, utilizzando il simbolo OCLC).</p><p>Vedere DACS 13.1, ISAAR (CPF) 5.4.2</p>
+  agent_maintenance_histories:
+    maintenance_event_type_tooltip: |
+      <p>Indica il tipo di intervento di manutenzione.</p>
+    maintenance_agent_type_tooltip: |
+      <p>Indica se l'intervento di manutenzione è stato eseguito da una persona o da un sistema software.</p>
+    agent_tooltip: |
+      <p>Nome della persona, dell'ente o del software responsabile dell'intervento di manutenzione.</p>
+    event_date_tooltip: |
+      <p>Data e ora di registrazione dell'evento di manutenzione.</p>
+    descriptive_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sulla manutenzione effettuata.</p>
+  agent_sources:
+    source_entry_tooltip: |
+      <p>Citazione bibliografica di una fonte utilizzata nella formulazione del contenuto del record dell'agente. Esempio: Lockhart, G. W. Sulle tracce di Robert Service (Edimburgo: Luath Press, 1991).</p>
+    descriptive_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sul contenuto delle fonti utilizzate per la preparazione della descrizione dell'agente.</p>
+    file_uri_tooltip: |
+      <p>URI per l'indirizzo online della fonte utilizzata nella preparazione della descrizione dell'agente. Esempio: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (per la voce di Find-A-Grave relativa a Robert W. Service).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Indica se l'URI associato deve essere risolto al momento del rendering del record dell'agente.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Indica dove deve essere visualizzata la risorsa remota collegata nell'URI associato.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Titolo della risorsa remota collegata tramite l'URI associato, che può essere utilizzato come didascalia.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    last_verified_date_tooltip: |
+      <p>Ultima data o data e ora di verifica della risorsa collegata nell'URI associato.</p>
+  used_language:
+    language_tooltip: |
+      <p>La/le lingua/e associata/e all'agente. Esempio: Inglese.</p>
+    script_tooltip: |
+      <p>Il testo associato all'agente. Esempio: latino.</p>
+  agent_gender:
+    gender_tooltip: |
+      <p>Genere del soggetto.</p></br><p>È possibile aggiungere o modificare i valori per questo elenco tramite il menu Sistema -> Gestisci elenchi di valori controllati.</p>
+  agent_place:
+    place_role_tooltip: |
+      <p>Indica la relazione tra la posizione geografica e l'agente.</p>
+  agent_resource:
+    linked_agent_role_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Il tipo di relazione tra l'entità descritta e la risorsa.</p><p>Vedi DACS 14.3, ISAAR (CPF) 6.3</p>
+    linked_resource_tooltip: |
+      <p>Una risorsa correlata all'agente/entità.</p><p>Vedi DACS 14.1, ISAAR (CPF) 6.1</p>
+    linked_resource_description_tooltip: |
+      <p>Campo di testo libero per inserire informazioni bibliografiche, informazioni relative alla collezione, ecc.</p>
+    file_uri_tooltip: |
+      <p>URI per l'indirizzo online della fonte utilizzata nella preparazione della descrizione dell'agente. Esempio: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (per la voce di Find-A-Grave relativa a Robert W. Service).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Indica se l'URI associato deve essere risolto al momento del rendering del record dell'agente.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Indica dove deve essere visualizzata la risorsa remota collegata nell'URI associato.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Titolo della risorsa remota collegata tramite l'URI associato, che può essere utilizzato come didascalia.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    last_verified_date_tooltip: |
+      <p>Ultima data o data e ora di verifica della risorsa collegata nell'URI associato.</p>
+  subrecord_subject_agent_place:
+    subjects_tooltip: |
+      <p>Una posizione geografica associata all'agente.</p>
+  subrecord_subject_agent_occupation:
+    subjects_tooltip: |
+      <p>La professione dell'agente.</p>
+  subrecord_subject_agent_occupation_place:
+    places_tooltip: |
+      <p>Una posizione geografica associata alle professioni.</p>
+  subrecord_subject_agent_function:
+    subjects_tooltip: |
+      <p>Termini utilizzati per identificare le funzioni, i processi, i compiti, le attività o le transazioni eseguite dall'agente.</p>
+  subrecord_subject_agent_function_place:
+    places_tooltip: |
+      <p>Una posizione geografica associata alle funzioni.</p>
+  subrecord_subject_agent_topic:
+    subjects_tooltip: |
+      <p>Un soggetto associato all'agente.</p>
+  subrecord_subject_agent_topic_place:
+    places_tooltip: |
+      <p>Posizione geografica associata ai soggetti.</p>
+  subrecord_subject_agent_resource_place:
+    places_tooltip: |
+      <p>Una posizione geografica associata alla risorsa collegata.</p>
+  name:
+    _singular: Modulo Nome
+    _plural: Moduli del nome
+  structured_date_label:
+    date_label_tooltip: |
+      <p>Descrive il tipo di attività a cui si riferisce la data</p>
+    date_type_structured_tooltip: |
+      <p>Indica il tipo di informazione relativa alla data: una singola data o un intervallo di date.</p>
+    date_certainty_tooltip: |
+      <p>Il livello di affidabilità delle informazioni fornite in un'indicazione di data. Questa informazione è facoltativa e deve essere aggiunta solo quando si qualificano le informazioni sulla data come potenzialmente incerte in base alla descrizione o alle regole di catalogazione in uso.</p>
+    date_era_tooltip: |
+      Periodo di riferimento per la numerazione degli anni e il calcolo delle date, ad esempio a.C. o d.C. Il valore predefinito è "ce".
+    date_calendar_tooltip: |
+      <p>Sistema di calcolo del tempo, come il calendario gregoriano o il calendario giuliano. Il valore "gregoriano" è quello predefinito.</p>
+  structured_date_single:
+    date_role_tooltip: |
+      <p>Per una singola data, utilizzato per indicare se la data deve essere intesa come data di inizio o di fine. L'impostazione predefinita è Inizio.</p>
+    date_expression_tooltip: |
+      <p>Un'espressione in linguaggio naturale che specifica la data o l'intervallo di date. Obbligatoria quando non viene registrata una data standardizzata.</p>
+    date_standardized_tooltip: |
+      <p>Un'espressione in linguaggio naturale che specifica la data o l'intervallo di date. Obbligatoria quando non viene registrata una data standardizzata.</p>
+    date_standardized_type_tooltip: |
+      <p>Utilizzato per indicare se la data standardizzata riflette la data effettiva o una stima della data più vicina o più lontana in cui un evento potrebbe essersi verificato.</p>
+  structured_date_range:
+    begin_date_expression_tooltip: |
+      <p>Un'espressione in linguaggio naturale che specifica l'inizio di un intervallo di date. Obbligatoria quando non è registrata una data standardizzata.</p>
+    begin_date_standardized_tooltip: |
+      <p>Una data (nel formato AAAA, AAAA-MM o AAAA-MM-GG) che rappresenta una singola data o la prima data di un intervallo di date.</p>
+    begin_date_standardized_type_tooltip: |
+      <p>Utilizzato per indicare se la data standardizzata iniziale riflette la data effettiva o una stima della data più antica o più tarda in cui un evento potrebbe essersi verificato.</p>
+    end_date_expression_tooltip: |
+      <p>Un'espressione in linguaggio naturale che specifica la fine di un intervallo di date. Obbligatoria quando non viene registrata una data standardizzata.</p>
+    end_date_standardized_tooltip: |
+      <p>Una data (nel formato AAAA, AAAA-MM o AAAA-MM-GG) che rappresenta l'ultima data di un intervallo di date.</p>
+    end_date_standardized_type_tooltip: |
+      <p>Utilizzato per indicare se la data standardizzata finale riflette la data effettiva o una stima della data più vicina o più lontana in cui un evento potrebbe essersi verificato.</p>
+  telephone_required:
+    _plural: Numeri di telefono
+    number_type: Tipo di numero
+    number: Numero
+    number_tooltip: |
+      <p>Numero di telefono della persona di contatto.</p>
+    ext: Interno telefonico
+    ext_tooltip: |
+      <p>Numero di interno telefonico della persona di contatto.</p>
+  telephone_merge:
+    _plural: Numeri di telefono
+    number_type: Tipo di numero
+    number: Numero
+    number_tooltip: |
+      <p>Numero di telefono della persona di contatto.</p>
+    ext: Interno telefonico
+    ext_tooltip: |
+      <p>Numero di interno telefonico della persona di contatto.</p>
+  telephone_merge_target:
+    _plural: Numeri di telefono
+    number_type: Tipo di numero
+    number: Numero
+    number_tooltip: |
+      <p>Numero di telefono della persona di contatto.</p>
+    ext: Interno telefonico
+    ext_tooltip: |
+      <p>Numero di interno telefonico della persona di contatto.</p>
+  note_attributes:
+    label: Etichetta
+    label_tooltip: |
+      <p>Un'etichetta o un titolo per la nota specifica. Se non viene utilizzata un'etichetta, il tipo di nota verrà utilizzato come etichetta ove necessario.</p>
+    persistent_id: ID persistente
+    content: Contenuto
+    content_tooltip: |
+      <p>Il contenuto della nota.</p>
+    items: Elementi
+    items_singular: elemento
+    item_singular: elemento
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questa Nota è destinata alle interfacce pubbliche (dei clienti).</p>
+    title: Titolo
+    title_tooltip: |
+      <p>Un elemento per registrare un'etichetta o un titolo specifico per la nota secondaria.</p>
+    type: Tipo
+    type_tooltip: |
+      <p>Il tipo di nota per il contenuto. I tipi di nota vengono utilizzati per guidare l'esportazione del contenuto delle note in determinati elementi e in specifici formati di dati.</p>
+  related_agent:
+    relationship_type: Tipo di relazione generale
+    relationship_type_tooltip: <p>Un termine controllato che descrive, in termini generali, la 
+      natura della relazione tra l'agente primario e l'agente correlato.</p><p>Vedi DACS 12.3.1, 
+      ISAAR (CPF) 5.3.2</p>
+    relator: Tipo di relazione direzionale
+    specific_relator: Tipo di relazione specifico
+    specific_relator_tooltip: Un termine controllato che descrive in modo più specifico la natura 
+      della relazione tra l'agente primario e l'agente correlato.</p><p>Vedi DACS 12.3.2, ISAAR 
+      (CPF) 5.3.3
+    relationship_uri: URI della relazione
+    relationship_uri_tooltip: Un URI che punta a una voce in un'ontologia o altra risorsa per i tipi
+      di relazioni tra agenti. Utilizzato principalmente ai fini di EAC-CPF.
+    relator_tooltip: Quando un tipo di relazione generale fa parte di una coppia con due possibili 
+      direzioni (come Genitore-Figlio), un termine controllato indica la direzione della relazione.
+    description: Descrizione
+    description_tooltip: Una descrizione in formato testo libero della natura della 
+      relazione.</p><p>Vedi DACS 12.3.2, ISAAR (CPF) 5.3.3
+    date: Data
+    dates: Dati
+    ref: Agente correlato
+    related_agent_tooltip: La persona, la famiglia o l'entità aziendale correlata all'agente 
+      principale.</p><p>Vedi DACS 12.1-12.2, ISAAR (CPF) 5.3.1
+    _singular: Agente correlato
+    _plural: Agenti correlati
+  agent_relationship_parentchild:
+    _singular: Rapporto genitori/figli
+  agent_relationship_earlierlater:
+    _singular: Relazione precedente/successiva
+  agent_relationship_subordinatesuperior:
+    _singular: Rapporto subordinato/superiore
+  agent_relationship_associative:
+    _singular: Relazione associativa
+  agent_relationship_identity:
+    _singular: Relazione di identità
+  agent_relationship_hierarchical:
+    _singular: Relazione gerarchica
+  agent_relationship_temporal:
+    _singular: Relazione temporale
+  agent_relationship_family:
+    _singular: Relazione familiare
+  note:
+    item: elemento
+    content_item: Elemento di contenuto
+    note_singlepart: Nota a parte singola
+    note_orderedlist: Elenco ordinato
+    note_multipart: Nota multiparte
+    note_definedlist: Elenco definito
+    note_chronology: Cronologia
+    note_index: Indice
+    note_bibliography: Bibliografia
+    note_digital_object: Nota sull'oggetto digitale
+    note_langmaterial: Nota sulla lingua dei materiali
+    note_bioghist: Biografia/Nota storica
+    note_citation: Citazione
+    note_abstract: Astratto
+    note_outline: compendio
+    note_text: Testo
+    note_type: Tipo di nota
+    note_rights_statement: Nota sulla dichiarazione dei diritti
+    note_rights_statement_act: Nota dell'atto
+    note_agent_rights_statement: Nota sulla dichiarazione dei diritti (non utilizzare)
+    note_general_context: Contesto generale
+    note_mandate: Mandato
+    note_contact_note: Nota di contatto
+    note_legal_status: status giuridico
+    note_structure_or_genealogy: Struttura o genealogia
+    _singular: Nota

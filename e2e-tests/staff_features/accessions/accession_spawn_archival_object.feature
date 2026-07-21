@@ -2,7 +2,7 @@ Feature: Accession spawn Archival Object
   Background:
     Given an administrator user is logged in
       And an Accession has been created
-      And a Resource has been created
+      And a Resource with an Archival Object has been created
       And the Accession is opened in edit mode
   Scenario:  Archival Object form is prefilled with Accession data
      When the user clicks on 'Spawn'

@@ -1,7 +1,7 @@
 Feature: Resource calculate dates
   Background:
     Given an administrator user is logged in
-      And a Resource has been created
+      And a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
   Scenario: Dates sub record is added to the Resource
      When the user clicks on 'More'

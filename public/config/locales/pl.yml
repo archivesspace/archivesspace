@@ -409,7 +409,8 @@ pl:
     search_results: Przejdź do wyników wyszukiwania
   footer:
     archivesspace_home_html: Obsługiwane przez <a href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Opinie lub pytania</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Opinie lub 
+      pytania</a>
     staff_interface_html: <a href="%{staff_url}">Interfejs personelu</a>
   top_container:
     _singular: Pojemnik

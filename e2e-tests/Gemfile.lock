@@ -1,8 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (2.0.1)
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
+    afm (1.0.0)
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (4.0.0)
@@ -54,6 +56,7 @@ GEM
     diff-lcs (1.6.2)
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
+    hashery (2.1.2)
     json (2.18.0)
     language_server-protocol (3.17.0.5)
     launchy (3.1.1)
@@ -74,6 +77,12 @@ GEM
     parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
+    pdf-reader (2.15.1)
+      Ascii85 (>= 1.0, < 3.0, != 2.0.0)
+      afm (>= 0.2.1, < 2)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     prism (1.6.0)
     public_suffix (7.0.0)
     racc (1.8.1)
@@ -103,6 +112,7 @@ GEM
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     ruby-progressbar (1.13.0)
+    ruby-rc4 (0.1.5)
     rubyzip (3.2.2)
     selenium-webdriver (4.39.0)
       base64 (~> 0.2)
@@ -113,6 +123,7 @@ GEM
     sys-uname (1.4.1)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
+    ttfunk (1.7.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
@@ -132,6 +143,7 @@ DEPENDENCIES
   capybara-screenshot
   cucumber
   cuke_linter
+  pdf-reader
   rake
   rspec-expectations
   rubocop
