@@ -13,7 +13,8 @@ use (see the IIIF section of `common/config/config-defaults.rb` and
 > on the same version, so an upgrade has to be made in both or the staff and
 > public viewers will drift apart. The Universal Viewer is duplicated the same
 > way (`frontend/public/uv/` and `public/public/uv/`), so upgrading both bundled
-> viewers means updating four directories.
+> viewers means updating four directories. The update task below writes both
+> copies of a viewer, so the two only drift if they are edited by hand.
 
 - Version: **4.1.0** (from the `mirador` npm package `dist/`)
 - License: Apache-2.0 (see `LICENSE.txt`)
@@ -25,21 +26,32 @@ query parameter and initializes Mirador with a single window.
 
 ## Updating
 
-To upgrade, install the desired `mirador` release in a scratch dir and copy the
-UMD bundle and license here, preserving the layout:
+Both copies are updated by:
 
 ```
-mirador.min.js   LICENSE.txt   index.html
+./build/run iiif:update_mirador
 ```
 
-`mirador.min.js` is the package's `dist/mirador.min.js` (the UMD build, which
-exposes the global `Mirador` used by `index.html`). `LICENSE.txt` is the
-package's root `LICENSE`. Do not copy `dist/mirador.es.js` or the `.map`
-sourcemap, which are for bundler consumption and not needed to self-host. The
-Vite build used since 4.x ships no `mirador.min.js.LICENSE.txt` third-party
-notices sidecar, so there is none to copy. `index.html` is maintained by
-ArchivesSpace and is not part of the Mirador package, so keep it when replacing
-the bundle.
+That installs the latest release from npm. To pin a version:
 
-Then repeat the copy into the other app's `mirador/` directory (see the note
-above) and update the version recorded in both READMEs.
+```
+./build/run iiif:update_mirador -Dversion=4.1.0
+```
+
+The task downloads the package from the npm registry, checks the tarball
+against the checksum the registry publishes, and copies `dist/mirador.min.js`
+and the package's `LICENSE` into both directories, updating the version
+recorded in both READMEs. Files an earlier version shipped but the new one does
+not are removed, so each directory keeps matching the package. `index.html` is
+maintained by ArchivesSpace rather than taken from the package, so the task
+leaves it alone.
+
+Before installing anything the task checks that the bundle is still a UMD build
+exposing the global `Mirador`, since `index.html` initializes the viewer through
+it. If a future release fails that check the task stops rather than install a
+viewer that would load but never render. There is deliberately no way to skip
+the check: a release that fails it needs `index.html` reworked for the new
+build, not the warning silenced.
+
+Review the diff and run the IIIF feature specs afterwards - a major release can
+change the viewer's appearance or behaviour even when it installs cleanly.
