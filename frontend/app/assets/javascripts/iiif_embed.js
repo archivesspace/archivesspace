@@ -4,13 +4,31 @@
 // hidden initialises at zero height and stays blank once the subrecord is
 // opened. Hold the src back until the iframe has a size to load into.
 $(function () {
-  var loadViewer = function (iframe) {
-    var $iframe = $(iframe);
-    var src = $iframe.attr('data-iiif-src');
+  const viewerUrl = function (src) {
+    if (!src) {
+      return null;
+    }
 
-    if (src) {
+    let url;
+
+    try {
+      url = new URL(src, window.location.href);
+    } catch {
+      return null;
+    }
+
+    return url.protocol === 'http:' || url.protocol === 'https:'
+      ? url.href
+      : null;
+  };
+
+  const loadViewer = function (iframe) {
+    const $iframe = $(iframe);
+    const url = viewerUrl($iframe.attr('data-iiif-src'));
+
+    if (url) {
       $iframe.removeAttr('data-iiif-src');
-      $iframe.attr('src', src);
+      $iframe.attr('src', url);
     }
   };
 
