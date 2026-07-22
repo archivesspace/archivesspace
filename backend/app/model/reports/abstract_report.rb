@@ -1,10 +1,12 @@
 require_relative 'report_manager'
+require_relative 'report_suppression'
 require_relative '../../lib/reports/report_utils'
 require 'erb'
 
 class AbstractReport
   include ReportManager::Mixin
   include JSONModel
+  include ReportSuppression
 
   attr_accessor :repo_id
   attr_accessor :format
@@ -14,7 +16,6 @@ class AbstractReport
   attr_accessor :info
   attr_accessor :page_break
   attr_accessor :expand_csv
-  attr_accessor :include_suppressed
 
   def initialize(params, job, db)
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
@@ -25,10 +26,6 @@ class AbstractReport
     @db = db
     @job = job
     @info = {}
-  end
-
-  def suppressed_filter(table_name)
-    @include_suppressed ? '' : " AND #{table_name}.suppressed = 0"
   end
 
   def page_break

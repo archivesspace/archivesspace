@@ -29,13 +29,14 @@ class LocationResourcesSubreport < AbstractSubreport
       join instance on instance.id = sub_container.instance_id
       
       left outer join archival_object on archival_object.id
-        = instance.archival_object_id
+        = instance.archival_object_id#{suppressed_filter('archival_object')}
 
       join resource on resource.id = archival_object.root_record_id
         or resource.id = instance.resource_id
-    
+
     where top_container_housed_at_rlshp.location_id = #{db.literal(@location_id)}
-      and resource.repo_id = #{db.literal(@repo_id)}"
+      and resource.repo_id = #{db.literal(@repo_id)}
+      #{suppressed_filter('resource')}"
   end
 
   def fix_row(row)

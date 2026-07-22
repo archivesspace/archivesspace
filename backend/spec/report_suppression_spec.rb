@@ -16,7 +16,7 @@ describe 'Report suppression filtering' do
       let(:params) { { repo_id: $repo_id, format: 'html' } }
 
       it 'appends a suppression clause' do
-        expect(report.suppressed_filter('resource')).to eq(' AND resource.suppressed = 0')
+        expect(report.suppressed_filter('resource')).to eq(' AND ifnull(resource.suppressed, 0) = 0')
       end
     end
 
@@ -40,7 +40,7 @@ describe 'Report suppression filtering' do
       let(:params) { { repo_id: $repo_id, format: 'html', 'include_suppressed' => false } }
 
       it 'appends the suppression clause' do
-        expect(report.suppressed_filter('resource')).to eq(' AND resource.suppressed = 0')
+        expect(report.suppressed_filter('resource')).to eq(' AND ifnull(resource.suppressed, 0) = 0')
       end
     end
   end

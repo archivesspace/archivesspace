@@ -17,7 +17,8 @@ class ResourceLocationsSubreport < AbstractSubreport
 	    (select instance.id as instance_id from instance
 
       left outer join archival_object
-        on instance.archival_object_id = archival_object.id
+        on instance.archival_object_id
+        = archival_object.id#{suppressed_filter('archival_object')}
 
       where instance.resource_id = #{db.literal(@resource_id)}
         or archival_object.root_record_id

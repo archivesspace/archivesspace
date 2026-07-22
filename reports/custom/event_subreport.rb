@@ -19,7 +19,8 @@ class EventSubreport < AbstractSubreport
 	    event.timestamp
 		from event, event_link_rlshp
 		where event.id = event_link_rlshp.event_id
-			and #{@id_type}_id = #{db.literal(@id)}"
+			and #{@id_type}_id = #{db.literal(@id)}
+			#{suppressed_filter('event')}"
 	end
 
 	def fix_row(row)
