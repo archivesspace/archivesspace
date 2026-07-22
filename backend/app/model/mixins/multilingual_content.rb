@@ -105,14 +105,6 @@ module MultilingualContent
 
   # Applies nested records, then flushes any field values that were buffered
   # before the record's first save.
-  #
-  # The flush has to happen here rather than in +after_save+.  Nested records --
-  # including the record's own +lang_descriptions+ -- are applied by
-  # +create_from_json+ *after* the row itself is inserted, so at +after_save+
-  # time no +language_and_script_of_description+ row exists yet.
-  # +mlc_write_language+ would find no primary language and fall through to
-  # +AppConfig[:mlc_default_language]+, storing the record's first-save content
-  # under the wrong language.
   def apply_nested_records(json, new_record = false)
     super
     # The primary language may have just been created by the nested records above.
@@ -121,8 +113,7 @@ module MultilingualContent
   end
 
   # Drops memoised language state after a save so that later reads in the same
-  # request reflect any change the save made.  Values buffered before the first
-  # save are flushed in +apply_nested_records+, not here -- see the comment there.
+  # request reflect any change the save made.
   def after_save
     reset_mlc_memos
   end
@@ -196,8 +187,7 @@ module MultilingualContent
   end
 
   # Drops every memoised lookup that a save or a nested-record update can
-  # invalidate: the primary language pair, the per-language row cache, and
-  # Sequel's own cache of the language_and_script_of_description association.
+  # invalidate.
   def reset_mlc_memos
     remove_instance_variable(:@_primary_lang) if defined?(@_primary_lang)
     @_mlc_row_cache = nil

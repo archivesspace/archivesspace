@@ -347,12 +347,6 @@ describe 'MultilingualContent mixin' do
     end
   end
 
-  # The record's lang_descriptions are applied as nested records after the row
-  # itself is inserted, so the buffered first-save values have to be flushed
-  # after that point to land under the record's own primary language.
-  #
-  # Run against every record type that can declare its own primary language
-  # (ArchivalObject and DigitalObjectComponent have no lang_descriptions).
   describe 'the first save of a new record' do
     shared_examples 'a record saved under its own primary language' do |factory_method, model|
       def mlc_rows_for(model, record)
