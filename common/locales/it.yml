@@ -587,6 +587,9 @@ it:
     identifier: Identificatore
     file_uri_tooltip: "<p>Un identificatore per un file associato a un oggetto digitale, accessibile sul
       web o in una file directory.</p>\n"
+    _plural: Versioni dei file
+    _singular: Versione del file
+    file: File
   agent:
     agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
       assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
@@ -1077,3 +1080,21 @@ it:
     actuate: Attuare
     arcrole: Ruolo dell'arco
     href: Href
+    role: Ruolo
+    show: Spettacolo
+    title: Titolo
+    type: Tipa
+  note_outline:
+    option: Schema
+    levels: Livelli
+  instance:
+    is_representative: È rappresentativo?
+    instance_type: Tipo
+    instance_type_tooltip: |
+      <p>Indicazione della manifestazione per i materiali descritti. L'indicazione dell'istanza è facoltativa, ma necessaria per aprire e completare la scheda del contenitore per il materiale descritto.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    digital_object: Oggetto digitale
+    _plural: Esempi
+    _singular: Esempio
+  instance_container:
+    barcode: Codice a barre
