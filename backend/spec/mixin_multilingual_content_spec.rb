@@ -347,4 +347,75 @@ describe 'MultilingualContent mixin' do
     end
   end
 
+  describe 'the first save of a new record' do
+    shared_examples 'a record saved under its own primary language' do |factory_method, model|
+      def mlc_rows_for(model, record)
+        model.db[model.mlc_table].where(:"#{model.table_name}_id" => record.id)
+      end
+
+      let(:record_with_french_primary) do
+        without_language_context do
+          send(factory_method,
+               :title => "Titre principal",
+               :lang_descriptions => [{
+                 "language"   => "fre",
+                 "script"     => "Latn",
+                 "is_primary" => true
+               }])
+        end
+      end
+
+      context 'when the record declares a primary language other than the AppConfig default' do
+        it 'writes the initial field values to the primary language row' do
+          row = mlc_rows_for(model, record_with_french_primary)
+                  .where(:language_id => fre_id, :script_id => latn_id).first
+
+          expect(row).not_to be_nil
+          expect(row[:title]).to eq("Titre principal")
+        end
+
+        it 'does not write the initial field values to the AppConfig default language row' do
+          row = mlc_rows_for(model, record_with_french_primary)
+                  .where(:language_id => default_lang_id, :script_id => default_script_id).first
+
+          expect(row).to be_nil
+        end
+
+        it 'reads the value back from the primary language' do
+          record = record_with_french_primary
+
+          without_language_context do
+            expect(record.get_field_value(:title)).to eq("Titre principal")
+          end
+        end
+      end
+
+      context 'when the record declares no primary language' do
+        it 'still falls back to the AppConfig default language row' do
+          record = without_language_context do
+            send(factory_method, :title => "Untranslated title", :lang_descriptions => [])
+          end
+
+          row = mlc_rows_for(model, record)
+                  .where(:language_id => default_lang_id, :script_id => default_script_id).first
+
+          expect(row).not_to be_nil
+          expect(row[:title]).to eq("Untranslated title")
+        end
+      end
+    end
+
+    describe 'a resource' do
+      it_behaves_like 'a record saved under its own primary language', :create_resource, Resource
+    end
+
+    describe 'an accession' do
+      it_behaves_like 'a record saved under its own primary language', :create_accession, Accession
+    end
+
+    describe 'a digital object' do
+      it_behaves_like 'a record saved under its own primary language', :create_digital_object, DigitalObject
+    end
+  end
+
 end
