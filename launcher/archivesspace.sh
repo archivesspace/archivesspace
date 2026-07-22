@@ -96,7 +96,11 @@ if [ "$ARCHIVESSPACE_APPEND_LOGS" = "" ]; then
     ARCHIVESSPACE_APPEND_LOGS=
 fi
 
-export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
+# swallow_client_abort is disabled to avoid an infinite loop in jruby-rack's
+# client abort detection that pins a CPU core for the life of the process.
+# See https://github.com/jruby/jruby-rack/issues/449 - fixed upstream but not
+# yet in a release we can use.  Listed before $JAVA_OPTS so sites can override.
+export JAVA_OPTS="-Darchivesspace-daemon=yes -Djruby.rack.response.swallow_client_abort=false $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
 # Wow.  Not proud of this!
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
