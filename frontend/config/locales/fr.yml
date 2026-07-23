@@ -3665,11 +3665,6 @@ fr:
     current_language: Langue actuelle
     default: Défaut
     icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
-    languages:
-      eng: Anglais
-      spa: Espagnol
-      fre: Français
-      ger: Allemand
     mlc_field: >-
       La valeur de ce champ peut changer en fonction de la langue actuelle de
       description.

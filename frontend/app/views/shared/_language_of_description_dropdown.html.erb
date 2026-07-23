@@ -1,0 +1,31 @@
+<% if AppConfig[:multilingual_content] && lang_descriptions.length > 1 %>
+  <div class="btn-group dropdown" id="language-of-description-dropdown" data-resource-id="<%= local_assigns[:resource_id] %>" data-no-change-tracking="true">
+    <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t('lang_description.current_language') %>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-right">
+      <% lang_descriptions.each_with_index do |ld, i|
+           lang_code = ld['language']
+           script_code = ld['script']
+           next unless lang_code && script_code
+           lang_script = "#{lang_code}_#{script_code}"
+           is_primary = ld['is_primary'] == true || ld['is_primary'] == 1
+      %>
+        <li class="dropdown-item p-0">
+          <label class="d-flex align-items-center gap-x-1 py-1 px-4 mb-0"
+                 for="language-description-<%= lang_script %>-<%= i %>">
+            <input type="radio"
+                   id="language-description-<%= lang_script %>-<%= i %>"
+                   name="language_of_description"
+                   value="<%= lang_script %>"
+                   <%= 'checked="checked"' if is_primary %>>
+            <span><%= t("enumerations.language_iso639_2.#{lang_code}", default: lang_code) %></span>
+            <% if is_primary %>
+              <span class="ml-1 fs-10px label badge"><%= t('lang_description.default') %></span>
+            <% end %>
+          </label>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

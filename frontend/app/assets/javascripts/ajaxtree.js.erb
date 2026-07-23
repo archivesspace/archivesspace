@@ -99,6 +99,11 @@ AjaxTree.prototype.loadPaneForId = function(tree_id) {
     params.inline = true;
     params[self.tree.large_tree.root_node_type + '_id'] = self.tree.large_tree.root_uri;
 
+    var currentLang = new URLSearchParams(window.location.search).get('language_of_description');
+    if (currentLang) {
+        params.language_of_description = currentLang;
+    }
+
     var parsed = TreeIds.parse_tree_id(tree_id);
     var row_type = parsed.type;
     var row_id = parsed.id;

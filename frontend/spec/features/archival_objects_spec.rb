@@ -496,4 +496,79 @@ describe 'Archival objects', js: true do
     it_behaves_like 'supporting is_primary on top-level linked agents'
     it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
+
+  context 'when multilingual content enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    let(:now) { Time.now.to_i }
+    let(:english_resource_title) { "English Resource Title #{now}" }
+    let(:english_ao_title) { "English Archival Object Title #{now}" }
+
+    let(:resource) do
+      create(:json_resource,
+             title: english_resource_title,
+             instances: [],
+             dates: [build(:json_date, date_type: 'single')],
+             lang_descriptions: [
+               JSONModel(:language_and_script_of_description).new(
+                 'language' => 'eng', 'script' => 'Latn', 'is_primary' => true
+               ),
+               JSONModel(:language_and_script_of_description).new(
+                 'language' => 'fre', 'script' => 'Latn', 'is_primary' => false
+               )
+             ])
+    end
+
+    let(:archival_object) do
+      create(:json_archival_object,
+             title: english_ao_title,
+             dates: [],
+             resource: { 'ref' => resource.uri })
+    end
+
+    before do
+      archival_object
+      run_index_round
+      visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
+    end
+
+    it 'shows the language selector dropdown inherited from the parent resource, defaulting to the primary language value' do
+      expect(page).to have_css('#language-of-description-dropdown')
+      expect(page).to have_field('archival_object_title_', with: english_ao_title)
+    end
+
+    it 'updates the URL when a non-primary language is selected from the dropdown' do
+      within '#language-of-description-dropdown' do
+        find('.dropdown-toggle').click
+        find('input[type="radio"][value="fre_Latn"]').choose
+      end
+
+      expect(page.current_url).to include('language_of_description=fre_Latn')
+    end
+
+    it 'saves non-primary language edits to that language without modifying the primary language' do
+      within '#language-of-description-dropdown' do
+        find('.dropdown-toggle').click
+        find('input[type="radio"][value="fre_Latn"]').choose
+      end
+
+      french_ao_title = "French Archival Object Title #{now}"
+      fill_in 'archival_object_title_', with: french_ao_title
+      find('button', text: 'Save Archival Object', match: :first).click
+
+      expect(page).to have_text "Archival Object #{french_ao_title} updated"
+
+      visit "resources/#{resource.id}/edit?language_of_description=eng_Latn#tree::archival_object_#{archival_object.id}"
+      expect(page).to have_field('archival_object_title_', with: english_ao_title)
+
+      visit "resources/#{resource.id}/edit?language_of_description=fre_Latn#tree::archival_object_#{archival_object.id}"
+      expect(page).to have_field('archival_object_title_', with: french_ao_title)
+    end
+  end
 end

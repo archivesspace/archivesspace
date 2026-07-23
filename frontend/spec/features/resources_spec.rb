@@ -1837,6 +1837,147 @@ describe 'Resources', js: true do
     end
   end
 
+  context 'when multilingual content enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a multilingual parent record', 'resource'
+
+    it 'can create a resource, but lang_description is required' do
+      now = Time.now.to_i
+
+      click_on 'Create'
+      click_on 'Resource'
+      fill_in 'resource_title_', with: "MLC Resource Title #{now}"
+      fill_in 'resource_id_0_', with: "mlc #{now}"
+      fill_in 'resource_id_1_', with: "1 #{now}"
+
+      element = find('#resource_lang_materials__0__language_and_script__language_')
+      element.click
+      element.send_keys('AU')
+      element.send_keys(:tab)
+
+      element = find('#resource_finding_aid_language_')
+      element.click
+      element.send_keys('ENG')
+      element.send_keys(:tab)
+
+      element = find('#resource_finding_aid_script_')
+      element.click
+      element.send_keys('Latin')
+      element.send_keys(:tab)
+
+      select 'Single', from: 'resource_dates__0__date_type_'
+      wait_for_ajax
+      fill_in 'resource_dates__0__begin_', with: '2000'
+      select 'Collection', from: 'resource_level_'
+      fill_in 'resource_extents__0__number_', with: '1'
+      select 'Cubic Feet', from: 'resource_extents__0__extent_type_'
+
+      # Click on save
+      find('button', text: 'Save Resource', match: :first).click
+
+      expect(page).to have_text "Language - Property is required but was missing"
+      expect(page).to have_text "Script - Property is required but was missing"
+
+      element = find('#resource_lang_descriptions__0__language_')
+      element.click
+      element.send_keys('Eng')
+      element.send_keys(:tab)
+
+      element = find('#resource_lang_descriptions__0__script_')
+      element.click
+      element.send_keys('Lat')
+      element.send_keys(:tab)
+
+      find('button', text: 'Save Resource', match: :first).click
+
+      expect(page).to have_text "Resource MLC Resource Title #{now} created"
+    end
+
+    context 'language selector dropdown' do
+      let(:now) { Time.now.to_i }
+      let(:english_title) { "English Title #{now}" }
+
+      let(:resource) do
+        create(:json_resource,
+               title: english_title,
+               instances: [],
+               dates: [build(:json_date, date_type: 'single')],
+               lang_descriptions: [
+                 JSONModel(:language_and_script_of_description).new(
+                   'language' => 'eng', 'script' => 'Latn', 'is_primary' => true
+                 ),
+                 JSONModel(:language_and_script_of_description).new(
+                   'language' => 'fre', 'script' => 'Latn', 'is_primary' => false
+                 )
+               ])
+      end
+
+      before do
+        set_repo @repository
+        login_user(@user)
+        ensure_repository_access
+        select_repository(@repository)
+
+        visit "resources/#{resource.id}/edit"
+        wait_for_ajax
+      end
+
+      it 'shows the language selector dropdown, defaulting to the primary language value' do
+        expect(page).to have_css('#language-of-description-dropdown')
+        expect(page).to have_field('resource_title_', with: english_title)
+      end
+
+      it 'updates the URL when a non-primary language is selected from the dropdown' do
+        within '#language-of-description-dropdown' do
+          find('.dropdown-toggle').click
+          find('input[type="radio"][value="fre_Latn"]').choose
+        end
+        wait_for_ajax
+
+        expect(page.current_url).to include('language_of_description=fre_Latn')
+      end
+
+      it 'saves non-primary language edits to that language without modifying the primary language' do
+        within '#language-of-description-dropdown' do
+          find('.dropdown-toggle').click
+          find('input[type="radio"][value="fre_Latn"]').choose
+        end
+        wait_for_ajax
+
+        french_title = "French Title #{now}"
+        fill_in 'resource_title_', with: french_title
+        find('button', text: 'Save Resource', match: :first).click
+        wait_for_ajax
+
+        expect(page).to have_text "Resource #{french_title} updated"
+
+        visit "resources/#{resource.id}/edit?language_of_description=eng_Latn"
+        wait_for_ajax
+        expect(page).to have_field('resource_title_', with: english_title)
+
+        visit "resources/#{resource.id}/edit?language_of_description=fre_Latn"
+        wait_for_ajax
+        expect(page).to have_field('resource_title_', with: french_title)
+      end
+    end
+  end
+
+  context 'when multilingual content disabled' do
+    before do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a non-multilingual parent record', 'resource'
+
+  end
+
   describe 'view-only permissions' do
     before(:all) do
       @view_only_repo = create(:repo, repo_code: "view_only_resources_#{Time.now.to_i}", publish: true)
@@ -1911,78 +2052,5 @@ describe 'Resources', js: true do
         expect(page).not_to have_css('.inline-tc-edit-btn')
       end
     end
-  end
-
-  context 'when multilingual content enabled' do
-    before do
-      AppConfig[:multilingual_content] = true
-    end
-
-    after do
-      AppConfig[:multilingual_content] = false
-    end
-
-    it_behaves_like 'a multilingual parent record', 'resource'
-
-    it 'can create a resource, but lang_description is required' do
-      now = Time.now.to_i
-
-      click_on 'Create'
-      click_on 'Resource'
-      fill_in 'resource_title_', with: "MLC Resource Title #{now}"
-      fill_in 'resource_id_0_', with: "mlc #{now}"
-      fill_in 'resource_id_1_', with: "1 #{now}"
-
-      element = find('#resource_lang_materials__0__language_and_script__language_')
-      element.click
-      element.send_keys('AU')
-      element.send_keys(:tab)
-
-      element = find('#resource_finding_aid_language_')
-      element.click
-      element.send_keys('ENG')
-      element.send_keys(:tab)
-
-      element = find('#resource_finding_aid_script_')
-      element.click
-      element.send_keys('Latin')
-      element.send_keys(:tab)
-
-      select 'Single', from: 'resource_dates__0__date_type_'
-      wait_for_ajax
-      fill_in 'resource_dates__0__begin_', with: '2000'
-      select 'Collection', from: 'resource_level_'
-      fill_in 'resource_extents__0__number_', with: '1'
-      select 'Cubic Feet', from: 'resource_extents__0__extent_type_'
-
-      # Click on save
-      find('button', text: 'Save Resource', match: :first).click
-
-      expect(page).to have_text "Language - Property is required but was missing"
-      expect(page).to have_text "Script - Property is required but was missing"
-
-      element = find('#resource_lang_descriptions__0__language_')
-      element.click
-      element.send_keys('Eng')
-      element.send_keys(:tab)
-
-      element = find('#resource_lang_descriptions__0__script_')
-      element.click
-      element.send_keys('Lat')
-      element.send_keys(:tab)
-
-      find('button', text: 'Save Resource', match: :first).click
-
-      expect(page).to have_text "Resource MLC Resource Title #{now} created"
-    end
-  end
-
-  context 'when multilingual content disabled' do
-    before do
-      AppConfig[:multilingual_content] = false
-    end
-
-    it_behaves_like 'a non-multilingual parent record', 'resource'
-
   end
 end

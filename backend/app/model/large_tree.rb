@@ -344,17 +344,28 @@ class LargeTree
   def mlc_display_strings(db, ids)
     return {} if ids.empty?
 
-    lang = RequestContext.description_language
-    return {} unless lang
-
     node_model = @root_record.class.node_model
     mlc_table = node_model.mlc_table
     mlc_fk    = :"#{@node_type}_id"
+    results   = {}
 
-    db[mlc_table]
-      .filter(mlc_fk => ids, :language_id => lang[:language_id], :script_id => lang[:script_id])
-      .select(mlc_fk, :display_string)
-      .each_with_object({}) { |row, h| h[row[mlc_fk]] = row[:display_string] }
+    [RequestContext.requested_description_language, root_primary_language, RequestContext.default_description_language].compact.uniq.each do |lang|
+      ids_without_lang = ids.reject { |id| results[id] }
+      break if ids_without_lang.empty?
+
+      db[mlc_table]
+        .filter(mlc_fk => ids_without_lang, :language_id => lang[:language_id], :script_id => lang[:script_id])
+        .select(mlc_fk, :display_string)
+        .each { |row| results[row[mlc_fk]] = row[:display_string] }
+    end
+
+    results
+  end
+
+  def root_primary_language
+    return @root_primary_language if defined?(@root_primary_language)
+    entry = @root_record.language_and_script_of_description.find { |ld| ld.is_primary == 1 }
+    @root_primary_language = entry ? { language_id: entry[:language_id], script_id: entry[:script_id] } : nil
   end
 
   def digital_instances(db, table, ids)

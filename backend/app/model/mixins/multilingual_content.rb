@@ -40,11 +40,14 @@ module MultilingualContent
   end
 
   # Returns the value of +field_name+ for the current language context,
-  # falling back to the primary language, then to the configured
-  # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
+  # walking the MLC lookup chain (requested language → primary → AppConfig default).
+  #
+  # An explicit non-primary language request skips the primary/default
+  # fallback, so untranslated fields read as blank rather than
+  # prepopulating from the primary language.
   #
   # @param field_name [Symbol, String] the multilingual field to read
-  # @return [String, nil] the field value, or +nil+ if no matching row exists
+  # @return [String, nil] the field value, or +nil+ if no content exists anywhere
   def get_field_value(field_name)
     # For new (unsaved) records, values are buffered in @_mlc_pending — read
     # from there so that validation sees the in-flight value before the first save.
@@ -52,14 +55,13 @@ module MultilingualContent
       return @_mlc_pending[field_name.to_sym]
     end
 
-    lang = RequestContext.description_language
-    return nil unless lang
-    row = db_mlc_table.where(
-      :"#{self.class.table_name}_id" => id,
-      :language_id => lang[:language_id],
-      :script_id   => lang[:script_id]
-    ).first
-    row ? row[field_name.to_sym] : nil
+    mlc_lookup_chain.each do |lang|
+      row = mlc_row_for(lang[:language_id], lang[:script_id])
+      value = row ? row[field_name.to_sym] : nil
+      return value unless value.nil?
+    end
+
+    nil
   end
 
   # Upserts +value+ into the +_mlc+ table for +field_name+ under the current
@@ -67,7 +69,8 @@ module MultilingualContent
   # configured +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
   #
   # If the record has not yet been persisted (id is nil), the value is buffered
-  # and flushed to the database in +after_save+.
+  # and flushed to the database in +apply_nested_records+, once the record's own
+  # +lang_descriptions+ exist.
   #
   # @param field_name [Symbol, String] the multilingual field to write
   # @param value [String, nil] the value to store
@@ -78,7 +81,7 @@ module MultilingualContent
       return
     end
 
-    lang = RequestContext.description_language
+    lang = mlc_write_language
     return unless lang
     fk = :"#{self.class.table_name}_id"
     existing = db_mlc_table.where(
@@ -96,13 +99,23 @@ module MultilingualContent
         field_name.to_sym  => value
       )
     end
+
+    @_mlc_row_cache&.delete([lang[:language_id], lang[:script_id]])
   end
 
-  # Flushes any field values buffered before the record was first saved.
+  # Applies nested records, then flushes any field values that were buffered
+  # before the record's first save.
+  def apply_nested_records(json, new_record = false)
+    super
+    # The primary language may have just been created by the nested records above.
+    reset_mlc_memos
+    flush_mlc_pending
+  end
+
+  # Drops memoised language state after a save so that later reads in the same
+  # request reflect any change the save made.
   def after_save
-    return unless @_mlc_pending
-    @_mlc_pending.each { |field_name, value| set_field_value(field_name, value) }
-    @_mlc_pending = nil
+    reset_mlc_memos
   end
 
   # Overrides Sequel's raw column reader so that +record[:title]+ is equivalent
@@ -139,8 +152,65 @@ module MultilingualContent
 
   private
 
+  # Ordered language/script pairs to try when reading a multilingual field.
+  # An explicit non-primary request tries only that language, skipping the
+  # primary/default fallback.
+  def mlc_lookup_chain
+    requested = RequestContext.requested_description_language
+    primary   = primary_description_language
+
+    if requested && requested != primary
+      [requested]
+    else
+      [
+        requested,                                     # 1. explicit request header / URL param
+        primary,                                       # 2. record's own primary language
+        RequestContext.default_description_language    # 3. AppConfig default (last resort)
+      ].compact.uniq
+    end
+  end
+
+  def mlc_write_language
+    RequestContext.requested_description_language ||
+      primary_description_language ||
+      RequestContext.default_description_language
+  end
+
+  # Writes out values buffered while the record had no id yet.
+  def flush_mlc_pending
+    return unless @_mlc_pending
+    pending = @_mlc_pending
+    # Cleared before writing so that the writes below read through to the
+    # database rather than seeing the buffer they are draining.
+    @_mlc_pending = nil
+    pending.each { |field_name, value| set_field_value(field_name, value) }
+  end
+
+  # Drops every memoised lookup that a save or a nested-record update can
+  # invalidate.
+  def reset_mlc_memos
+    remove_instance_variable(:@_primary_lang) if defined?(@_primary_lang)
+    @_mlc_row_cache = nil
+    associations.delete(:language_and_script_of_description)
+  end
+
   def db_mlc_table
     self.class.db[self.class.mlc_table]
+  end
+
+  # Fetches and caches the MLC row for a given language/script pair.
+  # Multiple calls for the same pair within a request hit the DB only once.
+  def mlc_row_for(language_id, script_id)
+    @_mlc_row_cache ||= {}
+    cache_key = [language_id, script_id]
+    unless @_mlc_row_cache.key?(cache_key)
+      @_mlc_row_cache[cache_key] = db_mlc_table.where(
+        :"#{self.class.table_name}_id" => id,
+        :language_id => language_id,
+        :script_id   => script_id
+      ).first
+    end
+    @_mlc_row_cache[cache_key]
   end
 
   # Returns the language/script pair for the record's primary
