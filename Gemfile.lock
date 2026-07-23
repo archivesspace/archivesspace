@@ -114,7 +114,7 @@ GEM
     jdbc-derby (10.12.1.1)
     jdbc-mysql (9.1.0.1)
     jruby-jars (9.4.9.0)
-    jruby-rack (1.2.6)
+    jruby-rack (1.2.7)
     json (2.18.0-java)
     json-schema (1.0.12)
     jwt (2.10.2)
