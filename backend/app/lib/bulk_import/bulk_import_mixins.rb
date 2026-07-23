@@ -346,6 +346,32 @@ module BulkImportMixins
     ret_val
   end
 
+  FILE_VERSION_FIELDS = %w[file_uri use_statement xlink_actuate_attribute
+    xlink_show_attribute file_format_name file_format_version checksum
+    checksum_method caption].freeze
+
+  def file_versions
+    versions = []
+    counter = 1
+    loop do
+      suffix = "_#{counter}"
+      break if @row_hash["file_version_file_uri#{suffix}"].nil?
+
+      normalize_boolean_column(@row_hash, "file_version_is_representative#{suffix}")
+      normalize_boolean_column(@row_hash, "file_version_publish#{suffix}")
+      is_representative = @row_hash["file_version_is_representative#{suffix}"] || false
+      fv = {
+        is_representative: is_representative,
+        publish:           is_representative || @row_hash["file_version_publish#{suffix}"] || false,
+        file_size_bytes:   @row_hash["file_version_file_size_bytes#{suffix}"].to_i
+      }
+      FILE_VERSION_FIELDS.each { |f| fv[f.to_sym] = @row_hash["file_version_#{f}#{suffix}"] }
+      versions << fv
+      counter += 1
+    end
+    versions
+  end
+
   def representative_file_version
     if @row_hash['rep_file_uri'].present?
       {

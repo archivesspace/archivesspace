@@ -221,21 +221,20 @@ class ImportArchivalObjects < BulkImportParser
         normalize_boolean_column(@row_hash, 'digital_object_publish')
         normalize_boolean_column(@row_hash, 'nonrep_publish')
         dig_instance = @doh.create(
-          @row_hash["digital_object_title"],
-          @row_hash["digital_object_id"],
-          @row_hash["digital_object_publish"],
-          nil, # level
-          nil, # digital_object_type
-          nil, # restrictions
-          [],  # dates
-          [],  # notes
-          [],  # extents
-          [],  # subjects
-          [],  # linked_agents
-          ao,
-          @report,
-          representative_file_version,
-          non_representative_file_version)
+          title: @row_hash["digital_object_title"],
+          id: @row_hash["digital_object_id"],
+          publish: @row_hash["digital_object_publish"],
+          level: nil,
+          digital_object_type: nil,
+          restrictions: nil,
+          dates: [],
+          notes: [],
+          extents: [],
+          subjects: [],
+          linked_agents: [],
+          archival_object: ao,
+          report: @report,
+          file_versions: [representative_file_version, non_representative_file_version].compact)
       rescue Exception => e
         @report.add_errors(e.message)
       end

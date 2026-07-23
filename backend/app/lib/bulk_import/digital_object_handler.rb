@@ -17,23 +17,10 @@ class DigitalObjectHandler < Handler
     ret = ret.nil?
   end
 
-  def create(
-      title,
-      id,
-      publish,
-      level,
-      digital_object_type,
-      restrictions,
-      dates,
-      notes,
-      extents,
-      subjects,
-      linked_agents,
-      archival_object,
-      report,
-      representative_file_version = nil,
-      non_representative_file_version = nil
-    )
+  def create(title:, id:, publish:, level:, digital_object_type:, restrictions:,
+             dates:, notes:, extents:, subjects:, linked_agents:, archival_object:,
+             report:, file_versions: [], lang_materials: [], user_defined: nil,
+             collection_management: nil)
     digital_object = nil
     digital_object_instance = nil
 
@@ -51,21 +38,14 @@ class DigitalObjectHandler < Handler
     end
 
     errors = []
-    if representative_file_version
-      errors << validate_enum(representative_file_version[:file_format_name], @file_format_names, report)
-      errors << validate_enum(representative_file_version[:use_statement], @file_use_statement, report)
-    end
-
-    if non_representative_file_version
-      errors << validate_enum(non_representative_file_version[:file_format_name], @file_format_names, report)
-      errors << validate_enum(non_representative_file_version[:use_statement], @file_use_statement, report)
+    file_versions.each do |fv|
+      errors << validate_enum(fv[:file_format_name], @file_format_names, report)
+      errors << validate_enum(fv[:use_statement], @file_use_statement, report)
     end
 
     return nil unless errors.compact.empty?
 
-    files = []
-    files.push JSONModel(:file_version).from_hash(representative_file_version) if representative_file_version
-    files.push JSONModel(:file_version).from_hash(non_representative_file_version) if non_representative_file_version
+    files = file_versions.map { |fv| JSONModel(:file_version).from_hash(fv) }
 
     digital_object = JSONModel(:digital_object).new._always_valid!
     digital_object.title = title.nil? ? archival_object.display_string : title
