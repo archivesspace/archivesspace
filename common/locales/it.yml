@@ -587,6 +587,9 @@ it:
     identifier: Identificatore
     file_uri_tooltip: "<p>Un identificatore per un file associato a un oggetto digitale, accessibile sul
       web o in una file directory.</p>\n"
+    _plural: Versioni dei file
+    _singular: Versione del file
+    file: File
   agent:
     agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
       assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
@@ -1002,3 +1005,96 @@ it:
     note_legal_status: status giuridico
     note_structure_or_genealogy: Struttura o genealogia
     _singular: Nota
+    _plural: Note
+  note_text:
+    option: Testo
+  note_index:
+    option: Indice
+  note_index_item:
+    value: Valore
+    value_tooltip: Il contenuto di ciascuna voce nella bibliografia. È richiesto almeno un elemento 
+      bibliografico per ogni nota a piè di pagina.
+    type: Tipo
+    type_tooltip: Il tipo di voce dell'indice.
+    reference: Riferimento
+    reference_tooltip: L'obiettivo per l'elemento dell'indice.
+    reference_text: Testo di riferimento
+    reference_text_tooltip: Una descrizione per il riferimento, se necessaria.
+  note_multipart:
+    subnotes: Note secondarie
+    sub_notes: Note secondarie
+    sub_notes_singular: Nota secondaria
+  note_bibliography:
+    option: Bibliografia
+  note_chronology:
+    option: Cronologia
+    title: Titolo
+    items: Eventi
+  chronology_item:
+    event_date: Data dell'evento
+    event_date_tooltip: |
+      <p>La data di un evento in un elenco cronologico.</p>
+    events: Elementi dell'evento
+    events_tooltip: |
+      <p>Descrizione di un evento corrispondente alla data indicata nella cronologia.</p>
+    events_singular: Elemento dell'evento
+    place: Luogo dell'evento
+  note_definedlist:
+    option: Elenco definito
+  definedlist_item:
+    label: Etichetta
+    label_tooltip: |
+      Una stringa di testo che contestualizza o viene spiegata dal contenuto della nota dell'elenco definito.
+    value: Valore
+    value_tooltip: |
+      Un elemento di elenco definito all'interno di un elenco definito.
+  note_orderedlist:
+    option: Elenco ordinato
+    enumeration: Enumerazione
+    enumeration_tooltip: |
+      <p>Un attributo per indicare il tipo di numerazione da applicare alle voci della nota</p>
+  note_bioghist:
+    subnotes: Note secondarie
+  note_general_context:
+    subnotes: Note secondarie
+  note_mandate:
+    subnotes: Note secondarie
+  note_contact_note:
+    subnotes: Note secondarie
+    date_of_contact: Data del contatto
+    contact_notes: Suggerimenti di contatto
+    contact_notes_tooltip: |
+      <p>Dettagli sull'interazione con il contatto</p>
+    date_of_contact_tooltip: |
+      <p>Utilizzato per registrare la data o l'intervallo di tempo specifici di un'interazione</p>
+  note_legal_status:
+    subnotes: Note secondarie
+  note_structure_or_genealogy:
+    subnotes: Note secondarie
+  note_abstract:
+    option: Astratta
+  note_citation:
+    option: Citazione
+    xlink: XLink
+  note_citation_xlink:
+    actuate: Attuare
+    arcrole: Ruolo dell'arco
+    href: Href
+    role: Ruolo
+    show: Spettacolo
+    title: Titolo
+    type: Tipa
+  note_outline:
+    option: Schema
+    levels: Livelli
+  instance:
+    is_representative: È rappresentativo?
+    instance_type: Tipo
+    instance_type_tooltip: |
+      <p>Indicazione della manifestazione per i materiali descritti. L'indicazione dell'istanza è facoltativa, ma necessaria per aprire e completare la scheda del contenitore per il materiale descritto.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    digital_object: Oggetto digitale
+    _plural: Esempi
+    _singular: Esempio
+  instance_container:
+    barcode: Codice a barre
