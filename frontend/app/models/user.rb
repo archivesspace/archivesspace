@@ -49,6 +49,15 @@ class User < JSONModel(:user)
   end
 
 
+  def self.logout
+    JSONModel::HTTP.post_form('/logout')
+  rescue ArchivesSpace::SessionGone, ArchivesSpace::SessionExpired
+  rescue StandardError => e
+    Rails.logger.error("User.logout: could not reach the backend to expire the session (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+  end
+
+
   def self.become_user(context, username)
     return false if username == "admin"
     uri = JSONModel(:user).uri_for("#{username}/become-user")

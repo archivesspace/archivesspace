@@ -44,6 +44,9 @@
                <th class="admin"><%= t("user.admin") %></th>
                <th class="is_active_user"><%= t("user.is_active_user") %></th>
                <th class="source"><%= t("user.source") %></th>
+               <% if AppConfig[:pui_require_authentication] %>
+                 <th class="pui_viewer"><%= t("user.is_pui_viewer") %></th>
+               <% end %>
              <% end %>
              <th class="actions" width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
            </tr>
@@ -67,10 +70,12 @@
                  <td class="admin"><%= user.is_admin %></td>
                  <td class="is_active_user"><%= active %></td>
                  <td class="source"><%= user.source %></td>
+                 <% if AppConfig[:pui_require_authentication] %>
+                   <td class="pui_viewer"><%= user.is_pui_viewer %></td>
+                 <% end %>
                <% end %>
                <td class="actions">
                  <div class="btn-group" style="float: right">
-                <div class="btn-group" style="float: right">
                    <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %>
 
                    <% if @manage_access %>

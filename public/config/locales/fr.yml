@@ -59,6 +59,7 @@ fr:
     next: Suivant
     previous: Précédent
     digitized: Voir le matériel numérique
+    authenticating: Vérification de l'accès
   page_actions: Page Actions
 
   request:
@@ -639,3 +640,11 @@ fr:
     additional_info:
       invalid_markup: Cette erreur peut résulter d’un balisage non valide présent dans une note ou 
         un sous-enregistrement.
+  login:
+    login: Connexion
+    logout: Déconnexion
+    username_placeholder: Nom d'utilisateur
+    password_placeholder: Mot de passe
+    required: Champs obligatoires
+    pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter la PUI."
+    login_failed: "Échec de la connexion. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."

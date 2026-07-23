@@ -1434,6 +1434,7 @@ es:
         show_active: Mostrar usuarios activos
     active: 'true'
     inactive: falso
+    is_pui_viewer: Visor PUI
   user_defined:
     _frontend:
       action:

@@ -29,6 +29,7 @@ en:
     welcome_page_title: ArchivesSpace Public Interface
 
   actions:
+    authenticating: Verifying access
     search: Search
     search_header: Search The Archives
     search_within: Search within results
@@ -220,6 +221,15 @@ en:
   boolean:
     "true": "Yes"
     "false": "No"
+
+  login:
+    login: Sign In
+    logout: Logout
+    username_placeholder: Username
+    password_placeholder: Password
+    required: required
+    pui_permission_denied: "User `%{username}` does not have permission to view the PUI."
+    login_failed: "Login failed. Please check your username and password."
 
   navbar:
     search_placeholder: Enter your search terms

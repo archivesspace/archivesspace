@@ -33,6 +33,7 @@ de:
     next: Nächste
     previous: Vorherige
     digitized: Digitale Inhalte ansehen
+    authenticating: Zugriff überprüfen
   request:
     required: erforderlich
     user_name: Ihr Name
@@ -530,3 +531,11 @@ de:
     additional_info:
       invalid_markup: Dieser Fehler kann durch ungültiges Markup in einer Notiz oder einem 
         untergeordneten Eintrag entstehen.
+  login:
+    login: Anmelden
+    logout: Abmelden
+    username_placeholder: Benutzername
+    password_placeholder: Passwort
+    required: Erforderliche Felder
+    pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die PUI anzuzeigen."
+    login_failed: "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort."

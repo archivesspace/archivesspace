@@ -1639,6 +1639,7 @@ de:
           aktivieren möchten?
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
+    is_pui_viewer: PUI-Viewer
   use_date:
     _frontend:
       action:

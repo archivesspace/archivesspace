@@ -1098,3 +1098,6 @@ it:
     _singular: Esempio
   instance_container:
     barcode: Codice a barre
+  group:
+    default_group_names:
+      pui_viewers: Visualizzatori PUI

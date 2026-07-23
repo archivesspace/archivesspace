@@ -14,6 +14,7 @@ ArchivesSpace::Application.routes.draw do
     match 'select_user' => "session#select_user", :via => :get
     match 'become_user' => "session#become_user", :via => :post
     match 'check_session' => "session#check_session", :via => :get
+    match 'check_pui_session' => "session#check_pui_session", :via => :get
     match 'has_session' => "session#has_session", :via => :get
 
     match 'repositories/reorder' => 'repositories#reorder', :via => [:get]

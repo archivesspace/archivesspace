@@ -201,4 +201,126 @@ describe SessionController, type: :controller do
       end
     end
   end
+
+  describe '#logout' do
+    around(:each) do |example|
+      original_backend_session = JSONModel::HTTP.current_backend_session
+      example.run
+      JSONModel::HTTP.current_backend_session = original_backend_session
+    end
+
+    shared_examples 'a complete logout' do
+      it 'resets the session and redirects to root' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        delete :logout
+
+        expect(controller.session[:user]).to be_nil
+        expect(response).to redirect_to('/')
+      end
+
+      it 'expires the backend session so it can no longer be used' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+        session_token = session['session']
+
+        delete :logout
+
+        uri = URI("#{AppConfig[:backend_url]}/users/current-user")
+        http = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        request['X-ArchivesSpace-Session'] = session_token
+
+        expect(http.request(request).code).not_to eq('200')
+      end
+
+      it 'does not raise an error when the backend session is already gone' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        JSONModel::HTTP.current_backend_session = session['session']
+        JSONModel::HTTP.post_form('/logout')
+
+        expect { delete :logout }.not_to raise_error
+        expect(controller.session[:user]).to be_nil
+      end
+
+      it 'resets the local session even if the backend is unreachable' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        allow(JSONModel::HTTP).to receive(:post_form).with('/logout').and_raise(Errno::ECONNREFUSED)
+
+        expect { delete :logout }.not_to raise_error
+
+        expect(controller.session[:user]).to be_nil
+        expect(response).to redirect_to('/')
+      end
+    end
+
+    context 'when pui_require_authentication is disabled' do
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+      end
+
+      it_behaves_like 'a complete logout'
+    end
+
+    context 'when pui_require_authentication is enabled' do
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+      end
+
+      it_behaves_like 'a complete logout'
+    end
+  end
+
+  describe '#check_pui_session' do
+    context 'when pui_require_authentication is disabled' do
+      before(:each) do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+      end
+
+      it 'returns 403' do
+        get :check_pui_session
+
+        expect(response.status).to eq(403)
+      end
+    end
+
+    context 'when pui_require_authentication is enabled' do
+      before(:each) do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+      end
+
+      context 'when the user has view_pui permission' do
+        before(:each) do
+          session = User.login('admin', 'admin')
+          User.establish_session(controller, session, 'admin')
+        end
+
+        it 'returns the session and view_pui: true' do
+          get :check_pui_session
+
+          json = JSON.parse(response.body)
+          expect(json['view_pui']).to be true
+          expect(json['username']).to eq('admin')
+        end
+      end
+
+      context 'when there is no logged-in user' do
+        it 'returns view_pui: false' do
+          get :check_pui_session
+
+          json = JSON.parse(response.body)
+          expect(json['view_pui']).to be false
+        end
+      end
+    end
+  end
 end

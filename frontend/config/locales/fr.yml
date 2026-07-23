@@ -1576,6 +1576,7 @@ fr:
     active: vrai
     inactive: faux
     source: Authentification
+    is_pui_viewer: Visionneuse PUI
   user_defined:
     _frontend:
       action:

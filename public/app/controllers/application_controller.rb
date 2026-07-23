@@ -1,4 +1,11 @@
 class ApplicationController < ActionController::Base
+  class_attribute :json_auth_actions, default: []
+
+  # JSON-only actions (tree/waypoint data) get a 401, not the HTML login screen.
+  def self.json_response_for(*actions)
+    self.json_auth_actions = actions.map(&:to_sym)
+  end
+
   include ManipulateNode
   helper_method :process_mixed_content
   helper_method :process_mixed_content_title
@@ -26,6 +33,7 @@ class ApplicationController < ActionController::Base
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
 
+  before_action :authenticate_user!
   around_action :set_locale
 
 
@@ -44,6 +52,54 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def authenticate_user!
+    return unless AppConfig[:pui_require_authentication]
+
+    status = pui_auth_status
+    return if status == :ok
+
+    if status == :forbidden
+      flash.now[:error] = I18n.t('login.pui_permission_denied', username: session[:pui_username])
+    end
+
+    session[:session] = nil
+    session[:pui_username] = nil
+
+    if json_auth_actions.include?(action_name.to_sym)
+      render json: { error: 'authentication_required' }, status: :unauthorized
+    else
+      render 'shared/login', layout: 'login', status: :unauthorized
+    end
+  end
+
+  def pui_auth_status
+    return :unauthenticated if session[:session].blank?
+
+    parsed_body = get_json_as_backend_session('/users/current-user', session[:session])
+    session[:pui_username] = parsed_body['username']
+    parsed_body['is_pui_viewer'] ? :ok : :forbidden
+  rescue StandardError => e
+    Rails.logger.error("pui_auth_status: could not verify the session with the backend (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    :unauthenticated
+  end
+
+  def get_json_as_backend_session(uri, token)
+    with_backend_session(token) { JSONModel::HTTP.get_json(uri) }
+  end
+
+  # Run the block authenticated as `token` rather than whatever session (if
+  # any) is already active on this thread, restoring the prior value
+  # afterwards so we don't leak `token` into unrelated requests on a
+  # threaded server.
+  def with_backend_session(token)
+    original_session = JSONModel::HTTP.current_backend_session
+    JSONModel::HTTP.current_backend_session = token
+    yield
+  ensure
+    JSONModel::HTTP.current_backend_session = original_session
+  end
 
   def render_backend_failure(exception)
     Rails.logger.error(exception)
