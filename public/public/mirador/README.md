@@ -1,5 +1,12 @@
 # Mirador (bundled IIIF viewer)
 
+> **For ArchivesSpace maintainers.** The update instructions below need to run
+> in a development environment. They are not a way to change the viewer on a
+> deployed instance. To point a running installation at a different viewer, set
+> `AppConfig[:iiif_viewer]` (see the IIIF section of `config/config.rb`).
+> Upgrading the bundled viewers requires installing a newer version of
+> ArchivesSpace.
+
 This directory contains a self-hosted copy of [Mirador](https://projectmirador.org)
 served as static files. It is one of the built-in IIIF viewers ArchivesSpace can
 use (see the IIIF section of `common/config/config-defaults.rb` and

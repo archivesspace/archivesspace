@@ -1,5 +1,12 @@
 # Universal Viewer (bundled IIIF viewer)
 
+> **For ArchivesSpace maintainers.** The update instructions below need to run
+> in a development environment. They are not a way to change the viewer on a
+> deployed instance. To point a running installation at a different viewer, set
+> `AppConfig[:iiif_viewer]` (see the IIIF section of `config/config.rb`).
+> Upgrading the bundled viewers requires installing a newer version of
+> ArchivesSpace.
+
 This directory contains a self-hosted copy of [Universal Viewer](https://github.com/UniversalViewer/universalviewer)
 served as static files. It is the default bundled IIIF viewer, used when
 `AppConfig[:iiif_viewer]` is `'universal_viewer'` (the default). The other
