@@ -27,7 +27,6 @@ class ImportDigitalObjects < BulkImportParser
     begin
       normalize_boolean_column(@row_hash, 'digital_object_publish')
       normalize_boolean_column(@row_hash, 'restrictions')
-      normalize_boolean_column(@row_hash, 'nonrep_publish')
       dates = create_dates
       notes = create_notes
       extents = process_extents
@@ -35,21 +34,20 @@ class ImportDigitalObjects < BulkImportParser
       linked_agents = process_agents
 
       dig_instance = @digital_object_handler.create(
-        @row_hash["digital_object_title"],
-        @row_hash["digital_object_id"],
-        @row_hash["digital_object_publish"],
-        @row_hash["level"],
-        @row_hash["digital_object_type"],
-        @row_hash["restrictions"],
-        dates,
-        notes,
-        extents,
-        subjects,
-        linked_agents,
-        ao,
-        @report,
-        representative_file_version,
-        non_representative_file_version)
+        title: @row_hash["digital_object_title"],
+        id: @row_hash["digital_object_id"],
+        publish: @row_hash["digital_object_publish"],
+        level: @row_hash["level"],
+        digital_object_type: @row_hash["digital_object_type"],
+        restrictions: @row_hash["restrictions"],
+        dates: dates,
+        notes: notes,
+        extents: extents,
+        subjects: subjects,
+        linked_agents: linked_agents,
+        archival_object: ao,
+        report: @report,
+        file_versions: file_versions)
     rescue Exception => e
       @report.add_errors(e.message)
     end

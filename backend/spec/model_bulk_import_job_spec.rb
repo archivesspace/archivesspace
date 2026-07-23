@@ -29,9 +29,9 @@ describe 'Bulk Import Jobs' do
 
 
       tmp = ASUtils.tempfile("bulk-import-digital-object-csv-#{Time.now.to_i}")
-      tmp.write("ArchivesSpace digital object import field codes,collection_id,ead,ref_id,res_uri,ao_ref_id,ao_uri,digital_object_id,digital_object_title,digital_object_publish,rep_file_uri,rep_use_statement,rep_xlink_actuate_attribute,rep_xlink_show_attribute,rep_file_format,rep_file_format_version,rep_file_size,rep_checksum,rep_checksum_method,rep_caption,nonrep_file_uri,nonrep_publish,nonrep_use_statement,nonrep_xlink_actuate_attribute,nonrep_xlink_show_attribute,nonrep_file_format,nonrep_file_format_version,nonrep_file_size,nonrep_checksum,nonrep_checksum_method,nonrep_caption\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,blah blah,t,http://blahblah.com,,,,,,,,,,http://thumbnail.com,f,\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,hide me,f,http://hideme.com,,,,,,,,,,http://thumbnail.com,t,\n")
+      tmp.write("ArchivesSpace digital object import field codes,collection_id,ead,ref_id,res_uri,ao_ref_id,ao_uri,digital_object_id,digital_object_title,digital_object_publish,file_version_file_uri_1,file_version_is_representative_1,file_version_file_uri_2,file_version_publish_2\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,blah blah,t,http://blahblah.com,t,http://thumbnail.com,f\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,hide me,f,http://hideme.com,t,http://thumbnail.com,t\n")
       tmp.rewind
       user = create_nobody_user
       job = Job.create_from_json(json,
