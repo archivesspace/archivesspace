@@ -168,6 +168,9 @@ module ResultInfo
       rep_caption = ''
       json['file_versions'].each do |version|
         version['file_uri'].strip!
+
+        next if IIIF.manifest?(version) # A IIIF manifest is not an image
+
         if version.dig('publish') != false && (version['file_uri'].start_with?('http') ||
           version['file_uri'].start_with?('data:'))
 

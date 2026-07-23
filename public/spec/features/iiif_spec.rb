@@ -4,7 +4,7 @@ require 'rails_helper'
 describe "IIIF integration" do
 
   before(:all) do
-    @manifest_url = 'http://iiif.example.com/iiif-test/manifest.json'
+    @manifest_url = 'https://iiif.io/api/cookbook/recipe/0009-book-1/manifest.json'
 
     @do = create(:digital_object,
                  publish: true,
@@ -57,10 +57,10 @@ describe "IIIF integration" do
 
       allow(AppConfig).to receive(:[]).and_call_original
       allow(AppConfig).to receive(:has_key?).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer_url)
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer)
                                             .and_return(true)
-      allow(AppConfig).to receive(:[]).with(:iiif_viewer_url)
-                                      .and_return({ :default => @viewer_url })
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer)
+                                      .and_return(@viewer_url)
     end
 
     describe "the model" do
@@ -130,11 +130,70 @@ describe "IIIF integration" do
     end
   end
 
+  describe "when using the bundled Universal Viewer" do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:has_key?).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer)
+                                            .and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer)
+                                      .and_return('universal_viewer')
+    end
+
+    it "knows we're IIIF enabled" do
+      expect(IIIF.enabled?).to be(true)
+    end
+
+    it "embeds the bundled Universal Viewer and renders the manifest" do
+      visit @resource.uri
+
+      expect(page).to have_css('.iiif-embed iframe')
+      iiif_iframe = find('.iiif-embed iframe')
+      expect(iiif_iframe['src']).to end_with("/uv/uv.html#?manifest=#{CGI.escape(@manifest_url)}")
+      expect(iiif_iframe['allow']).to eq('fullscreen')
+
+      within_frame(iiif_iframe) do
+        expect(page).to have_content('Simple Manifest - Book', wait: 30)
+      end
+    end
+  end
+
+  describe "when using the bundled Mirador viewer" do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:has_key?).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer)
+                                            .and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer)
+                                      .and_return('mirador')
+    end
+
+    it "knows we're IIIF enabled" do
+      expect(IIIF.enabled?).to be(true)
+    end
+
+    it "embeds the bundled Mirador viewer and renders the manifest" do
+      visit @resource.uri
+
+      expect(page).to have_css('.iiif-embed iframe')
+      iiif_iframe = find('.iiif-embed iframe')
+      expect(iiif_iframe['src']).to end_with("/mirador/index.html?manifest=#{CGI.escape(@manifest_url)}")
+      expect(iiif_iframe['allow']).to eq('fullscreen')
+
+      within_frame(iiif_iframe) do
+        expect(page).to have_content('Simple Manifest - Book', wait: 30)
+      end
+    end
+  end
+
   describe "when disabled" do
     before(:each) do
       allow(AppConfig).to receive(:[]).and_call_original
-      allow(AppConfig).to receive(:[]).with(:iiif_viewer_url)
-                                      .and_return(nil)
+      allow(AppConfig).to receive(:has_key?).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer)
+                                            .and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer)
+                                      .and_return('none')
     end
 
     it "knows it is disabled" do
@@ -145,6 +204,99 @@ describe "IIIF integration" do
       visit @resource.uri
 
       expect(page).to_not have_css('.iiif-embed')
+    end
+  end
+
+  describe "a manifest is never displayed as a representative file version image" do
+    before(:all) do
+      @image_url = 'http://example.com/a-real-image.jpg'
+
+      @manifest_only = create(:digital_object,
+                              publish: true,
+                              title: 'IIIF manifest only digital object',
+                              file_versions: [
+                                build(:file_version,
+                                      file_format_name: 'iiif',
+                                      use_statement: 'text-json',
+                                      xlink_show_attribute: 'embed',
+                                      file_uri: @manifest_url,
+                                      publish: true)
+                              ])
+
+      @manifest_and_image = create(:digital_object,
+                                   publish: true,
+                                   title: 'IIIF manifest and image digital object',
+                                   file_versions: [
+                                     build(:file_version,
+                                           file_format_name: 'iiif',
+                                           use_statement: 'text-json',
+                                           xlink_show_attribute: 'embed',
+                                           file_uri: @manifest_url,
+                                           publish: true),
+                                     build(:file_version,
+                                           file_format_name: 'jpeg',
+                                           use_statement: 'image-service',
+                                           xlink_show_attribute: 'embed',
+                                           file_uri: @image_url,
+                                           publish: true)
+                                   ])
+
+      @resource_with_manifest_only = create(:resource,
+                                            publish: true,
+                                            title: 'IIIF resource whose representative is a manifest only digital object',
+                                            instances: [build(:instance_digital,
+                                                              digital_object: { ref: @manifest_only.uri },
+                                                              is_representative: true)])
+
+      run_indexers
+    end
+
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:has_key?).and_call_original
+      allow(AppConfig).to receive(:has_key?).with(:iiif_viewer)
+                                            .and_return(true)
+      allow(AppConfig).to receive(:[]).with(:iiif_viewer)
+                                      .and_return('universal_viewer')
+    end
+
+    context "when a digital object's only file version is a manifest" do
+      before(:each) do
+        visit @manifest_only.uri
+      end
+
+      it "shows no image" do
+        expect(page).to_not have_css("img[src='#{@manifest_url}']", visible: :all)
+        expect(page).to_not have_css('.objectimage')
+        expect(page).to_not have_css('figure[data-rep-file-version-wrapper]', visible: :all)
+      end
+
+      it "still embeds the viewer" do
+        expect(page).to have_css('.iiif-embed iframe')
+      end
+    end
+
+    context "when a digital object has both a manifest and an image" do
+      before(:each) do
+        visit @manifest_and_image.uri
+      end
+
+      it "shows the image rather than the manifest" do
+        expect(page).to_not have_css("img[src='#{@manifest_url}']", visible: :all)
+        expect(page).to have_css("img[src='#{@image_url}']", visible: :all)
+      end
+    end
+
+    context "when a record's representative digital object has only a manifest" do
+      before(:each) do
+        visit @resource_with_manifest_only.uri
+      end
+
+      it "shows no image" do
+        expect(page).to_not have_css("img[src='#{@manifest_url}']", visible: :all)
+        expect(page).to_not have_css('.objectimage')
+        expect(page).to_not have_css('figure[data-rep-file-version-wrapper]', visible: :all)
+      end
     end
   end
 end

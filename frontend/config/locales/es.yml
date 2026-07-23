@@ -1126,6 +1126,8 @@ es:
 
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "No hay ningún visor IIIF disponible. Establezca AppConfig[:iiif_viewer] en 'universal_viewer', 'mirador' o la URL de un visor IIIF alojado externamente."
       action:
         add: Añadir la versión del archivo
         make_representative: Hacer representante

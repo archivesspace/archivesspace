@@ -1,0 +1,63 @@
+<!--
+    This is what the embed iframe src links to when Mirador is the selected
+    bundled IIIF viewer. It reads the manifest URI from the query string
+    (?manifest=..., or the IIIF Content State ?iiif-content=...), fills the
+    available space, and does not communicate with the parent page.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Mirador</title>
+    <link rel="icon" href="data:," />
+    <script type="text/javascript" src="mirador.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #mirador {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mirador"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var params = new URLSearchParams(window.location.search);
+        var manifestId = params.get("manifest") || params.get("iiif-content");
+
+        var config = {
+          id: "mirador",
+          window: {
+            allowClose: false,
+            allowMaximize: false,
+          },
+          workspaceControlPanel: {
+            enabled: false,
+          },
+        };
+
+        if (manifestId) {
+          config.windows = [{ manifestId: manifestId }];
+        }
+
+        Mirador.viewer(config);
+      });
+    </script>
+  </body>
+</html>
