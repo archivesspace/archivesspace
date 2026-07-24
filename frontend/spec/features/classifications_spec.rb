@@ -182,6 +182,11 @@ describe 'Classifications', js: true do
     expect(resolved).not_to include('linked_records')
     expect(resolved).not_to include(linked_resource.uri)
 
+    parsed = JSON.parse(resolved)
+    expect(parsed).not_to have_key('json')
+    nested = parsed.select { |_key, value| value.is_a?(Array) || value.is_a?(Hash) }
+    expect(nested).to be_empty
+
     find('button', text: 'Save Accession', match: :first).click
     expect(page).to have_text "Accession Accession Title #{now} created"
 
