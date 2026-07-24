@@ -921,4 +921,4 @@ AppConfig[:extended_csv_export_class] = 'ExtendedCSVExportStream'
 
 # Identify the file formats that are allowed to be used for thumbnails. This value is used by the Thumbnails mixin to
 # calculate the best thumbnail candidate for a record.
-AppConfig[:thumbnail_file_format_names] = ['png', 'jpg', 'jpeg']
+AppConfig[:thumbnail_file_format_names] = ['png', 'jpg', 'jpeg', 'gif']
