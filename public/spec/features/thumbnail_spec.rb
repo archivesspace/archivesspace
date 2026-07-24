@@ -6,6 +6,7 @@ describe 'Thumbnails', js: true do
     @img_1 = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
     @img_2 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_001.jpg'
     @img_3 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_002.jpg'
+    @unrenderable_img = 'https://lyrasis.org'
     @caption_1 = 'This is caption 1'
     @caption_2 = 'This is caption 2'
     @long_caption = 'This is the long caption whose character count exceeds 56'
@@ -112,6 +113,20 @@ describe 'Thumbnails', js: true do
                                     }
                                   ]
     )
+    @dobj_with_unrenderable_thumbnail = create(
+      :digital_object,
+      publish: true,
+      title: '05 Digital object with unrenderable thumbnail',
+      file_versions: [
+        {
+          publish: true,
+          is_representative: true,
+          file_uri: @unrenderable_img,
+          use_statement: 'image-thumbnail',
+          caption: @caption_1
+        }
+      ]
+    )
     @resource_with_repfv = create(:resource,
                                   publish: true,
                                   title: 'Resource with thumbnail',
@@ -151,6 +166,17 @@ describe 'Thumbnails', js: true do
           caption: @long_caption
         }
       ]
+    )
+
+    @aobj_with_unrenderable_thumbnail =
+      create(:archival_object,
+        publish: true,
+        title: 'Archival Object with unrenderable thumbnail',
+        resource: {'ref' => @resource_with_repfv.uri},
+        instances: [build(:instance_digital,
+                          digital_object: { ref: @dobj_with_unrenderable_thumbnail.uri },
+                          is_representative: true
+                    )]
     )
 
     run_indexers
@@ -252,6 +278,15 @@ describe 'Thumbnails', js: true do
         expect(page.find(".pui-thumbnail img", visible: :all)[:src]).to eq @img_1
         expect(page.find('.pui-thumbnail img')[:alt]).to eq @caption_1
       end
+    end
+  end
+
+  describe "fallback to icon" do
+    it "shows fallback icon if the thumbnail URL cannot be rendered by the browser" do
+      visit @aobj_with_unrenderable_thumbnail.uri
+      expect(page).to have_css ".pui-thumbnail a[href='#{@unrenderable_img}']"
+      expect(page).to have_css(".pui-thumbnail img[src='#{@unrenderable_img}']", visible: :hidden)
+      expect(page).to have_css(".pui-thumbnail .pui-thumbnail-fallback", visible: true)
     end
   end
 end

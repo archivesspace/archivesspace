@@ -6,7 +6,12 @@
 <div class="digital-object-thumbnail">
   <%= link_to image_link_url, :target => image_link_target do %>
     <% if thumbnail['image_url'] %>
-      <%= image_tag thumbnail.fetch('image_url'), :alt => image_alt_text, 'onError' => 'this.closest(".digital-object-thumbnail").style.display = "none";' %>
+      <%= image_tag thumbnail.fetch('image_url'), :alt => image_alt_text, 'onError' => 'const parent = this.closest(".digital-object-thumbnail"); parent.querySelector("img").style.display = "none"; parent.querySelector(".digital-object-thumbnail-fallback").style.display = "block";' %>
+      <%= content_tag(:i, nil, {
+        :title => image_alt_text,
+        :class => 'digital-object-thumbnail-icon glyphicon glyphicon-file digital-object-thumbnail-fallback',
+        :style => 'display: none;'
+      }) %>
     <% else %>
       <%= content_tag(:i, nil, {
         :title => image_alt_text,
