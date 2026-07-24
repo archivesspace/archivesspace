@@ -35,7 +35,8 @@ class LinkedDigitalObjectSubreport < AbstractSubreport
 		from digital_object, #{@link_table}
 		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 		and #{@link_table}.digital_object_id = digital_object.id
-		and digital_object.repo_id = #{db.literal(@repo_id)}"
+		and digital_object.repo_id = #{db.literal(@repo_id)}
+		#{suppressed_filter('digital_object')}"
 	end
 
 	def fix_row(row)

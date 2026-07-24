@@ -16,8 +16,10 @@ class AccessionLinkedAccessionsSubreport < AbstractSubreport
     from related_accession_rlshp
       join accession as accession0 on accession_id_0 = accession0.id
       join accession as accession1 on accession_id_1 = accession1.id
-    where accession_id_0 = #{db.literal(@accession_id)}
-      or accession_id_1 = #{db.literal(@accession_id)}"
+    where (accession_id_0 = #{db.literal(@accession_id)}
+      or accession_id_1 = #{db.literal(@accession_id)})
+      #{suppressed_filter('accession0')}
+      #{suppressed_filter('accession1')}"
   end
 
   def fix_row(row)

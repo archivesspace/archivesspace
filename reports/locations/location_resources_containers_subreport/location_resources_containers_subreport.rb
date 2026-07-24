@@ -38,8 +38,8 @@ class LocationResourcesContainersSubreport < AbstractSubreport
 			join instance on instance.id = sub_container.instance_id
 			
 			left outer join archival_object on archival_object.id
-				= instance.archival_object_id
-			
+				= instance.archival_object_id#{suppressed_filter('archival_object')}
+
 		where top_container_housed_at_rlshp.location_id
 			= #{db.literal(@location_id)}
 			and (instance.resource_id = #{db.literal(@resource_id)}

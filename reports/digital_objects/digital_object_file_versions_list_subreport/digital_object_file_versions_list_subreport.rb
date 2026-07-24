@@ -16,8 +16,10 @@ class DigitalObjectFileVersionsListSubreport < AbstractSubreport
     left outer join digital_object
       on file_version.digital_object_id = digital_object.id
     left outer join digital_object_component on file_version.digital_object_component_id = digital_object_component.id
-    where digital_object.id = #{db.literal(@digital_object_id)}
-    or root_record_id = #{db.literal(@digital_object_id)}"
+    where (digital_object.id = #{db.literal(@digital_object_id)}
+    or root_record_id = #{db.literal(@digital_object_id)})
+    #{suppressed_filter('digital_object')}
+    #{suppressed_filter('digital_object_component')}"
   end
 
   def self.field_name

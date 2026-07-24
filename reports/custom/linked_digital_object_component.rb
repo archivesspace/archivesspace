@@ -39,7 +39,9 @@ class LinkedDigitalObjectComponentSubreport < AbstractSubreport
 			and #{@link_table}.digital_object_component_id
 			= digital_object_component.id
 			and digital_object_component.root_record_id = digital_object.id
-			and digital_object_component.repo_id = #{db.literal(@repo_id)}"
+			and digital_object_component.repo_id = #{db.literal(@repo_id)}
+			#{suppressed_filter('digital_object_component')}
+			#{suppressed_filter('digital_object')}"
 	end
 
 	def fix_row(row)

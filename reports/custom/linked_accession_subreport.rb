@@ -43,7 +43,8 @@ class LinkedAccessionSubreport < AbstractSubreport
 		from accession, #{@link_table}
 		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 		and #{@link_table}.accession_id = accession.id
-		and accession.repo_id = #{db.literal(@repo_id)}"
+		and accession.repo_id = #{db.literal(@repo_id)}
+		#{suppressed_filter('accession')}"
 	end
 
 	def fix_row(row)

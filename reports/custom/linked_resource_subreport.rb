@@ -45,7 +45,8 @@ class LinkedResourceSubreport < AbstractSubreport
 		from resource, #{@link_table}
 		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 		and #{@link_table}.#{@resource_id_field} = resource.id
-		and resource.repo_id = #{db.literal(@repo_id)}"
+		and resource.repo_id = #{db.literal(@repo_id)}
+		#{suppressed_filter('resource')}"
 	end
 
 	def fix_row(row)
