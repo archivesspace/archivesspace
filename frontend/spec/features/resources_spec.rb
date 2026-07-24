@@ -1912,4 +1912,31 @@ describe 'Resources', js: true do
       end
     end
   end
+
+  describe 'related accessions linker' do
+    it 'renders each linked accession only once in the edit form' do
+      now = Time.now.to_i
+      accession = create(:accession, title: "Linked Accession #{now}")
+      resource = create(
+        :resource,
+        title: "Resource with related accession #{now}",
+        related_accessions: [{ 'ref' => accession.uri }]
+      )
+
+      visit "resources/#{resource.id}/edit"
+      wait_for_ajax
+
+      resolved_inputs = all(
+        "input[name='resource[related_accessions][0][_resolved]']",
+        visible: :all
+      )
+      ref_inputs = all(
+        "input[name='resource[related_accessions][0][ref]']",
+        visible: :all
+      )
+
+      expect(resolved_inputs.size).to eq(1)
+      expect(ref_inputs.size).to eq(1)
+    end
+  end
 end
