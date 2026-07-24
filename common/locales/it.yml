@@ -633,6 +633,7 @@ it:
       to: A
       locations: Ubicazioni
       scope_by_date: Ambito per Data
+      include_suppressed: Includi record bloccati
       template: Modello
       rating: Valutazione
       values: Valori

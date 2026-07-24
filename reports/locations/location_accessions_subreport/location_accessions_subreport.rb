@@ -30,7 +30,8 @@ class LocationAccessionsSubreport < AbstractSubreport
       join instance on instance.id = sub_container.instance_id
         join accession on accession.id = instance.accession_id
 
-    where accession.repo_id = #{db.literal(@repo_id)}"
+    where accession.repo_id = #{db.literal(@repo_id)}
+      #{suppressed_filter('accession')}"
   end
 
   def fix_row(row)

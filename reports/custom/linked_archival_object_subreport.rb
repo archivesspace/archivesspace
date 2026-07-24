@@ -36,6 +36,8 @@ class LinkedArchivalObjectSubreport < AbstractSubreport
 			from_string += ", resource"
 			where_string += " and #{@link_table}.archival_object_id = archival_object.id"
 		end
+		where_string += suppressed_filter('archival_object')
+		where_string += suppressed_filter('resource')
 
 		fields = ['archival_object.component_id',
 							'archival_object.title',
