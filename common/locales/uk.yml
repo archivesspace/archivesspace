@@ -2555,6 +2555,7 @@ uk:
       script_code: Не вдається перевірити мовний скрипт (%{script})
       process_error: 'Помилка обробки %{type} %{num}: %{why}'
       bad_ao_uri: ' з uri %{uri}'
+      bad_accession_uri: 'Доступ не знайдено з uri %{uri}'
       bad_ao_ref_id: ' з ідентифікатором посилання %{ref_id}'
       bad_ao: Не вдається знайти архівний об'єкт %{errs}
       no_uri_or_ref: Не було надано ні URI архівного об'єкта, ні ідентифікатор посилання

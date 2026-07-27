@@ -1414,6 +1414,7 @@ pl:
       bad_ao: Nie można znaleźć obiektu archiwalnego %{errs}
       bad_ao_ref_id: ' z numerem referencyjnym %{ref_id}'
       bad_ao_uri: ' z identyfikatorem URI %{uri}'
+      bad_accession_uri: 'Nie znaleziono akcesji z identyfikatorem URI %{uri}'
       process_error: 'Błąd podczas przetwarzania %{type} %{num}: %{why}'
       script_code: Nie można zweryfikować skryptu językowego (%{script}).
       lang_code: Nie można zweryfikować języka (%{lang})

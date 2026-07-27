@@ -621,3 +621,18 @@ Then 'the {string} record is listed in the New & Modified Records form' do |reco
   visit current_url
   expect(find('#generated_uris .subrecord-form-fields').text).to include record
 end
+
+Then 'the {string} page is displayed' do |string|
+  tries = 0
+
+  loop do
+    expect(find('h2').text).to start_with string
+
+    break
+  rescue RSpec::Expectations::ExpectationNotMetError => e
+    tries += 1
+    sleep 3
+
+    raise e if tries == 5
+  end
+end

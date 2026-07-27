@@ -2894,6 +2894,7 @@ fr:
       script_code: "Impossible de valider un script de langue (%{script})"
       process_error: "Traitement d'erreur %{type} %{num}: %{why}"
       bad_ao_uri: " Avec uri %{uri}"
+      bad_accession_uri: "Entrée non trouvée avec uri %{uri}"
       bad_ao_ref_id: " Avec REF ID %{ref_id}"
       bad_ao: "Impossible de trouver l'objet d'archives %{errs}"
       no_uri_or_ref: Ni un URI objet d'archives ni REF ID n'a été fournie
