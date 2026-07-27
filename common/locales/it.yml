@@ -580,6 +580,10 @@ it:
 
       <li>Sconosciuto = Lo stato del copyright della risorsa è sconosciuto.</li>
       </ul>
+    license_terms: Termini di licenza
+    license_terms_tooltip: |
+      <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
+    statute_citation: Citazione dello statuto
   accession:
     accession_id: Identificatore
     identifier: Identificatore
