@@ -1,0 +1,36 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:8888/iiif/manifest/book",
+  "type": "Manifest",
+  "label": { "en": ["Simple Manifest - Book"] },
+  "items": [
+    {
+      "id": "http://localhost:8888/iiif/manifest/book/canvas/1",
+      "type": "Canvas",
+      "label": { "en": ["Page 1"] },
+      "height": 4,
+      "width": 4,
+      "items": [
+        {
+          "id": "http://localhost:8888/iiif/manifest/book/canvas/1/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:8888/iiif/manifest/book/canvas/1/page/annotation",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "http://localhost:8888/iiif/manifest/book/canvas/1",
+              "body": {
+                "id": "http://localhost:8888/iiif/image/book.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 4,
+                "width": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

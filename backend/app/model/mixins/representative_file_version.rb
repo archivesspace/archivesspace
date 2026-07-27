@@ -29,6 +29,8 @@
 # This could be optimized such that the json objects are only augmented with this field when the request is coming
 # from the indexer.
 
+require 'iiif'
+
 module RepresentativeFileVersion
 
   def self.included(base)
@@ -91,7 +93,8 @@ module RepresentativeFileVersion
             # The older logic for selecting an image to show via `process_file_versions`
             # in public/app/controllers/concerns/result_info.rb
             elsif fv_pairs[2].nil? && fv["publish"] \
-              && fv["file_uri"].start_with?('http') && fv["xlink_show_attribute"] == 'embed'
+              && fv["file_uri"].start_with?('http') && fv["xlink_show_attribute"] == 'embed' \
+              && !IIIF.manifest?(fv)
 
               last_pair = fv_pairs[2] = [fv]
             end

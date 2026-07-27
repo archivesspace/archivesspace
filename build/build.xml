@@ -819,6 +819,37 @@
     </java>
   </target>
 
+  <!-- IIIF -->
+  <target name="iiif:update_mirador" depends="set-classpath, bootstrap-jruby" description="Update the bundled Mirador IIIF viewer">
+    <property name="version" value="" />
+    <!-- thor loads every task in scripts/tasks, so the gems those tasks
+         require (doc.thor needs git) have to be installed too. -->
+    <antcall target="bundler">
+      <param name="gemfile" value="../Gemfile" />
+      <param name="included-gem-groups" value="thor release_notes" />
+      <param name="excluded-gem-groups" value="default test development docs build rubocop" />
+    </antcall>
+    <antcall target="thor">
+      <param name="task" value="iiif:update_mirador" />
+      <param name="task_args" value="--version=${version}" />
+    </antcall>
+  </target>
+
+  <target name="iiif:update_uv" depends="set-classpath, bootstrap-jruby" description="Update the bundled Universal Viewer IIIF viewer">
+    <property name="version" value="" />
+    <!-- thor loads every task in scripts/tasks, so the gems those tasks
+         require (doc.thor needs git) have to be installed too. -->
+    <antcall target="bundler">
+      <param name="gemfile" value="../Gemfile" />
+      <param name="included-gem-groups" value="thor release_notes" />
+      <param name="excluded-gem-groups" value="default test development docs build rubocop" />
+    </antcall>
+    <antcall target="thor">
+      <param name="task" value="iiif:update_uv" />
+      <param name="task_args" value="--version=${version}" />
+    </antcall>
+  </target>
+
   <!-- INDEXER -->
   <target name="indexer" depends="set-classpath" description="Run the search indexer">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../indexer">
