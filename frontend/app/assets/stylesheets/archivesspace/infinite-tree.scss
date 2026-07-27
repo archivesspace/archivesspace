@@ -485,6 +485,7 @@
     flex: 0 0 var(--tree-column-drag-handle-width);
     position: relative;
     z-index: 1;
+    overflow: visible; // Allows the selection-order-badge to overflow
   }
 
   .node-indentation {
@@ -501,15 +502,14 @@
 
   .selection-order-badge:not(:empty) {
     position: absolute;
-    top: 0.25rem;
-    right: 0.15rem;
-    min-width: 0.9rem;
+    left: 6px; // Centers the badge when single-digit order number
+    min-width: 0.875rem;
     height: 1rem;
-    padding: 0 0.2rem;
+    padding: 0 0.25rem;
     border-radius: 0.5rem;
     background-color: var(--tree-multiselect-border);
     color: var(--gray-0);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     line-height: 1rem;
     text-align: center;
   }
