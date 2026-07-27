@@ -563,6 +563,23 @@ it:
   rights_statement:
     identifier: Identificatore
     identifier_auto_generate_message: -- auto-generato al salvataggio --
+    identifier_tooltip: |
+      <p>Identifica in modo univoco la dichiarazione dei diritti all'interno del dominio del repository. Gli identificatori della dichiarazione dei diritti vengono solitamente generati automaticamente dall'applicazione.</p>
+    rights_type: Tipo di diritti
+    rights_type_tooltip: |
+      <p>La base giuridica per la dichiarazione dei diritti. Sono consentite quattro basi: Copyright, Licenza, Legge e Altro. La Licenza si applica a licenze formali e informali, come ad esempio gli accordi di donazione e acquisto. La Legge si applica a leggi codificate come il Fair Use o il FERPA negli Stati Uniti. La categoria Altro si applica alle politiche istituzionali o ad altre basi diverse da copyright, licenza e legge. Può essere utilizzata anche per gli accordi di donazione e acquisto, se il repository lo preferisce.</p>
+    rights_type_message: Seleziona un tipo di diritti
+    status: Stato
+    status_tooltip: |
+      <p>Un codice identificativo che indica lo stato del copyright dell'oggetto al momento della registrazione della dichiarazione dei diritti.</p>
+      <ul>
+
+      <li>Protetto da copyright = Soggetto a copyright.</li>
+
+      <li>Dominio pubblico = Di dominio pubblico.</li>
+
+      <li>Sconosciuto = Lo stato del copyright della risorsa è sconosciuto.</li>
+      </ul>
   accession:
     accession_id: Identificatore
     identifier: Identificatore
@@ -590,6 +607,58 @@ it:
     _plural: Versioni dei file
     _singular: Versione del file
     file: File
+    file_uri: URI del file
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questa versione del file viene pubblicata sulle interfacce pubbliche (per gli utenti).</p>
+    use_statement: Dichiarazione d'uso
+    use_statement_tooltip: |
+      <p>Un descrittore che indica l'uso a cui è destinato il file digitale (ad esempio, un'anteprima).</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    xlink_actuate_attribute: Attributo XLink Actuate
+    xlink_actuate_attribute_tooltip: |
+      <p>Un attributo XLink utilizzato per l'esportazione per indicare come deve essere visualizzato l'oggetto digitale (ad esempio, se il collegamento avviene automaticamente o deve essere richiesto dall'utente). Viene utilizzato insieme all'attributo XLink Show.</p>
+    xlink_show_attribute: XLink Mostra attributo
+    xlink_show_attribute_tooltip: |
+      <p>Un attributo XLink utilizzato per l'esportazione che indica come deve essere visualizzato l'elemento di destinazione di un collegamento. Viene utilizzato insieme all'attributo XLink Actuate.</p>
+    file_format_name: Nome formato file
+    file_format_name_tooltip: |
+      <p>Il nome del formato per il tipo di file.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Formato file di interscambio audio (aiff)</li>
+      <li>Formato audio/video interlacciato (avi)</li>
+      <li>Formato file di interscambio JPEG (jpeg)</li>
+      <li>MPEG-Audio Layer 3 (mp3)</li>
+      <li>Formato documento portatile (pdf)</li>
+      </ul>
+    file_format_version: Versione del formato file
+    file_format_version_tooltip: |
+      <p>La versione del formato per il tipo di file.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>5.0 <em>(per TIFF 5.0)</em></li>
+      </ul>
+    file_size_bytes: Dimensione del file (byte)
+    file_size_bytes_tooltip: |
+      <p>La dimensione (in byte) del file digitale.</p>
+    checksum: Checksum
+    checksum_tooltip: |
+      <p>Una firma digitale per monitorare l'integrità e l'autenticità di un file digitale.</p>
+    checksum_method: Metodo del checksum
+    checksum_method_tooltip: |
+      <p>L'algoritmo utilizzato per generare i checksum.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>MD5</li>
+      <li>CRC-32</li>
+      <li>SHA-1</li>
+      <li>SHA-256</li>
+      </ul>
+    caption: Didascalia
+    is_representative: Rappresentante
   agent:
     agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
       assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
@@ -625,6 +694,22 @@ it:
       <p>Indica se l'entità è una persona giuridica standard oppure una conferenza, una riunione o un altro evento denominato.</p>
   external_document:
     location: Ubicazione
+    title: Titolo
+    title_tooltip: |
+      <p>Il titolo di un documento esterno a cui si fa riferimento nel record. Il documento può essere di qualsiasi formato o contenuto. Un file accessibile via web, un file accessibile in rete, un file sullo stesso computer dell'applicazione, ecc.</p>
+    location_tooltip: |
+      <p>Il percorso del file, idealmente un URI risolvibile.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>http://www.archivesspace.org/</li>
+      <li>file:///c:/path/to/the%20file.txt</li>
+      </ul>
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questo documento esterno viene pubblicato sulle interfacce pubbliche (per gli utenti).</p>
+    document_link: Collegamento al documento
+    _plural: Documenti esterni
+    _singular: Documento esterno
   assessment:
     appraisal: Valutazione
   reports:
@@ -659,6 +744,7 @@ it:
       a contenuto misto."
   lang_material:
     _plural: Lingue
+    _singular: Lingua
   parallel_name:
     _frontend:
       action:
@@ -1098,3 +1184,59 @@ it:
     _singular: Esempio
   instance_container:
     barcode: Codice a barre
+  extent:
+    portion: Porzione
+    portion_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Utilizzato per specificare se un'istruzione di estensione si riferisce all'intero o a una parte di un'aggregazione o di un oggetto descritto.</p>
+      <p>Vedi DACS 2.5.7</p>
+    number: Numero
+    number_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Un valore numerico per indicare il numero di unità nell'indicazione di estensione, ad esempio 5, 11.5, 245. Utilizzato insieme al Tipo di estensione per fornire un'indicazione di estensione strutturata.</p>
+      <p>Vedi DACS 2.5, ISAD(G) 3.1.5</p>
+    extent_type: Tipa
+    extent_type_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Un termine che indica il tipo di unità utilizzata per misurare l'estensione dei materiali descritti.</p>
+      <p>I valori in questo Elenco di Valori Controllati possono essere modificati.</p>
+      <p>Vedere DACS 2.5, ISAD(G) 3.1.5</p>
+    container_summary: Riepilogo del contenitore
+    container_summary_tooltip: |
+      <p>Elenco dei contenitori e delle tipologie di contenitori che ospitano i materiali descritti nella scheda del componente.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>10 scatole per documenti, 6 scatole per archivio, 3 cartelle di grandi dimensioni.</li>
+      <li>12 scatole da scarpe.</li>
+      <li>4 scatole per archivio, 32 tubi.</li>
+      </ul>
+    physical_details: Dettagli fisici
+    physical_details_tooltip: |
+      <p>Altri dettagli fisici dei materiali descritti, ad esempio: analogico, bianco e nero, negativi.</p>
+      <p>Vedere DACS 2.5, ISAD(G) 3.1.5</p>
+    dimensions: Dimensioni
+    dimensions_tooltip: |
+      <p>Dimensioni dei materiali descritti.</p>
+      <p>Vedere DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>29 cm</li>
+      <li>7 1/4 x 3 1/2 pollici.</li>
+      <li>Nastro da 1/2 pollice.</li>
+      </ul>
+    _plural: Estensione
+    _singular: Estensione
+  language:
+    _plural: Lingue
+    _singular: Lingua
+  language_and_script:
+    language: Lingua
+    language_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Il termine e il codice linguistico rappresentati nel/nei materiale/i descritto/i. I codici sono tratti dalla norma ISO 639-2b: Codici per la rappresentazione dei nomi delle lingue.</p>
+      <p>Vedi DACS 4.5, ISAD(G) 3.4.3</p>
+    script: Sceneggiatura
+    script_tooltip: |
+      <p>Il termine e il codice di scrittura rappresentati nel/nei materiale/i descritto/i. Codici tratti dalla norma ISO 15924: Codici per la rappresentazione dei nomi degli alfabeti.</p>
+      <p>Vedi DACS 4.5, ISAD(G) 3.4.3</p>
+  external_id:
+    _plural: ID esterni
+    _singular: ID
+    source: Fonte
+    external_id: ID
