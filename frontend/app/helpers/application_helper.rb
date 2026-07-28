@@ -181,7 +181,7 @@ module ApplicationHelper
     { prefix_html: prefix }
   end
 
-  def primary_language_badge(record)
+  def description_language_badge(record)
     return unless AppConfig[:multilingual_content]
     inherits_lang_descs = %w[archival_object digital_object_component].include?(record["jsonmodel_type"])
     if inherits_lang_descs
@@ -191,8 +191,17 @@ module ApplicationHelper
       lang_descs = record["lang_descriptions"].to_a
     end
     return unless lang_descs.many?
-    lang = lang_descs.find { |ld| ld["is_primary"] }&.dig("language")
+    lang = selected_description_language(lang_descs)
     mlc_language_badge(lang)
+  end
+
+  def selected_description_language(lang_descs)
+    selected = params[:language_of_description].to_s.split('_', 2).first
+    if selected.present? && lang_descs.any? { |ld| ld["language"] == selected }
+      selected
+    else
+      lang_descs.find { |ld| ld["is_primary"] }&.dig("language")
+    end
   end
 
   def mlc_language_badge(langcode)

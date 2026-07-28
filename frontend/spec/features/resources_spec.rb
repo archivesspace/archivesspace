@@ -1944,6 +1944,22 @@ describe 'Resources', js: true do
         expect(page.current_url).to include('language_of_description=fre_Latn')
       end
 
+      it 'updates the subrecord language badges to the selected language' do
+        within '#resource_dates_' do
+          expect(page).to have_css('.mlc-badge', text: 'ENG')
+        end
+
+        within '#language-of-description-dropdown' do
+          find('.dropdown-toggle').click
+          find('input[type="radio"][value="fre_Latn"]').choose
+        end
+        wait_for_ajax
+
+        within '#resource_dates_' do
+          expect(page).to have_css('.mlc-badge', text: 'FRE')
+        end
+      end
+
       it 'saves non-primary language edits to that language without modifying the primary language' do
         within '#language-of-description-dropdown' do
           find('.dropdown-toggle').click

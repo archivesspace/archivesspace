@@ -23,7 +23,7 @@
   <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
     <<%= header_size%> class="subrecord-form-heading flex-grow-1 mb-0 border-0">
       <%= wrap_with_tooltip(t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
-      <%= primary_language_badge(form.obj) %>
+      <%= description_language_badge(form.obj) %>
     </<%= header_size%>>
 
     <% if show_apply_note_order_action %>
