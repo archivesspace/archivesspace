@@ -2840,6 +2840,7 @@ fr:
       initialize: "Le traitement est mis fin à [%{msg}]"
       stopped: "Traitement arrêté à la ligne %{row} [%{msg}]"
       duplicates: "Cette feuille de calcul en double codes Espace d'archives sur le terrain: %{codes}"
+      unknown_columns: "Ces colonnes ne sont pas reconnues (vous utilisez peut-être un modèle obsolète) : %{codes}"
       res_ead: Ressources de cette forme il manque un numéro EAD
       row_ead: Cette ligne manque un ID EAD
       row_missing_ead_uri: Cette ligne est à la fois un manque EAD ID et URI

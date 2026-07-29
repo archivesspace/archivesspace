@@ -2708,6 +2708,7 @@ de:
       enum: "UNGÜLTIG: %{which}: '%{label}'. Gültige Werte: %{valid_values}"
       error: 'FEHLER: Fehler erkannt: %{term}'
       duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
+      unknown_columns: 'Diese Spalten werden nicht erkannt (möglicherweise verwenden Sie eine veraltete Vorlage): %{codes}'
       uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile 
         [%{row_uri}] überein
       title: Fehlender Titel

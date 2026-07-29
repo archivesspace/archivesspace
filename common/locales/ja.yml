@@ -1997,6 +1997,7 @@ ja:
       initialize: "処理が終了し、[%{msg}]は"
       stopped: "処理は、[%{row}] %{msg}行で停止しました"
       duplicates: "：%{codes}このスプレッドシートは、アーカイブ領域フィールドコードを重複しています"
+      unknown_columns: "これらの列は認識されません（古いテンプレートを使用している可能性があります）：%{codes}"
       res_ead: この形式のリソースは、EAD IDが欠落しています
       row_ead: この行は、EAD IDが欠落しています
       row_missing_ead_uri: この行は、EAD IDとURIの両方が欠落しています

@@ -2738,6 +2738,7 @@ es:
       initialize: "Procesamiento se termina [%{msg}]"
       stopped: "Procesamiento detuvo en fila %{row} [%{msg}]"
       duplicates: "Esta hoja de cálculo tiene códigos duplicados Archivo campo espacial: %{codes}"
+      unknown_columns: "Estas columnas no se reconocen (es posible que esté usando una plantilla desactualizada): %{codes}"
       res_ead: Recursos de esta forma es que falta un EAD ID
       row_ead: Esta fila no aparece un EAD ID
       row_missing_ead_uri: Esta fila le falta la EAD y un ID URI

@@ -2964,6 +2964,7 @@ en:
       initialize: "Processing is terminated [%{msg}]"
       stopped: "Processing stopped at row %{row} [%{msg}]"
       duplicates: "This spreadsheet has duplicate ArchivesSpace field codes: %{codes}"
+      unknown_columns: "These columns are not recognized (you may be using an outdated template): %{codes}"
       res_ead: This form's resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
       row_missing_ead_uri: This row is missing BOTH an EAD ID and URI

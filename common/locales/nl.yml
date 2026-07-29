@@ -1,4 +1,7 @@
 nl:
+  bulk_import:
+    error:
+      unknown_columns: "Deze kolommen worden niet herkend (mogelijk gebruikt u een verouderd sjabloon): %{codes}"
   reports:
     formats:
       json: JSON
