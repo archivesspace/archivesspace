@@ -2,7 +2,6 @@
   "recommendations": [
     "Shopify.ruby-lsp",
     "alexkrechik.cucumberautocomplete",
-    "emeraldwalk.runonsave",
-    "marcoroth.herb-lsp"
+    "emeraldwalk.runonsave"
   ]
 }

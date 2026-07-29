@@ -32,9 +32,6 @@
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "[erb]": {
-      "editor.defaultFormatter": "marcoroth.herb-lsp"
-    },
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
     },
