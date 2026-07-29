@@ -30,6 +30,8 @@ files:
 #   # Patterns to exclude (can exclude defaults too)
   exclude:
     - 'build/*'
+    - 'frontend/public/uv/uv.html'
+    - 'public/public/uv/uv.html'
     - 'public/app/views/pdf/*'
     - 'public/app/views/shared/_present_list.html.erb'
     - 'public/app/views/shared/_search.html.erb'
