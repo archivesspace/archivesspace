@@ -23,6 +23,7 @@ class ImportDigitalObjects < BulkImportParser
     @notes_handler = NotesHandler.new
     @agent_handler = AgentHandler.new(@current_user, @validate_only)
     @subject_handler = SubjectHandler.new(@current_user, @validate_only)
+    @lang_handler = LangHandler.new(@current_user)
 
     begin
       normalize_boolean_column(@row_hash, 'digital_object_publish')
@@ -47,7 +48,10 @@ class ImportDigitalObjects < BulkImportParser
         linked_agents: linked_agents,
         archival_object: ao,
         report: @report,
-        file_versions: file_versions)
+        file_versions: file_versions,
+        lang_materials: create_lang_materials,
+        user_defined: create_user_defined,
+        collection_management: create_collection_management)
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -145,6 +149,78 @@ class ImportDigitalObjects < BulkImportParser
 
   private
 
+  def valid_column_codes
+    @valid_column_codes ||= CSV.read(
+      File.join(File.dirname(__FILE__), "..", "templates", "bulk_import_DO_template.csv")
+    ).first
+  end
+
+  def repeatable_column_prefixes
+    %w[file_version_ lang_material_ people_agent_ families_agent_ corporate_entities_agent_ subject_ note_
+       dates_label_ begin_ end_ date_type_ expression_ date_certainty_
+       portion_ number_ extent_type_ container_summary_ physical_details_ dimensions_]
+  end
+
+  def create_lang_materials
+    lang_materials = []
+    counter = 1
+    until [@row_hash["lang_material_language_#{counter}"], @row_hash["lang_material_script_#{counter}"]].compact.empty?
+      lang_materials.concat(
+        @lang_handler.create_language(
+          @row_hash["lang_material_language_#{counter}"],
+          @row_hash["lang_material_script_#{counter}"],
+          nil, nil, @report
+        )
+      )
+      counter += 1
+    end
+    lang_materials
+  end
+
+  def create_collection_management
+    cm = {}
+    @row_hash.keys.grep(/\Acollection_management_/).each do |col|
+      value = @row_hash[col]
+      next if value.nil?
+
+      field = col.sub(/\Acollection_management_/, "")
+      cm[field] =
+        if field == "rights_determined"
+          normalize_boolean_column(@row_hash, col)
+        else
+          value
+        end
+    end
+    return nil if cm.empty?
+
+    cm["jsonmodel_type"] = "collection_management"
+    cm
+  end
+
+  def create_user_defined
+    ud = {}
+    @row_hash.keys.grep(/\Auser_defined_/).each do |col|
+      value = @row_hash[col]
+      next if value.nil?
+
+      field = col.sub(/\Auser_defined_/, "")
+      ud[field] =
+        if field.start_with?("boolean_")
+          normalize_boolean_column(@row_hash, col)
+        elsif field.start_with?("integer_")
+          value.to_i.to_s
+        elsif field.start_with?("real_")
+          "%0.2f" % value.to_f
+        else
+          value
+        end
+    end
+    return nil if ud.empty?
+
+    ud["jsonmodel_type"] = "user_defined"
+    ud
+  end
+
   def create_dates
     dates = []
 
@@ -226,13 +302,13 @@ class ImportDigitalObjects < BulkImportParser
 
     repo_id = @repository.split("/")[2]
     (1..10).each do |num|
-      unless @row_hash["subject_#{num}_record_id"].nil? && @row_hash["subject_#{num}_term"].nil?
+      unless @row_hash["subject_record_id_#{num}"].nil? && @row_hash["subject_term_#{num}"].nil?
         subj = nil
         begin
           subj = @subject_handler.get_or_create(
-            @row_hash["subject_#{num}_record_id"],
-            @row_hash["subject_#{num}_term"], @row_hash["subject_#{num}_type"],
-            @row_hash["subject_#{num}_source"], repo_id, @report
+            @row_hash["subject_record_id_#{num}"],
+            @row_hash["subject_term_#{num}"], @row_hash["subject_type_#{num}"],
+            @row_hash["subject_source_#{num}"], repo_id, @report
           )
 
           subjects.push subj if subj
