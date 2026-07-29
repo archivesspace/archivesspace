@@ -516,7 +516,7 @@ $(function () {
               .children('.icon-token')
               .addClass(config.span_class);
             $('input[name*=resolved]', tokenEl).val(
-              JSON.stringify(omitLinkedRecords(item.json))
+              JSON.stringify(omitNestedRecords(item.json))
             );
             return tokenEl;
           },
@@ -678,24 +678,19 @@ $(function () {
     }
   }
 
-  // ANW-2762: A token only needs a record's identity/display fields
-  function omitLinkedRecords(json) {
-    if (!json) {
+  function omitNestedRecords(json) {
+    if (!json || typeof json !== 'object') {
       return json;
     }
 
-    const trimmed = { ...json };
-    delete trimmed.linked_records;
-
-    if (typeof trimmed.json === 'string') {
-      const inner = JSON.parse(trimmed.json);
-      if (inner) {
-        delete inner.linked_records;
-        trimmed.json = JSON.stringify(inner);
+    return Object.keys(json).reduce(function (trimmed, key) {
+      var value = json[key];
+      var isSubrecord = value !== null && typeof value === 'object';
+      if (key !== 'json' && !isSubrecord) {
+        trimmed[key] = value;
       }
-    }
-
-    return trimmed;
+      return trimmed;
+    }, {});
   }
 });
 

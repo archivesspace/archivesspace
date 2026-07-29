@@ -1,0 +1,63 @@
+{
+  "options": {
+    "dropEnabled": true,
+    "footerPanelEnabled": true,
+    "headerPanelEnabled": true,
+    "leftPanelEnabled": true,
+    "limitLocales": false,
+    "overrideFullScreen": false,
+    "pagingEnabled": true,
+    "preferMediaElementExtension": false,
+    "rightPanelEnabled": true,
+    "clickToZoomEnabled": false,
+    "saveUserSettings": true,
+    "animationDuration": 250
+  },
+  "modules": {
+    "avCenterPanel": {
+      "options": {
+        "mostSpecificRequiredStatement": true
+      }
+    },
+    "downloadDialogue": {
+      "options": {
+        "selectionEnabled": true
+      }
+    },
+    "headerPanel": {
+      "options": {
+        "localeToggleEnabled": false
+      }
+    },
+    "pagingHeaderPanel": {
+      "options": {
+        "pagingToggleEnabled": true
+      }
+    },
+    "openSeadragonCenterPanel": {
+      "options": {
+        "autoHideControls": false,
+        "showHomeControl": false,
+        "showAdjustImageControl": true
+      }
+    },
+    "mediaElementCenterPanel": {
+      "options": {
+        "autoPlayOnSetTarget": false
+      }
+    },
+    "footerPanel": {
+      "options": {
+        "downloadEnabled": true
+      }
+    },
+    "shareDialogue": {
+      "options": {
+        "embedPath": "/uv.html",
+        "embedHost": null,
+        "embedPort": null,
+        "embedTemplate": "<iframe src=\"{0}\" width=\"{1}\" height=\"{2}\" allowfullscreen frameborder=\"0\" title=\"{3}\"></iframe>"
+      }
+    }
+  }
+}

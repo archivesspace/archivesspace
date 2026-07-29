@@ -1417,6 +1417,8 @@ it:
         add: Aggiungi documento esterno
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer] su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato esternamente."
       action:
         add: Aggiungi versione del file
         make_representative: Rendere rappresentante

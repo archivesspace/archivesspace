@@ -1862,6 +1862,7 @@ uk:
       to: До
       locations: Місця розташування
       scope_by_date: Обсяг за датою
+      include_suppressed: Включити приховані записи
       template: Шаблон
       rating: Рейтинг
       values: Цінності

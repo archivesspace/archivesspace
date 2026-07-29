@@ -584,6 +584,39 @@ it:
     license_terms_tooltip: |
       <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
     statute_citation: Citazione dello statuto
+    statute_citation_tooltip: |
+      <p>Una citazione, un URI o altro riferimento alla legge relativa alla presente Dichiarazione dei diritti.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Legge sulla libertà di informazione e la protezione della privacy [RSBC 1996] Capitolo 165</li>
+      </ul>
+    jurisdiction: Giurisdizione
+    jurisdiction_tooltip: |
+      <p>Copyright: il paese le cui leggi sul copyright si applicano.</p>
+      <p>Legge: il paese o altro ente politico che emana la legge.</p>
+      <p>Conforme alla norma ISO 3166.</p>
+    type_note: Tipo Nota
+    type_note_tooltip: |
+      <p>Qualsiasi informazione aggiuntiva sul copyright, la licenza, la legge o le politiche istituzionali e/o sulla loro applicazione ai materiali descritti.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Restrizioni d'uso: Quest'opera potrebbe essere protetta dalle leggi sul copyright. L'utilizzo di quest'opera al di là di quanto consentito dalla legge sul copyright applicabile richiede l'autorizzazione scritta del/dei titolare/i del copyright. La responsabilità di ottenere le autorizzazioni per qualsiasi utilizzo e distribuzione di quest'opera spetta esclusivamente all'utente e non alle Biblioteche dell'UC San Diego. Per informazioni, rivolgersi alla Biblioteca delle Collezioni Speciali di Mandeville (http://libraries.ucsd.edu/locations/mscl/).</li>
+      </ul>
+    determination_date: Data di determinazione
+    determination_date_tooltip: |
+      <p>Copyright: la data in cui è stato determinato lo stato del copyright registrato nella sezione "Stato del copyright".</p>
+      <p>Legge: la data in cui è stato stabilito che la legge autorizzava le autorizzazioni indicate.</p>
+    start_date: Data di lancio
+    start_date_tooltip: |
+      <p>Data di entrata in vigore della dichiarazione dei diritti.</p>
+    end_date: Data di fine
+    end_date_tooltip: |
+      <p>Data di scadenza della dichiarazione dei diritti.</p>
+    other_rights_basis: Altri diritti fondati
+    other_rights_basis_tooltip: |
+      <p>Diritti Tipo di altre dichiarazioni relative a diritti che non sono statuti, licenze o diritti d'autore.</p>
+    _plural: Dichiarazioni dei diritti
+    _singular: Dichiarazione dei diritti
   accession:
     accession_id: Identificatore
     identifier: Identificatore
@@ -591,6 +624,140 @@ it:
     id_1: Identificatore 2
     id_2: Identificatore 3
     id_3: Identificatore 4
+    accession_date: Data di accesso
+    accession_date_unknown: sconosciuta
+    accession_date_inline_help: ad esempio AAAA-MM-GG
+    accession_date_tooltip: |
+      <p>La data in cui è avvenuta l'acquisizione. Non è
+      necessariamente la stessa data di creazione del record.</p>
+    accession_id_tooltip: |
+      <p>Il numero interno del database per uno specifico record di accesso.</p>
+    id_0_tooltip: |
+      <p>CAMPO OBBLIGATORIO: L'identificativo univoco di un numero di accesso all'interno di un archivio.</p>
+      <p>In ArchivesSpace, sono disponibili quattro campi per suddividere un identificativo di accesso nelle sue parti componenti. Ogni segmento è limitato a 50 caratteri, per un totale di 200 caratteri per l'identificativo.
+      Almeno la prima parte deve essere utilizzata per un record di accesso valido.</p>
+      <p>È possibile utilizzare valori predefiniti per popolare le parti componenti che sono
+      uguali per tutti i numeri di accesso.</p>
+      <p>Vedi DACS 5.2.5, ISAD(G) 3.2.4</p>
+    content_description: Descrizione dei contenuti
+    content_description_tooltip: |
+      <p>Descrizione delle tipologie di documenti e dei contenuti tematici dell'acquisizione.</p>
+      <p>Vedi DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
+      <p>Esempi:</p>
+      <p>Dieci scatole di materiale contenente appunti sul campo, diari e bozze di mappe che documentano i 10 anni di residenza del signor Smith presso l'Otay Mesa Ranch.</p>
+    condition_description: Descrizione della condizione
+    condition_description_tooltip: |
+      <p>Descrizione delle condizioni fisiche del contenuto dell'inventario, inclusi eventuali requisiti speciali per la manipolazione.</p>
+      <p>Esempi:</p>
+      <p>Le mappe nella scatola 4 sono fragili e diverse sono ricoperte di muffa.
+
+      Durante la lavorazione è necessario indossare dispositivi di protezione delle vie respiratorie.</p>
+    disposition: Disposizione
+    disposition_tooltip: |
+      <p>Una nota per descrivere come un particolare documento potrebbe essere stato assegnato a diverse risorse.</p>
+      <p>Esempi:</p>
+      <p>Le fotografie sono state separate e assegnate alla sezione Fotografie 025.</p>
+      <p>Le lettere indirizzate a William Colton sono state aggiunte alla collezione di corrispondenza di William Colton, mentre le mappe dei corsi d'acqua locali sono state aggiunte ai documenti della collezione sui fiumi della contea.</p>
+    general_note: Nota generale
+    general_note_tooltip: |
+      <p>Un campo generico per le note, destinato a raccogliere qualsiasi informazione che non rientri in nessuno dei campi più specifici.</p>
+    inventory: Inventario
+    inventory_tooltip: |
+      <p>Elenco dei contenitori e del loro contenuto che costituiscono un inventario. L'elenco dei contenitori può essere creato direttamente nel campo, copiato e incollato oppure referenziato come documento esterno. Il riferimento al documento esterno può essere registrato qui o in un sottorecord "Documenti esterni".</p>
+      <p>Esempio:</p>
+      <ul>
+      <li>Contenitore 1: Diari</li>
+      <li>Contenitore 2: Lettere alla famiglia del signor Smith</li>
+      <li>Contenitore 3: Documenti personali dei dipendenti del ranch</li>
+      <li>Contenitore 4: Bozze di mappe del ranch</li>
+      </ul>
+    provenance: Provenienza
+    provenance_tooltip: |
+      <p>Una nota che fornisce informazioni sulla provenienza di un oggetto, come la storia della custodia, informazioni dettagliate sull'acquisizione, ecc.</p>
+      <p>Vedi DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
+    retention_rule: Regola di mantenimento
+    retention_rule_tooltip: |
+      <p>Una nota che indica l'autorità o la norma di conservazione per l'acquisizione.
+
+      <p>Esempi:</p>
+      <ul>
+      <li>Consulta il Regolamento di conservazione del campus.</li>
+      </ul>
+    restrictions_apply: Si applicano delle restrizioni?
+    restrictions_apply_tooltip: |
+      <p>Indicare se all'acquisizione si applicano restrizioni.</p>
+      <p>Vedere DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+    resource_type: Tipo di risorsa
+    resource_type_tooltip: |
+      <p>Elenco di termini utilizzati da un repository per classificare le proprie risorse in tipologie di base.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    language: Lingua di descrizione
+    language_tooltip: |
+      <p>Indica tutte le lingue presenti nel record generato dalla descrizione di acquisizione.</p>
+    script: Sceneggiatura della descrizione
+    script_tooltip: |
+      <p>Indica tutti gli script presenti nel record generato dalla descrizione di acquisizione.<p></p>Vedi DACS 4.5, ISAD(G) 3.4.3</p>
+    access_restrictions: Restrizioni di accesso?
+    access_restrictions_tooltip: |
+      <p>Casella di controllo per indicare che l'accesso ai materiali è limitato.</p>
+      <p>Vedi DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
+    access_restrictions_note: Nota sulle restrizioni di accesso
+    access_restrictions_note_tooltip: |
+      <p>Una dichiarazione che indica quali materiali dell'acquisizione hanno accesso limitato, qual è l'autorità che ha imposto la restrizione e per quanto tempo rimarrà in vigore. Ulteriori informazioni possono essere registrate anche in una sotto-registrazione dei diritti.</p>
+      <p>Vedi DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>I diari nella scatola 10 sono soggetti a restrizioni imposte dal donatore fino al 2030.</li>
+      </ul>
+    use_restrictions: Restrizioni d'uso?
+    use_restrictions_tooltip: |
+      <p>Una casella di controllo per indicare che esistono restrizioni d'uso per i materiali presenti nell'inventario.</p>
+      <p>Vedi DACS 4.4, ISAD(G) 3.4.2</p>
+    use_restrictions_note: Nota sulle restrizioni d'uso
+    use_restrictions_note_tooltip: |
+      <p>Una dichiarazione che indica quali materiali sono soggetti a restrizioni d'uso, come possono essere utilizzati, qual è l'autorità che ha emesso la restrizione e per quanto tempo rimarrà in vigore. Ulteriori informazioni possono essere registrate anche in un sottorecord relativo ai diritti.</p>
+      <p>Vedi DACS 4.4, ISAD(G) 3.4.2</p>
+      <p>Esempi:</p>
+      <p>I manoscritti nella scatola 33 sono fragili; è necessario utilizzare fotocopie.</p>
+    acquisition_type: Tipo di acquisizione
+    acquisition_type_tooltip: |
+      <p>Un descrittore categorico per il tipo di acquisizione. Repository
+      può personalizzare l'elenco dei valori dei dati.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Regalo</li>
+      <li>Acquista</li>
+      <li>Trasferimento</li>
+      </ul>
+    publish: Pubblicare?
+    publish_help: Seleziona questa casella se desideri pubblicare questo documento.
+    publish_tooltip: |
+      <p>Determina se questo numero di accesso verrà pubblicato sulle interfacce pubbliche (per gli utenti).</p>
+    restrictions: Restrizioni?
+    restrictions_tooltip: |
+      <p>Indicare se all'acquisizione si applicano restrizioni.</p>
+      <p>Vedere DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+    title: Titolo
+    title_tooltip: |
+      <p>Il titolo assegnato a un numero di catalogo o a una risorsa. Il titolo del numero di catalogo
+      non deve necessariamente coincidere con il titolo della risorsa. Inoltre, non è necessario che il titolo sia specificato nel record del numero di catalogo, in quanto può essere implicitamente
+      ereditato dal record della risorsa a cui il numero di catalogo è
+      collegato.</p>
+      <p>Vedi DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>
+    related_resources_tooltip: |
+      <p>Utilizzato per collegare le risorse associate a questo numero di accesso.</p>
+    relator: Agente immobiliare
+    relator_type: Tipo di relazionatore
+    created_by: Creato da
+    last_modified_by: Ultimo aggiornamento effettuato da
+    create_time: Creata
+    user_mtime: Modificato
+    _singular: Accesso
+    _plural: Accessi
+    new_title: Nuovo accesso
+    linker:
+      browse: Sfoglia gli accessi
+      create: Crea accesso
   archival_object:
     component_id: Identificatore unico del componente
     import_current_ark: Importa ARK corrente
@@ -722,6 +889,7 @@ it:
       to: A
       locations: Ubicazioni
       scope_by_date: Ambito per Data
+      include_suppressed: Includi record bloccati
       template: Modello
       rating: Valutazione
       values: Valori
@@ -1244,3 +1412,57 @@ it:
     _singular: ID
     source: Fonte
     external_id: ID
+  date:
+    label: Etichetta
+    label_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Descrive il tipo di attività a cui si riferisce la data.</p>
+      <p>Vedi DACS 2.4 e 2.4.3, ISAD(G) 3.1.3</p>
+    date_type: Tipo
+    date_type_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Indica il tipo di informazioni relative alla data normalizzata, ovvero una singola data o un intervallo di date (inclusivo o cumulativo).</p>
+    date_type_message: Seleziona un tipo per inserire una data normalizzata o un intervallo di date
+    expression: Espressione
+    expression_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE: Un'espressione in linguaggio naturale che specifica la data o l'intervallo di date dei materiali. Obbligatorio quando non è registrata una data normalizzata.</p>
+      <p>Vedi DACS 2.4, ISAD(G) 3.1.3</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>1968</li>
+      <li>1979-1993</li>
+      <li>1785-1960, in gran parte 1916-1958</li>
+      <li>1827, 1952-1978</li>
+      <li>circa 1870-1879</li>
+      <li>17 marzo 1906</li>
+      <li>senza data</li>
+      <li>sconosciuto <em>(per eventi)</em></li>
+      </ul>
+    begin: Inizio
+    begin_inline_help: ad esempio AAAA, AAAA-MM o AAAA-MM-GG
+    begin_tooltip: |
+      <p>Una data normalizzata (nel formato AAAA, AAAA-MM o AAAA-MM-GG) che rappresenta una singola data o la prima data di un intervallo di date.</p>
+      <p>Vedi DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
+      <p>Gli anni d.C. sono espressi con quattro cifre.</p>
+      <p>Gli anni a.C. sono espressi con un numero negativo, ad esempio -214 per il 214 a.C.</p>
+    end: fine
+    end_inline_help: ad esempio AAAA, AAAA-MM o AAAA-MM-GG
+    end_tooltip: |
+      <p>Una data normalizzata (nel formato AAAA, AAAA-MM o AAAA-MM-GG) che rappresenta la seconda data in un intervallo di date.</p>
+      <p>Vedi DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
+      <p>Gli anni d.C. sono espressi con quattro cifre.</p>
+      <p>Gli anni a.C. sono espressi con un numero negativo, ad esempio -214 per il 214 a.C.</p>
+    certainty: Certezza
+    certainty_tooltip: |
+      <p>Il livello di affidabilità delle informazioni fornite in una dichiarazione di data. Queste informazioni sono facoltative e devono essere aggiunte solo quando si qualificano le informazioni sulla data come potenzialmente incerte in base alla descrizione o alle regole di catalogazione in uso.</p>
+      <p>Vedi l'attributo "certezza" di EAD.</p>
+    era: Era
+    era_tooltip: |
+      <p>Periodo durante il quale vengono numerati gli anni e calcolate le date, ad esempio a.C. o d.C. Il valore predefinito è "ce".</p>
+      <p>Vedi l'attributo "era" di EAD.</p>
+    calendar: Calendario
+    calendar_tooltip: |
+      <p>Sistema di calcolo del tempo, come il calendario gregoriano o il calendario giuliano. Il valore "gregoriano" è quello predefinito.</p>
+      <p>Vedere l'attributo "calendar" di EAD e DACS 2.4.5.</p>
+    _singular: Data
+    _plural: Dati
+  date_type_bulk:
+    bulk: massa

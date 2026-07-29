@@ -2184,6 +2184,7 @@ fr:
       to: Au
       locations: Localisations
       scope_by_date: Portée par date
+      include_suppressed: Inclure les enregistrements supprimés
       template: Modèle
       rating: Notation
       values: Valeurs

@@ -1,7 +1,8 @@
 class CreatedAccessionsReport < AbstractReport
   register_report(
     params: [['from', Date, 'The start of report range'],
-             ['to', Date, 'The start of report range']]
+             ['to', Date, 'The start of report range'],
+             ['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
   )
 
   def initialize(params, job, db)
@@ -28,9 +29,9 @@ class CreatedAccessionsReport < AbstractReport
       title as record_title,
       accession_date
     from accession
-    where accession_date > #{db.literal(@from.split(' ')[0].gsub('-', ''))} 
+    where accession_date > #{db.literal(@from.split(' ')[0].gsub('-', ''))}
       and accession_date < #{db.literal(@to.split(' ')[0].gsub('-', ''))}
-      and repo_id = #{db.literal(@repo_id)}
+      and repo_id = #{db.literal(@repo_id)}#{suppressed_filter('accession')}
     order by accession_date"
   end
 

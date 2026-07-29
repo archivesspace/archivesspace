@@ -13,7 +13,8 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
       resource.identifier as identifier
     from assessment_rlshp
       join resource on assessment_rlshp.resource_id = resource.id
-    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)})
+    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)}
+      #{suppressed_filter('resource')})
 
     union
 
@@ -25,7 +26,9 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
     from assessment_rlshp
       join archival_object on assessment_rlshp.archival_object_id = archival_object.id
       join resource on archival_object.root_record_id = resource.id
-    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)})
+    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)}
+      #{suppressed_filter('archival_object')}
+      #{suppressed_filter('resource')})
 
     union
 
@@ -36,7 +39,8 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
       accession.identifier as identifier
     from assessment_rlshp
       join accession on assessment_rlshp.accession_id = accession.id
-    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)})
+    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)}
+      #{suppressed_filter('accession')})
 
     union
 
@@ -47,7 +51,8 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
       digital_object.digital_object_id as identifier
     from assessment_rlshp
       join digital_object on assessment_rlshp.digital_object_id = digital_object.id
-    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)})"
+    where assessment_rlshp.assessment_id = #{db.literal(@assessment_id)}
+      #{suppressed_filter('digital_object')})"
   end
 
   def fix_row(row)

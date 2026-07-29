@@ -30,7 +30,9 @@ class ClassificationSubreport < AbstractSubreport
 		    left outer join classification as root_record
 				on root_record.id = classification_term.root_record_id
 
-		where classification_rlshp.#{@id_type}_id = #{db.literal(@id)}"
+		where classification_rlshp.#{@id_type}_id = #{db.literal(@id)}
+			#{suppressed_filter('classification')}
+			#{suppressed_filter('classification_term')}"
 	end
 
 	def fix_row(row)

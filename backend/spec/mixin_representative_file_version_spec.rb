@@ -68,6 +68,37 @@ describe 'Representative File Version mixin' do
       end
     end
 
+    # https://archivesspace.atlassian.net/browse/ANW-2769
+    context "when a published file_version is an IIIF manifest" do
+      before(:each) do
+        file_version_1.file_format_name = 'iiif'
+        file_version_1.use_statement = 'text-json'
+        file_version_1.xlink_show_attribute = 'embed'
+      end
+
+      context 'and a second non IIIF published file version is available' do
+        it "selects the non IIIF as the representative file version" do
+          [DigitalObject, DigitalObjectComponent].each do |klass|
+            json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1, file_version_2 ])
+            obj = klass.create_from_json(json)
+            json = klass.to_jsonmodel(obj)
+            expect(json.representative_file_version['file_uri']).to eq(file_version_2.file_uri)
+          end
+        end
+      end
+
+      context 'and no other published file versions are available' do
+        it "leaves the record with no representative_file_version" do
+          [DigitalObject, DigitalObjectComponent].each do |klass|
+            json = build(:"json_#{klass.name.underscore}", file_versions: [ file_version_1 ])
+            obj = klass.create_from_json(json)
+            json = klass.to_jsonmodel(obj)
+            expect(json.representative_file_version).to be_nil
+          end
+        end
+      end
+    end
+
     # https://archivesspace.atlassian.net/browse/ANW-1721
     it "has a read-only 'link_uri' for the following published sibling file_version of the representative file" do
       file_version_2.is_representative = true

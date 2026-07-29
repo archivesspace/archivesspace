@@ -1,6 +1,8 @@
 class AccessionSubjectsNamesClassificationsListReport < AbstractReport
 
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query_string
     "select
@@ -82,7 +84,7 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
         and event.event_type_id = enumeration_value.id and enumeration_value.value = 'cataloged'
       group by event_link_rlshp.accession_id) as cataloged
 
-    where repo_id = #{db.literal(@repo_id)}"
+    where repo_id = #{db.literal(@repo_id)}#{suppressed_filter('accession')}"
   end
 
   def fix_row(row)

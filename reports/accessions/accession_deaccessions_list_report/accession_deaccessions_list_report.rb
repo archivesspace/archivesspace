@@ -1,5 +1,7 @@
 class AccessionDeaccessionsListReport < AbstractReport
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query
     results = db.fetch(query_string)
@@ -28,7 +30,7 @@ class AccessionDeaccessionsListReport < AbstractReport
           as container_summary
       from extent
       group by accession_id) as extent_cnt
-    where repo_id = #{db.literal(@repo_id)}"
+    where repo_id = #{db.literal(@repo_id)}#{suppressed_filter('accession')}"
   end
 
   def fix_row(row)

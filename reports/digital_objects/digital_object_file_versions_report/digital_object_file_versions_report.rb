@@ -1,5 +1,7 @@
 class DigitalObjectFileVersionsReport < AbstractReport
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query
     results = db.fetch(query_string)
@@ -15,7 +17,7 @@ class DigitalObjectFileVersionsReport < AbstractReport
       file_uri as 'digital_object_uri' 
       from digital_object 
       join file_version on digital_object.id = file_version.digital_object_id 
-      where repo_id = #{db.literal(@repo_id)} and file_uri is not null"
+      where repo_id = #{db.literal(@repo_id)} and file_uri is not null#{suppressed_filter('digital_object')}"
   end
 
   def fix_row(row)
