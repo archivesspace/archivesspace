@@ -2078,6 +2078,7 @@ es:
       to: Para
       locations: Localizaciones
       scope_by_date: Alcance por fecha
+      include_suppressed: Incluir registros suprimidos
       template: Modelo
     formats:
       json: JSON

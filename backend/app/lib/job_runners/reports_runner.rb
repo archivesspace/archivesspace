@@ -28,6 +28,11 @@ class ReportRunner < JobRunner
       params[:format] = job_data['format'] || 'pdf'
       params[:repo_id] = @json.repo_id
 
+      can_view_suppressed = RequestContext.open(:repo_id => params[:repo_id]) do
+        @job.owner.can?(:view_suppressed)
+      end
+      params['include_suppressed'] = false unless can_view_suppressed
+
       report_model = ReportRunner.reports[job_data['report_type']][:model]
 
       report = DB.open do |db|

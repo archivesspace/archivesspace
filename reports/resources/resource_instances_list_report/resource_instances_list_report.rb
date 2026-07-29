@@ -1,6 +1,8 @@
 class ResourceInstancesListReport < AbstractReport
 
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query
     job.write_output('Fetching resources...')
@@ -38,7 +40,7 @@ class ResourceInstancesListReport < AbstractReport
       from extent
       group by resource_id) as extent_cnt
         
-    where repo_id = #{db.literal(@repo_id)}"
+    where repo_id = #{db.literal(@repo_id)}#{suppressed_filter('resource')}"
   end
 
   def fix_row(row)

@@ -1,5 +1,7 @@
 class ResourcesListReport < AbstractReport
-	register_report
+	register_report(
+		params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+	)
 
 	def query_string
 		"select
@@ -11,7 +13,7 @@ class ResourcesListReport < AbstractReport
 			publish,
 			restrictions
 		from resource
-		where repo_id = #{db.literal(repo_id)}"
+		where repo_id = #{db.literal(repo_id)}#{suppressed_filter('resource')}"
 	end
 
 	def fix_row(row)

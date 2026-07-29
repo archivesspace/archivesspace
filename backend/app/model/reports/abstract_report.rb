@@ -1,10 +1,12 @@
 require_relative 'report_manager'
+require_relative 'report_suppression'
 require_relative '../../lib/reports/report_utils'
 require 'erb'
 
 class AbstractReport
   include ReportManager::Mixin
   include JSONModel
+  include ReportSuppression
 
   attr_accessor :repo_id
   attr_accessor :format
@@ -19,6 +21,7 @@ class AbstractReport
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
     @format = params[:format] if params.has_key?(:format) && params[:format] != ''
     @expand_csv = !(params.has_key?('csv_show_json') ? params['csv_show_json'] : false)
+    @include_suppressed = params.has_key?('include_suppressed') ? params['include_suppressed'] : false
     @params = params
     @db = db
     @job = job
