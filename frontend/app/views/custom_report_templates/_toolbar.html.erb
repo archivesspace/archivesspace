@@ -10,9 +10,11 @@
     </div>
   <% end %>
   <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div class="close-record">
+      <%= link_to t("actions.finish_editing"), {:controller => :custom_report_templates, :action => :show, :id => @custom_report_template.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+    </div>
     <div class="revert-changes">
     <%= link_to t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default bg-white border" %>
-    <%= t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
     <div class="btn-toolbar ml-auto">
@@ -20,7 +22,7 @@
         <% if ['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
           <button class="btn btn-sm border btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
         <% end %>
-        <% if controller.action_name == 'edit' %>
+        <% if ['show', 'edit', 'update'].include?(controller.action_name) %>
           <%= link_to t("actions.run"),
             new_job_path(
               :job_type => 'report_job',
@@ -29,8 +31,6 @@
             ),
             :class => "btn btn-sm btn-info"
           %>
-        <% end %>
-        <% if ['edit', 'update'].include?(controller.action_name) %>
           <%= link_to t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id =>  @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
           <%= button_delete_action url_for(:controller => :custom_report_templates, :action => :delete, :id => @custom_report_template.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @custom_report_template.name) } unless @custom_report_template.id.nil? %>
         <% end %>
@@ -38,3 +38,9 @@
     </div>
   <div class="clearfix"></div>
 </div>
+<% if ['edit', 'update'].include?(controller.action_name) %>
+  <div id="record-toolbar-alert">
+    <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+  </div>
+<% end %>
+

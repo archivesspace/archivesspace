@@ -1,14 +1,25 @@
 <div class="row">
   <div class="col-md-12">
     <div class="record-toolbar d-flex align-items-center">
-      <div class="btn-group">
-        <div class="save-changes">
-          <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+      <div class="save-changes">
+        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+      </div>
+      <% if ['edit', 'update'].include?(controller.action_name) && user_can?('manage_repository') %>
+        <div class="close-record">
+          <%= link_to I18n.t("actions.finish_editing"), {:controller => :groups, :action => :show, :id => @group.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
         </div>
-      </div>
-      <div class="btn-toolbar ml-auto">
-        <%= button_delete_action url_for(:controller => :groups, :action => :delete, :id => @group.id), { :"data-title" => t("actions.delete_confirm_title", :title => @group.description) } %>
-      </div>
+        <div class="align-items-center revert-changes">
+          <%= link_to t("actions.revert"), {:controller => :groups, :action => :edit, :id => @group.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
+        </div>
+        <div class="btn-grp ml-auto">
+          <%= button_delete_action url_for(:controller => :groups, :action => :delete, :id => @group.id), { :"data-title" => t("actions.delete_confirm_title", :title => @group.description) } %>
+        </div>
+      <% end %>
     </div>
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div id="record-toolbar-alert">
+        <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+      </div>
+    <% end %>
   </div>
 </div>
