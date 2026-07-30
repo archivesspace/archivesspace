@@ -77,7 +77,7 @@ describe 'Solr model' do
     expect(http.request.body).to match(/fq=types%3A%28?%22optional_record_type/)
     expect(http.request.body).to match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
     expect(http.request.body).to match(/hl=true/)
-    expect(http.request.body).to match(/hl\.fragsize=0/)
+    expect(http.request.body).to match(/f\.title\.hl\.fragsize=0/)
     expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)
     expect(http.request.body).to match(/pf=title%5E10/)
     expect(http.request.body).to match(/ps=0/)

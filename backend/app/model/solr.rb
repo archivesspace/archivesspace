@@ -326,7 +326,7 @@ class Solr
         add_solr_param(:hl, "true")
         add_solr_param(:"hl.method", "original")
         add_solr_param(:"hl.fl", "*")
-        add_solr_param(:"hl.fragsize", "0")
+        add_solr_param(:"f.title.hl.fragsize", "0")
         add_solr_param(:"hl.simple.pre", '<span class="searchterm">')
         add_solr_param(:"hl.simple.post", "</span>")
       end
