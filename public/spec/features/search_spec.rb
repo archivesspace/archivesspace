@@ -338,6 +338,35 @@ describe 'Search', js: true do
         end
       end
 
+      context 'when the search term is in a long title and a long note' do
+        let(:now) { Time.now.to_i }
+        let(:search_term) { "zzuniqueterm#{now}" }
+
+        let(:long_title) { "#{search_term} " + ("alpha " * 50) + "TITLEENDMARKER" }
+        let(:long_note) { "#{search_term} " + ("beta " * 50) + "NOTEENDMARKER" }
+
+        let(:searched_record) do
+          create(:resource,
+                 :title => long_title,
+                 :publish => true,
+                 :notes => [
+                   build(:json_note_multipart,
+                         subnotes: [
+                           build(:json_note_text, publish: true, content: long_note)
+                         ])
+                 ])
+        end
+
+        it 'shows the full title but a truncated note in the found in section' do
+          expect(result_title.find('.searchterm').text).to eq search_term
+          expect(result_title.text).to include('TITLEENDMARKER')
+
+          found_in_notes = page.find('.highlighting', text: 'Found in Notes:')
+          expect(found_in_notes).to have_css('span.searchterm', text: search_term)
+          expect(found_in_notes).to have_no_content('NOTEENDMARKER')
+        end
+      end
+
       context 'when search terms found in finding aid filing title only' do
         let(:now) { now = Time.now.to_i }
 
