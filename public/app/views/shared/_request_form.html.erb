@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="form-group mb-3">
-      <%= label_tag(:date, t('request.date'),  :class => 'sr-only') %>
+      <%= label_tag(:date, t('request.date'),  :class => 'visually-hidden') %>
       <%= text_field_tag :date, nil, :placeholder => t('request.date'), :class => 'form-control' %>
     </div>
     <div class="form-group mb-3">
-      <%= label_tag(:note, t('request.note'),  :class => 'sr-only') %>
+      <%= label_tag(:note, t('request.note'),  :class => 'visually-hidden') %>
       <%= text_area_tag :note, nil, :rows=> "3", :cols => "25", :placeholder => t('request.note'), :class => 'form-control' %>
     </div>
     <div class="form-group honeypot">
