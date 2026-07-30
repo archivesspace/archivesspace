@@ -640,6 +640,7 @@ button.subject {
 .page_action:focus {
   color: $accent_color;
   background-color: $light-neutral;
+  text-decoration: none;
 }
 
 .top_container {
