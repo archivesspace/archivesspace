@@ -21,31 +21,28 @@
          class="subrecord-form notes-form <%= "note-inline" if inline? %>"
          <%= "data-template=template_#{nested_note_jsonmodel}_note_type_selector_inline" if nested_note_jsonmodel %>>
   <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
-    <<%= header_size%> class="subrecord-form-heading flex-grow-1 mb-0 border-0">
+    <<%= header_size %> class="subrecord-form-heading flex-grow-1 mb-0 border-0">
       <%= wrap_with_tooltip(t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
-    </<%= header_size%>>
+    </<%= header_size %>>
 
-    <% if show_apply_note_order_action %>
-      <div class="btn-group">
-    <% end %>
+    <div class="btn-group">
+      <% unless form.readonly? %>
+        <button
+          class="<%= add_note_class %>"
+          type="button"
+          data-action="add notes"
+        ><%= t(add_button_text) %></button>
+      <% end %>
 
-    <% unless form.readonly? %>
-      <button
-        class="<%= add_note_class %>"
-        type="button"
-        data-action="add notes"
-      ><%= t(add_button_text) %></button>
-    <% end %>
-
-    <% if show_apply_note_order_action %>
+      <% if show_apply_note_order_action %>
         <button
           class="btn btn-sm btn-default apply-note-order"
-          disabled="disabled"
+          disabled
           type="button"
           data-action="apply note order"
         ><%= I18n.t("note._frontend.action.apply_note_order") %></button>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
 
     <%= help_link %>
   </div>

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="record-toolbar d-flex align-items-center">
-      <%  if user_can?('create_repository') && !['edit', 'update'].include?(controller.action_name) %>
+      <% if user_can?('create_repository') && !['edit', 'update'].include?(controller.action_name) %>
         <div class="btn-group pull-left">
           <%= link_to t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-sm btn-primary" %>
         </div>
@@ -12,7 +12,7 @@
             <button type="submit" class="btn btn-sm btn-success"><%= t("repository._frontend.action.select") %></button>
           <% end %>
         <% end %>
-        <% if user_can?('delete_repository') && @repository.id != session[:repo_id] && controller.action_name == 'edit'   %>
+        <% if user_can?('delete_repository') && @repository.id != session[:repo_id] && controller.action_name == 'edit' %>
           <div class="btn-group">
             <div class="btn btn-inline-form">
               <%= button_delete_action url_for(:controller => :repositories, :action => :delete, :id => @repository.id), 

@@ -1,5 +1,5 @@
 <% unless @facets.blank? %>
-<h3><%= t('search_results.filter.add')%>: </h3>
+<h3><%= t('search_results.filter.add') %>: </h3>
 <dl id="facets">
 
   <%
@@ -23,7 +23,7 @@
       max_facets_on_load = 5
     %>
     <div id="<%= t("search_results.filter.#{type}").downcase %>-facet">
-      <dt class='mb-2 mt-3'><%= t("search_results.filter.#{type}") %></dt>
+      <dt class="mb-2 mt-3"><%= t("search_results.filter.#{type}") %></dt>
       <% if facet_group.length <= max_facets_on_load %>
         <% facet_group.each do |facet| %>
           <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>

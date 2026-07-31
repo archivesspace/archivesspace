@@ -3,7 +3,7 @@
    sub_heading_size = 'h3' if sub_heading_size.blank?
 %>
 
-<%  if !note_struct['note_text'].blank? %>
+<% if !note_struct['note_text'].blank? %>
     <div class="<%= type %> single_note" >
      <% unless defined?(notitle) &&  notitle %>
      <<%= heading_size %>><%= note_struct['label'] %></<%= heading_size %>>
@@ -16,7 +16,7 @@
            <% elsif subnote['_title'] %>
              <<%= sub_heading_size %>><%= subnote['_title'] %></<%= sub_heading_size %>>
            <% elsif subnote['_inline_label'] %>
-             <span class='inline-label'><%= subnote['_inline_label'] %></span>
+             <span class="inline-label"><%= subnote['_inline_label'] %></span>
            <% end %>
            <%= render partial: 'shared/note_content', locals: { :content => subnote['_text'], :is_inherited => note_struct['is_inherited'], :type => type, :calling_partial => calling_partial } %>
          </div>

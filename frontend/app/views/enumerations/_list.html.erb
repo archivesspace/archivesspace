@@ -1,5 +1,5 @@
 <hr/>
-<% if @enumeration['editable']%>
+<% if @enumeration['editable'] %>
 
   <div class="d-flex justify-content-end">
     <%= link_to "#{t("enumeration._frontend.action.create_value")}", {:controller => :enumerations, :action => :new, :id => JSONModel(:enumeration).id_for(@enumeration["uri"])}, "data-toggle" => "modal-ajax", :class=> "btn btn-sm btn-default" %>
@@ -33,14 +33,14 @@
                 <%= link_to( { :controller => :enumerations, :action => :update_value,
                   :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"],
                   :position => enum_value["position"] - 1} , :method => :post , :class=> "btn btn-sm btn-default position-up") do %>
-                    <span class='glyphicon glyphicon-arrow-up' />
+                    <span class="glyphicon glyphicon-arrow-up" />
                 <% end %>
               <% end %>
               <% unless i  == @enumeration["enumeration_values"].length - 1 %>
                 <%= link_to({ :controller => :enumerations, :action => :update_value,
                   :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"],
                   :position => enum_value["position"] + 1} , :method => :post, :class=> "btn btn-sm btn-default position-down") do %>
-                    <span class='glyphicon glyphicon-arrow-down' />
+                    <span class="glyphicon glyphicon-arrow-down" />
                 <% end %>
               <% end %>
             </div>
@@ -53,7 +53,7 @@
           <td>
             <% if enum_value['value'] == @enumeration['default_value'] %>
               &#x2713;
-            <% end%>
+            <% end %>
           </td>
           <td>
             <div class="btn-group" role="group">
@@ -67,14 +67,14 @@
                 <%= link_to t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value["value"]}, :method => :post, :class=> "btn btn-sm btn-default", :disabled => disable_set_default %>
               <% else %>
                 <%= link_to t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-sm btn-default" %>
-              <% end%>
-              <% if enum_value['suppressed']  %>
-                <%= link_to t("actions.unsuppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 0 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary"%>
+              <% end %>
+              <% if enum_value['suppressed'] %>
+                <%= link_to t("actions.unsuppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 0 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary" %>
               <% elsif @enumeration['relationships'].length == 0 %>
-                  <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary"%>
+                  <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary" %>
               <% else %>
-                <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary", :disabled => 'disabled'  %>
-              <% end%>
+                <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary", :disabled => 'disabled' %>
+              <% end %>
               <% if @enumeration['editable'] && !Array(@enumeration['readonly_values']).include?(enum_value['value']) %>
                 <% unless enum_value["suppressed"] %>
                   <%= link_to t("actions.merge"), {:controller => :enumerations, :action => :delete, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :merge => true, :value => enum_value["value"]}, "data-toggle" => "modal-ajax", :class=> "btn btn-sm btn-info border-gray--secondary" %>
@@ -85,8 +85,8 @@
           </td>
           <td>
             <% if @enumeration['relationships'].length > 0 and @enumeration['name'] != 'job_type' %>
-              <div class='enum-value-search' data-url="<%= url_for({:controller => :search, :action => :do_search, :aq =>
-                enumeration_advanced_query(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class='spinner'></i>
+              <div class="enum-value-search" data-url="<%= url_for({:controller => :search, :action => :do_search, :aq =>
+                enumeration_advanced_query(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class="spinner"></i>
               </div>
             <% end %>
           </td>

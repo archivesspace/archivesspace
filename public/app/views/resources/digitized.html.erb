@@ -22,7 +22,7 @@
       <% @results.records.each do |result| %>
         <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
       <% end %>
-      <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+      <%= render partial: 'shared/pagination', locals: {:pager  => @pager} %>
     <% end %>
   </div>
   <% unless @results.blank? || @results['total_hits'] == 0 || @facets.blank? %>

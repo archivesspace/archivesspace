@@ -9,10 +9,10 @@
       <input id="new-member" class="form-control" type="text" autocomplete="off" placeholder="<%= t("user.username") %>" />
       <div class="input-group-append">
         <button id="add-new-member" class="btn btn-default"><%= t("actions.add") %></button>
-        <button id="remove-member" class="btn btn-default" disabled="disabled"><%= t("actions.remove") %></button>
+        <button id="remove-member" class="btn btn-default" disabled><%= t("actions.remove") %></button>
       </div>
     </div>
-    <select id="<%= form.id_for("member_usernames") %>" class="form-control" multiple="multiple">
+    <select id="<%= form.id_for("member_usernames") %>" class="form-control" multiple>
       <% (@group.member_usernames or []).each do |username| %>
         <option class="group-member" value="<%= username %>"><%= username %></option>
       <% end %>

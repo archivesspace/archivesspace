@@ -1,3 +1,4 @@
+<%# herb:formatter ignore %>
 <div id="bulk_action_test_selection"><!--
   <ul>
   {for container in selection}
@@ -286,10 +287,10 @@
           <li>${merge_candidate}</li>
         {/for}
       </ul>
-      <p class='alert alert-warning' style='<%= "${mergeWarning.tooManyVisibility}" %>; margin-left:40px' id="alertBucket" role="alert" aria-hidden='<%= "${mergeWarning.tooManyHidden}" %>'>
+      <p class='alert alert-warning' style='${mergeWarning.tooManyVisibility}; margin-left:40px' id="alertBucket" role="alert" aria-hidden='${mergeWarning.tooManyHidden}'>
         <%= t("top_container._frontend.bulk_operations.batch_merge_container_profile_too_many_warning") %>
       </p>
-      <p class='alert alert-warning' style='<%= "${mergeWarning.mismatchVisibility}" %>; margin-left:40px' id="alertBucket" role="alert" aria-hidden='<%= "${mergeWarning.mismatchHidden}" %>'>
+      <p class='alert alert-warning' style='${mergeWarning.mismatchVisibility}; margin-left:40px' id="alertBucket" role="alert" aria-hidden='${mergeWarning.mismatchHidden}'>
         <%= t("top_container._frontend.bulk_operations.batch_merge_container_profile_mismatch_warning") %>
       </p>
       <h4><%= t("top_container._frontend.bulk_operations.batch_merge_confirm_merge_destination") %></h4>

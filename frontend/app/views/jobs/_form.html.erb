@@ -1,7 +1,7 @@
 <% define_template("container_labels_job", jsonmodel_definition(:container_labels_job)) do |form| %>
 
   <%= form.hidden_input :source, :class => 'translation-placeholder' %>
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.container_labels") }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.container_labels") } %>
 
 <% end %>
 
@@ -10,7 +10,7 @@
 
   <%= form.hidden_input :base_record_uri, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :record_types => "resource_and_archival_object" }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :record_types => "resource_and_archival_object" } %>
 
   <%= form.label_and_select "record_type", [] %>
   <%= form.label_and_select "property", [] %>
@@ -28,7 +28,7 @@
 
   <%= form.hidden_input :source, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.resource_to_pdf") }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.resource_to_pdf") } %>
   <%= form.label_and_boolean "include_unpublished" %>
 
 <% end %>
@@ -37,7 +37,7 @@
   <span class="btn btn-success btn-sm fileinput-button">
     <span class="glyphicon glyphicon-plus icon-white"></span>
     <span><%= t("job._frontend.actions.add_file") %></span>
-    <input type="file" name="files[]" multiple="multiple">
+    <input type="file" name="files[]" multiple>
   </span>
   <div id="files">
     <div class="hint"><span class="plus">+</span> <%= t("job._frontend.messages.drag_and_drop_hint") %></div>
@@ -50,13 +50,13 @@
         <% sorted_types = @import_types.sort_by {|k, v| k} %>
         <%= form.label_and_select("import_type", sorted_types, {:selected => sorted_types.first}) %>
     </fieldset>
-    <fieldset id='js-import-events'>
+    <fieldset id="js-import-events">
         <%= form.label_and_boolean "import_events" %>
     </fieldset>
-    <fieldset id='js-import-subjects'>
+    <fieldset id="js-import-subjects">
         <%= form.label_and_boolean("import_subjects", {}, false, true) %>
     </fieldset>
-    <fieldset id='js-import-repository'>
+    <fieldset id="js-import-repository">
         <%= form.label_and_boolean("import_repository") %>
     </fieldset>
   </section>
@@ -73,7 +73,7 @@
   <br/>
 
     <div class="alert alert-danger">
-      <p> <%= t("job._frontend.messages.slug_lost_warning") %>
+      <p> <%= t("job._frontend.messages.slug_lost_warning") %></p>
     </div>
     <br/>
     <p><%= t("job._frontend.messages.slug_generation") %></p>
@@ -227,7 +227,7 @@
 <%= form_plugins_for("job", form) %>
 
 
-
+<%# herb:formatter ignore %>
 <div id="template_import_file"><!--
   <div class="import-file">
     <span class="import-filename">${filename}</span>

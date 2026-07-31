@@ -66,6 +66,7 @@
       <script type="text/javascript" >
           initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
       </script>
+    </div>
   <% end %>
 
   <% if !@facets.blank? || !@filters.blank? %>

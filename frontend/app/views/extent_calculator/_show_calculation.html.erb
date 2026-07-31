@@ -1,10 +1,10 @@
 <div class="mt-3 col-12">
   <h3>
     <% if results['resource'] %>
-      <%= results['resource']['title']  %> --
+      <%= results['resource']['title'] %> --
     <% end %>
     <%= results['object']['title'] %>
-    <span class="label label-info badge"><%= t("#{results['object']['jsonmodel_type']}._singular") %>
+    <span class="label label-info badge"><%= t("#{results['object']['jsonmodel_type']}._singular") %></span>
   </h3>
   <span id="required_fields_alert_message" message="<%= t('extent_calculator.required_fields_alert_message') %>" />
   <div>
@@ -20,29 +20,29 @@
         </tr>
       </thead>
       <tbody>
-      <% if results['containers'] %>
-        <% results['containers'].each_pair do |k, v| %>
+        <% if results['containers'] %>
+          <% results['containers'].each_pair do |k, v| %>
+            <tr>
+              <td><%= k %></td>
+              <td><%= v['count'] %></td>
+              <td><%= v['extent'] %></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% if results['container_without_profile_count'] > 0 %>
           <tr>
-            <td><%= k %></td>
-            <td><%= v['count'] %></td>
-            <td><%= v['extent'] %></td>
+            <td><%= t("extent_calculator.no_profile") %></td>
+            <td><%= results['container_without_profile_count'] %></td>
+            <td>--</td>
           </tr>
         <% end %>
-      <% end %>
-      <% if results['container_without_profile_count'] > 0 %>
-        <tr>
-          <td><%= t("extent_calculator.no_profile") %></td>
-          <td><%= results['container_without_profile_count'] %></td>
-          <td>--</td>
-        </tr>
-      <% end %>
         <tr>
           <td><%= t("extent_calculator.all_containers_label") %></td>
           <td><%= results['container_count'] %></td>
           <td>
             <strong>
               <%= results['total_extent'] %>
-              <%= results['volume'] ? 'cubic' : 'linear'  %>
+              <%= results['volume'] ? 'cubic' : 'linear' %>
               <%= results['units'] %>
             </strong>
           </td>
@@ -54,39 +54,40 @@
     </div>
   </div>
 
-<% if extent %>
   <section>
-    <header class="mb-3 d-flex align-items-center justify-content-between">
-      <h4><%= t("extent_calculator.extent_record_header") %></h4>
-      <div class="d-flex gap-x-1">
-        <button type="button" class="btn btn-primary create-extent-btn"><%= t("extent_calculator.create_extent") %></button>
-        <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal"><%= t("actions.close") %></button>
-      </div>
-    </header>
+    <% if extent %>
 
-    <%= form_for extent, :as => "extent", :url => {:action => :report}, :html => {:class => 'form-horizontal aspace-record-form', :id => "extent_form"} do |f| %>
-      <div class="mb-3 d-flex">
-        <div class="col-md-9">
-          <div class="record-pane shadow-none">
-            <div class="subrecord-form-container">
-              <%= form_context :extent, extent do |form| %>
-                <%= render_aspace_partial :partial => "extents/template" %>
-                <% form.emit_template("extent") %>
-              <% end %>
+      <header class="mb-3 d-flex align-items-center justify-content-between">
+        <h4><%= t("extent_calculator.extent_record_header") %></h4>
+        <div class="d-flex gap-x-1">
+          <button type="button" class="btn btn-primary create-extent-btn"><%= t("extent_calculator.create_extent") %></button>
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal"><%= t("actions.close") %></button>
+        </div>
+      </header>
+
+      <%= form_for extent, :as => "extent", :url => {:action => :report}, :html => {:class => 'form-horizontal aspace-record-form', :id => "extent_form"} do |f| %>
+        <div class="mb-3 d-flex">
+          <div class="col-md-9">
+            <div class="record-pane shadow-none">
+              <div class="subrecord-form-container">
+                <%= form_context :extent, extent do |form| %>
+                  <%= render_aspace_partial :partial => "extents/template" %>
+                  <% form.emit_template("extent") %>
+                <% end %>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      <% end %>
+
+    <% else %>
+
+      <header class="mb-3 d-flex align-items-center justify-content-between">
+        <h4><%= t("extent_calculator.extent_record_header") %></h4>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t("actions.close") %></button>
+      </header>
+      <p class="alert alert-info"><%= t("extent_calculator.create_extent_record_message") %></p>
+
     <% end %>
   </section>
-<% else %>
-  <section>
-    <header class="mb-3 d-flex align-items-center justify-content-between">
-      <h4><%= t("extent_calculator.extent_record_header") %></h4>
-      <button type="button" class="btn btn-default" data-dismiss="modal"><%= t("actions.close") %></button>
-    </header>
-    <p class="alert alert-info"><%= t("extent_calculator.create_extent_record_message") %></p>
-  </section>
-<% end %>
 </div>

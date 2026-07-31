@@ -115,7 +115,7 @@
                 <input id="global-search-box" type="text" class="form-control rounded-left" placeholder="<%= t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                 <div class="input-group-append">
                   <button id="global-search-button" class="btn btn-default" title="<%= t("navbar.search_button_title") %>" aria-label="<%= t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
-                  <button class="btn btn-default search-switcher last" title="<%= t("navbar.show_advanced_search_button_title") %>" aria-label="<%= t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
+                  <button class="btn btn-default search-switcher last" title="<%= t("navbar.show_advanced_search_button_title") %>" aria-label="<%= t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class="glyphicon glyphicon-chevron-down"></span></button>
                 </div>
               </div>
             <% end %>
@@ -125,7 +125,7 @@
               <li class="repo-container">
               <div class="btn-group" role="group">
                 <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
-                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="auto" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
+                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="auto" data-html="true" data-toggle="popover" data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                     <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
                     <% unless current_repo.publish %>
                       <span class="badge badge-warning"><%= t("navbar.unpublished") %></span>

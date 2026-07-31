@@ -5,7 +5,7 @@
   <% n['subjects'].each do |s| %>
       <li>
         <% if s['_resolved']['publish'] %>
-          <a href="<%= s['_resolved']['uri']%>"><%= s['_resolved']['title'] %></a>
+          <a href="<%= s['_resolved']['uri'] %>"><%= s['_resolved']['title'] %></a>
         <% else %>
           <%= s['_resolved']['title'] %>
         <% end %>

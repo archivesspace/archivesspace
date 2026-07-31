@@ -38,7 +38,7 @@
             </div>
           </div>
 
-          <select id="rde_hidden_columns" class="form-control" multiple="multiple" data-i18n-prefix="<%= t("rde.actions.showhide_prefix") %>" data-i18n-suffix="<%= t("rde.actions.showhide_suffix") %>" data-i18n-none="<%= t("rde.actions.showhide_none") %>"></select>
+          <select id="rde_hidden_columns" class="form-control" multiple data-i18n-prefix="<%= t("rde.actions.showhide_prefix") %>" data-i18n-suffix="<%= t("rde.actions.showhide_suffix") %>" data-i18n-none="<%= t("rde.actions.showhide_none") %>"></select>
 
           <select id="rde_select_template" class="selectpicker" data-prompt-text="<%= t('rde.messages.select_prompt') %>" data-removeable="<%= user_can?('manage_rde_templates') %>">
           </select>
@@ -73,7 +73,7 @@
                 <div class="form-group">
                   <label class="control-label" for="basicFillTargetColumn"><%= t("rde.column_label") %></label>
                   <div class="controls">
-                    <select id="basicFillTargetColumn"><option selected="selected" class="empty"></option></select>
+                    <select id="basicFillTargetColumn"><option selected class="empty"></option></select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +83,7 @@
                   </div>
                 </div>
                 <div class="form-actions pl-0">
-                  <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.fill_column.apply_basic_fill") %></button>
+                  <button class="btn btn-primary btn-sm disabled" disabled><%= t("rde.fill_column.apply_basic_fill") %></button>
                   <button class="btn btn-sm btn-default"><%= t("actions.cancel") %></button>
                 </div>
               </fieldset>
@@ -97,7 +97,7 @@
                 <div class="form-group">
                   <label class="control-label" for="sequenceFillTargetColumn"><%= t("rde.column_label") %></label>
                   <div class="controls">
-                    <select id="sequenceFillTargetColumn"><option selected="selected" class="empty"></option></select>
+                    <select id="sequenceFillTargetColumn"><option selected class="empty"></option></select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -114,7 +114,7 @@
                   <div class="controls sequence-preview"></div>
                 </div>
                 <div class="form-actions pl-0">
-                  <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.fill_column.apply_sequence_fill") %></button>
+                  <button class="btn btn-primary btn-sm disabled" disabled><%= t("rde.fill_column.apply_sequence_fill") %></button>
                   <button class="btn btn-sm btn-default btn-cancel"><%= t("actions.cancel") %></button>
                 </div>
               </fieldset>
@@ -132,7 +132,7 @@
 
           <div class="form-group">
             <div class="col-sm-2"></div>
-            <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.save_template.save_template") %></button>
+            <button class="btn btn-primary btn-sm disabled" disabled><%= t("rde.save_template.save_template") %></button>
             <button class="btn btn-sm btn-default btn-cancel"><%= t("actions.cancel") %></button>
           </div>
         </div>
@@ -152,11 +152,11 @@
 
 
         <div id="columnReorderForm" class="rde-inline-form" style="display: none;">
-          <select id="columnOrder" multiple="multiple"></select>
+          <select id="columnOrder" multiple></select>
           <a href="JavaScript:void(0);" id="columnOrderUp" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
           <a href="JavaScript:void(0);" id="columnOrderDown" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
           <div class="form-actions pl-0">
-            <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.reorder_columns.apply_order") %></button>
+            <button class="btn btn-primary btn-sm disabled" disabled><%= t("rde.reorder_columns.apply_order") %></button>
             <button class="btn btn-sm btn-default btn-cancel"><%= t("actions.cancel") %></button>
           </div>
         </div>
@@ -166,9 +166,9 @@
           class="table table-striped table-bordered table-condensed mb-4"
           style="width: auto; margin-right: 20px;">
           <colgroup>
-            <col class="status" data-default-width='24' />
+            <col class="status" data-default-width="24" />
             <%= form.emit_template "rde_#{@children.child_type}_cols" %>
-            <col class="actions" data-default-width='100' />
+            <col class="actions" data-default-width="100" />
           </colgroup>
           <thead>
           <tr class="sections">
@@ -184,11 +184,11 @@
           </thead>
           <tbody>
           <% if @children.children.length > 0 %>
-            <% @children.children.each_with_index do |child, idx|
-              form.push(form.set_index("children[]", idx), child) do %>
+            <% @children.children.each_with_index do |child, idx| %>
+              <% form.push(form.set_index("children[]", idx), child) do %>
                 <%= form.emit_template("rde_#{@children.child_type}_row", child) %>
-              <% end
-                 end %>
+              <% end %>
+            <% end %>
           <% else %>
             <% form.push(form.set_index("children[]", 0), {}) do %>
               <%= form.emit_template("rde_#{@children.child_type}_row") %>
@@ -274,7 +274,7 @@
   </div>
 </div>
 
-
+<%# herb:formatter ignore %>
 <div id="rde_template_table_row"><!--
 <tr>
   <td style='width: 30px;'><input id='remove_me_please_${item.id}' type='checkbox' name='remove_me_please' value='${item.id}'/></td>
