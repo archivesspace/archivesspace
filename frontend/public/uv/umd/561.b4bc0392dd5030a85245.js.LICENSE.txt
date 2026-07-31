@@ -1,0 +1,3 @@
+/*! includes JsRender, JsObservable and JsViews - see: http://jsviews.com/#download */
+
+/*! jsviews.js v1.0.15 single-file version: http://jsviews.com/ */

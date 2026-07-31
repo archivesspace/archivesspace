@@ -23,7 +23,8 @@ class ClassificationTermSubreport < AbstractSubreport
 			description
 		from classification_term
 		where root_record_id = #{db.literal(@classification_id)}
-			and #{parent_condition}"
+			and #{parent_condition}
+			#{suppressed_filter('classification_term')}"
 	end
 
 	def fix_row(row)

@@ -1452,4 +1452,260 @@ describe "Import Archival Objects" do
       end
     end
   end
+
+  context 'when importing with valid existing accessions' do
+    context 'when provided file is CSV' do
+      it 'creates archival object with accession links' do
+        csv_template_path = TEMPLATES_DIR + "/bulk_import_template.csv"
+        csv_data = CSV.read(csv_template_path)
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        accession = create(:json_accession)
+
+        archival_object_row = {}
+        columns.each { |column| archival_object_row[column] = nil }
+
+        archival_object_row['res_uri'] = @resource.uri
+        archival_object_row['title'] = 'Archival Object Title with Accession Link'
+        archival_object_row['hierarchy'] = '1'
+        archival_object_row['level'] = 'class'
+        archival_object_row['accession_uri_1'] = accession.uri
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << columns.map { |c| archival_object_row[c] }
+        end
+
+        csv_filename = "bulk_import_template_#{Time.now.to_i}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id],
+                 :rid => @resource[:id],
+                 :type => "resource",
+                 :filename => csv_filename,
+                 :filepath => csv_path,
+                 :load_type => "archival_object",
+                 :ref_id => "",
+                 :aoid => "",
+                 :position => "" }
+        importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).to eq([])
+
+        archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+        archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+        expect(archival_object['accession_links'].length).to eq 1
+        expect(archival_object['accession_links'][0]['ref']).to eq accession.uri
+      end
+
+      it 'creates archival object with multiple accession links, by uri and by bare id' do
+        csv_template_path = TEMPLATES_DIR + "/bulk_import_template.csv"
+        csv_data = CSV.read(csv_template_path)
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        unless columns.include?('accession_uri_2')
+          insert_at = columns.index('accession_uri_1') + 1
+          columns.insert(insert_at, 'accession_uri_2')
+          column_explanations.insert(insert_at, 'Accession (2) URI')
+        end
+
+        accession_1 = create(:json_accession)
+        accession_2 = create(:json_accession)
+
+        archival_object_row = {}
+        columns.each { |column| archival_object_row[column] = nil }
+
+        archival_object_row['res_uri'] = @resource.uri
+        archival_object_row['title'] = 'Archival Object with Two Accession Links'
+        archival_object_row['hierarchy'] = '1'
+        archival_object_row['level'] = 'class'
+        archival_object_row['accession_uri_1'] = accession_1.uri
+        archival_object_row['accession_uri_2'] = accession_2.id
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << columns.map { |c| archival_object_row[c] }
+        end
+
+        csv_filename = "bulk_import_template_#{Time.now.to_i}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id],
+                 :rid => @resource[:id],
+                 :type => "resource",
+                 :filename => csv_filename,
+                 :filepath => csv_path,
+                 :load_type => "archival_object",
+                 :ref_id => "",
+                 :aoid => "",
+                 :position => "" }
+        importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.rows[0].errors).to eq([])
+
+        archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+        archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+        expect(archival_object['accession_links'].length).to eq 2
+        expect(archival_object['accession_links'][0]['ref']).to eq accession_1.uri
+        expect(archival_object['accession_links'][1]['ref']).to eq accession_2.uri
+      end
+
+      it 'reports an error for an invalid accession uri but still creates the archival object' do
+        csv_template_path = TEMPLATES_DIR + "/bulk_import_template.csv"
+        csv_data = CSV.read(csv_template_path)
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        archival_object_row = {}
+        columns.each { |column| archival_object_row[column] = nil }
+
+        archival_object_row['res_uri'] = @resource.uri
+        archival_object_row['title'] = 'Archival Object with Bad Accession URI'
+        archival_object_row['hierarchy'] = '1'
+        archival_object_row['level'] = 'class'
+        archival_object_row['accession_uri_1'] = '/repositories/999/accessions/99999'
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << columns.map { |c| archival_object_row[c] }
+        end
+
+        csv_filename = "bulk_import_template_#{Time.now.to_i}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id],
+                 :rid => @resource[:id],
+                 :type => "resource",
+                 :filename => csv_filename,
+                 :filepath => csv_path,
+                 :load_type => "archival_object",
+                 :ref_id => "",
+                 :aoid => "",
+                 :position => "" }
+        importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.rows[0].errors).not_to be_empty
+
+        archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+        archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+        expect(archival_object['accession_links']).to eq([])
+      end
+
+      it 'does not link an accession that belongs to a different repository' do
+        other_repo = create(:unselected_repo)
+        other_repo_accession = JSONModel.with_repository(other_repo.id) do
+          create(:json_accession)
+        end
+
+        csv_template_path = TEMPLATES_DIR + "/bulk_import_template.csv"
+        csv_data = CSV.read(csv_template_path)
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        archival_object_row = {}
+        columns.each { |column| archival_object_row[column] = nil }
+
+        archival_object_row['res_uri'] = @resource.uri
+        archival_object_row['title'] = 'Archival Object with Cross-Repo Accession URI'
+        archival_object_row['hierarchy'] = '1'
+        archival_object_row['level'] = 'class'
+        archival_object_row['accession_uri_1'] = other_repo_accession.uri
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << columns.map { |c| archival_object_row[c] }
+        end
+
+        csv_filename = "bulk_import_template_#{Time.now.to_i}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id],
+                 :rid => @resource[:id],
+                 :type => "resource",
+                 :filename => csv_filename,
+                 :filepath => csv_path,
+                 :load_type => "archival_object",
+                 :ref_id => "",
+                 :aoid => "",
+                 :position => "" }
+        importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.rows[0].errors).not_to be_empty
+
+        archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+        archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+        expect(archival_object['accession_links']).to eq([])
+      end
+    end
+
+    context 'when provided file is XSLX' do
+      it 'creates archival object with accession links' do
+        xlsx_template_path = TEMPLATES_DIR + "/bulk_import_template.xlsx"
+        excel_file = RubyXL::Parser.parse(xlsx_template_path)
+        sheet = excel_file['Data']
+
+        column_names = sheet[3].cells.map(&:value)
+
+        column_names.each do |column|
+          column_index = column_names.find_index(column)
+          sheet.add_cell(5, column_index, nil)
+        end
+
+        accession = create(:json_accession)
+
+        sheet[5][column_names.find_index('res_uri')].change_contents(@resource.uri)
+        sheet[5][column_names.find_index('title')].change_contents('Archival Object Title with Accession Link')
+        sheet[5][column_names.find_index('hierarchy')].change_contents('1')
+        sheet[5][column_names.find_index('level')].change_contents('class')
+        sheet[5][column_names.find_index('accession_uri_1')].change_contents(accession.uri)
+
+        xlsx_filename = "bulk_import_template_#{Time.now.to_i}_#{SecureRandom.uuid}.xlsx"
+        xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
+        excel_file.write(xlsx_path)
+
+        opts = { :repo_id => @resource[:repo_id],
+                 :rid => @resource[:id],
+                 :type => "resource",
+                 :filename => xlsx_filename,
+                 :filepath => xlsx_path,
+                 :load_type => "archival_object",
+                 :ref_id => "",
+                 :aoid => "",
+                 :position => "" }
+        importer = ImportArchivalObjects.new(opts[:filepath], "xlsx", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).to eq([])
+
+        archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+        archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+        expect(archival_object['accession_links'].length).to eq 1
+        expect(archival_object['accession_links'][0]['ref']).to eq accession.uri
+      end
+    end
+  end
 end

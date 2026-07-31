@@ -621,6 +621,38 @@ describe 'Resources', js: true do
     end
   end
 
+  it 'keeps a linked accession token when a save fails validation' do
+    now = Time.now.to_i
+    accession = create(:accession, title: "Linked Accession #{now}")
+    resource = create(
+      :resource,
+      title: "Resource Title #{now}",
+      related_accessions: [{ 'ref' => accession.uri }]
+    )
+
+    visit "resources/#{resource.id}/edit"
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+    within '#resource_related_accessions_' do
+      expect(page).to have_css('.token-input-token', text: "Linked Accession #{now}")
+    end
+
+    fill_in 'resource_title_', with: ''
+    find('button', text: 'Save Resource', match: :first).click
+
+    within '#form_messages' do
+      expect(page).to have_selector(
+        '.alert.alert-danger.with-hide-alert',
+        visible: true,
+        text: 'Title - Property is required but was missing'
+      )
+    end
+
+    within '#resource_related_accessions_' do
+      expect(page).to have_css('.token-input-token', text: "Linked Accession #{now}")
+    end
+  end
+
   it 'reports errors if adding an empty child to a Resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -844,116 +876,127 @@ describe 'Resources', js: true do
     expect(element).to have_text "Digital Object Title #{now}"
   end
 
-  it 'can create and link a related accession from a resource form' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+  describe 'creating and linking a related accession from a resource form' do
+    it 'can create and link a related accession from a resource form' do
+      now = Time.now.to_i
+      resource = create(:resource, title: "Resource Title #{now}")
 
-    visit "resources/#{resource.id}/edit"
+      visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
-    click_on 'Add Related Accession'
+      click_on 'Add Related Accession'
 
-    find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
-    wait_for_ajax
-    find('#resource_related_accessions_ .linker-create-btn').click
-
-    within '#resource_related_accessions__0__ref__modal' do
-      fill_in 'Identifier', with: "ACC_#{now}"
-      fill_in 'Title', with: "Related Accession #{now}"
-      fill_in 'Accession Date', with: '2026-01-05'
-
-      click_on 'Create and Link'
-    end
-
-    expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
-
-    element = find('#resource_related_accessions_ .token-input-token')
-    expect(element).to have_text("Related Accession #{now}")
-
-    find('button', text: 'Save Resource', match: :first).click
-    expect(page).to have_text "Resource #{resource.title} updated"
-  end
-
-  it 'shows validation errors when creating related accession with invalid data' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    click_on 'Add Related Accession'
-
-    find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
-    wait_for_ajax
-    find('#resource_related_accessions_ .linker-create-btn').click
-
-    within '#resource_related_accessions__0__ref__modal' do
-      fill_in 'Title', with: "Invalid Accession #{now}"
-      click_on 'Create and Link'
-    end
-
-    within '#resource_related_accessions__0__ref__modal' do
-      expect(page).to have_css('.alert.alert-danger', text: /Identifier.*required/i)
-      expect(page).to have_field('Title', with: "Invalid Accession #{now}")
-    end
-
-    within '#resource_related_accessions__0__ref__modal' do
-      fill_in 'Identifier', with: "ACC_#{now}"
-      fill_in 'Accession Date', with: '2026-01-05'
-      click_on 'Create and Link'
-    end
-
-    expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
-
-    element = find('#resource_related_accessions_ .token-input-token')
-    expect(element).to have_text("Invalid Accession #{now}")
-  end
-
-  it 'can create multiple related accessions for a resource' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    click_on 'Add Related Accession'
-
-    within '#resource_related_accessions_' do
-      all('.linker-wrapper').first.find('.dropdown-toggle').click
+      find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
       wait_for_ajax
-      all('.linker-create-btn').first.click
+      find('#resource_related_accessions_ .linker-create-btn').click
+
+      within '#resource_related_accessions__0__ref__modal' do
+        fill_in 'Identifier', with: "ACC_#{now}"
+        fill_in 'Title', with: "Related Accession #{now}"
+        fill_in 'Accession Date', with: '2026-01-05'
+
+        click_on 'Create and Link'
+      end
+
+      expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
+
+      element = find('#resource_related_accessions_ .token-input-token')
+      expect(element).to have_text("Related Accession #{now}")
+
+      find('button', text: 'Save Resource', match: :first).click
+      expect(page).to have_text "Resource #{resource.title} updated"
+
+      expect(page).to have_selector(
+        "input[name='resource[related_accessions][0][_resolved]']",
+        count: 1, visible: :all
+      )
+      expect(page).to have_selector(
+        "input[name='resource[related_accessions][0][ref]']",
+        count: 1, visible: :all
+      )
     end
 
-    within '#resource_related_accessions__0__ref__modal' do
-      fill_in 'Identifier', with: "ACC1_#{now}"
-      fill_in 'Title', with: "First Accession #{now}"
-      fill_in 'Accession Date', with: '2026-01-05'
-      click_on 'Create and Link'
-    end
+    it 'shows validation errors when creating related accession with invalid data' do
+      now = Time.now.to_i
+      resource = create(:resource, title: "Resource Title #{now}")
 
-    click_on 'Add Related Accession'
+      visit "resources/#{resource.id}/edit"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
-    within '#resource_related_accessions_' do
-      all('.linker-wrapper').last.find('.dropdown-toggle').click
+      click_on 'Add Related Accession'
+
+      find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
       wait_for_ajax
-      all('.linker-create-btn').last.click
+      find('#resource_related_accessions_ .linker-create-btn').click
+
+      within '#resource_related_accessions__0__ref__modal' do
+        fill_in 'Title', with: "Invalid Accession #{now}"
+        click_on 'Create and Link'
+      end
+
+      within '#resource_related_accessions__0__ref__modal' do
+        expect(page).to have_css('.alert.alert-danger', text: /Identifier.*required/i)
+        expect(page).to have_field('Title', with: "Invalid Accession #{now}")
+      end
+
+      within '#resource_related_accessions__0__ref__modal' do
+        fill_in 'Identifier', with: "ACC_#{now}"
+        fill_in 'Accession Date', with: '2026-01-05'
+        click_on 'Create and Link'
+      end
+
+      expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
+
+      element = find('#resource_related_accessions_ .token-input-token')
+      expect(element).to have_text("Invalid Accession #{now}")
     end
 
-    within '#resource_related_accessions__1__ref__modal' do
-      fill_in 'Identifier', with: "ACC2_#{now}"
-      fill_in 'Title', with: "Second Accession #{now}"
-      fill_in 'Accession Date', with: '2026-01-05'
-      click_on 'Create and Link'
-    end
+    it 'can create multiple related accessions for a resource' do
+      now = Time.now.to_i
+      resource = create(:resource, title: "Resource Title #{now}")
 
-    find('button', text: 'Save Resource', match: :first).click
-    expect(page).to have_text "Resource #{resource.title} updated"
+      visit "resources/#{resource.id}/edit"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
-    within '#resource_related_accessions_' do
-      tokens = all('.token-input-token')
-      expect(tokens[0]).to have_text("First Accession #{now}")
-      expect(tokens[1]).to have_text("Second Accession #{now}")
+      click_on 'Add Related Accession'
+
+      within '#resource_related_accessions_' do
+        all('.linker-wrapper').first.find('.dropdown-toggle').click
+        wait_for_ajax
+        all('.linker-create-btn').first.click
+      end
+
+      within '#resource_related_accessions__0__ref__modal' do
+        fill_in 'Identifier', with: "ACC1_#{now}"
+        fill_in 'Title', with: "First Accession #{now}"
+        fill_in 'Accession Date', with: '2026-01-05'
+        click_on 'Create and Link'
+      end
+
+      click_on 'Add Related Accession'
+
+      within '#resource_related_accessions_' do
+        all('.linker-wrapper').last.find('.dropdown-toggle').click
+        wait_for_ajax
+        all('.linker-create-btn').last.click
+      end
+
+      within '#resource_related_accessions__1__ref__modal' do
+        fill_in 'Identifier', with: "ACC2_#{now}"
+        fill_in 'Title', with: "Second Accession #{now}"
+        fill_in 'Accession Date', with: '2026-01-05'
+        click_on 'Create and Link'
+      end
+
+      find('button', text: 'Save Resource', match: :first).click
+      expect(page).to have_text "Resource #{resource.title} updated"
+
+      within '#resource_related_accessions_' do
+        tokens = all('.token-input-token')
+        expect(tokens[0]).to have_text("First Accession #{now}")
+        expect(tokens[1]).to have_text("Second Accession #{now}")
+      end
     end
   end
 

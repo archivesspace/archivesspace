@@ -1,7 +1,7 @@
 Feature: Resource generate bulk spreadsheet
   Background:
     Given an administrator user is logged in
-      And a Resource has been created
+      And a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
   Scenario: Resource Bulk archival object updater page is displayed
      When the user clicks on 'More'

@@ -567,6 +567,14 @@ Then 'the {string} button is disabled' do |text|
   end
 end
 
+Then 'the {string} field is enabled' do |label|
+  expect(find_field(label, disabled: :all).disabled?).to eq false
+end
+
+Then 'the {string} field is disabled' do |label|
+  expect(find_field(label, disabled: :all).disabled?).to eq true
+end
+
 When 'the user selects the first top container' do
   within '#bulk_operation_results tbody' do
     find('input[type="checkbox"]', match: :first).click
@@ -620,6 +628,21 @@ end
 Then 'the {string} record is listed in the New & Modified Records form' do |record|
   visit current_url
   expect(find('#generated_uris .subrecord-form-fields').text).to include record
+end
+
+Then 'the {string} page is displayed' do |string|
+  tries = 0
+
+  loop do
+    expect(find('h2').text).to start_with string
+
+    break
+  rescue RSpec::Expectations::ExpectationNotMetError => e
+    tries += 1
+    sleep 3
+
+    raise e if tries == 5
+  end
 end
 
 Then('the user sees the MLC default language preview before the {string} {string} label') do |record_type, field|

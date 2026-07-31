@@ -1,1 +1,10 @@
 he:
+  archival_object:
+    _public: {}
+  agent:
+    _public: {}
+  accession:
+    _public: {}
+  request: {}
+  classification:
+    _public: {}

@@ -17,7 +17,9 @@ class AccessionClassificationsSubreport < AbstractSubreport
           = classification_rlshp.classification_id
         left outer join classification_term on classification_term.id
           = classification_rlshp.classification_term_id
-    where accession_id = #{db.literal(@accession_id)}"
+    where accession_id = #{db.literal(@accession_id)}
+      #{suppressed_filter('classification')}
+      #{suppressed_filter('classification_term')}"
   end
 
 end

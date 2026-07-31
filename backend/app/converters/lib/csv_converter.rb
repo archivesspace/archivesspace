@@ -79,8 +79,16 @@ module ASpaceImport
       # run linking jobs and set defaults
       @batch.working_area.each { |obj| @proxies.discharge_proxy(obj.key, obj) }
 
+      # let subclasses post-process the row's objects before they're flushed
+      after_row_parsed(row)
+
       # empty the working area of the cache
       @batch.flush
+    end
+
+
+    # Hook for subclasses: runs after a row's objects have been parsed and before flush.
+    def after_row_parsed(row)
     end
 
 

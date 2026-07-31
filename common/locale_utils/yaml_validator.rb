@@ -37,8 +37,7 @@ module LocaleUtils
 
       begin
         YAML.load_file(file_path, aliases: true)
-        puts '  ✓ Valid YAML'
-        @valid_count += 1
+        duplicates = find_duplicate_keys(file_path)
       rescue Psych::SyntaxError => e
         puts "  ✗ Invalid YAML: #{e.message}"
 
@@ -48,6 +47,7 @@ module LocaleUtils
           context: error_context
         }
         @invalid_count += 1
+        return
       rescue => e
         puts "  ✗ Error: #{e.class} - #{e.message}"
         @errors[file_path] = {
@@ -55,7 +55,68 @@ module LocaleUtils
           context: nil
         }
         @invalid_count += 1
+        return
       end
+
+      if duplicates.empty?
+        puts '  ✓ Valid YAML'
+        @valid_count += 1
+      else
+        puts "  ✗ Duplicate keys: #{duplicates.length}"
+
+        @errors[file_path] = {
+          message: "#{duplicates.length} duplicate #{duplicates.length == 1 ? 'key' : 'keys'} found",
+          context: format_duplicates(duplicates)
+        }
+        @invalid_count += 1
+      end
+    end
+
+    def find_duplicate_keys(file_path)
+      document = Psych.parse_file(file_path)
+      return [] unless document
+
+      root = document.respond_to?(:root) ? document.root : document
+      duplicates = []
+      collect_duplicate_keys(root, [], duplicates)
+      duplicates
+    end
+
+    def collect_duplicate_keys(node, path, duplicates)
+      case node
+      when Psych::Nodes::Mapping
+        seen = {}
+
+        node.children.each_slice(2) do |key, value|
+          key_path = path
+
+          if key.is_a?(Psych::Nodes::Scalar)
+            key_path = path + [key.value]
+
+            if seen.key?(key.value)
+              duplicates << {
+                key: key_path.join('.'),
+                line: key.start_line + 1,
+                first_line: seen[key.value]
+              }
+            else
+              seen[key.value] = key.start_line + 1
+            end
+          end
+
+          collect_duplicate_keys(value, key_path, duplicates) if value
+        end
+      when Psych::Nodes::Sequence
+        node.children.each_with_index do |child, index|
+          collect_duplicate_keys(child, path + ["[#{index}]"], duplicates)
+        end
+      end
+    end
+
+    def format_duplicates(duplicates)
+      duplicates.map do |duplicate|
+        "    line #{duplicate[:line]}: '#{duplicate[:key]}' is already defined on line #{duplicate[:first_line]}"
+      end.join("\n")
     end
 
     def extract_error_context(file_path, error)

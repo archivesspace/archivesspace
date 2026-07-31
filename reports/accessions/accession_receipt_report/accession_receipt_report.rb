@@ -1,6 +1,7 @@
 class AccessionReceiptReport < AbstractReport
   register_report(
     params: [['scope_by_date', 'Boolean', 'Scope records by a date range'],
+             ['include_suppressed', 'IncludeSuppressed', 'Include suppressed records'],
              ['from', Date, 'The start of report range'],
              ['to', Date, 'The start of report range']]
   )
@@ -25,13 +26,13 @@ class AccessionReceiptReport < AbstractReport
 
   def query_string
     date_condition = if @date_scope
-                      "accession_date >
+                       "accession_date >
                       #{db.literal(@from.split(' ')[0].gsub('-', ''))}
                       and accession_date <
                       #{db.literal(@to.split(' ')[0].gsub('-', ''))}"
-                    else
-                      '1=1'
-                    end
+                     else
+                       '1=1'
+                     end
 
     lang = RequestContext.description_language
     lang_condition = "accession_mlc.language_id = #{db.literal(lang[:language_id])} and accession_mlc.script_id = #{db.literal(lang[:script_id])}"
@@ -54,8 +55,8 @@ class AccessionReceiptReport < AbstractReport
           GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ')
             as container_summary
         from extent
-        group by accession_id) as extent_cnt on extent_cnt.accession_id = accession.id
-    where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
+        group by accession_id) as extent_cnt
+    where repo_id = #{db.literal(@repo_id)} and #{date_condition}#{suppressed_filter('accession')}"
   end
 
   def fix_row(row)
