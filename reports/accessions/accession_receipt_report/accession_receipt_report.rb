@@ -26,25 +26,30 @@ class AccessionReceiptReport < AbstractReport
 
   def query_string
     date_condition = if @date_scope
-                      "accession_date > 
-                      #{db.literal(@from.split(' ')[0].gsub('-', ''))} 
-                      and accession_date < 
+                       "accession_date >
+                      #{db.literal(@from.split(' ')[0].gsub('-', ''))}
+                      and accession_date <
                       #{db.literal(@to.split(' ')[0].gsub('-', ''))}"
-                    else
-                      '1=1'
-                    end
+                     else
+                       '1=1'
+                     end
+
+    lang = RequestContext.description_language
+    lang_condition = "accession_mlc.language_id = #{db.literal(lang[:language_id])} and accession_mlc.script_id = #{db.literal(lang[:script_id])}"
+
     "select
-      id,
+      accession.id as id,
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date,
       container_summary,
       extent_number,
       extent_type
     from accession
-      natural left outer join
+      left join accession_mlc on accession_mlc.accession_id = accession.id and #{lang_condition}
+      left outer join
         (select
-          accession_id as id,
+          accession_id as accession_id,
           sum(number) as extent_number,
           GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
           GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ')

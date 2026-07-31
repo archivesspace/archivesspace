@@ -32,7 +32,17 @@
      * @param {string} requestPath - The prefixed frontend URI to the record, e.g. "/resources/123"
      */
     async loadRecord(requestPath) {
-      const url = requestPath + '?inline=true';
+      const urlObj = new URL(requestPath, window.location.origin);
+      urlObj.searchParams.set('inline', 'true');
+
+      const lang = new URLSearchParams(window.location.search).get(
+        'language_of_description'
+      );
+      if (lang) {
+        urlObj.searchParams.set('language_of_description', lang);
+      }
+
+      const url = urlObj.pathname + urlObj.search;
 
       this.#blockUI();
 

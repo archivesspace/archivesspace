@@ -20,7 +20,8 @@ Dir.glob(File.join(File.dirname(__FILE__), '../', '../', 'common', 'lib', "*.jar
   require file
 end
 
-
+# Load shared examples
+Dir[File.expand_path('../shared/**/*.rb', __FILE__)].sort.each { |f| require f }
 
 # Use an in-memory Derby DB for the test suite
 class DB

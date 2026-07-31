@@ -9,6 +9,8 @@
     "uri" => "/repositories/:repo_id/resources",
     "properties" => {
 
+      "lang_descriptions" => {"type" => "array", "items" => {"type" => "JSONModel(:language_and_script_of_description) object"}},
+
       "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
       "id_1" => {"type" => "string", "maxLength" => 255},
       "id_2" => {"type" => "string", "maxLength" => 255},

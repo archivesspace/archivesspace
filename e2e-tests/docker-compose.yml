@@ -24,6 +24,7 @@ services:
       APPCONFIG_FRONTEND_PROXY_URL: "http://localhost:8080"
       APPCONFIG_PUBLIC_PROXY_URL: "http://localhost:8081"
       APPCONFIG_SOLR_URL: "http://e2e-solr:8983/solr/archivesspace"
+      APPCONFIG_MULTILINGUAL_CONTENT: ${APPCONFIG_MULTILINGUAL_CONTENT:-false}
       LCNAF_LOC_BASE_URL: "http://e2e-wiremock:8080"
       ASPACE_DB_MIGRATE: true
       ASPACE_JAVA_XMX: "-Xmx2048m"

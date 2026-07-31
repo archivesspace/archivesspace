@@ -1,0 +1,51 @@
+name: Set up E2E environment
+description: Ruby, gems, geckodriver, and a running ArchivesSpace stack
+
+inputs:
+  image_tag:
+    description: Docker image tag for ArchivesSpace
+    required: true
+  multilingual_content:
+    description: Value for APPCONFIG_MULTILINGUAL_CONTENT
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2.0'
+        working-directory: e2e-tests
+    - uses: actions/cache@v4
+      with:
+        path: e2e-tests/vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('e2e-tests/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - name: Install gems
+      shell: bash
+      working-directory: e2e-tests
+      run: |
+        bundle config path vendor/bundle
+        bundle install --quiet --jobs 4 --retry 3
+    - uses: browser-actions/setup-geckodriver@latest
+      with:
+        token: ${{ github.token }}
+    - name: Get geckodriver and firefox versions
+      shell: bash
+      run: |
+        geckodriver --version
+        firefox --version
+    - name: Set up Docker
+      shell: bash
+      working-directory: e2e-tests
+      env:
+        IMAGE_TAG: ${{ inputs.image_tag }}
+        APPCONFIG_MULTILINGUAL_CONTENT: ${{ inputs.multilingual_content }}
+      run: docker compose -f docker-compose.yml up --quiet-pull --detach
+    - name: Wait until the web server is ready
+      shell: bash
+      run: |
+        echo "Waiting for ArchivesSpace to start..."
+        timeout 120 bash -c 'until curl -sf http://localhost:8080 > /dev/null; do sleep 2; done' || echo "Timeout waiting for ArchivesSpace"

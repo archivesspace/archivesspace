@@ -9,6 +9,8 @@
     "uri" => "/repositories/:repo_id/digital_objects",
     "properties" => {
 
+      "lang_descriptions" => {"type" => "array", "items" => {"type" => "JSONModel(:language_and_script_of_description) object"}},
+
       "digital_object_id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "level" => {"type" => "string", "dynamic_enum" => "digital_object_level"},
       "slug" => {"type" => "string"},

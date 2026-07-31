@@ -45,4 +45,62 @@ class RequestContext
     Thread.current[:request_context].clone
   end
 
+
+  # Returns the language/script pair set on the current request context, or
+  # +nil+ if none was set.  Does not fall back to AppConfig defaults.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def self.requested_description_language
+    get(:language_of_description)
+  end
+
+
+  # Resolves the active language/script pair for MLC field lookups.
+  #
+  # Returns the language set on the current request context if present,
+  # otherwise falls back to the enumeration IDs for
+  # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+,
+  # caching the AppConfig result under a separate key so the request-language
+  # key remains unambiguous.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def self.description_language
+    get(:language_of_description) || default_description_language
+  end
+
+
+  # Resolves the AppConfig default language/script pair, regardless of any
+  # language set on the current request context.  Always the last-resort
+  # fallback in the MLC lookup chain.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def self.default_description_language
+    get(:language_of_description_default) || begin
+      resolved = resolve_language_pair(AppConfig[:mlc_default_language],
+                                       AppConfig[:mlc_default_script])
+      put(:language_of_description_default, resolved) if resolved && active?
+      resolved
+    end
+  end
+
+
+  # Resolves a +(language_tag, script_tag)+ pair of ISO codes to the matching
+  # +enumeration_value+ IDs.  Returns +nil+ if either tag is missing, empty, or
+  # not present in the +language_iso639_2+ / +script_iso15924+ enumerations.
+  #
+  # @param language_tag [String, nil] ISO 639-2 code (e.g. +"eng"+)
+  # @param script_tag [String, nil] ISO 15924 code (e.g. +"Latn"+)
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def self.resolve_language_pair(language_tag, script_tag)
+    return nil if language_tag.nil? || language_tag.empty?
+    return nil if script_tag.nil?   || script_tag.empty?
+
+    lang_enum   = Enumeration.filter(:name => 'language_iso639_2').get(:id)
+    script_enum = Enumeration.filter(:name => 'script_iso15924').get(:id)
+    lang_id   = EnumerationValue.filter(:enumeration_id => lang_enum,   :value => language_tag).get(:id)
+    script_id = EnumerationValue.filter(:enumeration_id => script_enum, :value => script_tag).get(:id)
+
+    (lang_id && script_id) ? { language_id: lang_id, script_id: script_id } : nil
+  end
+
 end

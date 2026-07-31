@@ -35,6 +35,8 @@ class ApplicationController < ActionController::Base
 
   before_action :init_ancestor_titles
 
+  before_action :set_description_language
+
   around_action :set_locale
 
   def self.permission_mappings
@@ -742,6 +744,12 @@ class ApplicationController < ActionController::Base
 
       query
     }
+  end
+
+  def set_description_language
+    lang = params[:language_of_description]
+    JSONModel::HTTP.current_description_language =
+      (lang.present? && lang.match?(/\A[a-z]{3}_[A-Za-z]{4}\z/)) ? lang : nil
   end
 
   def set_locale(&action)

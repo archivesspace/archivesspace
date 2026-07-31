@@ -3,18 +3,20 @@
 <%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
 
 <div class="d-flex">
-   <div class="col-md-3">
-      <%= render_aspace_partial :partial => "sidebar" %>
-   </div>
-   <div class="col-md-9">
+  <div class="col-md-2">
+    <%= render_aspace_partial :partial => "sidebar" %>
+  </div>
+
+  <div class="col-md-10">
     <%= render_aspace_partial :partial => "accessions/toolbar" %>
+
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>
-          <h2 class='my-3'><%= clean_mixed_content(@accession.display_string) %> <span class="badge label"><%= t("accession._singular") %></span></h2>
+        <h2 class="my-3"><%= clean_mixed_content(@accession.display_string) %> <span class="badge label"><%= t("accession._singular") %></span></h2>
 
-          <%= render_aspace_partial :partial => "shared/flash_messages" %>
+        <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-          <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
+        <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
           <section id="basic_information" class="py-3">
             <h3><%= t("accession._frontend.section.basic_information") %></h3>
 
@@ -37,7 +39,6 @@
             <%= readonly.label_and_textarea "retention_rule" %>
             <%= readonly.label_and_textarea "general_note" %>
 
-
             <%= readonly.label_and_select "acquisition_type", readonly.possible_options_for("acquisition_type", true) %>
             <%= readonly.label_and_select "resource_type", readonly.possible_options_for("resource_type", true) %>
             <%= readonly.label_and_select("language", readonly.possible_options_for("language", true)) %>
@@ -54,75 +55,79 @@
 
             <%= display_audit_info(@accession) %>
           </section>
-          <% end %>
+        <% end %>
 
-          <% readonly.emit_template("accession") %>
+        <% readonly.emit_template("accession") %>
 
-          <% if @accession.lang_materials.length > 0 %>
-            <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @accession.lang_materials, :section_id => "accession_lang_materials_" } %>
-          <% end %>
+        <% if @accession.lang_descriptions.length > 0 %>
+          <%= render_aspace_partial :partial => "lang_descriptions/show", :locals => { :lang_descriptions => @accession.lang_descriptions, :section_id => "accession_lang_descriptions_" } %>
+        <% end %>
 
-          <% if @accession.dates.length > 0 %>
-            <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
-          <% end %>
+        <% if @accession.lang_materials.length > 0 %>
+          <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @accession.lang_materials, :section_id => "accession_lang_materials_" } %>
+        <% end %>
 
-          <% if @accession.extents.length > 0 %>
-            <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
-          <% end %>
+        <% if @accession.dates.length > 0 %>
+          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @accession.dates, :section_id => "accession_dates_" } %>
+        <% end %>
 
-         <% if @accession.linked_agents.length > 0 %>
-           <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
-         <% end %>
+        <% if @accession.extents.length > 0 %>
+          <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => @accession.extents, :section_id => "accession_extents_" } %>
+        <% end %>
 
-         <% if @accession.related_resources.length > 0 %>
-           <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
-         <% end %>
+        <% if @accession.linked_agents.length > 0 %>
+          <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => @accession.linked_agents, :section_id => "accession_linked_agents_" } %>
+        <% end %>
 
-         <% if @accession.component_links.length > 0 %>
-             <%= render_aspace_partial :partial => "component_links/show", :locals => { :component_links => @accession.component_links, :section_id => "accession_component_links_" } %>
-         <% end %>
+        <% if @accession.related_resources.length > 0 %>
+          <%= render_aspace_partial :partial => "related_resources/show", :locals => { :related_resources => @accession.related_resources, :section_id => "accession_related_resources_" } %>
+        <% end %>
 
-         <% if @accession.related_accessions.length > 0 %>
-           <%= render_aspace_partial :partial => "interrelated_accessions/show", :locals => { :related_accessions => @accession.related_accessions, :section_id => "accession_related_accessions_" } %>
-         <% end %>
+        <% if @accession.component_links.length > 0 %>
+          <%= render_aspace_partial :partial => "component_links/show", :locals => { :component_links => @accession.component_links, :section_id => "accession_component_links_" } %>
+        <% end %>
 
-         <% if not @accession.subjects.blank? %>
-           <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
-         <% end %>
+        <% if @accession.related_accessions.length > 0 %>
+          <%= render_aspace_partial :partial => "interrelated_accessions/show", :locals => { :related_accessions => @accession.related_accessions, :section_id => "accession_related_accessions_" } %>
+        <% end %>
 
-          <% if @accession.external_documents.length > 0 %>
-            <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents, :section_id => "accession_external_documents_" } %>
-          <% end %>
+        <% if not @accession.subjects.blank? %>
+          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => @accession.subjects, :section_id => "accession_subjects_"} %>
+        <% end %>
 
-         <% if @accession.rights_statements.length > 0 %>
-           <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
-         <% end %>
+        <% if @accession.external_documents.length > 0 %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @accession.external_documents, :section_id => "accession_external_documents_" } %>
+        <% end %>
 
-         <% if @accession.metadata_rights_declarations.length > 0 %>
-             <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @accession.metadata_rights_declarations, :section_id => "accession_metadata_rights_declarations_" } %>
-         <% end %>
+        <% if @accession.rights_statements.length > 0 %>
+          <%= render_aspace_partial :partial => "rights_statements/show", :locals => { :rights_statements => @accession.rights_statements, :section_id => "accession_rights_statements_" } %>
+        <% end %>
+
+        <% if @accession.metadata_rights_declarations.length > 0 %>
+          <%= render_aspace_partial :partial => "metadata_rights_declarations/show", :locals => { :metadata_rights_declarations => @accession.metadata_rights_declarations, :section_id => "accession_metadata_rights_declarations_" } %>
+        <% end %>
 
         <% if @accession.instances.length > 0 %>
           <%= render_aspace_partial :partial => "instances/show", :locals => { :instances => @accession.instances, :section_id => "accession_instances_"  } %>
         <% end %>
 
-         <% if @accession.deaccessions.length > 0 %>
-           <%= render_aspace_partial :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
-         <% end %>
+        <% if @accession.deaccessions.length > 0 %>
+          <%= render_aspace_partial :partial => "deaccessions/show", :locals => { :deaccessions => @accession.deaccessions, :context => readonly, :section_id => "accession_deaccessions_" } %>
+        <% end %>
 
-         <% if @accession.collection_management %>
-           <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
-         <% end %>
+        <% if @accession.collection_management %>
+          <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
+        <% end %>
 
-         <% if @accession.classifications && !@accession.classifications.empty? %>
-             <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
-         <% end %>
+        <% if @accession.classifications && !@accession.classifications.empty? %>
+          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
+        <% end %>
 
-         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
+        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
 
-         <% if @accession.user_defined %>
-           <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
-         <% end %>
+        <% if @accession.user_defined %>
+          <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
+        <% end %>
 
         <% if @accession.external_ids.length > 0 && show_external_ids? %>
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @accession.external_ids, :context => readonly, :section_id => "accession_external_ids_" } %>
@@ -130,9 +135,8 @@
 
         <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @accession, :filter_term => {"assessment_record_uris" => @accession.uri}.to_json, :heading_text => t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
 
-         <%= show_plugins_for(@accession, readonly) %>
-
-       <% end %>
-     </div>
-   </div>
+        <%= show_plugins_for(@accession, readonly) %>
+      <% end %>
+    </div>
+  </div>
 </div>
