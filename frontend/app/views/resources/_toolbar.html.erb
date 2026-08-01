@@ -22,15 +22,15 @@
           <fieldset class="d-flex flex-column">
             <input type="hidden" name="id" value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
-              <input type="checkbox" id="include-unpublished" name="include_unpublished" <% if pref_include_unpublished %> checked="checked" <% end %>/>
+              <input type="checkbox" id="include-unpublished" name="include_unpublished" <% if pref_include_unpublished %> checked="checked" <% end %> />
               <%= t("export_options.include_unpublished") %>
             </label>
             <label class="checkbox" for="include-daos">
-              <input type="checkbox" id="include-daos" name="include_daos" checked/>
+              <input type="checkbox" id="include-daos" name="include_daos" checked />
               <%= t("export_options.include_daos") %>
             </label>
             <label class="checkbox" for="include-uris">
-              <input type="checkbox" id="include-uris" name="include_uris" checked/>
+              <input type="checkbox" id="include-uris" name="include_uris" checked />
               <%= t("export_options.include_uris") %>
             </label>
             <label class="checkbox" for="numbered-cs">
@@ -53,7 +53,7 @@
           <fieldset>
             <input type="hidden" name="id" value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished-marc">
-              <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" <% if pref_include_unpublished %> checked="checked" <% end %>/>
+              <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" <% if pref_include_unpublished %> checked="checked" <% end %> />
               <%= t("export_options.include_unpublished") %>
             </label>
             <%# END - MARC %>

@@ -13,7 +13,7 @@
       <%= t("system_info.#{@app_context}") %>
     </h3>
     <% @info.keys.each do |key| %>
-      <section id="<%= key %>" class="subrecord-form-dummy" >
+      <section id="<%= key %>" class="subrecord-form-dummy">
         <h3><%= key.upcase %></h3>
         <div class="subrecord-form-container form-horizontal">
           <% if %w{ environment globals jvm_properties appconfig memory db_info solr_info  }.include?(key.to_s) %>

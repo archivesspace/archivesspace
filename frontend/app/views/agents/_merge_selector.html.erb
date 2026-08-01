@@ -84,7 +84,7 @@
 
           <% if @agent.agent_alternate_sets.length > 0 || @merge_candidate.agent_alternate_sets.length > 0 %>
             <h3><%= t("agent_alternate_sets._plural") %></h3>
-            <section id="agent_agent_alternate_set_left"   class="merge-group merge-group-left">
+            <section id="agent_agent_alternate_set_left" class="merge-group merge-group-left">
                   <% if @agent.agent_alternate_sets.length > 0 %>
                   <%= @agent.agent_type.inspect %>
                     <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "agent_alternate_sets", :section_id => "#{@agent.agent_type}_agent_alternate_set", :template => "agent_alternate_set_merge_destination", :heading_text => t("agent_alternate_sets._plural"), :heading_size => "h5", :help_topic => "#{@agent.agent_type}_agent_alternate_set"} %>

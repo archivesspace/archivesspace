@@ -11,7 +11,7 @@
         <div class="record-pane">
           <%= link_to_help :topic => "repository" %>
           <h2><%= @repository.repository['name'] %>  <span class="label label-info badge"><%= t("repository._singular") %></span></h2>
-          <br/>
+          <br />
 
           <%= render_aspace_partial :partial => "repositories/form_container", :locals => {:form => form} %>
 

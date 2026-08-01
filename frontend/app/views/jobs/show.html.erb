@@ -23,7 +23,7 @@
 
         <% if !["queued", "running"].include?(@job.status) %>
           <% unless @files.empty? %>
-            <section id="job_files" class="subrecord-form-dummy" >
+            <section id="job_files" class="subrecord-form-dummy">
               <h3 class="subrecord-form-heading">
                 <%= t("job._frontend.section.files") %>
               </h3>

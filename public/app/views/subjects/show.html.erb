@@ -29,7 +29,7 @@
     </div>
     <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
       <h3><%= t('more_about') %> '<%== process_mixed_content(@result.display_string) %>'</h3>
-      <div class="acc_holder clear" >
+      <div class="acc_holder clear">
         <div class="panel-group" id="res_accordion">
           <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
             <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
@@ -41,7 +41,7 @@
           <% end %>
         </div>
       </div>
-      <script type="text/javascript" >
+      <script type="text/javascript">
         initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
       </script>
       <% unless @results.blank? || @results['total_hits'] == 0 %>

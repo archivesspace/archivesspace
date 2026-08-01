@@ -6,7 +6,7 @@
 
   <% if info["top"]["description"].present? %>
   <div class="description py-4">
-    <strong><%= t('description') %>: </strong> <br/><%= simple_format(info["top"]["description"], {}, wrapper_tag: "div") %>
+    <strong><%= t('description') %>: </strong> <br /><%= simple_format(info["top"]["description"], {}, wrapper_tag: "div") %>
   </div>
   <% end %>
 
@@ -18,7 +18,7 @@
   <% end %>
 
   <div class="contact_info">
-    <strong><%= t('contact') %>:</strong> <br/>
+    <strong><%= t('contact') %>:</strong> <br />
     <% if info["address"].present? %>
       <span class="street">
         <%= info["address"].join(" <br/>").html_safe %>
@@ -32,25 +32,25 @@
       <% end %>
     <% end %>
 
-    <br/>
+    <br />
 
     <% if info["telephones"].present? %>
       <% info["telephones"].each do |phone| %>
         <span class="telephone">
           <% if !phone['number'].blank? %>
             <% if !phone['number_type'].blank? && phone['number_type'].strip.upcase == 'FAX' %>
-              <i class="fa fa-fax"  aria-hidden="true"></i> <%= phone['number'] %> (<%= t('fax') %>)
+              <i class="fa fa-fax" aria-hidden="true"></i> <%= phone['number'] %> (<%= t('fax') %>)
             <% else %>
               <i class="fa fa-phone" aria-hidden="true"></i> <%= phone['number'] %>
             <% end %>
           <% end %>
-        </span><br/>
+        </span><br />
       <% end %>
     <% end %>
 
     <!-- YEE HAW -->
     <% if info["email"].present? %>
       <span class="email"><i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></span>
-      <br/>
+      <br />
     <% end %>
   </div>

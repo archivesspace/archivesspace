@@ -18,7 +18,7 @@
   section_id ||= "#{@agent.agent_type}_#{type.to_s}"
 %>
 
-<section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %>" data-subrecord-form="true" data-object-name="<%= singular %>" >
+<section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %>" data-subrecord-form="true" data-object-name="<%= singular %>">
   <header class="d-flex align-items-center border-bottom bg-asFormHeadingBg<%= link_to_help(:topic => help_topic).blank? ? ' py-2' : '' %>">
     <<%= heading_size %> class="subrecord-form-heading mb-0 border-bottom-0">
       <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
@@ -35,7 +35,7 @@
         <%= t("actions.require_subrecord") %>
       </label>
         <div class="col-sm-1 req_checkbox">
-          <input id="required_fields__<%= property %>" type="hidden" name="<%= form_name %>" value="<%= type %>" >
+          <input id="required_fields__<%= property %>" type="hidden" name="<%= form_name %>" value="<%= type %>">
           <input id="required_fields__<%= property %>__required" type="checkbox" name="agent[<%= property %>][0][required]" value="true" <%= @required_fields.required?(property, type) ? " checked=checked" : "" %>>
         </div>
     </div>

@@ -2,8 +2,8 @@
 <html lang="<%= session[:locale] ? session[:locale] : AppConfig[:locale] %>">
 <head>
   <%# mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
-  <meta charset="utf-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <% if AppConfig[:pui_show_favicon] %><%= render "shared/favicon" %><% end %>
   <title><%= (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
