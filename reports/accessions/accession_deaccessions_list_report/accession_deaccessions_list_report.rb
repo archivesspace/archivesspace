@@ -14,14 +14,16 @@ class AccessionDeaccessionsListReport < AbstractReport
 
   def query_string
     "select
-      id as accession_id,
+      accession.id as accession_id,
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date,
       container_summary,
       extent_number,
       extent_type
-    from accession natural join
+    from accession
+      #{mlc_join('accession')}
+      natural join
       (select
         accession_id as id,
         sum(number) as extent_number,

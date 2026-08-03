@@ -1,11 +1,13 @@
 require_relative '../../lib/reports/report_utils'
 require_relative 'custom_field'
 require_relative 'report_suppression'
+require_relative 'report_mlc'
 
 class AbstractSubreport
 
   include CustomField::Mixin
   include ReportSuppression
+  include ReportMlc
 
   attr_accessor :repo_id
   attr_accessor :db
