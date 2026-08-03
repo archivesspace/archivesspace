@@ -7,20 +7,22 @@ class DigitalObjectListTableReport < AbstractReport
   def query_string
     "select
       digital_object.digital_object_id as identifier,
-      digital_object.title as record_title,
+      digital_object_mlc.title as record_title,
       digital_object.digital_object_type_id as object_type,
       group_concat(dates.date_expression separator ', ') as date_expression,
       group_concat(distinct resource.identifier separator ',,,') as resource_identifier
     from digital_object
 
       natural left outer join
-     
+
       (select
         digital_object_id as id,
         ifnull(expression, if(end is null, begin,
         concat(begin, ' - ', end))) as date_expression
       from date
       where not digital_object_id is null) as dates
+
+      #{mlc_join('digital_object')}
 
       left outer join instance_do_link_rlshp
         on instance_do_link_rlshp.digital_object_id = digital_object.id

@@ -34,9 +34,6 @@ class AccessionReceiptReport < AbstractReport
                        '1=1'
                      end
 
-    lang = RequestContext.description_language
-    lang_condition = "accession_mlc.language_id = #{db.literal(lang[:language_id])} and accession_mlc.script_id = #{db.literal(lang[:script_id])}"
-
     "select
       accession.id as id,
       identifier as accession_number,
@@ -46,7 +43,7 @@ class AccessionReceiptReport < AbstractReport
       extent_number,
       extent_type
     from accession
-      left join accession_mlc on accession_mlc.accession_id = accession.id and #{lang_condition}
+      #{mlc_join('accession')}
       left outer join
         (select
           accession_id as accession_id,
@@ -55,7 +52,7 @@ class AccessionReceiptReport < AbstractReport
           GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ')
             as container_summary
         from extent
-        group by accession_id) as extent_cnt
+        group by accession_id) as extent_cnt on extent_cnt.accession_id = accession.id
     where repo_id = #{db.literal(@repo_id)} and #{date_condition}#{suppressed_filter('accession')}"
   end
 

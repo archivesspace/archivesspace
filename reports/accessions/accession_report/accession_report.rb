@@ -15,18 +15,15 @@ class AccessionReport < AbstractReport
   end
 
   def query_string
-    lang = RequestContext.description_language
-    lang_condition = "accession_mlc.language_id = #{db.literal(lang[:language_id])} and accession_mlc.script_id = #{db.literal(lang[:script_id])}"
-
     "select
       accession.id as accession_id,
       identifier as accession_number,
       accession_mlc.title as record_title,
       accession_date as accession_date,
-      provenance as provenance,
+      accession_mlc.provenance as provenance,
       extent_number,
       extent_type,
-      general_note,
+      accession_mlc.general_note as general_note,
       container_summary,
       date_expression,
       begin_date,
@@ -35,20 +32,20 @@ class AccessionReport < AbstractReport
       bulk_end_date,
       acquisition_type_id as acquisition_type,
       retention_rule,
-      content_description as description_note,
-      condition_description as condition_note,
-      inventory,
-      disposition as disposition_note,
+      accession_mlc.content_description as description_note,
+      accession_mlc.condition_description as condition_note,
+      accession_mlc.inventory as inventory,
+      accession_mlc.disposition as disposition_note,
       restrictions_apply,
       access_restrictions,
-      access_restrictions_note,
+      accession_mlc.access_restrictions_note as access_restrictions_note,
       use_restrictions,
-      use_restrictions_note,
+      accession_mlc.use_restrictions_note as use_restrictions_note,
       ifnull(rights_transferred, false) as rights_transferred,
       rights_transferred_note,
       ifnull(acknowledgement_sent, false) as acknowledgement_sent
     from accession
-      left join accession_mlc on accession_mlc.accession_id = accession.id and #{lang_condition}
+      #{mlc_join('accession')}
       left outer join
         (select
           accession_id as id,

@@ -10,13 +10,14 @@ class DigitalObjectFileVersionsReport < AbstractReport
   end
 
   def query_string
-    "select 
-      digital_object.id as 'digital_object_id', 
-      digital_object.digital_object_id as 'digital_object_identifier', 
-      title as 'digital_object_title', 
-      file_uri as 'digital_object_uri' 
-      from digital_object 
-      join file_version on digital_object.id = file_version.digital_object_id 
+    "select
+      digital_object.id as 'digital_object_id',
+      digital_object.digital_object_id as 'digital_object_identifier',
+      digital_object_mlc.title as 'digital_object_title',
+      file_uri as 'digital_object_uri'
+      from digital_object
+      join file_version on digital_object.id = file_version.digital_object_id
+      #{mlc_join('digital_object')}
       where repo_id = #{db.literal(@repo_id)} and file_uri is not null#{suppressed_filter('digital_object')}"
   end
 

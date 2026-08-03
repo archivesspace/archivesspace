@@ -65,8 +65,9 @@ class AccessionInstancesSubreport < AbstractSubreport
       left outer join
         (select
           instance_do_link_rlshp.instance_id,
-          group_concat(digital_object.title separator '; ') as digital_object
-        from instance_do_link_rlshp, digital_object
+          group_concat(digital_object_mlc.title separator '; ') as digital_object
+        from (instance_do_link_rlshp, digital_object)
+        #{mlc_join('digital_object')}
         where instance_do_link_rlshp.digital_object_id = digital_object.id
           #{suppressed_filter('digital_object')}
         group by instance_do_link_rlshp.instance_id) as digital_objects
