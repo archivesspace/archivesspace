@@ -85,7 +85,7 @@
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names", :invisible => false, :lightmode_toggle => false, :section_class => "agent_names"} %>
   </section>
 
-  <section id="description_information"  class="agents-subsection subrecord-form-section">
+  <section id="description_information" class="agents-subsection subrecord-form-section">
     <h3 class="subrecord-form-heading-label d-flex py-2 align-items-center">
       <%= wrap_with_tooltip(
         t("agent._frontend.section.description_information"),

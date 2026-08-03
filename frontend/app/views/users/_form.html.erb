@@ -12,7 +12,7 @@
    <%= form.label_and_textfield "department", {:field_opts => {:size => 30, :class => "form-control"}} %>
    <%= form.label_and_textarea "additional_contact" %>
 
-   <hr/>
+   <hr />
 
    <%= form.label_and_textfield "source", { :field_opts => { :readonly => true } } %>
    <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "form-control"}, :required => @user.id ? :conditionally : true} %>
