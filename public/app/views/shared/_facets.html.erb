@@ -33,11 +33,7 @@
 </div>
 
 <% if @search[:dates_within] || @search[:text_within] %>
-<<<<<<< HEAD
-<h2 class=""><%= t('search_results.filter.head') %></h2>
-=======
 <h2><%= t('search_results.filter.head') %></h2>
->>>>>>> 1b700b763 (PUI Bootstrap v5: ANW-2659 & ANW-2660 Update resources index and show views)
  <div class="filter_more">
    <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal mx-0 mt-4 mb-5") do %>
         <%= render partial: 'shared/hidden_params', :locals => { :no_ids => true } %>
