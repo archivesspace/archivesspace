@@ -11,5 +11,5 @@ gem 'cuke_linter'
 gem 'pdf-reader'
 gem 'rake'
 gem 'rspec-expectations'
-gem 'rubocop', require: false
+gem 'rubocop', '~> 1.82.0', require: false
 gem 'selenium-webdriver'

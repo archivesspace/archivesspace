@@ -58,8 +58,9 @@ GEM
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     hashery (2.1.2)
-    json (2.18.0)
-    language_server-protocol (3.17.0.5)
+    io-console (0.8.2)
+    json (2.21.2)
+    language_server-protocol (3.17.0.6)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -75,7 +76,7 @@ GEM
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     parallel (1.28.0)
-    parser (3.3.11.1)
+    parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
     pdf-reader (2.15.1)
@@ -84,7 +85,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    prism (1.6.0)
+    prism (1.9.0)
     public_suffix (7.0.0)
     racc (1.8.1)
     rack (3.2.6)
@@ -100,7 +101,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.7)
-    rubocop (1.86.0)
+    rubocop (1.82.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -108,10 +109,10 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.49.0, < 2.0)
+      rubocop-ast (>= 1.48.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.49.1)
+    rubocop-ast (1.50.0)
       parser (>= 3.3.7.2)
       prism (~> 1.7)
     ruby-progressbar (1.13.0)
@@ -150,7 +151,7 @@ DEPENDENCIES
   pdf-reader
   rake
   rspec-expectations
-  rubocop
+  rubocop (~> 1.82.0)
   selenium-webdriver
 
 BUNDLED WITH
