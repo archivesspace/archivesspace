@@ -12,7 +12,7 @@
         <% if page_action.has_key?('onclick_javascript') %>
           <% javascript = page_action.fetch('onclick_javascript') %>
           <%= link_to link_content, 'javascript:void(0);',
-                      :class => 'btn btn-default page_action',
+                      :class => 'btn page_action',
                       :title => label,
                       :'data-title' =>  record.display_string,
                       :'data-uri' =>  record.uri,
@@ -21,7 +21,7 @@
             <% proc = page_action.fetch('url_proc') %>
             <% url = proc.call(record) %>
             <%= link_to link_content, url,
-                        :class => 'btn btn-default page_action',
+                        :class => 'btn page_action',
                         :title => label %>
         <% else %>
           <!-- Nothing we can do for this action -->
