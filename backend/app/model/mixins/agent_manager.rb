@@ -137,6 +137,22 @@ module AgentManager
     end
 
 
+    def linked_in_other_repository?
+      repos = GlobalRecordRepositoryLinkages.new(self.class, :linked_agents).call([self]).fetch(self, [])
+      repos.any? {|repo| repo.id != self.class.active_repository}
+    end
+
+
+    def check_cross_repo_delete_conflict!
+      return unless linked_in_other_repository?
+
+      current_user = User[:username => RequestContext.get(:current_username)]
+      return if current_user.can?(:delete_agent_record_linked_elsewhere)
+
+      raise ConflictException.new("linked_to_other_repo")
+    end
+
+
     module ClassMethods
 
       def populate_display_name(json)
