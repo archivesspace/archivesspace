@@ -98,6 +98,7 @@ en:
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
     delete_repository_confirm_title: "Delete this Repository? %{name}"
     delete_repository_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the <strong>repository</strong> and all associated records from the database, including any references it has to other records.</p><p>To continue please enter '%{repository}' below:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p><p><strong>This agent is linked to records in at least one other repository.</strong> Deleting it will unlink it from records in all repositories.</p><p><label><input type=\"checkbox\" id=\"agentCrossRepoConfirm\"> Delete this agent from all linked repositories</label></p>"
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
@@ -650,19 +651,19 @@ en:
   batch_delete:
     archival_records:
       success: Records deleted
-      error: "Unable to delete records:"
+      error: "None of the selected records were deleted, because of the following problem(s):"
     subjects:
       success: Subjects deleted
-      error: "Unable to delete subjects:"
+      error: "None of the selected subjects were deleted, because of the following problem(s):"
     agents:
       success: Agents deleted
-      error: "Unable to delete agents:"
+      error: "None of the selected agents were deleted, because of the following problem(s):"
     locations:
       success: Locations deleted
-      error: "Unable to delete locations:"
+      error: "None of the selected locations were deleted, because of the following problem(s):"
     assessments:
       success: Assessments deleted
-      error: "Unable to delete assessments:"
+      error: "None of the selected assessments were deleted, because of the following problem(s):"
 
   welcome:
     heading: Welcome to ArchivesSpace
@@ -787,6 +788,8 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
     linked_to_user: Record cannot be deleted as it is linked to a user
     cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
+    linked_to_other_repo: This agent is linked to records in at least one other repository. It cannot be deleted without administrative permissions.
+    cannot_delete_system_agent: This is a system agent record and cannot be deleted.
 
   component_link:
     _plural: Component Links
@@ -854,6 +857,9 @@ en:
       action:
         create: Create Agent
         preview: Merge Preview
+      linked_in_other_repository:
+        label: Linked in Other Repos
+        tooltip: This agent is linked to records in at least one other repository.
 
   agent_contact:
     is_representative: Preferred

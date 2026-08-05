@@ -21,7 +21,7 @@ class BatchDeleteController < ApplicationController
   end
 
   def agents
-    delete_records(params[:record_uris])
+    delete_records(params[:record_uris], 'current_repo_id' => session[:repo_id])
   end
 
   def classifications
@@ -38,11 +38,11 @@ class BatchDeleteController < ApplicationController
 
   private
 
-  def delete_records(uris)
+  def delete_records(uris, extra_params = {})
     response = JSONModel::HTTP.post_form("/batch_delete",
                                          {
                                            "record_uris[]" => Array(uris)
-                                         })
+                                         }.merge(extra_params))
 
     if response.code === "200"
       flash[:success] = t("batch_delete.#{params[:action]}.success")

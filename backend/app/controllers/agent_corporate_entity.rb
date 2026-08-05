@@ -47,13 +47,16 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/agents/corporate_entities/:id')
     .description("Get a corporate entity by ID")
     .params(["id", Integer, "ID of the corporate entity agent"],
-            ["resolve", :resolve])
+            ["resolve", :resolve],
+            ["current_repo_id", Integer, "Optionally passes the caller's current repository. Populated by the frontend to warn/guard against cross-repo agent deletions.", :optional => true])
     .permissions([])
     .returns([200, "(:agent_corporate_entity)"],
              [404, "Not found"]) \
   do
     opts = {
       calculate_linked_repositories: current_user.can?(:index_system),
+      calculate_linked_in_other_repository: true,
+      current_repo_id: params[:current_repo_id],
       hide_agent_contacts: !current_user.can?(:view_agent_contact_record_global)
     }
     json_response(resolve_references(AgentCorporateEntity.to_jsonmodel(AgentCorporateEntity.get_or_die(params[:id]), opts),
@@ -62,10 +65,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.delete('/agents/corporate_entities/:id')
     .description("Delete a corporate entity agent")
-    .params(["id", Integer, "ID of the corporate entity agent"])
+    .params(["id", Integer, "ID of the corporate entity agent"],
+            ["current_repo_id", Integer, "Optionally passes the caller's current repository. Populated by the frontend to warn/guard against cross-repo agent deletions.", :optional => true])
     .permissions([:delete_agent_record])
     .returns([200, :deleted]) \
   do
+    RequestContext.put(:current_repo_id, params[:current_repo_id])
     handle_delete(AgentCorporateEntity, params[:id])
   end
 

@@ -55,6 +55,15 @@ module AgentManager
   end
 
 
+  def self.linked_elsewhere?(repos, current_repo_id)
+    case repos.length
+    when 0 then false
+    when 1 then repos.first.id != current_repo_id
+    else true
+    end
+  end
+
+
   module Mixin
 
     def self.included(base)
@@ -134,6 +143,22 @@ module AgentManager
       valid_enum = BackendEnumSource.values_for("linked_agent_role")
 
       BackendEnumSource.values_for_ids(role_ids).values.reject {|v| !valid_enum.include?(v) }
+    end
+
+    def linked_in_other_repository?(current_repo_id)
+      repos = GlobalRecordRepositoryLinkages.new(self.class, :linked_agents).call([self]).fetch(self, [])
+
+      AgentManager.linked_elsewhere?(repos, current_repo_id)
+    end
+
+
+    def check_cross_repo_delete_conflict!
+      return unless linked_in_other_repository?(RequestContext.get(:current_repo_id))
+
+      current_user = User[:username => RequestContext.get(:current_username)]
+      return if current_user.can?(:delete_agent_record_linked_elsewhere)
+
+      raise ConflictException.new("linked_to_other_repo")
     end
 
 
@@ -481,16 +506,27 @@ module AgentManager
       # @param objs the Sequel objects to serialize
       # @param [Hash] opts A set of options
       # @option opts [Boolean] :calculate_linked_repositories Whether to calculate and include the linked repositories
+      # @option opts [Boolean] :calculate_linked_in_other_repository Whether to calculate the boolean-only linked_in_other_repository flag. Opt-in so listing/browse endpoints skip the query.
+      # @option opts [Integer] :current_repo_id The caller's current repository. Only consulted when :calculate_linked_in_other_repository is set and the agent is linked in exactly one repo.
       # @option opts [Boolean] :hide_agent_contacts Whether to hide contact details in the output
       def sequel_to_jsonmodel(objs, opts = {})
         jsons = super
 
-        if opts[:calculate_linked_repositories]
+        if opts[:calculate_linked_repositories] || opts[:calculate_linked_in_other_repository]
           agents_to_repositories = GlobalRecordRepositoryLinkages.new(self, :linked_agents).call(objs)
 
-          jsons.zip(objs).each do |json, obj|
-            json.used_within_repositories = agents_to_repositories.fetch(obj, []).map {|repo| repo.uri}
-            json.used_within_published_repositories = agents_to_repositories.fetch(obj, []).select {|repo| repo.publish == 1}.map {|repo| repo.uri}
+          if opts[:calculate_linked_repositories]
+            jsons.zip(objs).each do |json, obj|
+              json.used_within_repositories = agents_to_repositories.fetch(obj, []).map {|repo| repo.uri}
+              json.used_within_published_repositories = agents_to_repositories.fetch(obj, []).select {|repo| repo.publish == 1}.map {|repo| repo.uri}
+            end
+          end
+
+          if opts[:calculate_linked_in_other_repository]
+            jsons.zip(objs).each do |json, obj|
+              repos = agents_to_repositories.fetch(obj, [])
+              json.linked_in_other_repository = AgentManager.linked_elsewhere?(repos, opts[:current_repo_id])
+            end
           end
         end
 

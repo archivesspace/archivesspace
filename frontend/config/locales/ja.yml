@@ -107,6 +107,10 @@ ja:
       </p><p>このアクションは、 <strong>リポジトリ</strong>および関連するすべてのレコードをデータベースから削除し<strong>ます</strong>
       。これには、他のレコードへの参照も含まれます。 </p><p>続行するには、下記の '%{repository}'を入力してください： </p><p><input
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。 </p><p>このアクションは、レコードをデータベースから削除します。これには、他のレコードに対する参照も含まれます。
+      </p><p><strong>このエージェントは、少なくとも1つの他のリポジトリのレコードにリンクされています。</strong>
+      削除すると、すべてのリポジトリのレコードとのリンクが解除されます。</p><p><label><input type=\"checkbox\"
+      id=\"agentCrossRepoConfirm\"> リンクされているすべてのリポジトリからこのエージェントを削除する</label></p>"
     delete_multiple: レコードの削除
     delete_multiple_confirm_title: レコードを削除しますか？
     delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
@@ -606,19 +610,19 @@ ja:
   batch_delete:
     archival_records:
       success: レコードが削除された
-      error: レコードを削除できません：
+      error: 選択したレコードは、以下の問題のため、いずれも削除されませんでした：
     subjects:
       success: 削除された科目
-      error: 件名を削除できません：
+      error: 選択した件名は、以下の問題のため、いずれも削除されませんでした：
     agents:
       success: エージェントが削除されました
-      error: エージェントを削除できません：
+      error: 選択したエージェントは、以下の問題のため、いずれも削除されませんでした：
     locations:
       success: 場所が削除されました
-      error: 場所を削除できません：
+      error: 選択した場所は、以下の問題のため、いずれも削除されませんでした：
     assessments:
       success: 評価が削除されました
-      error: 評価を削除できません：
+      error: 選択した評価は、以下の問題のため、いずれも削除されませんでした：
 
   welcome:
     heading: ArchivesSpaceへようこそ
@@ -727,6 +731,8 @@ ja:
     linked_to_assessment: レコードは評価にリンクされているため削除できません
     linked_to_user: レコードはユーザーにリンクされているため削除できません
     cannot_delete_repository_agent: このエージェントはリポジトリにリンクされているため、削除できません。
+    linked_to_other_repo: このエージェントは他のリポジトリのレコードにリンクされています。管理者権限がない限り削除できません。
+    cannot_delete_system_agent: これはシステムエージェントのレコードであり、削除できません。
     merge_denied_relationship: これらのエージェントには関係があります。マージを続行する前に、関係を削除してください。
   accession:
     _frontend:
@@ -780,6 +786,9 @@ ja:
       action:
         create: エージェントを作成する
         preview: マージプレビュー
+      linked_in_other_repository:
+        label: 他のリポジトリにリンク
+        tooltip: このエージェントは他の少なくとも1つのリポジトリのレコードにリンクされています。
 
   agent_contact:
     is_representative: 優先
