@@ -42,6 +42,8 @@ class AgentSoftware < Sequel::Model(:agent_software)
       raise AccessDeniedException.new("Can't delete the system's own agent")
     end
 
+    check_cross_repo_delete_conflict!
+
     super
   end
 
