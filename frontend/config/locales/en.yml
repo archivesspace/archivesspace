@@ -787,6 +787,7 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
     linked_to_user: Record cannot be deleted as it is linked to a user
     cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
+    linked_to_other_repo: This agent is linked to records in at least one other repository. It cannot be deleted without administrative permissions.
 
   component_link:
     _plural: Component Links

@@ -39,9 +39,17 @@ class AgentPerson < Sequel::Model(:agent_person)
   def delete
     if User.filter(:agent_record_id => self.id).count > 0
       raise ConflictException.new("linked_to_user")
+    elsif linked_in_other_repository? && !User[:username => RequestContext.get(:current_username)].can?(:delete_agent_record_linked_elsewhere)
+      raise ConflictException.new("linked_to_other_repo")
     else
       super
     end
+  end
+
+
+  def linked_in_other_repository?
+    repos = GlobalRecordRepositoryLinkages.new(self.class, :linked_agents).call([self]).fetch(self, [])
+    repos.any? {|repo| repo.id != self.class.active_repository}
   end
 
 end
