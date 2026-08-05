@@ -39,7 +39,7 @@ class AgentSoftware < Sequel::Model(:agent_software)
 
   def delete
     if self.system_role == self.class.system_role
-      raise AccessDeniedException.new("Can't delete the system's own agent")
+      raise ConflictException.new("cannot_delete_system_agent")
     end
 
     check_cross_repo_delete_conflict!

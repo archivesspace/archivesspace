@@ -5,7 +5,7 @@ describe 'AgentSoftware#delete' do
   it "blocks deletion of the system's own software agent" do
     expect {
       AgentSoftware.archivesspace_record.delete
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(ConflictException, /cannot_delete_system_agent/)
   end
 
 
