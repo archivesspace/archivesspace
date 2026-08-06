@@ -17,7 +17,7 @@
       </div>
     </button>
 
-    <div class="collapse navbar-collapse top-bar ps-4" id="collapsemenu">
+    <div class="collapse navbar-collapse top-bar px-4" id="collapsemenu">
       <ul class="navbar-nav me-auto">
         <%# TODO: add class="active" if we're on that page %>
         <% $MAIN_MENU.each do |link| %>
@@ -37,25 +37,25 @@
       </ul>
 
       <% if AppConfig[:pui_require_authentication] %>
-        <li class="user-container d-flex align-items-center pr-4">
-          <div class="btn-group align-items-center">
-            <button
-              type="button"
-              class="btn btn--default dropdown-toggle"
-              id="user-menu-dropdown"
-              data-toggle="dropdown"
-              style="display:none;"
-            >
-              <i class="fa fa-user"></i>
-            </button>
+        <div class="dropdown user-container d-flex align-items-center pe-3">
+          <button
+            type="button"
+            class="btn btn-outline-user-menu dropdown-toggle"
+            id="user-menu-dropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span class="user-label"><%= session[:pui_username] %></span>
+          </button>
 
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li>
-                <%= link_to t("login.logout"), {:controller => "sessions", :action => "logout"}, :id => "pui-logout", :class => "dropdown-item" %>
-              </li>
-            </ul>
-          </div>
-        </li>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-menu-dropdown">
+            <li>
+              <%= link_to t("login.logout"), {:controller => "sessions", :action => "logout"}, :id => "pui-logout", :class => "dropdown-item" %>
+            </li>
+          </ul>
+        </div>
       <% end %>
     </div>
   </nav>
