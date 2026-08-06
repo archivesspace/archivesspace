@@ -25,6 +25,9 @@ pt:
     request: Solicitação
     print-generating: Gerando
     collection_overview: Visão Geral da Coleção
+  pagination:
+    top_controls: Controlos de paginação superiores
+    bottom_controls: Controlos de paginação inferiores
   search_results:
     highlighting:
       found_in: Encontrado em

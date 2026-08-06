@@ -33,6 +33,9 @@ it:
     clipboard: Copia negli appunti
     print: Scarica il PDF
     numeric: Contenitore dell'inventario
+  pagination:
+    top_controls: Controlli di paginazione superiori
+    bottom_controls: Controlli di paginazione inferiori
   search_results:
     filtered_by: Filtrato per
     highlighting:

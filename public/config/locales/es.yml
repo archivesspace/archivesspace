@@ -77,7 +77,9 @@ es:
   search-field: Campo de búsqueda
   searched-field: "buscando %{field}"
 
-  pagination: {}
+  pagination:
+    top_controls: Controles de paginación superiores
+    bottom_controls: Controles de paginación inferiores
   search_results:
     highlighting:
       found_in: Encontrado en

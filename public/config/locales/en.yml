@@ -57,6 +57,10 @@ en:
     next: Next
     previous: Previous
 
+  pagination:
+    top_controls: Top pagination controls
+    bottom_controls: Bottom pagination controls
+
   page_actions: Page Actions
 
   request:

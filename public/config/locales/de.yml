@@ -33,6 +33,9 @@ de:
     next: Nächste
     previous: Vorherige
     digitized: Digitale Inhalte ansehen
+  pagination:
+    top_controls: Obere Paginierungssteuerung
+    bottom_controls: Untere Paginierungssteuerung
   request:
     required: erforderlich
     user_name: Ihr Name
