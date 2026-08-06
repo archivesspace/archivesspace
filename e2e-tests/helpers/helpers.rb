@@ -324,8 +324,8 @@ def create_resource_archival_object(uuid)
 
   fill_in 'Repository Processing Note', with: "Repository Processing Note #{@uuid}"
 
-  click_on 'Add Language'
-  within 'li.sort-enabled.initialised' do
+  click_on 'Add Language of Materials'
+  within '#archival_object_lang_materials_ li.sort-enabled.initialised' do
     fill_in 'Language', with: 'English'
     dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
     dropdown_items.first.click
