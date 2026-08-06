@@ -15,4 +15,10 @@ module ApplicationHelper
     end
     nil
   end
+
+  # @param pager [Pager]
+  # @param position [Symbol] :top (default) or :bottom
+  def render_pagination(pager, position: :top)
+    render partial: 'shared/pagination', locals: { pager: pager, position: position }
+  end
 end

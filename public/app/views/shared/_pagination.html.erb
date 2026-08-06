@@ -1,6 +1,7 @@
-<% pager_id ||= 'paging' %>
+<% position = local_assigns.fetch(:position, :top).to_sym %>
+<% pager_id = (position == :bottom ? 'paging_bottom' : 'paging') %>
+<% pager_aria_label = t("pagination.#{position}_controls") %>
 <% if pager && pager.pages.last > 1 %>
-<% pager_aria_label = (pager_id == 'paging_bottom' ? t('pagination.bottom_controls') : t('pagination.top_controls')) %>
 <nav id="<%= pager_id %>" class="d-flex" aria-label="<%= pager_aria_label %>">
   <ul class="pagination flex-wrap mb-0">
     <% if pager.need_prev %>
