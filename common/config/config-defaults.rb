@@ -529,6 +529,8 @@ AppConfig[:record_inheritance_resolves] = [
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
+AppConfig[:pui_repositories_index_page_size] = 100
+
 # Set this to '/assets/images/custom-logo.svg' and add a custom-logo.svg (adjust the filename accordingly) in directory: plugins/local/public/assets/images to customize the branding logo on the Public UI
 AppConfig[:pui_branding_img] = 'ArchivesSpaceLogo.svg'
 AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'

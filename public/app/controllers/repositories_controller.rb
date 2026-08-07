@@ -20,15 +20,10 @@ class RepositoriesController < ApplicationController
   def index
     @criteria = {}
     @criteria['sort'] = repositories_sort_by
-    # let's not include any 0-collection repositories unless specified
-    # include_zero = (!params.blank? && params['include_empty'])
-    # ok, page sizing is kind of complicated if not including zero counts
-    page_size = params['page_size'].to_i if !params.blank?
-    page_size = AppConfig[:pui_search_results_page_size] if page_size == 0
+    @criteria['page_size'] = params.fetch(:page_size, AppConfig[:pui_repositories_index_page_size])
     query = 'primary_type:repository'
     facets = find_resource_facet
     page = params['page'] || 1 if !params.blank?
-    @criteria['page_size'] = 100
     @search_data = archivesspace.search(query, page, @criteria) || {}
     @json = []
 
