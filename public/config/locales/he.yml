@@ -8,3 +8,19 @@ he:
   request: {}
   classification:
     _public: {}
+  resource:
+    load_records:
+      loading: טְעִינָה
+  actions:
+    authenticating: מאמת גישה
+  login:
+    login_please: אנא היכנס
+    login: היכנס
+    logout: התנתק
+    username_placeholder: שם משתמש
+    password_placeholder: סִיסמָה
+    username_aria_label: שם משתמש
+    password_aria_label: סיסמת משתמש
+    required: דָרוּשׁ
+    pui_permission_denied: "למשתמש `%{username}` אין הרשאה לצפות בממשק הציבורי (PUI)."
+    login_failed: "ההתחברות נכשלה. אנא בדוק את שם המשתמש והסיסמה שלך."

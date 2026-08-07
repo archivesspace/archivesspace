@@ -53,6 +53,11 @@
       "is_admin" => {
         "type" => "boolean",
         "default" => false
+      },
+
+      "is_pui_viewer" => {
+        "type" => "boolean",
+        "default" => false
       }
     },
   },
