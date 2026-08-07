@@ -144,21 +144,38 @@ describe Search do
       allow(Search).to receive(:search).with(hash_including(:page => 2), repo.id).and_return(mock_empty_results)
 
       csv = ""
-      Search.search_csv({:page => 1, :page_size => 10}, repo.id).each do |chunk|
-        csv << chunk
+      Search.search_csv({:page => 1, :page_size => 10}, repo.id).each do |csv_chunk|
+        csv << csv_chunk
       end
 
       expect(csv).to include("dates::0::")
     end
 
-    it "uses the Solr CSV writer for field-limited requests even when extended export is enabled (ANW-2791)" do
+    it "uses the Solr CSV writer when csv_export_use_solr_writer is requested (ANW-2791)" do
       allow(AppConfig).to receive(:[]).and_call_original
       allow(AppConfig).to receive(:[]).with(:extended_csv_export_enabled).and_return(true)
 
       expect(Search).to receive(:search_csv_solr).with(hash_including(:fields => ['barcode_u_sstr']), repo.id)
       expect(Search).not_to receive(:extended_csv_export)
 
-      Search.search_csv({:fields => ['barcode_u_sstr'], :dt => 'csv'}, repo.id)
+      Search.search_csv({:fields => ['barcode_u_sstr'], :csv_export_use_solr_writer => 'true', :dt => 'csv'}, repo.id)
+    end
+
+    it "uses the extended CSV export for field-limited requests without csv_export_use_solr_writer (ANW-2924)" do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:extended_csv_export_enabled).and_return(true)
+
+      allow(Search).to receive(:search).with(hash_including(:page => 1), repo.id).and_return(mock_search_results)
+      allow(Search).to receive(:search).with(hash_including(:page => 2), repo.id).and_return(mock_empty_results)
+
+      expect(Search).not_to receive(:search_csv_solr)
+
+      csv = ""
+      Search.search_csv({:fields => ['title'], :page => 1, :page_size => 10}, repo.id).each do |csv_chunk|
+        csv << csv_chunk
+      end
+
+      expect(csv).to include("dates::0::")
     end
 
   end
