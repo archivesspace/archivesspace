@@ -27,7 +27,8 @@ describe ExportHelper do
         'fields[]' => ['type', 'indicator', 'barcode', 'ils_holding_id', 'exported_to_ils', 'internal_note'],
         'q' => '*',
         'page' => '1',
-        'filter_term[]' => [{'primary_type' => 'top_container'}.to_json]
+        'filter_term[]' => [{'primary_type' => 'top_container'}.to_json],
+        'csv_export_use_solr_writer' => true
       }
       export = csv_export_with_mappings "#{@repo.uri}/search", Search.build_filters(criteria)
       aggregate_failures do
@@ -56,7 +57,7 @@ describe ExportHelper do
 
     run_index_round
 
-    criteria = {'fields[]' => ['primary_type', 'title', 'context'], 'q' => '*', 'page' => '1'}
+    criteria = {'fields[]' => ['primary_type', 'title', 'context'], 'q' => '*', 'page' => '1', 'csv_export_use_solr_writer' => true}
     export = csv_export_with_mappings "#{@repo.uri}/search", Search.build_filters(criteria)
     expect(export).to include("accession,יחסי ציבור,")
     expect(export).to include('archival_object,ExportHelper series,ExportHelper collection')
