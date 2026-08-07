@@ -24,7 +24,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.get('/repositories/:repo_id/archival_objects/:id/ark_name')
-    .description("Get the ARK name object for an ArchivalObject")
+    .description("Get the ARK name object for an Archival Object")
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:administer_system])
@@ -34,7 +34,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.post('/repositories/:repo_id/archival_objects/:id/ark_name')
-    .description("Update the ARK name for an ArchivalObject")
+    .description("Update the ARK name for an Archival Object")
     .params(["id", :id],
             ["ark_name", JSONModel(:ark_name), "The updated ark_name", :body => true],
             ["repo_id", :repo_id])
