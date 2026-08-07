@@ -536,10 +536,13 @@ nl:
       invalid_markup: Deze fout kan worden veroorzaakt door ongeldige opmaak in een annotatie of 
         subrecord.
   login:
+    login_please: Log alstublieft in
     login: Inloggen
     logout: Uitloggen
     username_placeholder: Gebruikersnaam
     password_placeholder: Wachtwoord
+    username_aria_label: Gebruikersnaam
+    password_aria_label: Wachtwoord
     required: vereist
     pui_permission_denied: "Gebruiker `%{username}` heeft geen toestemming om de PUI te bekijken."
     login_failed: "Inloggen mislukt. Controleer uw gebruikersnaam en wachtwoord."

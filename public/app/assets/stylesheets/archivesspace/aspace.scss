@@ -19,6 +19,10 @@ a img {
   border: 0;
 }
 
+.border-lightblue {
+  border-color: $lightblue;
+}
+
 #header {
   > .row {
     height: rem-calc(90);

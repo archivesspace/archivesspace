@@ -641,10 +641,13 @@ fr:
       invalid_markup: Cette erreur peut résulter d’un balisage non valide présent dans une note ou 
         un sous-enregistrement.
   login:
+    login_please: Veuillez vous connecter
     login: Connexion
     logout: Déconnexion
     username_placeholder: Nom d'utilisateur
     password_placeholder: Mot de passe
+    username_aria_label: Nom d'utilisateur
+    password_aria_label: Mot de passe
     required: Champs obligatoires
     pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter la PUI."
     login_failed: "Échec de la connexion. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."
