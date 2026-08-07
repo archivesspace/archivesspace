@@ -20,11 +20,11 @@ class AccessionInventoryReport < AbstractReport
 
   def query_string
     "select
-      id,
+      accession.id as id,
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date as accession_date,
-      inventory,
+      accession_mlc.inventory as inventory,
       date_expression,
       begin_date,
       end_date,
@@ -36,8 +36,10 @@ class AccessionInventoryReport < AbstractReport
 
     from accession
 
+      #{mlc_join('accession')}
+
       natural left outer join
-  
+
       (select
         accession_id as id,
         sum(number) as extent_number,
@@ -45,7 +47,7 @@ class AccessionInventoryReport < AbstractReport
         GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
       from extent
       group by accession_id) as extent_cnt
-      
+
       natural left outer join
       (select
         accession_id as id,
@@ -65,8 +67,7 @@ class AccessionInventoryReport < AbstractReport
       where date.date_type_id = enumeration_value.id and enumeration_value.value = 'bulk'
       group by accession_id) as bulk_date
 
-    where accession.repo_id = #{db.literal(@repo_id)} and not accession.inventory is null#{suppressed_filter('accession')}"
-        
+    where accession.repo_id = #{db.literal(@repo_id)} and not accession_mlc.inventory is null#{suppressed_filter('accession')}"
   end
 
   def page_break

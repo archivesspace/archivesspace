@@ -6,6 +6,21 @@ class CustomReport < AbstractReport
 
   attr_accessor :record_type, :subreports
 
+  # Fields that migration 177 moved off the base table and into a
+  # per-language `<record_type>_mlc` table.
+  MLC_FIELDS = {
+    'resource' => %w[title finding_aid_title finding_aid_subtitle finding_aid_author
+                      finding_aid_sponsor finding_aid_edition_statement
+                      finding_aid_series_statement finding_aid_note
+                      repository_processing_note finding_aid_filing_title],
+    'accession' => %w[title display_string content_description condition_description disposition
+                       inventory provenance general_note
+                       access_restrictions_note use_restrictions_note],
+    'archival_object' => %w[title display_string],
+    'digital_object' => %w[title],
+    'digital_object_component' => %w[title label display_string],
+  }.freeze
+
   def initialize(params, job, db)
     super
 
@@ -39,6 +54,9 @@ class CustomReport < AbstractReport
               @record_type.to_sym
             end
     @possible_fields = db[table].columns.collect {|c| c.to_s}
+
+    @mlc_fields = MLC_FIELDS[@record_type] || []
+    @possible_fields += @mlc_fields
 
     @possible_fields.push('name') if @record_type == 'agent'
 
@@ -138,8 +156,18 @@ class CustomReport < AbstractReport
 
     "select id#{select_fields}
 		from #{@record_type}
+		#{mlc_join_if_needed}
 		where #{where}
 		#{order_by}"
+  end
+
+  # Only join `<record_type>_mlc` when one of the report's included fields
+  # actually lives there.
+  def mlc_join_if_needed
+    return '' if @mlc_fields.empty?
+    return '' if (@fields.collect {|f| f[:name]} & @mlc_fields).empty?
+
+    mlc_join(@record_type)
   end
 
   def agent_query_string
@@ -220,7 +248,8 @@ class CustomReport < AbstractReport
     select_fields = ''
     columns.each do |column, column_alias|
       if @possible_fields.include? column
-        select_fields += ", #{@record_type}.#{column} as #{column_alias}"
+        table = @mlc_fields.include?(column) ? "#{@record_type}_mlc" : @record_type
+        select_fields += ", #{table}.#{column} as #{column_alias}"
       else
         msg = "#{@record_type} does not have field '#{column}'. Skipping."
         job.write_output(msg)

@@ -1,5 +1,6 @@
 require_relative 'report_manager'
 require_relative 'report_suppression'
+require_relative 'report_mlc'
 require_relative '../../lib/reports/report_utils'
 require 'erb'
 
@@ -7,6 +8,7 @@ class AbstractReport
   include ReportManager::Mixin
   include JSONModel
   include ReportSuppression
+  include ReportMlc
 
   attr_accessor :repo_id
   attr_accessor :format
