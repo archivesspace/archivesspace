@@ -55,7 +55,8 @@ class TopContainersController < ApplicationController
 
         search_params = prepare_search.merge(
           'facet[]' => SearchResultData.TOP_CONTAINER_FACETS,
-          'fields[]' => csv_fields
+          'fields[]' => csv_fields,
+          'csv_export_use_solr_writer' => true
         )
 
         render plain: csv_export_with_mappings(

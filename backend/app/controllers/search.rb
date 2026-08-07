@@ -53,7 +53,15 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get_or_post('/repositories/:repo_id/search')
     .description("Search this repository")
     .params(["repo_id", :repo_id],
-            *BASE_SEARCH_PARAMS)
+            *BASE_SEARCH_PARAMS,
+            ["csv_export_use_solr_writer",
+                BooleanParam,
+                "If true, use the standard Solr CSV writer for this request instead of " \
+                "the extended CSV export, even if extended CSV export is enabled. Headers " \
+                "will be raw Solr field names rather than the extended export's flattened " \
+                "JSONModel property names. Used by the top container CSV export, which " \
+                "needs raw Solr field names.",
+                :optional => true])
     .paged(true)
     .permissions([:view_repository])
     .returns([200, ""]) \
