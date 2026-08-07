@@ -35,6 +35,7 @@ nl:
     next: Volgende
     previous: Vorige
   pagination:
+    controls: Pagineringsbesturing
     top_controls: Bovenste pagineringsbesturing
     bottom_controls: Onderste pagineringsbesturing
   page_actions: Acties op deze pagina

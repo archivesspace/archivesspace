@@ -1,6 +1,6 @@
 <% if !results.blank? && results['total_hits'] > 0 %>
   <h2><%= t('found', :count => results['total_hits'], :type => results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')) %>:</h2>
-  <%= render_pagination pager %>
+  <%= render_pagination pager, position: :top, nav_class: 'mb-3' %>
   <% results.records.each do |result| %>
     <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false, :heading_level => 3}} %>
   <% end %>

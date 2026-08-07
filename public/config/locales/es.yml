@@ -78,6 +78,7 @@ es:
   searched-field: "buscando %{field}"
 
   pagination:
+    controls: Controles de paginación
     top_controls: Controles de paginación superiores
     bottom_controls: Controles de paginación inferiores
   search_results:

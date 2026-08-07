@@ -68,6 +68,7 @@ ja:
   search-field: 検索フィールド
   searched-field: 検索%{field}
   pagination:
+    controls: ページネーションコントロール
     top_controls: 上部のページネーションコントロール
     bottom_controls: 下部のページネーションコントロール
   search_results:

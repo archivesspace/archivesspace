@@ -98,6 +98,7 @@ fr:
   searched-field: "En cherchant %{field}"
 
   pagination:
+    controls: Contrôles de pagination
     top_controls: Contrôles de pagination du haut
     bottom_controls: Contrôles de pagination du bas
   search_results:

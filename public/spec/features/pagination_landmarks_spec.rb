@@ -6,7 +6,6 @@ require 'rails_helper'
 describe 'Pagination landmarks', js: true do
   before(:all) do
     @now = Time.now.to_i
-    @page_size = 1
 
     @repo = create(:repo, repo_code: "pagination_landmarks_#{@now}", publish: true)
     set_repo @repo
@@ -128,78 +127,75 @@ describe 'Pagination landmarks', js: true do
     run_indexers
   end
 
-  describe 'search results template (dual pagination)' do
-    {
-      'resources index' => '/repositories/resources?page_size=1',
-      'agents index' => '/agents?page_size=1',
-      'subjects index' => '/subjects?page_size=1',
-      'classifications index' => '/classifications?page_size=1',
-      'accessions index' => '/accessions?page_size=1',
-      'objects index' => '/objects?page_size=1',
-      'search results' => '/search?q[]=*&op[]=OR&field[]=title&page_size=1'
-    }.each do |label, path|
-      context label do
-        let(:pagination_path) { path }
+  context 'with two pagination blocks' do
+    describe 'search results views' do
+      {
+        'resources index' => '/repositories/resources?page_size=1',
+        'agents index' => '/agents?page_size=1',
+        'subjects index' => '/subjects?page_size=1',
+        'classifications index' => '/classifications?page_size=1',
+        'accessions index' => '/accessions?page_size=1',
+        'objects index' => '/objects?page_size=1',
+        'search results' => '/search?q[]=*&op[]=OR&field[]=title&page_size=1'
+      }.each do |label, path|
+        context label do
+          let(:pagination_path) { path }
 
-        include_examples 'distinct dual pagination landmarks'
+          it_behaves_like 'having two distinct pagination landmarks'
+        end
       end
     end
-  end
 
-  describe 'other dual-pagination pages' do
-    # Skipped: RepositoriesController#index reads page_size from params/AppConfig but
-    # hardcodes @criteria['page_size'] = 100, so ?page_size=1 cannot produce multiple
-    # pages in test. Re-enable once that controller override is addressed.
-    xcontext 'repositories index' do
+    describe 'repositories index view' do
       let(:pagination_path) { '/repositories?page_size=1' }
 
-      include_examples 'distinct dual pagination landmarks'
+      it_behaves_like 'having two distinct pagination landmarks'
     end
 
-    context 'agent show' do
+    describe 'agent show view' do
       let(:pagination_path) { "/agents/people/#{@agent.id}?page_size=1" }
 
-      include_examples 'distinct dual pagination landmarks'
+      it_behaves_like 'having two distinct pagination landmarks'
     end
 
-    context 'subject show' do
+    describe 'subject show view' do
       let(:pagination_path) { "/subjects/#{@subject.id}?page_size=1" }
 
-      include_examples 'distinct dual pagination landmarks'
+      it_behaves_like 'having two distinct pagination landmarks'
     end
   end
 
-  describe 'single-pagination pages' do
-    context 'container show' do
+  context 'with one pagination block' do
+    describe 'container show view' do
       let(:pagination_path) do
         "/repositories/#{@repo.id}/top_containers/#{@top_container.id}?page_size=1"
       end
 
-      include_examples 'single top pagination landmark'
+      it_behaves_like 'having one pagination landmark'
     end
 
-    context 'classification show' do
+    describe 'classification show view' do
       let(:pagination_path) do
         "/repositories/#{@repo.id}/classifications/#{@classification.id}?page_size=1"
       end
 
-      include_examples 'single top pagination landmark'
+      it_behaves_like 'having one pagination landmark'
     end
 
-    context 'resource inventory' do
+    describe 'resource inventory view' do
       let(:pagination_path) do
         "/repositories/#{@repo.id}/resources/#{@inventory_resource.id}/inventory?page_size=1"
       end
 
-      include_examples 'single top pagination landmark'
+      it_behaves_like 'having one pagination landmark'
     end
 
-    context 'resource digitized' do
+    describe 'resource digitized view' do
       let(:pagination_path) do
         "/repositories/#{@repo.id}/resources/#{@digitized_resource.id}/digitized?page_size=1"
       end
 
-      include_examples 'single top pagination landmark'
+      it_behaves_like 'having one pagination landmark'
     end
   end
 end

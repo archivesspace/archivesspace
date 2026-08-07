@@ -17,8 +17,9 @@ module ApplicationHelper
   end
 
   # @param pager [Pager]
-  # @param position [Symbol] :top (default) or :bottom
-  def render_pagination(pager, position: :top)
-    render partial: 'shared/pagination', locals: { pager: pager, position: position }
+  # @param position [Symbol, nil] :top or :bottom to disambiguate dual pagination; omit for a single block
+  # @param nav_class [String, nil] optional extra classes for the nav element
+  def render_pagination(pager, position: nil, nav_class: nil)
+    render partial: 'shared/pagination', locals: { pager: pager, position: position, nav_class: nav_class }
   end
 end
