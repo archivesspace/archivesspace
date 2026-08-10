@@ -307,6 +307,12 @@ describe SessionsController, type: :controller do
   # Deliberately no stubs below -- these hit a real backend, matching
   # frontend/spec/controllers/session_controller_spec.rb's '#logout' block.
   describe 'cross-app logout propagation (real backend, no stubs)' do
+    around(:each) do |example|
+      original_backend_session = JSONModel::HTTP.current_backend_session
+      example.run
+      JSONModel::HTTP.current_backend_session = original_backend_session
+    end
+
     before do
       allow(AppConfig).to receive(:[]).and_call_original
       allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
