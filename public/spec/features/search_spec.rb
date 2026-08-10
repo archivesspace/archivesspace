@@ -432,4 +432,70 @@ describe 'Search', js: true do
       expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 0)
     end
   end
+
+  describe 'autocomplete attributes' do
+    context 'on the search page' do
+      before do
+        visit('/search')
+      end
+
+      it 'are set and preserved on cloned rows' do
+        within 'form#advanced_search' do
+          aggregate_failures 'refine search fields row 0' do
+            expect(page).to have_css('#q0[autocomplete="on"]')
+            expect(page).to have_css('#from_year0[autocomplete="off"]')
+            expect(page).to have_css('#to_year0[autocomplete="off"]')
+            expect(page).to have_css('#advanced_search_limit[autocomplete="off"]')
+            expect(page).to have_css('#field0[autocomplete="off"]')
+            expect(page).to have_css('#op0[autocomplete="off"]', visible: false)
+          end
+
+          find('.plusminus-btn[data-action="add"]').click
+
+          aggregate_failures 'refine search fields row 1' do
+            expect(page).to have_css('#q1[autocomplete="on"]')
+            expect(page).to have_css('#from_year1[autocomplete="off"]')
+            expect(page).to have_css('#to_year1[autocomplete="off"]')
+            expect(page).to have_css('#field1[autocomplete="off"]')
+            expect(page).to have_css('#op1[autocomplete="off"]')
+          end
+        end
+      end
+    end
+
+    context 'on the collection search page' do
+      before do
+        visit('/repositories/resources')
+      end
+
+      it 'are set on the Filter Results controls' do
+        aggregate_failures do
+          expect(page).to have_css('#filter_q[autocomplete="on"]')
+          expect(page).to have_css('#filter_from_year[autocomplete="off"]')
+          expect(page).to have_css('#filter_to_year[autocomplete="off"]')
+          expect(page).to have_css('#sort[autocomplete="off"]')
+        end
+      end
+    end
+
+    context 'on the Collection Overview search form' do
+      let(:now) { Time.now.to_i }
+      let(:resource) { create(:resource, title: "Published Resource #{now}", publish: true) }
+      let(:ao) { create(:archival_object, title: "Published Archival Object #{now}", resource: { 'ref' => resource.uri }, publish: true) }
+
+      before do
+        ao
+        run_indexers
+        visit resource.uri
+      end
+
+      it 'are set on the sidebar search controls' do
+        aggregate_failures do
+          expect(page).to have_css('#filter_q0[autocomplete="on"]')
+          expect(page).to have_css('#filter_from_year[autocomplete="off"]')
+          expect(page).to have_css('#filter_to_year[autocomplete="off"]')
+        end
+      end
+    end
+  end
 end
