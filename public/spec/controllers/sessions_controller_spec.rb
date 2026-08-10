@@ -303,4 +303,47 @@ describe SessionsController, type: :controller do
       end
     end
   end
+
+  # Deliberately no stubs below -- these hit a real backend, matching
+  # frontend/spec/controllers/session_controller_spec.rb's '#logout' block.
+  describe 'cross-app logout propagation (real backend, no stubs)' do
+    before do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+    end
+
+    def backend_session_alive?(token)
+      uri = URI("#{AppConfig[:backend_url]}/users/current-user")
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Get.new(uri.request_uri)
+      request['X-ArchivesSpace-Session'] = token
+
+      http.request(request).code == '200'
+    end
+
+    it 'invalidates the PUI session after a staff-side logout' do
+      post :login, params: { user_name: 'admin', password: 'admin' }
+      token = controller.session[:session]
+      expect(backend_session_alive?(token)).to be true
+
+      # Equivalent to frontend's User.logout, which we can't call directly
+      # from a public/ spec.
+      JSONModel::HTTP.current_backend_session = token
+      JSONModel::HTTP.post_form('/logout')
+      expect(backend_session_alive?(token)).to be false
+
+      get :show
+      expect(response).to render_template('shared/login')
+    end
+
+    it 'invalidates the shared session after a PUI-side logout' do
+      post :login, params: { user_name: 'admin', password: 'admin' }
+      token = controller.session[:session]
+      expect(backend_session_alive?(token)).to be true
+
+      delete :logout
+
+      expect(backend_session_alive?(token)).to be false
+    end
+  end
 end
