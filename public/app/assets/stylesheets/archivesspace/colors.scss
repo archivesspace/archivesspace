@@ -44,3 +44,55 @@ $accession-color: $collection-color;
 $digital-object-color: $collection-color;
 $archival-object-color: #457141;
 $folder-color: #009fcf;
+
+// Single source of DOM class name → record-type color.
+// Palette vars above remain the institutional override point; consumers
+// should read from this map (or the helpers below) instead of re-mapping.
+$record-type-colors: (
+  'resource': $collection-color,
+  'collection': $collection-color,
+  'object': $collection-color,
+  'accession': $accession-color,
+  'digital_object': $digital-object-color,
+  'archival_object': $archival-object-color,
+  'subject': $subject-color,
+  'agent': $agent-color,
+  'person': $agent-color,
+  'record': $record-color,
+  'classification': $classification-color,
+  'repository': $repository-color,
+  'top_container': $container-color,
+  'folder': $folder-color,
+);
+
+// Types that use .record-type-badge.{type} in the PUI.
+$record-type-badge-types: (
+  'resource',
+  'archival_object',
+  'agent',
+  'accession',
+  'classification',
+  'digital_object',
+  'repository',
+  'subject'
+);
+
+@function record-type-color($type) {
+  @return map-get($record-type-colors, $type);
+}
+
+@mixin record-type-color-props($color) {
+  color: $color;
+  border-color: $color;
+}
+
+@mixin record-type-btn-hover($color) {
+  --bs-btn-hover-bg: #{$color};
+  --bs-btn-hover-border-color: #{$color};
+}
+
+:root {
+  @each $type, $color in $record-type-colors {
+    --record-type-#{$type}-color: #{$color};
+  }
+}
