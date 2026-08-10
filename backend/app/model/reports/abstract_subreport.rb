@@ -1,9 +1,11 @@
 require_relative '../../lib/reports/report_utils'
 require_relative 'custom_field'
+require_relative 'report_suppression'
 
 class AbstractSubreport
 
   include CustomField::Mixin
+  include ReportSuppression
 
   attr_accessor :repo_id
   attr_accessor :db
@@ -15,6 +17,7 @@ class AbstractSubreport
     @db = parent_report.db
     @job = parent_report.job
     @format = parent_report.format
+    @include_suppressed = parent_report.include_suppressed
   end
 
   def get_content

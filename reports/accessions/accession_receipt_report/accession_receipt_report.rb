@@ -1,6 +1,7 @@
 class AccessionReceiptReport < AbstractReport
   register_report(
     params: [['scope_by_date', 'Boolean', 'Scope records by a date range'],
+             ['include_suppressed', 'IncludeSuppressed', 'Include suppressed records'],
              ['from', Date, 'The start of report range'],
              ['to', Date, 'The start of report range']]
   )
@@ -50,7 +51,7 @@ class AccessionReceiptReport < AbstractReport
             as container_summary
         from extent
         group by accession_id) as extent_cnt
-    where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
+    where repo_id = #{db.literal(@repo_id)} and #{date_condition}#{suppressed_filter('accession')}"
   end
 
   def fix_row(row)

@@ -43,10 +43,10 @@
 
                 <% end %>
 
-                <% if date["structured_date_range"]["begin_date_expression"] || date["structured_date_range"]["end_date_expression"]%>
+                <% if date["structured_date_range"]["begin_date_expression"] || date["structured_date_range"]["end_date_expression"] %>
                   <br>
                 <% end %>
-                  
+
 
                 <% if date["structured_date_range"]["begin_date_standardized"] %>
                   <%= date["structured_date_range"]["begin_date_standardized"] %>
@@ -65,7 +65,7 @@
                   <% end %>
                 <% end %>
 
-                <% if date["structured_date_range"]["begin_date_standardized"] || date["structured_date_range"]["end_date_standardized"]%>
+                <% if date["structured_date_range"]["begin_date_standardized"] || date["structured_date_range"]["end_date_standardized"] %>
                   <br>
                 <% end %>
               <% end %>
@@ -78,109 +78,109 @@
           <%# replacing call to read_only_view with custom code since structured dates have subrecords not supported by that method %>
 
           <div class="form-horizontal">
-            <div class='form-group'>
-              <div class='control-label col-sm-2'>Date Type</div>
-              <div class='label-only col-sm-8'><%= t("enumerations.date_type_structured.#{date['date_type_structured']}", :default => date['date_type_structured']) %></div>
+            <div class="form-group">
+              <div class="control-label col-sm-2">Date Type</div>
+              <div class="label-only col-sm-8"><%= t("enumerations.date_type_structured.#{date['date_type_structured']}", :default => date['date_type_structured']) %></div>
             </div>
 
             <% if date['date_certainty'] %>
-              <div class='form-group'>
-                <div class='control-label col-sm-2'>Certainty</div>
-                <div class='label-only col-sm-8'><%= t("enumerations.date_certainty.#{date['date_certainty']}", :default => date['date_certainty']) %></div>
+              <div class="form-group">
+                <div class="control-label col-sm-2">Certainty</div>
+                <div class="label-only col-sm-8"><%= t("enumerations.date_certainty.#{date['date_certainty']}", :default => date['date_certainty']) %></div>
               </div>
             <% end %>
 
             <% if date['date_era'] %>
-              <div class='form-group'>
-                <div class='control-label col-sm-2'>Era</div>
-                <div class='label-only col-sm-8'><%= t("enumerations.date_era.#{date['date_era']}", :default => date['date_era']) %></div>
+              <div class="form-group">
+                <div class="control-label col-sm-2">Era</div>
+                <div class="label-only col-sm-8"><%= t("enumerations.date_era.#{date['date_era']}", :default => date['date_era']) %></div>
               </div>
             <% end %>
 
             <% if date['date_calendar'] %>
-              <div class='form-group'>
-                <div class='control-label col-sm-2'>Calendar</div>
-                <div class='label-only col-sm-8'><%= t("enumerations.date_calendar.#{date['date_calendar']}", :default => date['date_calendar']) %></div>
+              <div class="form-group">
+                <div class="control-label col-sm-2">Calendar</div>
+                <div class="label-only col-sm-8"><%= t("enumerations.date_calendar.#{date['date_calendar']}", :default => date['date_calendar']) %></div>
               </div>
             <% end %>
 
-           <div class="panel panel-default">
-
-            <%# SINGLE SECTION %>
-            <% if date['date_type_structured'] == "single" && date["structured_date_single"] %>
-              <div class='form-group'>
-                <div class='control-label col-sm-2'>Role</div>
-                <div class='label-only col-sm-8'><%= t("enumerations.date_role.#{date['structured_date_single']['date_role']}", :default => date['structured_date_single']['date_role']) %></div>
-              </div>
-
-              <% if date["structured_date_single"]['date_expression'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>Date Expression</div>
-                  <div class='label-only col-sm-8'><%= date['structured_date_single']['date_expression'] %></div>
+            <div class="panel panel-default">
+              <%# SINGLE SECTION %>
+              <% if date['date_type_structured'] == "single" && date["structured_date_single"] %>
+                <div class="form-group">
+                  <div class="control-label col-sm-2">Role</div>
+                  <div class="label-only col-sm-8"><%= t("enumerations.date_role.#{date['structured_date_single']['date_role']}", :default => date['structured_date_single']['date_role']) %></div>
                 </div>
+
+                <% if date["structured_date_single"]['date_expression'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">Date Expression</div>
+                    <div class="label-only col-sm-8"><%= date['structured_date_single']['date_expression'] %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_single"]['date_standardized'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">Date Standardized</div>
+                    <div class="label-only col-sm-8"><%= date['structured_date_single']['date_standardized'] %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_single"]['date_standardized_type'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">Date Standardized Type</div>
+                    <div class="label-only col-sm-8"><%= t("enumerations.date_standardized_type.#{date['structured_date_single']['date_standardized_type']}", :default => date['structured_date_single']['date_standardized_type']) %></div>
+                  </div>
+                <% end %>
+
+              <%# RANGE SECTION %>
+              <% elsif date['date_type_structured'] == "range" && date["structured_date_range"] %>
+
+                <% if date["structured_date_range"]['begin_date_expression'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">Begin Date Expression</div>
+                    <div class="label-only col-sm-8"><%= date['structured_date_range']['begin_date_expression'] %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_range"]['begin_date_standardized'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">Begin Date Standardized</div>
+                    <div class="label-only col-sm-8"><%= date['structured_date_range']['begin_date_standardized'] %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_range"]['begin_date_standardized_type'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">Begin Date Standardized Type</div>
+                    <div class="label-only col-sm-8"><%= t("enumerations.begin_date_standardized_type.#{date['structured_date_range']['begin_date_standardized_type']}", :default => date['structured_date_range']['begin_date_standardized_type']) %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_range"]['end_date_expression'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">End Date Expression</div>
+                    <div class="label-only col-sm-8"><%= date['structured_date_range']['end_date_expression'] %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_range"]['end_date_standardized'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">End Date Standardized</div>
+                    <div class="label-only col-sm-8"><%= date['structured_date_range']['end_date_standardized'] %></div>
+                  </div>
+                <% end %>
+
+                <% if date["structured_date_range"]['end_date_standardized_type'] %>
+                  <div class="form-group">
+                    <div class="control-label col-sm-2">End Date Standardized Type</div>
+                    <div class="label-only col-sm-8"><%= t("enumerations.end_date_standardized_type.#{date['structured_date_range']['end_date_standardized_type']}", :default => date['structured_date_range']['end_date_standardized_type']) %></div>
+                  </div>
+                <% end %>
+
+
               <% end %>
-
-              <% if date["structured_date_single"]['date_standardized'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>Date Standardized</div>
-                  <div class='label-only col-sm-8'><%= date['structured_date_single']['date_standardized'] %></div>
-                </div>
-              <% end %>
-
-              <% if date["structured_date_single"]['date_standardized_type'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>Date Standardized Type</div>
-                  <div class='label-only col-sm-8'><%= t("enumerations.date_standardized_type.#{date['structured_date_single']['date_standardized_type']}", :default => date['structured_date_single']['date_standardized_type']) %></div>
-                </div>
-              <% end %>
-
-            <%# RANGE SECTION %>
-            <% elsif date['date_type_structured'] == "range" && date["structured_date_range"] %>
-
-              <% if date["structured_date_range"]['begin_date_expression'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>Begin Date Expression</div>
-                  <div class='label-only col-sm-8'><%= date['structured_date_range']['begin_date_expression'] %></div>
-                </div>
-              <% end %>
-
-              <% if date["structured_date_range"]['begin_date_standardized'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>Begin Date Standardized</div>
-                  <div class='label-only col-sm-8'><%= date['structured_date_range']['begin_date_standardized'] %></div>
-                </div>
-              <% end %>
-
-              <% if date["structured_date_range"]['begin_date_standardized_type'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>Begin Date Standardized Type</div>
-                  <div class='label-only col-sm-8'><%= t("enumerations.begin_date_standardized_type.#{date['structured_date_range']['begin_date_standardized_type']}", :default => date['structured_date_range']['begin_date_standardized_type']) %></div>
-                </div>
-              <% end %>
-
-              <% if date["structured_date_range"]['end_date_expression'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>End Date Expression</div>
-                  <div class='label-only col-sm-8'><%= date['structured_date_range']['end_date_expression'] %></div>
-                </div>
-              <% end %>
-
-              <% if date["structured_date_range"]['end_date_standardized'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>End Date Standardized</div>
-                  <div class='label-only col-sm-8'><%= date['structured_date_range']['end_date_standardized'] %></div>
-                </div>
-              <% end %>
-
-              <% if date["structured_date_range"]['end_date_standardized_type'] %>
-                <div class='form-group'>
-                  <div class='control-label col-sm-2'>End Date Standardized Type</div>
-                  <div class='label-only col-sm-8'><%= t("enumerations.end_date_standardized_type.#{date['structured_date_range']['end_date_standardized_type']}", :default => date['structured_date_range']['end_date_standardized_type']) %></div>
-                </div>
-              <% end %>
-
-
-            <% end %>
+            </div>
           </div>
         </div>
       </div>

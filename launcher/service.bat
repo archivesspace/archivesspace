@@ -85,7 +85,7 @@ FOR /D %%c IN ("!GEM_HOME!\gems\jruby-*") DO (
 goto :doInstall
 
 :doInstall
-%INSTALL_PROCESS% //IS//ArchivesSpaceService --LogPath=%LOG_DIR% --LogPrefix=%LOG_PREFIX% --StdOutput=%AS_LOG% --StdError=%AS_ERROR_LOG%  --DisplayName="ArchivesSpaceService" --Startup=auto ++JvmOptions=-Darchivesspace-daemon=yes ++JvmOptions=%JAVA_OPTS% --JvmOptions=-Xss2m --JvmOptions=-Xmx1024m ++JvmOptions=-Dfile.encoding=UTF-8  --Install=%INSTALL_PROCESS% --StartMode=java --StopMode=java --Classpath="!AS_JARS!;!LAUNCHER_JARS!;!JRUBY!" ++StartParams="'%LAUNCHER_SCRIPT%'" --StartClass=org.jruby.Main ++StopParams="'%LAUNCHER_SCRIPT%'; stop" --StopTimeout=5  --StopClass=org.jruby.Main ++Environment='ASPACE_LAUNCHER_BASE=%ASPACE_LAUNCHER_BASE%'
+%INSTALL_PROCESS% //IS//ArchivesSpaceService --LogPath=%LOG_DIR% --LogPrefix=%LOG_PREFIX% --StdOutput=%AS_LOG% --StdError=%AS_ERROR_LOG%  --DisplayName="ArchivesSpaceService" --Startup=auto ++JvmOptions=-Darchivesspace-daemon=yes ++JvmOptions=-Djruby.rack.response.swallow_client_abort=false ++JvmOptions=%JAVA_OPTS% --JvmOptions=-Xss2m --JvmOptions=-Xmx1024m ++JvmOptions=-Dfile.encoding=UTF-8  --Install=%INSTALL_PROCESS% --StartMode=java --StopMode=java --Classpath="!AS_JARS!;!LAUNCHER_JARS!;!JRUBY!" ++StartParams="'%LAUNCHER_SCRIPT%'" --StartClass=org.jruby.Main ++StopParams="'%LAUNCHER_SCRIPT%'; stop" --StopTimeout=5  --StopClass=org.jruby.Main ++Environment='ASPACE_LAUNCHER_BASE=%ASPACE_LAUNCHER_BASE%'
 if not errorlevel 1 goto installed
 echo "There was a problem installing the service...please check the settings."
 goto end

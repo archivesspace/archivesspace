@@ -1,5 +1,5 @@
 <% results_type = (defined?(@results_type) ? @results_type : t('search_results.results')) %>
-<div class="row">
+<div>
   <div class="col-sm-12">
      <%= render partial: 'shared/breadcrumbs' %>
   <% if defined?(@search_title) %>
@@ -24,9 +24,9 @@
 
   <% unless defined?(@no_statement) %>
     <div class="searchstatement">
-      <div class="btn btn-group pull-right">
-        <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn--default" %>
-        <button class="btn btn-sm btn--default" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
+      <div class="btn btn-group float-end">
+        <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-secondary" %>
+        <button class="btn btn-sm btn-secondary" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
       </div>
 
       <% if defined?(@search) %>
@@ -66,7 +66,7 @@
       <div class="w-100 px-bs d-flex flex-wrap justify-content-end gap-2">
         <% unless @pager.last_page == 1 %>
           <div class="flex-grow-1">
-            <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+            <%= render partial: 'shared/pagination', locals: {:pager  => @pager} %>
           </div>
         <% end %>
         <div>
@@ -83,7 +83,7 @@
     <% end %>
     </div></div>
     <div class="row mt-2"><div class="col-sm-12">
-    <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
+    <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'} %>
     </div></div>
   </div>
   <div id="filter-sidebar" class="col-sm-3">

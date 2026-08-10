@@ -1037,6 +1037,8 @@ ja:
 
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "利用可能な IIIF ビューアがありません。AppConfig[:iiif_viewer] に 'universal_viewer'、'mirador'、または外部でホストされている IIIF ビューアの URL を設定してください。"
       action:
         add: ファイルバージョンを追加
         make_representative: 代表者にする

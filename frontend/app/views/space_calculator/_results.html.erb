@@ -14,7 +14,7 @@
   <% else %>
     <div class="alert alert-info">
       <%= t("space_calculator.message_total_spaces", :total_spaces => @results['total_spaces_available']) %>
-      <br/>
+      <br />
       <%= t("space_calculator.message_total_containers", :total_containers => @results['total_containers_of_type']) %>
     </div>
   <% end %>
@@ -32,7 +32,7 @@
             disabled="disabled"
           <% end %>
         />
-        <%= t("space_calculator.summary.locations_with_space", :count => @results['locations_with_space'].length)%>
+        <%= t("space_calculator.summary.locations_with_space", :count => @results['locations_with_space'].length) %>
       </label>
       <label class="btn btn-sm btn-warning mb-0 flex-shrink-0 d-flex align-items-center gap-x-1">
         <input class="space-calculator-results-toggle"
@@ -42,7 +42,7 @@
             disabled="disabled"
           <% end %>
         />
-        <%= t("space_calculator.summary.locations_without_space", :count => @results['locations_without_space'].length)%>
+        <%= t("space_calculator.summary.locations_without_space", :count => @results['locations_without_space'].length) %>
       </label>
       <label class="btn btn-sm btn-danger mb-0 flex-shrink-0 d-flex align-items-center gap-x-1">
         <input class="space-calculator-results-toggle"
@@ -54,9 +54,9 @@
             disabled="disabled"
           <% end %>
         />
-        <%= t("space_calculator.summary.uncalculatable_locations", :count => @results['uncalculatable_locations'].length)%>
+        <%= t("space_calculator.summary.uncalculatable_locations", :count => @results['uncalculatable_locations'].length) %>
       </label>
-      <input id="searchResultsFilter" class="form-control input-sm" type="text" placeholder="<%= t("space_calculator.result_filter") %>"/>
+      <input id="searchResultsFilter" class="form-control input-sm" type="text" placeholder="<%= t("space_calculator.result_filter") %>" />
     </div>
     <table id="tabledSearchResults" class="table table-striped table-bordered table-sm table-hover table-sortable table-search-results">
       <thead>

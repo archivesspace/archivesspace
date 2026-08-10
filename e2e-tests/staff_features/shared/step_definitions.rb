@@ -567,6 +567,14 @@ Then 'the {string} button is disabled' do |text|
   end
 end
 
+Then 'the {string} field is enabled' do |label|
+  expect(find_field(label, disabled: :all).disabled?).to eq false
+end
+
+Then 'the {string} field is disabled' do |label|
+  expect(find_field(label, disabled: :all).disabled?).to eq true
+end
+
 When 'the user selects the first top container' do
   within '#bulk_operation_results tbody' do
     find('input[type="checkbox"]', match: :first).click

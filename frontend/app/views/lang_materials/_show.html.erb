@@ -14,7 +14,7 @@
                 <span class="glyphicon"></span>
               </div>
               <div class="col-md-4">
-                  <%= t('enumerations.language_iso639_2.'+lang_material["language_and_script"]['language'], :default => lang_material["language_and_script"]['language'])%>
+                  <%= t('enumerations.language_iso639_2.'+lang_material["language_and_script"]['language'], :default => lang_material["language_and_script"]['language']) %>
                   <% if lang_material["language_and_script"]['script'] %>
                     <%= "(" + t('enumerations.script_iso15924.'+lang_material["language_and_script"]['script'], :default => lang_material["language_and_script"]['script']) + " script)" %>
                   <% end %>

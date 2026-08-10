@@ -24,7 +24,7 @@
   max-height: var(--result-repfv-figure-max-height);
   width: var(--result-repfv-figure-width);
   margin-right: 1rem;
-  border: 1px solid var(--default-border-color);
+  border: var(--default-border);
   border-radius: var(--bootstrap-rounded-border-radius);
 }
 

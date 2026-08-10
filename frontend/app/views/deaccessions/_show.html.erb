@@ -35,7 +35,7 @@
           </div>
         </div>
         <div id="deaccession_<%= index %>" class="accordion-body collapse">
-          <div class="accordion-inner"> 
+          <div class="accordion-inner">
             <div class="subrecord-form-container">
               <%= read_only_view(deaccession) %>
               <%= render_aspace_partial :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => t("deaccession.dates") } %>

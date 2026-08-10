@@ -209,7 +209,7 @@
       const btn = btnTemplate.querySelector('.node-expand');
 
       btn.setAttribute('aria-controls', childListId);
-      btn.querySelector('.sr-only').textContent = title;
+      btn.querySelector('.visually-hidden').textContent = title;
 
       btnFrag.appendChild(btnTemplate);
 

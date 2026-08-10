@@ -57,7 +57,7 @@
       <%= linker_label %>
     </label>
   <% end %>
-  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100' %>">
     <div class="input-group linker-wrapper"
       role="combobox"
       aria-expanded="false"
@@ -81,36 +81,37 @@
         data-multiplicity="<%= multiplicity %>"
         <% if multiplicity === "many" %>data-sortable="true"<% end %>
         data-types='["subject"]'
-        data-exclude='<%= exclude_ids.to_json %>'
-        data-span-class='<%= get_subject_icon_class(form.obj)%>'
+        data-exclude="<%= exclude_ids.to_json %>"
+        data-span-class="<%= get_subject_icon_class(form.obj) %>"
       />
-    
+
       <% if form.obj.has_key?('_resolved') %>
-      
-        <input type="text" 
-          class='prelinker' 
+
+        <input type="text"
+          class="prelinker"
           name="<%= form.path %>[_resolved]"
           value="<%= selected_json %>" />
-          
-        <input type="text" 
-          class='prelinker' 
+
+        <input type="text"
+          class="prelinker"
           name="<%= form.path %>[ref]"
           value="<%= form.obj["ref"] %>" />
 
       <% end %>
-          
-    <div class="input-group-append">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle"></button>
-      <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuSubjects' aria-labelledby="dropdownMenuSubjectsToggle">
-        <li>
-          <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"><%= I18n.t("actions.browse") %></button>
-        </li>
-      <% if !hide_create && user_can?('update_subject_record') %>
-        <li>
-          <button type="button" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="btn btn-sm rounded-0 dropdown-item linker-create-btn"><%= I18n.t("actions.create") %></a>
-        </li>
-      <% end %>
-      </ul>
+
+      <div class="input-group-append">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle"></button>
+        <ul class="dropdown-menu dropdown-menu-right" id="dropdownMenuSubjects" aria-labelledby="dropdownMenuSubjectsToggle">
+          <li>
+            <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"><%= I18n.t("actions.browse") %></button>
+          </li>
+        <% if !hide_create && user_can?('update_subject_record') %>
+          <li>
+            <button type="button" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="btn btn-sm rounded-0 dropdown-item linker-create-btn"><%= I18n.t("actions.create") %></button>
+          </li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

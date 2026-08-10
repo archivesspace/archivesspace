@@ -9,7 +9,8 @@ class AccessionResourcesSubreport < AbstractSubreport
     "select identifier, title
     from resource, spawned_rlshp
     where spawned_rlshp.accession_id = #{db.literal(@accession_id)}
-      and spawned_rlshp.resource_id = resource.id"
+      and spawned_rlshp.resource_id = resource.id
+      #{suppressed_filter('resource')}"
   end
 
   def fix_row(row)

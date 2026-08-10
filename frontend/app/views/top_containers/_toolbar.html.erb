@@ -14,7 +14,7 @@
     <% end %>
     <% if !['new'].include?(controller.action_name) && user_can?('manage_container_record') %>
       <div class="btn-toolbar ml-auto">
-        <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %> 
+        <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %>
       </div>
     <% end %>
   </div>

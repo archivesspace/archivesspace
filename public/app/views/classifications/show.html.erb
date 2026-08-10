@@ -7,7 +7,7 @@
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
-  <div class="row">
+  <div>
     <div class="information w-100">
       <%= render partial: 'shared/breadcrumbs' %>
       <% unless @result.parsed_description.blank? %>
@@ -15,7 +15,7 @@
       <% end %>
       <% if @result.creator %>
         <div class="mb-2 px-3 creator">
-          <span class="inline-label clear"><%= t('classification.creator') %>: </span>
+          <span class="inline-label"><%= t('classification.creator') %>: </span>
           <%= link_to @result.creator.display_string, app_prefix(@result.creator.uri) %>
         </div>
       <% end %>
@@ -28,7 +28,7 @@
         <% @results.records.each do |result| %>
           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false, :heading_level => 3}} %>
         <% end %>
-        <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+        <%= render partial: 'shared/pagination', locals: {:pager  => @pager} %>
 
       <% end %>
     </div>

@@ -7,6 +7,8 @@ he:
       html: HTML
       rtf: RTF
     linked_records_in_json: רשומות מקושרות ב-JSON
+    parameters:
+      include_suppressed: כלול רשומות מוסתרות
     headings:
       context: משאב/הנשק
       container_profile: פרופיל מיכל

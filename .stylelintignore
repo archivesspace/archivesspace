@@ -3,3 +3,5 @@ frontend/vendor/
 public/app/assets/stylesheets/foundation
 public/app/assets/stylesheets/font-awesome
 public/vendor/
+frontend/public/uv/
+public/public/uv/

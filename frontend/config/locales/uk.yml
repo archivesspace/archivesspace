@@ -2535,6 +2535,8 @@ uk:
         new_record_title: Новий компонент цифрового об'єкта
   file_version:
     _frontend:
+      messages:
+        no_iiif_viewer: "Переглядач IIIF недоступний. Встановіть для AppConfig[:iiif_viewer] значення 'universal_viewer', 'mirador' або URL-адресу переглядача IIIF, розміщеного на зовнішньому сервері."
       action:
         make_representative_tooltip: Використовується для позначення того, що це
           зображення має відображатися, коли із записом пов’язано кілька версій 

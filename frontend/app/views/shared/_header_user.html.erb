@@ -27,7 +27,7 @@
       <% if user_can?('update_container_profile_record') %>
         <li><%= link_to t("navbar.manage_container_profiles"), {:controller => :container_profiles, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
-      <% if user_can?('manage_location_profile_record')%>
+      <% if user_can?('manage_location_profile_record') %>
         <li><%= link_to t("navbar.manage_location_profiles"), {:controller => :location_profiles, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
 

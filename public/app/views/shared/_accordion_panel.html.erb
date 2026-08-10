@@ -1,14 +1,12 @@
 <% if !p_body.strip.blank? %>
-  <div class="card">
-    <div class="card-header">
-      <h2 class="card-title mb-0">
-        <a class="accordion-toggle" data-toggle="collapse" data-target="#<%= p_id %>" aria-controls="<%= p_id %>" aria-expanded="true">
-          <%= p_title %>
-        </a>
-      </h2>
-    </div>
-    <div id="<%= p_id %>" class="collapse show note_panel">
-      <div class="card-body">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#<%= p_id %>" aria-controls="<%= p_id %>" aria-expanded="true">
+        <%= p_title %>
+      </button>
+    </h2>
+    <div id="<%= p_id %>" class="accordion-collapse collapse show note_panel">
+      <div class="accordion-body">
         <%= p_body %>
       </div>
     </div>

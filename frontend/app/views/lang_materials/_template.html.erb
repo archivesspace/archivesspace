@@ -24,7 +24,7 @@
     <% form.emit_template("language_fields") %>
   <% elsif !form["notes"].blank? %>
     <% form.emit_template("language_notes") %>
-  <%#  If there is no lang_material in an existing record default to showing a new language_and_script %>
+  <%# If there is no lang_material in an existing record default to showing a new language_and_script %>
   <% else %>
     <% form.emit_template("language_fields") %>
   <% end %>
