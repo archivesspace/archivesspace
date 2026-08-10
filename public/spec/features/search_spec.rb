@@ -22,8 +22,8 @@ describe 'Search', js: true do
         expect(page).to have_xpath("//label[@for='q0']")
         expect(page).to have_xpath("//input[@type='text'][@id='q0']")
 
-        expect(page).to have_xpath("//label[@for='limit']")
-        expect(page).to have_xpath("//select[@id='limit']")
+        expect(page).to have_xpath("//label[@for='advanced_search_limit']")
+        expect(page).to have_xpath("//select[@id='advanced_search_limit']")
 
         expect(page).to have_xpath("//label[@for='field0']")
         expect(page).to have_xpath("//select[@id='field0']")
