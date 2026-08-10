@@ -53,11 +53,11 @@
     <%= render partial: 'shared/navigation' %>
   </div>
 
-  <section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
+  <main id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
     <a id="maincontent" tabindex="-1"></a>
     <%= flash_messages %>
     <%= yield %>
-  </section>
+  </main>
 
   <%= render partial: 'shared/footer' %>
 
