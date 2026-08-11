@@ -114,6 +114,7 @@ es:
     filter_by: Filter By
     filtered_by: Filtrado por
     remove_filter: Quitar este filtro
+    refine_search_controls_aria: Controles de refinamiento de búsqueda
     more_facets: Más
     fewer_facets: Menos
     op:

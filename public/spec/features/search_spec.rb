@@ -54,7 +54,7 @@ describe 'Search', js: true do
   it 'should use an asterisk for a keyword search when no inputs and search button pressed' do
     visit('/search')
     click_on('submit_search')
-    expect(page).to have_selector("div[class='searchstatement']", text: "keyword(s): *")
+    expect(page).to have_selector(".search-summary", text: "keyword(s): *")
   end
 
   it "should submit form, not delete row when search row is added and enter pressed in search field" do

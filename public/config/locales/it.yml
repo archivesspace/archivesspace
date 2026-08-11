@@ -110,6 +110,7 @@ it:
       class='searchterm'>%{kw}</span>
     no_results: Nessuna unità archivistica trovata
     remove_filter: Rimuovi questo filtro
+    refine_search_controls_aria: Controlli per raffinare la ricerca
     more_facets: Più
     op:
       NOT: e non

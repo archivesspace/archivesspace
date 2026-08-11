@@ -155,6 +155,7 @@ uk:
       NOT: не
     search_term: Пошуковий термін
     remove_filter: Видалити цей фільтр
+    refine_search_controls_aria: Елементи керування уточненням пошуку
     creators_text_contain: <strong>творець</strong> містить <span class='searchterm'>%{кс}</span>
     subjects_text_contain: <strong> предмет</strong> містить  <span class='searchterm'>%{кс}</span>
     keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>

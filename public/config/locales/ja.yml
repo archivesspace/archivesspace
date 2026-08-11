@@ -104,6 +104,7 @@ ja:
     filter_by: フィルタリングする
     filtered_by: フィルタリングされた
     remove_filter: このフィルタを削除
+    refine_search_controls_aria: 絞り込み検索の操作
     more_facets: もっと
     fewer_facets: もっと少なく
     op:

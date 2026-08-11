@@ -110,6 +110,7 @@ nl:
     filter_by: Filter op
     filtered_by: Gefilterd op
     remove_filter: Dit filter verwijderen
+    refine_search_controls_aria: Bediening voor zoekopdracht verfijnen
     more_facets: Meer
     fewer_facets: Minder
     op:

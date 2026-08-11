@@ -85,6 +85,7 @@ pt:
     filter_by: Filtrar por
     filtered_by: Filtrado por
     remove_filter: Remova esse filtro
+    refine_search_controls_aria: Controles de refinamento da pesquisa
     more_facets: Mais
     fewer_facets: Menos
     op:
