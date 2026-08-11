@@ -35,6 +35,10 @@ nl:
     next: Volgende
     previous: Vorige
     authenticating: Toegang verifiëren
+  pagination:
+    controls: Pagineringsbesturing
+    top_controls: Bovenste pagineringsbesturing
+    bottom_controls: Onderste pagineringsbesturing
   page_actions: Acties op deze pagina
   request:
     email_header: Dank u voor uw aanvraag

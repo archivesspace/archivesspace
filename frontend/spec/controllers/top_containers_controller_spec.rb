@@ -19,6 +19,18 @@ describe TopContainersController, type: :controller do
     controller.session[:repo_id] = JSONModel.repository
   end
 
+  describe 'CSV export' do
+    it 'sends csv_export_use_solr_writer=true so it keeps using the Solr CSV writer (ANW-2924)' do
+      expect(controller).to receive(:csv_export_with_mappings)
+        .with(anything, hash_including('csv_export_use_solr_writer' => true))
+        .and_return('')
+
+      get :index, params: { q: 'Test', format: :csv }
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'access_top_containers' do
     it 'renders the manage_for_record partial' do
       get :access_top_containers

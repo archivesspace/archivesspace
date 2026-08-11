@@ -34,6 +34,10 @@ de:
     previous: Vorherige
     digitized: Digitale Inhalte ansehen
     authenticating: Zugriff überprüfen
+  pagination:
+    controls: Paginierungssteuerung
+    top_controls: Obere Paginierungssteuerung
+    bottom_controls: Untere Paginierungssteuerung
   request:
     required: erforderlich
     user_name: Ihr Name

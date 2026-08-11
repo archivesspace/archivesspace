@@ -34,6 +34,10 @@ it:
     print: Scarica il PDF
     numeric: Contenitore dell'inventario
     authenticating: Verifica dell'accesso
+  pagination:
+    controls: Controlli di paginazione
+    top_controls: Controlli di paginazione superiori
+    bottom_controls: Controlli di paginazione inferiori
   search_results:
     filtered_by: Filtrato per
     highlighting:

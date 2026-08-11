@@ -34,6 +34,10 @@ pl:
     cilpboard_cite_item_description: Skopiuj odnośnik do opisu przedmiotu do schowka.
     search_add_row: Dodaj wiersz wyszukiwania
     authenticating: Weryfikacja dostępu
+  pagination:
+    controls: Elementy sterujące paginacją
+    top_controls: Górne elementy sterujące paginacją
+    bottom_controls: Dolne elementy sterujące paginacją
   agent_person:
     _singular: Osoba
     _plural: Ludzie
