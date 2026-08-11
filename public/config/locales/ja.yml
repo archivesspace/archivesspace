@@ -67,7 +67,10 @@ ja:
     agents: コンテンツ制作者
   search-field: 検索フィールド
   searched-field: 検索%{field}
-  pagination: {}
+  pagination:
+    controls: ページネーションコントロール
+    top_controls: 上部のページネーションコントロール
+    bottom_controls: 下部のページネーションコントロール
   search_results:
     highlighting:
       found_in: 見つかった場所
