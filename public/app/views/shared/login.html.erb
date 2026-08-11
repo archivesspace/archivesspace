@@ -1,4 +1,4 @@
-<script>var PUI_SKIP_AUTOCHECK = <%= flash.now[:error].present? %>;</script>
+<script>var PUI_SKIP_AUTOCHECK = <%= flash.now[:error].present? || @skip_pui_autocheck.present? %>;</script>
 
 <%= render partial: 'shared/authentication' %>
 

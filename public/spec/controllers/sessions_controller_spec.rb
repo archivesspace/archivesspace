@@ -29,6 +29,8 @@ describe SessionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    render_views
+
     context 'when pui_require_authentication is disabled' do
       before do
         allow(AppConfig).to receive(:[]).and_call_original
@@ -60,6 +62,19 @@ describe SessionsController, type: :controller do
       it 'does not require authentication' do
         get :show
         expect(response).not_to redirect_to('/login')
+      end
+
+      it 'skips the staff auto-handoff when flagged by a prior logout' do
+        delete :logout
+        get :show
+
+        expect(response.body).to include('PUI_SKIP_AUTOCHECK = true')
+      end
+
+      it 'does not skip the staff auto-handoff otherwise' do
+        get :show
+
+        expect(response.body).to include('PUI_SKIP_AUTOCHECK = false')
       end
 
       context 'when the user already has a valid pui session' do
@@ -300,6 +315,12 @@ describe SessionsController, type: :controller do
 
         expect(controller.session[:pui_username]).to be_nil
         expect(response).to redirect_to('/')
+      end
+
+      it 'flags the next login page render to skip the staff auto-handoff' do
+        delete :logout
+
+        expect(controller.session[:skip_pui_autocheck]).to be true
       end
     end
   end

@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     return head :forbidden unless AppConfig[:pui_require_authentication]
     return redirect_to('/') if pui_auth_status == :ok
 
+    @skip_pui_autocheck = skip_pui_autocheck?
     render 'shared/login'
   end
 
@@ -70,6 +71,7 @@ class SessionsController < ApplicationController
     end
 
     reset_session
+    session[:skip_pui_autocheck] = true
     redirect_to '/', notice: "Logged out successfully."
   end
 end

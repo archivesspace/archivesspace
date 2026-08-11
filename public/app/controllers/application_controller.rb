@@ -69,8 +69,13 @@ class ApplicationController < ActionController::Base
     if json_auth_actions.include?(action_name.to_sym)
       render json: { error: 'authentication_required' }, status: :unauthorized
     else
+      @skip_pui_autocheck = skip_pui_autocheck?
       render 'shared/login', layout: 'login', status: :unauthorized
     end
+  end
+
+  def skip_pui_autocheck?
+    session.delete(:skip_pui_autocheck).present?
   end
 
   def pui_auth_status
