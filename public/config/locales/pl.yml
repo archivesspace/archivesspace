@@ -109,6 +109,7 @@ pl:
     anything: '*'
     filtered_by: Filtrowane według
     remove_filter: Usuń ten filtr.
+    refine_search_controls_aria: Elementy sterujące sprecyzowaniem wyszukiwania
     more_facets: Więcej
     fewer_facets: Mniej
     op:
