@@ -513,10 +513,13 @@ ja:
   languages:
     select: 言語を選択する
   login:
+    login_please: サインインしてください
     login: サインイン
     logout: ログアウト
     username_placeholder: ユーザー名
     password_placeholder: パスワード
+    username_aria_label: ユーザー名
+    password_aria_label: ユーザーパスワード
     required: 必須
     pui_permission_denied: "ユーザー「%{username}」にはPUIを表示する権限がありません。"
     login_failed: "ログインに失敗しました。ユーザー名とパスワードを確認してください。"

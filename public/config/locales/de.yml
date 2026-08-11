@@ -532,10 +532,13 @@ de:
       invalid_markup: Dieser Fehler kann durch ungültiges Markup in einer Notiz oder einem 
         untergeordneten Eintrag entstehen.
   login:
+    login_please: Bitte melden Sie sich an
     login: Anmelden
     logout: Abmelden
     username_placeholder: Benutzername
     password_placeholder: Passwort
+    username_aria_label: Benutzername des Benutzers
+    password_aria_label: Passwort des Benutzers
     required: Erforderliche Felder
     pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die PUI anzuzeigen."
     login_failed: "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort."

@@ -538,10 +538,13 @@ it:
     _plural: Usa le date
     _singular: Usa data
   login:
+    login_please: Effettua il login
     login: Registrazione
     logout: Esci
     username_placeholder: Nome utente
     password_placeholder: Password
+    username_aria_label: Nome utente
+    password_aria_label: Password utente
     required: Campi obbligatori
     pui_permission_denied: "L'utente `%{username}` non ha il permesso di visualizzare la PUI."
     login_failed: "Accesso non riuscito. Controlla il tuo nome utente e la password."

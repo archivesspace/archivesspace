@@ -498,10 +498,13 @@ pl:
       invalid_markup: Błąd ten może być spowodowany nieprawidłowym oznaczeniem w notatce lub 
         podrekordach.
   login:
+    login_please: Proszę się zalogować.
     login: Zalogować się
     logout: Wyloguj
     username_placeholder: Nazwa użytkownika
     password_placeholder: Hasło
+    username_aria_label: Nazwa użytkownika
+    password_aria_label: Hasło użytkownika
     required: wymagany
     pui_permission_denied: "Użytkownik `%{username}` nie ma uprawnień do przeglądania PUI."
     login_failed: "Logowanie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło."
