@@ -21,6 +21,7 @@ class ArchivalObjectsController < ApplicationController
       strip_persistent_ids(@archival_object.notes)
       strip_persistent_ids(@archival_object.lang_materials, 'notes')
       strip_persistent_ids(@archival_object.rights_statements, 'notes')
+      strip_persistent_ids(@archival_object.rights_statements, 'acts', 'notes')
 
       flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: clean_mixed_content(@archival_object.display_string))
     else
@@ -376,14 +377,13 @@ class ArchivalObjectsController < ApplicationController
 
   private
 
-  def strip_persistent_ids(records, nested_key = nil)
-    records.each do |record|
-      next unless record.is_a?(Hash)
+  def strip_persistent_ids(records, *nested_keys)
+    notes = nested_keys.reduce(Array(records)) do |items, key|
+      items.flat_map { |item| item.is_a?(Hash) ? Array(item[key]) : [] }
+    end
 
-      notes = nested_key ? Array(record[nested_key]) : [record]
-      notes.each do |note|
-        note.delete('persistent_id') if note.is_a?(Hash)
-      end
+    notes.each do |note|
+      note.delete('persistent_id') if note.is_a?(Hash)
     end
   end
 end

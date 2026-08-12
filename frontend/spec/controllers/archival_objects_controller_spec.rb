@@ -26,6 +26,9 @@ describe ArchivalObjectsController, type: :controller do
     let (:archival_object_with_rights_statement_note) { create(:json_archival_object,
                                                                 :rights_statements => [ build(:json_rights_statement, :notes => [ build(:json_note_rights_statement) ]) ],
                                                                 :resource => {'ref' => resource.uri}) }
+    let (:archival_object_with_rights_statement_act_note) { create(:json_archival_object,
+                                                                    :rights_statements => [ build(:json_rights_statement, :acts => [ build(:json_rights_statement_act, :notes => [ build(:json_note_rights_statement_act) ]) ]) ],
+                                                                    :resource => {'ref' => resource.uri}) }
     let (:random_archival_object) { create(:json_archival_object) }
     let (:accession) { create(:json_accession) }
     let(:default_values) {
@@ -141,6 +144,18 @@ describe ArchivalObjectsController, type: :controller do
       result = Capybara.string(response.body)
 
       result.find(:css, "#archival_object_rights_statements__0__notes__0__persistent_id_") do |new_persistent_id|
+        expect(new_persistent_id.value).to eq("")
+      end
+    end
+
+    it "does not duplicate persistent id when duplicating a rights statement act note" do
+      get :new, params: { resource_id: resource.id,
+                          duplicate_from_archival_object: { uri: archival_object_with_rights_statement_act_note.uri } }
+
+      expect(response.status).to eq 200
+      result = Capybara.string(response.body)
+
+      result.find(:css, "#archival_object_rights_statements__0__acts__0__notes__0__persistent_id_") do |new_persistent_id|
         expect(new_persistent_id.value).to eq("")
       end
     end
