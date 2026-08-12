@@ -271,6 +271,36 @@ a img {
 #whats-in-container {
   border: 1px solid $border;
 
+  .btn {
+    --bs-btn-hover-color: #{$white};
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-hover-bg) 85%, black);
+    --bs-btn-active-border-color: color-mix(
+      in srgb,
+      var(--bs-btn-hover-border-color) 85%,
+      black
+    );
+    --bs-btn-active-color: #{$white};
+
+    @each $type, $color in $record-type-colors {
+      &.#{$type} {
+        @include record-type-btn-hover($color);
+      }
+    }
+
+    // Stacked FA icons use .fa-inverse (white) on a type-colored base icon.
+    // On hover/active the button text is white, so recolor the inverse layer
+    // to the fill color to keep the two-tone stack.
+    &:hover .fa-inverse,
+    &:focus-visible .fa-inverse {
+      color: var(--bs-btn-hover-bg);
+    }
+
+    &:active .fa-inverse,
+    &.active .fa-inverse {
+      color: var(--bs-btn-active-bg);
+    }
+  }
+
   .btn:disabled,
   .btn.disabled {
     --bs-btn-disabled-border-color: transparent;
@@ -602,29 +632,24 @@ ul.no-bullets {
 .recordtype {
   margin-top: -0.75em;
 }
-.object {
-  color: $collection-color;
-}
-.collection,
-.resource {
-  color: $collection-color;
-}
-button.subject {
-  /* class subject also turns up in finding aid transforms */
-  color: $subject-color;
-}
-.agent {
-  color: $agent-color;
-}
 
-.person {
-  color: $agent-color;
-}
-.record {
-  color: $record-color;
-}
-.classification {
-  color: $repository-color;
+// Record-type text colors from the shared $record-type-colors map.
+// subject: button-only (class also appears in finding-aid transforms).
+// repository: scoped to .recordtype to avoid coloring unrelated .repository nodes.
+@each $type, $color in $record-type-colors {
+  @if $type == 'subject' {
+    button.subject {
+      color: $color;
+    }
+  } @else if $type == 'repository' {
+    .recordtype.repository {
+      color: $color;
+    }
+  } @else {
+    .#{$type} {
+      color: $color;
+    }
+  }
 }
 
 .page_action {
@@ -639,19 +664,6 @@ button.subject {
   color: $accent_color;
   background-color: $light-neutral;
   text-decoration: none;
-}
-
-.top_container {
-  color: $container-color;
-}
-.folder {
-  color: $folder-color;
-}
-.recordtype.repository {
-  color: $repository-color;
-}
-.recordtype.classification {
-  color: $classification-color;
 }
 .digitized {
   float: right;
