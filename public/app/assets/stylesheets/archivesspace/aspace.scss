@@ -273,6 +273,13 @@ a img {
 
   .btn {
     --bs-btn-hover-color: #{$white};
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-hover-bg) 85%, black);
+    --bs-btn-active-border-color: color-mix(
+      in srgb,
+      var(--bs-btn-hover-border-color) 85%,
+      black
+    );
+    --bs-btn-active-color: #{$white};
 
     @each $type, $color in $record-type-colors {
       &.#{$type} {
@@ -281,11 +288,16 @@ a img {
     }
 
     // Stacked FA icons use .fa-inverse (white) on a type-colored base icon.
-    // On hover the button text is white, so recolor the inverse layer to the
-    // hover fill to keep the two-tone stack.
+    // On hover/active the button text is white, so recolor the inverse layer
+    // to the fill color to keep the two-tone stack.
     &:hover .fa-inverse,
     &:focus-visible .fa-inverse {
       color: var(--bs-btn-hover-bg);
+    }
+
+    &:active .fa-inverse,
+    &.active .fa-inverse {
+      color: var(--bs-btn-active-bg);
     }
   }
 
