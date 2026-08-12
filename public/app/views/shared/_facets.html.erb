@@ -48,7 +48,8 @@
                                :id => 'filter_q',
                                :placeholder => t('actions.search_within'),
                                :class=> "form-control",
-                               :"aria-label" => "#{t('actions.search_within')} (#{t('search_results.filter.head')})") %>
+                               :"aria-label" => "#{t('actions.search_within')} (#{t('search_results.filter.head')})",
+                               :autocomplete => 'on') %>
           </div>
         <% end %>
         <% if @search.search_dates_within? %>
@@ -64,7 +65,8 @@
                                  :class=>"form-control",
                                  :placeholder => t('search_results.filter.from_year'),
                                  :id => 'filter_from_year',
-                                 :"aria-label" => "#{t('search_results.filter.from_year')} (#{t('search_results.filter.head')})") %>
+                                 :"aria-label" => "#{t('search_results.filter.from_year')} (#{t('search_results.filter.head')})",
+                                 :autocomplete => 'off') %>
             </div>
             <div class="year_to p-0 pt-3 pt-md-0 flex-grow-1">
               <%= label_tag('filter_to_year',
@@ -77,7 +79,8 @@
                                  :class=> "form-control",
                                  :placeholder => t('search_results.filter.to_year'),
                                  :id => 'filter_to_year',
-                                 :"aria-label" => "#{t('search_results.filter.to_year')} (#{t('search_results.filter.head')})") %>
+                                 :"aria-label" => "#{t('search_results.filter.to_year')} (#{t('search_results.filter.head')})",
+                                 :autocomplete => 'off') %>
             </div>
           </div>
         <% else %>
