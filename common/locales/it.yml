@@ -762,6 +762,58 @@ it:
   archival_object:
     component_id: Identificatore unico del componente
     import_current_ark: Importa ARK corrente
+    title: Titolo
+    title_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE: Il titolo assegnato al materiale descritto. Un oggetto d'archivio deve avere un sottorecord Titolo o Data.</p>
+      <p>Vedi DACS 2.3, ISAD(G) 3.1.2</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Documenti di Graciany Miranda Archilla</li>
+      <li>Documenti di Love Makes a Family</li>
+      <li>Libro contabile della famiglia Cameron</li>
+      <li>Collezione di caricature e vignette di Caroline ed Erwin Swann</li>
+      <li>Corrispondenza della National Academy of Sciences</li>
+      <li>Registrazioni audio e video</li>
+      </ul>
+    ref_id: ID di riferimento
+    ref_id_tooltip: |
+      <p>Un ID di riferimento fornito e aggiornabile automaticamente, utilizzabile come destinazione per collegamenti, ecc. L'ID di riferimento è progettato per essere generato automaticamente o importato da un sistema esistente e per rimanere permanente.</p>
+    ref_id_export_prefix: aspace_
+    dates: Dati
+    dates_tooltip: |
+      <p>SOTTORECORD OBBLIGATORIO CONDIZIONALMENTE. Un oggetto di archivio deve avere un sottorecord Titolo o Data.</p>
+    extents: Estensione
+    lang_materials: Lingue
+    ref_id_auto_generation_message: -- generato automaticamente al salvataggio --
+    component_id_tooltip: |
+      <p>Esprime un ID univoco, nel contesto della descrizione della risorsa, per il componente.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Serie I</li>
+      <li>Sottoserie 8</li>
+      <li>Numero di accesso 2005-M-078</li>
+      </ul>
+    level: Livello di descrizione
+    level_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Indica il livello gerarchico dei materiali descritti.</p>
+      <p>Vedere DACS Capitolo 1, ISAD(G) 3.1.4</p>
+      <p>I valori sono prescritti dallo schema EAD.</p>
+    other_level: Altro livello
+    other_level_tooltip: |
+      <p>CAMPO OBBLIGATORIO se "Altro livello" è il valore selezionato per Livello. Esprime il tipo di livello al di fuori dei valori specificati nello schema EAD.</p>
+    container_summary: Riepilogo del contenitore
+    container_summary_tooltip: |
+      <p>Per registrare il numero e il tipo di contenitori che compongono una descrizione di risorsa. Questo è considerato un riepilogo testuale e non è identico ai sottorecord di estensione.</p>
+      <p>Vedi DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>10 scatole per documenti, 6 scatole per archivi, 3 cartelle di grandi dimensioni.</li>
+      <li>12 scatole da scarpe.</li>
+      <li>4 scatole per archivi, 32 tubi.</li>
+      </ul>
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questo oggetto di archivio verrà pubblicato sulle interfacce pubbliche (per gli utenti).</p>
   resource:
     id_0: Identificatore
     id_1: Identificatore 2
@@ -905,6 +957,10 @@ it:
       per indicare la natura della relazione.
     publish_tooltip: |
       <p>Indica se l'agente è incluso o meno nelle esportazioni e pubblicato sull'interfaccia pubblica (se utilizzato)</p>
+    linker:
+      create: Crea agente
+      browse: Cerca agenti
+      link_title: Collegamento all'agente
   name_family:
     family_name: Nome di famiglia
     family_name_tooltip: "<p>Il nome di famiglia o il cognome, tipicamente integrato col termine \"famiglia\"\
@@ -1553,3 +1609,14 @@ it:
     forms_part_of: Forma parte di
     has_part: Ha parte
     relator_type: Tipo di relazionatore
+  agent_corporate_entity:
+    _singular: Entità aziendale
+    _plural: Entità aziendali
+  related_agents_agent_person:
+    related_agents: Agenti correlati
+  related_agents_agent_family:
+    related_agents: Agenti correlati
+  related_agents_agent_software:
+    related_agents: Agenti correlati
+  related_agents_agent_corporate_entity:
+    related_agents: Agenti correlati
