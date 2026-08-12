@@ -30,12 +30,69 @@ describe 'Request feature', js: true do
     context 'when the Request button is clicked' do
       before :each do
         click_button 'Request'
-        wait_for_jquery
+        expect(page).to have_css('#request_modal')
       end
 
       it 'the modal becomes visible' do
+        aggregate_failures do
+          expect(page).to have_css('#request_modal', visible: true)
+          expect(page).to have_css('#request_form', visible: true)
+        end
+      end
+
+      it 'shows Bootstrap validation feedback when required fields are empty' do
+        within '#request_modal' do
+          find('#request_btn').click
+          wait_for_jquery
+
+          aggregate_failures do
+            expect(page).to have_css('#request_form.was-validated')
+            expect(page).to have_css('#user_name:invalid')
+            expect(page).to have_css('#user_email:invalid')
+            expect(page).to have_css('.invalid-feedback', text: 'Please enter your name', visible: true)
+            expect(page).to have_css('.invalid-feedback', text: 'Please enter a valid email address', visible: true)
+          end
+        end
+
         expect(page).to have_css('#request_modal', visible: true)
-        expect(page).to have_css('#request_form', visible: true)
+      end
+
+      it 'shows email validation feedback for an invalid email format' do
+        within '#request_modal' do
+          fill_in 'user_name', with: 'Test User'
+          fill_in 'user_email', with: 'not-an-email'
+          find('#request_btn').click
+          wait_for_jquery
+
+          aggregate_failures do
+            expect(page).to have_css('#request_form.was-validated')
+            expect(page).to have_css('#user_name:valid')
+            expect(page).to have_css('#user_email:invalid')
+            expect(page).to have_css('.invalid-feedback', text: 'Please enter a valid email address', visible: true)
+          end
+        end
+
+        expect(page).to have_css('#request_modal', visible: true)
+      end
+
+      it 'clears previous validation state when the modal is reopened' do
+        within '#request_modal' do
+          find('#request_btn').click
+          wait_for_jquery
+          expect(page).to have_css('#request_form.was-validated')
+        end
+
+        within '#request_modal' do
+          find('#request_modal_footer_close').click
+        end
+        expect(page).to have_css('#request_modal', visible: false)
+
+        find('button.page_action.request').click
+        wait_for_jquery
+
+        within '#request_modal' do
+          expect(page).not_to have_css('#request_form.was-validated')
+        end
       end
     end
   end
