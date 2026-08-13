@@ -34,8 +34,11 @@ describe SessionController, type: :controller do
       end
     end
 
-    context 'when uri parameter is missing' do
-      it 'returns can_access: false, mode: nil' do
+    context 'when uri parameter is missing and pui_require_authentication is disabled' do
+      it 'returns can_access: false, mode: nil rather than a view_pui determination' do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+
         session = User.login('admin', 'admin')
         User.establish_session(controller, session, 'admin')
         controller.session[:repo_id] = JSONModel.repository
@@ -45,6 +48,7 @@ describe SessionController, type: :controller do
         json = JSON.parse(response.body)
         expect(json['can_access']).to be false
         expect(json['mode']).to be_nil
+        expect(json).not_to have_key('view_pui')
       end
     end
 
@@ -200,6 +204,73 @@ describe SessionController, type: :controller do
         expect(json['mode']).to be_nil
       end
     end
+
+    context 'when a uri is given' do
+      it 'never includes the session token or username, even for a user with view_pui permission' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+        controller.session[:repo_id] = JSONModel.repository
+        accession = create(:json_accession)
+
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+
+        get :check_session, params: { uri: accession.uri }
+
+        json = JSON.parse(response.body)
+        expect(json).not_to have_key('session')
+        expect(json).not_to have_key('username')
+      end
+    end
+
+    context 'when a uri is not given' do
+      context 'when pui_require_authentication is disabled' do
+        before(:each) do
+          allow(AppConfig).to receive(:[]).and_call_original
+          allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+        end
+
+        it 'returns can_access: false, mode: nil' do
+          get :check_session
+
+          json = JSON.parse(response.body)
+          expect(json['can_access']).to be false
+          expect(json['mode']).to be_nil
+        end
+      end
+
+      context 'when pui_require_authentication is enabled' do
+        before(:each) do
+          allow(AppConfig).to receive(:[]).and_call_original
+          allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+        end
+
+        context 'when the user has view_pui permission' do
+          before(:each) do
+            session = User.login('admin', 'admin')
+            User.establish_session(controller, session, 'admin')
+          end
+
+          it 'returns the session and view_pui: true' do
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['view_pui']).to be true
+            expect(json['username']).to eq('admin')
+          end
+        end
+
+        context 'when there is no logged-in user' do
+          it 'returns can_access: false, mode: nil' do
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['can_access']).to be false
+            expect(json['mode']).to be_nil
+          end
+        end
+      end
+    end
   end
 
   describe '#logout' do
@@ -278,49 +349,4 @@ describe SessionController, type: :controller do
     end
   end
 
-  describe '#check_pui_session' do
-    context 'when pui_require_authentication is disabled' do
-      before(:each) do
-        allow(AppConfig).to receive(:[]).and_call_original
-        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
-      end
-
-      it 'returns 403' do
-        get :check_pui_session
-
-        expect(response.status).to eq(403)
-      end
-    end
-
-    context 'when pui_require_authentication is enabled' do
-      before(:each) do
-        allow(AppConfig).to receive(:[]).and_call_original
-        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
-      end
-
-      context 'when the user has view_pui permission' do
-        before(:each) do
-          session = User.login('admin', 'admin')
-          User.establish_session(controller, session, 'admin')
-        end
-
-        it 'returns the session and view_pui: true' do
-          get :check_pui_session
-
-          json = JSON.parse(response.body)
-          expect(json['view_pui']).to be true
-          expect(json['username']).to eq('admin')
-        end
-      end
-
-      context 'when there is no logged-in user' do
-        it 'returns view_pui: false' do
-          get :check_pui_session
-
-          json = JSON.parse(response.body)
-          expect(json['view_pui']).to be false
-        end
-      end
-    end
-  end
 end

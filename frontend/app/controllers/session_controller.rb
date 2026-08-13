@@ -1,6 +1,6 @@
 class SessionController < ApplicationController
 
-  set_access_control  :public => [:login, :token_login, :logout, :check_session, :check_pui_session, :has_session, :login_inline],
+  set_access_control  :public => [:login, :token_login, :logout, :check_session, :has_session, :login_inline],
                       "become_user" => [:select_user, :become_user]
 
 
@@ -45,24 +45,23 @@ class SessionController < ApplicationController
   end
 
 
-  # let a trusted app (i.e., public catalog) know if a user
-  # should see links back to this editing interface
+  # let a trusted app (i.e., public catalog) know whether a user should
+  # either 1. see links back to the SUI, or 2. (if PUI authentication is on)
+  # be handed off into a PUI session. Gated by the presence/absence of a
+  # record :uri.
   def check_session
     set_pui_cors_headers
-    if session[:session] && params[:uri]
-      access_info = check_user_access(params)
-      render json: access_info
-    else
+
+    if session[:session].blank?
       render json: { can_access: false, mode: nil }
+      return
     end
-  end
 
-
-  def check_pui_session
-    return head :forbidden unless AppConfig[:pui_require_authentication]
-
-    set_pui_cors_headers
-    if session[:session] && user_can_view_pui?
+    if params[:uri]
+      render json: check_user_access(params)
+    elsif !AppConfig[:pui_require_authentication]
+      render json: { can_access: false, mode: nil }
+    elsif user_can_view_pui?
       render json: {
         session: session[:session],
         username: session[:user],

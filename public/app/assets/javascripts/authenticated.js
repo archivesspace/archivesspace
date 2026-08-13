@@ -25,12 +25,12 @@
       return;
     }
 
-    fetch(FRONTEND_URL + '/check_pui_session', {
+    fetch(FRONTEND_URL + '/check_session', {
       method: 'GET',
       credentials: 'include',
     })
       .then(function (response) {
-        if (!response.ok) throw new Error('check_pui_session request failed');
+        if (!response.ok) throw new Error('check_session request failed');
         return response.json();
       })
       .then(function (data) {
