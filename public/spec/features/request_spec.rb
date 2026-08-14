@@ -85,7 +85,7 @@ describe 'Request feature', js: true do
         within '#request_modal' do
           find('#request_modal_footer_close').click
         end
-        expect(page).to have_css('#request_modal', visible: false)
+        expect(page).to have_css('#request_modal', visible: :hidden)
 
         find('button.page_action.request').click
         wait_for_jquery
