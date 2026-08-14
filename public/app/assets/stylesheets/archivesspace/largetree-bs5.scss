@@ -1,0 +1,99 @@
+// LargeTree canonical styles live in frontend/app/assets/stylesheets/archivesspace/largetree.scss
+// and are copied to public at build time. The frontend uses Bootstrap v4, but public migrated
+// to v5 (ANW-2252), so this file exists only to neutralize BS5's incompatible `.table` styles.
+// Do not fix largetree styling here unless it is BS5-specific.
+
+.largetree-container {
+  font-size: 1rem;
+
+  .table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-color: inherit;
+    --bs-table-border-color: transparent;
+    --bs-table-bg-state: transparent;
+    --bs-table-bg-type: transparent;
+    --bs-table-color-state: inherit;
+    --bs-table-color-type: inherit;
+
+    margin-bottom: 0;
+
+    > :not(caption) > * > * {
+      padding: 0;
+      border-bottom-width: 0;
+      box-shadow: none;
+      color: inherit;
+    }
+  }
+
+  .table.root {
+    td,
+    .table-cell {
+      box-sizing: border-box;
+      height: calc(2rem + 1px);
+      max-height: calc(2rem + 1px);
+      line-height: 2rem;
+      padding: 0;
+      border-bottom: 1px solid #fff;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+
+    td > *,
+    .table-cell > * {
+      padding: 0;
+      margin: 0;
+      line-height: 2rem;
+      vertical-align: top;
+    }
+  }
+
+  .indentor {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 2rem;
+    line-height: 2rem;
+
+    button.expandme {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 24px;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      line-height: 1;
+      background: none;
+      border: 0;
+    }
+  }
+
+  .expandme-icon {
+    line-height: 1;
+  }
+
+  .table-row.current {
+    outline: none;
+
+    .table-cell {
+      position: relative;
+      overflow-clip-margin: 1px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        border: 1px solid #0a6aa1;
+        pointer-events: none;
+      }
+    }
+  }
+}
