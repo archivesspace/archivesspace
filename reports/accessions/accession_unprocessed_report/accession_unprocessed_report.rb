@@ -16,9 +16,9 @@ class AccessionUnprocessedReport < AbstractReport
 
   def query_string
     "select
-      id,
+      accession.id as id,
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date,
       container_summary,
       ifnull(cataloged, false) as cataloged,
@@ -26,9 +26,11 @@ class AccessionUnprocessedReport < AbstractReport
       extent_type
 
     from accession
-  
+
+      #{mlc_join('accession')}
+
       natural left outer join
-      
+
       (select
         accession_id as id,
         true as processed
@@ -37,9 +39,9 @@ class AccessionUnprocessedReport < AbstractReport
         and event.event_type_id = enumeration_value.id
         and enumeration_value.value = 'processed'
       group by accession_id) as processed
-      
+
       natural left outer join
-      
+
       (select
           accession_id as id,
           sum(number) as extent_number,
@@ -48,9 +50,9 @@ class AccessionUnprocessedReport < AbstractReport
             as container_summary
       from extent
       group by accession_id) as extent_cnt
-        
+
       natural left outer join
-      
+
       (select
         event_link_rlshp.accession_id as id,
         count(*) != 0 as cataloged
@@ -59,7 +61,7 @@ class AccessionUnprocessedReport < AbstractReport
         and event.event_type_id = enumeration_value.id
         and enumeration_value.value = 'cataloged'
       group by event_link_rlshp.accession_id) as cataloged
-      
+
     where repo_id = #{db.literal(@repo_id)}
       and processed is null#{suppressed_filter('accession')}"
   end
