@@ -121,7 +121,7 @@
                                 <% val_array.push(t("#{record_type}.#{record_type}_#{field[0]}.#{f_val}")) %>
                               <% end %>
                               <% val_array.each do |v| %>
-                                <%= v %><br/>
+                                <%= v %><br />
                               <% end %>
                             </div>
                           </div>
@@ -131,7 +131,7 @@
                           <% else %>
                             <% enum_name = "#{record_type}_#{field[0]}" %>
                           <% end %>
-                          <% enum = enums.find {|obj| obj.name == enum_name} if enum_name%>
+                          <% enum = enums.find {|obj| obj.name == enum_name} if enum_name %>
 
                           <div class="form-group">
                             <%= readonly.label "values", :class => "col-sm-2 control-label" %>
@@ -142,7 +142,7 @@
                                 <% val_array.push(t("enumerations.#{enum_name}.#{val['value']}")) if val %>
                               <% end %>
                               <% val_array.each do |v| %>
-                                <%= v %><br/>
+                                <%= v %><br />
                               <% end %>
                             </div>
                           </div>

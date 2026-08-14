@@ -7,7 +7,7 @@
     </h3>
 
     <div class="agent-record-control-container">
-      <%= form.label_and_textfield "record_identifier",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+      <%= form.label_and_textfield "record_identifier",  {:field_opts => {:size => 30, :class => "form-control"} } %>
       <%= form.label_and_select "source", [""] + form.possible_options_for("source", false) %>
       <%= form.label_and_select "identifier_type",
           [""] + form.possible_options_for("identifier_type", false) %>

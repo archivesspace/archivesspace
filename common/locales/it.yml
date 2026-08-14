@@ -758,9 +758,62 @@ it:
     linker:
       browse: Sfoglia gli accessi
       create: Crea accesso
+      link_title: Collegamento all'accesso
   archival_object:
     component_id: Identificatore unico del componente
     import_current_ark: Importa ARK corrente
+    title: Titolo
+    title_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE: Il titolo assegnato al materiale descritto. Un oggetto d'archivio deve avere un sottorecord Titolo o Data.</p>
+      <p>Vedi DACS 2.3, ISAD(G) 3.1.2</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Documenti di Graciany Miranda Archilla</li>
+      <li>Documenti di Love Makes a Family</li>
+      <li>Libro contabile della famiglia Cameron</li>
+      <li>Collezione di caricature e vignette di Caroline ed Erwin Swann</li>
+      <li>Corrispondenza della National Academy of Sciences</li>
+      <li>Registrazioni audio e video</li>
+      </ul>
+    ref_id: ID di riferimento
+    ref_id_tooltip: |
+      <p>Un ID di riferimento fornito e aggiornabile automaticamente, utilizzabile come destinazione per collegamenti, ecc. L'ID di riferimento è progettato per essere generato automaticamente o importato da un sistema esistente e per rimanere permanente.</p>
+    ref_id_export_prefix: aspace_
+    dates: Dati
+    dates_tooltip: |
+      <p>SOTTORECORD OBBLIGATORIO CONDIZIONALMENTE. Un oggetto di archivio deve avere un sottorecord Titolo o Data.</p>
+    extents: Estensione
+    lang_materials: Lingue
+    ref_id_auto_generation_message: -- generato automaticamente al salvataggio --
+    component_id_tooltip: |
+      <p>Esprime un ID univoco, nel contesto della descrizione della risorsa, per il componente.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Serie I</li>
+      <li>Sottoserie 8</li>
+      <li>Numero di accesso 2005-M-078</li>
+      </ul>
+    level: Livello di descrizione
+    level_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Indica il livello gerarchico dei materiali descritti.</p>
+      <p>Vedere DACS Capitolo 1, ISAD(G) 3.1.4</p>
+      <p>I valori sono prescritti dallo schema EAD.</p>
+    other_level: Altro livello
+    other_level_tooltip: |
+      <p>CAMPO OBBLIGATORIO se "Altro livello" è il valore selezionato per Livello. Esprime il tipo di livello al di fuori dei valori specificati nello schema EAD.</p>
+    container_summary: Riepilogo del contenitore
+    container_summary_tooltip: |
+      <p>Per registrare il numero e il tipo di contenitori che compongono una descrizione di risorsa. Questo è considerato un riepilogo testuale e non è identico ai sottorecord di estensione.</p>
+      <p>Vedi DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>10 scatole per documenti, 6 scatole per archivi, 3 cartelle di grandi dimensioni.</li>
+      <li>12 scatole da scarpe.</li>
+      <li>4 scatole per archivi, 32 tubi.</li>
+      </ul>
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questo oggetto di archivio verrà pubblicato sulle interfacce pubbliche (per gli utenti).</p>
   resource:
     id_0: Identificatore
     id_1: Identificatore 2
@@ -834,6 +887,80 @@ it:
     agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
       assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
       MARC Repository Code per un'entità aziendale.</p>\n"
+    type: Firma dell'agente
+    type_tooltip: |
+      <p>Il tipo di entità rappresentata dal record Agente.</p>
+      <p>Vedi DACS 10.2, ISAAR (CPF) 5.1.1 e l'entità Agente PREMIS</p>
+    agent_type:
+      agent_family: Famiglia
+      agent_person: Persona
+      agent_corporate_entity: Entità aziendale
+      agent_software: Software
+    is_user: Nome utente
+    is_user_tooltip: |
+      <p>Se presente, questo record dell'agente è collegato a un utente dell'applicazione con il nome utente specificato.</p>
+    name: Nome dell'agente
+    names: Moduli del nome
+    names_tooltip: |
+      <p>SOTTORECORD OBBLIGATORIO: Registra le diverse forme del nome di un agente. Ogni record di agente deve avere almeno un sottorecord per la forma del nome.</p>
+      <p>Vedi DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
+    agent_contacts: Informazioni di contatto
+    contacts_tooltip: |
+      <p>Contiene le informazioni di contatto relative a un determinato agente.</p>
+    notes: Note
+    notes_tooltip: |
+      <p>Contiene informazioni descrittive aggiuntive su un agente, come una nota biografica o la sua storia amministrativa.</p>
+    agent_contact_notes_tooltip: |
+      <p>Contiene informazioni descrittive aggiuntive su un agente, come una nota biografica o la sua storia amministrativa.</p>
+    related_agents_tooltip: |
+      <p>Consente di creare collegamenti da questo record Agente a un altro in relazioni associative, gerarchiche o padre/figlio.</p>
+    external_documents_tooltip: |
+      <p>Consente di inserire link a documentazione esterna, ad esempio file biografici, opere di consultazione, ecc., relativi a questo agente.</p><p>Vedi DACS 14.1, ISAAR (CPF) 6.1</p>
+    dates_of_existence: Date di esistenza
+    dates_of_existence_tooltip: |
+      <p>Date di esistenza dell'agente.</p><p>Vedi DACS 11.1, ISAAR (CPF) 5.2.1</p>
+    publish: Pubblicare
+    _singular: Agente
+    _plural: Agenti
+    new_title:
+      agent_family: Nuova famiglia
+      agent_person: Nuova persona
+      agent_corporate_entity: Nuova entità aziendale
+      agent_software: Nuovo software
+    agent_record_controls_tooltip: |
+      <p>Informazioni sul record che descrive l'agente.</p>
+    agent_alternate_sets_tooltip: |
+      <p>Utilizzato per indicare i record di autorità collegati quando due o più record relativi alla stessa entità derivano da due o più sistemi di autorità.</p>
+    agent_conventions_declarations_tooltip: |
+      <p>Uno standard di contenuto utilizzato nella formulazione del contenuto del record dell'agente.</p><p>Vedi DACS 13.3, ISAAR (CPF) 5.4.3. Esempio: Descrizione degli archivi: uno standard di contenuto. Questo sottorecord può essere utilizzato al posto delle voci delle regole nei moduli dei singoli nomi.</p>
+    agent_other_agency_codes_tooltip: |
+      <p>Informazioni sui codici alternativi per l'agenzia o l'organizzazione responsabile della creazione o della gestione di un record dell'agente.</p>
+    agent_maintenance_histories_tooltip: |
+      <p>Eventi associati alla creazione o alla gestione del record dell'agente.</p><p>Vedi DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>
+    agent_record_identifiers_tooltip: |
+      <p>Identificativi associati al record dell'agente.</p>
+    agent_sources_tooltip: |
+      <p>Fonte utilizzata nella formulazione del contenuto del record dell'agente.</p><p>Vedi DACS 13.8, ISAAR (CPF) 5.4.8</p>
+    agent_genders_tooltip: Genere del soggetto.
+    agent_places_tooltip: Inserire le informazioni associate all'agente.</p><p>Vedi DACS 11.3, ISAAR
+      (CPF) 5.2.3
+    agent_occupations_tooltip: Informazioni sull'occupazione associate all'agente.</p><p>Vedi DACS 
+      11.5, ISAAR (CPF) 5.2.5
+    agent_functions_tooltip: Termini utilizzati per identificare le funzioni, i processi, i compiti,
+      le attività o le transazioni eseguite dall'agente.</p><p>Vedi DACS 11.5, ISAAR (CPF) 5.2.5
+    agent_topics_tooltip: Un soggetto associato all'agente.
+    agent_contacts_tooltip: |
+      <p>Informazioni di contatto dell'agente o di un rappresentante che opera per suo conto.</p>
+    used_languages_tooltip: "La/le lingua/e associata/e all'agente. Esempio: inglese."
+    agent_resources_tooltip: Risorse e altri documenti associati all'agente.
+    related_agent_tooltip: Utilizzato per collegare altri agenti con una relazione con l'agente e 
+      per indicare la natura della relazione.
+    publish_tooltip: |
+      <p>Indica se l'agente è incluso o meno nelle esportazioni e pubblicato sull'interfaccia pubblica (se utilizzato)</p>
+    linker:
+      create: Crea agente
+      browse: Cerca agenti
+      link_title: Collegamento all'agente
   name_family:
     family_name: Nome di famiglia
     family_name_tooltip: "<p>Il nome di famiglia o il cognome, tipicamente integrato col termine \"famiglia\"\
@@ -1466,3 +1593,30 @@ it:
     _plural: Dati
   date_type_bulk:
     bulk: massa
+  interrelated_accession:
+    _plural: Accessi correlati
+    relationship_type: Tipo di relazione
+  accession_sibling_relationship:
+    _singular: Relazione tra fratelli
+    relator: Questa acquisizione
+    sibling_of: Fratello/sorella di
+    relator_type: Tipo di relazionatore
+    bound_with: Relazione "legata a"
+  accession_parts_relationship:
+    _singular: '"Parte della" relazione'
+    part: '"Parte della" relazione'
+    relator: Questa acquisizione
+    forms_part_of: Forma parte di
+    has_part: Ha parte
+    relator_type: Tipo di relazionatore
+  agent_corporate_entity:
+    _singular: Entità aziendale
+    _plural: Entità aziendali
+  related_agents_agent_person:
+    related_agents: Agenti correlati
+  related_agents_agent_family:
+    related_agents: Agenti correlati
+  related_agents_agent_software:
+    related_agents: Agenti correlati
+  related_agents_agent_corporate_entity:
+    related_agents: Agenti correlati

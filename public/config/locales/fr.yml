@@ -97,7 +97,10 @@ fr:
   search-field: Champ chercher
   searched-field: "En cherchant %{field}"
 
-  pagination: {}
+  pagination:
+    controls: Contrôles de pagination
+    top_controls: Contrôles de pagination du haut
+    bottom_controls: Contrôles de pagination du bas
   search_results:
     highlighting:
       found_in: Trouvé dans
@@ -131,6 +134,7 @@ fr:
     filter_by: Filtrer par
     filtered_by: Filtré par
     remove_filter: Ôter ce filtre
+    refine_search_controls_aria: Contrôles d'affinement de la recherche
     more_facets: Plus
     fewer_facets: Moins
     op:

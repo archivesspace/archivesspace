@@ -86,8 +86,8 @@
 
         <% if @agent.agent_topics.length > 0 %>
           <%= render_aspace_partial :partial => "agent_topics/show", :locals => { :agent_topics => @agent.agent_topics, :section_id => "#{@agent.agent_type}_agent_topic", :context => readonly } %>
-        <% end %>        
- 
+        <% end %>
+
         <% if @agent.used_languages.length > 0 %>
           <%= render_aspace_partial :partial => "used_languages/show", :locals => { :used_languages => @agent.used_languages, :section_id => "#{@agent.agent_type}_used_language", :context => readonly } %>
         <% end %>
@@ -99,11 +99,11 @@
         <% if @agent.notes.length > 0 %>
           <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
         <% end %>
-        
+
         <% if @agent.agent_resources.length > 0 %>
           <%= render_aspace_partial :partial => "agent_resources/show", :locals => { :agent_resources => @agent.agent_resources, :section_id => "#{@agent.agent_type}_agent_resource", :context => readonly } %>
-        <% end %>        
- 
+        <% end %>
+
 
         <% if !@agent['related_agents'].blank? %>
           <%= render_aspace_partial :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly, :section_id => "related_agents" } %>

@@ -22,8 +22,8 @@ describe 'Search', js: true do
         expect(page).to have_xpath("//label[@for='q0']")
         expect(page).to have_xpath("//input[@type='text'][@id='q0']")
 
-        expect(page).to have_xpath("//label[@for='limit']")
-        expect(page).to have_xpath("//select[@id='limit']")
+        expect(page).to have_xpath("//label[@for='advanced_search_limit']")
+        expect(page).to have_xpath("//select[@id='advanced_search_limit']")
 
         expect(page).to have_xpath("//label[@for='field0']")
         expect(page).to have_xpath("//select[@id='field0']")
@@ -54,7 +54,7 @@ describe 'Search', js: true do
   it 'should use an asterisk for a keyword search when no inputs and search button pressed' do
     visit('/search')
     click_on('submit_search')
-    expect(page).to have_selector("div[class='searchstatement']", text: "keyword(s): *")
+    expect(page).to have_selector(".search-summary", text: "keyword(s): *")
   end
 
   it "should submit form, not delete row when search row is added and enter pressed in search field" do
@@ -338,6 +338,35 @@ describe 'Search', js: true do
         end
       end
 
+      context 'when the search term is in a long title and a long note' do
+        let(:now) { Time.now.to_i }
+        let(:search_term) { "zzuniqueterm#{now}" }
+
+        let(:long_title) { "#{search_term} " + ("alpha " * 50) + "TITLEENDMARKER" }
+        let(:long_note) { "#{search_term} " + ("beta " * 50) + "NOTEENDMARKER" }
+
+        let(:searched_record) do
+          create(:resource,
+                 :title => long_title,
+                 :publish => true,
+                 :notes => [
+                   build(:json_note_multipart,
+                         subnotes: [
+                           build(:json_note_text, publish: true, content: long_note)
+                         ])
+                 ])
+        end
+
+        it 'shows the full title but a truncated note in the found in section' do
+          expect(result_title.find('.searchterm').text).to eq search_term
+          expect(result_title.text).to include('TITLEENDMARKER')
+
+          found_in_notes = page.find('.highlighting', text: 'Found in Notes:')
+          expect(found_in_notes).to have_css('span.searchterm', text: search_term)
+          expect(found_in_notes).to have_no_content('NOTEENDMARKER')
+        end
+      end
+
       context 'when search terms found in finding aid filing title only' do
         let(:now) { now = Time.now.to_i }
 
@@ -401,6 +430,72 @@ describe 'Search', js: true do
       find('.plusminus-btn[data-action="remove"]').click
       expect(page).to have_css('.plusminus-btn[data-action="add"]', count: 1)
       expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 0)
+    end
+  end
+
+  describe 'autocomplete attributes' do
+    context 'on the search page' do
+      before do
+        visit('/search')
+      end
+
+      it 'are set and preserved on cloned rows' do
+        within 'form#advanced_search' do
+          aggregate_failures 'refine search fields row 0' do
+            expect(page).to have_css('#q0[autocomplete="on"]')
+            expect(page).to have_css('#from_year0[autocomplete="off"]')
+            expect(page).to have_css('#to_year0[autocomplete="off"]')
+            expect(page).to have_css('#advanced_search_limit[autocomplete="off"]')
+            expect(page).to have_css('#field0[autocomplete="off"]')
+            expect(page).to have_css('#op0[autocomplete="off"]', visible: false)
+          end
+
+          find('.plusminus-btn[data-action="add"]').click
+
+          aggregate_failures 'refine search fields row 1' do
+            expect(page).to have_css('#q1[autocomplete="on"]')
+            expect(page).to have_css('#from_year1[autocomplete="off"]')
+            expect(page).to have_css('#to_year1[autocomplete="off"]')
+            expect(page).to have_css('#field1[autocomplete="off"]')
+            expect(page).to have_css('#op1[autocomplete="off"]')
+          end
+        end
+      end
+    end
+
+    context 'on the collection search page' do
+      before do
+        visit('/repositories/resources')
+      end
+
+      it 'are set on the Filter Results controls' do
+        aggregate_failures do
+          expect(page).to have_css('#filter_q[autocomplete="on"]')
+          expect(page).to have_css('#filter_from_year[autocomplete="off"]')
+          expect(page).to have_css('#filter_to_year[autocomplete="off"]')
+          expect(page).to have_css('#sort[autocomplete="off"]')
+        end
+      end
+    end
+
+    context 'on the Collection Overview search form' do
+      let(:now) { Time.now.to_i }
+      let(:resource) { create(:resource, title: "Published Resource #{now}", publish: true) }
+      let(:ao) { create(:archival_object, title: "Published Archival Object #{now}", resource: { 'ref' => resource.uri }, publish: true) }
+
+      before do
+        ao
+        run_indexers
+        visit resource.uri
+      end
+
+      it 'are set on the sidebar search controls' do
+        aggregate_failures do
+          expect(page).to have_css('#filter_q0[autocomplete="on"]')
+          expect(page).to have_css('#filter_from_year[autocomplete="off"]')
+          expect(page).to have_css('#filter_to_year[autocomplete="off"]')
+        end
+      end
     end
   end
 end

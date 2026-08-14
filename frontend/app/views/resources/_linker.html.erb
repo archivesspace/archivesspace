@@ -18,7 +18,7 @@
           for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100' %>">
        <div class="input-group linker-wrapper"
             role="combobox"
             aria-expanded="false"
@@ -41,19 +41,19 @@
             data-selected="<%= selected_json %>"
             data-format_property="title"
             data-multiplicity="one"
-            data-types='<%= data_types %>'
-            data-exclude='<%= exclude_ids.to_json %>'
+            data-types="<%= data_types %>"
+            data-exclude="<%= exclude_ids.to_json %>"
           />
 
           <% if form.obj.has_key?('_resolved') %>
 
             <input type="text"
-              class='prelinker'
+              class="prelinker"
               name="<%= form.path %>[_resolved]"
               value="<%= selected_json %>" />
 
             <input type="text"
-              class='prelinker'
+              class="prelinker"
               name="<%= form.path %>[ref]"
               value="<%= form.obj["ref"] %>" />
 

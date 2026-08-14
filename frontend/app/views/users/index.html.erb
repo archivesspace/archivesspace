@@ -57,7 +57,7 @@
                <% active = t("user.inactive") %>
                <% display_class = 'inactive' %>
              <% end %>
-             <tr class='<%= display_class %>'>
+             <tr class="<%= display_class %>">
 
                <td class="username"><%= user.username %></td>
                <td class="name"><%= user.name %></td>
@@ -69,7 +69,6 @@
                  <td class="source"><%= user.source %></td>
                <% end %>
                <td class="actions">
-                 <div class="btn-group" style="float: right">
                 <div class="btn-group" style="float: right">
                    <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %>
 

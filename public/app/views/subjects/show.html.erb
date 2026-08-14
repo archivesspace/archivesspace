@@ -3,7 +3,7 @@
     <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
-    <div class="page_actions col-sm-5 right">
+    <div class="page_actions col-sm-5">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
@@ -29,8 +29,8 @@
     </div>
     <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
       <h3><%= t('more_about') %> '<%== process_mixed_content(@result.display_string) %>'</h3>
-      <div class="acc_holder clear" >
-        <div class="panel-group" id="res_accordion">
+      <div class="acc_holder">
+        <div class="accordion" id="res_accordion">
           <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
             <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
             <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
@@ -41,7 +41,7 @@
           <% end %>
         </div>
       </div>
-      <script type="text/javascript" >
+      <script type="text/javascript">
         initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
       </script>
       <% unless @results.blank? || @results['total_hits'] == 0 %>

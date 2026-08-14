@@ -176,15 +176,14 @@ class Search
     end
   end
 
-  # A request for specific fields (e.g. the top container browse column
-  # picker) expects Solr index field names as CSV headers so the frontend can
-  # map them back to columns, See ANW-2791.
+  # csv_export_use_solr_writer=true indicates the caller wants raw Solr
+  # field names as headers (e.g. the top container browse column picker,
+  # see ANW-2791) so skip extended export.
   def self.use_extended_csv_export?(params)
     return false unless AppConfig[:extended_csv_export_enabled]
+    return false if params[:csv_export_use_solr_writer].to_s == 'true'
 
-    field_limited = !Array(params[:fields]).empty?
-
-    !field_limited
+    true
   end
 
   def self.extended_csv_export(params, repo_id)

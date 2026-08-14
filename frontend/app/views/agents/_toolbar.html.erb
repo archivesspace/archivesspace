@@ -20,7 +20,7 @@
         <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
       <% end %>
 
-      <% if user_can?('update_event_record')  %>
+      <% if user_can?('update_event_record') %>
         <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
       <% end %>
 

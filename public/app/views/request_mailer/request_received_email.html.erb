@@ -1,4 +1,4 @@
-<h1><%=t('request.email_header') %></h1>
+<h1><%= t('request.email_header') %></h1>
 
 <div class="request">
   <h2>Record Requested</h2>
@@ -10,7 +10,7 @@
 <div class="user">
   <h2>Your Details</h2>
   <strong>Name: </strong> <%= @request.user_name %><br>
-  <strong>Email: </strong> <a href="mailto:<%= @request.user_email %>"><%= @request.user_email %></a><br/>
+  <strong>Email: </strong> <a href="mailto:<%= @request.user_email %>"><%= @request.user_email %></a><br />
   <strong>Date: </strong> <%= @request.date %><br>
   <strong>Notes for Staff: </strong>
   <div>

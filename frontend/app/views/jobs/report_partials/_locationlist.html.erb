@@ -8,7 +8,7 @@ building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 <%= form.select :location_report_type, ["repository", "building", "single_location", "location_range"].collect {|type| [t("reports.location_holdings_report.#{type}_report_type"), type]} %>
 
 <div class="form-group required report_type repository">
-    <hr/>
+    <hr />
     <label class="control-label col-sm-2"><%= t('reports.location_holdings_report.repository_report_type') %></label>
     <div class="controls col-sm-8">
         <%= form.select :repository_uri, options_for_select([""].concat(repository_list)), :class => "form-control" %>
@@ -17,7 +17,7 @@ building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 
 
 <div class="form-group required report_type  building">
-    <hr/>
+    <hr />
     <label class="control-label col-sm-2"><%= t('reports.location_holdings_report.building_report_type') %></label>
     <div class="controls col-sm-8">
         <%= form.select :building, options_for_select([""].concat(building_list.keys)), :class => "form-control" %>
@@ -43,4 +43,4 @@ building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
     </div>
 </div>
 
-<hr/>
+<hr />

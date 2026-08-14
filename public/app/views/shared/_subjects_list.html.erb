@@ -4,14 +4,14 @@
 
 <% subject_types = {} %>
 <% list.each do |subject| %>
-	<% next unless subject['terms'] %>
-	<% term = subject['terms'].first['term_type'] %>
+  <% next unless subject['terms'] %>
+  <% term = subject['terms'].first['term_type'] %>
 
-	<% if subject_types[term].is_a?(Array) %>	
-		<% subject_types[term].push subject %>
-	<% else %>
-		<% subject_types[term] = [subject] %>
-	<% end %>
+  <% if subject_types[term].is_a?(Array) %>
+    <% subject_types[term].push subject %>
+  <% else %>
+    <% subject_types[term] = [subject] %>
+  <% end %>
 <% end %>
 
 
@@ -20,7 +20,7 @@
   <<%= heading_size %>><%= I18n.t("enumerations.subject_term_type.#{term_type}") %></<%= heading_size %>>
   <ul class="present_list subjects_list">
     <% subjects_list.each do |subject| %>
-    	<% first_term = subject['terms'].first %>
+      <% first_term = subject['terms'].first %>
       <li>
         <% terms = subject['terms'].map {|t| t['term']} %>
         <a href="<%= app_prefix(subject['uri']) %>"><%= raw(process_mixed_content(terms.join(" -- "))) %></a>

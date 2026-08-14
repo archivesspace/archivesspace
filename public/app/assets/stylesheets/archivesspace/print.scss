@@ -108,7 +108,11 @@
   .breadcrumb,
   #main-content,
   .panel-heading,
-  .panel-body {
+  .panel-body,
+  .card-body,
+  .accordion-header,
+  .accordion-button,
+  .accordion-body {
     padding-right: 0 !important;
     padding-left: 0 !important;
   }
@@ -203,15 +207,30 @@
     display: initial !important;
   }
 
-  /* Hide panel (Bootstrap v3) and card (Bootstrap v4) borders */
+  /* Hide panel (Bootstrap v3), card (Bootstrap v4), and accordion (Bootstrap v5) borders */
   .panel,
   .panel-default,
   .panel-heading,
   .panel-body,
   .card,
   .card-header,
-  .card-footer {
+  .card-body,
+  .card-footer,
+  .accordion-item,
+  .accordion-header,
+  .accordion-button,
+  .accordion-collapse,
+  .accordion-body {
     border-color: white !important;
+  }
+
+  /* BS5 accordion chrome that still prints after border-color alone */
+  .accordion-button {
+    box-shadow: none !important;
+  }
+
+  .accordion-button::after {
+    display: none !important;
   }
 
   /* Expand 'See more' sections */

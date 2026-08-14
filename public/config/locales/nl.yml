@@ -34,6 +34,10 @@ nl:
     staff_link: Alleen voor medewerkers
     next: Volgende
     previous: Vorige
+  pagination:
+    controls: Pagineringsbesturing
+    top_controls: Bovenste pagineringsbesturing
+    bottom_controls: Onderste pagineringsbesturing
   page_actions: Acties op deze pagina
   request:
     email_header: Dank u voor uw aanvraag
@@ -106,6 +110,7 @@ nl:
     filter_by: Filter op
     filtered_by: Gefilterd op
     remove_filter: Dit filter verwijderen
+    refine_search_controls_aria: Bediening voor zoekopdracht verfijnen
     more_facets: Meer
     fewer_facets: Minder
     op:

@@ -5,7 +5,7 @@
                                  :form => form,
                                  :record => @location) %>
 
-    <%= form.label_and_boolean "temporary_question", {}, false %> 
+    <%= form.label_and_boolean "temporary_question", {}, false %>
     <%= form.label_and_select "temporary",
         form.possible_options_for("temporary", true),
         :field_opts =>  {
@@ -13,22 +13,22 @@
           :onchange => "$('#location_temporary_question_').prop('checked', true)"
         }
     %>
-      <hr/>
+      <hr />
       <%= form.label_and_textfield "building" %>
       <%= form.label_and_textfield "floor" %>
       <%= form.label_and_textfield "room" %>
       <%= form.label_and_textfield "area" %>
-      <hr/>
+      <hr />
       <%= form.label_and_textfield "barcode", :required => :conditionally %>
       <%= form.label_and_textfield "classification", :required => :conditionally %>
-      <hr/>
+      <hr />
       <%= form.label_and_textfield "coordinate_1_label", :required => :conditionally %>
       <%= form.label_and_textfield "coordinate_1_indicator", :required => :conditionally %>
       <%= form.label_and_textfield "coordinate_2_label" %>
       <%= form.label_and_textfield "coordinate_2_indicator" %>
       <%= form.label_and_textfield "coordinate_3_label" %>
       <%= form.label_and_textfield "coordinate_3_indicator" %>
-      <hr/>
+      <hr />
       <%= render_plugin_partials("basic_information_location",
                                  :form => form,
                                  :record => @location) %>
@@ -36,7 +36,7 @@
       <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
         <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => t("location_profile._singular")} %>
       <% end %>
-      <hr/>
+      <hr />
       <% form.push("owner_repo", form.obj["owner_repo"] || {}) do %>
         <%= render_aspace_partial :partial => "repositories/linker", :locals => {:form => form, :label => t("repository._singular")} %>
       <% end %>
@@ -52,4 +52,3 @@
 <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 
 <%= form_plugins_for("location", form) %>
-

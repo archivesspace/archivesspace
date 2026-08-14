@@ -57,6 +57,11 @@ en:
     next: Next
     previous: Previous
 
+  pagination:
+    controls: Pagination controls
+    top_controls: Top pagination controls
+    bottom_controls: Bottom pagination controls
+
   page_actions: Page Actions
 
   request:
@@ -131,6 +136,7 @@ en:
     filter_by: Filter By
     filtered_by: Filtered By
     remove_filter: Remove this filter
+    refine_search_controls_aria: Refine search controls
     more_facets: More
     fewer_facets: Less
     op:

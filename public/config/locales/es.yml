@@ -77,7 +77,10 @@ es:
   search-field: Campo de búsqueda
   searched-field: "buscando %{field}"
 
-  pagination: {}
+  pagination:
+    controls: Controles de paginación
+    top_controls: Controles de paginación superiores
+    bottom_controls: Controles de paginación inferiores
   search_results:
     highlighting:
       found_in: Encontrado en
@@ -111,6 +114,7 @@ es:
     filter_by: Filter By
     filtered_by: Filtrado por
     remove_filter: Quitar este filtro
+    refine_search_controls_aria: Controles de refinamiento de búsqueda
     more_facets: Más
     fewer_facets: Menos
     op:

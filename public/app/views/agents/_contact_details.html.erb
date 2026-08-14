@@ -36,8 +36,8 @@
 
      </dl>
 
-		 <% if r['telephones'].any? %>
-		  <% t = "" %>     
+     <% if r['telephones'].any? %>
+      <% t = "" %>
       <% r['telephones'].each do |d| %>
         <% t += render partial: 'telephones', locals: {:result => d} %>
       <% end %>
@@ -46,7 +46,7 @@
         {:p_title =>  I18n.t('telephone._plural'),
          :p_id => "telephones_contact_#{r['id']}",
          :p_body => t.html_safe } %>
- 
-	   <% end %>
+
+     <% end %>
   <% end %>
 <% end %>

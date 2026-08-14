@@ -33,6 +33,10 @@ uk:
     staff_link: Тільки для персоналу
     next: Далі
     previous: Попередній
+  pagination:
+    controls: Елементи керування сторінками
+    top_controls: Верхні елементи керування сторінками
+    bottom_controls: Нижні елементи керування сторінками
   errors:
     error_404_message: Запис %{type} до якого ви намагалися отримати доступ, не існує або, можливо, 
       його було видалено.
@@ -151,6 +155,7 @@ uk:
       NOT: не
     search_term: Пошуковий термін
     remove_filter: Видалити цей фільтр
+    refine_search_controls_aria: Елементи керування уточненням пошуку
     creators_text_contain: <strong>творець</strong> містить <span class='searchterm'>%{кс}</span>
     subjects_text_contain: <strong> предмет</strong> містить  <span class='searchterm'>%{кс}</span>
     keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>

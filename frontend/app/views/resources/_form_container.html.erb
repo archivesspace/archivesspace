@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
-   <%= @form_title ? @form_title : @resource.title.blank? ? "#{t("resource.new_title")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info badge"><%= t("resource._singular") %></span>
+   <%= @form_title ? @form_title : @resource.title.blank? ? "#{t("resource.new_title")}" : clean_mixed_content( @resource.title) %>  <span class="label label-info badge"><%= t("resource._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -62,7 +62,7 @@
         <fieldset>
           <%= form.label_and_textfield "ead_id" %>
           <%= form.label_and_textfield "ead_location" %>
-          <hr/>
+          <hr />
 
           <%= form.label_and_textarea "finding_aid_title", :field_opts => {:class => "mixed-content"} %>
           <%= form.label_and_textarea "finding_aid_subtitle", :field_opts => {:class => "mixed-content"} %>

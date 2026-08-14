@@ -7,44 +7,44 @@
   <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
-      <section id="basic_information">
       <%= readonly_context :top_container, @top_container do |readonly| %>
         <h2><%= @top_container.display_string %> <span class="label label-info badge"><%= t("top_container._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
         <% define_template "top_container", jsonmodel_definition(:top_container) do |form| %>
+          <section id="basic_information">
 
-          <%= render_plugin_partials("top_of_basic_information_top_container",
-                                     :form => form,
-                                     :record => @top_container) %>
+            <%= render_plugin_partials("top_of_basic_information_top_container",
+                                      :form => form,
+                                      :record => @top_container) %>
 
-          <% if @top_container.container_profile %>
-            <div class="form-group token-list">
-                <label class="control-label col-sm-2"><%= t("container_profile._singular") %></label>
-                <div class="controls col-sm-8">
-                    <%= render_token :object => @top_container["container_profile"]["_resolved"],
-                    :label => @top_container["container_profile"]["_resolved"]["name"],
-                    :type => "container_profile",
-                    :uri => @top_container["container_profile"]["ref"] %>
-                </div>
-            </div>
-          <% end %>
+            <% if @top_container.container_profile %>
+              <div class="form-group token-list">
+                  <label class="control-label col-sm-2"><%= t("container_profile._singular") %></label>
+                  <div class="controls col-sm-8">
+                      <%= render_token :object => @top_container["container_profile"]["_resolved"],
+                      :label => @top_container["container_profile"]["_resolved"]["name"],
+                      :type => "container_profile",
+                      :uri => @top_container["container_profile"]["ref"] %>
+                  </div>
+              </div>
+            <% end %>
 
-          <%= readonly.label_and_textarea "type" %>
-          <%= readonly.label_and_textarea "indicator" %>
+            <%= readonly.label_and_textarea "type" %>
+            <%= readonly.label_and_textarea "indicator" %>
 
-          <%= readonly.label_and_textarea "barcode" %>
-          <%= readonly.label_and_textarea "internal_note" %>
+            <%= readonly.label_and_textarea "barcode" %>
+            <%= readonly.label_and_textarea "internal_note" %>
 
-          <%= readonly.label_and_textarea "ils_holding_id" %>
-          <%= readonly.label_and_textarea "ils_item_id" %>
-          <%= readonly.label_and_textarea "exported_to_ils", :default => t("top_container.not_exported") %>
+            <%= readonly.label_and_textarea "ils_holding_id" %>
+            <%= readonly.label_and_textarea "ils_item_id" %>
+            <%= readonly.label_and_textarea "exported_to_ils", :default => t("top_container.not_exported") %>
 
-          <%= render_plugin_partials("basic_information_top_container",
-                                     :form => readonly,
-                                     :record => @top_container) %>
-
+            <%= render_plugin_partials("basic_information_top_container",
+                                      :form => readonly,
+                                      :record => @top_container) %>
+          </section>
 
           <% if @top_container["container_locations"].length > 0 %>
             <hr>
