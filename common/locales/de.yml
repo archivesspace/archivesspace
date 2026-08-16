@@ -156,7 +156,7 @@ de:
     text_3: Text 3
   section_tooltips: &section_tooltips
     lang_materials_tooltip: "<p>Die Sprachen und Schriften, die im beschriebenen Archivgut vertreten sind.</p>\n\
-      \ <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
+      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
     subjects_tooltip: "<p>Wird verwendet, um Themen mit dem beschriebenen Archivgut zu verknüpfen.</p>\n"
     extents_tooltip: "<p>Gibt den Umfang und physische Beschaffenheit des beschriebenen Archivguts an.</p>\n\
       \ <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
