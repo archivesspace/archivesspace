@@ -473,7 +473,7 @@ de:
     resource_type: Art der Ressource
     language: Sprache der Beschreibung
     script_tooltip: "<p>Gibt alle Schriften an, die in der aus der Eingangsbeschreibung erstellten Aufzeichnung
-      vorhanden sind.</p>\n"
+      vorhanden sind.</p><p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
     access_restrictions: Zugangsbeschränkungen?
     access_restrictions_tooltip: "<p>Ein Kontrollkästchen zur Angabe, dass der Zugang zum Archivgut eingeschränkt
       ist.</p>\n<p>Siehe DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>\n"
@@ -839,7 +839,7 @@ de:
     _singular: Abgang
     reason_tooltip: "<p>Der Grund für den Abgang des beschriebenen Archivguts.</p>\n<p>Beispiele:</p>\n\
       \ <ul>\n<li>Der Geber hatte nicht die Absicht, dieses Archivgut weiterzugeben.</li>\n</ul>\n"
-    scope_tooltip: "<p>ERFORDERLICHES FELD: Dient zur Angabe, ob sich eine Umfangssangabe auf die Gesamtheit
+    scope_tooltip: "<p>ERFORDERLICHES FELD: Dient zur Angabe, ob sich eine Umfangsangabe auf die Gesamtheit
       oder einen Teil einer bestimmten beschriebenen Ansammlung oder Objekt bezieht.</p>\n"
     notification: Benachrichtigung erfolgt?
     disposition_tooltip: "<p>Eine Beschreibung, die angibt, was mit dem ausgeschiedenen Archivgut geschehen
@@ -1048,8 +1048,8 @@ de:
     set_component_tooltip: "<p>Eine Beschriftung zur Identifizierung und für den Zugang zu einem entsprechenden
       verknüpften Autoriäts-Datensatz.</p>\n"
     file_uri_tooltip: "<p>Ein URI für einen entsprechenden Eintrag in einer externen Autoritäts-Datei.
-      Beispiel: http://id.loc.gov/authorities/names/n80060393 (für Library of Congress Linked Data Service-Eintrag
-      für Robert W. Service).</p>\n"
+      </p>\n<p>Beispiel: http://id.loc.gov/authorities/names/n80060393 (für Library of Congress Linked
+      Data Service-Eintrag für Robert W. Service).</p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der
       Akteur-Aufzeichnung aufgelöst werden soll.</p>\n"
     file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte
@@ -1272,6 +1272,7 @@ de:
     _singular: Verwandter Akteur
     related_agent_tooltip: <p>Die Person, Familie oder Körperschaft, die mit dem Hauptakteur 
       verwandt ist.</p><p>Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    dates: Daten
   related_agents:
     <<: *related_agent_attributes
   agent_relationship_earlierlater:
@@ -2785,6 +2786,8 @@ de:
         Zeilenanzahlgrenzen von %{limits}
       utf8: Diese Tabelle enthält ungültigen oder fehlerhaften Text, der nicht verarbeitet werden 
         kann.
+      era: "Ungültige 'Datums-Ära' für %{date_str} wurde ignoriert: (%{what})"
+      calendar: "Ungültiger 'Datums-Kalender' für %{date_str} wurde ignoriert: (%{what})"
     templates: Vorlagen für den Massenimport
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
