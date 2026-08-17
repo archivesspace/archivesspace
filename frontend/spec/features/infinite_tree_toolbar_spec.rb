@@ -358,12 +358,18 @@ describe 'Infinite Tree Toolbar', js: true do
       context 'when toggled off' do
         before do
           expand_mode_toggle_button.click
-          wait_for_ajax
+          expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+
+          # Hack around flakiness experienced when using `expand_mode_toggle_button.click`
+          within '#infinite-tree-toolbar' do
+            click_button 'Disable Auto-Expand'
+            wait_for_ajax
+          end
+
+          expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-default')
         end
 
         it 're-enables the expand buttons for all expanded parent nodes in the tree' do
-          expand_mode_toggle_button.click
-
           aggregate_failures do
             expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
             expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
