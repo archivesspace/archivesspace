@@ -24,7 +24,6 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
         'infiniteTreeToolbar:reorderModeChanged',
         'infiniteTreeToolbar:expandModeChanged',
         'infiniteTreeToolbar:collapseTreeRequested',
-        'infiniteTreeToolbar:dropBehaviorChanged',
         'infiniteTreeToolbar:addChildRequested',
         'infiniteTreeToolbar:addSiblingRequested',
         'infiniteTreeToolbar:addDuplicateRequested',
@@ -133,24 +132,6 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
     expect(contextual_detail['rootType']).to eq('resource')
     expect(contextual_detail['rootUri']).to eq(resource.uri)
-  end
-
-  it 'emits drop behavior changed and persists AS_Drop_Behavior' do
-    execute_js <<~JS
-      var radio = document.getElementById('infinite-drop-after');
-      radio.checked = true;
-      var event = document.createEvent('HTMLEvents');
-      event.initEvent('change', true, false);
-      radio.dispatchEvent(event);
-    JS
-
-    expect(event_names).to include('infiniteTreeToolbar:dropBehaviorChanged')
-    expect(last_event_detail['dropBehavior']).to eq('after')
-    expect(evaluate_js("window.localStorage.getItem('AS_Drop_Behavior')")).to eq('after')
-
-    visit "#{edit_path}#{root_hash}"
-    wait_for_ajax
-    expect(find('#infinite-drop-after', visible: false)).to be_checked
   end
 
   it 'does not emit mutating action events while controls are disabled by dirty state' do

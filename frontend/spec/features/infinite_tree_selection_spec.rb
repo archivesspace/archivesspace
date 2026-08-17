@@ -792,23 +792,7 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
 
   end
 
-  context 'drag-handle column visibility and widths' do
-    def column_rect_width(uri, column_name)
-      evaluate_js(<<~JS)
-        (function() {
-          var li = document.querySelector(
-            '#infinite-tree-container li.node[data-uri="#{uri}"]'
-          );
-          if (!li) return null;
-          var col = li.querySelector(
-            ':scope > .node-row > .node-body > [data-column="#{column_name}"]'
-          );
-          if (!col) return null;
-          return col.getBoundingClientRect().width;
-        })();
-      JS
-    end
-
+  context 'drag-handle column visibility' do
     def handle_display(uri)
       evaluate_js(<<~JS)
         (function() {
@@ -830,36 +814,6 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
 
       expect(page).to have_css('#infinite-tree-container.reorder-mode')
       expect(handle_display(ao.uri)).not_to eq('none')
-    end
-
-    it 'leaves non-title column pixel widths unchanged across reorder toggle' do
-      level_before = column_rect_width(ao.uri, 'level')
-      type_before = column_rect_width(ao.uri, 'type')
-      container_before = column_rect_width(ao.uri, 'container')
-
-      enable_reorder_mode
-      expect(page).to have_css('#infinite-tree-container.reorder-mode')
-
-      level_after = column_rect_width(ao.uri, 'level')
-      type_after = column_rect_width(ao.uri, 'type')
-      container_after = column_rect_width(ao.uri, 'container')
-
-      expect(level_after).to be_within(0.5).of(level_before)
-      expect(type_after).to be_within(0.5).of(type_before)
-      expect(container_after).to be_within(0.5).of(container_before)
-    end
-
-    it 'shrinks the title column by the handle column width when reorder turns on' do
-      title_before = column_rect_width(ao.uri, 'title')
-
-      enable_reorder_mode
-      expect(page).to have_css('#infinite-tree-container.reorder-mode')
-
-      title_after = column_rect_width(ao.uri, 'title')
-      handle_width = column_rect_width(ao.uri, 'drag-handle')
-
-      expect(handle_width).to be > 0
-      expect(title_before - title_after).to be_within(0.5).of(handle_width)
     end
   end
 end

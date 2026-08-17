@@ -363,6 +363,7 @@ describe 'Infinite Tree Toolbar', js: true do
 
         it 're-enables the expand buttons for all expanded parent nodes in the tree' do
           expand_mode_toggle_button.click
+          wait_for_ajax
 
           aggregate_failures do
             expect(page).to have_css('#infinite-tree-container:not(.expand-all)')

@@ -345,7 +345,7 @@ describe 'Resources', js: true do
     expect(find('#resource_id_3_').value).to eq "#{resource.id_3}"
 
     # Archival Objects
-    elements = all('.largetree-node')
+    elements = all('.node:not(.root)')
     expect(elements.length).to eq 10
   end
 
@@ -599,7 +599,7 @@ describe 'Resources', js: true do
 
     expect(page).to have_text "Resource Resource Title #{now} created"
 
-    element = find('#tree-container')
+    element = find('#infinite-tree-container')
     expect(element).to have_text "Resource Title #{now}"
   end
 

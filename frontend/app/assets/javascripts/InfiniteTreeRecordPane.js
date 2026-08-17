@@ -822,10 +822,13 @@
     }
 
     /**
-     * Renders form HTML into the pane and wires it up
+     * Renders form HTML into the pane and wires it up using jQuery.html() instead of
+     * Element.innerHTML so inline <script> tags in the response run. Required for
+     * form_messages error-field label population, etc.
+     * @param {string} html - The HTML to render
      */
     #renderNewForm(html) {
-      this.container.innerHTML = html;
+      $(this.container).html(html);
 
       this.#initializeRecordForm();
 

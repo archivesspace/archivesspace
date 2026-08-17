@@ -7,6 +7,12 @@ describe 'RDE', js: true do
   let(:user) { create_user(repo => ['repository-archivists']) }
   let(:repo) { create(:repo, repo_code: "accession_test_#{Time.now.to_i}") }
 
+  def expect_infinite_tree_level(title, expected_level)
+    link = find("#infinite-tree-container a.record-title", text: title)
+    level_cell = link.find(:xpath, "./ancestor::li[@role='treeitem'][1]//*[@data-column='level']")
+    expect(level_cell.text).to eq expected_level
+  end
+
   before(:each) do
     set_repo repo
     login_user(user)
@@ -68,15 +74,14 @@ describe 'RDE', js: true do
     fill_in 'archival_record_children_children__0__dates__0__begin_', with: "2013"
 
     click_on 'Save Rows'
+    wait_for_ajax
 
-    element = find("#tree-container a", text: "Children Title #{now}")
-    element = element.find(:xpath, "ancestor::*[@role='listitem']")
-    element = element.find('.resource-level')
-    expect(element.text).to eq 'Item'
+    expect_infinite_tree_level("Children Title #{now}", 'Item')
   end
 
   it 'can access the RDE form when editing an archival object' do
     now = Time.now.to_i
+    child_title = "Children Title nav #{now}"
     resource = create(:resource)
 
     visit "resources/#{resource.id}/edit"
@@ -88,19 +93,35 @@ describe 'RDE', js: true do
 
     select 'Single', from: 'archival_record_children_children__0__dates__0__date_type_'
     select 'Item', from: 'archival_record_children_children__0__level_'
-    fill_in 'archival_record_children_children__0__title_', with: "Children Title #{now}"
+    fill_in 'archival_record_children_children__0__title_', with: child_title
     fill_in 'archival_record_children_children__0__dates__0__begin_', with: "2013"
 
     click_on 'Save Rows'
 
-    find('.table-row.largetree-node.indent-level-1 a.record-title').click
+    # Wait for RDE's success reload before navigating — the new tree node is the reliable signal.
+    expect(page).to have_css(
+      "#infinite-tree-container .node.indent-level-1 a.record-title",
+      text: child_title,
+      wait: 20
+    )
 
-    element = find('h2')
-    expect(element.text).to eq "Children Title #{now}, 2013 Archival Object"
-    element = find('#archival_object_title_', visible: false)
-    expect(element.text).to eq "Children Title #{now}"
+    # Let the post-reload resource pane finish its initial loadRecord before selecting the child.
+    expect(page).to have_css('#infinite-tree-record-pane #form_resource', wait: 20)
+    wait_for_ajax
 
-    click_on 'Rapid Data Entry'
+    within('#infinite-tree-container') do
+      click_link child_title
+    end
+    wait_for_ajax
+
+    within('#infinite-tree-record-pane') do
+      expect(page).to have_css('#form_archival_object', wait: 20)
+      expect(page).to have_css('h2', text: "#{child_title}, 2013 Archival Object")
+    end
+
+    expect(find('#archival_object_title_', visible: false).text).to eq child_title
+
+    find('.js-itree-toolbar-rde').click
     expect(page).to have_css '#rapidDataEntryModal'
   end
 
@@ -133,16 +154,10 @@ describe 'RDE', js: true do
     fill_in 'archival_record_children_children__1__title_', with: 'Child 2'
 
     click_on 'Save Rows'
+    wait_for_ajax
 
-    element = find("#tree-container a", text: "Child 1")
-    element = element.find(:xpath, "ancestor::*[@role='listitem']")
-    element = element.find('.resource-level')
-    expect(element.text).to eq 'Fonds'
-
-    element = find("#tree-container a", text: "Child 2")
-    element = element.find(:xpath, "ancestor::*[@role='listitem']")
-    element = element.find('.resource-level')
-    expect(element.text).to eq 'Fonds'
+    expect_infinite_tree_level('Child 1', 'Fonds')
+    expect_infinite_tree_level('Child 2', 'Fonds')
   end
 
   it 'can add multiple rows in one action and can perform a basic fill and a sequence fill' do
