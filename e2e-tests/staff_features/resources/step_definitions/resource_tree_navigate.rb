@@ -35,85 +35,126 @@ Given 'a Resource with two Archival Objects has been created' do
   url_parts.pop
   @resource_id = url_parts.pop
 
-  click_on 'Add Child'
-  wait_for_ajax
-  fill_in 'Title', with: "Archival Object 1 #{@uuid}"
-  select 'Class', from: 'Level of Description'
-  click_on 'Save'
-  wait_for_ajax
-  expect(page).to have_text "Archival Object Archival Object 1 #{@uuid} on Resource Resource #{@uuid} created"
+  within '#infinite-tree-toolbar' do
+    click_on 'Add Child'
+  end
+  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
 
-  click_on 'Add Child'
-  wait_for_ajax
-  fill_in 'Title', with: "Archival Object 2 #{@uuid}"
-  select 'Class', from: 'Level of Description'
-  click_on 'Save'
-  wait_for_ajax
-  expect(page).to have_text "Archival Object Archival Object 2 #{@uuid} created as child of Archival Object 1 #{@uuid} on Resource Resource #{@uuid}"
+  fill_in 'archival_object_title_', with: "Archival Object 1 #{@uuid}"
+  select 'Class', from: 'archival_object_level_'
+  find('button', text: 'Save Archival Object', match: :first).click
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+
+  aggregate_failures do
+    expect(page).to have_text "Archival Object Archival Object 1 #{@uuid} on Resource Resource #{@uuid} created"
+    expect(page).to have_css('.infinite-tree .node.selected', text: "Archival Object 1 #{@uuid}")
+    expect(page).to have_no_css('#infinite-tree-toolbar .js-itree-toolbar-add-child.disabled')
+  end
+
+  within '#infinite-tree-toolbar' do
+    click_on 'Add Child'
+  end
+  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
+
+  fill_in 'archival_object_title_', with: "Archival Object 2 #{@uuid}"
+  select 'Class', from: 'archival_object_level_'
+  find('button', text: 'Save Archival Object', match: :first).click
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+
+  aggregate_failures do
+    expect(page).to have_text "Archival Object Archival Object 2 #{@uuid} created as child of Archival Object 1 #{@uuid} on Resource Resource #{@uuid}"
+    expect(page).to have_css('.infinite-tree .node', text: "Archival Object 2 #{@uuid}")
+  end
 end
 
 Then 'the Resource is displayed as the top level of the navigation tree' do
-  rows = all('#tree-container .table .table-row', visible: :all)
+  expect(page).to have_css ".infinite-tree > .root.node#resource_#{@resource_id}:only-child"
 
-  expect(rows.length).to eq 4
-  expect(rows[0].text).to include "Resource #{@uuid}"
+  rows = all('.infinite-tree .node', visible: true)
+
+  aggregate_failures do
+    expect(rows.length).to eq 2
+    expect(rows[0].text).to include "Resource #{@uuid}"
+  end
 end
 
 Then 'the Resource is highlighted in the tree' do
-  rows = all('#tree-container .table .table-row')
+  rows = all('.infinite-tree .node')
 
-  expect(rows.length).to eq 2
-  expect(rows[0].text).to include "Resource #{@uuid}"
-  expect(rows[0][:class]).to include 'current'
+  aggregate_failures do
+    expect(rows.length).to eq 2
+    expect(rows[0].text).to include "Resource #{@uuid}"
+    expect(rows[0][:class]).to include 'selected'
+  end
 end
 
 Given 'only the first-level Archival Objects are displayed' do
-  rows = all('#tree-container .table .table-row')
+  rows = all('.infinite-tree .node')
 
-  expect(rows.length).to eq 2
-  expect(rows[1].text).to include "Archival Object 1 #{@uuid}"
+  aggregate_failures do
+    expect(rows.length).to eq 2
+    expect(rows[1].text).to include "Archival Object 1 #{@uuid}"
+  end
 end
 
 Then 'the expand arrows are disabled' do
-  arrows = all('.expandme')
+  arrows = all('#infinite-tree-container li.node:not(.root) > .node-row .node-expand')
 
-  expect(arrows.length).to eq 1
+  aggregate_failures do
+    expect(arrows.length).to eq 1
+    expect(arrows[0][:class]).to include 'disabled'
+  end
 
-  expect(arrows[0][:class]).to include 'disabled'
   arrows[0].click
+
   expect(page).to have_text "Archival Object 2 #{@uuid}"
 end
 
 Then 'all Archival Objects are displayed' do
   wait_for_ajax
+  rows = all('.infinite-tree .node')
 
-  rows = all('#tree-container .table .table-row')
-
-  expect(rows.length).to eq 3
-  expect(rows[1].text).to include "Archival Object 1 #{@uuid}"
-  expect(rows[2].text).to include "Archival Object 2 #{@uuid}"
+  aggregate_failures do
+    expect(rows.length).to eq 3
+    expect(rows[1].text).to include "Archival Object 1 #{@uuid}"
+    expect(rows[2].text).to include "Archival Object 2 #{@uuid}"
+  end
 end
 
 When 'the user clicks on {string} in the tree toolbar' do |string|
-  within '#tree-toolbar' do
+  within '#infinite-tree-toolbar' do
     click_on_string string
   end
 end
 
 Then 'only the top-level Archival Objects are displayed' do
-  expect(page).to have_css('#tree-container .table .table-row', count: 2)
-  expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 1 #{@uuid}")
+  aggregate_failures do
+    expect(page).to have_css('.infinite-tree .node', count: 2)
+    expect(page).to have_css('.infinite-tree .node', text: "Archival Object 1 #{@uuid}")
+    expect(page).to have_no_css('.infinite-tree .node', text: "Archival Object 2 #{@uuid}")
+  end
 end
 
 Given 'all levels of hierarchy in the tree are expanded' do
-  click_on 'Auto-Expand All'
-  expect(page).to have_css('#tree-container .table .table-row-group button.expandme.disabled')
-  expect(page).to have_css('#tree-toolbar a.btn-expand-tree-mode.btn-success', visible: true, text: 'Disable Auto-Expand')
-  sleep 1
+  within '#infinite-tree-toolbar' do
+    click_on 'Auto-Expand All'
+  end
+  aggregate_failures do
+    expect(page).to have_css('#infinite-tree-container.expand-all')
+    expect(page).to have_css(
+      '#infinite-tree-container li.node:not(.root) > .node-row .node-expand.disabled'
+    )
+    expect(page).to have_css(
+      '#infinite-tree-toolbar .js-itree-toolbar-expand-mode.btn-success',
+      visible: true,
+      text: 'Disable Auto-Expand'
+    )
+    expect(page).to have_css('.infinite-tree .node', text: "Archival Object 2 #{@uuid}")
+  end
 end
 
 Then 'the expand arrows are enabled' do
-  arrows = all('.expandme')
+  arrows = all('#infinite-tree-container li.node:not(.root) > .node-row .node-expand')
 
   arrows.each do |arrow|
     expect(arrow[:class]).to_not include 'disabled'

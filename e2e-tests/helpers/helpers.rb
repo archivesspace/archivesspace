@@ -305,9 +305,11 @@ end
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 
 def create_resource_archival_object(uuid)
-  click_on 'Add Child'
+  within '#infinite-tree-toolbar' do
+    click_on 'Add Child'
+  end
 
-  expect(page).to have_css '#archival_object_title_'
+  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
 
   fill_in 'Title', with: "Archival Object #{uuid}"
   fill_in 'Component Unique Identifier', with: uuid
@@ -379,6 +381,8 @@ def create_resource_archival_object(uuid)
 
   find('button', text: 'Save Archival Object', match: :first).click
   expect(page).to have_text "Archival Object Archival Object #{uuid} on Resource Resource #{uuid} created"
+
+  @archival_object_id = extract_created_record_id('Archival Object')
 end
 
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -435,6 +439,62 @@ def wait_for_ajax
       sleep 3
       retry
     end
+  end
+end
+
+# InfiniteTree loads/saves record-pane HTML with fetch (not jQuery.ajax), so wait_for_ajax is
+# not enough. These helpers wait for the pane to finish loading and become interactable.
+# form_prefix is the record type form id prefix (e.g. 'archival_object', 'digital_object_component').
+def wait_for_infinite_tree_inline_edit_form(form_prefix:)
+  form_id = "#{form_prefix}_form"
+  pane = '#infinite-tree-record-pane'
+
+  aggregate_failures do
+    expect(page).to have_no_css("#{pane}.blocked")
+    expect(page).to have_css("#{pane} ##{form_id}[data-update-monitor-record-uri]")
+  end
+end
+
+def wait_for_infinite_tree_inline_new_form(form_prefix:)
+  form_id = "#{form_prefix}_form"
+  pane = '#infinite-tree-record-pane'
+
+  aggregate_failures do
+    expect(page).to have_no_css("#{pane}.blocked")
+    expect(page).to have_css("#{pane} ##{form_id}")
+    expect(page).to have_css("#{pane} #createPlusOne")
+  end
+end
+
+# InfiniteTree RDE silently no-ops until a selected tree node with data-uri exists.
+# wait_for_ajax alone is not enough because tree/root selection uses fetch.
+def wait_for_infinite_tree_ready_for_rde
+  aggregate_failures do
+    expect(page).to have_css(
+      '#infinite-tree-container li.node.selected[data-uri]',
+      visible: true
+    )
+    expect(page).to have_css(
+      '#infinite-tree-toolbar .js-itree-toolbar-rde:not(.disabled)',
+      visible: true
+    )
+    expect(page).to have_css('#infinite-tree-record-pane:not(.blocked)')
+  end
+end
+
+def open_rapid_data_entry_modal
+  wait_for_infinite_tree_ready_for_rde
+
+  within '#infinite-tree-toolbar' do
+    find('.js-itree-toolbar-rde:not(.disabled)', visible: true).click
+  end
+
+  wait_for_ajax
+
+  aggregate_failures do
+    expect(page).to have_css('#rapidDataEntryModal', visible: true)
+    expect(page).to have_css('#rapidDataEntryModal #rde_form', visible: true)
+    expect(page).to have_css('#rapidDataEntryModal #rdeTable', visible: true)
   end
 end
 
