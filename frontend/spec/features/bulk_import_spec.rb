@@ -29,7 +29,7 @@ describe 'Bulk Import', js: true do
       page.has_css? "#resource_ead_id_"
       expect(find(id: "resource_ead_id_").value).to eq @ead_id
     end
-    click_link "Load via Spreadsheet"
+    click_button "Load via Spreadsheet"
     expect(find(id: "bulkFileButton").disabled?).to be true
     page.execute_script("return $('#excel_file')[0]").send_keys(@invalid_file)
     page.driver.browser.switch_to.alert.accept
@@ -60,7 +60,7 @@ describe 'Bulk Import', js: true do
       expect(find(id: "resource_ead_id_").value).to eq @ead_id
     end
 
-    click_link "Load via Spreadsheet"
+    click_button "Load via Spreadsheet"
     expect(find(id: "bulkFileButton").disabled?).to be true
     page.execute_script("return $('#excel_file')[0]").send_keys(@valid_file_with_conditions_governing_access_notes)
     expect(find(id: "bulkFileButton").disabled?).to be false
