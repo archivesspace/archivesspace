@@ -449,6 +449,24 @@ a:hover {
   text-decoration: underline;
 }
 
+.delete_filter {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-left: 0.25rem;
+  color: #337ab7;
+  font: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.delete_filter:hover,
+.delete_filter:focus {
+  color: #23527c;
+  text-decoration: underline;
+}
+
 h1,
 .h1,
 .site-title {
