@@ -867,8 +867,13 @@ fr:
     linked_to_user: Notice impossible à supprimer, car liée à un utilisateur
     merge_denied_relationship: Ces agents ont une relation. Supprimez la 
       relation avant de procéder à la fusion.
-    cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne 
+    cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne
       peut pas être supprimé.
+    linked_to_other_repo: Cet agent est lié à des notices dans au moins un
+      autre référentiel. Il ne peut pas être supprimé sans autorisations
+      administratives.
+    cannot_delete_system_agent: Il s'agit d'une notice d'agent système et
+      elle ne peut pas être supprimée.
   accession:
     _frontend:
       messages:
@@ -926,6 +931,10 @@ fr:
       action:
         create: Créer agent
         preview: Fusionner l'aperçu
+      linked_in_other_repository:
+        label: Lié dans d'autres référentiels
+        tooltip: Cet agent est lié à des notices dans au moins un autre
+          référentiel.
 
   agent_contact:
     is_representative: Préféré

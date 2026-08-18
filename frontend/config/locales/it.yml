@@ -670,8 +670,13 @@ it:
     merge_denied_for_system_user: Uno o più agents è un utente del sistema.
     merge_denied_relationship: Questi agents hanno una relazione. Rimuovi la 
       relazione prima di procedere con l'unione.
-    cannot_delete_repository_agent: Questo agent è linkato a una repository e 
+    cannot_delete_repository_agent: Questo agent è linkato a una repository e
       non può essere rimosso.
+    linked_to_other_repo: Questo agente è collegato a record in almeno un
+      altro repository. Non può essere eliminato senza autorizzazioni
+      amministrative.
+    cannot_delete_system_agent: Questo è un record di agente di sistema e
+      non può essere eliminato.
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
     merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
       questa unione.
@@ -721,6 +726,10 @@ it:
       action:
         preview: Preview unione
         create: Crea agente
+      linked_in_other_repository:
+        label: Collegato in altri repository
+        tooltip: Questo agente è collegato a record in almeno un altro
+          repository.
   agent_contact:
     is_representative: Preferito
     notes_tooltip: "<p>Ulteriori note o altre informazioni riguardo il contatto.</p>\n"

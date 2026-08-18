@@ -856,6 +856,9 @@ en:
       action:
         create: Create Agent
         preview: Merge Preview
+      linked_in_other_repository:
+        label: Linked in Other Repos
+        tooltip: This agent is linked to records in at least one other repository.
 
   agent_contact:
     is_representative: Preferred
@@ -1177,8 +1180,8 @@ en:
       action:
         add: Add Agent Link
         make_primary_tooltip: |
-            <p>Use to indicate which agent linked to the record is the primary agent. Only one linked agent can be designated as primary.</p> 
-            <p>In the MARCXML export, the primary agent will be the 1XX value.</p> 
+            <p>Use to indicate which agent linked to the record is the primary agent. Only one linked agent can be designated as primary.</p>
+            <p>In the MARCXML export, the primary agent will be the 1XX value.</p>
         make_primary: Make Primary
 
   linked_record:
@@ -1974,8 +1977,8 @@ en:
     too_many_rows_warning:
       "Warning: The number of rows that will be generated in this spreadsheet exceeds the number of rows that can be updated
       via the Bulk Archival Object Updater background job. If you plan to run the Bulk Archival Object Updater job using
-      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to 
-      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.  
+      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to
+      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.
       This warning can be safely ignored if you do not intend to run a Bulk Archival Object Updater job with this data."
 
   assessment:

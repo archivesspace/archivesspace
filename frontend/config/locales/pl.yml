@@ -788,6 +788,10 @@ pl:
       action:
         preview: Podgląd scalania
         create: Utwórz agenta
+      linked_in_other_repository:
+        label: Powiązany w innych repozytoriach
+        tooltip: Ten agent jest powiązany z rekordami w co najmniej jednym
+          innym repozytorium.
       messages:
         created: Utworzono agenta
         updated: Agent zapisany
@@ -1030,8 +1034,13 @@ pl:
       powiązany z oceną.
     linked_to_user: Nie można usunąć rekordu, ponieważ jest on powiązany z 
       użytkownikiem.
-    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i 
+    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i
       nie można go usunąć.
+    linked_to_other_repo: Ten agent jest powiązany z rekordami w co najmniej
+      jednym innym repozytorium. Nie można go usunąć bez uprawnień
+      administracyjnych.
+    cannot_delete_system_agent: To jest rekord agenta systemowego i nie
+      można go usunąć.
     error_404: Nie znaleziono rekordu
   component_link:
     _plural: Linki do komponentów

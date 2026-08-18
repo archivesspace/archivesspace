@@ -727,6 +727,8 @@ ja:
     linked_to_assessment: レコードは評価にリンクされているため削除できません
     linked_to_user: レコードはユーザーにリンクされているため削除できません
     cannot_delete_repository_agent: このエージェントはリポジトリにリンクされているため、削除できません。
+    linked_to_other_repo: このエージェントは他のリポジトリのレコードにリンクされています。管理者権限がない限り削除できません。
+    cannot_delete_system_agent: これはシステムエージェントのレコードであり、削除できません。
     merge_denied_relationship: これらのエージェントには関係があります。マージを続行する前に、関係を削除してください。
   accession:
     _frontend:
@@ -780,6 +782,9 @@ ja:
       action:
         create: エージェントを作成する
         preview: マージプレビュー
+      linked_in_other_repository:
+        label: 他のリポジトリにリンク
+        tooltip: このエージェントは他の少なくとも1つのリポジトリのレコードにリンクされています。
 
   agent_contact:
     is_representative: 優先

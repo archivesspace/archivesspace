@@ -8,7 +8,11 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
-        <h2><%= clean_mixed_content(@agent.title) %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
+        <h2><%= clean_mixed_content(@agent.title) %>  <span class="label label-info badge"><%= t("agent._singular") %></span>
+          <% if @agent.linked_in_other_repository %>
+            <span class="label badge badge-caution has-tooltip" data-toggle="tooltip" data-placement="auto" data-container="body" title="<%= t("agent._frontend.linked_in_other_repository.tooltip") %>"><%= t("agent._frontend.linked_in_other_repository.label") %></span>
+          <% end %>
+        </h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
