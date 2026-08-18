@@ -149,8 +149,16 @@ it:
       annullare questa azione</strong>.</p><p>Questa azione rimuoverà la 
       <strong>repository</strong> e tutti i records associati dal database, 
       incluso ogni riferimento della stessa presente in altri records.</p><p>Per
-      continuare per favore inserisci '%{repository}' sotto:</p><p><input 
+      continuare per favore inserisci '%{repository}' sotto:</p><p><input
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
+    delete_agent_cross_repo_confirm_message: <p>Attenzione! <strong>Non potrai
+      annullare questa azione</strong>.</p><p>Questa azione rimuoverà il record
+      dal database, incluso ogni riferimento dello stesso presente in altri
+      records.</p><p><strong>Questo agente è collegato a record in almeno
+      un altro repository.</strong> Eliminandolo verrà scollegato dai record
+      in tutti i repository.</p><p><label><input type="checkbox"
+      id="agentCrossRepoConfirm"> Elimina questo agente da tutti i repository
+      collegati</label></p>
     publish_archival_object_confirm_title: Pubblicare?
     publish_archival_object_confirm_message: <p>Effettuando questa operazione 
       pubblicherai il record, ogni sub-records (documenti esterni, note, etc) e 

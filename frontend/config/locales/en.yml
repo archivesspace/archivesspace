@@ -98,6 +98,7 @@ en:
     delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
     delete_repository_confirm_title: "Delete this Repository? %{name}"
     delete_repository_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the <strong>repository</strong> and all associated records from the database, including any references it has to other records.</p><p>To continue please enter '%{repository}' below:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p><p><strong>This agent is linked to records in at least one other repository.</strong> Deleting it will unlink it from records in all repositories.</p><p><label><input type=\"checkbox\" id=\"agentCrossRepoConfirm\"> Delete this agent from all linked repositories</label></p>"
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"

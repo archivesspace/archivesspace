@@ -180,12 +180,21 @@ de:
     delete_repository_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie
       <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit 
       wird der <strong>Aufbewahrungsort</strong> und alle zugehörigen 
-      Aufzeichnungen inklusive aller Verweise zu anderen Aufzeichnungen aus der 
-      Datenbank entfernt.</p><p>Um fortzufahren geben Sie bitte '%{repository}' 
-      unten ein:</p><p><input id='deleteRepoConfim' 
+      Aufzeichnungen inklusive aller Verweise zu anderen Aufzeichnungen aus der
+      Datenbank entfernt.</p><p>Um fortzufahren geben Sie bitte '%{repository}'
+      unten ein:</p><p><input id='deleteRepoConfim'
       data-confirm-answer='%{repository}'></input></p>
-    delete_multiple_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie 
-      <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit 
+    delete_agent_cross_repo_confirm_message: <p>Bitte seien Sie sich bewusst,
+      dass Sie <strong>diese Aktion nicht rückgängig machen können</strong>.</p>
+      <p>Damit wird die Aufzeichnung inklusive aller Verweise zu anderen
+      Aufzeichnungen aus der Datenbank entfernt.</p><p><strong>Dieser Akteur
+      ist mit Aufzeichnungen in mindestens einem anderen Aufbewahrungsort
+      verknüpft.</strong> Durch das Löschen werden die Verknüpfungen zu
+      Aufzeichnungen in allen Aufbewahrungsorten aufgehoben.</p>
+      <p><label><input type="checkbox" id="agentCrossRepoConfirm"> Diesen
+      Akteur aus allen verknüpften Aufbewahrungsorten löschen</label></p>
+    delete_multiple_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie
+      <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit
       werden diese Aufzeichnungen inklusive aller Verweise zu anderen 
       Aufzeichnungen aus der Datenbank entfernt.</p>
     form_changes_message: <small><span class='muted'>Sie haben ungesicherte 

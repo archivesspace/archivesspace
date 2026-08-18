@@ -122,6 +122,12 @@ es:
       acción eliminará el <strong>repositorio</strong> y todos los registros asociados
       incluidas las referencias a otros registros.</p><p>Para seguir adelante por
       favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede
+      deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la
+      base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p><p><strong>Este
+      agente está vinculado a registros en al menos otro repositorio.</strong> Al eliminarlo,
+      se desvinculará de los registros en todos los repositorios.</p><p><label><input type=\"checkbox\"
+      id=\"agentCrossRepoConfirm\"> Eliminar este agente de todos los repositorios vinculados</label></p>"
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
     delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no

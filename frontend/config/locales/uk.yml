@@ -136,6 +136,13 @@ uk:
       включаючи будь-які посилання на інші записи.</p><p>Щоб продовжити, введіть
       '%{repository}' нижче:</p><p><input id='deleteRepoConfim' 
       data-confirm-answer='%{repository}'></input></p>
+    delete_agent_cross_repo_confirm_message: <p>Зверніть увагу, що <strong>цю дію не можна
+      скасувати</strong>.</p><p>Ця дія видалить запис з бази даних, включаючи
+      будь-які посилання на інші записи.</p><p><strong>Цей агент пов'язаний
+      із записами принаймні в одному іншому репозиторії.</strong> Видалення
+      відв'яже його від записів у всіх репозиторіях.</p><p><label><input
+      type="checkbox" id="agentCrossRepoConfirm"> Видалити цього агента з
+      усіх пов'язаних репозиторіїв</label></p>
     delete_multiple: Видалити записи
     delete_multiple_confirm_title: Видалити записи?
     delete_multiple_confirm_message: <p>Зверніть увагу, що <strong>цю дію не 
