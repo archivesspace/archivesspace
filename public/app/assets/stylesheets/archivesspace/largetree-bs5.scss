@@ -37,6 +37,10 @@
       border-bottom: 1px solid #fff;
       overflow: hidden;
       vertical-align: middle;
+
+      a {
+        color: $midblue;
+      }
     }
 
     td > *,
@@ -90,7 +94,7 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: -1px;
+        bottom: 0;
         border: 1px solid #0a6aa1;
         pointer-events: none;
       }
