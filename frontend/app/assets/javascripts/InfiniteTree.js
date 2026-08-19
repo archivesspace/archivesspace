@@ -127,10 +127,10 @@
       this.container.addEventListener(
         'infiniteTreeRouter:redisplayAndShow',
         async e => {
-          const { targetHash } = e.detail;
+          const { targetHash, plusOne } = e.detail;
 
           try {
-            await this.redisplayAndShow(targetHash);
+            await this.redisplayAndShow(targetHash, { plusOne: !!plusOne });
           } finally {
             this.container.dispatchEvent(
               new CustomEvent('infiniteTree:redisplayAndShowComplete', {
@@ -602,8 +602,12 @@
     /**
      * Rebuilds the entire tree and selects the node pointed to by locationHash
      * @param {string} locationHash - The location hash representing the node to render
+     * @param {{ plusOne?: boolean }} [options] - Save +1 post-create refresh: update tree
+     * selection/hash but skip pane loadRecord (notifyPane: false). Avoids racing the
+     * sibling _new_inline fetch (#loadNewSiblingRecord via plusOneAfterCreate). AjaxTree
+     * avoids the same race by never auto-loading the pane on redisplay during plus-one.
      */
-    async redisplayAndShow(locationHash) {
+    async redisplayAndShow(locationHash, { plusOne = false } = {}) {
       this._syntheticNewNode = null;
 
       // Normalize hash to include # prefix
@@ -617,7 +621,7 @@
 
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
-        this.selectNode(rootNodeElement);
+        this.selectNode(rootNodeElement, { notifyPane: !plusOne });
         rootNodeElement.scrollIntoView({
           behavior: 'instant',
           block: 'center',
@@ -631,7 +635,10 @@
 
       try {
         const data = await this.#fetchAncestorBatches(nodeId);
-        await this.#renderAncestors(data, nodeElementId, { replace: false });
+        await this.#renderAncestors(data, nodeElementId, {
+          replace: false,
+          notifyPane: !plusOne,
+        });
       } catch (error) {
         console.error('Error in redisplayAndShow:', error);
       }
@@ -747,7 +754,7 @@
     async #renderAncestors(
       ancestorBatches,
       nodeElementId,
-      { replace = true, select = true, center = true } = {}
+      { replace = true, select = true, center = true, notifyPane = true } = {}
     ) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
@@ -848,7 +855,7 @@
       );
 
       if (nodeOfInterest) {
-        if (select) this.selectNode(nodeOfInterest);
+        if (select) this.selectNode(nodeOfInterest, { notifyPane });
         if (center)
           nodeOfInterest.scrollIntoView({
             behavior: 'instant',
