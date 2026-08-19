@@ -658,6 +658,18 @@ ul.no-bullets {
   line-height: inherit;
   cursor: pointer;
   border: 1px solid $light-neutral;
+
+  // Active is one step darker than hover
+  --bs-btn-active-bg: #{$shade};
+  --bs-btn-active-border-color: #{$shade};
+  --bs-btn-active-color: #{$accent-color};
+
+  // Plain .btn does not set --bs-btn-disabled-color. Without it, disabled
+  // color inherits the parent .resource/.accession/etc. record-type red/etc.
+  // (print button shows this while JS sets disabled during "Generating").
+  --bs-btn-disabled-color: #{$darkshade};
+  --bs-btn-disabled-bg: #{$light-neutral};
+  --bs-btn-disabled-border-color: #{$shade};
 }
 .page_action:hover,
 .page_action:focus {
