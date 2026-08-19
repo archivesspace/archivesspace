@@ -768,6 +768,8 @@ it:
         following_log: Registro seguente
         create: Crea lavoro
         save: Inizia il lavoro
+        new: Нова фонова робота
+        cancel: Скасувати завдання
       section:
         basic_information: Informazioni di base
         status: Stato occupazionale
@@ -1418,7 +1420,9 @@ it:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer] su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato esternamente."
+        no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer]
+          su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato
+          esternamente."
       action:
         add: Aggiungi versione del file
         make_representative: Rendere rappresentante
@@ -1807,6 +1811,27 @@ it:
       <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
       <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
     top_container: Contenitore superiore
+    type_2_tooltip: |
+      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    indicator_2: Індикатор дитини
+    indicator_2_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
+    barcode_2: Штрих-код дочірнього контейнера
+    barcode_2_tooltip: |
+      <p>Штрих-код для ідентифікації контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+    type_3: Тип онука
+    type_3_tooltip: |
+      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    indicator_3: Індикатор онуків
+    indicator_3_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
+    _singular: Підконтейнер
+    _plural: Підконтейнери
+    _frontend:
+      action:
+        add: Додати екземпляр контейнера
   update_monitor:
     save_failed: Impossibile salvare le modifiche.
     stale_record: Questo record è stato aggiornato da un altro utente. Aggiorna 
@@ -1817,3 +1842,86 @@ it:
     repository_changed: Impossibile salvare questo record perché il repository 
       attivo è cambiato. Per salvare il record, apri un'altra finestra e 
       reimposta il repository attivo.
+  top_container:
+    container_profile: Профіль контейнера
+    container_profile_tooltip: |
+      <p>Опис різних характеристик певного типу контейнера, включаючи розміри.</p>
+    indicator: Індикатор
+    indicator_tooltip: |
+      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Буквено-цифровий вираз для позначення місця контейнера найвищого рівня, яке також може бути позицією контейнера в послідовності контейнерів.</p>
+    barcode: Штрих-код
+    barcode_tooltip: |
+      <p>Використовується для запису штрих-коду, який однозначно ідентифікує контейнер найвищого рівня.</p>
+    type: Тип контейнера
+    type_tooltip: |
+      <p>Тип контейнера найвищого рівня.</p>
+      <p>Значення в цьому списку контрольованих значень можна змінювати.</p>
+    ils_holding_id: Ідентифікатор холдингу ILS
+    ils_holding_id_tooltip: |
+      <p>Ідентифікатор пов'язаного запису про фонд у бібліотечній ILS</p>
+    ils_item_id: Ідентифікатор товару ILS
+    ils_item_id_tooltip: |
+      <p>Ідентифікатор, що надається API, для пов’язаного запису елемента в бібліотечній ILS (системне поле; не можна редагувати вручну)</p>
+    internal_note: Внутрішня примітка
+    internal_note_tooltip: |
+      <p>Нотатки для внутрішнього використання. Відображаються лише в інтерфейсі персоналу.</p>
+    exported_to_ils: Експортовано до ILS
+    not_exported: Не експортовано
+    restricted: Обмежено?
+    parent: Батьківський контейнер
+    has_location: Має місцезнаходження
+    managed_container_2_type: Тип дочірнього контейнера
+    managed_container_2_type_tooltip: |
+      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    managed_container_2_indicator: Індикатор дочірнього контейнера
+    managed_container_2_indicator_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
+    managed_container_3_type: Тип контейнера для онуків
+    managed_container_3_type_tooltip: |
+      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    managed_container_3_indicator: Індикатор контейнера для онуків
+    managed_container_3_indicator_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
+    barcode_length_for_this_repository: 'Довжина штрих-коду для цього репозиторію:'
+    characters: персонажі
+    batch_delete:
+      success: Найпопулярніші контейнери успішно видалено
+      error: Виникла проблема з видаленням найпопулярніших контейнерів
+    _singular: Верхній контейнер
+    _plural: Верхні контейнери
+    _frontend:
+      section:
+        active_restrictions: Активні обмеження
+        linked_records: Пов'язані записи
+        basic_information: Інформація про контейнер
+      action:
+        add: Додати верхній контейнер
+        create: Створення верхнього контейнера
+        save: Зберегти верхній контейнер
+      messages:
+        created: Створено верхній контейнер
+        updated: Верхній контейнер оновлено
+        filter_required: Будь ласка, надайте фільтр
+        max_results_limit_reached: Не всі результати перелічені. Будь ласка, 
+          уточніть пошук.
+        max_results_limit_details: Показано <strong>%{visible</strong> з 
+          <strong>%{num_found</strong> відповідних результатів
+        results_summary: 'Відповідні результати: <strong>%{num_found</strong>'
+        bulk_selection_sort_help: Клацніть стовпець, щоб встановити порядок 
+          сортування. Утримуйте клавішу Shift, щоб сортувати за кількома 
+          стовпцями.
+        merged: Верхні контейнери об'єднано
+        bulk_action_success: Найпопулярніші контейнери успішно оновлено
+        bulk_action_success_info: Зверніть увагу, що може знадобитися певний 
+          час, перш ніж зміни відобразяться в результатах пошуку або таблицях 
+          перегляду.
+        no_active_restrictions: Немає активних обмежень
+      bulk_operations:
+        title: Масові операції
+        collection_singular: Ресурс/Приєднання
+        collection_plural: Ресурси/Доступні матеріали
+        collection_resource_singular: Ресурс
+        collection_resource_plural: Ресурси
+        collection_accession_singular: Приєднання
