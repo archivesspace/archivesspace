@@ -109,10 +109,8 @@ describe 'Archival objects', js: true do
     expect(page).to have_text "Archival Object Archival Object Title #{now} on Resource Resource Title #{now} created"
 
     %w[January February December].each do |month|
-      sleep 5
-      expect(page).to have_text 'Archival Object'
-      expect(page).to have_css '#archival_object_title_'
-      expect(page).to have_css '#archival_object_level_'
+      expect(page).to have_css '#archival_object_form'
+      wait_for_ajax
 
       fill_in 'Title', with: "Archival Object Title #{month} #{now}"
       select 'Item', from: 'archival_object_level_'
