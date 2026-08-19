@@ -5,6 +5,8 @@ describe AgentsController, type: :controller do
   render_views
 
   def login_as_agent_manager(permission)
+    ensure_admin_backend_session
+
     user = build(:json_user).save(password: 'password123')
     user = User.find(user)
 
