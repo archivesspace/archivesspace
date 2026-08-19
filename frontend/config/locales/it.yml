@@ -1925,3 +1925,22 @@ it:
         collection_resource_singular: Ресурс
         collection_resource_plural: Ресурси
         collection_accession_singular: Приєднання
+        collection_accession_plural: Приєднання
+        collection_resource_linker:
+          browse: Переглянути ресурси
+          create: Створити ресурс
+          link_title: Посилання на ресурс
+        collection_accession_linker:
+          browse: Переглянути приєднання
+          create: Створити приєднання
+          link_title: Посилання на приєднання
+        series: Серія
+        current_location: Поточне місцезнаходження
+        keyword_criteria: Ключове слово
+        barcodes_criteria: Штрих-код(и)
+        exported_to_ils_true: Так
+        exported_to_ils_false: Ні
+        empty: Непов'язані контейнери
+        empty_true: Так
+        empty_false: Ні
+        search: Пошук
