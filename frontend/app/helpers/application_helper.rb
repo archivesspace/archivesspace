@@ -129,6 +129,7 @@ module ApplicationHelper
             href,
             {
               :target => "_blank",
+              :rel => "noopener noreferrer",
               :title => title,
               :class => "context-help has-tooltip #{x_padding} #{klass}",
               :style => style,
