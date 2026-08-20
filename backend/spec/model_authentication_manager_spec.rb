@@ -164,4 +164,27 @@ describe 'Authentication manager' do
       expect(AuthenticationManager.authenticate_token(username, token)).not_to be_nil
     end
   end
+
+  context "PUI viewer permission" do
+    before(:each) do
+      AppConfig[:authentication_sources] = [auth_source]
+    end
+
+    it "preserves view_pui permission for a user who has it" do
+      user = AuthenticationManager.authenticate(username, "world")
+
+      RequestContext.open(:repo_id => Repository.global_repo_id) do
+        pui_group = Group.this_repo[:group_code => Group.PUI_VIEWERS_GROUP_CODE]
+        pui_group.add_user(user) if pui_group
+      end
+
+      user = AuthenticationManager.authenticate(username, "world")
+      expect(user.can?(:view_pui)).to be true
+    end
+
+    it "does not grant view_pui permission to a user who does not have it" do
+      user = AuthenticationManager.authenticate(username, "world")
+      expect(user.can?(:view_pui)).to be false
+    end
+  end
 end

@@ -1901,6 +1901,7 @@ en:
       advanced_data_entry: "Advanced Data Entry users of the %{repo_code} repository"
       basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
       repository_viewers: "Viewers of the %{repo_code} repository"
+      pui_viewers: PUI Viewers
     permission_types:
       manage_repository: assign <b>users</b> to groups (in this repository)<br/>set <b>group</b> permissions (in this repository)<br/>set <b>repository preferences</b> (in this repository)<br/>configure <b>required fields and default values</b> (in this repository)<br/>create and run <b>batch find and replace jobs</b> (in this repository)<br/>create/update/delete <b>locations</b> (system-wide)
       view_agent_contact_record: edit/view contact details section of <b>agents</b> (in this repository)

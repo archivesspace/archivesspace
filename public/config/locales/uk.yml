@@ -33,6 +33,7 @@ uk:
     staff_link: Тільки для персоналу
     next: Далі
     previous: Попередній
+    authenticating: Перевірка доступу
   pagination:
     controls: Елементи керування сторінками
     top_controls: Верхні елементи керування сторінками
@@ -534,4 +535,14 @@ uk:
     archivesspace_home_html: Працює на <a href='http://archivesspace.org'>ArchivesSpace</a>
   languages:
     select: Виберіть мову
-
+  login:
+    login_please: Будь ласка, увійдіть
+    login: Увійти
+    logout: Вийти
+    username_placeholder: Ім'я користувача
+    password_placeholder: Пароль
+    username_aria_label: Ім'я користувача
+    password_aria_label: Пароль користувача
+    required: потрібно
+    pui_permission_denied: "Користувач `%{username}` не має дозволу переглядати PUI."
+    login_failed: "Помилка входу. Перевірте своє ім'я користувача та пароль."

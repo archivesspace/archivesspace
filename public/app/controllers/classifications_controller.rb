@@ -2,7 +2,9 @@ class ClassificationsController < ApplicationController
 
   include ResultInfo
 
-  skip_before_action  :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
+
+  json_response_for :tree_root, :tree_node, :tree_waypoint, :tree_node_from_root
 
   before_action(:only => [:show, :term]) {
     process_slug_or_id(params)

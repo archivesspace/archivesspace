@@ -32,12 +32,14 @@ class User < Sequel::Model(:user)
 
     obj = super(json, opts)
     make_admin_if_requested(obj, json)
+    make_pui_viewer_if_requested(obj, json)
     obj
   end
 
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.make_admin_if_requested(self, json)
+    self.class.make_pui_viewer_if_requested(self, json)
     super
   end
 
@@ -69,6 +71,33 @@ class User < Sequel::Model(:user)
   end
 
 
+  def self.make_pui_viewer_if_requested(obj, json)
+    return if !RequestContext.get(:apply_pui_viewer_access)
+
+    # Nothing to do if these already agree
+    begin
+      return if (json.is_pui_viewer === obj.can?(:view_pui))
+    rescue PermissionNotFound
+      # System is being bootstrapped and permissions aren't here yet.  That's
+      # fine.
+    end
+
+    RequestContext.in_global_repo do
+      pui_group = Group.this_repo[:group_code => Group.PUI_VIEWERS_GROUP_CODE]
+
+      if pui_group
+        if json.is_pui_viewer
+          pui_group.add_user(obj)
+        else
+          pui_group.remove_user(obj)
+        end
+
+        self.broadcast_changes
+      end
+    end
+  end
+
+
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
@@ -79,6 +108,10 @@ class User < Sequel::Model(:user)
 
       if obj.can?(:administer_system)
         json['is_admin'] = true
+      end
+
+      if obj.can?(:view_pui)
+        json['is_pui_viewer'] = true
       end
     end
     jsons
