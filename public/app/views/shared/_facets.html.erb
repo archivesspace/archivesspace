@@ -1,37 +1,28 @@
 <%# displaying chosen facet(s) (if any) and facets %>
 
-<div class="filters my-3">
-  <% unless @filters.blank? && @search.filters_blank? %>
+<% unless @filters.blank? && @search.filters_blank? %>
+  <div class="filters my-3">
     <h2><%= t('search_results.filtered_by') %></h2>
-    <ul class="p-0 mt-4 mb-5">
+    <ul class="list-group p-0 mt-4 mb-5">
       <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
         <% unless f_q['v'].blank? %>
           <li class="list-group-item">
-            <span class="filter">
-              <%= t('search_results.search_term') %>:<%= f_q['v'] %>
-              <% if defined?(@result) && @result.respond_to?(:uri) && @result.uri.present? %>
-                <button
-                  type="button"
-                  title="<%= t('search_results.remove_filter') %>"
-                  aria-label="<%= "#{t('search_results.remove_filter')}: #{f_q['v']}" %>"
-                  class="delete_filter"
-                  onclick="window.location.href='<%= app_prefix(@result.uri) %>'"
-                >
-                  X
-                </button>
-              <% else %>
-                <%# On an INDEX page, use the default remove-filter URI. %>
-                <button
-                  type="button"
-                  title="<%= t('search_results.remove_filter') %>"
-                  aria-label="<%= "#{t('search_results.remove_filter')}: #{f_q['v']}" %>"
-                  class="delete_filter"
-                  onclick="window.location.href='<%= app_prefix(f_q['uri']) %>'"
-                >
-                  X
-                </button>
-              <% end %>
-            </span>
+            <div class="filter d-flex align-items-center">
+              <div>
+                <span class="fw-bold"><%= t('search_results.search_term') %></span>: <%= f_q['v'] %>
+              </div>
+              <%# On an INDEX page, use the default remove-filter URI. %>
+              <% remove_filter_href = if defined?(@result) && @result.respond_to?(:uri) && @result.uri.present?
+                   app_prefix(@result.uri)
+                 else
+                   app_prefix(f_q['uri'])
+                 end %>
+              <%= link_to '',
+                  remove_filter_href,
+                  class: 'btn-close ms-auto',
+                  title: t('search_results.remove_filter'),
+                  :"aria-label" => "#{t('search_results.remove_filter')}: #{f_q['v']}" %>
+            </div>
           </li>
         <% end %>
       <% end %>
@@ -42,43 +33,38 @@
           to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
         %>
         <li class="list-group-item">
-          <span class="filter">
-            <%= t('search_results.filter.from_to', :begin=> from_year, :end => to_year) %>
-
-            <button
-              type="button"
-              title="<%= t('search_results.remove_filter') %>"
-              aria-label="<%= "#{t('search_results.remove_filter')}: #{t('search_results.filter.from_to', begin: from_year, end: to_year)}" %>"
-              class="delete_filter"
-              onclick="window.location.href='<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")) %>'"
-            >
-              X
-            </button>
-          </span>
+          <div class="filter d-flex align-items-center">
+            <div>
+              <span class="fw-bold"><%= t('search_results.filter.years') %></span>: <%= from_year %> to <%= to_year %>
+            </div>
+            <%= link_to '',
+                app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}","")),
+                class: 'btn-close ms-auto',
+                title: t('search_results.remove_filter'),
+                :"aria-label" => "#{t('search_results.remove_filter')}: #{t('search_results.filter.from_to', begin: from_year, end: to_year)}" %>
+          </div>
         </li>
       <% end %>
 
       <% @filters.each do |k, a| %>
         <% a.each do |h| %>
           <li class="list-group-item">
-            <span class="filter">
-              <%= h['pt'] %>: <%= h['pv'] %>
-              <button
-                type="button"
-                title="<%= t('search_results.remove_filter') %>"
-                aria-label="<%= "#{t('search_results.remove_filter')}: #{h['pt']}: #{h['pv']}" %>"
-                class="delete_filter"
-                onclick="window.location.href='<%= app_prefix(h['uri']) %>'"
-              >
-                X
-              </button>
-            </span>
+            <div class="filter d-flex align-items-center">
+              <div>
+                <span class="fw-bold"><%= h['pt'] %></span>: <%= h['pv'] %>
+              </div>
+              <%= link_to '',
+                  app_prefix(h['uri']),
+                  class: 'btn-close ms-auto',
+                  title: t('search_results.remove_filter'),
+                  :"aria-label" => "#{t('search_results.remove_filter')}: #{h['pt']}: #{h['pv']}" %>
+            </div>
           </li>
         <% end %>
       <% end %>
     </ul>
-  <% end %>
-</div>
+  </div>
+<% end %>
 
 <% if @search[:dates_within] || @search[:text_within] %>
   <h2><%= t('search_results.filter.head') %></h2>

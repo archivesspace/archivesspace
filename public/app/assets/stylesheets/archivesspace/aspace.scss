@@ -417,7 +417,7 @@ a img {
 .recordrow {
   padding: rem-calc(10);
   border: 1px solid $border;
-  border-radius: var(--bootstrap-rounded-border-radius);
+  border-radius: var(--bs-border-radius);
   margin-bottom: 1rem;
 
   &.featured {
@@ -446,24 +446,6 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
-}
-
-.delete_filter {
-  background: none;
-  border: 0;
-  padding: 0;
-  margin-left: 0.25rem;
-  color: #337ab7;
-  font: inherit;
-  line-height: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.delete_filter:hover,
-.delete_filter:focus {
-  color: #23527c;
   text-decoration: underline;
 }
 
@@ -578,6 +560,12 @@ h5,
 }
 .searchstatement {
   background-color: $row-background;
+}
+
+.filters {
+  .btn-close {
+    font-size: 0.75rem;
+  }
 }
 
 .facets h2 {
