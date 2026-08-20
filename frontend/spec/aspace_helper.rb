@@ -11,8 +11,8 @@ module ASpaceHelpers
   # Thread.current[:backend_session] happens to be set to, which isn't
   # reset between examples. If a previous example left it pointed at a
   # lower-privilege session, those calls can intermittently fail with
-  # AccessDeniedException. Call this before to guarantee an admin
-  # session is active first.
+  # AccessDeniedException. Call this before any such calls to guarantee
+  # an admin session is active first.
   def ensure_admin_backend_session
     admin_session = User.login('admin', 'admin')
     JSONModel::HTTP.current_backend_session = admin_session['session']
