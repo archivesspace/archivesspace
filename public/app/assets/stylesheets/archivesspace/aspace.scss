@@ -417,7 +417,7 @@ a img {
 .recordrow {
   padding: rem-calc(10);
   border: 1px solid $border;
-  border-radius: var(--bootstrap-rounded-border-radius);
+  border-radius: var(--bs-border-radius);
   margin-bottom: 1rem;
 
   &.featured {
@@ -560,6 +560,12 @@ h5,
 }
 .searchstatement {
   background-color: $row-background;
+}
+
+.filters {
+  .btn-close {
+    font-size: 0.75rem;
+  }
 }
 
 .facets h2 {
