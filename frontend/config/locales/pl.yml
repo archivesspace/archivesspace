@@ -143,7 +143,15 @@ pl:
       danych, w tym wszelkie odniesienia do innych rekordów.</p><p>Aby 
       kontynuować, wpisz poniżej „%{repository}”:</p><p><input 
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
-    delete_multiple_confirm_message: <p>Należy pamiętać, że <strong>tej 
+    delete_agent_cross_repo_confirm_message: <p>Należy pamiętać, że <strong>tej
+      czynności nie można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie
+      rekordu z bazy danych, w tym wszelkich powiązań z innymi rekordami.</p>
+      <p><strong>Ten agent jest powiązany z rekordami w co najmniej jednym
+      innym repozytorium.</strong> Usunięcie go spowoduje odłączenie go od
+      rekordów we wszystkich repozytoriach.</p><p><label><input type="checkbox"
+      id="agentCrossRepoConfirm"> Usuń tego agenta ze wszystkich powiązanych
+      repozytoriów</label></p>
+    delete_multiple_confirm_message: <p>Należy pamiętać, że <strong>tej
       czynności nie można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie
       tych rekordów z bazy danych, w tym wszelkich powiązań z innymi 
       rekordami.</p>
@@ -788,6 +796,10 @@ pl:
       action:
         preview: Podgląd scalania
         create: Utwórz agenta
+      linked_in_other_repository:
+        label: Powiązany w innych repozytoriach
+        tooltip: Ten agent jest powiązany z rekordami w co najmniej jednym
+          innym repozytorium.
       messages:
         created: Utworzono agenta
         updated: Agent zapisany
@@ -1030,8 +1042,13 @@ pl:
       powiązany z oceną.
     linked_to_user: Nie można usunąć rekordu, ponieważ jest on powiązany z 
       użytkownikiem.
-    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i 
+    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i
       nie można go usunąć.
+    linked_to_other_repo: Ten agent jest powiązany z rekordami w co najmniej
+      jednym innym repozytorium. Nie można go usunąć bez uprawnień
+      administracyjnych.
+    cannot_delete_system_agent: To jest rekord agenta systemowego i nie
+      można go usunąć.
     error_404: Nie znaleziono rekordu
   component_link:
     _plural: Linki do komponentów

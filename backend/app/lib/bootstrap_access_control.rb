@@ -220,6 +220,10 @@ class ArchivesSpaceService
                       :implied_by => 'manage_agent_record',
                       :level => "global")
 
+    Permission.define("delete_agent_record_linked_elsewhere",
+                      "The ability to delete an agent record that is linked to records in a repository other than the current one",
+                      :level => "global")
+
     Permission.define("delete_subject_record",
                       "The ability to delete subject records",
                       :implied_by => 'manage_subject_record',

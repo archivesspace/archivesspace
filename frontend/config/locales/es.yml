@@ -122,6 +122,12 @@ es:
       acción eliminará el <strong>repositorio</strong> y todos los registros asociados
       incluidas las referencias a otros registros.</p><p>Para seguir adelante por
       favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede
+      deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la
+      base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p><p><strong>Este
+      agente está vinculado a registros en al menos otro repositorio.</strong> Al eliminarlo,
+      se desvinculará de los registros en todos los repositorios.</p><p><label><input type=\"checkbox\"
+      id=\"agentCrossRepoConfirm\"> Eliminar este agente de todos los repositorios vinculados</label></p>"
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
     delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no
@@ -788,8 +794,12 @@ es:
       usuario
     merge_denied_relationship: Estos agentes tienen una relación. Elimine la 
       relación antes de continuar con la fusión.
-    cannot_delete_repository_agent: Este agente está vinculado a un repositorio 
+    cannot_delete_repository_agent: Este agente está vinculado a un repositorio
       y no se puede eliminar.
+    linked_to_other_repo: Este agente está vinculado a registros en al menos
+      otro repositorio. No se puede eliminar sin permisos administrativos.
+    cannot_delete_system_agent: Este es un registro de agente del sistema y
+      no se puede eliminar.
   accession:
     _frontend:
       messages:
@@ -847,6 +857,10 @@ es:
       action:
         create: Crear autoridad
         preview: Vista previa de combinación
+      linked_in_other_repository:
+        label: Vinculado en otros repositorios
+        tooltip: Este agente está vinculado a registros en al menos otro
+          repositorio.
 
   agent_contact:
     is_representative: Privilegiado

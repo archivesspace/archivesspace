@@ -149,8 +149,16 @@ it:
       annullare questa azione</strong>.</p><p>Questa azione rimuoverà la 
       <strong>repository</strong> e tutti i records associati dal database, 
       incluso ogni riferimento della stessa presente in altri records.</p><p>Per
-      continuare per favore inserisci '%{repository}' sotto:</p><p><input 
+      continuare per favore inserisci '%{repository}' sotto:</p><p><input
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
+    delete_agent_cross_repo_confirm_message: <p>Attenzione! <strong>Non potrai
+      annullare questa azione</strong>.</p><p>Questa azione rimuoverà il record
+      dal database, incluso ogni riferimento dello stesso presente in altri
+      records.</p><p><strong>Questo agente è collegato a record in almeno
+      un altro repository.</strong> Eliminandolo verrà scollegato dai record
+      in tutti i repository.</p><p><label><input type="checkbox"
+      id="agentCrossRepoConfirm"> Elimina questo agente da tutti i repository
+      collegati</label></p>
     publish_archival_object_confirm_title: Pubblicare?
     publish_archival_object_confirm_message: <p>Effettuando questa operazione 
       pubblicherai il record, ogni sub-records (documenti esterni, note, etc) e 
@@ -670,8 +678,13 @@ it:
     merge_denied_for_system_user: Uno o più agents è un utente del sistema.
     merge_denied_relationship: Questi agents hanno una relazione. Rimuovi la 
       relazione prima di procedere con l'unione.
-    cannot_delete_repository_agent: Questo agent è linkato a una repository e 
+    cannot_delete_repository_agent: Questo agent è linkato a una repository e
       non può essere rimosso.
+    linked_to_other_repo: Questo agente è collegato a record in almeno un
+      altro repository. Non può essere eliminato senza autorizzazioni
+      amministrative.
+    cannot_delete_system_agent: Questo è un record di agente di sistema e
+      non può essere eliminato.
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
     merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
       questa unione.
@@ -721,6 +734,10 @@ it:
       action:
         preview: Preview unione
         create: Crea agente
+      linked_in_other_repository:
+        label: Collegato in altri repository
+        tooltip: Questo agente è collegato a record in almeno un altro
+          repository.
   agent_contact:
     is_representative: Preferito
     notes_tooltip: "<p>Ulteriori note o altre informazioni riguardo il contatto.</p>\n"
