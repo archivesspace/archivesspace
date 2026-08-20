@@ -152,6 +152,7 @@ nl:
       year_now: nu
       year_begin: het begin
       from_to: 'Jaren: %{begin} tot %{end}'
+      from_to_range: '%{begin} tot %{end}'
       child_container_u_sstr: Subcontainer
       grand_child_container_u_sstr: Sub-subcontainer
       type_enum_s: Type

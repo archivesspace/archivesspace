@@ -96,7 +96,8 @@ uk:
     anything: '*'
     filter:
       year_begin: початок
-      from_to: 'Рокив: %{започинати в & {кінець}'
+      from_to: 'Роки: %{begin} до %{end}'
+      from_to_range: '%{begin} до %{end}'
       grand_child_container_u_sstr: Контейнер для онуків
       child_container_u_sstr: Дочірній контейнер
       type_enum_s: Тип

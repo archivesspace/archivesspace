@@ -178,6 +178,7 @@ en:
       year_now: now
       year_begin: the beginning
       from_to: "Years: %{begin} to %{end}"
+      from_to_range: "%{begin} to %{end}"
       child_container_u_sstr: Child container
       grand_child_container_u_sstr: Grandchild container
       type_enum_s: Type
