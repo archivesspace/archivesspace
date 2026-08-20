@@ -341,7 +341,15 @@ class DigitalObjectConverter < Converter
     raise ASpaceImport::CSVConvert::CSVSyntaxException.new(:duplicate_file_version_headers, dups) unless dups.empty?
 
     cell_handlers, bad_headers = super
-    bad_headers.reject! { |h| h.match(/^file_version_[a-z_]+(_\d+)?$/) }
+    bad_headers.reject! do |header|
+      header.match(/^file_version_[a-z_]+(_\d+)?$/) ||
+        %w[
+          agent_name_description_type
+          digital_object_rights_transferred
+          digital_object_rights_transferred_date
+          digital_object_rights_transferred_note
+        ].include?(header)
+    end
     [cell_handlers, bad_headers]
   end
 

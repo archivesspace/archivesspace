@@ -79,7 +79,7 @@ class BatchImportRunner < JobRunner
           log_created_uris(created_uris)
         rescue ImportCanceled
           raise Sequel::Rollback
-        rescue JSONModel::ValidationException, ImportException, Converter::ConverterMappingError, Sequel::ValidationFailed, ReferenceError => e
+        rescue JSONModel::ValidationException, ImportException, Converter::ConverterMappingError, Sequel::ValidationFailed, ReferenceError, ASpaceImport::CSVConvert::CSVSyntaxException => e
           # Note: we deliberately don't catch Sequel::DatabaseError here.  The
           # outer call to DB.open will catch that exception and retry the
           # import for us.
@@ -139,6 +139,9 @@ class BatchImportRunner < JobRunner
           ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ")
           ticker.log("\n\n")
         end
+      elsif last_error.is_a?(ReferenceError) || last_error.is_a?(ASpaceImport::CSVConvert::CSVSyntaxException)
+        ticker.log(last_error.message)
+        Log.exception(last_error)
       else
         ticker.log("Trace:" + last_error.backtrace.inspect)
         ticker.log("Errors: #{last_error.inspect}")
