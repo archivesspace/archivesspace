@@ -176,6 +176,7 @@ fr:
       year_now: maintenant
       year_begin: le début
       from_to: "Années : %{begin} à %{end}"
+      from_to_range: "%{begin} à %{end}"
       child_container_u_sstr: Conditionnement fils
       grand_child_container_u_sstr: Conditionnement petit-fils
       type_enum_s: Type

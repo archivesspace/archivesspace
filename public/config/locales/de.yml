@@ -122,6 +122,7 @@ de:
       from: Von
       year_now: Jetzt
       from_to: 'Jahre: %{begin} bis %{end}'
+      from_to_range: '%{begin} bis %{end}'
       classification_uri: Klassifizierung
       year_begin: Der Anfang
       fullrecord: Schlagwort

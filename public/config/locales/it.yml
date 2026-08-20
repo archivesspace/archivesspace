@@ -86,6 +86,7 @@ it:
       published_series_title_u_sstr: Serie
       year_begin: dall'inizio
       from_to: 'Anni: %{begin} a %{end}'
+      from_to_range: '%{begin} a %{end}'
       subjects: Soggetto
       primary_type: Tipo
       head: Filtra i risultati
