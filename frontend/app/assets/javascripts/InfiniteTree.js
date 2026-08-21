@@ -127,14 +127,46 @@
       this.container.addEventListener(
         'infiniteTreeRouter:redisplayAndShow',
         async e => {
-          const { targetHash } = e.detail;
+          const { targetHash, plusOne } = e.detail;
 
           try {
-            await this.redisplayAndShow(targetHash);
+            await this.redisplayAndShow(targetHash, { plusOne: !!plusOne });
           } finally {
             this.container.dispatchEvent(
               new CustomEvent('infiniteTree:redisplayAndShowComplete', {
                 detail: {},
+              })
+            );
+          }
+        }
+      );
+
+      // Rebuild the tree, restore selected context, and reveal a separate target.
+      this.container.addEventListener(
+        'infiniteTreeRouter:redisplayAndReopen',
+        async e => {
+          const detail = e.detail || {};
+          let succeeded = true;
+
+          try {
+            await this.redisplayAndReopen(detail);
+          } catch (error) {
+            succeeded = false;
+            console.error('Error in redisplayAndReopen:', error);
+
+            if (detail.revealUri) {
+              await this.redisplayAndShow(
+                InfiniteTreeIds.treeLinkUrl(detail.revealUri)
+              );
+            }
+          } finally {
+            this.container.dispatchEvent(
+              new CustomEvent('infiniteTree:redisplayAndReopenComplete', {
+                detail: {
+                  selectedUri: detail.selectedUri || null,
+                  revealUri: detail.revealUri || null,
+                  succeeded,
+                },
               })
             );
           }
@@ -357,6 +389,17 @@
           this.batchObserver.observe(observerNode);
         }
       }
+
+      // Notify listeners that a batch was inserted (for selection class updates)
+      const parentNode = list.closest('li.node');
+      if (parentNode) {
+        this.container.dispatchEvent(
+          new CustomEvent('infiniteTree:didInsertBatch', {
+            bubbles: true,
+            detail: { parentNode },
+          })
+        );
+      }
     }
 
     /**
@@ -559,8 +602,12 @@
     /**
      * Rebuilds the entire tree and selects the node pointed to by locationHash
      * @param {string} locationHash - The location hash representing the node to render
+     * @param {{ plusOne?: boolean }} [options] - Save +1 post-create refresh: update tree
+     * selection/hash but skip pane loadRecord (notifyPane: false). Avoids racing the
+     * sibling _new_inline fetch (#loadNewSiblingRecord via plusOneAfterCreate). AjaxTree
+     * avoids the same race by never auto-loading the pane on redisplay during plus-one.
      */
-    async redisplayAndShow(locationHash) {
+    async redisplayAndShow(locationHash, { plusOne = false } = {}) {
       this._syntheticNewNode = null;
 
       // Normalize hash to include # prefix
@@ -574,7 +621,7 @@
 
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
-        this.selectNode(rootNodeElement);
+        this.selectNode(rootNodeElement, { notifyPane: !plusOne });
         rootNodeElement.scrollIntoView({
           behavior: 'instant',
           block: 'center',
@@ -588,10 +635,113 @@
 
       try {
         const data = await this.#fetchAncestorBatches(nodeId);
-        await this.#renderAncestors(data, nodeElementId, { replace: false });
+        await this.#renderAncestors(data, nodeElementId, {
+          replace: false,
+          notifyPane: !plusOne,
+        });
       } catch (error) {
         console.error('Error in redisplayAndShow:', error);
       }
+    }
+
+    /**
+     * Rebuilds the tree from server data while separating selected record from revealed row.
+     * @param {Object} options
+     * @param {string[]} [options.reopenUris] - Expanded/source/destination context to reopen
+     * @param {string|null} [options.selectedUri] - URI that should remain selected
+     * @param {string} options.revealUri - URI that must be visible after recovery
+     * @param {number|null} [options.scrollTop] - Previous container scroll position
+     * @param {string} [options.revealStrategy] - Scroll behavior after rebuild
+     */
+    async redisplayAndReopen({
+      reopenUris = [],
+      selectedUri = null,
+      revealUri,
+      scrollTop = null,
+      revealStrategy = 'restore-scroll-then-reveal-if-needed',
+    }) {
+      this._syntheticNewNode = null;
+
+      const contextUris = this.#uniqueUris([
+        revealUri,
+        selectedUri,
+        ...reopenUris,
+      ]);
+      const nonRootContextUris = contextUris.filter(
+        uri => uri && uri !== this.rootMeta.uri
+      );
+
+      this.container.replaceChildren();
+
+      if (nonRootContextUris.length === 0) {
+        await this.renderRoot();
+      } else {
+        const contextBatches =
+          await this.#fetchMergedAncestorBatches(nonRootContextUris);
+
+        if (contextBatches.length === 0) {
+          await this.renderRoot();
+        } else {
+          const revealNodeId = revealUri
+            ? InfiniteTreeIds.uriToTreeId(revealUri)
+            : contextBatches[0].ancestorHtmlId;
+
+          await this.#renderAncestors(contextBatches, revealNodeId, {
+            replace: false,
+            select: false,
+            center: false,
+          });
+        }
+      }
+
+      await this.#reopenNodesByUri(reopenUris);
+      await this.#selectUriWithoutPaneReload(selectedUri || this.rootMeta.uri);
+      this.#restoreScrollThenReveal(revealUri, scrollTop, revealStrategy);
+    }
+
+    async #fetchMergedAncestorBatches(uris) {
+      const contexts = await Promise.all(
+        this.#uniqueUris(uris).map(async uri => {
+          const parts = InfiniteTreeIds.uriToParts(uri);
+
+          if (!parts) return [];
+
+          return this.#fetchAncestorBatches(Number(parts.id));
+        })
+      );
+
+      return this.#mergeAncestorContexts(contexts);
+    }
+
+    #mergeAncestorContexts(contexts) {
+      const byAncestor = new Map();
+
+      contexts.forEach(context => {
+        context.forEach((batch, level) => {
+          const key = batch.ancestorHtmlId;
+          const existing = byAncestor.get(key);
+
+          if (!existing) {
+            byAncestor.set(key, {
+              ...batch,
+              batches: { ...batch.batches },
+              _level: level,
+            });
+
+            return;
+          }
+
+          existing.batches = {
+            ...existing.batches,
+            ...batch.batches,
+          };
+          existing._level = Math.min(existing._level, level);
+        });
+      });
+
+      return Array.from(byAncestor.values()).sort(
+        (a, b) => a._level - b._level
+      );
     }
 
     /**
@@ -604,11 +754,12 @@
     async #renderAncestors(
       ancestorBatches,
       nodeElementId,
-      { replace = true } = {}
+      { replace = true, select = true, center = true, notifyPane = true } = {}
     ) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
         const ancestorHtmlId = batch.ancestorHtmlId;
+        const treeLevel = Number.isFinite(batch._level) ? batch._level : i;
 
         if (i === 0) {
           const treeListFrag = this.markup.rootList();
@@ -619,7 +770,7 @@
 
           const nodeListFrag = this.markup.nodeList(
             ancestorHtmlId,
-            i + 1,
+            treeLevel + 1,
             numBatches
           );
           const nodeListElement = nodeListFrag.querySelector('ol');
@@ -627,7 +778,7 @@
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.#buildBatchFragment(
               batchData.nodes,
-              i + 1,
+              treeLevel + 1,
               ancestorHtmlId,
               Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
@@ -649,11 +800,21 @@
         } else {
           // Handle non-root ancestor nodes
           const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+
+          if (!nodeElement) {
+            console.error('Could not find ancestor node while rendering:', {
+              ancestorHtmlId,
+              batch,
+            });
+
+            return acc;
+          }
+
           const icon = nodeElement.querySelector('.node-expand-icon');
 
           const nodeListFrag = this.markup.nodeList(
             ancestorHtmlId,
-            i + 1,
+            treeLevel + 1,
             numBatches
           );
 
@@ -662,7 +823,7 @@
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.#buildBatchFragment(
               batchData.nodes,
-              i + 1,
+              treeLevel + 1,
               ancestorHtmlId,
               Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
@@ -678,7 +839,7 @@
 
           nodeElement.setAttribute('data-has-expanded', 'true');
           nodeElement.setAttribute('aria-expanded', 'true');
-          icon.classList.add('expanded');
+          if (icon) icon.classList.add('expanded');
 
           return acc;
         }
@@ -694,13 +855,88 @@
       );
 
       if (nodeOfInterest) {
-        this.selectNode(nodeOfInterest);
-        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+        if (select) this.selectNode(nodeOfInterest, { notifyPane });
+        if (center)
+          nodeOfInterest.scrollIntoView({
+            behavior: 'instant',
+            block: 'center',
+          });
       }
 
       nodesToObserve.forEach(node => {
         this.batchObserver.observe(node);
       });
+    }
+
+    async #reopenNodesByUri(uris) {
+      const nodes = this.#uniqueUris(uris)
+        .map(uri => this.#nodeByUri(uri))
+        .filter(Boolean)
+        .sort(
+          (a, b) => this.#getNodeIndentLevel(a) - this.#getNodeIndentLevel(b)
+        );
+
+      for (const node of nodes) {
+        if (node.classList.contains('root')) continue;
+        if (node.getAttribute('aria-expanded') !== 'true') {
+          await this.#expandNode(node);
+        }
+      }
+    }
+
+    async #selectUriWithoutPaneReload(uri) {
+      const node = this.#nodeByUri(uri) || this.#nodeByUri(this.rootMeta.uri);
+
+      if (!node) return;
+
+      const old = this.container.querySelector('.selected');
+
+      if (old) old.classList.remove('selected');
+
+      node.classList.add('selected');
+
+      if (node.getAttribute('aria-expanded') === 'false') {
+        await this.#expandNode(node);
+      }
+    }
+
+    #restoreScrollThenReveal(uri, scrollTop, revealStrategy) {
+      const revealNode = this.#nodeByUri(uri);
+      const canRestoreScroll = Number.isFinite(Number(scrollTop));
+
+      if (canRestoreScroll) {
+        this.container.scrollTop = Number(scrollTop);
+      }
+
+      if (!revealNode) return;
+
+      const shouldReveal =
+        revealStrategy !== 'restore-scroll' &&
+        (!canRestoreScroll || !this.#isNodeFullyVisible(revealNode));
+
+      if (shouldReveal) {
+        revealNode.scrollIntoView({ behavior: 'instant', block: 'center' });
+      }
+    }
+
+    #isNodeFullyVisible(node) {
+      const row = node.querySelector(':scope > .node-row') || node;
+      const treeRect = this.container.getBoundingClientRect();
+      const rowRect = row.getBoundingClientRect();
+
+      return rowRect.top >= treeRect.top && rowRect.bottom <= treeRect.bottom;
+    }
+
+    #nodeByUri(uri) {
+      if (!uri) return null;
+
+      const treeId = InfiniteTreeIds.uriToTreeId(uri);
+
+      return this.container.querySelector(`#${treeId}`);
+    }
+
+    #uniqueUris(uris) {
+      return Array.from(new Set(uris.filter(Boolean)));
     }
 
     /**
@@ -776,6 +1012,14 @@
       const icon = node.querySelector('.node-expand-icon');
       if (icon) icon.classList.add('expanded');
       node.setAttribute('aria-expanded', 'true');
+
+      // Notify listeners that a node was expanded (for selection class updates)
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:didExpand', {
+          bubbles: true,
+          detail: { node },
+        })
+      );
     }
 
     /**
@@ -1085,10 +1329,7 @@
 
         list.remove();
 
-        if (
-          parentLi &&
-          !parentLi.querySelector('ol.node-children')
-        ) {
+        if (parentLi && !parentLi.querySelector('ol.node-children')) {
           parentLi.setAttribute('aria-expanded', 'false');
         }
       }

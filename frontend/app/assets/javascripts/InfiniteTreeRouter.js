@@ -44,13 +44,17 @@
         'infiniteTreeRecordPane:submitSuccess',
         e => {
           const target = this._pendingHash;
-          const { uri: savedUri, created } = e.detail || {};
+          const { uri: savedUri, created, plusOne } = e.detail || {};
 
-          // Store transaction state for completion handler
+          // plusOne is set by InfiniteTreeRecordPane when the user clicked Save +1 on an
+          // inline tree form (type="button" plus-one controls; see that module). Plain
+          // Save and dirty-guard submits leave it false. Mirrors AjaxTree createPlusOne →
+          // redisplayAndShow → add_new_after, but defers sibling form load until here.
           this._pendingTransaction = {
             target: target,
             savedUri: savedUri,
             created: !!created,
+            plusOne: !!plusOne,
           };
 
           // Clear pending hash now that we've captured it
@@ -68,13 +72,15 @@
             const newRecordHash = InfiniteTreeIds.treeLinkUrl(savedUri);
 
             if (target) {
-              const pendingHash = target.startsWith('#') ? target : `#${target}`;
+              const pendingHash = target.startsWith('#')
+                ? target
+                : `#${target}`;
 
               this.#setHashSilently(pendingHash);
 
               this.treeContainer.dispatchEvent(
                 new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
-                  detail: { targetHash: pendingHash },
+                  detail: { targetHash: pendingHash, plusOne: !!plusOne },
                 })
               );
             } else {
@@ -82,7 +88,7 @@
 
               this.treeContainer.dispatchEvent(
                 new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
-                  detail: { targetHash: newRecordHash },
+                  detail: { targetHash: newRecordHash, plusOne: !!plusOne },
                 })
               );
             }
@@ -110,8 +116,41 @@
         'infiniteTree:redisplayAndShowComplete',
         () => {
           if (this._pendingTransaction) {
+            const { savedUri, created, plusOne } = this._pendingTransaction;
+
+            // Inline Save +1: open sibling new form after tree refresh (AjaxTree:
+            // add_new_after in redisplayAndShow callback). plusOneAfterCreate runs before
+            // completeTransaction so the record pane still has transaction context.
+            if (created && plusOne && savedUri) {
+              this.recordPaneEl.dispatchEvent(
+                new CustomEvent('infiniteTreeRouter:plusOneAfterCreate', {
+                  detail: { uri: savedUri },
+                })
+              );
+            }
+
             this.#completeTransaction();
           }
+        }
+      );
+
+      this.treeContainer.addEventListener(
+        'infiniteTreeRouter:replaceHash',
+        e => {
+          const { targetHash } = e.detail || {};
+
+          if (!targetHash) return;
+
+          this.#setHashSilently(targetHash);
+
+          // When the requested hash matches the URL hash (the common case from
+          // reorder flows where we re-assert the currently-selected record),
+          // no hashchange event fires and `_ignoreHashChange` would otherwise
+          // stay stuck at true. Clear it after the current microtask so the
+          // next user-initiated hashchange is processed normally.
+          queueMicrotask(() => {
+            this._ignoreHashChange = false;
+          });
         }
       );
 

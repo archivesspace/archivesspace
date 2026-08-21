@@ -14,9 +14,13 @@ module TouchRecords
     base.extend(ClassMethods)
   end
 
-  def set_parent_and_position(*)
+  # When a batch of nodes is being repositioned (e.g. an accept_children
+  # reorder), the touch is deferred and applied once for the whole batch
+  # rather than once per row. See ANW-2775.
+  def set_parent_and_position(*, skip_side_effects: false)
     super
-    self.class.touch(self)
+
+    self.class.touch(self) unless skip_side_effects
   end
 
   def set_root(*)

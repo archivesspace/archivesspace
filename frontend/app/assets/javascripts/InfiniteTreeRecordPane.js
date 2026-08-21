@@ -13,6 +13,14 @@
       this.isDirty = false;
       /** @type {HTMLElement|null} Anchor tree node when the pane shows archival_objects new_inline (Cancel restores this record). */
       this._inlineCreateAnchorNode = null;
+      /**
+       * Set when the user clicks a Save +1 (.btn-plus-one) control; cleared after each
+       * submit attempt. Inline tree partials (_new_inline, _sidebar) keep plus-one as
+       * type="button" for the shared AjaxTree contract (click → flag → manual submit);
+       * InfiniteTree mirrors that with this flag rather than SubmitEvent.submitter.
+       * @type {boolean}
+       */
+      this._createPlusOne = false;
 
       // Respond to tree selection (skip when InfiniteTree already loaded this record and only syncs chrome)
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
@@ -21,7 +29,7 @@
         this.loadRecord(e.detail.node);
       });
 
-      // Respond to router requesting a submit (for dirty-guard Save flow)
+      // Dirty-guard Save flow: programmatic submit only — never plus-one (_createPlusOne stays false).
       this.container.addEventListener(
         'infiniteTreeRouter:requestSubmit',
         () => {
@@ -55,6 +63,26 @@
         'click',
         e => this.#onCancelClick(e),
         true
+      );
+
+      // After inline Save +1 create: tree is rebuilt; load sibling new form (AjaxTree:
+      // add_new_after). Record pane must not loadRecord for the created node first —
+      // InfiniteTree.js suppresses that via notifyPane: false on plus-one redisplay.
+      this.container.addEventListener(
+        'infiniteTreeRouter:plusOneAfterCreate',
+        e => {
+          const { uri } = (e && e.detail) || {};
+
+          if (!uri || !this.treeContainerEl) return;
+
+          const savedNode = this.treeContainerEl.querySelector(
+            `li.node[data-uri="${CSS.escape(uri)}"]`
+          );
+
+          if (savedNode) {
+            void this.#loadNewSiblingRecord(savedNode);
+          }
+        }
       );
     }
 
@@ -602,6 +630,29 @@
           }
         });
       }
+
+      // Save +1 (.btn-plus-one) in inline tree forms is type="button", not type="submit".
+      // Those controls live in partials shared with AjaxTree (see ajaxtree.js.erb
+      // setup_ajax_form), which sets a jQuery data flag and triggerHandler("submit").
+      // Standalone "new record" pages use type="submit" name="plus_one" instead; do not
+      // assume that pattern here without updating AjaxTree and the shared templates together.
+      // Because plus-one does not fire the form submit event, InfiniteTree binds clicks
+      // explicitly. Capture runs before legacy form.js listeners on .createPlusOneBtn.
+      this.form.addEventListener(
+        'click',
+        e => {
+          const btn = e.target.closest('.btn-plus-one');
+
+          if (!btn || !this.form.contains(btn)) return;
+
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          this._createPlusOne = true;
+          this.submitActiveForm();
+        },
+        true
+      );
     }
 
     /**
@@ -618,10 +669,24 @@
         this.form
       );
 
+      // Snapshot and clear plus-one flag before any async work so failed validation on
+      // re-render starts clean (#bindForm sets a fresh flag on the next form instance).
+      const shouldPlusOne = this._createPlusOne;
+
+      this._createPlusOne = false;
+
       // Prepare FormData and include inline=true (to receive partial HTML)
       const formData = new FormData(this.form);
 
       formData.append('inline', 'true');
+
+      // Append plus_one manually (inline tree plus-one buttons are type="button", so they
+      // are not included in FormData the way type="submit" name="plus_one" would be on
+      // standalone create forms). Server uses this for flash[:success] vs flash.now and
+      // for create messaging; shouldPlusOne also drives InfiniteTreeRouter post-create flow.
+      if (shouldPlusOne) {
+        formData.append('plus_one', 'true');
+      }
 
       const action = this.form.getAttribute('action');
       const method = (this.form.getAttribute('method') || 'POST').toUpperCase();
@@ -664,6 +729,7 @@
           this.#dispatch('infiniteTreeRecordPane:submitSuccess', {
             uri: savedUri,
             created: isCreateSubmission,
+            plusOne: shouldPlusOne,
           });
 
           this.#dispatch('infiniteTreeRecordPane:submitted', { success: true });
@@ -756,10 +822,13 @@
     }
 
     /**
-     * Renders form HTML into the pane and wires it up
+     * Renders form HTML into the pane and wires it up using jQuery.html() instead of
+     * Element.innerHTML so inline <script> tags in the response run. Required for
+     * form_messages error-field label population, etc.
+     * @param {string} html - The HTML to render
      */
     #renderNewForm(html) {
-      this.container.innerHTML = html;
+      $(this.container).html(html);
 
       this.#initializeRecordForm();
 

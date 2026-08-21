@@ -31,6 +31,11 @@
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
 <%= javascript_include_tag "InfiniteTreeSelection.js" %>
+<%= javascript_include_tag "InfiniteTreeDropHitbox.js" %>
+<%= javascript_include_tag "InfiniteTreeDragDrop.js" %>
+<%= javascript_include_tag "InfiniteTreeCutPaste.js" %>
+<%= javascript_include_tag "InfiniteTreeMove.js" %>
+<%= javascript_include_tag "InfiniteTreeReorderActions.js" %>
 
 <div
   id="infinite-tree-component"
@@ -90,6 +95,24 @@
   <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
 </template>
 
+<template id="infinite-tree-empty-drag-image-template">
+  <div class="infinite-tree-empty-drag-image"></div>
+</template>
+
+<template id="infinite-tree-drag-preview-template">
+  <div class="infinite-tree-drag-preview">
+    <ol class="infinite-tree-drag-preview__list"></ol>
+  </div>
+</template>
+
+<template id="infinite-tree-drag-preview-item-template">
+  <li class="infinite-tree-drag-preview__item"></li>
+</template>
+
+<template id="infinite-tree-drag-preview-count-template">
+  <div class="infinite-tree-drag-preview__count"></div>
+</template>
+
 <% if root_type == 'resource' %>
   <%= render_aspace_partial partial: 'resources/infinite_tree_templates', locals: { show_identifiers: show_identifiers } %>
 <% else %>
@@ -145,5 +168,9 @@ if (!<%= read_only %>) {
   new InfiniteTreeToolbar();
   new InfiniteTreeToolbarActions();
   new InfiniteTreeSelection(); // Should this be called MultiSelection?
+  new InfiniteTreeDragDrop();
+  new InfiniteTreeCutPaste();
+  new InfiniteTreeMove();
+  new InfiniteTreeReorderActions();
 }
 </script>

@@ -383,6 +383,60 @@ describe 'Infinite Tree Integration', js: true do
       end
     end
 
+    context 'Save +1 (createPlusOne) on new archival object form' do
+      it 'saves the record, opens a blank sibling new form with plus-one buttons, and reflects the node in the tree' do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-child').click
+        wait_for_ajax
+
+        fill_in 'archival_object_title_', with: "Plus One AO #{now}"
+        select 'Item', from: 'archival_object_level_'
+
+        find('#createPlusOne', match: :first).click
+        wait_for_ajax
+
+        aggregate_failures do
+          expect(page).to have_text("Archival Object Plus One AO #{now}")
+
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+            expect(page).to have_css('#createPlusOne')
+            expect(page).to have_css('.createPlusOneBtn')
+          end
+
+          within('#infinite-tree-container') do
+            expect(page).to have_css('.node', text: /Plus One AO #{now}/)
+            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new')
+          end
+        end
+      end
+
+      it 'keeps the new form with errors when required fields are blank (no sibling advance)' do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-child').click
+        wait_for_ajax
+
+        find('#createPlusOne', match: :first).click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+            expect(page).to have_css('.error')
+            expect(page).to have_css('#createPlusOne')
+          end
+
+          within('#infinite-tree-container') do
+            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new')
+          end
+        end
+      end
+    end
+
     context 'after successful save' do
       it 'form has no unsaved changes; navigation proceeds without modal' do
         visit "#{edit_path}#{ao_hash}"
