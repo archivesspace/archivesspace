@@ -14,21 +14,11 @@ on:
           - '11'
           - '17'
         default: '17'
-      group-choice:
-        description: Which group of specs to run
-        required: true
-        type: choice
-        options:
-          - 'all'
-          - 'aa-af'
-          - 'ag-az'
-          - 'b-h'
-          - 'i'
-          - 'j-q'
-          - 'r'
-          - 's-z'
-          - 'models-controllers'
-        default: 'all'
+      shard-count:
+        description: How many parallel shards to split the specs across (blank uses the FRONTEND_SHARD_COUNT repo variable, default 10)
+        required: false
+        type: string
+        default: ''
       browser:
         description: Which browser to use
         required: true
@@ -45,10 +35,10 @@ on:
         required: true
         type: string
         default: '17'
-      group-choice:
-        required: true
+      shard-count:
+        required: false
         type: string
-        default: 'all'
+        default: ''
       browser:
         description: Which browser to use
         required: true
@@ -56,95 +46,33 @@ on:
         default: 'firefox'
 
 jobs:
-  frontend_features_aa-af:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'aa-af' || inputs.group-choice == '' }}
-    name: aa-af
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/a[a-f]*_spec.rb"
-      name: aa-af
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_ag-az:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'ag-az' || inputs.group-choice == '' }}
-    name: ag-az
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/a[g-z]*_spec.rb"
-      name: ag-az
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_b-h:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-h' || inputs.group-choice == '' }}
-    name: b-h
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[b-h]*_spec.rb"
-      name: b-h
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_i:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'i' || inputs.group-choice == '' }}
-    name: i
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/i*_spec.rb"
-      name: i
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
+  setup:
+    name: Setup Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.set-matrix.outputs.shards }}
+      count: ${{ steps.set-matrix.outputs.count }}
+    steps:
+      - id: set-matrix
+        run: |
+          SHARD_COUNT="${{ inputs.shard-count || vars.FRONTEND_SHARD_COUNT || 10 }}"
+          shards=$(seq 1 $SHARD_COUNT | jq -c --slurp)
+          echo "shards=$shards" >> $GITHUB_OUTPUT
+          echo "count=$SHARD_COUNT" >> $GITHUB_OUTPUT
+          echo "Generated matrix for $SHARD_COUNT shards: $shards"
 
-  frontend_features_j-q:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'j-q' || inputs.group-choice == '' }}
-    name: j-q
+  frontend:
+    needs: setup
+    name: shard-${{ matrix.shard }}
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.setup.outputs.shards) }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[j-q]*_spec.rb"
-      name: j-q
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-
-  frontend_features_r:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'r' || inputs.group-choice == '' }}
-    name: r
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/r*_spec.rb"
-      name: r
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-
-  frontend_features_s-z:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 's-z' || inputs.group-choice == '' }}
-    name: s-z
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
-      name: s-z
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-
-  frontend_models_and_controllers:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'models-controllers' || inputs.group-choice == '' }}
-    name: models_and_controllers
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/models/*_spec.rb,spec/controllers/*_spec.rb"
-      name: models_and_controllers
+      shard: ${{ matrix.shard }}
+      total: ${{ needs.setup.outputs.count }}
+      name: shard-${{ matrix.shard }}
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
