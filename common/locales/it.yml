@@ -814,6 +814,18 @@ it:
     publish: Pubblicare?
     publish_tooltip: |
       <p>Determina se questo oggetto di archivio verrà pubblicato sulle interfacce pubbliche (per gli utenti).</p>
+    restrictions_apply: Si applicano restrizioni?
+    restrictions_apply_tooltip: |
+      <p>Indica se i materiali descritti sono soggetti a restrizioni di qualsiasi tipo. Ulteriori dettagli sulle restrizioni devono essere forniti nelle Note o nelle Dichiarazioni sui diritti pertinenti al documento in cui si verifica la restrizione.</p>
+      <p>Vedi DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+    repository_processing_note: Nota sull'elaborazione del repository
+    repository_processing_note_tooltip: |
+      <p>Campo specifico dell'applicazione per la registrazione di informazioni relative alla lavorazione dei materiali. Questa nota non è inclusa in alcuna esportazione o report e non viene popolata dalle importazioni.</p>
+    automate_title: Genera automaticamente il titolo
+    "[:resource_id, :ref_id]": ID di riferimento
+    has_unpublished_ancestor: Ha un antenato sconosciuto?
+    _singular: Oggetto d'archivio
+    _plural: Oggetti d'archivio
   resource:
     id_0: Identificatore
     id_1: Identificatore 2
@@ -822,6 +834,73 @@ it:
     "[:id_0, :id_1, :id_2, :id_3]": Identificatore
     "[:repo_id, :identifier]": Identificatore
     identifier: Identificatore
+    id_0_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il numero di identificazione assegnato a ciascuna Risorsa discreta all'interno di un Repository. Le regole ISAD(g) stabiliscono che per lo scambio internazionale devono essere presenti un codice paese (secondo lo standard ISO 3166), un codice repository e uno specifico codice di riferimento locale, numero di controllo o altro identificatore univoco; I codici paese e repository possono essere aggiunti qui o nel record del repository (nei campi Paese e Codice organizzazione/agenzia).</p>
+      <p>Vedi DACS 2.1, ISAD(G) 3.1.1</p>
+      <p>Esempi</p>
+      <ul>
+      <li>R.001 (Due elementi "R" + "001")</li>
+      <li>MSS 025 (Un singolo elemento)</li>
+      <li>Archives.RSS.0333 (Tre elementi "Archives" + "RSS" + "0333")</li>
+      <li>CA.OTY.F0453 (Tre elementi "CA" + "OTY" + "F0453")</li>
+      </ul>
+    title_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il titolo assegnato alla risorsa.</p>
+      <p>Vedi DACS 2.3, ISAD(G) 3.1.2</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Documenti di Graciany Miranda Archilla</li>
+      <li>Documenti di Love Makes a Family</li>
+      <li>Libro contabile della famiglia Cameron</li>
+      <li>Collezione di caricature e vignette di Caroline ed Erwin Swann</li>
+      <li>Corrispondenza della National Academy of Sciences</li>
+      <li>Registrazioni audio e video</li>
+      </ul>
+    resource_type: Tipo di risorsa
+    resource_type_tooltip: |
+      <p>Elenco di termini utilizzati da un repository per classificare le proprie risorse in tipologie di base.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    repository_processing_note: Nota sull'elaborazione del repository
+    extents_tooltip: |
+      <p>SOTTORECORD OBBLIGATORIO: Utilizzato per registrare le dimensioni dei materiali descritti.</p>
+      <p>Vedere DACS 2.5, ISAD(G) 3.1.5</p>
+    related_accessions_tooltip: |
+      <p>Utilizzato per collegare gli accessi associati a questa risorsa.</p>
+    publish_tooltip: |
+      <p>Determina se questa risorsa verrà pubblicata sulle interfacce pubbliche (per utenti).</p>
+    restrictions: Si applicano delle restrizioni?
+    restrictions_tooltip: |
+      <p>Indica se i materiali descritti sono soggetti a restrizioni di qualsiasi tipo. Ulteriori dettagli sulle restrizioni devono essere forniti nelle Note o nelle Dichiarazioni sui diritti pertinenti al documento in cui si verifica la restrizione.</p>
+      <p>Vedi DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+    repository_processing_note_tooltip: |
+      <p>Campo specifico dell'applicazione per la registrazione di informazioni relative alla lavorazione dei materiali. Questa nota non è inclusa in alcuna esportazione o report e non viene popolata dalle importazioni.</p>
+    ead_id: ID EAD
+    ead_id_tooltip: |
+      <p>L'identificativo per l'EAD generato dalla descrizione della risorsa, in genere un nome di file. Deve essere univoco all'interno del contesto del repository.</p>
+    ead_location: Ubicazione EAD
+    ead_location_tooltip: |
+      <p>Il percorso per l'EAD generato dalla descrizione della risorsa, che può essere un URL web o un'indicazione di directory di file. Il percorso in genere termina con.</p>
+    finding_aid_tooltip: |
+      <p>Utilizzato per registrare i dati amministrativi relativi all'istanza della descrizione archivistica, in genere quando la descrizione viene esportata in formato EAD (Encoded Archival Description).</p>
+    finding_aid_title: Titolo dello strumento di ricerca
+    finding_aid_title_tooltip: |
+      <p>Titolo (bibliografico) dello strumento di ricerca associato a questa risorsa.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Registro della collezione di Jason Twirly</li>
+      <li>Inventario dei documenti della famiglia Reese</li>
+      <li>Elenco dei disegni e dei modelli dello studio di architettura Simon and Simon</li>
+      </ul>
+    finding_aid_subtitle: Guida in linea Sottotitolo
+    finding_aid_filing_title: Guida alla ricerca del titolo di deposito
+    finding_aid_filing_title_tooltip: |
+      <p>Versione modificata del titolo ufficiale dello strumento di ricerca. Progettata per facilitare la consultazione e l'ordinamento degli elenchi di titoli.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Documenti di Wayne (Bruce M.)</li>
+      <li>Documenti della famiglia Rooney</li>
+      <li>Documenti del Partito Comunista degli Stati Uniti</li>
+      </ul>
   classification_term:
     identifier: Identificatore
   file_version:
@@ -1620,3 +1699,91 @@ it:
     related_agents: Agenti correlati
   related_agents_agent_corporate_entity:
     related_agents: Agenti correlati
+  group:
+    group_code: Codice di gruppo
+    group_code_tooltip: |
+      <p>Versione abbreviata del nome del gruppo.</p>
+    description: Descrizione
+    description_tooltip: |
+      <p>Breve descrizione testuale del gruppo.</p>
+      <p>Esempi:
+      <ul>
+      <li>Tirocinanti estate 2013</li>
+      <li>Personale addetto alla gestione delle collezioni</li>
+      </ul>
+    member_usernames: Membri
+    member_usernames_tooltip: |
+      <p>I membri che fanno parte di questo gruppo.</p>
+    permissions: 'I membri possono:'
+    default_group_names:
+      repository_managers: Responsabili del repository %{repo_code}
+      repository_archivists: Archivisti del repository %{repo_code}
+      project_managers: Responsabili del progetto del repository %{repo_code}
+      advanced_data_entry: Utenti con accesso dati avanzato del repository %{repo_code}
+      basic_data_entry: Utenti con accesso dati di base del repository %{repo_code}
+      repository_viewers: Visualizzatori del repository %{repo_code}
+    permission_types:
+      manage_repository: Assegna <b>utenti</b> ai gruppi (in questo repository)<br/>Imposta le 
+        autorizzazioni dei <b>gruppi</b> (in questo repository)<br/>Imposta le <b>preferenze del 
+        repository</b> (in questo repository)<br/>Configura i <b>campi obbligatori e i valori 
+        predefiniti</b> (in questo repository)<br/>Crea ed esegui <b>processi batch di ricerca e 
+        sostituzione</b> (in questo repository)<br/>Crea/aggiorna/elimina <b>posizioni</b> (a 
+        livello di sistema)
+      view_agent_contact_record: sezione di modifica/visualizzazione dei dettagli di contatto degli 
+        <b>agenti</b> (in questo repository)
+      show_full_agents: modifica sezioni aggiuntive di <b>agenti</b> abilitate dalla modalità 
+        completa (in questo repository)
+      update_accession_record: creare/aggiornare <b>accessioni</b> (in questo repository)
+      update_resource_record: creare/aggiornare <b>risorse</b> (in questo repository)
+      update_digital_object_record: creare/aggiornare <b>oggetti digitali</b> (in questo repository)
+      update_event_record: creare/aggiornare <b>eventi</b> (in questo repository)
+      view_repository: visualizza <b>tutti i record</b> (in questo repository)<br/>visualizza 
+        <b>agenti</b> (a livello di sistema)<br/>visualizza <b>soggetti</b> (a livello di sistema)
+      view_suppressed: visualizza i record <b>soppressi</b> (in questo repository)
+      suppress_archival_record: sopprimi <b>accessioni, oggetti d'archivio e risorse</b> (in questo 
+        repository)
+      delete_archival_record: eliminare <b>accessioni, oggetti d'archivio, oggetti digitali e 
+        risorse</b> (in questo repository)
+      delete_event_record: eliminare <b>eventi</b> (in questo repository)
+      update_classification_record: creare/aggiornare le <b>classificazioni</b> (in questo 
+        repository)
+      delete_classification_record: eliminare le <b>classificazioni</b> (in questo repository)
+      merge_agents_and_subjects: unisci <b>agenti</b> (a livello di sistema)<br/>unisci 
+        <b>soggetti</b> (a livello di sistema)
+      merge_archival_record: unisci <b>oggetti digitali</b> (in questo repository)</br>unisci 
+        <b>risorse</b> (in questo repository)
+      manage_rde_templates: creazione/eliminazione di <b>modelli di immissione dati rapida</b> (in 
+        questo repository)
+      transfer_repository: trasferire <b>l'intero contenuto di questo repository</b> a un altro 
+        repository (deve avere anche le stesse autorizzazioni nel repository di destinazione)
+      transfer_archival_record: trasferire singoli accessi, oggetti digitali e risorse a un altro 
+        repository (è necessario disporre anche dell'autorizzazione per creare/aggiornare record del
+        tipo trasferito in entrambi i repository)
+      manage_subject_record: creazione/aggiornamento/eliminazione di <b>soggetti</b> (a livello di 
+        sistema)
+      manage_agent_record: creazione/aggiornamento/eliminazione di <b>agenti</b> (a livello di 
+        sistema)
+      manage_vocabulary_record: creazione/aggiornamento/eliminazione di <b>vocabolari</b> (a livello
+        di sistema)
+      import_records: crea/esegui <b>progetti di importazione</b> (in questo repository)
+      cancel_importer_job: annulla <b>importa processi</b> (in questo repository)
+      update_container_record: creare/aggiornare i <b>container principali</b> (in questo 
+        repository)
+      manage_container_record: elimina/aggiorna in blocco i <b>container principali</b> (in questo 
+        repository)
+      manage_container_profile_record: creazione/aggiornamento/eliminazione di profili 
+        <b>container</b> (a livello di sistema)
+      manage_location_profile_record: creazione/aggiornamento/eliminazione di <b>profili di 
+        posizione</b> (a livello di sistema)
+      create_job: creare/eseguire <b>processi in background</b> (in questo repository)
+      cancel_job: annullare i <b>processi in background</b> (in questo repository)
+      update_assessment_record: creare/aggiornare <b>valutazioni</b> (in questo repository)
+      delete_assessment_record: eliminare le <b>valutazioni</b> (in questo repository)
+      manage_assessment_attributes: creazione/aggiornamento/eliminazione delle definizioni degli 
+        attributi di valutazione del repository (in questo repository)
+      manage_enumeration_record: creazione/aggiornamento/eliminazione di <b>valori controllati</b> 
+        (a livello di sistema)
+      manage_custom_report_templates: creazione/aggiornamento/eliminazione di <b>modelli di report 
+        personalizzati</b> (in questo repository)
+    _singular: Gruppo
+    _plural: Gruppi
