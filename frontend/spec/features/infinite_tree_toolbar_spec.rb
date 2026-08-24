@@ -638,6 +638,72 @@ describe 'Infinite Tree Toolbar', js: true do
     end
   end
 
+  context 'inline-create flash message persistence' do
+    it 'shows the created flash message after Add Child and Save' do
+      find('.js-itree-toolbar-add-child').click
+      wait_for_ajax
+
+      expect(page).to have_css('#archival_object_title_')
+
+      fill_in 'archival_object_title_', with: "New Child #{now}"
+      select 'Item', from: 'archival_object_level_'
+
+      find('button', text: 'Save', match: :first).click
+      wait_for_ajax
+
+      expect(page).to have_css(
+        '.alert.alert-success.with-hide-alert',
+        text: "Archival Object New Child #{now} on Resource #{resource.title} created"
+      )
+    end
+
+    it 'shows the created flash message after Add Sibling and Save' do
+      within '#infinite-tree-container' do
+        click_link ao.title
+      end
+      wait_for_ajax
+
+      find('.js-itree-toolbar-add-sibling').click
+      wait_for_ajax
+
+      fill_in 'archival_object_title_', with: "New Sibling #{now}"
+      select 'Item', from: 'archival_object_level_'
+
+      find('button', text: 'Save', match: :first).click
+      wait_for_ajax
+
+      expect(page).to have_css(
+        '.alert.alert-success.with-hide-alert',
+        text: "Archival Object New Sibling #{now} on Resource #{resource.title} created"
+      )
+    end
+
+    it 'shows the duplicated-from flash and the created flash after Add Duplicate and Save' do
+      within '#infinite-tree-container' do
+        click_link ao.title
+      end
+      wait_for_ajax
+
+      find('.js-itree-toolbar-add-duplicate').click
+      wait_for_ajax
+
+      expect(page).to have_css(
+        '.alert.alert-success.with-hide-alert',
+        text: /duplicated from/
+      )
+
+      fill_in 'archival_object_title_', with: "[Duplicated] #{ao.title}"
+
+      find('button', text: 'Save', match: :first).click
+      wait_for_ajax
+
+      expect(page).to have_css(
+        '.alert.alert-success.with-hide-alert',
+        text: "Archival Object [Duplicated] #{ao.title} on Resource #{resource.title} created"
+      )
+    end
+  end
+
   context 'with a nested archival object (child of another AO)' do
     let(:ao_nested) do
       create(

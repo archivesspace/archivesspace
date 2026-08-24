@@ -80,7 +80,11 @@
 
               this.treeContainer.dispatchEvent(
                 new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
-                  detail: { targetHash: pendingHash, plusOne: !!plusOne },
+                  detail: {
+                    targetHash: pendingHash,
+                    plusOne: !!plusOne,
+                    notifyPane: false,
+                  },
                 })
               );
             } else {
@@ -88,7 +92,11 @@
 
               this.treeContainer.dispatchEvent(
                 new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
-                  detail: { targetHash: newRecordHash, plusOne: !!plusOne },
+                  detail: {
+                    targetHash: newRecordHash,
+                    plusOne: !!plusOne,
+                    notifyPane: false,
+                  },
                 })
               );
             }
