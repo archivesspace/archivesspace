@@ -118,6 +118,10 @@ class InfiniteTreeToolbar {
         'infiniteTree:redisplayAndReopenComplete',
         this.#onRedisplayAndReopenComplete.bind(this)
       );
+      this.treeContainerEl.addEventListener(
+        'infiniteTree:redisplayAndShowComplete',
+        this.#onRedisplayAndShowComplete.bind(this)
+      );
     }
 
     this.toolbarEl.addEventListener('click', event => {
@@ -331,6 +335,39 @@ class InfiniteTreeToolbar {
     this.#applyCutPasteState();
   }
 
+  #onRedisplayAndShowComplete() {
+    if (this.reorderMode) return;
+
+    this.#syncCurrentNodeFromLiveSelection();
+    this.#applySelectionState();
+  }
+
+  /**
+   * Live `.selected` tree row, excluding inline-create synthetic placeholders.
+   * After redisplay, cached `currentNode` may reference detached DOM.
+   * @returns {HTMLElement|null}
+   */
+  #getLiveSelectedNode() {
+    if (!this.treeContainerEl) return null;
+
+    const selected = this.treeContainerEl.querySelector(
+      'li.node.selected:not(.js-itree-synthetic-new)'
+    );
+
+    if (selected && selected.isConnected) {
+      return selected;
+    }
+
+    return null;
+  }
+
+  #syncCurrentNodeFromLiveSelection() {
+    const node = this.#getLiveSelectedNode();
+    if (node) {
+      this.currentNode = node;
+    }
+  }
+
   /**
    * Resolve the live tree row that Move menu options apply to. Move always
    * targets the current `.selected` node. After reorder redisplay, cached
@@ -338,9 +375,7 @@ class InfiniteTreeToolbar {
    * @returns {HTMLElement|null}
    */
   #getMoveContextNode() {
-    if (!this.treeContainerEl) return null;
-
-    const selected = this.treeContainerEl.querySelector('li.node.selected');
+    const selected = this.#getLiveSelectedNode();
     if (selected && !selected.classList.contains('root')) {
       return selected;
     }
@@ -426,6 +461,8 @@ class InfiniteTreeToolbar {
 
   #emitContextualEvent(name) {
     if (!this.treeContainerEl) return;
+
+    this.#syncCurrentNodeFromLiveSelection();
 
     const event = new CustomEvent(name, {
       bubbles: true,

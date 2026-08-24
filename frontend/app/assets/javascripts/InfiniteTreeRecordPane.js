@@ -87,15 +87,38 @@
     }
 
     /**
+     * Prefer live tree selection over toolbar event detail (which can be stale
+     * after inline-create save recovery).
+     * @param {Event} e
+     * @returns {HTMLElement|null}
+     */
+    #resolveInlineCreateAnchorNode(e) {
+      const liveSelected =
+        this.treeContainerEl &&
+        this.treeContainerEl.querySelector(
+          'li.node.selected:not(.js-itree-synthetic-new)'
+        );
+
+      if (liveSelected && liveSelected.isConnected) {
+        return liveSelected;
+      }
+
+      const detailNode = e.detail && e.detail.node;
+
+      if (detailNode && detailNode.isConnected) {
+        return detailNode;
+      }
+
+      return null;
+    }
+
+    /**
      * @param {Event} e
      */
     #onAddChildRequested(e) {
       if (this.isReadOnly) return;
 
-      const node =
-        (e.detail && e.detail.node) ||
-        (this.treeContainerEl &&
-          this.treeContainerEl.querySelector('li.node.selected'));
+      const node = this.#resolveInlineCreateAnchorNode(e);
 
       if (!node) return;
 
@@ -108,10 +131,7 @@
     #onAddSiblingRequested(e) {
       if (this.isReadOnly) return;
 
-      const node =
-        (e.detail && e.detail.node) ||
-        (this.treeContainerEl &&
-          this.treeContainerEl.querySelector('li.node.selected'));
+      const node = this.#resolveInlineCreateAnchorNode(e);
 
       if (!node) return;
 
@@ -129,10 +149,7 @@
     #onAddDuplicateRequested(e) {
       if (this.isReadOnly) return;
 
-      const node =
-        (e.detail && e.detail.node) ||
-        (this.treeContainerEl &&
-          this.treeContainerEl.querySelector('li.node.selected'));
+      const node = this.#resolveInlineCreateAnchorNode(e);
 
       if (!node) return;
 
