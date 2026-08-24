@@ -127,10 +127,13 @@
       this.container.addEventListener(
         'infiniteTreeRouter:redisplayAndShow',
         async e => {
-          const { targetHash, plusOne } = e.detail;
+          const { targetHash, plusOne, notifyPane = true } = e.detail;
 
           try {
-            await this.redisplayAndShow(targetHash, { plusOne: !!plusOne });
+            await this.redisplayAndShow(targetHash, {
+              plusOne: !!plusOne,
+              notifyPane,
+            });
           } finally {
             this.container.dispatchEvent(
               new CustomEvent('infiniteTree:redisplayAndShowComplete', {
@@ -602,12 +605,17 @@
     /**
      * Rebuilds the entire tree and selects the node pointed to by locationHash
      * @param {string} locationHash - The location hash representing the node to render
-     * @param {{ plusOne?: boolean }} [options] - Save +1 post-create refresh: update tree
-     * selection/hash but skip pane loadRecord (notifyPane: false). Avoids racing the
-     * sibling _new_inline fetch (#loadNewSiblingRecord via plusOneAfterCreate). AjaxTree
-     * avoids the same race by never auto-loading the pane on redisplay during plus-one.
+     * @param {{ plusOne?: boolean, notifyPane?: boolean }} [options]
+     * @param {boolean} [options.plusOne=false] - Save +1 post-create: defers pane load to
+     * plusOneAfterCreate → #loadNewSiblingRecord.
+     * @param {boolean} [options.notifyPane] - Whether to fire nodeSelect so the pane reloads
+     * after the tree rebuilds. Defaults to !plusOne. Pass false after a normal inline create
+     * to keep the create-response HTML in the pane after a successful record create
      */
-    async redisplayAndShow(locationHash, { plusOne = false } = {}) {
+    async redisplayAndShow(
+      locationHash,
+      { plusOne = false, notifyPane = !plusOne } = {}
+    ) {
       this._syntheticNewNode = null;
 
       // Normalize hash to include # prefix
@@ -621,7 +629,7 @@
 
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
-        this.selectNode(rootNodeElement, { notifyPane: !plusOne });
+        this.selectNode(rootNodeElement, { notifyPane });
         rootNodeElement.scrollIntoView({
           behavior: 'instant',
           block: 'center',
@@ -637,7 +645,7 @@
         const data = await this.#fetchAncestorBatches(nodeId);
         await this.#renderAncestors(data, nodeElementId, {
           replace: false,
-          notifyPane: !plusOne,
+          notifyPane,
         });
       } catch (error) {
         console.error('Error in redisplayAndShow:', error);
