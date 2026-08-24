@@ -437,6 +437,144 @@ describe 'Infinite Tree Integration', js: true do
       end
     end
 
+    context 'consecutive inline create after Save' do
+      it 'Add Sibling uses the saved node as anchor on the second create without re-selection' do
+        visit "#{edit_path}#{ao_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-sibling').click
+        wait_for_ajax
+
+        sibling_title = "First Sibling AO #{now}"
+        fill_in 'archival_object_title_', with: sibling_title
+        select 'Item', from: 'archival_object_level_'
+
+        find('button', text: 'Save Archival Object', match: :first).click
+        wait_for_ajax
+
+        saved_id = within('#infinite-tree-record-pane') do
+          find('#uri', visible: :all).value.split('/').last.to_i
+        end
+
+        aggregate_failures 'saved record is selected in tree' do
+          expect(page).to have_css(
+            "#infinite-tree-container li#archival_object_#{saved_id}.selected",
+            visible: :all
+          )
+        end
+
+        find('.js-itree-toolbar-add-sibling').click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-container') do
+            expect(page).to have_css(
+              "#infinite-tree-container li#archival_object_#{saved_id} + li#archival_object_new"
+            )
+            expect(page).to have_no_css(
+              "#infinite-tree-container li#archival_object_#{ao.id} + li#archival_object_new"
+            )
+          end
+          expect(page.current_url).to include('#new')
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+          end
+        end
+      end
+
+      it 'Add Child uses the saved child as parent on the second create without re-selection' do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-child').click
+        wait_for_ajax
+
+        child_title = "First Child AO #{now}"
+        fill_in 'archival_object_title_', with: child_title
+        select 'Item', from: 'archival_object_level_'
+
+        find('button', text: 'Save Archival Object', match: :first).click
+        wait_for_ajax
+
+        saved_id = within('#infinite-tree-record-pane') do
+          find('#uri', visible: :all).value.split('/').last.to_i
+        end
+
+        aggregate_failures 'saved child is selected in tree' do
+          expect(page).to have_css(
+            "#infinite-tree-container li#archival_object_#{saved_id}.selected",
+            visible: :all
+          )
+        end
+
+        find('.js-itree-toolbar-add-child').click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-container') do
+            expect(page).to have_css(
+              "li#archival_object_#{saved_id} > ol.node-children li#archival_object_new.js-itree-synthetic-new"
+            )
+          end
+          expect(page.current_url).to include('#new')
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+          end
+        end
+      end
+
+      it 'Add Duplicate uses the saved node as anchor on the second create without re-selection' do
+        visit "#{edit_path}#{ao_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-duplicate').click
+        wait_for_ajax
+
+        duplicate_title = "[Duplicated] First AO #{now}"
+        fill_in 'archival_object_title_', with: duplicate_title
+
+        find('button', text: 'Save Archival Object', match: :first).click
+        wait_for_ajax
+
+        saved_id = within('#infinite-tree-record-pane') do
+          find('#uri', visible: :all).value.split('/').last.to_i
+        end
+
+        aggregate_failures 'saved record is selected in tree' do
+          expect(page).to have_css(
+            "#infinite-tree-container li#archival_object_#{saved_id}.selected",
+            visible: :all
+          )
+        end
+
+        find('.js-itree-toolbar-add-duplicate').click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-container') do
+            expect(page).to have_css(
+              "#infinite-tree-container li#archival_object_#{saved_id} + li#archival_object_new"
+            )
+            expect(page).to have_no_css(
+              "#infinite-tree-container li#archival_object_#{ao.id} + li#archival_object_new"
+            )
+            expect(page).to have_css(
+              '.record-title',
+              text: I18n.t('archival_object._frontend.tree.duplicated_record_title')
+            )
+          end
+          expect(page.current_url).to include('#new')
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+            expect(page).to have_css(
+              '.alert.alert-success.with-hide-alert',
+              text: /duplicated from/
+            )
+          end
+        end
+      end
+    end
+
     context 'after successful save' do
       it 'form has no unsaved changes; navigation proceeds without modal' do
         visit "#{edit_path}#{ao_hash}"
