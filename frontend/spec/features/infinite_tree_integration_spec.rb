@@ -249,7 +249,7 @@ describe 'Infinite Tree Integration', js: true do
             expect(page).to have_css('#archival_object_form')
             expect(page).to have_button('Save Archival Object', match: :first)
           end
-          expect(page.current_url).to match(%r{#{Regexp.escape(ao_child_hash)}})
+          expect(page.current_url).to include('#new')
         end
 
         within('#infinite-tree-record-pane') { find('.btn-cancel').click }
@@ -286,7 +286,7 @@ describe 'Infinite Tree Integration', js: true do
             expect(page).to have_css('#archival_object_form')
             expect(page).to have_button('Save Archival Object', match: :first)
           end
-          expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
+          expect(page.current_url).to include('#new')
         end
 
         within('#infinite-tree-record-pane') { find('.btn-cancel').click }
@@ -327,7 +327,7 @@ describe 'Infinite Tree Integration', js: true do
             expect(page).to have_css('#archival_object_form')
             expect(page).to have_button('Save Archival Object', match: :first)
           end
-          expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
+          expect(page.current_url).to include('#new')
         end
 
         within('#infinite-tree-record-pane') { find('.btn-cancel').click }
@@ -363,7 +363,7 @@ describe 'Infinite Tree Integration', js: true do
             expect(page).to have_css('#archival_object_form')
             expect(page).to have_button('Save Archival Object', match: :first)
           end
-          expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
+          expect(page.current_url).to include('#new')
         end
 
         within('#infinite-tree-record-pane') { find('.btn-cancel').click }

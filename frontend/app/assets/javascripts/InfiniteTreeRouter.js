@@ -202,6 +202,13 @@
 
       const newHash = window.location.hash;
 
+      // #new is the transient inline-create hash, accept it without dispatching nodeSelect.
+      if (this.#isInlineCreateHash(newHash)) {
+        this.currentHash = newHash;
+
+        return;
+      }
+
       if (!this.#isValidTreeHash(newHash)) {
         // Silently revert invalid hash to current hash
         this._ignoreHashChange = true;
@@ -335,6 +342,17 @@
       const id = InfiniteTreeIds.locationHashToHtmlId(hash);
 
       return InfiniteTreeIds.parseTreeId(id) !== null;
+    }
+
+    /**
+     * Returns true for the transient inline-create hash (#new), which is not a
+     * tree node but must not be reverted.
+     * @param {string} hash - The location hash to check
+     * @returns {boolean}
+     * @private
+     */
+    #isInlineCreateHash(hash) {
+      return hash === '#new' || hash === 'new';
     }
 
     /**
