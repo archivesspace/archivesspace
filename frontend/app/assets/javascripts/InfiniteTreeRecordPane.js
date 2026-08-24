@@ -276,6 +276,40 @@
     }
 
     /**
+     * Set the URL hash to #new for inline create flows.
+     */
+    #setInlineCreateHash() {
+      if (!this.treeContainerEl) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTreeRouter:replaceHash', {
+          bubbles: true,
+          detail: { targetHash: '#new' },
+        })
+      );
+    }
+
+    /**
+     * Restore the anchor node's hash after Cancel on an inline create form.
+     * @param {HTMLElement} anchorNode
+     */
+    #restoreInlineCreateAnchorHash(anchorNode) {
+      if (!this.treeContainerEl || !anchorNode) return;
+
+      const uri = anchorNode.getAttribute('data-uri');
+      if (!uri) return;
+
+      const hash = InfiniteTreeIds.treeLinkUrl(uri);
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTreeRouter:replaceHash', {
+          bubbles: true,
+          detail: { targetHash: hash },
+        })
+      );
+    }
+
+    /**
      * @param {HTMLElement} anchorNode
      * @param {string} [placeholderTitle] - when set, synthetic row title (Add Duplicate); sibling omits
      */
@@ -314,6 +348,7 @@
 
       this._inlineCreateAnchorNode = parentNode;
 
+      this.#setInlineCreateHash();
       this.#dispatchShowSyntheticNewChild(parentNode);
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
@@ -358,6 +393,7 @@
 
       this._inlineCreateAnchorNode = anchorNode;
 
+      this.#setInlineCreateHash();
       this.#dispatchShowSyntheticNewSibling(anchorNode);
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
@@ -408,6 +444,7 @@
 
       this._inlineCreateAnchorNode = anchorNode;
 
+      this.#setInlineCreateHash();
       this.#dispatchShowSyntheticNewSibling(anchorNode, dupTitle);
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
@@ -466,6 +503,7 @@
       await this.loadRecord(parent);
 
       this.#requestTreeSelectionSync(parent);
+      this.#restoreInlineCreateAnchorHash(parent);
     }
 
     /**
