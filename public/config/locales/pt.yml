@@ -35,7 +35,7 @@ pt:
       four_part_id: Identificador
       dates: Datas
       subjects_text: Assuntos
-      published_agents: Agents
+      agents_text: Agents
       creators_text: Agentes
       role_enum_s: Funções
       linked_agent_roles: Funções de agente vinculado

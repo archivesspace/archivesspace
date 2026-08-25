@@ -75,7 +75,7 @@ de:
       four_part_id: Kennung
       dates: Termine
       subjects_text: Fächer
-      published_agents: Agentinnen
+      agents_text: Agentinnen
       creators_text: Schöpfer
       role_enum_s: Rollen
       linked_agent_roles: Verknüpfte Agentenrollen

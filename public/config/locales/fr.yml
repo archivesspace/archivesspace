@@ -107,7 +107,7 @@ fr:
       four_part_id: Identifiant
       dates: Rendez-vous
       subjects_text: Sujettes
-      published_agents: Agentes
+      agents_text: Agentes
       creators_text: Créatrices
       role_enum_s: Les rôles
       linked_agent_roles: Rôles d'agent liés

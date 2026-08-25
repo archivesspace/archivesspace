@@ -106,7 +106,7 @@ en:
       four_part_id: Identifier
       dates: Dates
       subjects_text: Subjects
-      published_agents: Agents
+      agents_text: Agents
       creators_text: Creators
       role_enum_s: Roles
       linked_agent_roles: Linked Agent Roles

@@ -48,7 +48,7 @@ it:
       role_enum_s: Ruoli
       notes_published: Note
       acquisition_type: Tipo di acquisizione
-      published_agents: Agenti
+      agents_text: Agenti
       finding_aid_title: Titolo degli strumenti di ricerca
       linked_agent_roles: Ruoli dell'agente collegato
       instance_type_enum_s: Tipo di istanza

@@ -85,7 +85,7 @@ pl:
       four_part_id: Identyfikator
       dates: Daty
       acquisition_type: Rodzaj przejęcia
-      published_agents: Agenty
+      agents_text: Agenty
       linked_agent_roles: Powiązane role agentów
       instance_type_enum_s: Typ instancji
       creators_text: Twórcy
