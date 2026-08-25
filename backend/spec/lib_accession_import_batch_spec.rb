@@ -70,7 +70,11 @@ describe 'Accession import batch' do
         converter.run
       end.to raise_error do |error|
         expect(error).to be_a AccessionConverterInvalidDateTypeError
-        expect(error.message).to eq 'Invalid date type provided: inclusive dates; must be one of: ["bulk", "inclusive", "single"]; Date provided: #<JSONModel(:date) {"jsonmodel_type"=>"date", "uri"=>nil, "label"=>"Creation", "expression"=>"ca. 2006-2008", "begin"=>"2006", "end"=>"2008", "date_type"=>"inclusive dates"}>;'
+        expect(error.message).to eq(
+          'Invalid date type provided: inclusive dates; ' \
+          'must be one of: ["bulk", "inclusive", "single"]; ' \
+          'Date provided: #<JSONModel(:date) {"jsonmodel_type"=>"date", "uri"=>nil, "label"=>"Creation", "expression"=>"ca. 2006-2008", "begin"=>"2006", "end"=>"2008", "date_type"=>"inclusive dates"}>;'
+        )
 
         accessions_count_after = ::Accession.count
         expect(accessions_count_before).to eq accessions_count_after
@@ -367,11 +371,46 @@ describe 'Accession import batch' do
         ['Ambiguous Agent type', generate(:alphanumstr), existing_agent.id, 'creator', nil],
       ]
 
+      expect(I18n.exists?('importer.error.missing_agent_type')).to be true
+
       expect do
         import_accession_csv(headers, rows)
       end.to raise_error(
         AccessionConverterInvalidAgentTypeError,
-        /Agent group 1 must include a supported Agent type when linking record ID #{existing_agent.id}/,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.missing_agent_type',
+                                        :index => 1,
+                                        :allowed => AccessionConverter::SUPPORTED_AGENT_TYPES))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'rejects a linked Agent with an unsupported type and names the record ID' do
+      existing_agent = create(:json_agent_person)
+      accession_count = Accession.count
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'agent_1_record_id',
+        'agent_1_role',
+        'agent_1_agent_type',
+      ]
+      rows = [
+        ['Valid row', generate(:alphanumstr), nil, nil, nil],
+        ['Unsupported linked Agent type', generate(:alphanumstr), existing_agent.id, 'creator', 'agent_software'],
+      ]
+
+      expect(I18n.exists?('importer.error.invalid_agent_type_for_link')).to be true
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidAgentTypeError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.invalid_agent_type_for_link',
+                                        :index => 1,
+                                        :agent_type => 'agent_software',
+                                        :record_id => existing_agent.id,
+                                        :allowed => AccessionConverter::SUPPORTED_AGENT_TYPES))),
       )
 
       expect(Accession.count).to eq(accession_count)
@@ -509,9 +548,14 @@ describe 'Accession import batch' do
         ],
       ]
 
+      expect(I18n.exists?('importer.error.agent_mode_conflict')).to be true
+
       expect do
         import_accession_csv(headers, rows)
-      end.to raise_error(AccessionConverterAgentModeConflictError, /Agent group 1/)
+      end.to raise_error(
+        AccessionConverterAgentModeConflictError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.agent_mode_conflict', :index => 1))),
+      )
 
       expect(Accession.count).to eq(accession_count)
     end
@@ -621,9 +665,17 @@ describe 'Accession import batch' do
     it 'rejects software Agent creation and imports no rows' do
       accession_count = Accession.count
 
+      expect(I18n.exists?('importer.error.invalid_agent_type')).to be true
+
       expect do
         import_accession_csv_file(invalid_agent_type_csv_file)
-      end.to raise_error(AccessionConverterInvalidAgentTypeError, /agent_software/)
+      end.to raise_error(
+        AccessionConverterInvalidAgentTypeError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.invalid_agent_type',
+                                        :index => 1,
+                                        :agent_type => 'agent_software',
+                                        :allowed => AccessionConverter::SUPPORTED_AGENT_TYPES))),
+      )
 
       expect(Accession.count).to eq(accession_count)
     end
@@ -868,9 +920,14 @@ describe 'Accession import batch' do
           '2',
         ]]
 
+        expect(I18n.exists?('importer.error.top_container_mode_conflict')).to be true
+
         expect do
           import_accession_csv(headers, rows)
-        end.to raise_error(AccessionConverterTopContainerModeConflictError, /Instance group 1/)
+        end.to raise_error(
+          AccessionConverterTopContainerModeConflictError,
+          Regexp.new(Regexp.escape(I18n.t('importer.error.top_container_mode_conflict', :index => 1))),
+        )
       end
 
       expect(Accession.count).to eq(accession_count)

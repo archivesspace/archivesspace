@@ -2904,6 +2904,16 @@ en:
     sponsor_set_names_tooltip: Sponsor set names tooltip
     sponsor_set_description_tooltip: Sponsor set description tooltip
 
+  importer:
+    error:
+      agent_mode_conflict: "Agent group %{index} cannot contain both a record ID and create-new values"
+      subject_mode_conflict: "Subject group %{index} cannot contain both a record ID and create-new values"
+      top_container_mode_conflict: "Instance group %{index} cannot contain both a Top Container URI and create-new values"
+      missing_agent_type: "Agent group %{index} must include an Agent type; must be one of: %{allowed}"
+      invalid_agent_type: "Agent group %{index} requires a supported Agent type; received '%{agent_type}', must be one of: %{allowed}"
+      invalid_agent_type_for_link: "Agent group %{index} requires a supported Agent type when linking record ID %{record_id}; received '%{agent_type}', must be one of: %{allowed}"
+      invalid_top_container_uri: "Invalid Top Container URI in Instance group %{index}: %{top_container_uri}"
+      invalid_date_type: "Invalid date type provided: %{date_type}; must be one of: %{allowed}; Date provided: %{date};"
   bulk_import:
     templates: Bulk Import Templates
     row: "Row %{row}"

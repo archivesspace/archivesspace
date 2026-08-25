@@ -342,7 +342,11 @@ describe 'Accession converter' do
         convert(csv_file)
       end.to raise_error do |error|
         expect(error).to be_a AccessionConverterInvalidDateTypeError
-        expect(error.message).to eq 'Invalid date type provided: inclusive dates; must be one of: ["bulk", "inclusive", "single"]; Date provided: #<JSONModel(:date) {"jsonmodel_type"=>"date", "uri"=>nil, "label"=>"Creation", "expression"=>"ca. 2006-2008", "begin"=>"2006", "end"=>"2008", "date_type"=>"inclusive dates"}>;'
+        expect(error.message).to eq(
+          'Invalid date type provided: inclusive dates; ' \
+          'must be one of: ["bulk", "inclusive", "single"]; ' \
+          'Date provided: #<JSONModel(:date) {"jsonmodel_type"=>"date", "uri"=>nil, "label"=>"Creation", "expression"=>"ca. 2006-2008", "begin"=>"2006", "end"=>"2008", "date_type"=>"inclusive dates"}>;'
+        )
 
         accessions_count_after = ::Accession.count
         expect(accessions_count_before).to eq accessions_count_after

@@ -1400,6 +1400,16 @@ pl:
         %{row_num}.
       ref_id_miss: W wierszu %{row_num} arkusza kalkulacyjnego brakuje identyfikatora 
         referencyjnego.
+  importer:
+    error:
+      agent_mode_conflict: "Grupa Agenta %{index} nie może zawierać jednocześnie identyfikatora rekordu i wartości do utworzenia nowego"
+      subject_mode_conflict: "Grupa Tematu %{index} nie może zawierać jednocześnie identyfikatora rekordu i wartości do utworzenia nowego"
+      top_container_mode_conflict: "Grupa Instancji %{index} nie może zawierać jednocześnie identyfikatora URI kontenera nadrzędnego i wartości do utworzenia nowego"
+      missing_agent_type: "Grupa Agenta %{index} musi zawierać typ Agenta; musi być jednym z: %{allowed}"
+      invalid_agent_type: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
+      invalid_agent_type_for_link: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta podczas łączenia z identyfikatorem rekordu %{record_id}; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
+      invalid_top_container_uri: "Nieprawidłowy identyfikator URI kontenera nadrzędnego w grupie Instancji %{index}: %{top_container_uri}"
+      invalid_date_type: "Podano nieprawidłowy typ daty: %{date_type}; musi być jednym z: %{allowed}; Podana data: %{date};"
   bulk_import:
     error:
       utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 

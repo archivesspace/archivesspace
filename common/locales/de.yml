@@ -2692,6 +2692,16 @@ de:
       "Tape": Band
       "Heat-Sensitive Paper": Hitzeempfindliches Papier
       "Water Damage": Wasserschäden
+  importer:
+    error:
+      agent_mode_conflict: "Akteur-Gruppe %{index} darf nicht sowohl eine Datensatz-ID als auch Werte zum Neuanlegen enthalten"
+      subject_mode_conflict: "Thema-Gruppe %{index} darf nicht sowohl eine Datensatz-ID als auch Werte zum Neuanlegen enthalten"
+      top_container_mode_conflict: "Instanz-Gruppe %{index} darf nicht sowohl eine Haupt-Behältnis-URI als auch Werte zum Neuanlegen enthalten"
+      missing_agent_type: "Akteur-Gruppe %{index} muss einen Akteur-Typ enthalten; muss einer der folgenden sein: %{allowed}"
+      invalid_agent_type: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
+      invalid_agent_type_for_link: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ beim Verknüpfen von Datensatz-ID %{record_id}; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
+      invalid_top_container_uri: "Ungültige Haupt-Behältnis-URI in Instanz-Gruppe %{index}: %{top_container_uri}"
+      invalid_date_type: "Ungültiger Datumstyp angegeben: %{date_type}; muss einer der folgenden sein: %{allowed}; Angegebenes Datum: %{date};"
   bulk_import:
     processing_row: Verarbeite Zeile %{row}
     max_file_info: '%{size}K und %{rows} Zeilen'

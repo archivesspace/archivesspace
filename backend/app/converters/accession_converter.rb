@@ -290,19 +290,19 @@ class AccessionConverter < Converter
   def append_agents(agent_groups, accession)
     agent_groups.each do |index, values|
       values = normalize_agent_values(values)
-      next if values.values.all? {|value| blank_agent_value?(value) }
+      next if values.values.all? {|value| blank_value?(value) }
 
       create_values = values.reject {|property, _value| %w[record_id role relator agent_type].include?(property) }.values
-      record_id = values['record_id'] unless blank_agent_value?(values['record_id'])
-      if record_id && create_values.any? {|value| !blank_agent_value?(value) }
+      record_id = values['record_id'] unless blank_value?(values['record_id'])
+      if record_id && create_values.any? {|value| !blank_value?(value) }
         raise AccessionConverterAgentModeConflictError,
-              "Agent group #{index} cannot contain both a record ID and create-new values"
+              I18n.t('importer.error.agent_mode_conflict', :index => index)
       end
 
       if record_id
         accession.linked_agents << agent_relationship(values, agent_uri(index, values['agent_type'], record_id))
       else
-        agent = build_agent(values)
+        agent = build_agent(index, values)
         accession.linked_agents << agent_relationship(values, agent.uri)
         @batch << agent
       end
@@ -312,7 +312,7 @@ class AccessionConverter < Converter
 
   def normalize_agent_values(values)
     values.to_h do |property, value|
-      normalized = blank_agent_value?(value) || value == 'NULL' ? nil : value
+      normalized = blank_value?(value) || value == 'NULL' ? nil : value
       if property == 'record_id' && normalized
         normalized = normalize_schema_value(:agent_person, 'uri', normalized)
       end
@@ -323,28 +323,44 @@ class AccessionConverter < Converter
 
 
   def agent_uri(index, agent_type, record_id)
-    unless SUPPORTED_AGENT_TYPES.include?(agent_type)
-      raise AccessionConverterInvalidAgentTypeError,
-            "Agent group #{index} must include a supported Agent type when linking record ID #{record_id}"
-    end
+    verify_agent_type(index, agent_type, record_id)
 
     JSONModel(agent_type.to_sym).uri_for(record_id)
   end
 
 
+  def verify_agent_type(index, agent_type, record_id = nil)
+    return if SUPPORTED_AGENT_TYPES.include?(agent_type)
+
+    if blank_value?(agent_type)
+      raise AccessionConverterInvalidAgentTypeError,
+            I18n.t('importer.error.missing_agent_type',
+                   :index => index,
+                   :allowed => SUPPORTED_AGENT_TYPES)
+    end
+
+    key = record_id ? 'importer.error.invalid_agent_type_for_link' : 'importer.error.invalid_agent_type'
+
+    raise AccessionConverterInvalidAgentTypeError,
+          I18n.t(key,
+                 :index => index,
+                 :agent_type => agent_type,
+                 :record_id => record_id,
+                 :allowed => SUPPORTED_AGENT_TYPES)
+  end
+
+
   def agent_relationship(values, uri)
     relationship = {'ref' => uri}
-    relationship['role'] = values['role'] unless blank_agent_value?(values['role'])
-    relationship['relator'] = values['relator'] unless blank_agent_value?(values['relator'])
+    relationship['role'] = values['role'] unless blank_value?(values['role'])
+    relationship['relator'] = values['relator'] unless blank_value?(values['relator'])
     relationship
   end
 
 
-  def build_agent(values)
+  def build_agent(index, values)
     agent_type = values['agent_type']
-    unless SUPPORTED_AGENT_TYPES.include?(agent_type)
-      raise AccessionConverterInvalidAgentTypeError, "Unsupported Agent type: #{agent_type}"
-    end
+    verify_agent_type(index, agent_type)
 
     attributes = agent_creation_attributes(values)
     agent = ASpaceImport::JSONModel(agent_type.to_sym).new
@@ -365,10 +381,10 @@ class AccessionConverter < Converter
     name = ASpaceImport::JSONModel(name_type).new
     assign_agent_properties(name, name_type, values)
 
-    if agent_type == 'agent_family' && !blank_agent_value?(values['primary_name'])
+    if agent_type == 'agent_family' && !blank_value?(values['primary_name'])
       name.family_name = normalize_schema_value(:name_family, 'family_name', values['primary_name'])
     end
-    name.sort_name_auto_generate = false unless blank_agent_value?(values['sort_name'])
+    name.sort_name_auto_generate = false unless blank_value?(values['sort_name'])
 
     name
   end
@@ -376,7 +392,7 @@ class AccessionConverter < Converter
 
   def build_agent_contact(contact_values, telephone_values, fax_values)
     values = contact_values.values + telephone_values.values + fax_values.values
-    return nil if values.all? {|value| blank_agent_value?(value) }
+    return nil if values.all? {|value| blank_value?(value) }
 
     contact = ASpaceImport::JSONModel(:agent_contact).new
     assign_agent_properties(contact, :agent_contact, contact_values)
@@ -390,14 +406,14 @@ class AccessionConverter < Converter
 
 
   def build_agent_telephone(number_type, values)
-    return nil if blank_agent_value?(values['number'])
+    return nil if blank_value?(values['number'])
 
     telephone = {
       'jsonmodel_type' => 'telephone',
       'number_type' => number_type,
       'number' => normalize_schema_value(:telephone, 'number', values['number']),
     }
-    unless blank_agent_value?(values['ext'])
+    unless blank_value?(values['ext'])
       telephone['ext'] = normalize_schema_value(:telephone, 'ext', values['ext'])
     end
 
@@ -408,16 +424,16 @@ class AccessionConverter < Converter
   def build_agent_note(values)
     content = values['content']
     citation = values['citation']
-    return nil if blank_agent_value?(content) && blank_agent_value?(citation)
+    return nil if blank_value?(content) && blank_value?(citation)
 
     subnotes = []
-    unless blank_agent_value?(content)
+    unless blank_value?(content)
       subnotes << {
         'jsonmodel_type' => 'note_text',
         'content' => normalize_schema_value(:note_text, 'content', content),
       }
     end
-    unless blank_agent_value?(citation)
+    unless blank_value?(citation)
       subnotes << {
         'jsonmodel_type' => 'note_citation',
         'content' => [normalize_schema_value(:note_citation, 'content', citation)],
@@ -431,7 +447,7 @@ class AccessionConverter < Converter
   def assign_agent_properties(record, record_type, values)
     schema_properties = record.class.schema['properties']
     values.each do |property, value|
-      next if blank_agent_value?(value)
+      next if blank_value?(value)
       next unless schema_properties.has_key?(property)
 
       record.send("#{property}=", normalize_schema_value(record_type, property, value))
@@ -469,7 +485,7 @@ class AccessionConverter < Converter
   end
 
 
-  def blank_agent_value?(value)
+  def blank_value?(value)
     value.nil? || value.to_s.strip.empty?
   end
 
@@ -477,20 +493,20 @@ class AccessionConverter < Converter
   def append_subjects(subject_groups, accession)
     subject_groups.each do |index, values|
       values = normalize_subject_values(values)
-      next if values.values.all? {|value| blank_subject_value?(value) }
+      next if values.values.all? {|value| blank_value?(value) }
 
       create_values = values.reject {|property, _value| property == 'record_id' }.values
-      record_id = values['record_id'] unless blank_subject_value?(values['record_id'])
-      if record_id && create_values.any? {|value| !blank_subject_value?(value) }
+      record_id = values['record_id'] unless blank_value?(values['record_id'])
+      if record_id && create_values.any? {|value| !blank_value?(value) }
         raise AccessionConverterSubjectModeConflictError,
-              "Subject group #{index} cannot contain both a record ID and create-new values"
+              I18n.t('importer.error.subject_mode_conflict', :index => index)
       end
 
       if record_id
         accession.subjects << {'ref' => JSONModel(:subject).uri_for(record_id)}
       else
         subject = ASpaceImport::JSONModel(:subject).new
-        subject.source = values['source'] unless blank_subject_value?(values['source'])
+        subject.source = values['source'] unless blank_value?(values['source'])
         subject.terms = [{
           :term => values['term'],
           :term_type => values['term_type'],
@@ -515,11 +531,6 @@ class AccessionConverter < Converter
   end
 
 
-  def blank_subject_value?(value)
-    value.nil? || value.to_s.strip.empty?
-  end
-
-
   def append_instances(instance_groups, accession)
     instance_groups.each do |index, values|
       values = normalize_instance_values(values)
@@ -534,13 +545,14 @@ class AccessionConverter < Converter
       )
       if top_container_uri && top_container_creation_values.any?
         raise AccessionConverterTopContainerModeConflictError,
-              "Instance group #{index} cannot contain both a Top Container URI and create-new values"
+              I18n.t('importer.error.top_container_mode_conflict', :index => index)
       end
 
       if top_container_uri
         unless top_container_uri.match?(%r{\A/repositories/\d+/top_containers/\d+\z})
           raise AccessionConverterInvalidTopContainerURIError,
-                "Invalid Top Container URI in Instance group #{index}: #{top_container_uri}"
+                I18n.t('importer.error.invalid_top_container_uri',
+                       :index => index, :top_container_uri => top_container_uri)
         end
       else
         top_container = ASpaceImport::JSONModel(:top_container).new
@@ -598,7 +610,10 @@ class AccessionConverter < Converter
     .reject { |value| value == 'range' }
 
     unless date_types.include? date['date_type']
-      error_message = "Invalid date type provided: #{date['date_type']}; must be one of: #{date_types}; Date provided: #{date.inspect};"
+      error_message = I18n.t('importer.error.invalid_date_type',
+                             :date_type => date['date_type'],
+                             :allowed => date_types,
+                             :date => date.inspect)
 
       raise AccessionConverterInvalidDateTypeError, error_message
     end
@@ -641,9 +656,10 @@ class AccessionConverter < Converter
   end
 end
 
-class AccessionConverterInvalidDateTypeError < StandardError; end;
-class AccessionConverterAgentModeConflictError < StandardError; end;
-class AccessionConverterSubjectModeConflictError < StandardError; end;
-class AccessionConverterInvalidAgentTypeError < StandardError; end;
-class AccessionConverterInvalidTopContainerURIError < StandardError; end;
-class AccessionConverterTopContainerModeConflictError < StandardError; end;
+class AccessionConverterError < StandardError; end;
+class AccessionConverterInvalidDateTypeError < AccessionConverterError; end;
+class AccessionConverterAgentModeConflictError < AccessionConverterError; end;
+class AccessionConverterSubjectModeConflictError < AccessionConverterError; end;
+class AccessionConverterInvalidAgentTypeError < AccessionConverterError; end;
+class AccessionConverterInvalidTopContainerURIError < AccessionConverterError; end;
+class AccessionConverterTopContainerModeConflictError < AccessionConverterError; end;

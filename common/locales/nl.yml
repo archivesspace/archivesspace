@@ -61,3 +61,13 @@ nl:
     number_type: Soort nummer
     number: Nummer
     ext: Doorkiesnummer
+  importer:
+    error:
+      agent_mode_conflict: "Agentgroep %{index} mag niet zowel een record-ID als waarden voor het aanmaken van een nieuw record bevatten"
+      subject_mode_conflict: "Onderwerpgroep %{index} mag niet zowel een record-ID als waarden voor het aanmaken van een nieuw record bevatten"
+      top_container_mode_conflict: "Instantiegroep %{index} mag niet zowel een topcontainer-URI als waarden voor het aanmaken van een nieuw record bevatten"
+      missing_agent_type: "Agentgroep %{index} moet een Agenttype bevatten; moet een van de volgende zijn: %{allowed}"
+      invalid_agent_type: "Agentgroep %{index} vereist een ondersteund Agenttype; ontvangen '%{agent_type}', moet een van de volgende zijn: %{allowed}"
+      invalid_agent_type_for_link: "Agentgroep %{index} vereist een ondersteund Agenttype bij het koppelen van record-ID %{record_id}; ontvangen '%{agent_type}', moet een van de volgende zijn: %{allowed}"
+      invalid_top_container_uri: "Ongeldige topcontainer-URI in instantiegroep %{index}: %{top_container_uri}"
+      invalid_date_type: "Ongeldig datumtype opgegeven: %{date_type}; moet een van de volgende zijn: %{allowed}; Opgegeven datum: %{date};"

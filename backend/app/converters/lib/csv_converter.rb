@@ -15,6 +15,8 @@ module ASpaceImport
         repeatable_record_definitions[record_type.to_s] = {
           :record_type => record_type,
         }.merge(options)
+
+        reset_repeatable_record_caches!
       end
 
 
@@ -23,11 +25,13 @@ module ASpaceImport
       end
 
 
+      # Only runs against the header row, once per import, so the result is
+      # not cached; the regexps and field lists it depends on are.
       def repeatable_record_header(header)
         repeatable_record_definitions.each do |namespace, definition|
-          match = header.match(/\A#{Regexp.escape(namespace)}_(\d+)_(.+)\z/)
+          match = header.match(repeatable_record_header_regexp(namespace))
           next unless match
-          next unless repeatable_record_fields(definition).include?(match[2])
+          next unless repeatable_record_fields(namespace, definition).include?(match[2])
 
           return definition.merge(
             :namespace => namespace,
@@ -40,18 +44,14 @@ module ASpaceImport
       end
 
 
+      # The definitions are fixed once the converter class is loaded. This runs for
+      # every cell of every row, so the result is memoized.
       def repeatable_record_definition_for_key(key)
-        repeatable_record_definitions.each do |namespace, definition|
-          match = key.to_s.match(/\A#{Regexp.escape(namespace)}_(\d+)\z/)
-          next unless match
+        cache = (@repeatable_record_key_cache ||= {})
+        cache_key = key.to_s
+        return cache[cache_key] if cache.has_key?(cache_key)
 
-          return definition.merge(
-            :namespace => namespace,
-            :index => match[1].to_i,
-          )
-        end
-
-        nil
+        cache[cache_key] = find_repeatable_record_definition_for_key(cache_key)
       end
 
 
@@ -90,12 +90,48 @@ module ASpaceImport
 
       private
 
-      def repeatable_record_fields(definition)
+      def find_repeatable_record_definition_for_key(key)
+        repeatable_record_definitions.each do |namespace, definition|
+          match = key.match(repeatable_record_key_regexp(namespace))
+          next unless match
+
+          return definition.merge(
+            :namespace => namespace,
+            :index => match[1].to_i,
+          )
+        end
+
+        nil
+      end
+
+
+      def repeatable_record_header_regexp(namespace)
+        (@repeatable_record_header_regexps ||= {})[namespace] ||=
+          /\A#{Regexp.escape(namespace)}_(\d+)_(.+)\z/
+      end
+
+
+      def repeatable_record_key_regexp(namespace)
+        (@repeatable_record_key_regexps ||= {})[namespace] ||=
+          /\A#{Regexp.escape(namespace)}_(\d+)\z/
+      end
+
+
+      def repeatable_record_fields(namespace, definition)
         return definition[:fields] if definition[:fields]
 
-        ASpaceImport::JSONModel(definition[:record_type]).schema['properties'].reject do |property, property_definition|
-          property_definition['readonly'] || ['jsonmodel_type', 'lock_version'].include?(property)
-        end.keys
+        (@repeatable_record_fields ||= {})[namespace] ||=
+          ASpaceImport::JSONModel(definition[:record_type]).schema['properties'].reject do |property, property_definition|
+            property_definition['readonly'] || ['jsonmodel_type', 'lock_version'].include?(property)
+          end.keys
+      end
+
+
+      def reset_repeatable_record_caches!
+        @repeatable_record_key_cache = nil
+        @repeatable_record_header_regexps = nil
+        @repeatable_record_key_regexps = nil
+        @repeatable_record_fields = nil
       end
     end
 
@@ -121,6 +157,7 @@ module ASpaceImport
 
           if @cell_handlers.empty?
             @headers = row.map {|s| s ||= ""; s.strip }
+            @repeatable_columns = build_repeatable_column_index(@headers)
             @cell_handlers, bad_headers = self.class.configure_cell_handlers(row)
             unless bad_headers.empty?
               Log.warn("Data source has headers that aren't defined: #{bad_headers.join(', ')}")
@@ -162,18 +199,37 @@ module ASpaceImport
     end
 
 
+    # The uploaded headers are fixed for the whole import, so which columns
+    # belong to which repeatable group is worked out once here rather than on
+    # every row.  Positions are taken from the retained headers, which keep
+    # blank columns and so stay aligned with the data row; the header list
+    # inside configure_cell_handlers drops blanks and would shift them.
+    #
+    # Should end up looking like:
+    # namespace => [[row_position, group_index, property], ...]
+    def build_repeatable_column_index(headers)
+      index = {}
+
+      headers.each_with_index do |header, position|
+        repeatable = self.class.repeatable_record_header(header)
+        next unless repeatable
+
+        (index[repeatable[:namespace]] ||= []) << [position, repeatable[:index].to_i, repeatable[:property]]
+      end
+
+      index
+    end
+
+
     def repeatable_row_data(namespace, row)
       data = {}
 
-      @headers.each_with_index do |header, index|
-        repeatable = self.class.repeatable_record_header(header)
-        next unless repeatable && repeatable[:namespace] == namespace
-
-        data[repeatable[:index].to_i] ||= {}
-        data[repeatable[:index].to_i][repeatable[:property]] = row[index]
+      (@repeatable_columns[namespace] || []).each do |position, group_index, property|
+        data[group_index] ||= {}
+        data[group_index][property] = row[position]
       end
 
-      data.sort_by {|index, _properties| index }
+      data.sort_by {|group_index, _properties| group_index }
     end
 
 
