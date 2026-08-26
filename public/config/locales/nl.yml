@@ -80,7 +80,7 @@ nl:
       four_part_id: Identificatiecode
       dates: Datering
       subjects_text: Onderwerpen
-      published_agents: Namen van personen, families en organisaties
+      agents_text: Namen van personen, families en organisaties
       creators_text: Archiefvormers en verzamelaars
       role_enum_s: Rollen
       linked_agent_roles: Rollen van gekoppelde namen

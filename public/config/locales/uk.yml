@@ -85,7 +85,7 @@ uk:
       four_part_id: Ідентифікатор
       dates: Дати
       subjects_text: Суб'єкти
-      published_agents: Агенти
+      agents_text: Агенти
       creators_text: Творці
       role_enum_s: Ролі
       linked_agent_roles: Ролі пов'язаних агентів

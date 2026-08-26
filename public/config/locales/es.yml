@@ -87,7 +87,7 @@ es:
       four_part_id: Identificador
       dates: Fechas
       subjects_text: Sujetas
-      published_agents: Agentes
+      agents_text: Agentes
       creators_text: Creadoras
       role_enum_s: Roles
       linked_agent_roles: Roles de agente vinculada
