@@ -1944,3 +1944,131 @@ it:
         empty_true: Так
         empty_false: Ні
         search: Пошук
+        update_ils_holding_ids: Aggiorna gli ID delle holding ILS
+        update_ils_holding_ids_help: Inserisci un valore per l'ID di 
+          contenimento ILS per tutti i contenitori selezionati. Lascia vuoto 
+          questo campo per rimuovere il valore corrente senza sostituirlo con un
+          altro.
+        update_container_profiles: Aggiorna i profili dei contenitori
+        update_container_profiles_help: Scegli un profilo contenitore per tutti 
+          i contenitori selezionati. Lascia vuoto questo campo per rimuovere il 
+          valore corrente senza sostituirlo con un altro.
+        update_locations_singular: 'Posizioni di aggiornamento: posizione singola'
+        update_locations_singular_help: Scegli una posizione per tutti i 
+          contenitori selezionati. Lascia vuoto questo campo per rimuovere il 
+          valore corrente senza sostituirlo con un altro.
+        update_locations_multiple: 'Posizioni di aggiornamento: più posizioni'
+        update_locations_multiple_help: Scegli una posizione per ciascun 
+          contenitore selezionato. Lascia vuoto questo campo per rimuovere il 
+          valore corrente senza sostituirlo con un altro.
+        rapid_indicator_entry: Aggiorna gli indicatori
+        rapid_indicator_entry_new_indicator: Nuovo indicatore
+        rapid_indicator_entry_help: Inserisci un indicatore per ciascun 
+          contenitore selezionato. Lascia vuoto il campo Nuovo indicatore per 
+          non modificarlo.
+        rapid_barcode_entry: Inserimento rapido del codice a barre
+        rapid_barcode_entry_existing_barcode: Codice a barre esistente
+        rapid_barcode_entry_new_barcode: Nuovo codice a barre
+        rapid_barcode_entry_help: Inserisci un codice a barre per ogni 
+          contenitore selezionato. Lascia vuoto il campo Nuovo codice a barre 
+          per rimuovere il codice a barre corrente senza sostituirlo con un 
+          nuovo valore.
+        batch_merge: Unisci contenitori superiori
+        batch_merge_instructions: Seleziona il contenitore principale in cui 
+          verranno uniti tutti gli altri contenitori principali elencati. 
+          Accessi, risorse, componenti di risorse ed eventi collegati verranno 
+          ricollegati a questo contenitore. I profili dei contenitori verranno 
+          spostati in questo contenitore solo se non ne possiede già uno. Le 
+          posizioni e tutte le altre informazioni relative agli altri 
+          contenitori principali verranno eliminate.
+        batch_merge_confirm: Conferma l'unione dei contenitori superiori
+        batch_merge_confirm_question: Sei sicuro di voler unire i contenitori 
+          superiori come elencato di seguito? Questa operazione è irreversibile.
+        batch_merge_container_profile_too_many_warning: Questi contenitori 
+          superiori hanno profili contenitore diversi. Nessuno di questi profili
+          contenitore verrà unito al contenitore di destinazione dell'unione.
+        batch_merge_container_profile_mismatch_warning: Questi contenitori 
+          superiori hanno un profilo contenitore diverso rispetto al contenitore
+          superiore di destinazione dell'unione. Il profilo contenitore non 
+          verrà unito al contenitore di destinazione dell'unione.
+        batch_merge_confirm_merge_candidates: 'Unisci i seguenti contenitori superiori:'
+        batch_merge_confirm_merge_destination: 'In questo contenitore superiore:'
+        batch_delete: Elimina i contenitori superiori
+        batch_delete_help: Elimina tutti i contenitori selezionati.
+        update_n_records: Aggiorna %{n} record
+        select_merge_destination: Seleziona la destinazione di unione
+        merge_n_records: Unisci %{n} record
+        delete_n_records: Elimina %{n} record
+        update_locations_current_location: Posizione attuale
+        update_locations_new_location: Nuova posizione
+        has_location_true: Si
+        has_location_false: No
+    linker:
+      browse: Scopri i migliori contenitori
+      create: Crea contenitore superiore
+      link_title: Collegamento al contenitore superiore
+  container_profile:
+    _singular: Profilo del contenitore
+    _plural: Profili dei contenitori
+    _frontend:
+      action:
+        save: Salva profilo contenitore
+        edit: Modifica profilo contenitore
+        create: Crea profilo contenitore
+        space_calculator: Calcolatrice spaziale
+      messages:
+        created: Profilo del contenitore creato
+        updated: Profilo del contenitore aggiornato
+        merged: Profili contenitore uniti
+      section:
+        basic_information: Informazioni di base
+      bulk_operations:
+        merge: Unione dei profili dei contenitori
+        merge_instructions: Seleziona il profilo contenitore in cui verranno 
+          uniti tutti gli altri profili contenitore elencati. Tutti i record 
+          collegati verranno ricollegati a questo profilo e tutte le 
+          informazioni relative agli altri profili contenitore verranno 
+          eliminate.
+        merge_select_merge_destination: Seleziona la destinazione di unione
+        confirm_merge: Conferma l'unione dei profili del contenitore
+        confirm_merge_question: Sei sicuro di voler unire i profili dei 
+          container come elencato di seguito? Questa operazione è irreversibile.
+        confirm_merge_candidates: 'Unisci i seguenti profili contenitore:'
+        confirm_merge_destination: 'In questo profilo container:'
+    notes: Nota
+    notes_tooltip: |
+      <p>Nota per informazioni/metadati vari.</p>
+    name: Nome
+    name_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il nome del profilo del contenitore. Può essere generico o specifico.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Scatola per documenti</li>
+      <li>Paige 15</li>
+      <li>Scatola portadocumenti per schede piccole</li>
+      </ul>
+    url: URL
+    url_tooltip: |
+      <p>Un collegamento ipertestuale per una descrizione esterna del contenitore.</p>
+    dimension_units: Unità di misura
+    dimension_units_tooltip: |
+      <p>Unità di misura per le dimensioni.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    extent_dimension: Dimensione di estensione
+    extent_dimension_tooltip: |
+      <p>La dimensione utilizzata per calcolare e indicare l'ingombro dei materiali nel contenitore. Questo aiuta a determinare quale dimensione verrà misurata dal calcolatore di ingombro.</p>
+    extent_dimension_depth: Profondità
+    extent_dimension_depth_tooltip: |
+      <p>Valore numerico per la profondità (dimensione dalla parte anteriore a quella posteriore) del contenitore.</p>
+    extent_dimension_height: Altezza
+    extent_dimension_height_tooltip: |
+      <p>Valore numerico per l'altezza (dimensione dall'alto verso il basso) del contenitore.</p>
+    extent_dimension_width: Larghezza
+    extent_dimension_width_tooltip: |
+      <p>Valore numerico per la larghezza (dimensione da lato a lato) del contenitore.</p>
+    depth: Profondità
+    depth_tooltip: |
+      <p>Valore numerico per la profondità (dimensione dalla parte anteriore a quella posteriore) del contenitore.</p>
+    height: Altezza
+    height_tooltip: |
+      <p>Valore numerico per l'altezza (dimensione dall'alto verso il basso) del contenitore.</p>
