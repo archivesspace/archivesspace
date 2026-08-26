@@ -126,4 +126,72 @@ describe 'linked_in_other_repository JSONModel field' do
     expect(json.used_within_repositories).to eq([repo_b.uri])
   end
 
+  describe 'the global repository' do
+    it 'is not counted as another repository' do
+      repo_a = create(:repo)
+
+      agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+      RequestContext.put(:repo_id, repo_a.id)
+      cataloged_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+      Event.for_cataloging(agent.uri, cataloged_agent.uri)
+
+      json = AgentPerson.to_jsonmodel(AgentPerson[agent[:id]],
+                                      :calculate_linked_in_other_repository => true,
+                                      :current_repo_id => repo_a.id)
+      expect(json.linked_in_other_repository).to eq(false)
+    end
+
+    it 'is not counted as another repository when no current_repo_id is supplied' do
+      repo_a = create(:repo)
+
+      agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+      RequestContext.put(:repo_id, repo_a.id)
+      cataloged_agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+      Event.for_cataloging(agent.uri, cataloged_agent.uri)
+
+      json = AgentPerson.to_jsonmodel(AgentPerson[agent[:id]],
+                                      :calculate_linked_in_other_repository => true)
+      expect(json.linked_in_other_repository).to eq(false)
+    end
+
+    it "is not counted as another repository for a cataloguer's own agent" do
+      repo_a = create(:repo)
+
+      user = User.create_from_json(build(:json_user))
+      cataloguer_agent_id = user.agent_record_id
+      expect(cataloguer_agent_id).not_to be_nil
+
+      # Creating an agent records a cataloging event in the global repository
+      # with the cataloguer's own agent as the implementer.
+      RequestContext.open(:repo_id => repo_a.id, :current_username => user.username) do
+        AgentPerson.create_from_json(build(:json_agent_person))
+      end
+
+      json = AgentPerson.to_jsonmodel(AgentPerson[cataloguer_agent_id],
+                                      :calculate_linked_in_other_repository => true,
+                                      :current_repo_id => repo_a.id)
+      expect(json.linked_in_other_repository).to eq(false)
+    end
+
+    it 'is not counted alongside a genuine cross-repository link' do
+      repo_a = create(:repo)
+      repo_b = create(:repo)
+
+      agent = AgentPerson.create_from_json(build(:json_agent_person))
+
+      link_agent_to_new_accession_in_repo(agent, repo_b)
+
+      cataloged_agent = AgentPerson.create_from_json(build(:json_agent_person))
+      Event.for_cataloging(agent.uri, cataloged_agent.uri)
+
+      json = AgentPerson.to_jsonmodel(AgentPerson[agent[:id]],
+                                      :calculate_linked_in_other_repository => true,
+                                      :current_repo_id => repo_a.id)
+      expect(json.linked_in_other_repository).to eq(true)
+    end
+  end
 end
