@@ -2072,3 +2072,119 @@ it:
     height: Altezza
     height_tooltip: |
       <p>Valore numerico per l'altezza (dimensione dall'alto verso il basso) del contenitore.</p>
+    width: larghezza
+    width_tooltip: |
+      <p>Valore numerico per la larghezza (dimensione da lato a lato) del contenitore.</p>
+    stacking_limit: Limite di impilamento
+    stacking_limit_tooltip: |
+      <p>Il numero di questi contenitori che possono essere impilati uno sopra l'altro. Lasciare vuoto se non c'è limite. Deve essere un numero intero positivo o zero.</p>
+    linker:
+      browse: Sfoglia i profili dei contenitori
+      create: Crea profilo contenitore
+      link_title: Collegamento al profilo del contenitore
+  rights_restriction:
+    begin: Inizio della restrizione
+    begin_tooltip: |
+      <p>Per una restrizione limitata nel tempo, la data di inizio di una restrizione all'accesso. Deve essere una singola data nel modulo YYYY-MM-DD. Verrà dissociato dai contenitori una volta scaduto. Utilizzare il testo della nota per indicare una data o un intervallo di date meno preciso.</p>
+    end: Fine della restrizione
+    end_tooltip: |
+      <p>Per una restrizione con limiti di tempo, la data di fine di una restrizione all'accesso. Deve essere una singola data nel modulo YYYY-MM-DD. Verrà dissociato dai contenitori una volta scaduto. Utilizzare il testo della nota per indicare una data o un intervallo di date meno preciso.</p>
+    local_access_restriction_type: Tipo di restrizione dell'accesso locale
+    local_access_restriction_type_inline_help: Tenere premuto CTRL (Windows) / 
+      Comando (Mac) per selezionare più opzioni o deselezionare un'opzione
+    local_access_restriction_type_tooltip: |
+      <p>Per le restrizioni non vincolate nel tempo, indicazione del motivo della restrizione.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    linked_records: Record collegato
+    restriction_note_type: tipo di nota
+  extent_calculator:
+    no_object_message: Specificare un oggetto su cui eseguire il calcolatore di 
+      estensione.
+    report_title: Rapporto sull'estensione calcolata
+    container_profile_header: Profilo del contenitore
+    count_header: conte
+    extent_header: grado
+    no_profile: <span class="text-error">NESSUN PROFILO</span>
+    all_containers_label: Tutti i contenitori
+    timestamp_label: Rapporto generato alle
+    extent_record_header: Record di estensione
+    create_extent: Crea estensione
+    calculate_extent: Calcola l'estensione
+    create_extent_record_message: Esegui il Calcolatore di estensione in 
+      modalità di modifica per avere la possibilità di creare un record di 
+      estensione basato sul report.
+    waiting_for_report_message: Calcolo dell'estensione...
+    required_fields_alert_message: Assicurati che tutti i campi obbligatori 
+      contengano un valore.
+    container_summary_type:
+      _singular: contenitrice
+      _plural: contenitrici
+  location_profile:
+    _singular: Profilo della località
+    _plural: Profili delle località
+    _frontend:
+      action:
+        save: Salva profilo posizione
+        edit: Modifica profilo posizione
+        create: Crea profilo posizione
+      messages:
+        created: Profilo di localizzazione creato
+        updated: Profilo della località aggiornato
+        fields_required_for_calculator: Si prega di notare che le unità di 
+          misura, la profondità, l'altezza e la larghezza sono tutte necessarie 
+          per il calcolo dello spazio. Le posizioni verranno escluse dai 
+          risultati se manca uno qualsiasi di questi valori.
+      section:
+        basic_information: Informazioni di base
+    name: Nome
+    dimension_units: Unità di misura
+    depth: Profondità
+    height: Altezza
+    width: Larghezza
+    linker:
+      browse: Esplora i profili delle località
+      create: Crea profilo posizione
+      link_title: Collegamento al profilo della località
+  space_calculator:
+    modal_title: Calcolatrice spaziale
+    modal_loading: Caricamento...
+    message_container_profile_required: Il Calcolatore di spazio richiede 
+      l'impostazione di un profilo contenitore.
+    message_locations_required: Il Calcolatore di Spazio richiede l'impostazione
+      di una o più posizioni.
+    message_select_locations: 'Verifica la disponibilità di posti nelle seguenti località:'
+    message_no_locations_with_space: Non sono state trovate posizioni con spazio
+      disponibile
+    message_total_spaces: 'Numero totale di spazi disponibili per questo tipo di contenitore:
+      %{total_spaces}'
+    message_total_containers: 'Numero totale di contenitori di questo tipo trovati
+      in queste posizioni: %{total_containers}'
+    message_loading: Caricamento...
+    count: Spazio disponibile (del tipo di container)
+    calculate_space: Verifica la disponibilità di spazio
+    locations_without_space_details: Visualizza le posizioni senza spazio
+    by_locations: Per località
+    by_building: Costruire
+    result_filter: Filtra i risultati
+    summary:
+      locations_with_space: 'Posti con spazio disponibile: <strong>%{count}</strong>'
+      locations_without_space: 'Posti senza spazio disponibile: <strong>%{count}</strong>'
+      uncalculatable_locations: 'Impossibile calcolare: <strong>%{count}</strong>'
+    view_all_toggle: Mostra le posizioni senza spazio
+    reason:
+      location_lacks_a_profile: La località non ha un profilo
+      location_lacks_dimension_data: Il profilo di localizzazione non dispone di
+        dati dimensionali
+      container_is_bigger: Il contenitore è più grande del luogo in almeno una 
+        dimensione
+      container_at_location_lacks_profile: Almeno uno dei container attualmente 
+        presenti sul posto è privo di profilo
+      containers_at_location_dont_fit: I contenitori attualmente presenti nel 
+        luogo non sono adatti
+      location_cannot_fit_container: Al momento, in questo luogo non è possibile
+        alloggiare contenitori di questo tipo
+  date_calculator:
+    toolbar_button: Calcola le date
+    calculate_button: Calcola la data del record
+    modal_title: Calcola le date
+    all_labels: Calcola per tutte le date
