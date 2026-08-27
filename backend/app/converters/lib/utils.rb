@@ -70,6 +70,17 @@ module ASpaceImport
     end
 
 
+    def self.normalize_boolean
+      @normalize_boolean ||= Proc.new {|val|
+        case val.to_s.strip.upcase
+        when '1', 'T', 'Y', 'YES', 'TRUE' then true
+        when '0', 'F', 'N', 'NO', 'FALSE' then false
+        end
+      }
+      @normalize_boolean
+    end
+
+
     def self.value_filter(property_type)
       case property_type
 

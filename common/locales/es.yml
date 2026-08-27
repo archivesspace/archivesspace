@@ -2685,6 +2685,7 @@ es:
       subject_mode_conflict: "El grupo de Tema %{index} no puede contener a la vez un ID de registro y valores para crear uno nuevo"
       top_container_mode_conflict: "El grupo de Instancia %{index} no puede contener a la vez una URI de Top Container y valores para crear uno nuevo"
       missing_agent_type: "El grupo de Agente %{index} debe incluir un tipo de Agente; debe ser uno de: %{allowed}"
+      missing_agent_type_for_link: "El grupo de Agente %{index} debe incluir un tipo de Agente al enlazar el ID de registro %{record_id}; debe ser uno de: %{allowed}"
       invalid_agent_type: "El grupo de Agente %{index} requiere un tipo de Agente admitido; se recibió '%{agent_type}', debe ser uno de: %{allowed}"
       invalid_agent_type_for_link: "El grupo de Agente %{index} requiere un tipo de Agente admitido al enlazar el ID de registro %{record_id}; se recibió '%{agent_type}', debe ser uno de: %{allowed}"
       invalid_top_container_uri: "URI de Top Container no válida en el grupo de Instancia %{index}: %{top_container_uri}"

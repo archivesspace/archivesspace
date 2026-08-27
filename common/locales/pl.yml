@@ -1406,6 +1406,7 @@ pl:
       subject_mode_conflict: "Grupa Tematu %{index} nie może zawierać jednocześnie identyfikatora rekordu i wartości do utworzenia nowego"
       top_container_mode_conflict: "Grupa Instancji %{index} nie może zawierać jednocześnie identyfikatora URI kontenera nadrzędnego i wartości do utworzenia nowego"
       missing_agent_type: "Grupa Agenta %{index} musi zawierać typ Agenta; musi być jednym z: %{allowed}"
+      missing_agent_type_for_link: "Grupa Agenta %{index} musi zawierać typ Agenta podczas łączenia z identyfikatorem rekordu %{record_id}; musi być jednym z: %{allowed}"
       invalid_agent_type: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
       invalid_agent_type_for_link: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta podczas łączenia z identyfikatorem rekordu %{record_id}; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
       invalid_top_container_uri: "Nieprawidłowy identyfikator URI kontenera nadrzędnego w grupie Instancji %{index}: %{top_container_uri}"

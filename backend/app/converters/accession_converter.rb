@@ -332,14 +332,11 @@ class AccessionConverter < Converter
   def verify_agent_type(index, agent_type, record_id = nil)
     return if SUPPORTED_AGENT_TYPES.include?(agent_type)
 
-    if blank_value?(agent_type)
-      raise AccessionConverterInvalidAgentTypeError,
-            I18n.t('importer.error.missing_agent_type',
-                   :index => index,
-                   :allowed => SUPPORTED_AGENT_TYPES)
-    end
-
-    key = record_id ? 'importer.error.invalid_agent_type_for_link' : 'importer.error.invalid_agent_type'
+    key = if blank_value?(agent_type)
+            record_id ? 'importer.error.missing_agent_type_for_link' : 'importer.error.missing_agent_type'
+          else
+            record_id ? 'importer.error.invalid_agent_type_for_link' : 'importer.error.invalid_agent_type'
+          end
 
     raise AccessionConverterInvalidAgentTypeError,
           I18n.t(key,
@@ -534,7 +531,7 @@ class AccessionConverter < Converter
   def append_instances(instance_groups, accession)
     instance_groups.each do |index, values|
       values = normalize_instance_values(values)
-      next if values.values.all?(&:nil?)
+      next if values.values.all? {|value| blank_value?(value) }
 
       top_container_uri = values['top_container_1_uri']
       top_container_creation_values = values.values_at(
@@ -651,8 +648,7 @@ class AccessionConverter < Converter
   end
 
   def self.normalize_boolean
-    @normalize_boolean ||= Proc.new {|val| val.to_s.upcase.match(/\A(1|T|Y|YES|TRUE)\Z/) ? true : false }
-    @normalize_boolean
+    ASpaceImport::Utils.normalize_boolean
   end
 end
 

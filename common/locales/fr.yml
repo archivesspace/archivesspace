@@ -2786,6 +2786,7 @@ fr:
       subject_mode_conflict: "Le groupe Matière %{index} ne peut pas contenir à la fois un identifiant d'enregistrement et des valeurs de création"
       top_container_mode_conflict: "Le groupe Instance %{index} ne peut pas contenir à la fois une URI de contenant supérieur et des valeurs de création"
       missing_agent_type: "Le groupe Agent %{index} doit inclure un type d'Agent ; doit être l'un des suivants : %{allowed}"
+      missing_agent_type_for_link: "Le groupe Agent %{index} doit inclure un type d'Agent lors de la liaison à l'identifiant d'enregistrement %{record_id} ; doit être l'un des suivants : %{allowed}"
       invalid_agent_type: "Le groupe Agent %{index} requiert un type d'Agent pris en charge ; reçu '%{agent_type}', doit être l'un des suivants : %{allowed}"
       invalid_agent_type_for_link: "Le groupe Agent %{index} requiert un type d'Agent pris en charge lors de la liaison à l'identifiant d'enregistrement %{record_id} ; reçu '%{agent_type}', doit être l'un des suivants : %{allowed}"
       invalid_top_container_uri: "URI de contenant supérieur non valide dans le groupe Instance %{index} : %{top_container_uri}"

@@ -183,6 +183,28 @@ describe 'Accession import batch' do
     end
   end
 
+  context 'when the CSV sets a configured boolean column' do
+    it 'records an explicit false rather than falling back to the publish preference' do
+      headers = ['accession_title', 'accession_id_1', 'accession_publish']
+      rows = [['Explicitly unpublished', generate(:alphanumstr), 'FALSE']]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.order(Sequel.desc(:id)).first
+      expect(Accession.to_jsonmodel(accession.id)['publish']).to eq(false)
+    end
+
+    it 'uses the publish preference when the column is blank' do
+      headers = ['accession_title', 'accession_id_1', 'accession_publish']
+      rows = [['Default publication', generate(:alphanumstr), nil]]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.order(Sequel.desc(:id)).first
+      expect(Accession.to_jsonmodel(accession.id)['publish']).to eq(Preference.defaults['publish'])
+    end
+  end
+
   context 'when the CSV contains repeatable External Document groups' do
     it 'imports complete, higher, and noncontiguous groups with publish values and defaults and ignores a blank group' do
       accession_id = generate(:alphanumstr)
@@ -249,6 +271,65 @@ describe 'Accession import batch' do
         'Default document',
         'https://example.org/default',
         nil,
+      ]]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.order(Sequel.desc(:id)).first
+      expect(Accession.to_jsonmodel(accession.id).external_documents.first['publish']).to eq(Preference.defaults['publish'])
+    end
+
+    it 'accepts the same boolean tokens the configured columns accept' do
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'external_document_1_title',
+        'external_document_1_location',
+        'external_document_1_publish',
+        'external_document_2_title',
+        'external_document_2_location',
+        'external_document_2_publish',
+        'external_document_3_title',
+        'external_document_3_location',
+        'external_document_3_publish',
+        'external_document_4_title',
+        'external_document_4_location',
+        'external_document_4_publish',
+      ]
+      rows = [[
+        'Lenient boolean tokens',
+        generate(:alphanumstr),
+        'Word token', 'https://example.org/word', 'TRUE',
+        'Letter token', 'https://example.org/letter', ' y ',
+        'Negative word token', 'https://example.org/negative-word', 'no',
+        'Negative letter token', 'https://example.org/negative-letter', 'F',
+      ]]
+
+      import_accession_csv(headers, rows)
+
+      json = Accession.to_jsonmodel(Accession.order(Sequel.desc(:id)).first.id)
+      expect(json.external_documents).to contain_exactly(
+        include('title' => 'Word token', 'publish' => true),
+        include('title' => 'Letter token', 'publish' => true),
+        include('title' => 'Negative word token', 'publish' => false),
+        include('title' => 'Negative letter token', 'publish' => false),
+      )
+    end
+
+    it 'uses the publish preference when publish is not a recognized boolean token' do
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'external_document_1_title',
+        'external_document_1_location',
+        'external_document_1_publish',
+      ]
+      rows = [[
+        'Unrecognized publish token',
+        generate(:alphanumstr),
+        'Unrecognized token document',
+        'https://example.org/unrecognized',
+        'perhaps',
       ]]
 
       import_accession_csv(headers, rows)
@@ -356,7 +437,7 @@ describe 'Accession import batch' do
       )
     end
 
-    it 'rejects a linked Agent without a type and imports no rows' do
+    it 'rejects a linked Agent without a type and names the record ID' do
       existing_agent = create(:json_agent_person)
       accession_count = Accession.count
       headers = [
@@ -369,6 +450,35 @@ describe 'Accession import batch' do
       rows = [
         ['Valid row', generate(:alphanumstr), nil, nil, nil],
         ['Ambiguous Agent type', generate(:alphanumstr), existing_agent.id, 'creator', nil],
+      ]
+
+      expect(I18n.exists?('importer.error.missing_agent_type_for_link')).to be true
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidAgentTypeError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.missing_agent_type_for_link',
+                                        :index => 1,
+                                        :record_id => existing_agent.id,
+                                        :allowed => AccessionConverter::SUPPORTED_AGENT_TYPES))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'rejects a created Agent without a type and imports no rows' do
+      accession_count = Accession.count
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'agent_1_agent_name_1_primary_name',
+        'agent_1_role',
+        'agent_1_agent_type',
+      ]
+      rows = [
+        ['Valid row', generate(:alphanumstr), nil, nil, nil],
+        ['Untyped new Agent', generate(:alphanumstr), generate(:alphanumstr), 'creator', nil],
       ]
 
       expect(I18n.exists?('importer.error.missing_agent_type')).to be true

@@ -28,6 +28,7 @@ he:
       subject_mode_conflict: "קבוצת הנושא %{index} אינה יכולה להכיל גם מזהה רשומה וגם ערכים ליצירת רשומה חדשה"
       top_container_mode_conflict: "קבוצת המופע %{index} אינה יכולה להכיל גם כתובת URI של מיכל עליון וגם ערכים ליצירת רשומה חדשה"
       missing_agent_type: "קבוצת הסוכן %{index} חייבת לכלול סוג סוכן; חייב להיות אחד מתוך: %{allowed}"
+      missing_agent_type_for_link: "קבוצת הסוכן %{index} חייבת לכלול סוג סוכן בעת קישור למזהה רשומה %{record_id}; חייב להיות אחד מתוך: %{allowed}"
       invalid_agent_type: "קבוצת הסוכן %{index} מחייבת סוג סוכן נתמך; התקבל '%{agent_type}', חייב להיות אחד מתוך: %{allowed}"
       invalid_agent_type_for_link: "קבוצת הסוכן %{index} מחייבת סוג סוכן נתמך בעת קישור למזהה רשומה %{record_id}; התקבל '%{agent_type}', חייב להיות אחד מתוך: %{allowed}"
       invalid_top_container_uri: "כתובת URI לא חוקית של מיכל עליון בקבוצת המופע %{index}: %{top_container_uri}"

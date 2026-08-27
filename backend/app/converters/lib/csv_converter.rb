@@ -69,10 +69,6 @@ module ASpaceImport
           bad_headers << header unless c.has_key?(header) || repeatable_record_header(header)
         end
 
-        if !bad_headers.empty?
-          # raise CSVSyntaxException.new(:unconfigured_headers, bad_headers)
-        end
-
         cell_handlers = headers.map do |header|
           if c.has_key?(header)
             CellHandler.new(*[*c[header], header].reverse)
@@ -80,7 +76,7 @@ module ASpaceImport
             next if repeatable[:parse] == false
 
             target = "#{repeatable[:namespace]}_#{repeatable[:index]}.#{repeatable[:property]}"
-            CellHandler.new(header, target)
+            CellHandler.new(header, target, repeatable_record_value_filter(repeatable))
           end
         end
 
@@ -89,6 +85,16 @@ module ASpaceImport
 
 
       private
+
+      def repeatable_record_value_filter(repeatable)
+        property_definition =
+          ASpaceImport::JSONModel(repeatable[:record_type]).schema['properties'][repeatable[:property]]
+        return nil unless property_definition
+        return nil unless ASpaceImport::Utils.get_property_type(property_definition)[0] == :boolean
+
+        normalize_boolean
+      end
+
 
       def find_repeatable_record_definition_for_key(key)
         repeatable_record_definitions.each do |namespace, definition|
@@ -248,7 +254,7 @@ module ASpaceImport
 
       val = handler.extract_value(cell_contents)
 
-      return nil unless val
+      return nil if val.nil?
       return nil if self.class.repeatable_record_definition_for_key(handler.target_key) && val.to_s.strip.empty?
 
       get_queued_or_new(handler.target_key) do |prox|

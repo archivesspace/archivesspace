@@ -310,10 +310,10 @@ describe 'Accession converter' do
 
       expect(converted_dates.count).to eq(2)
 
-      expect(converted_accessions[0]['publish']).to be_truthy
-      expect(converted_accessions[1]['publish']).to be_nil
-      expect(converted_accessions[2]['publish']).to be_truthy
-      expect(converted_accessions[3]['publish']).to be_nil
+      expect(converted_accessions[0]['publish']).to eq(true)
+      expect(converted_accessions[1]['publish']).to eq(false)
+      expect(converted_accessions[2]['publish']).to eq(true)
+      expect(converted_accessions[3]['publish']).to eq(false)
 
       expect(converted_events.count).to eq(26)
 

@@ -1626,6 +1626,7 @@ it:
       subject_mode_conflict: "Il gruppo Soggetto %{index} non può contenere sia un ID record sia valori per crearne uno nuovo"
       top_container_mode_conflict: "Il gruppo Istanza %{index} non può contenere sia un URI di contenitore principale sia valori per crearne uno nuovo"
       missing_agent_type: "Il gruppo Agente %{index} deve includere un tipo di Agente; deve essere uno tra: %{allowed}"
+      missing_agent_type_for_link: "Il gruppo Agente %{index} deve includere un tipo di Agente quando si collega l'ID record %{record_id}; deve essere uno tra: %{allowed}"
       invalid_agent_type: "Il gruppo Agente %{index} richiede un tipo di Agente supportato; ricevuto '%{agent_type}', deve essere uno tra: %{allowed}"
       invalid_agent_type_for_link: "Il gruppo Agente %{index} richiede un tipo di Agente supportato quando si collega l'ID record %{record_id}; ricevuto '%{agent_type}', deve essere uno tra: %{allowed}"
       invalid_top_container_uri: "URI di contenitore principale non valido nel gruppo Istanza %{index}: %{top_container_uri}"
