@@ -158,6 +158,25 @@ describe ResourcesController, type: :controller do
     end
   end
 
+  describe 'index action for a repository with no published resources' do
+    before(:all) do
+      @empty_repo = create(:repo, repo_code: "resources_empty_test_#{Time.now.to_i}",
+                            publish: true)
+      run_indexers
+    end
+
+    it 'redirects to a fixed location instead of looping back to itself via referer' do
+      request.env['HTTP_REFERER'] = "/repositories/#{@empty_repo.id}/resources"
+      get(:index, params: { rid: @empty_repo.id })
+
+      expect(response).to have_http_status(302)
+      expect(response.location).not_to eq(request.env['HTTP_REFERER'])
+
+      expected_location = "#{AppConfig[:public_proxy_prefix].sub(/\/$/, '')}/repositories/#{@empty_repo.id}"
+      expect(response).to redirect_to(expected_location)
+    end
+  end
+
   describe 'digitized action' do
     it 'displays tree breadcrumbs for digital objects linked to more than one Resource' do
       get(:digitized, params: {rid: @repo.id, id: @resource_with_rep_instance.id})

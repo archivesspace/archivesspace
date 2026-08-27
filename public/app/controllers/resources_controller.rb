@@ -52,10 +52,10 @@ class ResourcesController < ApplicationController
       set_up_and_run_search(['resource'], facet_types, search_opts, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: '/') and return
+      redirect_to(@repo_id ? "#{AppConfig[:public_proxy_prefix].sub(/\/$/, '')}/repositories/#{@repo_id}" : root_path) and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: '/' ) and return
+      redirect_to(@repo_id ? "#{AppConfig[:public_proxy_prefix].sub(/\/$/, '')}/repositories/#{@repo_id}" : root_path) and return
     end
 
     @context = repo_context(@repo_id, 'resource')
@@ -102,14 +102,14 @@ class ResourcesController < ApplicationController
       set_up_advanced_search(DEFAULT_RES_TYPES, DEFAULT_RES_FACET_TYPES, search_opts, params)
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: res_id ) and return
+      redirect_to("#{AppConfig[:public_proxy_prefix].sub(/\/$/, '')}#{res_id}") and return
     end
 
     page = Integer(params.fetch(:page, "1"))
     @results = archivesspace.advanced_search('/search', page, @criteria)
     if @results['total_hits'].blank? || @results['total_hits'] == 0
       flash[:notice] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: @base_search)
+      redirect_to("#{AppConfig[:public_proxy_prefix].sub(/\/$/, '')}#{res_id}")
     else
       process_search_results(@base_search)
       title = ''

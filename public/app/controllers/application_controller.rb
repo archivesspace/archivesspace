@@ -54,9 +54,9 @@ class ApplicationController < ActionController::Base
     Rails.logger.error(exception)
     flash[:error] = I18n.t('search_results.no_results')
     unless controller_name == 'repositories'
-      redirect_back(fallback_location: '/') and return
+      redirect_to(root_path) and return
     else
-      redirect_to('/')
+      redirect_to(root_path)
     end
   end
 

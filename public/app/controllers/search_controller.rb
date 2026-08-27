@@ -48,7 +48,7 @@ class SearchController < ApplicationController
       Rails.logger.debug(error.message)
       p error
       flash[:error] = I18n.t('search_results.error')
-      redirect_back(fallback_location: root_path ) and return
+      redirect_to(root_path) and return
     end
     page = Integer(params.fetch(:page, "1"))
     Rails.logger.debug("base search: #{@base_search}")

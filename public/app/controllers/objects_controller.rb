@@ -35,10 +35,10 @@ class ObjectsController < ApplicationController
       set_up_and_run_search( params[:limit].split(","), DEFAULT_OBJ_FACET_TYPES, search_opts, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: '/') and return
+      redirect_to(root_path) and return
     rescue Exception
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: '/objects' ) and return
+      redirect_to(objects_path) and return
     end
 
     @context = repo_context(repo_id, 'record')
@@ -66,10 +66,10 @@ class ObjectsController < ApplicationController
       set_up_and_run_search(%w(digital_object archival_object), DEFAULT_OBJ_FACET_TYPES, DEFAULT_OBJ_SEARCH_OPTS, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: '/') and return
+      redirect_to(root_path) and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: '/objects' ) and return
+      redirect_to(objects_path) and return
     end
     @page_title = I18n.t('record._plural')
     @results_type = @page_title
