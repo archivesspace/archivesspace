@@ -2188,3 +2188,52 @@ it:
     calculate_button: Calcola la data del record
     modal_title: Calcola le date
     all_labels: Calcola per tutte le date
+    no_object_message: Record non trovato
+    results_title: Record della data calcolata
+    create_date_button: Data di creazione del record
+    generic_create_error: La data non è valida e non è stato possibile crearla
+    create_success: Data creata con successo. Aggiornamento della pagina in 
+      corso...
+    no_dates: Non sono state trovate date adatte
+    no_dates_for_label: Non sono state trovate date %{label} idonee
+  act:
+    _frontend:
+      action:
+        add: Aggiungi atto
+  bulk_archival_object_update_spreadsheet:
+    title: Genera un foglio di calcolo per oggetti di archiviazione in blocco
+    description: Utilizza il modulo sottostante per selezionare gli oggetti di 
+      archivio che desideri aggiornare in blocco.
+    selected_records: Registrazioni selezionate
+    selected: Selezionata
+    record_title: Titolo del record
+    column_types_to_include_in_spreadsheet: Tipi di colonne da includere nel 
+      foglio di calcolo
+    note_types: Tipi di note
+    minimum_subrecords: Sottorecord minimi
+    minimum_subrecords_description: Il numero minimo di sottorecord già 
+      esistenti di ciascun tipo da includere.
+    extra_subrecords: Sottorecord aggiuntivi
+    extra_subrecords_description: Il numero di nuovi sottorecord da includere in
+      aggiunta al numero massimo di sottorecord esistenti già presenti in uno 
+      qualsiasi dei record selezionati.
+    minimum_notes: Note minime
+    minimum_notes_description: Il numero minimo di sottorecord di note già 
+      esistenti di ciascun tipo da includere.
+    download_spreadsheet: Scarica il foglio di calcolo
+    download_spreadsheet_modal_message: La generazione di questo foglio di 
+      calcolo potrebbe richiedere qualche istante.
+    too_many_rows_warning: "Attenzione: il numero di righe che verranno generate in
+      questo foglio di calcolo supera il numero di righe che possono essere aggiornate
+      tramite il processo in background di Aggiornamento in blocco degli oggetti di
+      archiviazione. Se si prevede di eseguire il processo di Aggiornamento in blocco
+      degli oggetti di archiviazione utilizzando questo foglio di calcolo, sarà necessario
+      ridurre il numero di righe in questo foglio a un valore inferiore o uguale a
+      <strong>%{max_row_count} righe</strong> prima dell'inserimento. Si consiglia
+      di generare ora un foglio di calcolo di dimensioni inferiori. Questo avviso
+      può essere tranquillamente ignorato se non si intende eseguire un processo di
+      Aggiornamento in blocco degli oggetti di archiviazione con questi dati."
+  assessment:
+    _frontend:
+      form_header: Valutazione %{display_string}
+      formats: Tipologie/Formati dei materiali
