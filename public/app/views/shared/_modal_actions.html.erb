@@ -12,7 +12,13 @@
 
 <% if AppConfig[:pui_page_actions_request] && defined?(@request) && !@request.nil? %>
   <% req = render partial: 'shared/request_form' %>
-  <%= render partial: 'shared/modal', locals: {:modal_id => 'request_modal', :title => t('actions.request'),
-      :modal_body => req } %>
-  <script type="text/javascript">$(document).ready(function() { setupRequest("request_modal", "<%= t('actions.request') %>"); });</script>
+  <%= render partial: 'shared/modal', locals: {
+    :modal_id => 'request_modal',
+    :title => t('actions.request'),
+    :modal_body => req,
+    :footer_submit_form_id => 'request_form',
+    :footer_submit_id => 'request_btn',
+    :footer_submit_label => t('actions.request')
+  } %>
+  <script type="text/javascript">$(document).ready(function() { setupRequest(); });</script>
 <% end %>

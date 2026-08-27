@@ -338,6 +338,27 @@ describe 'Search', js: true do
         end
       end
 
+      context 'when search term is only found in an agent linked with a non-creator role' do
+        let(:now) { Time.now.to_i }
+        let(:search_term) { "NonCreatorAgent#{now}" }
+
+        let(:searched_record) do
+          person = JSONModel(:name_person).new(primary_name: "#{search_term} Person", name_order: 'direct')
+          linked_agent = create(:agent_person, names: [person], publish: true, dates_of_existence: [])
+
+          create(:resource,
+                 :title => "Resource Title #{now}",
+                 :publish => true,
+                 :linked_agents => [
+                   { 'role' => 'subject', 'ref' => linked_agent.uri }
+                 ])
+        end
+
+        it 'highlights the search term in the found in agents section' do
+          expect(page).to highlight_term_found_in "Found in Agents:", search_term
+        end
+      end
+
       context 'when the search term is in a long title and a long note' do
         let(:now) { Time.now.to_i }
         let(:search_term) { "zzuniqueterm#{now}" }

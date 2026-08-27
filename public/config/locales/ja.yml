@@ -77,7 +77,7 @@ ja:
       four_part_id: 識別子
       dates: 日付
       subjects_text: 科目
-      published_agents: エージェント
+      agents_text: エージェント
       creators_text: クリエイター
       role_enum_s: 役割
       linked_agent_roles: リンクされたエージェントの役割
@@ -145,7 +145,8 @@ ja:
       years_include: 含まれる年数
       year_now: 今
       year_begin: 始まり
-      from_to: 年： %{begin}から%{end}
+      from_to: "年： %{begin}から%{end}"
+      from_to_range: "%{begin}から%{end}"
       child_container_u_sstr: 子コンテナ
       grand_child_container_u_sstr: 孫のコンテナ
       type_enum_s: タイプ

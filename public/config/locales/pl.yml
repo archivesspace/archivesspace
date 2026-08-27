@@ -85,7 +85,7 @@ pl:
       four_part_id: Identyfikator
       dates: Daty
       acquisition_type: Rodzaj przejęcia
-      published_agents: Agenty
+      agents_text: Agenty
       linked_agent_roles: Powiązane role agentów
       instance_type_enum_s: Typ instancji
       creators_text: Twórcy
@@ -147,6 +147,7 @@ pl:
       year_now: Teraz
       year_begin: początek
       from_to: 'Lata: od %{begin} do %{end}'
+      from_to_range: 'od %{begin} do %{end}'
       type_enum_s: Typ
       digital_object_type_enum_s: Typ
       scope: Zakres

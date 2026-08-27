@@ -80,7 +80,7 @@ nl:
       four_part_id: Identificatiecode
       dates: Datering
       subjects_text: Onderwerpen
-      published_agents: Namen van personen, families en organisaties
+      agents_text: Namen van personen, families en organisaties
       creators_text: Archiefvormers en verzamelaars
       role_enum_s: Rollen
       linked_agent_roles: Rollen van gekoppelde namen
@@ -152,6 +152,7 @@ nl:
       year_now: nu
       year_begin: het begin
       from_to: 'Jaren: %{begin} tot %{end}'
+      from_to_range: '%{begin} tot %{end}'
       child_container_u_sstr: Subcontainer
       grand_child_container_u_sstr: Sub-subcontainer
       type_enum_s: Type
