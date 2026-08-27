@@ -55,7 +55,15 @@ module AgentManager
   end
 
 
+  # ANW-2829: Creating any record logs a cataloging event in the global
+  # repository (see RecordableCataloging), linking the creating user's own
+  # agent as its implementer. That's not a genuine cross-repository link, so
+  # the global repository is excluded here - otherwise any user who has ever
+  # created a record would see their own linked agent flagged as "linked
+  # elsewhere" and be unable to delete it without elevated permissions.
   def self.linked_elsewhere?(repos, current_repo_id)
+    repos = repos.reject {|repo| repo.id == Repository.global_repo_id}
+
     case repos.length
     when 0 then false
     when 1 then repos.first.id != current_repo_id
