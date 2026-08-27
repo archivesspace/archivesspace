@@ -956,8 +956,7 @@ module Relationships
             # to use the primary key on agent_software because it (often)
             # only has one row.
             #
-            if DB.supports_join_updates? &&
-               self.table_name == :agent_software &&
+            if self.table_name == :agent_software &&
                relationship_defn.table_name == :linked_agents_rlshp
 
               DB.open do |db|
@@ -1022,14 +1021,7 @@ module Relationships
     def update_toplevel_mtimes(dataset, new_mtime)
       if self.enclosing_associations.empty?
         # If we're not enclosed by anything else, we're a top-level record.  Do the final update.
-        if DB.supports_join_updates?
-          # Fast path!  Use a join update.
-          dataset.update(Sequel.qualify(self.table_name, :system_mtime) => new_mtime)
-        else
-          # Slow path.  Subselect.
-          ids_to_touch = dataset.select(Sequel.qualify(self.table_name, :id))
-          self.filter(:id => ids_to_touch).update(:system_mtime => new_mtime)
-        end
+        dataset.update(Sequel.qualify(self.table_name, :system_mtime) => new_mtime)
       else
         # Otherwise, we're a nested record
         self.enclosing_associations.each do |association|

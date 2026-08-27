@@ -23,7 +23,7 @@ class BulkImportRunner < JobRunner
     created_uris = []
 
     begin
-      DB.open(DB.supports_mvcc?,
+      DB.open(true,
               :retry_on_optimistic_locking_fail => true) do
         begin
           @input_file = input_file_path

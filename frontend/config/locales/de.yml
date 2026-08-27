@@ -2001,12 +2001,6 @@ de:
 
   agent_resource_merge_destination:
     <<: *agent_resource_attributes
-  database_warning:
-    message: "<p><strong>Datenbankwarnung:</strong> Sie verwenden derzeit die eingebettete
-      Datenbank (Apache Derby). Die eingebettete Datenbank ist nur für Test-/Demozwecke
-      vorgesehen und wird in der nächsten Hauptversion eingestellt. Sie sollten MySQL
-      für alle Daten verwenden, die für den Produktiveinsatz bestimmt sind, einschließlich
-      Daten in einer Testinstanz, die Sie in eine Produktionsinstanz übernehmen möchten.</p>"
   breadcrumb:
     home: Start
   structured_date_single:

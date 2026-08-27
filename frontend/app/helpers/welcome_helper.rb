@@ -1,13 +1,5 @@
 module WelcomeHelper
 
-  def database_warning(info = {})
-    if session["user"]
-      if info.has_key?("databaseProductName") && info["databaseProductName"].include?("Derby")
-        flash[:warning] = I18n.t("database_warning.message").html_safe
-      end
-    end
-  end
-
   def no_repo_message
     if session[:user] && @repositories.length === 0
       if user_can?('create_repository')
