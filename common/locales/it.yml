@@ -784,7 +784,6 @@ it:
     dates_tooltip: |
       <p>SOTTORECORD OBBLIGATORIO CONDIZIONALMENTE. Un oggetto di archivio deve avere un sottorecord Titolo o Data.</p>
     extents: Estensione
-    lang_materials: Lingue
     ref_id_auto_generation_message: -- generato automaticamente al salvataggio --
     component_id_tooltip: |
       <p>Esprime un ID univoco, nel contesto della descrizione della risorsa, per il componente.</p>
