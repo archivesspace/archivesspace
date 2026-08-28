@@ -1298,6 +1298,38 @@ describe 'Accession import batch' do
 
       expect(Accession.count).to eq(accession_count)
     end
+
+    it 'reuses a single Top Container when rows repeat the same barcode' do
+      shared_barcode = generate(:alphanumstr)
+      shared_indicator = generate(:alphanumstr)
+      accession_count = Accession.count
+      top_container_count = TopContainer.count
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'instance_1_instance_type',
+        'instance_1_top_container_1_type',
+        'instance_1_top_container_1_indicator',
+        'instance_1_top_container_1_barcode',
+      ]
+      rows = [
+        ['First row sharing a box', generate(:alphanumstr), 'mixed_materials', 'box', shared_indicator, shared_barcode],
+        ['Second row sharing a box', generate(:alphanumstr), 'text', 'box', shared_indicator, shared_barcode],
+      ]
+
+      import_accession_csv(headers, rows)
+
+      expect(Accession.count).to eq(accession_count + 2)
+      expect(TopContainer.count).to eq(top_container_count + 1)
+
+      shared_top_container = TopContainer.to_jsonmodel(TopContainer.filter(:barcode => shared_barcode).first.id)
+      imported = Accession.order(Sequel.desc(:id)).limit(2).map do |accession|
+        Accession.to_jsonmodel(accession.id)
+      end
+      expect(imported.map {|accession| accession.instances.first['sub_container']['top_container']['ref'] }).to eq(
+        [shared_top_container.uri, shared_top_container.uri],
+      )
+    end
   end
 
   context 'when the CSV combines every repeatable family' do
