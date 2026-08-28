@@ -768,8 +768,8 @@ it:
         following_log: Registro seguente
         create: Crea lavoro
         save: Inizia il lavoro
-        new: Нова фонова робота
-        cancel: Скасувати завдання
+        new: Nuovo lavoro in background
+        cancel: Annulla lavoro
       section:
         basic_information: Informazioni di base
         status: Stato occupazionale
@@ -1812,26 +1812,26 @@ it:
       <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
     top_container: Contenitore superiore
     type_2_tooltip: |
-      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    indicator_2: Індикатор дитини
+      <p>Il tipo di contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    indicator_2: Indicatore figlio
     indicator_2_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
-    barcode_2: Штрих-код дочірнього контейнера
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di secondo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di secondo livello, ad esempio Cartelle 1-16.</p>
+    barcode_2: Codice a barre del contenitore figlio
     barcode_2_tooltip: |
-      <p>Штрих-код для ідентифікації контейнера другого рівня, в якому зберігається описаний матеріал.</p>
-    type_3: Тип онука
+      <p>Un codice a barre per identificare il contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+    type_3: Tipo nipote
     type_3_tooltip: |
-      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    indicator_3: Індикатор онуків
+      <p>Il tipo di contenitore di terzo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    indicator_3: Indicatore nipote
     indicator_3_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
-    _singular: Підконтейнер
-    _plural: Підконтейнери
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di terzo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di terzo livello, ad esempio Cartelle 1-16.</p>
+    _singular: Sotto-contenitore
+    _plural: Sotto-contenitori
     _frontend:
       action:
-        add: Додати екземпляр контейнера
+        add: Aggiungi istanza di contenitore
   update_monitor:
     save_failed: Impossibile salvare le modifiche.
     stale_record: Questo record è stato aggiornato da un altro utente. Aggiorna 
@@ -1843,107 +1843,106 @@ it:
       attivo è cambiato. Per salvare il record, apri un'altra finestra e 
       reimposta il repository attivo.
   top_container:
-    container_profile: Профіль контейнера
+    container_profile: Profilo del contenitore
     container_profile_tooltip: |
-      <p>Опис різних характеристик певного типу контейнера, включаючи розміри.</p>
-    indicator: Індикатор
+      <p>Una descrizione delle varie caratteristiche di un particolare tipo di contenitore, comprese le dimensioni.</p>
+    indicator: Indicatore
     indicator_tooltip: |
-      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Буквено-цифровий вираз для позначення місця контейнера найвищого рівня, яке також може бути позицією контейнера в послідовності контейнерів.</p>
-    barcode: Штрих-код
+      <p>CAMPO OBBLIGATORIO. Un'espressione alfanumerica per indicare la collocazione del contenitore di livello più alto, che può anche essere la posizione del contenitore all'interno di una sequenza di contenitori.</p>
+    barcode: Codice a barre
     barcode_tooltip: |
-      <p>Використовується для запису штрих-коду, який однозначно ідентифікує контейнер найвищого рівня.</p>
-    type: Тип контейнера
+      <p>Utilizzato per registrare il codice a barre che identifica in modo univoco il contenitore di livello più alto.</p>
+    type: Tipo di contenitore
     type_tooltip: |
-      <p>Тип контейнера найвищого рівня.</p>
-      <p>Значення в цьому списку контрольованих значень можна змінювати.</p>
-    ils_holding_id: Ідентифікатор холдингу ILS
+      <p>Il tipo di contenitore di livello più alto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    ils_holding_id: ID holding ILS
     ils_holding_id_tooltip: |
-      <p>Ідентифікатор пов'язаного запису про фонд у бібліотечній ILS</p>
-    ils_item_id: Ідентифікатор товару ILS
+      <p>Identificatore del record di holding associato nell'ILS della biblioteca</p>
+    ils_item_id: ID elemento ILS
     ils_item_id_tooltip: |
-      <p>Ідентифікатор, що надається API, для пов’язаного запису елемента в бібліотечній ILS (системне поле; не можна редагувати вручну)</p>
-    internal_note: Внутрішня примітка
+      <p>Identificatore, fornito dall'API, per un record di elemento associato nell'ILS della biblioteca (campo di sistema; non può essere modificato manualmente)</p>
+    internal_note: Nota interna
     internal_note_tooltip: |
-      <p>Нотатки для внутрішнього використання. Відображаються лише в інтерфейсі персоналу.</p>
-    exported_to_ils: Експортовано до ILS
-    not_exported: Не експортовано
-    restricted: Обмежено?
-    parent: Батьківський контейнер
-    has_location: Має місцезнаходження
-    managed_container_2_type: Тип дочірнього контейнера
+      <p>Note per uso interno. Visibili solo nell'interfaccia del personale.</p>
+    exported_to_ils: Esportato in ILS
+    not_exported: Non esportato
+    restricted: Soggetto a restrizioni?
+    parent: Contenitore principale
+    has_location: Ha una collocazione
+    managed_container_2_type: Tipo di contenitore figlio
     managed_container_2_type_tooltip: |
-      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    managed_container_2_indicator: Індикатор дочірнього контейнера
+      <p>Il tipo di contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    managed_container_2_indicator: Indicatore del contenitore figlio
     managed_container_2_indicator_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
-    managed_container_3_type: Тип контейнера для онуків
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di secondo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di secondo livello, ad esempio Cartelle 1-16.</p>
+    managed_container_3_type: Tipo di contenitore nipote
     managed_container_3_type_tooltip: |
-      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    managed_container_3_indicator: Індикатор контейнера для онуків
+      <p>Il tipo di contenitore di terzo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    managed_container_3_indicator: Indicatore del contenitore nipote
     managed_container_3_indicator_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
-    barcode_length_for_this_repository: 'Довжина штрих-коду для цього репозиторію:'
-    characters: персонажі
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di terzo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di terzo livello, ad esempio Cartelle 1-16.</p>
+    barcode_length_for_this_repository: 'Lunghezza del codice a barre per questo repository:'
+    characters: caratteri
     batch_delete:
-      success: Найпопулярніші контейнери успішно видалено
-      error: Виникла проблема з видаленням найпопулярніших контейнерів
-    _singular: Верхній контейнер
-    _plural: Верхні контейнери
+      success: Contenitori superiori eliminati con successo
+      error: Si è verificato un problema durante l'eliminazione dei contenitori superiori
+    _singular: Contenitore superiore
+    _plural: Contenitori superiori
     _frontend:
       section:
-        active_restrictions: Активні обмеження
-        linked_records: Пов'язані записи
-        basic_information: Інформація про контейнер
+        active_restrictions: Restrizioni attive
+        linked_records: Record collegati
+        basic_information: Informazioni sul contenitore
       action:
-        add: Додати верхній контейнер
-        create: Створення верхнього контейнера
-        save: Зберегти верхній контейнер
+        add: Aggiungi contenitore superiore
+        create: Crea un contenitore superiore
+        save: Salva contenitore superiore
       messages:
-        created: Створено верхній контейнер
-        updated: Верхній контейнер оновлено
-        filter_required: Будь ласка, надайте фільтр
-        max_results_limit_reached: Не всі результати перелічені. Будь ласка, 
-          уточніть пошук.
-        max_results_limit_details: Показано <strong>%{visible</strong> з 
-          <strong>%{num_found</strong> відповідних результатів
-        results_summary: 'Відповідні результати: <strong>%{num_found</strong>'
-        bulk_selection_sort_help: Клацніть стовпець, щоб встановити порядок 
-          сортування. Утримуйте клавішу Shift, щоб сортувати за кількома 
-          стовпцями.
-        merged: Верхні контейнери об'єднано
-        bulk_action_success: Найпопулярніші контейнери успішно оновлено
-        bulk_action_success_info: Зверніть увагу, що може знадобитися певний 
-          час, перш ніж зміни відобразяться в результатах пошуку або таблицях 
-          перегляду.
-        no_active_restrictions: Немає активних обмежень
+        created: Contenitore superiore creato
+        updated: Contenitore superiore aggiornato
+        filter_required: Fornisci un filtro
+        max_results_limit_reached: Non tutti i risultati sono stati elencati.
+          Perfeziona la ricerca.
+        max_results_limit_details: Visualizzati <strong>%{visible}</strong> di
+          <strong>%{num_found}</strong> risultati corrispondenti
+        results_summary: 'Risultati corrispondenti: <strong>%{num_found}</strong>'
+        bulk_selection_sort_help: Fai clic su una colonna per impostare l'ordinamento.
+          Tieni premuto Shift per ordinare in base a più colonne.
+        merged: Contenitore/i superiore/i unito/i
+        bulk_action_success: Contenitori superiori aggiornati con successo
+        bulk_action_success_info: Tieni presente che potrebbe essere necessario qualche
+          istante prima che le modifiche vengano riflesse nei risultati di ricerca o nelle
+          tabelle di sfoglia.
+        no_active_restrictions: Nessuna restrizione attiva
       bulk_operations:
-        title: Масові операції
-        collection_singular: Ресурс/Приєднання
-        collection_plural: Ресурси/Доступні матеріали
-        collection_resource_singular: Ресурс
-        collection_resource_plural: Ресурси
-        collection_accession_singular: Приєднання
-        collection_accession_plural: Приєднання
+        title: Operazioni in blocco
+        collection_singular: Risorsa/Accessione
+        collection_plural: Risorse/Accessioni
+        collection_resource_singular: Risorsa
+        collection_resource_plural: Risorse
+        collection_accession_singular: Accessione
+        collection_accession_plural: Accessioni
         collection_resource_linker:
-          browse: Переглянути ресурси
-          create: Створити ресурс
-          link_title: Посилання на ресурс
+          browse: Sfoglia risorse
+          create: Crea risorsa
+          link_title: Collegamento alla risorsa
         collection_accession_linker:
-          browse: Переглянути приєднання
-          create: Створити приєднання
-          link_title: Посилання на приєднання
-        series: Серія
-        current_location: Поточне місцезнаходження
-        keyword_criteria: Ключове слово
-        barcodes_criteria: Штрих-код(и)
-        exported_to_ils_true: Так
-        exported_to_ils_false: Ні
-        empty: Непов'язані контейнери
-        empty_true: Так
-        empty_false: Ні
-        search: Пошук
+          browse: Sfoglia accessioni
+          create: Crea accessione
+          link_title: Collegamento all'accessione
+        series: Serie
+        current_location: Collocazione corrente
+        keyword_criteria: Parola chiave
+        barcodes_criteria: Codice/i a barre
+        exported_to_ils_true: Sì
+        exported_to_ils_false: 'No'
+        empty: Contenitori non associati
+        empty_true: Sì
+        empty_false: 'No'
+        search: Cerca
         update_ils_holding_ids: Aggiorna gli ID delle holding ILS
         update_ils_holding_ids_help: Inserisci un valore per l'ID di 
           contenimento ILS per tutti i contenitori selezionati. Lascia vuoto 
