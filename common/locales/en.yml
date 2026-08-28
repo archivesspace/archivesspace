@@ -303,8 +303,13 @@ en:
     <<: *linked_agent_attributes
 
   event_linked_agent:
-    <<: *linked_agent_attributes
-
+    role: Role
+    role_tooltip: |
+        <p>REQUIRED FIELD. An indication of what function the Agent has in regards to the action described by the event.</p>
+    ref: Agent
+    ref_tooltip: |
+        <p>REQUIRED FIELD. The person, family, corporate entity, or software that took part in the action described by the event.</p>
+ 
   resource_linked_agent:
     <<: *linked_agent_attributes
 
