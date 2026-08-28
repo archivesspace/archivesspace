@@ -1,7 +1,7 @@
 <%= render_aspace_partial :partial => "related_agents/template_required" %>
 
 <% @agent_type = form['agent_type'] %>
-<% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form|  %>
+<% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form| %>
 
 <section id="<%= @agent_type %>_related_agents" class="subrecord-form related-agents-form">
   <h3 class="subrecord-form-heading">

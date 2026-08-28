@@ -11,7 +11,7 @@
         <div class="record-pane">
           <%= link_to_help :topic => "location" %>
           <h2><%= @location.title %>  <span class="label label-info badge"><%= I18n.t("location._singular") %></span></h2>
-          <br/>
+          <br />
           <%= render_aspace_partial :partial => "locations/form", :locals => {:form => form} %>
           <div class="form-actions pl-0">
             <button type="submit" class="btn btn-primary"><%= t("location._frontend.action.save") %></button>

@@ -20,7 +20,8 @@
 @import 'archivesspace/colors';
 @import 'archivesspace/variables';
 
-@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap';
+
 @import 'archivesspace/bootstrap-overrides';
 
 @import 'font-awesome/font-awesome';
@@ -35,6 +36,7 @@
 @import 'archivesspace/infinite-records';
 @import 'archivesspace/infinite-tree';
 @import 'archivesspace/largetree';
+@import 'archivesspace/largetree-bs5';
 @import 'archivesspace/mixed-content';
 @import 'archivesspace/read-more-notes';
 @import 'archivesspace/iiif';

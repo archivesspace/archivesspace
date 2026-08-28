@@ -1,8 +1,8 @@
 <% define_template "rde_digital_object_component_sections" do |form| %>
   <th data-id="basic" class="section-basic" colspan="4"><%= t("rde.sections.basic_information") %></th>
   <th data-id="language" class="section-language" colspan="2"><%= t("rde.sections.language") %></th>
-  <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= t("rde.sections.date") %></th>
-  <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= t("rde.sections.extent") %></th>
+  <th data-id="date" class="section-date conditionally-required" colspan="5"><%= t("rde.sections.date") %></th>
+  <th data-id="extent" class="section-extent conditionally-required" colspan="6"><%= t("rde.sections.extent") %></th>
   <th data-id="file" class="section-file" colspan="10"><%= t("rde.sections.file_version") %></th>
   <th data-id="note" class="section-note" colspan="12"><%= t("rde.sections.notes") %></th>
 <% end %>
@@ -55,50 +55,50 @@
 <% end %>
 
 <% define_template "rde_digital_object_component_cols" do |form| %>
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='70' />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="70" />
 
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
 
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
 
-  <col class="fieldset-col" data-default-width='70' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width="70" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
 
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
 
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='90' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='90' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='150' />
-  <col class="fieldset-col" data-default-width='90' />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="90" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="90" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="150" />
+  <col class="fieldset-col" data-default-width="90" />
 <% end %>
 
 <% define_template "rde_digital_object_component_row", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
@@ -110,8 +110,8 @@
       <div class="error-summary">
         <div class="error-summary-header">
           <span class="error-summary-header-text"><%= t("rde.messages.error_summary_header") %></span>
-          <a href="javascript:void(0);" class="hide-error-summary"><span class='glyphicon glyphicon-chevron-up'></span></a>
-          <a href="javascript:void(0);" class="show-error-summary"><span class='glyphicon glyphicon-chevron-down'></span></a>
+          <a href="javascript:void(0);" class="hide-error-summary"><span class="glyphicon glyphicon-chevron-up"></span></a>
+          <a href="javascript:void(0);" class="show-error-summary"><span class="glyphicon glyphicon-chevron-down"></span></a>
         </div>
         <div class="error-summary-list"></div>
       </div>
@@ -345,10 +345,15 @@
       <% end %>
     </td>
 
-    <td data-col="actions" class="form-group px-1">
-      <% if !first_row %><div class="btn-group"><% end %>
-      <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
-      <% if !first_row %><button class="btn remove-row btn-default"><span class="glyphicon glyphicon-remove"></span></button></div><% end %>
+     <td data-col="actions" class="form-group px-1">
+      <% if first_row %>
+        <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
+      <% else %>
+        <div class="btn-group">
+          <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
+          <button class="btn remove-row btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      <% end %>
     </td>
   </tr>
 <% end %>

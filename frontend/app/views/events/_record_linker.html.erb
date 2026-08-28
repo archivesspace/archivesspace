@@ -35,17 +35,17 @@
              data-format_template="title"
              data-types='["accession", "resource", "digital_object", "archival_object", "digital_object_component", "agent_person", "agent_software", "agent_corporate", "agent_family", "top_container"]'
              aria-label="<%= t("linked_record.linker_ref.link_title") %>"
-             />
+      />
 
       <% if form.obj.has_key?('_resolved') %>
 
         <input type="text"
-               class='prelinker'
+               class="prelinker"
                name="<%= form.path %>[_resolved]"
                value="<%= selected_json %>" />
 
         <input type="text"
-               class='prelinker'
+               class="prelinker"
                name="<%= form.path %>[ref]"
                value="<%= form.obj["ref"] %>" />
 

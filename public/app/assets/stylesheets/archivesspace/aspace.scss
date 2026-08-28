@@ -117,6 +117,12 @@ a img {
   background-color: $accent-color;
   color: $white;
 }
+
+.tabbing.nav-pills > li > a:hover,
+.tabbing.nav-pills > li > a:focus {
+  text-decoration: none;
+}
+
 .tabbing-item li:first-child a {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -136,6 +142,11 @@ a img {
   text-decoration: none;
   background-color: transparent;
   cursor: not-allowed;
+}
+
+.tabbing.nav-pills > li > a.active:hover,
+.tabbing.nav-pills > li > a.active:focus {
+  cursor: default;
 }
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
@@ -259,6 +270,42 @@ a img {
 
 #whats-in-container {
   border: 1px solid $border;
+
+  .btn {
+    --bs-btn-hover-color: #{$white};
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-hover-bg) 85%, black);
+    --bs-btn-active-border-color: color-mix(
+      in srgb,
+      var(--bs-btn-hover-border-color) 85%,
+      black
+    );
+    --bs-btn-active-color: #{$white};
+
+    @each $type, $color in $record-type-colors {
+      &.#{$type} {
+        @include record-type-btn-hover($color);
+      }
+    }
+
+    // Stacked FA icons use .fa-inverse (white) on a type-colored base icon.
+    // On hover/active the button text is white, so recolor the inverse layer
+    // to the fill color to keep the two-tone stack.
+    &:hover .fa-inverse,
+    &:focus-visible .fa-inverse {
+      color: var(--bs-btn-hover-bg);
+    }
+
+    &:active .fa-inverse,
+    &.active .fa-inverse {
+      color: var(--bs-btn-active-bg);
+    }
+  }
+
+  .btn:disabled,
+  .btn.disabled {
+    --bs-btn-disabled-border-color: transparent;
+  }
+
   > h3 {
     margin-top: 0;
     margin-left: rem-calc(-20);
@@ -370,7 +417,7 @@ a img {
 .recordrow {
   padding: rem-calc(10);
   border: 1px solid $border;
-  border-radius: var(--bootstrap-rounded-border-radius);
+  border-radius: var(--bs-border-radius);
   margin-bottom: 1rem;
 
   &.featured {
@@ -409,8 +456,16 @@ h1,
   font-size: rem-calc(24);
   font-weight: bold;
   color: $primary-color;
+}
 
-  @include media-breakpoint-down(sm) {
+h1,
+.h1 {
+  font-size: rem-calc(24);
+}
+
+h1,
+.h1 {
+  @include media-breakpoint-down(md) {
     font-size: rem-calc(22);
   }
 }
@@ -462,6 +517,11 @@ h5,
 
 .navbar-toggler {
   border: 0;
+
+  &:focus {
+    box-shadow: 0 0 0 var(--bs-navbar-toggler-focus-width)
+      rgba($primary-color, 0.5);
+  }
 }
 
 .spacer {
@@ -489,10 +549,23 @@ h5,
 #submit_search {
   width: 100%;
   font-size: 16px;
-  background-color: #006f9b;
+  background-color: $primary-color;
+  border-color: $primary-color;
+  color: #fff;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    border-color: darken($primary-color, 10%);
+  }
 }
 .searchstatement {
   background-color: $row-background;
+}
+
+.filters {
+  .btn-close {
+    font-size: 0.6rem;
+  }
 }
 
 .facets h2 {
@@ -565,29 +638,24 @@ ul.no-bullets {
 .recordtype {
   margin-top: -0.75em;
 }
-.object {
-  color: $collection-color;
-}
-.collection,
-.resource {
-  color: $collection-color;
-}
-button.subject {
-  /* class subject also turns up in finding aid transforms */
-  color: $subject-color;
-}
-.agent {
-  color: $agent-color;
-}
 
-.person {
-  color: $agent-color;
-}
-.record {
-  color: $record-color;
-}
-.classification {
-  color: $repository-color;
+// Record-type text colors from the shared $record-type-colors map.
+// subject: button-only (class also appears in finding-aid transforms).
+// repository: scoped to .recordtype to avoid coloring unrelated .repository nodes.
+@each $type, $color in $record-type-colors {
+  @if $type == 'subject' {
+    button.subject {
+      color: $color;
+    }
+  } @else if $type == 'repository' {
+    .recordtype.repository {
+      color: $color;
+    }
+  } @else {
+    .#{$type} {
+      color: $color;
+    }
+  }
 }
 
 .page_action {
@@ -596,24 +664,24 @@ button.subject {
   line-height: inherit;
   cursor: pointer;
   border: 1px solid $light-neutral;
+
+  // Active is one step darker than hover
+  --bs-btn-active-bg: #{$shade};
+  --bs-btn-active-border-color: #{$shade};
+  --bs-btn-active-color: #{$accent-color};
+
+  // Plain .btn does not set --bs-btn-disabled-color. Without it, disabled
+  // color inherits the parent .resource/.accession/etc. record-type red/etc.
+  // (print button shows this while JS sets disabled during "Generating").
+  --bs-btn-disabled-color: #{$darkshade};
+  --bs-btn-disabled-bg: #{$light-neutral};
+  --bs-btn-disabled-border-color: #{$shade};
 }
 .page_action:hover,
 .page_action:focus {
   color: $accent_color;
   background-color: $light-neutral;
-}
-
-.top_container {
-  color: $container-color;
-}
-.folder {
-  color: $folder-color;
-}
-.recordtype.repository {
-  color: $repository-color;
-}
-.recordtype.classification {
-  color: $classification-color;
+  text-decoration: none;
 }
 .digitized {
   float: right;

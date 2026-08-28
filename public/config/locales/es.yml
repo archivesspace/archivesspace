@@ -77,14 +77,17 @@ es:
   search-field: Campo de búsqueda
   searched-field: "buscando %{field}"
 
-  pagination: {}
+  pagination:
+    controls: Controles de paginación
+    top_controls: Controles de paginación superiores
+    bottom_controls: Controles de paginación inferiores
   search_results:
     highlighting:
       found_in: Encontrado en
       four_part_id: Identificador
       dates: Fechas
       subjects_text: Sujetas
-      published_agents: Agentes
+      agents_text: Agentes
       creators_text: Creadoras
       role_enum_s: Roles
       linked_agent_roles: Roles de agente vinculada
@@ -111,6 +114,7 @@ es:
     filter_by: Filter By
     filtered_by: Filtrado por
     remove_filter: Quitar este filtro
+    refine_search_controls_aria: Controles de refinamiento de búsqueda
     more_facets: Más
     fewer_facets: Menos
     op:
@@ -152,6 +156,7 @@ es:
       year_now: ahora
       year_begin: el principio
       from_to: "Años: %{begin} al %{end}"
+      from_to_range: "%{begin} al %{end}"
       child_container_u_sstr: Tipo de contenedor hijo
       grand_child_container_u_sstr: Contenedor de tipo nieto
       type_enum_s: Tipo

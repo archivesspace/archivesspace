@@ -67,14 +67,17 @@ ja:
     agents: コンテンツ制作者
   search-field: 検索フィールド
   searched-field: 検索%{field}
-  pagination: {}
+  pagination:
+    controls: ページネーションコントロール
+    top_controls: 上部のページネーションコントロール
+    bottom_controls: 下部のページネーションコントロール
   search_results:
     highlighting:
       found_in: 見つかった場所
       four_part_id: 識別子
       dates: 日付
       subjects_text: 科目
-      published_agents: エージェント
+      agents_text: エージェント
       creators_text: クリエイター
       role_enum_s: 役割
       linked_agent_roles: リンクされたエージェントの役割
@@ -101,6 +104,7 @@ ja:
     filter_by: フィルタリングする
     filtered_by: フィルタリングされた
     remove_filter: このフィルタを削除
+    refine_search_controls_aria: 絞り込み検索の操作
     more_facets: もっと
     fewer_facets: もっと少なく
     op:
@@ -141,7 +145,8 @@ ja:
       years_include: 含まれる年数
       year_now: 今
       year_begin: 始まり
-      from_to: 年： %{begin}から%{end}
+      from_to: "年： %{begin}から%{end}"
+      from_to_range: "%{begin}から%{end}"
       child_container_u_sstr: 子コンテナ
       grand_child_container_u_sstr: 孫のコンテナ
       type_enum_s: タイプ

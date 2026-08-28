@@ -14,7 +14,7 @@
          for="<%= form.id_for("ref") %>">
     <%= t("digital_object._singular") %>
   </label>
-  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100' %>">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-expanded="false"
@@ -37,23 +37,23 @@
              data-format_property="title"
              data-multiplicity="one"
              data-types='["digital_object"]'
-             data-exclude='<%= exclude_ids.to_json %>'
+             data-exclude="<%= exclude_ids.to_json %>"
       />
-      
+
       <% if form.obj.has_key?('_resolved') %>
-          
-            <input type="text" 
-              class='prelinker' 
+
+            <input type="text"
+              class="prelinker"
               name="<%= form.path %>[_resolved]"
               value="<%= selected_json %>" />
-              
-            <input type="text" 
-              class='prelinker' 
+
+            <input type="text"
+              class="prelinker"
               name="<%= form.path %>[ref]"
               value="<%= form.obj["ref"] %>" />
 
       <% end %>
-      
+
       <div class="input-group-append">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%= t("digital_object.linker.link_title") %>" aria-label="<%= t("digital_object.linker.link_title") %>"></button>
         <ul class="dropdown-menu dropdown-menu-right">

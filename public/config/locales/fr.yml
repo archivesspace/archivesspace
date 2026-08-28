@@ -97,14 +97,17 @@ fr:
   search-field: Champ chercher
   searched-field: "En cherchant %{field}"
 
-  pagination: {}
+  pagination:
+    controls: Contrôles de pagination
+    top_controls: Contrôles de pagination du haut
+    bottom_controls: Contrôles de pagination du bas
   search_results:
     highlighting:
       found_in: Trouvé dans
       four_part_id: Identifiant
       dates: Rendez-vous
       subjects_text: Sujettes
-      published_agents: Agentes
+      agents_text: Agentes
       creators_text: Créatrices
       role_enum_s: Les rôles
       linked_agent_roles: Rôles d'agent liés
@@ -131,6 +134,7 @@ fr:
     filter_by: Filtrer par
     filtered_by: Filtré par
     remove_filter: Ôter ce filtre
+    refine_search_controls_aria: Contrôles d'affinement de la recherche
     more_facets: Plus
     fewer_facets: Moins
     op:
@@ -172,6 +176,7 @@ fr:
       year_now: maintenant
       year_begin: le début
       from_to: "Années : %{begin} à %{end}"
+      from_to_range: "%{begin} à %{end}"
       child_container_u_sstr: Conditionnement fils
       grand_child_container_u_sstr: Conditionnement petit-fils
       type_enum_s: Type

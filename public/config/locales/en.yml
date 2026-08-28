@@ -57,6 +57,11 @@ en:
     next: Next
     previous: Previous
 
+  pagination:
+    controls: Pagination controls
+    top_controls: Top pagination controls
+    bottom_controls: Bottom pagination controls
+
   page_actions: Page Actions
 
   request:
@@ -101,7 +106,7 @@ en:
       four_part_id: Identifier
       dates: Dates
       subjects_text: Subjects
-      published_agents: Agents
+      agents_text: Agents
       creators_text: Creators
       role_enum_s: Roles
       linked_agent_roles: Linked Agent Roles
@@ -131,6 +136,7 @@ en:
     filter_by: Filter By
     filtered_by: Filtered By
     remove_filter: Remove this filter
+    refine_search_controls_aria: Refine search controls
     more_facets: More
     fewer_facets: Less
     op:
@@ -172,6 +178,7 @@ en:
       year_now: now
       year_begin: the beginning
       from_to: "Years: %{begin} to %{end}"
+      from_to_range: "%{begin} to %{end}"
       child_container_u_sstr: Child container
       grand_child_container_u_sstr: Grandchild container
       type_enum_s: Type

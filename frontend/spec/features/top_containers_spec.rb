@@ -87,7 +87,7 @@ describe 'Top Containers and Instances', js: true do
 
     modal.find('.modal-footer button').click
     find('#bulk_operation_results tbody tr:first-child td:last-child a:first-child').click
-    expect(find('.form-group:nth-child(3) div').text).to eq('xyzpdq')
+    expect(find('.form-group', text: 'ILS Holding ID').find('div').text).to eq('xyzpdq')
   end
 
   it 'performs bulk indicator update' do

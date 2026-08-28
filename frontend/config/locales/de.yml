@@ -236,7 +236,7 @@ de:
     component_switch: Komponenten anzeigen
     help:
       row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge 
-        auszuwählen. Halten Sie Alt während Sie auf ein Kontrollkästchen 
+        auszuwählen. Halten Sie Alt/Option während Sie auf ein Kontrollkästchen 
         klicken, um mehrere vorherige Zeilen an- oder abzuwählen.
   advanced_search:
     operator:
@@ -323,7 +323,7 @@ de:
     top_containers_for: "Haupt-Behältnisse für %{record_title}"
     no_top_containers: Keine verknüpften Haupt-Behältnisse
     edit_top_container: Haupt-Behältnis bearbeiten
-    view_top_container: Haupt-Behältnis
+    view_top_container: Haupt-Behältnis anzeigen
     import_ead: EAD-Datei
     register_prefix: Benötigen Sie einen Zugang?
   job:
@@ -793,6 +793,7 @@ de:
       location: Standort
       type: Typ
       resource_accession: Ressource/Eingang
+      resource_accession_id: Ressource/Eingangs-ID
   become-user:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
@@ -1325,7 +1326,8 @@ de:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "Es ist kein IIIF-Viewer verfügbar. Setzen Sie AppConfig[:iiif_viewer] auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
+        no_iiif_viewer: "Es ist kein IIIF-Viewer verfügbar. Setzen Sie AppConfig[:iiif_viewer]
+          auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
       action:
         add: Dateiversion hinzufügen
         make_representative: Repräsentativ machen

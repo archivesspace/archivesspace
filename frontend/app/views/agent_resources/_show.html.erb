@@ -23,7 +23,7 @@
         </div>
         <div id="<%= section_id %>_agent_resource_<%= index %>" class="panel-collapse collapse">
           <%# read_only_view(agent_resource) %>
-          
+
           <%= render_aspace_partial :partial => "agent_resources/show_fields", :locals => { :agent_resource => agent_resource } %>
 
           <% if agent_resource["places"].length > 0 %>

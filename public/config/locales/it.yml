@@ -33,6 +33,10 @@ it:
     clipboard: Copia negli appunti
     print: Scarica il PDF
     numeric: Contenitore dell'inventario
+  pagination:
+    controls: Controlli di paginazione
+    top_controls: Controlli di paginazione superiori
+    bottom_controls: Controlli di paginazione inferiori
   search_results:
     filtered_by: Filtrato per
     highlighting:
@@ -44,7 +48,7 @@ it:
       role_enum_s: Ruoli
       notes_published: Note
       acquisition_type: Tipo di acquisizione
-      published_agents: Agenti
+      agents_text: Agenti
       finding_aid_title: Titolo degli strumenti di ricerca
       linked_agent_roles: Ruoli dell'agente collegato
       instance_type_enum_s: Tipo di istanza
@@ -82,6 +86,7 @@ it:
       published_series_title_u_sstr: Serie
       year_begin: dall'inizio
       from_to: 'Anni: %{begin} a %{end}'
+      from_to_range: '%{begin} a %{end}'
       subjects: Soggetto
       primary_type: Tipo
       head: Filtra i risultati
@@ -106,6 +111,7 @@ it:
       class='searchterm'>%{kw}</span>
     no_results: Nessuna unità archivistica trovata
     remove_filter: Rimuovi questo filtro
+    refine_search_controls_aria: Controlli per raffinare la ricerca
     more_facets: Più
     op:
       NOT: e non

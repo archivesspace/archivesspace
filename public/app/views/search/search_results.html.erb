@@ -1,5 +1,5 @@
 <% results_type = (defined?(@results_type) ? @results_type : t('search_results.results')) %>
-<div class="row">
+<div>
   <div class="col-sm-12">
      <%= render partial: 'shared/breadcrumbs' %>
   <% if defined?(@search_title) %>
@@ -23,17 +23,21 @@
   <% else %>
 
   <% unless defined?(@no_statement) %>
-    <div class="searchstatement">
-      <div class="btn btn-group pull-right">
-        <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn--default" %>
-        <button class="btn btn-sm btn--default" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
+    <div class="mb-3 p-3 searchstatement">
+      <div class="d-flex">
+        <% if defined?(@search) %>
+          <div class="search-summary">
+            <%= @search[:search_statement].html_safe %>
+          </div>
+        <% end %>
+
+        <div class="ms-auto p-0 align-self-start" role="group" aria-label="<%= t('search_results.refine_search_controls_aria') %>">
+          <button class="btn btn-sm btn-primary" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
+          <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-primary text-decoration-none" %>
+        </div>
       </div>
 
-      <% if defined?(@search) %>
-        <%= @search[:search_statement].html_safe %>
-      <% end %>
-
-      <div id="refineSearchPanel" class="container refinesearch" aria-hidden="true" style="display:none;">
+      <div id="refineSearchPanel" class="refinesearch" aria-hidden="true" style="display:none;">
         <%= render partial: 'shared/search', locals: {:search_url => @base_search,
                                                       :title => t('archive._plural'),
                                                       :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],
@@ -66,7 +70,7 @@
       <div class="w-100 px-bs d-flex flex-wrap justify-content-end gap-2">
         <% unless @pager.last_page == 1 %>
           <div class="flex-grow-1">
-            <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+            <%= render_pagination @pager, position: :top %>
           </div>
         <% end %>
         <div>
@@ -83,7 +87,7 @@
     <% end %>
     </div></div>
     <div class="row mt-2"><div class="col-sm-12">
-    <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
+    <%= render_pagination @pager, position: :bottom %>
     </div></div>
   </div>
   <div id="filter-sidebar" class="col-sm-3">

@@ -102,7 +102,7 @@ the backend and frontend devservers and the indexer.
 You should now be able to open <http://localhost:3000> in your browser and see
 the staff interface. You can log in using:
 
-_User_: admin
+_User_: admin  
 _Password_: admin
 
 For the public user interface, you will need to start up the backend and public
@@ -137,14 +137,14 @@ quality, so your Pull Request won't be merged until all test suites pass.
 
 ### What happens after you submit a Pull request?
 
-All Pull Requests are reviewed by at least one member of the ArchivesSpace [Core Committer's Group](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/102893918/Core+Committers+Group).
+All Pull Requests are reviewed by at least one member of the ArchivesSpace Program team.
 
-A core committer reviews the issue/ticket associated with the Pull Request to make
+A team member reviews the issue/ticket associated with the Pull Request to make
 sure they understand what the code changes are supposed to do. Next, they review
 the code changes to see the proposed solution. Then they checkout the branch to
 test the solution in a running instance of ArchivesSpace.
 
-During the review, the core committer may have comments or ask questions in the
+During the review, the reviewer may have comments or ask questions in the
 Pull Request. Once the comment/questions have been answered/resolved, a Pull
 Request can only be accepted and merged into the core code base by a core
 committer if:
@@ -170,6 +170,7 @@ git push --force-with-lease ANW-123-descriptive-short-title
 ## Resources
 
 [ArchivesSpace website](https://archivesspace.org/)
+
 [ArchivesSpace Wiki](https://archivesspace.atlassian.net/wiki/spaces/ADC/overview)
 
 ### Documentation
@@ -178,7 +179,7 @@ ArchivesSpace Technical Documentation is maintained in the [tech-docs repository
 
 ### YouTube channels/videos
 
-From development partner Hudson Molongo:
+From original developers Hudson Molongo:
 https://www.youtube.com/channel/UCMBmBY_CsxwJy9rJKxQrVoQ
 
 ArchivesSpace:

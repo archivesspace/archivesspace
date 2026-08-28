@@ -1,7 +1,7 @@
 <%= setup_context(:title => t("top_container._plural")) %>
 
 <%= render_aspace_partial :partial => "top_containers/bulk_operations/search_criteria" %>
-<br/>
+<br />
 <div class="d-none" data-results-wrapper>
   <div class="col-md-12">
     <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar" %>
@@ -10,6 +10,7 @@
   </div>
 </div>
 
+<%# herb:formatter ignore %>
 <div id="template_bulk_operation_loading"><!--
   <center>
     <%= image_tag asset_path('archivesspace/managed_container_loading.gif') %>

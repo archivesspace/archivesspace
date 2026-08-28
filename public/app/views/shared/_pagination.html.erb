@@ -1,23 +1,30 @@
-<% pager_id ||= 'paging' %>
+<% position = local_assigns[:position]&.to_sym %>
+<% pager_id = (position == :bottom ? 'paging_bottom' : 'paging') %>
+<% pager_aria_label = case position
+                      when :bottom then t('pagination.bottom_controls')
+                      when :top then t('pagination.top_controls')
+                      else t('pagination.controls')
+                      end %>
 <% if pager && pager.pages.last > 1 %>
-<nav id="<%= pager_id %>" class="d-flex">
+<% nav_classes = ['d-flex', local_assigns[:nav_class]].compact.join(' ') %>
+<nav id="<%= pager_id %>" class="<%= nav_classes %>" aria-label="<%= pager_aria_label %>">
   <ul class="pagination flex-wrap mb-0">
     <% if pager.need_prev %>
       <li class="previous page-item"><a class="page-link" href="<%= app_prefix(pager.link) %>&page=<%= pager.prev %>"><span aria-hidden="true">&larr;</span> <%= t 'actions.previous' %></a></li>
     <% end %>
     <% pager.pages.each do |page| %>
       <% if page == pager.page %>
-        <li class="active page-item"><a class="page-link"  href="#"><%= page %></a></li>
+        <li class="active page-item"><a class="page-link" href="#"><%= page %></a></li>
       <% else %>
-        <li class="page-item"><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= page %>"><%= page %></a></li>
+        <li class="page-item"><a class="page-link" href="<%= app_prefix(pager.link) %>&page=<%= page %>"><%= page %></a></li>
       <% end %>
     <% end %>
     <% if pager.need_last %>
-       <li><a class="page-link" href="" style="pointer-events: none;">...</a></li>
-       <li><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= pager.last_page %>"><%=  pager.last_page %></a></li>
+       <li class="page-item"><a class="page-link" href="" style="pointer-events: none;">...</a></li>
+       <li class="page-item"><a class="page-link" href="<%= app_prefix(pager.link) %>&page=<%= pager.last_page %>"><%= pager.last_page %></a></li>
     <% end %>
     <% if pager.need_next %>
-      <li class="next page-item"><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"><%= t 'actions.next' %> <span aria-hidden="true">&rarr;</span></a></li>
+      <li class="next page-item"><a class="page-link" href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"><%= t 'actions.next' %> <span aria-hidden="true">&rarr;</span></a></li>
     <% end %>
   </ul>
 </nav>

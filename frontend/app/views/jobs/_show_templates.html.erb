@@ -1,23 +1,31 @@
 <% define_template "job_status", jsonmodel_definition(:job) do |form, job| %>
-  <section id="job_status" data-poll-url="<%= url_for(:controller => :jobs, :action => :status, :id => job.id) %>" data-current-status="<%= @job.status %>">
+  <section
+    id="job_status"
+    data-poll-url="<%= url_for(:controller => :jobs, :action => :status, :id => job.id) %>"
+    data-current-status="<%= @job.status %>"
+  >
     <h3><%= t("job._frontend.section.status") %></h3>
 
     <div class="job-status form-group d-flex">
       <label class="col-sm-3 control-label text-right"><%= t("job.status") %></label>
+
       <div class="col-sm-9 controls label-only">
         <%= t("job.status_#{job.status}", :default => job.status) %>
       </div>
     </div>
+
     <div class="form-group d-flex">
       <label class="col-sm-3 control-label text-right"><%= t("job.time_submitted") %></label>
       <div class="col-sm-9 controls label-only"><%= Time.parse(job.time_submitted).getlocal %></div>
     </div>
+
     <% if job.time_started %>
       <div class="form-group d-flex">
         <label class="col-sm-3 control-label text-right"><%= t("job.time_started") %></label>
         <div class="col-sm-9 controls label-only"><%= Time.parse(job.time_started).getlocal %></div>
       </div>
     <% end %>
+
     <% if job.time_finished %>
       <div class="form-group d-flex">
         <label class="col-sm-3 control-label text-right"><%= t("job.time_finished") %></label>
@@ -27,9 +35,7 @@
   </section>
 <% end %>
 
-
 <% define_template "job", jsonmodel_definition(:job) do |form, job| %>
-
   <section id="basic_information">
     <h3><%= t("job._frontend.section.basic_information") %></h3>
 
@@ -42,7 +48,10 @@
     <% if job["job_type"] != 'generate_slugs_job' && job["job_type"] != 'generate_arks_job' %>
       <div class="form-group d-flex">
         <label class="col-sm-3 control-label text-right"><%= t("repository._singular") %></label>
-        <div class="col-sm-9 controls label-only"><%= resolve_readonly_link_to job.repository['_resolved']['repo_code'], job.repository['ref'] %></div>
+
+        <div class="col-sm-9 controls label-only">
+          <%= resolve_readonly_link_to job.repository['_resolved']['repo_code'], job.repository['ref'] %>
+        </div>
       </div>
     <% end %>
 
@@ -64,107 +73,96 @@
                                :form => form,
                                :record => @job) %>
 
-
     <%= display_audit_info(@job) %>
   </section>
 <% end %>
 
-
 <% define_template "container_labels_job", jsonmodel_definition(:container_labels_job) do |form, job| %>
-
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.container_labels")  %></label>
-      <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
-    </div>
-
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("actions.container_labels") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
+  </div>
 <% end %>
-
 
 <% define_template "import_job", jsonmodel_definition(:import_job) do |form, job| %>
-
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("import_job.filenames") %></label>
-      <div class="col-sm-9 controls label-only"><%= job['filenames'].join("<br/>").html_safe %></div>
-    </div>
-
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("import_job.filenames") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['filenames'].join("<br/>").html_safe %></div>
+  </div>
 <% end %>
 
-
 <% define_template "find_and_replace_job", jsonmodel_definition(:find_and_replace_job) do |form, job| %>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("find_and_replace_job.find") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['find'] %></div>
+  </div>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("find_and_replace_job.find") %></label>
-      <div class="col-sm-9 controls label-only"><%= job['find'] %></div>
-    </div>
-
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("find_and_replace_job.replace") %></label>
-      <div class="col-sm-9 controls label-only"><%= job['replace'] %></div>
-    </div>
-
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("find_and_replace_job.replace") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['replace'] %></div>
+  </div>
 <% end %>
 
 <% define_template "print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job) do |form, job| %>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("actions.resource_to_pdf") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
+  </div>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.resource_to_pdf")  %></label>
-      <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
-    </div>
-
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("print_to_pdf_job.include_unpublished")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("boolean.#{job['include_unpublished']}") %></div>
-    </div>
-
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("print_to_pdf_job.include_unpublished") %></label>
+    <div class="col-sm-9 controls label-only"><%= t("boolean.#{job['include_unpublished']}") %></div>
+  </div>
 <% end %>
 
 <% define_template "bulk_import_job", jsonmodel_definition(:bulk_import_job) do |form, job| %>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
+  </div>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import")  %></label>
-      <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
-    </div>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.load_type") %></label>
+    <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['load_type']}") %></div>
+  </div>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.load_type")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['load_type']}") %></div>
-    </div>
-
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.content_type")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['content_type']}") %></div>
-    </div>
-
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.content_type") %></label>
+    <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['content_type']}") %></div>
+  </div>
 <% end %>
 
 <% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("report_job.report_type") %></label>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("report_job.report_type")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("reports.#{job['report_type']}.title", :default => job['report_type']) %></div>
-      <label class="col-sm-3 control-label"><%= t("report_job.format")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("reports.formats.#{job['format']}", :default => job['format']) %></div>
+    <div class="col-sm-9 controls label-only">
+      <%= t("reports.#{job['report_type']}.title", :default => job['report_type']) %>
     </div>
 
+    <label class="col-sm-3 control-label"><%= t("report_job.format") %></label>
+
+    <div class="col-sm-9 controls label-only">
+      <%= t("reports.formats.#{job['format']}", :default => job['format']) %>
+    </div>
+  </div>
 <% end %>
 
 <% define_template "top_container_linker_job", jsonmodel_definition(:top_container_linker_job) do |form, job| %>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import") %></label>
+    <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
+  </div>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import")  %></label>
-      <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
-    </div>
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.load_type") %></label>
+    <div class="col-sm-9 controls label-only"><%= t("top_container_linker_job.type.#{job['load_type']}") %></div>
+  </div>
 
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.load_type")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("top_container_linker_job.type.#{job['load_type']}") %></div>
-    </div>
-
-    <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.content_type")  %></label>
-      <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['content_type']}") %></div>
-    </div>
-
+  <div class="form-group d-flex">
+    <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.content_type") %></label>
+    <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['content_type']}") %></div>
+  </div>
 <% end %>
 
 <% define_template("resource_duplicate_job", jsonmodel_definition(:resource_duplicate_job)) {} %>
@@ -172,21 +170,17 @@
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
   <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'bulk_import_job', 'report_job'].include?(type) %>
-  <% define_template(type, jsonmodel_definition(type.intern)) do |form, job| %>
 
+  <% define_template(type, jsonmodel_definition(type.intern)) do |form, job| %>
     <% begin %>
       <%= render_aspace_partial :partial => "#{type}/show", :locals => {:job => job, :form => form} %>
-      <% rescue ActionView::MissingTemplate %>
-        <%# don't require plugins to provide a show %>
+    <% rescue ActionView::MissingTemplate %>
+      <%# don't require plugins to provide a show %>
     <% end %>
-
   <% end %>
 <% end %>
 
-
-
-
-
+<%# herb:formatter ignore %>
 <div id="template_job_running_notice"><!--
   <div class="alert alert-info">
     <p><%= t("job._frontend.messages.status_changed_running") %></p>
