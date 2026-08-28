@@ -1441,12 +1441,6 @@ it:
       action:
         add_digital_object: Aggiungi oggetto digitale
         add: Aggiungi istanza
-  lang_material:
-    _plural: Lingue
-    _frontend:
-      action:
-        add: Aggiungi lingua
-        add_note: Aggiungi nota sulla lingua
   linked_record:
     _frontend:
       action:
@@ -1855,7 +1849,7 @@ it:
         make_primary_tooltip: >
           <p>Utilizzare per indicare quale set di lingua e script è primario.
           È possibile designare solo una lingua come principale.</p>
-        make_primary: 
+        make_primary: Imposta come principale
   lang_material:
     _plural: Linguaggi dei materiali
     _frontend:
