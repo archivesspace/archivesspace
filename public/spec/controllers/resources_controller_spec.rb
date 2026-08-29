@@ -158,6 +158,45 @@ describe ResourcesController, type: :controller do
     end
   end
 
+  describe 'index action for a repository with no published resources' do
+    before(:all) do
+      @empty_repo = create(:repo, repo_code: "resources_empty_test_#{Time.now.to_i}",
+                           publish: true)
+      run_indexers
+    end
+
+    let(:listing_url) { "http://test.host/repositories/#{@empty_repo.id}/resources" }
+
+    it 'redirects to the repository rather than back to the empty listing' do
+      request.env['HTTP_REFERER'] = listing_url
+
+      get(:index, params: { rid: @empty_repo.id })
+
+      expect(response).to have_http_status(302)
+      expect(response.location).not_to eq(listing_url)
+      expect(response).to redirect_to("/repositories/#{@empty_repo.id}")
+    end
+
+    it 'still returns a visitor to the page they arrived from' do
+      request.env['HTTP_REFERER'] = 'http://test.host/repositories'
+
+      get(:index, params: { rid: @empty_repo.id })
+
+      expect(response).to redirect_to('http://test.host/repositories')
+    end
+
+    it 'keeps the proxy prefix on the fallback when the PUI is mounted under one' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:public_proxy_prefix).and_return('/aspace/')
+
+      request.env['HTTP_REFERER'] = listing_url
+
+      get(:index, params: { rid: @empty_repo.id })
+
+      expect(response).to redirect_to("/aspace/repositories/#{@empty_repo.id}")
+    end
+  end
+
   describe 'digitized action' do
     it 'displays tree breadcrumbs for digital objects linked to more than one Resource' do
       get(:digitized, params: {rid: @repo.id, id: @resource_with_rep_instance.id})

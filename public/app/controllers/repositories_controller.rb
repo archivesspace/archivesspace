@@ -50,7 +50,7 @@ class RepositoriesController < ApplicationController
 
   def search
     @repo_id = params.require(:rid)
-    @base_search = "/repositories/#{repo_id}/search?"
+    @base_search = "/repositories/#{@repo_id}/search?"
     begin
       new_search_opts = DEFAULT_REPO_SEARCH_OPTS
       new_search_opts['repo_id'] = @repo_id
@@ -59,13 +59,13 @@ class RepositoriesController < ApplicationController
     rescue Exception => error
       Rails.logger.debug( error.backtrace )
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: "/repositories/#{@repo_id}/" ) and return
+      redirect_back(fallback_location: PrefixHelper.app_prefix("/repositories/#{@repo_id}")) and return
     end
     page = Integer(params.fetch(:page, "1"))
     @results = archivesspace.advanced_search('/search', page, @criteria)
     if @results['total_hits'].blank? || @results['total_hits'] == 0
       flash[:notice] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: @base_search)
+      redirect_back(fallback_location: PrefixHelper.app_prefix("/repositories/#{@repo_id}"))
     else
       process_search_results(@base_search)
       Rails.logger.debug("@repo_id: #{@repo_id}")
