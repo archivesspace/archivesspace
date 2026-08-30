@@ -7,10 +7,8 @@
     "files.insertFinalNewline": true,
     "prettier.configPath": ".prettierrc",
     "ruby.rubocop.autocorrectOnSave": true,
-    "rubyLsp.rubyVersionManager": {
-        "identifier": "mise"
-    },
-    "rubyLsp.bundleGemfile": ".vscode/Gemfile-ruby-lsp",
+    "solargraph.useBundler": false,
+    "solargraph.commandPath": ".vscode/solargraph",
     "stylelint.snippet": [
         "css",
         "less",
