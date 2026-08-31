@@ -4,14 +4,14 @@
 //= require InfiniteTreeIds
 
 (function (exports) {
-  /** @see largetree.js.erb SCROLL_DELAY_MS / THRESHOLD_EMS (considerExpandingRow) */
+  /** @see legacy largetree considerExpandingRow; InfiniteTree equivalent is #considerAutoExpandingNext */
   const ITREE_SCROLL_DELAY_MS = 100;
   const ITREE_THRESHOLD_EMS = 300;
 
   class InfiniteTree {
     static EVENT_TYPE_NODE_SELECT = 'infiniteTree:nodeSelect';
     static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
-    /** Record pane: restore tree .selected + toolbar after inline new-child Cancel (pane already shows the parent). */
+    /** Record pane: resync tree .selected after inline create Cancel (pane already shows the parent record). */
     static EVENT_TYPE_SYNC_TREE_SELECTION = 'infiniteTree:syncTreeSelection';
 
     #autoExpandEnabled = false;
@@ -21,12 +21,12 @@
     #autoExpandScrollTimer = null;
 
     /**
-     * @constructor
-     * @param {Object} i18n - The i18n object for use in a non .js.erb file
+     * @param {Object} i18n - Translation helpers for markup (sep, bulk, enumerations)
      * @param {string} i18n.sep - The identifier separator
-     * @param {string} i18n.bulk - The date type bulk
+     * @param {string} i18n.bulk - The date type bulk label
      * @param {Object} i18n.enumerations - The enumeration translations object
-     * @returns {InfiniteTree} - InfiniteTree instance
+     *
+     * Reads `rootUri` and `batchSize` from `#infinite-tree-component` dataset.
      */
     constructor(i18n) {
       const { rootUri, batchSize } = document.querySelector(
@@ -79,7 +79,7 @@
       this.container.addEventListener('click', e => {
         if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
         else if (e.target.closest('.record-title')) {
-          // Allow the router to decide what to do
+          // Intercept navigation; dispatch titleClick for InfiniteTreeRouter.
           e.preventDefault();
           e.stopPropagation();
 
@@ -477,8 +477,8 @@
     }
 
     /**
-     * Fetches the initial batch(es) for an ancestor; includes extra metadata
-     * if a target batch's neighbor needs to be observed for its neighbor
+     * Fetches the initial batch(es) for an ancestor, attaching observeForBatch metadata
+     * when a rendered batch needs an IntersectionObserver anchor for an adjacent placeholder.
      * @param {Object} ancestorMetaObj - The ancestor metadata object
      * @returns {Object} An object containing the ancestor's batch(es) and possible metadata
      */
@@ -758,6 +758,9 @@
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
      * @param {Object} [options] - Options for rendering
      * @param {boolean} [options.replace=true] - Whether to replace container content first
+     * @param {boolean} [options.select=true] - Whether to call selectNode on the target
+     * @param {boolean} [options.center=true] - Whether to scroll the target into view
+     * @param {boolean} [options.notifyPane=true] - Whether selectNode should notify the record pane
      */
     async #renderAncestors(
       ancestorBatches,
@@ -1031,6 +1034,7 @@
     }
 
     /**
+     * Collapses a node in the UI (icon + aria-expanded only; child rows stay in the DOM).
      * @param {HTMLElement} node - The node to collapse
      */
     #collapseNode(node) {
@@ -1102,6 +1106,7 @@
     }
 
     /**
+     * Manual expand/collapse toggle. No-op while auto-expand-all mode is active.
      * @param {Event} e - The click event
      */
     async #expandClickHandler(e) {
@@ -1121,6 +1126,8 @@
     }
 
     /**
+     * Dispatches titleClick on the container for InfiniteTreeRouter (hash navigation).
+     * Synthetic new-child/sibling rows are ignored.
      * @param {Event} e - The click event
      */
     #titleClickHandler(e) {
@@ -1199,7 +1206,8 @@
     }
 
     /**
-     * Tree level of a parent li (0 = root). Matches InfiniteTreeToolbar#getNodeLevel.
+     * Tree level from indent-level-N on a node li (0 = root).
+     * Matches InfiniteTreeToolbar#getNodeLevel.
      * @param {HTMLElement} parentNode
      * @returns {number}
      */
@@ -1318,7 +1326,8 @@
     }
 
     /**
-     * Removes the Add Child placeholder row and collapses an empty child list we injected.
+     * Removes the Add Child / Add Sibling placeholder row and collapses an empty
+     * child list that was injected for Add Child.
      */
     #removeSyntheticNewChild() {
       if (!this._syntheticNewNode) return;

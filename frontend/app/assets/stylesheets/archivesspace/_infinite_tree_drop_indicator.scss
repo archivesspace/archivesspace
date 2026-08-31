@@ -140,12 +140,6 @@
   background-color: #a8d4ee;
 }
 
-#infinite-tree-container.reorder-mode .node-children[data-drop-edge='into'] {
-  box-shadow: inset 0 0 0 var(--drop-stroke-width) var(--drop-stroke-color);
-  border-radius: 3px;
-  min-height: 1.5rem;
-}
-
 #infinite-tree-container.reorder-mode
   .node.is-being-dragged
   > .node-row

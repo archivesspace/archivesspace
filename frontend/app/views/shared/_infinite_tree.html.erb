@@ -2,8 +2,6 @@
    root_type = root_record.jsonmodel_type
    show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_largetree_container]
    read_only = false if read_only.blank?
-
-   # Title for synthetic "new child" tree row (matches ajaxtree title_for_new_node / tree_toolbar add-child flows)
    new_child_placeholder_title = case root_type
                                  when 'resource'
                                    I18n.t('archival_object._frontend.tree.new_record_title')
@@ -14,7 +12,6 @@
                                  else
                                    ''
                                  end
-
    new_duplicate_placeholder_title = case root_type
                                      when 'resource'
                                        I18n.t('archival_object._frontend.tree.duplicated_record_title')
@@ -30,7 +27,7 @@
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
-<%= javascript_include_tag "InfiniteTreeSelection.js" %>
+<%= javascript_include_tag "InfiniteTreeMultiSelection.js" %>
 <%= javascript_include_tag "InfiniteTreeDropHitbox.js" %>
 <%= javascript_include_tag "InfiniteTreeDragDrop.js" %>
 <%= javascript_include_tag "InfiniteTreeCutPaste.js" %>
@@ -167,7 +164,7 @@ const infiniteTreeRouter = new InfiniteTreeRouter({
 if (!<%= read_only %>) {
   new InfiniteTreeToolbar();
   new InfiniteTreeToolbarActions();
-  new InfiniteTreeSelection(); // Should this be called MultiSelection?
+  new InfiniteTreeMultiSelection();
   new InfiniteTreeDragDrop();
   new InfiniteTreeCutPaste();
   new InfiniteTreeMove();
