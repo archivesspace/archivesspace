@@ -89,7 +89,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/config/enumerations/:enum_id')
-    .description("Get an Enumeration")
+    .description("Get an enumeration")
     .params(["enum_id", Integer, "The ID of the enumeration to retrieve"])
     .permissions([])
     .returns([200, "(:enumeration)"]) \
@@ -113,7 +113,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.get('/config/enumeration_values/:enum_val_id')
-    .description("Get an Enumeration Value")
+    .description("Get an enumeration value")
     .params(["enum_val_id", Integer, "The ID of the enumeration value to retrieve"])
     .permissions([])
     .returns([200, "(:enumeration_value)"]) \
@@ -133,7 +133,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.post('/config/enumeration_values/:enum_val_id/position')
-    .description("Update the position of an ennumeration value")
+    .description("Update the position of an enumeration value")
     .params(["enum_val_id", Integer, "The ID of the enumeration value to update"],
             ["position", Integer, "The target position in the value list"])
     .permissions([:update_enumeration_record])
