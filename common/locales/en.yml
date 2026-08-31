@@ -303,7 +303,24 @@ en:
     <<: *linked_agent_attributes
 
   event_linked_agent:
-    <<: *linked_agent_attributes
+    role: Role
+    role_tooltip: |
+        <p>REQUIRED FIELD. An indication of what function the Agent has in regards to the action described by the event.</p>
+    relator: Relator
+    relator_tooltip: |
+        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+        <p>See DACS 14.3, ISAAR (CPF) 6.3 and MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
+    ref: Agent
+    ref_tooltip: |
+        <p>REQUIRED FIELD. The person, family, corporate entity, or software that took part in the action described by the event.</p>
+    terms: Terms
+    title: Title
+    title_tooltip: |
+        <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
+        <p>For example,</p>
+        <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
+    _singular: Agent Link
+    _plural: Agent Links
 
   resource_linked_agent:
     <<: *linked_agent_attributes
