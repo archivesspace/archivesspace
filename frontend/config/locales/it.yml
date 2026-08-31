@@ -2237,3 +2237,28 @@ it:
     _frontend:
       form_header: Valutazione %{display_string}
       formats: Tipologie/Formati dei materiali
+      ratings: Valutazioni
+      conservation_issues: Questioni di conservazione
+      record_types: Tipi di record
+      action:
+        create: Crea valutazione
+        save: Salva valutazione
+        add_rating_note: Aggiungi nota
+        remove_rating_note: Rimuovi nota
+        create_for_record: Crea valutazione
+      section:
+        basic_information: Informazioni di base
+        existing_description: Descrizione esistente
+        rating_attributes: Informazioni sulla valutazione
+        rating_attributes_empty: Nessuna informazione di valutazione inserita
+        rating_attributes_additional: Valutazioni aggiuntive
+        format_attributes: Elenco dei tipi/formati di materiale
+        format_attributes_empty: Nessun tipo/formato di materiale inserito
+        format_attributes_additional: Tipologie/formati di materiale aggiuntivi
+        conservation_issue_attributes: Questioni di conservazione
+        conservation_issue_attributes_empty: Non sono stati inseriti problemi di
+          conservazione
+        conservation_issue_attributes_additional: Ulteriori problematiche di 
+          conservazione
+      messages:
+        created: Valutazione creata
