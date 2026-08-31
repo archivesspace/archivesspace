@@ -38,22 +38,37 @@ class SessionController < ApplicationController
 
 
   def logout
+    User.logout
+
     reset_session
     redirect_to :root
   end
 
 
-  # let a trusted app (i.e., public catalog) know if a user
-  # should see links back to this editing interface
+  # let a trusted app (i.e., public catalog) know whether a user should
+  # either 1. see links back to the SUI, or 2. (if PUI authentication is on)
+  # be handed off into a PUI session. Gated by the presence/absence of a
+  # record :uri.
   def check_session
-    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    set_pui_cors_headers
 
-    if session[:session] && params[:uri]
-      access_info = check_user_access(params)
-      render json: access_info
-    else
+    if session[:session].blank?
       render json: { can_access: false, mode: nil }
+      return
+    end
+
+    if params[:uri]
+      render json: check_user_access(params)
+    elsif !AppConfig[:pui_require_authentication]
+      render json: { can_access: false, mode: nil }
+    elsif user_can_view_pui?
+      render json: {
+        session: session[:session],
+        username: session[:user],
+        view_pui: true
+      }
+    else
+      render json: { view_pui: false }
     end
   end
 
@@ -121,5 +136,14 @@ class SessionController < ApplicationController
       can_access: can_edit || can_view,
       mode: mode
     }
+  end
+
+  def set_pui_cors_headers
+    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+  end
+
+  def user_can_view_pui?
+    user_can?('view_pui')
   end
 end

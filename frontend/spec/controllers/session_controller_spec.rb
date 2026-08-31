@@ -34,8 +34,11 @@ describe SessionController, type: :controller do
       end
     end
 
-    context 'when uri parameter is missing' do
-      it 'returns can_access: false, mode: nil' do
+    context 'when uri parameter is missing and pui_require_authentication is disabled' do
+      it 'returns can_access: false, mode: nil rather than a view_pui determination' do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+
         session = User.login('admin', 'admin')
         User.establish_session(controller, session, 'admin')
         controller.session[:repo_id] = JSONModel.repository
@@ -45,6 +48,7 @@ describe SessionController, type: :controller do
         json = JSON.parse(response.body)
         expect(json['can_access']).to be false
         expect(json['mode']).to be_nil
+        expect(json).not_to have_key('view_pui')
       end
     end
 
@@ -200,5 +204,149 @@ describe SessionController, type: :controller do
         expect(json['mode']).to be_nil
       end
     end
+
+    context 'when a uri is given' do
+      it 'never includes the session token or username, even for a user with view_pui permission' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+        controller.session[:repo_id] = JSONModel.repository
+        accession = create(:json_accession)
+
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+
+        get :check_session, params: { uri: accession.uri }
+
+        json = JSON.parse(response.body)
+        expect(json).not_to have_key('session')
+        expect(json).not_to have_key('username')
+      end
+    end
+
+    context 'when a uri is not given' do
+      context 'when pui_require_authentication is disabled' do
+        before(:each) do
+          allow(AppConfig).to receive(:[]).and_call_original
+          allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+        end
+
+        it 'returns can_access: false, mode: nil' do
+          get :check_session
+
+          json = JSON.parse(response.body)
+          expect(json['can_access']).to be false
+          expect(json['mode']).to be_nil
+        end
+      end
+
+      context 'when pui_require_authentication is enabled' do
+        before(:each) do
+          allow(AppConfig).to receive(:[]).and_call_original
+          allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+        end
+
+        context 'when the user has view_pui permission' do
+          before(:each) do
+            session = User.login('admin', 'admin')
+            User.establish_session(controller, session, 'admin')
+          end
+
+          it 'returns the session and view_pui: true' do
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['view_pui']).to be true
+            expect(json['username']).to eq('admin')
+          end
+        end
+
+        context 'when there is no logged-in user' do
+          it 'returns can_access: false, mode: nil' do
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['can_access']).to be false
+            expect(json['mode']).to be_nil
+          end
+        end
+      end
+    end
   end
+
+  describe '#logout' do
+    around(:each) do |example|
+      original_backend_session = JSONModel::HTTP.current_backend_session
+      example.run
+      JSONModel::HTTP.current_backend_session = original_backend_session
+    end
+
+    shared_examples 'a complete logout' do
+      it 'resets the session and redirects to root' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        delete :logout
+
+        expect(controller.session[:user]).to be_nil
+        expect(response).to redirect_to('/')
+      end
+
+      it 'expires the backend session so it can no longer be used' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+        session_token = session['session']
+
+        delete :logout
+
+        uri = URI("#{AppConfig[:backend_url]}/users/current-user")
+        http = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        request['X-ArchivesSpace-Session'] = session_token
+
+        expect(http.request(request).code).not_to eq('200')
+      end
+
+      it 'does not raise an error when the backend session is already gone' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        JSONModel::HTTP.current_backend_session = session['session']
+        JSONModel::HTTP.post_form('/logout')
+
+        expect { delete :logout }.not_to raise_error
+        expect(controller.session[:user]).to be_nil
+      end
+
+      it 'resets the local session even if the backend is unreachable' do
+        session = User.login('admin', 'admin')
+        User.establish_session(controller, session, 'admin')
+
+        allow(JSONModel::HTTP).to receive(:post_form).with('/logout').and_raise(Errno::ECONNREFUSED)
+
+        expect { delete :logout }.not_to raise_error
+
+        expect(controller.session[:user]).to be_nil
+        expect(response).to redirect_to('/')
+      end
+    end
+
+    context 'when pui_require_authentication is disabled' do
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+      end
+
+      it_behaves_like 'a complete logout'
+    end
+
+    context 'when pui_require_authentication is enabled' do
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+      end
+
+      it_behaves_like 'a complete logout'
+    end
+  end
+
 end

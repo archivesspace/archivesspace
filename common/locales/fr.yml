@@ -1683,6 +1683,7 @@ fr:
       basic_data_entry: Utilisateurs de saisie de données basique du service d'archives %{repo_code}
       repository_viewers: Téléspectateurs du service d'archives %{repo_code}
       project_managers: Chefs de projet du service d'archives %{repo_code}
+      pui_viewers: Visionneuses PUI
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
