@@ -395,7 +395,7 @@
     }
 
     /**
-     * Load new sibling archival object form (same parent as anchor; position after anchor).
+     * Load new sibling record form (same parent as anchor; position after anchor).
      * @param {HTMLElement} anchorNode
      */
     async #loadNewSiblingRecord(anchorNode) {

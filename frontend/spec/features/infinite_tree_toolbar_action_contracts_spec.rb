@@ -9,16 +9,16 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
   let(:edit_path) { "/resources/#{resource.id}/edit" }
   let(:root_hash) { "#tree::resource_#{resource.id}" }
 
-  def execute_js(script)
-    page.execute_script(script)
-  end
-
-  def evaluate_js(script)
-    page.evaluate_script(script)
+  let!(:ao2) do
+    create(
+      :archival_object,
+      resource: { 'ref' => resource.uri },
+      title: "Second AO #{now}"
+    )
   end
 
   def install_toolbar_event_capture
-    execute_js(<<~JS)
+    page.execute_script(<<~JS)
       window.__itreeToolbarEvents = [];
       const names = [
         'infiniteTreeToolbar:reorderModeChanged',
@@ -43,22 +43,29 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
   end
 
   def event_count(name)
-    evaluate_js("window.__itreeToolbarEvents.filter(function(e){ return e.name === '#{name}'; }).length")
+    page.evaluate_script("window.__itreeToolbarEvents.filter(function(e){ return e.name === '#{name}'; }).length")
   end
 
-  def dispatch_record_pane_state(state)
-    execute_js(<<~JS)
-      const pane = document.querySelector('#infinite-tree-record-pane');
-      pane.dispatchEvent(new CustomEvent('infiniteTreeRecordPane:#{state}', { bubbles: true }));
-    JS
+  def event_names
+    page.evaluate_script('window.__itreeToolbarEvents.map(function(e){ return e.name; })')
   end
 
-  def dispatch_toolbar_click(selector)
-    execute_js(<<~JS)
+  def last_event_detail
+    page.evaluate_script('window.__itreeToolbarEvents[window.__itreeToolbarEvents.length - 1].detail')
+  end
+
+  # detail includes a DOM node; full detail does not round-trip through evaluate_script.
+  def contextual_event_metadata(event_name)
+    page.evaluate_script(<<~JS)
       (function() {
-        var el = document.querySelector("#{selector}");
-        if (!el) return;
-        el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        var ev = window.__itreeToolbarEvents.find(function(e) {
+          return e.name === '#{event_name}';
+        });
+        if (!ev || !ev.detail) return {};
+        return {
+          rootType: ev.detail.rootType,
+          rootUri: ev.detail.rootUri
+        };
       })();
     JS
   end
@@ -69,101 +76,116 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     install_toolbar_event_capture
   end
 
-  def event_names
-    evaluate_js('window.__itreeToolbarEvents.map(function(e){ return e.name; })')
-  end
+  describe 'Mode controls' do
+    it 'emits events with expected details' do
+      # Expand/collapse controls are hidden while reorder mode is on — exercise them first.
+      find('.js-itree-toolbar-expand-mode').click
+      expect(event_names).to include('infiniteTreeToolbar:expandModeChanged')
+      expect(last_event_detail['enabled']).to be(true)
 
-  def last_event_detail
-    evaluate_js('window.__itreeToolbarEvents[window.__itreeToolbarEvents.length - 1].detail')
-  end
+      find('.js-itree-toolbar-collapse-tree').click
+      expect(event_names).to include('infiniteTreeToolbar:collapseTreeRequested')
+      expect(last_event_detail).to eq({})
 
-  it 'emits reorder/expand/collapse events with expected details' do
-    # Expand/collapse controls are hidden while reorder mode is on — exercise them first.
-    find('.js-itree-toolbar-expand-mode').click
-    expect(event_names).to include('infiniteTreeToolbar:expandModeChanged')
-    expect(last_event_detail['enabled']).to eq(true)
-
-    find('.js-itree-toolbar-collapse-tree').click
-    expect(event_names).to include('infiniteTreeToolbar:collapseTreeRequested')
-    expect(last_event_detail).to eq({})
-
-    find('.js-itree-toolbar-reorder-toggle').click
-    expect(event_names).to include('infiniteTreeToolbar:reorderModeChanged')
-    expect(last_event_detail['enabled']).to eq(true)
-  end
-
-  it 'emits contextual action events with root metadata' do
-    dispatch_toolbar_click('.js-itree-toolbar-add-child')
-
-    within '#infinite-tree-container' do
-      click_link ao.title
+      find('.js-itree-toolbar-reorder-toggle').click
+      expect(event_names).to include('infiniteTreeToolbar:reorderModeChanged')
+      expect(last_event_detail['enabled']).to be(true)
     end
-    wait_for_ajax
+  end
 
-    %w[
-      .js-itree-toolbar-add-sibling
-      .js-itree-toolbar-add-duplicate
-      .js-itree-toolbar-load-bulk
-      .js-itree-toolbar-rde
-    ].each { |selector| dispatch_toolbar_click(selector) }
+  describe 'Contextual actions' do
+    it 'emits events with root metadata' do
+      find('.js-itree-toolbar-add-child').click
+      select_tree_row(ao)
 
-    names = event_names
-    expect(names).to include(
-      'infiniteTreeToolbar:addChildRequested',
-      'infiniteTreeToolbar:addSiblingRequested',
-      'infiniteTreeToolbar:addDuplicateRequested',
-      'infiniteTreeToolbar:loadBulkRequested',
-      'infiniteTreeToolbar:rdeRequested'
-    )
+      %w[
+        .js-itree-toolbar-add-sibling
+        .js-itree-toolbar-add-duplicate
+        .js-itree-toolbar-load-bulk
+      ].each { |selector| find(selector).click }
 
-    # detail includes a DOM node; full detail does not round-trip through evaluate_script.
-    contextual_detail = evaluate_js(<<~JS)
-      (function() {
-        var ev = window.__itreeToolbarEvents.find(function(e) {
-          return e.name === 'infiniteTreeToolbar:addChildRequested';
+      # Bulk modal opens synchronously; click RDE before dirty-state re-gating disables it.
+      page.execute_script("document.querySelector('.js-itree-toolbar-rde').click()")
+
+      names = event_names
+      expect(names).to include(
+        'infiniteTreeToolbar:addChildRequested',
+        'infiniteTreeToolbar:addSiblingRequested',
+        'infiniteTreeToolbar:addDuplicateRequested',
+        'infiniteTreeToolbar:loadBulkRequested',
+        'infiniteTreeToolbar:rdeRequested'
+      )
+
+      metadata = contextual_event_metadata('infiniteTreeToolbar:addChildRequested')
+      expect(metadata['rootType']).to eq('resource')
+      expect(metadata['rootUri']).to eq(resource.uri)
+    end
+  end
+
+  describe 'Cut and paste actions' do
+    before do
+      enable_reorder_mode
+      select_tree_row(ao)
+    end
+
+    it 'emits cutRequested and pasteRequested when buttons are clicked' do
+      click_infinite_tree_toolbar_cut
+      select_tree_row(ao2)
+      click_infinite_tree_toolbar_paste
+
+      expect(event_names).to include(
+        'infiniteTreeToolbar:cutRequested',
+        'infiniteTreeToolbar:pasteRequested'
+      )
+    end
+  end
+
+  describe 'Move menu actions' do
+    before do
+      enable_reorder_mode
+      select_tree_row(child_record)
+    end
+
+    it 'emits moveMenuRequested when the Move toggle is clicked' do
+      click_infinite_tree_toolbar_move_menu
+      expect(event_names).to include('infiniteTreeToolbar:moveMenuRequested')
+    end
+  end
+
+  context 'while controls are disabled by dirty state' do
+    before { fill_in 'resource_title_', with: 'Modified Title' }
+
+    it 'does not emit mutating action events' do
+      expect(page).to have_css('.js-itree-toolbar-add-child.disabled')
+      expect(page).to have_css('.js-itree-toolbar-finish-editing.disabled')
+
+      before_add_child_events = event_count('infiniteTreeToolbar:addChildRequested')
+      before_finish_events = event_count('infiniteTreeToolbar:finishEditingRequested')
+
+      find('.js-itree-toolbar-add-child').click
+
+      after_add_child_events = event_count('infiniteTreeToolbar:addChildRequested')
+      after_finish_events = event_count('infiniteTreeToolbar:finishEditingRequested')
+
+      expect(after_add_child_events).to eq(before_add_child_events)
+      expect(after_finish_events).to eq(before_finish_events)
+    end
+  end
+
+  describe 'Finish editing' do
+    it 'preserves hash in target URL' do
+      page.execute_script(<<~JS)
+        var container = document.getElementById('infinite-tree-container');
+        container.addEventListener('infiniteTreeToolbar:finishEditingRequested', function(event) {
+          window.sessionStorage.setItem('itreeFinishTarget', event.detail.target);
         });
-        if (!ev || !ev.detail) return {};
-        return {
-          rootType: ev.detail.rootType,
-          rootUri: ev.detail.rootUri
-        };
-      })();
-    JS
+      JS
 
-    expect(contextual_detail['rootType']).to eq('resource')
-    expect(contextual_detail['rootUri']).to eq(resource.uri)
-  end
+      find('.js-itree-toolbar-finish-editing').click
 
-  it 'does not emit mutating action events while controls are disabled by dirty state' do
-    dispatch_record_pane_state('dirty')
-
-    expect(page).to have_css('.js-itree-toolbar-add-child.disabled')
-    expect(page).to have_css('.js-itree-toolbar-finish-editing.disabled')
-
-    before_add_child_events = event_count('infiniteTreeToolbar:addChildRequested')
-    before_finish_events = event_count('infiniteTreeToolbar:finishEditingRequested')
-
-    find('.js-itree-toolbar-add-child').click
-
-    after_add_child_events = event_count('infiniteTreeToolbar:addChildRequested')
-    after_finish_events = event_count('infiniteTreeToolbar:finishEditingRequested')
-
-    expect(after_add_child_events).to eq(before_add_child_events)
-    expect(after_finish_events).to eq(before_finish_events)
-  end
-
-  it 'emits finish editing with target URL preserving hash' do
-    execute_js <<~JS
-      var container = document.getElementById('infinite-tree-container');
-      container.addEventListener('infiniteTreeToolbar:finishEditingRequested', function(event) {
-        window.sessionStorage.setItem('itreeFinishTarget', event.detail.target);
-      });
-    JS
-
-    find('.js-itree-toolbar-finish-editing').click
-
-    finish_target = evaluate_js("window.sessionStorage.getItem('itreeFinishTarget')")
-    expect(finish_target).to include("/resources/#{resource.id}")
-    expect(finish_target).to include(root_hash)
+      finish_target = page.evaluate_script("window.sessionStorage.getItem('itreeFinishTarget')")
+      expect(finish_target).to include("/resources/#{resource.id}")
+      expect(finish_target).to include(root_hash)
+    end
   end
 end

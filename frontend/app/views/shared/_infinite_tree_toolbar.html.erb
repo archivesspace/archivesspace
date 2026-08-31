@@ -4,16 +4,13 @@
   role="toolbar"
   aria-label="<%= I18n.t('tree.toolbar_aria_label', default: 'Tree toolbar') %>"
 >
-  <!-- Left-aligned groups -->
-  <div class="btn-group infinite-tree-toolbar__group" role="group" aria-label="<%= I18n.t('actions.reorder_group', default: 'Reorder and drag/drop') %>">
-    <button
-      type="button"
-      class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle js-itree-toolbar-reorder-toggle"
-      data-itree-action="reorder-toggle"
-    >
-      <%= I18n.t('actions.enable_reorder') %>
-    </button>
-  </div>
+  <button
+    type="button"
+    class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle js-itree-toolbar-reorder-toggle"
+    data-itree-action="reorder-toggle"
+  >
+    <%= I18n.t('actions.enable_reorder') %>
+  </button>
 
   <div class="btn-group infinite-tree-toolbar__group ml-1 js-itree-toolbar-cut-paste-group" role="group" aria-label="<%= I18n.t('actions.cut_paste_group', default: 'Cut and paste') %>">
     <button
@@ -71,7 +68,6 @@
     </button>
   </div>
 
-  <!-- Per-record-type actions: record-agnostic shell, populated/enabled by JS based on selection/jsonmodel_type -->
   <div
     class="btn-group infinite-tree-toolbar__group ml-2 js-itree-toolbar-primary-actions"
     role="group"
@@ -132,17 +128,11 @@
     </button>
   </div>
 
-  <!-- Right-aligned Finish Editing -->
-  <div
-    class="btn-group infinite-tree-toolbar__group ml-auto js-itree-toolbar-finish-group"
-    role="group"
+  <a
+    href="#"
+    class="ml-auto btn btn-sm btn-success infinite-tree-toolbar__btn js-itree-toolbar-finish-editing"
+    data-itree-action="finish-editing"
   >
-    <a
-      href="#"
-      class="btn btn-sm btn-success infinite-tree-toolbar__btn js-itree-toolbar-finish-editing"
-      data-itree-action="finish-editing"
-    >
-      <%= I18n.t('actions.finish_editing') %>
-    </a>
-  </div>
+    <%= I18n.t('actions.finish_editing') %>
+  </a>
 </div>

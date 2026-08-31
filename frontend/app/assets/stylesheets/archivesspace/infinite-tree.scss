@@ -200,8 +200,6 @@
     }
   }
 
-  // Reorder-mode multi-selection highlight. See
-  // INFINITETREE_MULTISELECT_BEHAVIOR_SPEC.md for the selection model.
   &.multiselected > .node-row > .node-body {
     position: relative;
     background-color: var(--tree-multiselect-bg);
@@ -262,8 +260,6 @@
 
   // Locked ancestors: cannot be selected because a descendant is selected.
   // Dimmed appearance with not-allowed cursor.
-
-  /* Locked rows (ancestors/descendants of selected nodes) get dimmed appearance */
   &.selection-locked > .node-row > .node-body {
     opacity: 0.5;
     cursor: not-allowed;

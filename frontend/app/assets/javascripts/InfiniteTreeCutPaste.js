@@ -28,11 +28,11 @@ class InfiniteTreeCutPaste {
       this.#onReorderModeChanged.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeSelection.EVENT_CHANGED,
+      InfiniteTreeMultiSelection.EVENT_CHANGED,
       this.#onSelectionChanged.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeSelection.EVENT_CLEARED,
+      InfiniteTreeMultiSelection.EVENT_CLEARED,
       this.#onSelectionCleared.bind(this)
     );
     this.containerEl.addEventListener(

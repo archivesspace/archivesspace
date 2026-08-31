@@ -34,6 +34,7 @@ describe 'Infinite Tree Page Load', js: true do
   RSpec::Matchers.define :appear_in_tree_viewport do
     match do |node|
       tree = find('#infinite-tree-container')
+      # Documented JS exception: viewport geometry check (no Capybara equivalent)
       tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
       node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
       node_top_in_view = node_rect['top'] >= tree_rect['top'] && node_rect['top'] <= tree_rect['bottom']
