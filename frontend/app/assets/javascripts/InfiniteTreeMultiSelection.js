@@ -1,35 +1,51 @@
 /**
- * InfiniteTreeSelection
+ * InfiniteTreeMultiSelection
  *
- * Owns reorder-mode multi-selection state for the new InfiniteTree. Instantiated
- * only in edit-mode views (the read-only partial never calls new InfiniteTreeSelection()).
+ * Owns reorder-mode multi-selection state for the InfiniteTree.
  *
  * Selection semantics use CLICK-ORDER (the sequence in which rows are selected
- * determines their order in move/paste operations). See
- * INFINITETREE_MULTISELECT_ORDER_BASED_RULES.md for the complete stakeholder-facing
- * explanation.
+ * determines their order in move/paste operations) under AEDI (Ancestor-Exclusive,
+ * Descendant-Inclusive): a selected row's ancestors cannot be explicitly selected,
+ * and its entire subtree is implicitly included (include down, exclude up).
+ *
+ * Click-order anchor: always `selected[selected.length - 1]`. Deselecting the
+ * last item moves the anchor to the new last item; deselecting a middle item
+ * does not.
  *
  * Core behaviors:
  *   - Cmd/Ctrl + click toggles a row's membership. New selections append to the
  *     end of the array (preserving click order).
- *   - Shift + click extends from anchor to endpoint in visible order. The range
- *     is appended to the end of the existing selection in the anchor→endpoint
- *     direction.
- *   - Selection order badges (1, 2, 3...) display on each selected row when
- *     multiple rows are selected.
+ *   - Shift + click extends from anchor to endpoint using the topmost-ancestor
+ *     collapsing algorithm: (1) build locked-out set (ancestors of anchor,
+ *     endpoint, and already-selected rows), (2) collect in-range candidates
+ *     strictly between anchor and endpoint, skipping locked-out rows, (3) keep
+ *     only topmost in-range ancestors as explicit selections (descendants become
+ *     implicit), (4) append in-range rows + endpoint in anchor→endpoint order.
  *   - Plain click on a record title replaces multiselection with the single
- *     clicked row (.replaceWithSingle) for cut/drag workflows, then bubbles to
+ *     clicked row (#replaceWithSingle) for cut/drag workflows, then bubbles to
  *     InfiniteTree's record-title router so URL hash updates (updates
  *     `.selected` for Paste and navigation).
- *   - Plain mousedown on a non-link row immediately resets to single-row selection
- *     so drag can operate on the intended source.
+ *   - Plain mousedown on a non-link row: if the row is already in selected,
+ *     preserve multiselection (group drag); otherwise #replaceWithSingle so
+ *     dragstart sees the intended single-row source.
  *   - mousedown outside tree/toolbar/resizer without modifier key clears selection.
  *   - Expanding/collapsing a parent does NOT mutate selection. Hidden selected
  *     descendants persist and re-appear when re-expanded.
  *
+ * Visual classes (recomputed on every selection mutation via #applyClasses):
+ *   - .multiselected: explicitly selected rows (in selected array)
+ *   - .implicitly-multiselected: descendants of selected parents (move with parent)
+ *   - .selection-locked: ancestors of selected nodes (cannot be explicitly selected)
+ *
+ * Selection badges (.selection-order-badge; visibility gated by CSS :not(:empty)):
+ *   - Explicit rows always receive numeric badges (1, 2, 3...) in click order,
+ *     including when only one row is explicitly selected.
+ *   - Implicit rows receive a checkmark (IMPLICIT_SELECTION_MARK).
+ *
  * Parent-child mutual exclusion (ancestry-based):
  *   - Child selected → ALL ancestors are locked (cannot be selected)
- *   - Parent selected → ALL descendants are locked (cannot be selected)
+ *   - Parent selected → ALL descendants are implicitly included (cannot be
+ *     explicitly selected)
  *   - Siblings can always be selected together
  *   - Range selection (Shift+click) skips locked rows, creating visual "holes"
  *   - Ancestor unlocks only when ALL its selected descendants are deselected
@@ -41,15 +57,15 @@
  *     dedupes any remaining redundancy before sending to accept_children
  *
  * Emits on #infinite-tree-container:
- *   - infiniteTreeSelection:changed { selectedNodes: HTMLElement[], anchorNode: HTMLElement|null }
- *   - infiniteTreeSelection:cleared (no detail)
+ *   - infiniteTreeMultiSelection:changed { selectedNodes: HTMLElement[], anchorNode: HTMLElement|null }
+ *   - infiniteTreeMultiSelection:cleared { detail: {} }
  *
  * Selection ordering is mirrored to #infinite-tree-container[data-selection-uris="uri1,uri2,..."]
  * in click order for manual verification and feature specs.
  */
-class InfiniteTreeSelection {
-  static EVENT_CHANGED = 'infiniteTreeSelection:changed';
-  static EVENT_CLEARED = 'infiniteTreeSelection:cleared';
+class InfiniteTreeMultiSelection {
+  static EVENT_CHANGED = 'infiniteTreeMultiSelection:changed';
+  static EVENT_CLEARED = 'infiniteTreeMultiSelection:cleared';
 
   constructor() {
     this.componentEl = document.getElementById('infinite-tree-component');
@@ -171,9 +187,10 @@ class InfiniteTreeSelection {
   }
 
   /**
-   * Capture-phase mousedown handler. Plain mousedown in reorder mode should
-   * immediately reset any existing multi-selection to the pressed row so drag
-   * start sees the intended single-row source set.
+   * Capture-phase mousedown handler for plain (non-modifier) presses on non-link
+   * rows. Preserves an existing multiselection when mousing down on a member
+   * row (group drag); otherwise #replaceWithSingle so dragstart sees a
+   * single-row source set.
    * @param {MouseEvent} event
    */
   #onContainerMouseDownCapture(event) {
@@ -252,7 +269,9 @@ class InfiniteTreeSelection {
    *    already-selected rows, the endpoint, or another in-range topmost row
    * 4. Push: in-range nodes (in anchor→endpoint order) + endpoint
    *
-   * The endpoint is always explicitly selected and becomes the new anchor.
+   * When the endpoint is not already selected and passes lock checks, it is
+   * appended explicitly and becomes the new anchor. Shift+click on the anchor
+   * itself, on an already-selected row, or on a locked row is a no-op.
    * Descendants of the endpoint (or anchor) fall in the flat DOM slice after an
    * expanded parent; they must not be pushed explicitly even when they sit between
    * anchor and endpoint indices.
@@ -422,8 +441,9 @@ class InfiniteTreeSelection {
   /**
    * Recompute visual state classes for all nodes:
    * - .multiselected: explicitly selected nodes (in this.selected array)
-   * - .implicitly-multiselected: descendants of selected parents (move with parent, no badge)
-   * - .selection-locked: ancestors of selected nodes (cannot be selected)
+   * - .implicitly-multiselected: descendants of selected parents (move with parent;
+   *   checkmark badge, not a numeric order label)
+   * - .selection-locked: ancestors of selected nodes (cannot be explicitly selected)
    *
    * Also rewrites data-selection-uris and renders selection order badges.
    */
@@ -492,14 +512,14 @@ class InfiniteTreeSelection {
     this.containerEl
       .querySelectorAll('.node.implicitly-multiselected .selection-order-badge')
       .forEach(badge => {
-        badge.textContent = InfiniteTreeSelection.IMPLICIT_SELECTION_MARK;
+        badge.textContent = InfiniteTreeMultiSelection.IMPLICIT_SELECTION_MARK;
         badge.classList.add('implicit-mark');
       });
   }
 
   #emitChanged() {
     this.containerEl.dispatchEvent(
-      new CustomEvent(InfiniteTreeSelection.EVENT_CHANGED, {
+      new CustomEvent(InfiniteTreeMultiSelection.EVENT_CHANGED, {
         bubbles: true,
         detail: {
           selectedNodes: this.selected.slice(),
@@ -514,7 +534,7 @@ class InfiniteTreeSelection {
 
   #emitCleared() {
     this.containerEl.dispatchEvent(
-      new CustomEvent(InfiniteTreeSelection.EVENT_CLEARED, {
+      new CustomEvent(InfiniteTreeMultiSelection.EVENT_CLEARED, {
         bubbles: true,
         detail: {},
       })
@@ -535,8 +555,9 @@ class InfiniteTreeSelection {
   }
 
   /**
-   * Check if a row is locked relative to a selection set.
-   * Locked if: ANY ancestor of a selected node, or ANY descendant of a selected node.
+   * Check if a row cannot be explicitly added to the selection set.
+   * Returns true when li is an ancestor or descendant of any selected node,
+   * or when li is already in the set (a node contains itself).
    * Uses browser-native .contains() for O(selection_count) performance.
    * @param {HTMLElement} li - The node to check for locking
    * @param {HTMLElement[]|null} selectedSnapshot - Optional selection snapshot, defaults to this.selected
@@ -582,7 +603,7 @@ class InfiniteTreeSelection {
 
   /**
    * Get all descendant nodes that are implicitly multiselected (.implicitly-multiselected class).
-   * These are nodes that will move with their selected parent but don't get badges.
+   * These move with their selected ancestor and receive a checkmark badge (not a number).
    * @returns {Set<HTMLElement>}
    */
   #getImplicitlyMultiselectedDescendants() {
@@ -623,9 +644,10 @@ class InfiniteTreeSelection {
   }
 
   /**
-   * Apply implicit selection styling to newly-loaded descendants of a selected parent.
-   * Called when a batch is inserted or a node is expanded while a parent is selected.
-   * @param {HTMLElement} parentNode - The parent node whose descendants may need styling
+   * Apply implicit selection styling to newly-loaded descendants when parentNode
+   * (or one of its ancestors) is explicitly selected. Called after batch insert
+   * or node expansion during reorder mode.
+   * @param {HTMLElement} parentNode - The node whose descendants may need styling
    */
   #applyImplicitClassesToNewDescendants(parentNode) {
     if (!this.reorderMode) return;

@@ -53,10 +53,7 @@ class InfiniteTreeToolbar {
     const option = event.target.closest('.js-itree-toolbar-move-option');
     if (!option) return;
 
-    if (
-      option.hasAttribute('disabled') ||
-      option.getAttribute('aria-disabled') === 'true'
-    ) {
+    if (option.hasAttribute('disabled')) {
       return;
     }
 
@@ -107,11 +104,11 @@ class InfiniteTreeToolbar {
         this.#onCutCleared.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        InfiniteTreeSelection.EVENT_CHANGED,
+        InfiniteTreeMultiSelection.EVENT_CHANGED,
         this.#onSelectionChanged.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        InfiniteTreeSelection.EVENT_CLEARED,
+        InfiniteTreeMultiSelection.EVENT_CLEARED,
         this.#onSelectionCleared.bind(this)
       );
       this.treeContainerEl.addEventListener(
@@ -126,7 +123,7 @@ class InfiniteTreeToolbar {
 
     this.toolbarEl.addEventListener('click', event => {
       const target = event.target.closest('[data-itree-action]');
-      if (!target || target.classList.contains('disabled')) return;
+      if (!target || this.#isControlDisabled(target)) return;
 
       const action = target.getAttribute('data-itree-action');
 
@@ -207,15 +204,7 @@ class InfiniteTreeToolbar {
       '.js-itree-toolbar-move-toggle'
     );
 
-    if (moveToggle) {
-      if (!moveEnabled) {
-        moveToggle.classList.add('disabled');
-        moveToggle.setAttribute('aria-disabled', 'true');
-      } else {
-        moveToggle.classList.remove('disabled');
-        moveToggle.removeAttribute('aria-disabled');
-      }
-    }
+    this.#setControlEnabled(moveToggle, moveEnabled);
 
     const moveGroup = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-group'
@@ -256,13 +245,7 @@ class InfiniteTreeToolbar {
       '.js-itree-toolbar-finish-editing';
 
     this.toolbarEl.querySelectorAll(selector).forEach(btn => {
-      if (this.isDirty) {
-        btn.classList.add('disabled');
-        btn.setAttribute('aria-disabled', 'true');
-      } else {
-        btn.classList.remove('disabled');
-        btn.removeAttribute('aria-disabled');
-      }
+      this.#setControlEnabled(btn, !this.isDirty);
     });
   }
 
@@ -423,15 +406,7 @@ class InfiniteTreeToolbar {
       : null;
     if (!expandBtn) return;
 
-    if (busy) {
-      expandBtn.classList.add('disabled');
-      expandBtn.setAttribute('disabled', 'disabled');
-      expandBtn.setAttribute('aria-disabled', 'true');
-    } else {
-      expandBtn.classList.remove('disabled');
-      expandBtn.removeAttribute('disabled');
-      expandBtn.removeAttribute('aria-disabled');
-    }
+    this.#setControlEnabled(expandBtn, !busy);
   }
 
   #onFinishEditingClick(event) {
@@ -523,29 +498,15 @@ class InfiniteTreeToolbar {
     if (!this.toolbarEl) return;
 
     const cutBtn = this.toolbarEl.querySelector('.js-itree-toolbar-cut');
-    if (cutBtn) {
-      const cutEnabled = this.reorderMode && this.#hasEligibleCutNode();
-      if (cutEnabled) {
-        cutBtn.classList.remove('disabled');
-        cutBtn.removeAttribute('aria-disabled');
-      } else {
-        cutBtn.classList.add('disabled');
-        cutBtn.setAttribute('aria-disabled', 'true');
-      }
-    }
+    const cutEnabled = this.reorderMode && this.#hasEligibleCutNode();
+    this.#setControlEnabled(cutBtn, cutEnabled);
 
     const pasteBtn = this.toolbarEl.querySelector('.js-itree-toolbar-paste');
     if (!pasteBtn) return;
 
     const pasteEnabled =
       this.reorderMode && this.cutActive && this.#hasEligiblePasteTarget();
-    if (pasteEnabled) {
-      pasteBtn.classList.remove('disabled');
-      pasteBtn.removeAttribute('aria-disabled');
-    } else {
-      pasteBtn.classList.add('disabled');
-      pasteBtn.setAttribute('aria-disabled', 'true');
-    }
+    this.#setControlEnabled(pasteBtn, pasteEnabled);
   }
 
   /**
@@ -606,13 +567,60 @@ class InfiniteTreeToolbar {
   }
 
   /**
-   * @param {boolean} enabled
-   * @returns {string}
+   * @param {HTMLElement|null} el
+   * @returns {boolean}
    */
-  #moveOptionDisabledAttrs(enabled) {
-    if (enabled) return '';
+  #isControlDisabled(el) {
+    return (
+      !!el &&
+      (el.classList.contains('disabled') ||
+        el.hasAttribute('disabled') ||
+        el.getAttribute('aria-disabled') === 'true')
+    );
+  }
 
-    return ' disabled aria-disabled="true"';
+  /**
+   * Toggle enabled state. Native buttons get disabled attr; links get aria-disabled.
+   * @param {HTMLElement|null} el
+   * @param {boolean} enabled
+   */
+  #setControlEnabled(el, enabled) {
+    if (!el) return;
+
+    const isNativeControl = el.matches('button, input, select, textarea');
+
+    if (enabled) {
+      el.classList.remove('disabled');
+      el.removeAttribute('disabled');
+      el.removeAttribute('aria-disabled');
+      return;
+    }
+
+    el.classList.add('disabled');
+    if (isNativeControl) {
+      el.setAttribute('disabled', 'disabled');
+    } else {
+      el.setAttribute('aria-disabled', 'true');
+    }
+  }
+
+  #createMoveMenuItem(action, enabled, label) {
+    const li = document.createElement('li');
+    li.appendChild(this.#createMoveMenuButton(action, enabled, label));
+    return li;
+  }
+
+  #createMoveMenuButton(action, enabled, label) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className =
+      'btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option';
+    button.setAttribute('data-move-action', action);
+    if (!enabled) {
+      button.setAttribute('disabled', 'disabled');
+    }
+    button.textContent = label;
+    return button;
   }
 
   #renderMoveMenu() {
@@ -637,58 +645,67 @@ class InfiniteTreeToolbar {
     const canMoveDown = !!(nextSibling && nextSibling.matches('li.node'));
     const canMoveUpLevel = level > 1;
     const canMoveDownInto = siblingsAtLevel.length > 0;
-    const siblingsMenuItems = node
-      ? this.#siblingsForDownIntoMenu(node)
-          .map(sibling => {
-            const titleEl = sibling.querySelector(
-              '.node-column[data-column="title"]'
-            );
-            const title = titleEl
-              ? titleEl.textContent.trim()
-              : sibling.id || '';
-            return (
-              '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into" data-target-node-id="' +
-              sibling.id +
-              '">' +
-              title +
-              '</button></li>'
-            );
-          })
-          .join('')
-      : '';
-    const downIntoToggleAttrs = canMoveDownInto
-      ? ' data-toggle="dropdown"'
-      : '';
-    const menuParts = [
-      '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up-level"' +
-        this.#moveOptionDisabledAttrs(canMoveUpLevel) +
-        '>' +
-        this.#translate('actions.move_up_a_level', 'Up a Level') +
-        '</button></li>',
-      '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up"' +
-        this.#moveOptionDisabledAttrs(canMoveUp) +
-        '>' +
-        this.#translate('actions.move_up', 'Up') +
-        '</button></li>',
-      '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down"' +
-        this.#moveOptionDisabledAttrs(canMoveDown) +
-        '>' +
-        this.#translate('actions.move_down', 'Down') +
-        '</button></li>',
-      '<li class="dropdown-submenu dropdown-item p-0">' +
-        '<button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into"' +
-        downIntoToggleAttrs +
-        this.#moveOptionDisabledAttrs(canMoveDownInto) +
-        '>' +
-        this.#translate('actions.move_down_into', 'Down Into...') +
-        '</button>' +
-        '<ul class="dropdown-menu move-node-into-menu">' +
-        siblingsMenuItems +
-        '</ul>' +
-        '</li>',
-    ];
 
-    menuEl.innerHTML = menuParts.join('');
+    menuEl.innerHTML = '';
+
+    menuEl.appendChild(
+      this.#createMoveMenuItem(
+        'up-level',
+        canMoveUpLevel,
+        this.#translate('actions.move_up_a_level', 'Up a Level')
+      )
+    );
+    menuEl.appendChild(
+      this.#createMoveMenuItem(
+        'up',
+        canMoveUp,
+        this.#translate('actions.move_up', 'Up')
+      )
+    );
+    menuEl.appendChild(
+      this.#createMoveMenuItem(
+        'down',
+        canMoveDown,
+        this.#translate('actions.move_down', 'Down')
+      )
+    );
+
+    const downIntoLi = document.createElement('li');
+    downIntoLi.className = 'dropdown-submenu dropdown-item p-0';
+
+    const downIntoButton = this.#createMoveMenuButton(
+      'down-into',
+      canMoveDownInto,
+      this.#translate('actions.move_down_into', 'Down Into...')
+    );
+    if (canMoveDownInto) {
+      downIntoButton.setAttribute('data-toggle', 'dropdown');
+    }
+    downIntoLi.appendChild(downIntoButton);
+
+    const submenu = document.createElement('ul');
+    submenu.className = 'dropdown-menu move-node-into-menu';
+
+    if (node) {
+      this.#siblingsForDownIntoMenu(node).forEach(sibling => {
+        const titleEl = sibling.querySelector(
+          '.node-column[data-column="title"]'
+        );
+        const title = titleEl ? titleEl.textContent.trim() : sibling.id || '';
+        const submenuButton = this.#createMoveMenuButton(
+          'down-into',
+          true,
+          title
+        );
+        submenuButton.setAttribute('data-target-node-id', sibling.id);
+        const submenuLi = document.createElement('li');
+        submenuLi.appendChild(submenuButton);
+        submenu.appendChild(submenuLi);
+      });
+    }
+
+    downIntoLi.appendChild(submenu);
+    menuEl.appendChild(downIntoLi);
   }
 
   /**

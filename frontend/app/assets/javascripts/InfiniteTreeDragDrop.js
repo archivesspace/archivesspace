@@ -38,11 +38,11 @@ class InfiniteTreeDragDrop {
       this.#onReorderModeChanged.bind(this)
     );
     this.treeContainerEl.addEventListener(
-      InfiniteTreeSelection.EVENT_CHANGED,
+      InfiniteTreeMultiSelection.EVENT_CHANGED,
       this.#onSelectionChanged.bind(this)
     );
     this.treeContainerEl.addEventListener(
-      InfiniteTreeSelection.EVENT_CLEARED,
+      InfiniteTreeMultiSelection.EVENT_CLEARED,
       this.#onSelectionCleared.bind(this)
     );
     this.treeContainerEl.addEventListener(
@@ -169,7 +169,7 @@ class InfiniteTreeDragDrop {
   /**
    * Returns an invisible element to pass to setDragImage.
    * The browser applies semi-transparency to the drag image, so we pass it
-   * an invisible element then render a fully-opaque drag preview instead.
+   * an invisible element then render our custom fully-opaque drag preview instead.
    * @returns {HTMLElement}
    */
   #getEmptyDragImage() {
@@ -187,7 +187,7 @@ class InfiniteTreeDragDrop {
   }
 
   /**
-   * Positions our manually created drag preview near the cursor during drag.
+   * Positions our custom drag preview near the cursor during drag.
    * @param {DragEvent} event
    */
   #onDocumentDragOver(event) {

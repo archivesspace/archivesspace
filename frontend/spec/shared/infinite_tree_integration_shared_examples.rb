@@ -9,6 +9,22 @@ RSpec.shared_context 'infinite tree integration setup' do
   let(:resource) { create(:resource, title: "Resource #{now}") }
   let(:ao) { create(:archival_object, resource: { 'ref' => resource.uri }, title: "Archival Object #{now}") }
 
+  # Record-type-agnostic aliases (Resources mapping today; swap via config later).
+  let(:root_record) { resource }
+  let(:child_record) { ao }
+  let(:child_record_hash) { "#tree::archival_object_#{child_record.id}" }
+  let(:nested_child_record) do
+    create(
+      :archival_object,
+      resource: { 'ref' => resource.uri },
+      parent: { 'ref' => child_record.uri },
+      title: "Nested Child Record #{now}"
+    )
+  end
+  let(:nested_child_record_hash) { "#tree::archival_object_#{nested_child_record.id}" }
+  let(:root_form_prefix) { 'resource' }
+  let(:child_form_prefix) { 'archival_object' }
+
   before do
     set_repo(repo)
     login_admin

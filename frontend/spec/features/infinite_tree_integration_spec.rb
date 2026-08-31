@@ -11,16 +11,7 @@ describe 'Infinite Tree Integration', js: true do
   let(:show_path) { "/resources/#{resource.id}" }
   let(:edit_path) { "/resources/#{resource.id}/edit" }
   let(:root_hash) { "#tree::resource_#{resource.id}" }
-  let(:ao_hash) { "#tree::archival_object_#{ao.id}" }
-  let(:ao_child) do
-    create(
-      :archival_object,
-      resource: { 'ref' => resource.uri },
-      parent: { 'ref' => ao.uri },
-      title: "Nested Archival Object #{now}"
-    )
-  end
-  let(:ao_child_hash) { "#tree::archival_object_#{ao_child.id}" }
+  let(:ao_hash) { child_record_hash }
 
   describe 'on initial load' do
     context 'when the URL has no record hash' do
@@ -74,6 +65,7 @@ describe 'Infinite Tree Integration', js: true do
         visit "#{edit_path}#{root_hash}"
         wait_for_ajax
 
+        # Documented JS exception: simulates hashchange without full reload (no UI control for this)
         page.execute_script("window.location.hash = 'tree::archival_object_#{ao.id}'")
         wait_for_ajax
 
@@ -92,6 +84,7 @@ describe 'Infinite Tree Integration', js: true do
       fill_in 'archival_object_component_id_', with: 'unsaved change'
       wait_for_ajax
 
+      # Documented JS exception: simulates hashchange for dirty-guard test
       page.execute_script("window.location.hash = 'tree::resource_#{resource.id}'")
       wait_for_ajax
 
@@ -230,160 +223,10 @@ describe 'Infinite Tree Integration', js: true do
         end
       end
     end
+  end
 
-    context 'Add Child from toolbar (child under archival object)' do
-      it 'loads new child form with correct scoping, synthetic row depth, and Cancel returns to parent edit' do
-        ao_child
-        visit "#{edit_path}#{ao_child_hash}"
-        wait_for_ajax
-
-        find('.js-itree-toolbar-add-child').click
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-container') do
-            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected.indent-level-3')
-            expect(page).to have_css('ol.node-children[data-tree-level="3"]')
-          end
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#archival_object_form')
-            expect(page).to have_button('Save Archival Object', match: :first)
-          end
-          expect(page.current_url).to include('#new')
-        end
-
-        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#form_archival_object')
-            expect(page).to have_css('h2', text: ao_child.title)
-          end
-          expect(page.current_url).to match(%r{#{Regexp.escape(ao_child_hash)}})
-          expect(page).to have_css(
-            "#infinite-tree-container li#archival_object_#{ao_child.id}.selected",
-            visible: :all
-          )
-        end
-      end
-    end
-
-    context 'Add Sibling from toolbar (archival object)' do
-      it 'loads new sibling form with correct scoping, synthetic row at anchor depth, and Cancel returns to anchor edit' do
-        visit "#{edit_path}#{ao_hash}"
-        wait_for_ajax
-
-        find('.js-itree-toolbar-add-sibling').click
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-container') do
-            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected.indent-level-1')
-            expect(page).to have_css("#infinite-tree-container li#archival_object_#{ao.id} + li#archival_object_new")
-          end
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#archival_object_form')
-            expect(page).to have_button('Save Archival Object', match: :first)
-          end
-          expect(page.current_url).to include('#new')
-        end
-
-        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#form_archival_object')
-            expect(page).to have_css('h2', text: ao.title)
-          end
-          expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
-          expect(page).to have_css(
-            "#infinite-tree-container li#archival_object_#{ao.id}.selected",
-            visible: :all
-          )
-        end
-      end
-    end
-
-    context 'Add Duplicate from toolbar (archival object)' do
-      it 'loads duplicate new form, synthetic row with duplicate title, and Cancel returns to anchor edit' do
-        visit "#{edit_path}#{ao_hash}"
-        wait_for_ajax
-
-        find('.js-itree-toolbar-add-duplicate').click
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-container') do
-            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected.indent-level-1')
-            expect(page).to have_css("#infinite-tree-container li#archival_object_#{ao.id} + li#archival_object_new")
-            expect(page).to have_css(
-              '.record-title',
-              text: I18n.t('archival_object._frontend.tree.duplicated_record_title')
-            )
-          end
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#archival_object_form')
-            expect(page).to have_button('Save Archival Object', match: :first)
-          end
-          expect(page.current_url).to include('#new')
-        end
-
-        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#form_archival_object')
-            expect(page).to have_css('h2', text: ao.title)
-          end
-          expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
-          expect(page).to have_css(
-            "#infinite-tree-container li#archival_object_#{ao.id}.selected",
-            visible: :all
-          )
-        end
-      end
-    end
-
-    context 'Add Child from toolbar (resource)' do
-      it 'loads new archival object form and Cancel returns to resource edit' do
-        visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
-
-        find('.js-itree-toolbar-add-child').click
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-container') do
-            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected')
-          end
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#archival_object_form')
-            expect(page).to have_button('Save Archival Object', match: :first)
-          end
-          expect(page.current_url).to include('#new')
-        end
-
-        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
-        wait_for_ajax
-
-        aggregate_failures do
-          within('#infinite-tree-record-pane') do
-            expect(page).to have_css('#form_resource')
-            expect(page).to have_css('h2', text: resource.title)
-          end
-          expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
-          expect(page).to have_css(
-            "#infinite-tree-container li#resource_#{resource.id}.selected",
-            visible: :all
-          )
-        end
-      end
-    end
-
-    context 'Save +1 (createPlusOne) on new archival object form' do
+  describe 'inline create state after save' do
+    context 'Save +1 (createPlusOne) on new child record form' do
       it 'saves the record, opens a blank sibling new form with plus-one buttons, and reflects the node in the tree' do
         visit "#{edit_path}#{root_hash}"
         wait_for_ajax
@@ -574,29 +417,29 @@ describe 'Infinite Tree Integration', js: true do
         end
       end
     end
+  end
 
-    context 'after successful save' do
-      it 'form has no unsaved changes; navigation proceeds without modal' do
-        visit "#{edit_path}#{ao_hash}"
+  context 'after successful save' do
+    it 'form has no unsaved changes; navigation proceeds without modal' do
+      visit "#{edit_path}#{ao_hash}"
+      wait_for_ajax
+
+      fill_in 'archival_object_title_', with: "Updated Title #{now}"
+      within('#infinite-tree-container') { click_link resource.title }
+      wait_for_ajax
+
+      aggregate_failures do
+        expect(page).to have_css('#saveYourChangesModal', visible: true)
+        within('#saveYourChangesModal') { click_on 'Cancel' }
+
+        find('button', text: 'Save Archival Object', match: :first).click
         wait_for_ajax
+        expect(page).to have_text("Archival Object Updated Title #{now} updated")
 
-        fill_in 'archival_object_title_', with: "Updated Title #{now}"
         within('#infinite-tree-container') { click_link resource.title }
         wait_for_ajax
-
-        aggregate_failures do
-          expect(page).to have_css('#saveYourChangesModal', visible: true)
-          within('#saveYourChangesModal') { click_on 'Cancel' }
-
-          find('button', text: 'Save Archival Object', match: :first).click
-          wait_for_ajax
-          expect(page).to have_text("Archival Object Updated Title #{now} updated")
-
-          within('#infinite-tree-container') { click_link resource.title }
-          wait_for_ajax
-          expect(page).not_to have_css('#saveYourChangesModal', visible: true)
-          within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: resource.title) }
-        end
+        expect(page).not_to have_css('#saveYourChangesModal', visible: true)
+        within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: resource.title) }
       end
     end
   end
