@@ -20,8 +20,7 @@ describe 'DB Model' do
     attempt = 0
 
     expect {
-      transaction = true
-      DB.open( transaction, :retry_delay => 0 ) do
+      DB.open(true, :retry_delay => 0) do
         attempt += 1
         raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah")
       end
@@ -32,8 +31,7 @@ describe 'DB Model' do
     attempt = 0
 
     expect {
-      transaction = true
-      DB.open( transaction, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 ) do
+      DB.open(true, :retry_on_optimistic_locking_fail => true, :retry_delay => 0) do
         attempt += 1
         raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah")
       end
