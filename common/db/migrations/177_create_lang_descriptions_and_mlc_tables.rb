@@ -2,6 +2,17 @@ require_relative 'utils'
 
 Sequel.migration do
   up do
+    # Resolve and validate up front, before any DDL runs. Do not allow
+    # a config error to leave orphaned tables behind and break any retry
+    # with a "table already exists".
+    lang_enum   = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
+    script_enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
+    default_language_id = self[:enumeration_value].filter(:enumeration_id => lang_enum, :value => AppConfig[:mlc_default_language]).get(:id)
+    default_script_id   = self[:enumeration_value].filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
+
+    raise "language_iso639_2 enum value '#{AppConfig[:mlc_default_language]}' not found" if default_language_id.nil?
+    raise "script_iso15924 enum value '#{AppConfig[:mlc_default_script]}' not found" if default_script_id.nil?
+
     create_table(:language_and_script_of_description) do
       primary_key :id
       Integer :lock_version, :default => 0, :null => false
@@ -108,11 +119,6 @@ Sequel.migration do
 
     # --- Data migration: move existing field values to _mlc tables ---
 
-    lang_enum   = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-    script_enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
-    language_id = self[:enumeration_value].filter(:enumeration_id => lang_enum, :value => AppConfig[:mlc_default_language]).get(:id)
-    script_id   = self[:enumeration_value].filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
-
     {
       :resource => %i[title finding_aid_title finding_aid_subtitle finding_aid_author
                       finding_aid_sponsor finding_aid_edition_statement
@@ -130,8 +136,8 @@ Sequel.migration do
       self[record_type].each do |row|
         self[mlc_table].insert(
           fk           => row[:id],
-          :language_id => language_id,
-          :script_id   => script_id,
+          :language_id => default_language_id,
+          :script_id   => default_script_id,
           **fields.each_with_object({}) { |f, h| h[f] = row[f] }
         )
       end
