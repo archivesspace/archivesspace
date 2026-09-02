@@ -748,6 +748,16 @@ it:
   agent_occupation:
     _singular: Occupazione
     _plural: Occupazioni
+    _frontend:
+      action:
+        add: Aggiungi occupazione
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Professioni
+    places: Luoghi
+    publish: Pubblicato
   agent_record_identifier:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
@@ -869,6 +879,16 @@ it:
   agent_function:
     _singular: Funzione
     _plural: Funzioni
+    _frontend:
+      action:
+        add: Aggiungi funzione
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Funzioni
+    places: Luoghi
+    publish: Pubblicato
   agent_place:
     _singular: Luogo
     _plural: Luoghi
@@ -881,11 +901,34 @@ it:
     text_note: Nota
     dates: Dati
     subjects: Luoghi
+    publish: Pubblicata
   agent_topic:
     _singular: Argomento
     _plural: Argomenti
+    _frontend:
+      action:
+        add: Aggiungi argomento
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Argomenti
+    places: Luoghi
+    publish: Pubblicato
   agent_alternate_set:
     file_uri: File URI
+    _plural: Insiemi alternativi
+    _singular: Set alternativo
+    _frontend:
+      action:
+        add: Aggiungi set alternativo
+    set_component: Imposta componente
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo Titolo Xlink
+    xlink_role_attribute: Attributo ruolo Xlink
+    xlink_arcrole_attribute: Attributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attributo Xlink Actuate
+    file_version_xlink_show_attribute: Xlink Mostra attributo
   agent_conventions_declaration:
     file_uri: File URI
   agent_source:
@@ -2415,3 +2458,8 @@ it:
     language: Lingua
     script: Sceneggiatura
     language_note: Nota linguistica
+  place:
+    _plural: Luoghi
+    _frontend:
+      action:
+        add: Aggiungi luogo
