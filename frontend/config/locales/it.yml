@@ -2363,11 +2363,11 @@ it:
         formats: Tipologie/Formati dei materiali
         ratings: Valutazioni
         conservation_issues: Questioni di conservazione
-      global: Globale %{tipo}
+      global: Globale %{type}
       repository: Repository %{type}
       action:
         save: Salva attributi di valutazione
-        add_type: Aggiungi %{tipo}
+        add_type: Aggiungi %{type}
         find_rating: Trova i record con una valutazione %{rating_type}
         find_format: Trova i record con un tipo/formato materiale %{format_type}
         find_issue: Trova i record con un problema di conservazione di tipo 
