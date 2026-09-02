@@ -195,22 +195,6 @@ class ArchivesSpaceService < Sinatra::Base
           Session.expire_old_sessions
           Log.info("Done")
         end
-
-
-        if AppConfig[:db_url] == AppConfig.demo_db_url &&
-            settings.scheduler.jobs(tag: 'demo_db_backup').empty?
-
-          Log.info("Enabling backups for the embedded demo database " +
-                   "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
-
-
-          settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
-                                  :tags => 'demo_db_backup') do
-            Log.info("Starting backup of embedded demo database")
-            DB.demo_db_backup
-            Log.info("Backup of embedded demo database completed!")
-          end
-        end
       end
 
       ANONYMOUS_USER = AnonymousUser.new

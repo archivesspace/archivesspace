@@ -1,11 +1,6 @@
 module ReindexTopContainers
 
   def reindex_top_containers(extra_ids = [])
-    if !DB.respond_to?(:supports_join_updates?) || !DB.supports_join_updates?
-      Log.warn("Invoking slow path for reindexing top containers")
-      return reindex_top_containers_by_any_means_necessary(extra_ids)
-    end
-
     # Find any relationships between a top container and any instance within the current tree.
     root_record = if self.class == ArchivalObject
                     self.class.root_model[self.root_record_id]
@@ -22,27 +17,6 @@ module ReindexTopContainers
       ao_instance_root_record_update(root_record.id)
     elsif root_record.is_a?(Accession)
       accession_instance_root_record_update(root_record.id)
-    end
-  end
-
-
-  # Slow path for weird data or DBs that don't support updates on joins (like derby/h2)
-  def reindex_top_containers_by_any_means_necessary(extra_ids)
-    # Find any relationships between a top container and any instance within the current tree.
-    root_record = if self.class == ArchivalObject
-                    self.class.root_model[self.root_record_id]
-                  else
-                    self
-                  end
-    tree_object_graph = root_record.object_graph
-    top_container_link_rlshp = SubContainer.find_relationship(:top_container_link)
-    relationship_ids = tree_object_graph.ids_for(top_container_link_rlshp)
-
-    # Update the mtimes of each top container
-    DB.open do |db|
-      top_container_ids = db[:top_container_link_rlshp].filter(:id => relationship_ids).map(:top_container_id)
-      top_container_ids.concat(extra_ids)
-      TopContainer.filter(:id => top_container_ids).update(:system_mtime => Time.now)
     end
   end
 

@@ -379,12 +379,12 @@ def migrate_materials_to_note
       :rights_statement_id => row[:id],
       :publish => 1,
       :notes_json_schema_version => 1,
-      :notes => blobify(self, JSON.generate({
-                                  'jsonmodel_type' => 'note_rights_statement',
-                                  'content' => [row[:materials]],
-                                  'type' => 'materials',
-                                  'persistent_id' => SecureRandom.hex
-                                })),
+      :notes => JSON.generate({
+                    'jsonmodel_type' => 'note_rights_statement',
+                    'content' => [row[:materials]],
+                    'type' => 'materials',
+                    'persistent_id' => SecureRandom.hex
+                  }),
       :last_modified_by => row[:last_modified_by],
       :create_time => row[:create_time],
       :system_mtime => row[:system_mtime],
@@ -405,12 +405,12 @@ def migrate_type_to_note
       :rights_statement_id => row[:id],
       :publish => 1,
       :notes_json_schema_version => 1,
-      :notes => blobify(self, JSON.generate({
-                                  'jsonmodel_type' => 'note_rights_statement',
-                                  'content' => [row[:type_note]],
-                                  'type' => 'type_note',
-                                  'persistent_id' => SecureRandom.hex
-                                })),
+      :notes => JSON.generate({
+                    'jsonmodel_type' => 'note_rights_statement',
+                    'content' => [row[:type_note]],
+                    'type' => 'type_note',
+                    'persistent_id' => SecureRandom.hex
+                  }),
       :last_modified_by => row[:last_modified_by],
       :create_time => row[:create_time],
       :system_mtime => row[:system_mtime],
@@ -431,13 +431,13 @@ def migrate_permissions_to_note
       :rights_statement_id => row[:id],
       :publish => 1,
       :notes_json_schema_version => 1,
-      :notes => blobify(self, JSON.generate({
-                                  'jsonmodel_type' => 'note_rights_statement',
-                                  'content' => [row[:permissions]],
-                                  'type' => 'additional_information',
-                                  'label' => 'Permissions',
-                                  'persistent_id' => SecureRandom.hex
-                                })),
+      :notes => JSON.generate({
+                    'jsonmodel_type' => 'note_rights_statement',
+                    'content' => [row[:permissions]],
+                    'type' => 'additional_information',
+                    'label' => 'Permissions',
+                    'persistent_id' => SecureRandom.hex
+                  }),
       :last_modified_by => row[:last_modified_by],
       :create_time => row[:create_time],
       :system_mtime => row[:system_mtime],
@@ -458,13 +458,13 @@ def migrate_restrictions_to_note
       :rights_statement_id => row[:id],
       :publish => 1,
       :notes_json_schema_version => 1,
-      :notes => blobify(self, JSON.generate({
-                                  'jsonmodel_type' => 'note_rights_statement',
-                                  'content' => [row[:restrictions]],
-                                  'type' => 'additional_information',
-                                  'label' => 'Restrictions',
-                                  'persistent_id' => SecureRandom.hex
-                                })),
+      :notes => JSON.generate({
+                    'jsonmodel_type' => 'note_rights_statement',
+                    'content' => [row[:restrictions]],
+                    'type' => 'additional_information',
+                    'label' => 'Restrictions',
+                    'persistent_id' => SecureRandom.hex
+                  }),
       :last_modified_by => row[:last_modified_by],
       :create_time => row[:create_time],
       :system_mtime => row[:system_mtime],
@@ -485,13 +485,13 @@ def migrate_granted_note_to_note
       :rights_statement_id => row[:id],
       :publish => 1,
       :notes_json_schema_version => 1,
-      :notes => blobify(self, JSON.generate({
-                                  'jsonmodel_type' => 'note_rights_statement',
-                                  'content' => [row[:granted_note]],
-                                  'type' => 'additional_information',
-                                  'label' => 'Granted Note',
-                                  'persistent_id' => SecureRandom.hex
-                                })),
+      :notes => JSON.generate({
+                    'jsonmodel_type' => 'note_rights_statement',
+                    'content' => [row[:granted_note]],
+                    'type' => 'additional_information',
+                    'label' => 'Granted Note',
+                    'persistent_id' => SecureRandom.hex
+                  }),
       :last_modified_by => row[:last_modified_by],
       :create_time => row[:create_time],
       :system_mtime => row[:system_mtime],
@@ -583,11 +583,11 @@ def migrate_agent_rights_statements
         agent_fk => row[agent_fk],
         :publish => 0,
         :notes_json_schema_version => 1,
-        :notes => blobify(self, JSON.generate({
-                                    'jsonmodel_type' => 'note_agent_rights_statement',
-                                    'content' => [note_content],
-                                    'persistent_id' => SecureRandom.hex
-                                  })),
+        :notes => JSON.generate({
+                      'jsonmodel_type' => 'note_agent_rights_statement',
+                      'content' => [note_content],
+                      'persistent_id' => SecureRandom.hex
+                    }),
         :last_modified_by => row[:last_modified_by],
         :create_time => row[:create_time],
         :system_mtime => row[:system_mtime],

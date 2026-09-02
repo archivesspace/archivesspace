@@ -31,7 +31,7 @@ class BatchImportRunner < JobRunner
     input_file_paths = @job.job_files.map(&:full_file_path)
 
     begin
-      DB.open(DB.supports_mvcc?,
+      DB.open(true,
               :retry_on_optimistic_locking_fail => true) do
         created_uris = []
         begin

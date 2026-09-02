@@ -24,7 +24,7 @@ Sequel.migration do
                                  })
         self[:note]
           .filter(:id => row[:id])
-          .update(:notes => blobify(self, new_note))
+          .update(:notes => new_note)
       end
     end
   end

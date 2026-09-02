@@ -10,6 +10,11 @@ AppConfig.add_deprecated(:bulk_import_rows)
 AppConfig.add_deprecated(:bulk_import_size)
 AppConfig.add_deprecated(:solr_home_directory)
 
+AppConfig.add_deprecated(:backup_directory)
+AppConfig.add_deprecated(:demo_db_backup_schedule)
+AppConfig.add_deprecated(:demo_db_backup_number_to_keep)
+AppConfig.add_deprecated(:demodb_snapshot_flag)
+
 AppConfig.add_deprecated(:solr_backup_directory)
 AppConfig.add_deprecated(:solr_index_directory)
 AppConfig.add_deprecated(:solr_backup_schedule)

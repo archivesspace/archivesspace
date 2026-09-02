@@ -170,10 +170,6 @@ ja:
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します
     download: ダウンロード
-  database_warning:
-    message: "<p><strong>データベース警告:</strong> 現在、組み込みデータベース（Apache Derby）を使用しています。組み込みデータベースはテスト/デモ目的専用であり、次のメジャーリリースで非推奨になります。本番環境向けのあらゆるデータ（本番環境へ移行する予定のテストインスタンス内のデータを含む）には、MySQL
-      を使用してください。</p>"
-
   states:
     auto_generated: 保存時にシステムが生成される
 

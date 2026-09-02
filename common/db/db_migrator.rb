@@ -13,11 +13,7 @@ Sequel.split_symbols = true
 module ColumnDefs
 
   def self.textField(name, opts = {})
-    if $db_type == :derby
-      [name, :clob, opts]
-    else
-      [name, :text, opts]
-    end
+    [name, :text, opts]
   end
 
 
@@ -31,11 +27,7 @@ module ColumnDefs
 
 
   def self.textBlobField(name, opts = {})
-    if $db_type == :derby
-      [name, :clob, opts]
-    else
-      self.blobField(name, opts)
-    end
+    self.blobField(name, opts)
   end
 
 
@@ -198,10 +190,8 @@ class DBMigrator
   def self.setup_database(db)
     begin
       $db_type = db.database_type
-      unless $db_type == :derby
-        db.default_engine = 'InnoDB'
-        db.default_charset = 'utf8'
-      end
+      db.default_engine = 'InnoDB'
+      db.default_charset = 'utf8'
 
       fail_if_managed_container_migration_needed!(db)
 

@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'rbconfig'
 
 if AppConfig[:db_url] =~ /jdbc:mysql/
@@ -14,10 +13,6 @@ class DB
                          {
                            :pattern => /jdbc:mysql/,
                            :name => "MySQL"
-                         },
-                         {
-                           :pattern => /jdbc:derby/,
-                           :name => "Apache Derby"
                          }
                         ]
 
@@ -36,6 +31,8 @@ class DB
 
     def connect
       if not @pool
+
+        check_configured(AppConfig[:db_url])
 
         if !AppConfig[:allow_unsupported_database]
           check_supported(AppConfig[:db_url])
@@ -357,6 +354,33 @@ class DB
     end
 
 
+    def check_configured(url)
+      return unless url.nil? || url.to_s.strip.empty?
+
+      msg = <<~eof
+
+        =======================================================================
+        DATABASE NOT CONFIGURED
+        =======================================================================
+
+        ArchivesSpace needs to be told where to find its MySQL database.  Set
+        the following configuration option in your config.rb file:
+
+          AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
+
+        See https://docs.archivesspace.org/ for instructions on configuring
+        MySQL.
+
+        =======================================================================
+
+      eof
+
+      Log.error(msg)
+
+      raise "Database not configured"
+    end
+
+
     def check_supported(url)
       if !SUPPORTED_DATABASES.any? {|db| url =~ db[:pattern]}
 
@@ -402,50 +426,6 @@ class DB
     end
 
 
-    def backups_dir
-      AppConfig[:backup_directory]
-    end
-
-
-    def expire_backups
-      backups = []
-      Dir.foreach(backups_dir) do |filename|
-        if filename =~ /^demo_db_backup_[0-9]+_[0-9]+$/
-          backups << File.join(backups_dir, filename)
-        end
-      end
-
-      expired_backups = backups.sort.reverse.drop(AppConfig[:demo_db_backup_number_to_keep])
-
-      expired_backups.each do |backup_dir|
-        # Proudly paranoid
-        if File.exist?(File.join(backup_dir, "archivesspace_demo_db", "BACKUP.HISTORY"))
-          Log.info("Expiring old backup: #{backup_dir}")
-          FileUtils.rm_rf(backup_dir)
-        else
-          Log.warn("Too cowardly to delete: #{backup_dir}")
-        end
-      end
-    end
-
-
-    def demo_db_backup
-      # Timestamp must come first here for filenames to sort chronologically
-      this_backup = File.join(backups_dir, "demo_db_backup_#{Time.now.to_i}_#{$$}")
-
-      Log.info("Writing backup to '#{this_backup}'")
-
-      @pool.pool.hold do |c|
-        cs = c.prepare_call("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE(?)")
-        cs.set_string(1, this_backup.to_s)
-        cs.execute
-        cs.close
-      end
-
-      expire_backups
-    end
-
-
     def increase_lock_version_or_fail(obj)
       updated_rows = obj.class.dataset.filter(:id => obj.id, :lock_version => obj.lock_version).
                      update(:lock_version => obj.lock_version + 1,
@@ -453,34 +433,6 @@ class DB
 
       if updated_rows != 1
         raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{obj}")
-      end
-    end
-
-
-    def supports_mvcc?
-      ![:derby, :h2].include?(@pool.database_type)
-    end
-
-
-    def supports_join_updates?
-      ![:derby, :h2].include?(@pool.database_type)
-    end
-
-
-    def needs_blob_hack?
-      (@pool.database_type == :derby)
-    end
-
-    def blobify(s)
-      (@pool.database_type == :derby) ? s.to_sequel_blob : s
-    end
-
-
-    def concat(s1, s2)
-      if @pool.database_type == :derby
-        "#{s1} || #{s2}"
-      else
-        "CONCAT(#{s1}, #{s2})"
       end
     end
 

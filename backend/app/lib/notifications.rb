@@ -35,7 +35,7 @@ class Notifications
 
     DB.after_commit do
       DB.open do |db|
-        db[:notification].insert(:code => code, :params => DB.blobify(params.to_json),
+        db[:notification].insert(:code => code, :params => params.to_json,
                                  :time => Time.now)
       end
 
