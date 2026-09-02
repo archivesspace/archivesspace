@@ -26,7 +26,11 @@ class ApplicationController < ActionController::Base
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
 
+  # Session key marking that #redirect_back has already sent this client to its Referer once
+  REDIRECTED_BACK_KEY = 'pui_redirected_back'
+
   around_action :set_locale
+  after_action :clear_redirected_back
 
 
   # Allow overriding of templates via the local folder(s)
@@ -43,6 +47,22 @@ class ApplicationController < ActionController::Base
     ArchivesSpaceClient.instance
   end
 
+  # allow_other_host defaults to false so a Referer cannot redirect off-site.
+  # Rails 6.1 hard-codes it in the signature; on Rails 7 set
+  # config.action_controller.raise_on_open_redirects and drop the default here.
+  def redirect_back(fallback_location:, allow_other_host: false, **options)
+    fallback_location = keep_on_site(fallback_location)
+    referer = followable_referer(allow_other_host)
+    redirected_before = session[REDIRECTED_BACK_KEY]
+    session[REDIRECTED_BACK_KEY] = true
+
+    if referer.nil? || redirected_before
+      redirect_to(fallback_location, **options)
+    else
+      super(fallback_location: fallback_location, allow_other_host: allow_other_host, **options)
+    end
+  end
+
   private
 
   def render_backend_failure(exception)
@@ -53,11 +73,35 @@ class ApplicationController < ActionController::Base
   def render_no_results_found(exception)
     Rails.logger.error(exception)
     flash[:error] = I18n.t('search_results.no_results')
-    unless controller_name == 'repositories'
-      redirect_back(fallback_location: '/') and return
-    else
-      redirect_to('/')
-    end
+    redirect_back(fallback_location: root_path)
+  end
+
+  def repository_or_root_path(repo_id)
+    repo_id.present? ? PrefixHelper.app_prefix("/repositories/#{repo_id}") : root_path
+  end
+
+  def keep_on_site(location)
+    return location unless location.is_a?(String)
+    return location if location.start_with?('/') && !location.start_with?('//')
+
+    _url_host_allowed?(location) ? location : root_path
+  end
+
+  def followable_referer(allow_other_host)
+    referer = request.referer
+    return nil if referer.blank?
+    return nil if URI.join(request.original_url, referer).to_s == request.original_url
+    return nil if !allow_other_host && !_url_host_allowed?(referer)
+
+    referer
+  rescue URI::Error, ArgumentError
+    nil
+  end
+
+  def clear_redirected_back
+    return if response.redirect?
+
+    session.delete(REDIRECTED_BACK_KEY) if session.key?(REDIRECTED_BACK_KEY)
   end
 
   def process_slug_or_id(params)

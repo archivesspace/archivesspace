@@ -37,10 +37,10 @@ class ClassificationsController < ApplicationController
       set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES, search_opts, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: '/') and return
+      redirect_back(fallback_location: repository_or_root_path(repo_id)) and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: '/') and return
+      redirect_back(fallback_location: repository_or_root_path(repo_id)) and return
     end
 
     @context = repo_context(repo_id, 'classification')
@@ -70,10 +70,10 @@ class ClassificationsController < ApplicationController
       set_up_and_run_search( DEFAULT_CL_TYPES, DEFAULT_CL_FACET_TYPES, DEFAULT_CL_SEARCH_OPTS, params)
     rescue NoResultsError
       flash[:error] = I18n.t('search_results.no_results')
-      redirect_back(fallback_location: '/') and return
+      redirect_back(fallback_location: classifications_path) and return
     rescue Exception => error
       flash[:error] = I18n.t('errors.unexpected_error')
-      redirect_back(fallback_location: '/') and return
+      redirect_back(fallback_location: classifications_path) and return
     end
     @page_title = I18n.t('classification._plural')
     @results_type = @page_title
