@@ -740,6 +740,11 @@ it:
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
+    _frontend:
+      action:
+        add: Aggiungi lingua
+    language: Lingua
+    script: Sceneggiatura
   agent_occupation:
     _singular: Occupazione
     _plural: Occupazioni
@@ -846,15 +851,36 @@ it:
       open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
+    _plural: ID entità
+    _singular: Identificativo
+    _frontend:
+      action:
+        add: Aggiungi ID entità
+    entity_identifier: ID entità
   agent_gender:
     _singular: Genere
     _plural: Generi
+    _frontend:
+      action:
+        add: Aggiungi il genere
+    gender: Genere
+    note: Nota
+    dates: Dati
   agent_function:
     _singular: Funzione
     _plural: Funzioni
   agent_place:
     _singular: Luogo
     _plural: Luoghi
+    _frontend:
+      action:
+        add: Aggiungi luogo
+    section:
+      dates: Dati
+    place_role: Ruolo dell'agente
+    text_note: Nota
+    dates: Dati
+    subjects: Luoghi
   agent_topic:
     _singular: Argomento
     _plural: Argomenti
@@ -1881,7 +1907,8 @@ it:
     characters: caratteri
     batch_delete:
       success: Contenitori superiori eliminati con successo
-      error: Si è verificato un problema durante l'eliminazione dei contenitori superiori
+      error: Si è verificato un problema durante l'eliminazione dei contenitori 
+        superiori
     _singular: Contenitore superiore
     _plural: Contenitori superiori
     _frontend:
@@ -1897,18 +1924,18 @@ it:
         created: Contenitore superiore creato
         updated: Contenitore superiore aggiornato
         filter_required: Fornisci un filtro
-        max_results_limit_reached: Non tutti i risultati sono stati elencati.
+        max_results_limit_reached: Non tutti i risultati sono stati elencati. 
           Perfeziona la ricerca.
-        max_results_limit_details: Visualizzati <strong>%{visible}</strong> di
+        max_results_limit_details: Visualizzati <strong>%{visible}</strong> di 
           <strong>%{num_found}</strong> risultati corrispondenti
         results_summary: 'Risultati corrispondenti: <strong>%{num_found}</strong>'
-        bulk_selection_sort_help: Fai clic su una colonna per impostare l'ordinamento.
-          Tieni premuto Shift per ordinare in base a più colonne.
+        bulk_selection_sort_help: Fai clic su una colonna per impostare 
+          l'ordinamento. Tieni premuto Shift per ordinare in base a più colonne.
         merged: Contenitore/i superiore/i unito/i
         bulk_action_success: Contenitori superiori aggiornati con successo
-        bulk_action_success_info: Tieni presente che potrebbe essere necessario qualche
-          istante prima che le modifiche vengano riflesse nei risultati di ricerca o nelle
-          tabelle di sfoglia.
+        bulk_action_success_info: Tieni presente che potrebbe essere necessario 
+          qualche istante prima che le modifiche vengano riflesse nei risultati 
+          di ricerca o nelle tabelle di sfoglia.
         no_active_restrictions: Nessuna restrizione attiva
       bulk_operations:
         title: Operazioni in blocco
@@ -2254,3 +2281,137 @@ it:
           conservazione
       messages:
         created: Valutazione creata
+        updated: Valutazione aggiornata
+        deleted: Valutazione eliminata
+        attributes_hint: Contatta il tuo amministratore per aggiungere ulteriori
+          %{attribute_type}
+        manage_attributes_hint: Gestisci l'attributo aggiuntivo 
+          %{attribute_type} per questo repository
+      assessment_review_required:
+        true_value: Si
+        false_value: No
+      assessment_sensitive_material:
+        true_value: Si
+        false_value: No
+      assessment_inactive:
+        true_value: Si
+        false_value: No
+      assessment_completed:
+        true_value: Si
+        false_value: No
+      browse_reviewers: Recensori
+      linked_records:
+        heading: Record collegati
+        loading: Caricamento...
+        linked_via_assessment_records: Valutazioni
+        linked_via_assessment_surveyed_by: Valutazioni - Sondaggio effettuato da
+        linked_via_assessment_reviewer: Valutazioni - Revisore
+        record_type: Tipo di record
+        title: Titolo
+        identifier: Identificativo
+      ratings_list:
+        rating: Valutazione
+        score: Punto
+        note: Nota
+  assessment_attribute_definitions:
+    _frontend:
+      title: Attributi di valutazione
+      section:
+        formats: Tipologie/Formati dei materiali
+        ratings: Valutazioni
+        conservation_issues: Questioni di conservazione
+      global: Globale %{tipo}
+      repository: Repository %{type}
+      action:
+        save: Salva attributi di valutazione
+        add_type: Aggiungi %{tipo}
+        find_rating: Trova i record con una valutazione %{rating_type}
+        find_format: Trova i record con un tipo/formato materiale %{format_type}
+        find_issue: Trova i record con un problema di conservazione di tipo 
+          %{issue_type}
+        remove_rating: Rimuovi la valutazione %{rating_type}
+        remove_format: Rimuovi il tipo/formato materiale %{format_type}
+        remove_issue: Rimuovi il problema di conservazione %{issue_type}
+      messages:
+        updated: Attributi di valutazione aggiornati
+        error: Errore durante l'aggiornamento degli attributi di valutazione
+        conflict: "Errore durante l'aggiornamento degli attributi di valutazione.
+          Le seguenti etichette sono in conflitto con le voci esistenti: %{conflicts}"
+        attribute_in_use: Impossibile eliminare un attributo attualmente in uso 
+          da una valutazione
+      database_value: Valore del database
+      translation: Traduzione
+  custom_report_template:
+    new_title: Nuovo modello di report personalizzato
+    _frontend:
+      section:
+        template_information: Informazioni sul modello
+        basic_information_fields: Campi informativi di base
+        linked_records: Record collegati
+        sort_by: Ordina il report per
+      action:
+        create: Crea modello
+        save: Salva modello
+        search_usernames: Ricerca nomi utente
+      messages:
+        copied: Modello di report personalizzato copiato
+        created: Modello di report personalizzato creato
+        updated: Modello di report personalizzato aggiornato
+  oai_config:
+    title: Modello di report personalizzato aggiornato
+    title_repo_section: Impostazioni OAI-PMH per repository
+    general_section: Impostazioni generali
+    repo_set_section: Set di repository
+    sponsor_set_section: Set di sponsor
+    repo_set_desc: Oltre ai set basati sul livello di descrizione, è possibile 
+      definire un set OAI basato sui repository.
+    sponsor_set_desc: Oltre ai set basati sul livello di descrizione, è 
+      possibile definire un set OAI basato sui nomi degli sponsor.
+    oai_record_prefix: Prefisso del record OAI
+    oai_admin_email: Indirizzo email dell'amministratore OAI
+    oai_repository_name: Nome del repository OAI
+    repo_set_name: Nome del set di repository
+    repo_set_codes: Repository in Set
+    repo_set_description: Descrizione del set di repository
+    sponsor_set_name: Nome del set dello sponsor
+    sponsor_set_names: Nomi degli sponsor
+    sponsor_set_description: Descrizione del set di sponsor
+    oai_leave_repo_form: Queste opzioni influiscono su OAI-PMH solo per questo 
+      repository. Fare clic qui sotto per visualizzare/modificare le opzioni OAI
+      globali. In questo modo si uscirà dalla schermata corrente senza salvare 
+      le modifiche.
+    _frontend:
+      section:
+        basic_information: Impostazioni generali
+      action:
+        create: Aggiorna le impostazioni di OAI-PMH
+        updated: Impostazioni OAI-PMH aggiornate con successo!
+    _sidebar:
+      repo_set_section:
+        _plural: Set di repository
+      sponsor_set_section:
+        _plural: Set di sponsor
+      repo_settings:
+        _plural: Impostazioni OAI-PMH per repository
+  agent_record_control:
+    _plural: Informazioni sul record
+    _singular: Informazioni sul record
+    _frontend:
+      action:
+        add: Aggiungi informazioni sul record
+    maintenance_status: Stato di manutenzione del controllo dei record
+    publication_status: Stato di pubblicazione del controllo dei record
+    romanization: romanizzazione
+    government_agency_type: Controllo dei documenti - Tipo di agenzia 
+      governativa
+    reference_evaluation: Valutazione di riferimento per il controllo dei record
+    name_type: Nome del controllo record Tipo
+    level_of_detail: Livello di dettaglio del controllo dei record
+    modified_record: Controllo dei record di tipo modificato
+    cataloging_source: Fonte di catalogazione per il controllo dei record
+    maintenance_agency: Agenzia di manutenzione
+    agency_name: Nome dell'agenzia
+    maintenance_agency_note: Nota dell'agenzia di manutenzione
+    language: Lingua
+    script: Sceneggiatura
+    language_note: Nota linguistica
