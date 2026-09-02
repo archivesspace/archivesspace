@@ -128,7 +128,7 @@ describe 'Import job model' do
 
     output_stream, = header_error_job.get_output_stream
     output = output_stream.read
-    expect(output).to include('Unrecognized CSV headers: accession_number_1')
+    expect(output).to include(I18n.t('importer.error.unconfigured_headers', :columns => 'accession_number_1'))
     expect(output).not_to include('Trace:')
     expect(output).not_to include('#<CSVSyntaxException')
   end

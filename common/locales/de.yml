@@ -2703,6 +2703,14 @@ de:
       invalid_agent_type_for_link: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ beim Verknüpfen von Datensatz-ID %{record_id}; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
       invalid_top_container_uri: "Ungültige Haupt-Behältnis-URI in Instanz-Gruppe %{index}: %{top_container_uri}"
       invalid_date_type: "Ungültiger Datumstyp angegeben: %{date_type}; muss einer der folgenden sein: %{allowed}; Angegebenes Datum: %{date};"
+      invalid_record_id: "Die Datensatz-ID in Gruppe %{index} muss eine numerische ID oder eine vollständige Datensatz-URI sein; erhalten %{record_id}"
+      unrecognized_record_uri: "Unbekannte Datensatz-URI in Gruppe %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Akteur-Gruppe %{index} hat den Akteur-Typ %{agent_type}, der nicht zur Datensatz-URI %{record_id} passt"
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oder leer, um den Standardwert zu verwenden"
+      unconfigured_headers: "Unbekannte CSV-Spaltenüberschriften: %{columns}"
+      bad_headers: "Ungültige CSV-Spaltenüberschriften: %{columns}"
+      duplicate_file_version_headers: "Doppelte Dateiversions-Spalten: %{columns}"
+      csv_syntax_error: "CSV-Importfehler (%{type}): %{element}"
   bulk_import:
     processing_row: Verarbeite Zeile %{row}
     max_file_info: '%{size}K und %{rows} Zeilen'

@@ -2450,6 +2450,14 @@ uk:
       invalid_agent_type_for_link: "Група Агента %{index} потребує підтримуваного типу Агента під час зв'язування з ідентифікатором запису %{record_id}; отримано '%{agent_type}', має бути одним із: %{allowed}"
       invalid_top_container_uri: "Недійсний URI Верхнього контейнера у групі Екземпляра %{index}: %{top_container_uri}"
       invalid_date_type: "Вказано недійсний тип дати: %{date_type}; має бути одним із: %{allowed}; Вказана дата: %{date};"
+      invalid_record_id: "Ідентифікатор запису в групі %{index} має бути числовим ідентифікатором або повним URI запису; отримано %{record_id}"
+      unrecognized_record_uri: "Нерозпізнаний URI запису в групі %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Група Агента %{index} має тип Агента %{agent_type}, який не відповідає URI запису %{record_id}"
+      unrecognized_boolean: "Стовпець %{column} потребує логічного значення; отримано '%{value}', має бути одним із: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, або порожнім, щоб використати значення за замовчуванням"
+      unconfigured_headers: "Нерозпізнані заголовки CSV: %{columns}"
+      bad_headers: "Недійсні заголовки CSV: %{columns}"
+      duplicate_file_version_headers: "Дубльовані стовпці Версії Файлу: %{columns}"
+      csv_syntax_error: "Помилка імпорту CSV (%{type}): %{element}"
   bulk_import:
     templates: Шаблони масового імпорту
     row: Рядок %{row}

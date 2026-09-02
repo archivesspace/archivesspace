@@ -131,6 +131,22 @@ describe 'Digital Object converter' do
         DigitalObjectConverter.configure_cell_handlers(headers)
       }.to raise_error(ASpaceImport::CSVConvert::CSVSyntaxException)
     end
+
+    it "reports duplicated file_version headers with a translated message" do
+      headers = ['digital_object_id', 'digital_object_title',
+                 'file_version_file_uri_1', 'file_version_publish_1',
+                 'file_version_file_uri_1', 'file_version_publish_1']
+
+      expect(I18n.exists?('importer.error.duplicate_file_version_headers')).to be true
+
+      expect {
+        DigitalObjectConverter.configure_cell_handlers(headers)
+      }.to raise_error(
+        ASpaceImport::CSVConvert::CSVSyntaxException,
+        I18n.t('importer.error.duplicate_file_version_headers',
+               :columns => 'file_version_file_uri_1, file_version_publish_1'),
+      )
+    end
   end
 
 

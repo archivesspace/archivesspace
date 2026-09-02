@@ -194,6 +194,34 @@ describe 'Accession import batch' do
       expect(Accession.to_jsonmodel(accession.id)['publish']).to eq(false)
     end
 
+    it 'rejects an unrecognized value in a user defined boolean column' do
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'user_defined_boolean_1']
+      rows = [['Bad user defined boolean', generate(:alphanumstr), 'perhaps']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        ASpaceImport::CSVConvert::CSVSyntaxException,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.unrecognized_boolean',
+                                        :column => 'user_defined_boolean_1',
+                                        :value => 'perhaps'))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'accepts lenient tokens in a user defined boolean column' do
+      headers = ['accession_title', 'accession_id_1', 'user_defined_boolean_1', 'user_defined_boolean_2']
+      rows = [['User defined booleans', generate(:alphanumstr), ' y ', 'NO']]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.to_jsonmodel(Accession.order(Sequel.desc(:id)).first.id)
+      expect(accession['user_defined']['boolean_1']).to eq(true)
+      expect(accession['user_defined']['boolean_2']).to eq(false)
+    end
+
     it 'uses the publish preference when the column is blank' do
       headers = ['accession_title', 'accession_id_1', 'accession_publish']
       rows = [['Default publication', generate(:alphanumstr), nil]]
@@ -316,7 +344,8 @@ describe 'Accession import batch' do
       )
     end
 
-    it 'uses the publish preference when publish is not a recognized boolean token' do
+    it 'rejects an unrecognized boolean token and names the column' do
+      accession_count = Accession.count
       headers = [
         'accession_title',
         'accession_id_1',
@@ -332,10 +361,18 @@ describe 'Accession import batch' do
         'perhaps',
       ]]
 
-      import_accession_csv(headers, rows)
+      expect(I18n.exists?('importer.error.unrecognized_boolean')).to be true
 
-      accession = Accession.order(Sequel.desc(:id)).first
-      expect(Accession.to_jsonmodel(accession.id).external_documents.first['publish']).to eq(Preference.defaults['publish'])
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        ASpaceImport::CSVConvert::CSVSyntaxException,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.unrecognized_boolean',
+                                        :column => 'external_document_1_publish',
+                                        :value => 'perhaps'))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
     end
 
     it 'preserves duplicate title and location validation' do
@@ -1212,6 +1249,49 @@ describe 'Accession import batch' do
       )
     end
 
+    it 'links an existing Top Container by barcode and ignores creation values' do
+      barcode = generate(:alphanumstr)
+      existing_indicator = generate(:alphanumstr)
+      top_container = create(
+        :json_top_container,
+        :barcode => barcode,
+        :indicator => existing_indicator,
+        :type => 'box',
+      )
+      ignored_profile = create(:json_container_profile)
+      top_container_count = TopContainer.count
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'instance_1_instance_type',
+        'instance_1_top_container_1_type',
+        'instance_1_top_container_1_indicator',
+        'instance_1_top_container_1_barcode',
+        'instance_1_top_container_1_container_profile_1_uri',
+      ]
+      rows = [[
+        'Top Container linked by barcode',
+        generate(:alphanumstr),
+        'mixed_materials',
+        'carton',
+        generate(:alphanumstr),
+        barcode,
+        ignored_profile.uri,
+      ]]
+
+      import_accession_csv(headers, rows)
+
+      expect(TopContainer.count).to eq(top_container_count)
+      accession = Accession.to_jsonmodel(Accession.order(Sequel.desc(:id)).first.id)
+      expect(accession.instances.first['sub_container']['top_container']['ref']).to eq(top_container.uri)
+      expect(TopContainer.to_jsonmodel(top_container.id)).to include(
+        'type' => 'box',
+        'indicator' => existing_indicator,
+        'barcode' => barcode,
+      )
+      expect(TopContainer.to_jsonmodel(top_container.id)['container_profile']).to be_nil
+    end
+
     it 'rejects bare and shortened Top Container identifiers before importing the batch' do
       headers = [
         'accession_title',
@@ -1501,6 +1581,143 @@ describe 'Accession import batch' do
       expect do
         import_accession_csv(headers, rows)
       end.to raise_error(AccessionConverterSubjectModeConflictError)
+
+      expect(Accession.count).to eq(accession_count)
+    end
+  end
+
+  context 'when the CSV links records by URI instead of bare ID' do
+    it 'links a Subject given its URI' do
+      existing_subject = create(:json_subject)
+      headers = ['accession_title', 'accession_id_1', 'subject_1_record_id']
+      rows = [['Subject linked by URI', generate(:alphanumstr), existing_subject.uri]]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.to_jsonmodel(Accession.order(Sequel.desc(:id)).first.id)
+      expect(accession.subjects.map {|subject| subject['ref'] }).to eq([existing_subject.uri])
+    end
+
+    it 'links an Agent given its URI without requiring an Agent type' do
+      existing_agent = create(:json_agent_family)
+      headers = ['accession_title', 'accession_id_1', 'agent_1_record_id', 'agent_1_role']
+      rows = [['Agent linked by URI', generate(:alphanumstr), existing_agent.uri, 'creator']]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.to_jsonmodel(Accession.order(Sequel.desc(:id)).first.id)
+      expect(accession.linked_agents.map {|agent| agent['ref'] }).to eq([existing_agent.uri])
+    end
+
+    it 'accepts an Agent URI alongside a matching Agent type' do
+      existing_agent = create(:json_agent_person)
+      headers = ['accession_title', 'accession_id_1', 'agent_1_record_id', 'agent_1_role', 'agent_1_agent_type']
+      rows = [['Agent URI with type', generate(:alphanumstr), existing_agent.uri, 'creator', 'agent_person']]
+
+      import_accession_csv(headers, rows)
+
+      accession = Accession.to_jsonmodel(Accession.order(Sequel.desc(:id)).first.id)
+      expect(accession.linked_agents.map {|agent| agent['ref'] }).to eq([existing_agent.uri])
+    end
+
+    it 'rejects an Agent type that contradicts the record URI' do
+      existing_agent = create(:json_agent_person)
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'agent_1_record_id', 'agent_1_role', 'agent_1_agent_type']
+      rows = [['Contradicting Agent type', generate(:alphanumstr), existing_agent.uri, 'creator', 'agent_family']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidAgentTypeError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.agent_type_uri_mismatch',
+                                        :index => 1,
+                                        :agent_type => 'agent_family',
+                                        :record_id => existing_agent.uri))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'rejects an unsupported Agent type even when a record URI is given' do
+      existing_agent = create(:json_agent_person)
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'agent_1_record_id', 'agent_1_role', 'agent_1_agent_type']
+      rows = [['Unsupported Agent type', generate(:alphanumstr), existing_agent.uri, 'creator', 'agent_software']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(AccessionConverterInvalidAgentTypeError)
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'rejects a record ID that is neither a number nor a URI' do
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'subject_1_record_id']
+      rows = [['Bad record ID', generate(:alphanumstr), 'not-an-id']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidRecordIdError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.invalid_record_id',
+                                        :index => 1,
+                                        :record_id => 'not-an-id'))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'rejects a URI belonging to a different record type' do
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'subject_1_record_id']
+      rows = [['Wrong type URI', generate(:alphanumstr), '/agents/people/1']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidRecordIdError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.unrecognized_record_uri',
+                                        :index => 1,
+                                        :record_id => '/agents/people/1'))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'rejects an Agent URI outside the supported Agent types' do
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'agent_1_record_id', 'agent_1_role']
+      rows = [['Software agent URI', generate(:alphanumstr), '/agents/software/1', 'creator']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidRecordIdError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.unrecognized_record_uri',
+                                        :index => 1,
+                                        :record_id => '/agents/software/1'))),
+      )
+
+      expect(Accession.count).to eq(accession_count)
+    end
+
+    it 'still requires an Agent type when the record ID is a bare number' do
+      existing_agent = create(:json_agent_person)
+      accession_count = Accession.count
+      headers = ['accession_title', 'accession_id_1', 'agent_1_record_id', 'agent_1_role']
+      rows = [['Bare ID without type', generate(:alphanumstr), existing_agent.id, 'creator']]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(
+        AccessionConverterInvalidAgentTypeError,
+        Regexp.new(Regexp.escape(I18n.t('importer.error.missing_agent_type_for_link',
+                                        :index => 1,
+                                        :record_id => existing_agent.id,
+                                        :allowed => AccessionConverter::SUPPORTED_AGENT_TYPES))),
+      )
 
       expect(Accession.count).to eq(accession_count)
     end

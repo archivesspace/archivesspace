@@ -152,9 +152,9 @@ class AccessionConverter < Converter
       'accession_processed' => [normalize_boolean, 'processed_event.boolean'],
       'accession_processed_date' => [date_flip, 'processed_event.expression'],
 
-      'user_defined_boolean_1' => 'user_defined.boolean_1',
-      'user_defined_boolean_2' => 'user_defined.boolean_2',
-      'user_defined_boolean_3' => 'user_defined.boolean_3',
+      'user_defined_boolean_1' => [normalize_boolean, 'user_defined.boolean_1'],
+      'user_defined_boolean_2' => [normalize_boolean, 'user_defined.boolean_2'],
+      'user_defined_boolean_3' => [normalize_boolean, 'user_defined.boolean_3'],
       'user_defined_integer_1' => 'user_defined.integer_1',
       'user_defined_integer_2' => 'user_defined.integer_2',
       'user_defined_integer_3' => 'user_defined.integer_3',
@@ -313,9 +313,7 @@ class AccessionConverter < Converter
   def normalize_agent_values(values)
     values.to_h do |property, value|
       normalized = blank_value?(value) || value == 'NULL' ? nil : value
-      if property == 'record_id' && normalized
-        normalized = normalize_schema_value(:agent_person, 'uri', normalized)
-      end
+      normalized = normalize_record_id(normalized) if property == 'record_id'
 
       [property, normalized]
     end
@@ -323,9 +321,56 @@ class AccessionConverter < Converter
 
 
   def agent_uri(index, agent_type, record_id)
-    verify_agent_type(index, agent_type, record_id)
+    uri_type = agent_type_from_uri(record_id)
 
-    JSONModel(agent_type.to_sym).uri_for(record_id)
+    if uri_type.nil?
+      if record_uri?(record_id)
+        raise AccessionConverterInvalidRecordIdError,
+              I18n.t('importer.error.unrecognized_record_uri',
+                     :index => index, :record_id => record_id)
+      end
+
+      verify_agent_type(index, agent_type, record_id)
+
+      return resolve_record_uri(index, agent_type.to_sym, record_id)
+    end
+
+    unless blank_value?(agent_type)
+      verify_agent_type(index, agent_type, record_id)
+
+      unless agent_type == uri_type
+        raise AccessionConverterInvalidAgentTypeError,
+              I18n.t('importer.error.agent_type_uri_mismatch',
+                     :index => index, :agent_type => agent_type, :record_id => record_id)
+      end
+    end
+
+    resolve_record_uri(index, uri_type.to_sym, record_id)
+  end
+
+
+  def record_uri?(value)
+    value.to_s.strip.start_with?('/')
+  end
+
+
+  def agent_type_from_uri(record_id)
+    return nil unless record_uri?(record_id)
+
+    value = record_id.to_s.strip
+    SUPPORTED_AGENT_TYPES.find do |type|
+      JSONModel(type.to_sym).id_for(value, {}, true)
+    end
+  end
+
+
+  def resolve_record_uri(index, record_type, record_id)
+    ASpaceImport::Utils.record_uri(record_type, record_id)
+  rescue ASpaceImport::Utils::InvalidRecordReference => e
+    key = e.reason == :unrecognized_uri ? 'importer.error.unrecognized_record_uri' : 'importer.error.invalid_record_id'
+
+    raise AccessionConverterInvalidRecordIdError,
+          I18n.t(key, :index => index, :record_id => e.value)
   end
 
 
@@ -482,6 +527,13 @@ class AccessionConverter < Converter
   end
 
 
+  def normalize_record_id(value)
+    return nil if blank_value?(value) || value == 'NULL'
+
+    value.strip
+  end
+
+
   def blank_value?(value)
     value.nil? || value.to_s.strip.empty?
   end
@@ -500,7 +552,7 @@ class AccessionConverter < Converter
       end
 
       if record_id
-        accession.subjects << {'ref' => JSONModel(:subject).uri_for(record_id)}
+        accession.subjects << {'ref' => resolve_record_uri(index, :subject, record_id)}
       else
         subject = ASpaceImport::JSONModel(:subject).new
         subject.source = values['source'] unless blank_value?(values['source'])
@@ -520,7 +572,7 @@ class AccessionConverter < Converter
 
   def normalize_subject_values(values)
     {
-      'record_id' => normalize_schema_value(:subject, 'uri', values['record_id']),
+      'record_id' => normalize_record_id(values['record_id']),
       'source' => normalize_schema_value(:subject, 'source', values['source']),
       'term' => normalize_schema_value(:term, 'term', values['term']),
       'term_type' => normalize_schema_value(:term, 'term_type', values['term_type']),
@@ -552,18 +604,7 @@ class AccessionConverter < Converter
                        :index => index, :top_container_uri => top_container_uri)
         end
       else
-        top_container = ASpaceImport::JSONModel(:top_container).new
-        top_container.type = values['top_container_1_type']
-        top_container.indicator = values['top_container_1_indicator']
-        top_container.barcode = values['top_container_1_barcode']
-        if values['top_container_1_container_profile_1_uri']
-          top_container.container_profile = {
-            'ref' => values['top_container_1_container_profile_1_uri'],
-          }
-        end
-
-        top_container_uri = top_container.uri
-        @batch << top_container
+        top_container_uri = find_or_create_top_container_uri(values)
       end
 
       sub_container = ASpaceImport::JSONModel(:sub_container).new
@@ -579,6 +620,41 @@ class AccessionConverter < Converter
       instance.sub_container = sub_container
       accession.instances << instance
     end
+  end
+
+
+  def find_or_create_top_container_uri(values)
+    barcode = values['top_container_1_barcode']
+
+    if barcode
+      remembered_uri = top_container_uri_by_barcode[barcode]
+      return remembered_uri if remembered_uri
+
+      existing_top_container = TopContainer.for_barcode(barcode)
+      if existing_top_container
+        top_container_uri_by_barcode[barcode] = existing_top_container.uri
+        return existing_top_container.uri
+      end
+    end
+
+    top_container = ASpaceImport::JSONModel(:top_container).new
+    top_container.type = values['top_container_1_type']
+    top_container.indicator = values['top_container_1_indicator']
+    top_container.barcode = barcode
+    if values['top_container_1_container_profile_1_uri']
+      top_container.container_profile = {
+        'ref' => values['top_container_1_container_profile_1_uri'],
+      }
+    end
+
+    @batch << top_container
+    top_container_uri_by_barcode[barcode] = top_container.uri if barcode
+    top_container.uri
+  end
+
+
+  def top_container_uri_by_barcode
+    @top_container_uri_by_barcode ||= {}
   end
 
 
@@ -658,4 +734,5 @@ class AccessionConverterAgentModeConflictError < AccessionConverterError; end;
 class AccessionConverterSubjectModeConflictError < AccessionConverterError; end;
 class AccessionConverterInvalidAgentTypeError < AccessionConverterError; end;
 class AccessionConverterInvalidTopContainerURIError < AccessionConverterError; end;
+class AccessionConverterInvalidRecordIdError < AccessionConverterError; end;
 class AccessionConverterTopContainerModeConflictError < AccessionConverterError; end;

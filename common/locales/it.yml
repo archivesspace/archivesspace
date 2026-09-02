@@ -1710,6 +1710,14 @@ it:
       invalid_agent_type_for_link: "Il gruppo Agente %{index} richiede un tipo di Agente supportato quando si collega l'ID record %{record_id}; ricevuto '%{agent_type}', deve essere uno tra: %{allowed}"
       invalid_top_container_uri: "URI di contenitore principale non valido nel gruppo Istanza %{index}: %{top_container_uri}"
       invalid_date_type: "Tipo di data non valido: %{date_type}; deve essere uno tra: %{allowed}; Data fornita: %{date};"
+      invalid_record_id: "L’ID record nel gruppo %{index} deve essere un ID numerico o un URI di record completo; ricevuto %{record_id}"
+      unrecognized_record_uri: "URI di record non riconosciuto nel gruppo %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Il gruppo Agente %{index} ha un tipo di Agente %{agent_type} che non corrisponde all’URI del record %{record_id}"
+      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vuoto per usare il valore predefinito"
+      unconfigured_headers: "Intestazioni CSV non riconosciute: %{columns}"
+      bad_headers: "Intestazioni CSV non valide: %{columns}"
+      duplicate_file_version_headers: "Colonne di Versione File duplicate: %{columns}"
+      csv_syntax_error: "Errore di importazione CSV (%{type}): %{element}"
   group:
     group_code: Codice di gruppo
     group_code_tooltip: |

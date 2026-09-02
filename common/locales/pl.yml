@@ -1411,6 +1411,14 @@ pl:
       invalid_agent_type_for_link: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta podczas łączenia z identyfikatorem rekordu %{record_id}; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
       invalid_top_container_uri: "Nieprawidłowy identyfikator URI kontenera nadrzędnego w grupie Instancji %{index}: %{top_container_uri}"
       invalid_date_type: "Podano nieprawidłowy typ daty: %{date_type}; musi być jednym z: %{allowed}; Podana data: %{date};"
+      invalid_record_id: "Identyfikator rekordu w grupie %{index} musi być identyfikatorem liczbowym lub pełnym URI rekordu; otrzymano %{record_id}"
+      unrecognized_record_uri: "Nierozpoznany URI rekordu w grupie %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Grupa Agenta %{index} ma typ Agenta %{agent_type}, który nie odpowiada URI rekordu %{record_id}"
+      unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}', musi być jedną z: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, lub pusta, aby użyć wartości domyślnej"
+      unconfigured_headers: "Nierozpoznane nagłówki CSV: %{columns}"
+      bad_headers: "Nieprawidłowe nagłówki CSV: %{columns}"
+      duplicate_file_version_headers: "Zduplikowane kolumny Wersji Pliku: %{columns}"
+      csv_syntax_error: "Błąd importu CSV (%{type}): %{element}"
   bulk_import:
     error:
       utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 

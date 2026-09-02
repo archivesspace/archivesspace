@@ -358,6 +358,8 @@ module ASpaceImport
       def extract_value(cell_contents)
         return nil if cell_contents.nil? || cell_contents == 'NULL'
         @val_filter ? @val_filter.call(cell_contents) : cell_contents
+      rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
+        raise CSVSyntaxException.new(:unrecognized_boolean, [@name, e.value])
       end
     end
 
@@ -374,11 +376,16 @@ module ASpaceImport
 
         case @type
         when :unconfigured_headers
-          "Unrecognized CSV headers: #{columns}"
+          I18n.t('importer.error.unconfigured_headers', :columns => columns)
         when :bad_headers
-          "Invalid CSV headers: #{columns}"
+          I18n.t('importer.error.bad_headers', :columns => columns)
+        when :unrecognized_boolean
+          column, value = Array(@element)
+          I18n.t('importer.error.unrecognized_boolean', :column => column, :value => value)
+        when :duplicate_file_version_headers
+          I18n.t('importer.error.duplicate_file_version_headers', :columns => columns)
         else
-          "#<:CSVSyntaxException: #{@type} => #{@element.inspect}"
+          I18n.t('importer.error.csv_syntax_error', :type => @type, :element => @element.inspect)
         end
       end
     end

@@ -70,11 +70,29 @@ module ASpaceImport
     end
 
 
+    def self.record_uri(record_type, value, opts = {})
+      id = value.to_s.strip
+      model = JSONModel::JSONModel(record_type)
+
+      if id.start_with?('/')
+        raise InvalidRecordReference.new(:unrecognized_uri, id) unless model.id_for(id, opts, true)
+
+        return id
+      end
+
+      raise InvalidRecordReference.new(:invalid_id, id) unless id.match?(/\A\d+\z/)
+
+      model.uri_for(id, opts)
+    end
+
+
     def self.normalize_boolean
       @normalize_boolean ||= Proc.new {|val|
         case val.to_s.strip.upcase
+        when '' then nil
         when '1', 'T', 'Y', 'YES', 'TRUE' then true
         when '0', 'F', 'N', 'NO', 'FALSE' then false
+        else raise UnrecognizedBooleanValue.new(val)
         end
       }
       @normalize_boolean
@@ -174,6 +192,27 @@ module ASpaceImport
         fixed
       else
         ref_source[record] || record
+      end
+    end
+
+
+    class InvalidRecordReference < StandardError
+      attr_reader :reason, :value
+
+      def initialize(reason, value)
+        @reason = reason
+        @value = value
+        super("Invalid record reference (#{reason}): #{value.inspect}")
+      end
+    end
+
+
+    class UnrecognizedBooleanValue < StandardError
+      attr_reader :value
+
+      def initialize(value)
+        @value = value
+        super("Unrecognized boolean value: #{value.inspect}")
       end
     end
 

@@ -18,6 +18,7 @@ class BatchImportRunner < JobRunner
 
   USER_FACING_IMPORT_ERRORS = [
     ReferenceError,
+    NotFoundException,
     ASpaceImport::CSVConvert::CSVSyntaxException,
     AccessionConverterError
   ].freeze
