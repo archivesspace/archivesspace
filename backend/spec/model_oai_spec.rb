@@ -169,18 +169,35 @@ describe 'OAI handler' do
 
   describe "ListIdentifiers" do
 
-    def list_identifiers(prefix)
-      params = {
-        :verb => 'ListIdentifiers',
-        :metadataPrefix => prefix,
-      }
+    # Walks the results and returns the identifiers.
+    # @param status [Symbol] :deleted for just the records that were rescinded, :live for just the ones that were served out.
+    def list_identifiers(prefix, status = nil)
+      xpath = case status
+              when nil then "//header/identifier"
+              when :live then "//header[not(@status='deleted')]/identifier"
+              else "//header[@status='#{status}']/identifier"
+              end
 
-      result = ArchivesSpaceOaiProvider.new.process_request(params)
+      identifiers = []
+      params = {:verb => 'ListIdentifiers', :metadataPrefix => prefix}
+      pages = 0
 
-      doc = Nokogiri::XML(result)
-      doc.remove_namespaces!
+      loop do
+        pages += 1
+        fail "ListIdentifiers didn't terminate after #{pages} pages" if pages > 200
 
-      doc.xpath("//identifier").map {|elt| elt.text}
+        doc = Nokogiri::XML(ArchivesSpaceOaiProvider.new.process_request(params))
+        doc.remove_namespaces!
+
+        identifiers.concat(doc.xpath(xpath).map {|elt| elt.text})
+
+        token = doc.xpath("//resumptionToken").first
+        break if token.nil? || token.text.empty?
+
+        params = {:verb => 'ListIdentifiers', :resumptionToken => token.text}
+      end
+
+      identifiers
     end
 
     RESOURCE_BASED_FORMATS.each do |prefix|
@@ -200,9 +217,16 @@ describe 'OAI handler' do
         Resource[@test_resource_record_id].update(publish: false)
       end
 
-      it "does not include unpublished records in ListIdentifiers results" do
+      after do
+        Resource[@test_resource_record_id].update(publish: true)
+      end
+
+      it "rescinds records hidden by an unpublished parent in ListIdentifiers results" do
         RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
-          expect(list_identifiers(prefix)).not_to include("oai:archivesspace:#{@test_archival_object_record}")
+          identifier = "oai:archivesspace:#{@test_archival_object_record}"
+
+          expect(list_identifiers(prefix, :live)).not_to include(identifier)
+          expect(list_identifiers(prefix, 'deleted')).to include(identifier)
         end
       end
     end
@@ -214,7 +238,7 @@ describe 'OAI handler' do
 
       it "includes published records in ListIdentifiers results" do
         RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
-          expect(list_identifiers(prefix)).to include("oai:archivesspace:#{@test_archival_object_record}")
+          expect(list_identifiers(prefix, :live)).to include("oai:archivesspace:#{@test_archival_object_record}")
         end
       end
     end
@@ -237,6 +261,40 @@ describe 'OAI handler' do
       oai_repo
     }
 
+    def harvest_all(opts = {})
+      harvested = []
+      params = {:metadata_prefix => "oai_dc"}.merge(opts)
+      pages = 0
+
+      loop do
+        pages += 1
+        fail "harvest didn't terminate after #{pages} pages" if pages > 200
+
+        response = oai_repo.find(:all, params)
+
+        # A plain Array is the last page of the harvest
+        if response.is_a?(Array)
+          harvested.concat(response)
+          break
+        end
+
+        break if response.records.empty?
+
+        harvested.concat(response.records)
+        params = {:resumption_token => response.token.serialize}
+      end
+
+      harvested
+    end
+
+    def rescinded_uris(harvested)
+      harvested.select {|record| record.is_a?(OAIHiddenRecordDeletion)}.map(&:id)
+    end
+
+    def served_uris(harvested)
+      harvested.select {|record| record.is_a?(ArchivesSpaceOAIRecord)}.map(&:id)
+    end
+
     context 'when listing records with unpublished parent nodes' do
       before do
         Resource[@test_resource_record_id].update(publish: false)
@@ -246,9 +304,11 @@ describe 'OAI handler' do
         Resource[@test_resource_record_id].update(publish: true)
       end
 
-      it "does not include unpublished records in ListIdentifiers results" do
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
-        expect(response.records.map(&:id)).not_to include(@test_archival_object_record)
+      it "rescinds records hidden by an unpublished parent" do
+        harvested = harvest_all
+
+        expect(served_uris(harvested)).not_to include(@test_archival_object_record)
+        expect(rescinded_uris(harvested)).to include(@test_archival_object_record)
       end
     end
 
@@ -258,8 +318,7 @@ describe 'OAI handler' do
       end
 
       it "includes published records in ListIdentifiers results" do
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
-        expect(response.records.map(&:id)).to include(@test_archival_object_record)
+        expect(served_uris(harvest_all)).to include(@test_archival_object_record)
       end
     end
 
@@ -398,45 +457,119 @@ describe 'OAI handler' do
       end
     end
 
-    it "doesn't reveal published or suppressed records" do
+    it "doesn't reveal the metadata of unpublished or suppressed records" do
       unpublished = create(:json_archival_object, :publish => false, :resource => {:ref => @test_resource_record})
       suppressed = create(:json_archival_object, :publish => true, :resource => {:ref => @test_resource_record})
       ArchivalObject[suppressed.id].set_suppressed(true)
 
-      token = nil
-      loop do
-        opts = {:metadata_prefix => "oai_dc"}
+      harvested = harvest_all
 
-        if token
-          opts[:resumption_token] = token
+      [unpublished.uri, suppressed.uri].each do |uri|
+        if served_uris(harvested).include?(uri)
+          fail "URI #{uri} is unpublished/suppressed and its metadata should not be shown in OAI results"
         end
+      end
+    end
 
-        response = oai_repo.find(:all, opts)
+    describe "rescinding records that are no longer available" do
+      def a_published_archival_object
+        create(:json_archival_object, :publish => true, :resource => {:ref => @test_resource_record})
+      end
 
-        records = []
+      it "rescinds a record that has been suppressed" do
+        ao = a_published_archival_object
+        expect(served_uris(harvest_all)).to include(ao.uri)
 
-        if response.respond_to?(:token)
-          # A partial response
-          token = response.token.serialize
-          records = response.records
-        elsif response.is_a?(Array)
-          records = response
-          token = nil
-        else
-          # Shouldn't have happened...
-          fail "unexpected result"
-          break
+        ArchivalObject[ao.id].set_suppressed(true)
+
+        harvested = harvest_all
+        expect(rescinded_uris(harvested)).to include(ao.uri)
+        expect(served_uris(harvested)).not_to include(ao.uri)
+      end
+
+      it "rescinds a record that has been unpublished" do
+        ao = a_published_archival_object
+        expect(served_uris(harvest_all)).to include(ao.uri)
+
+        ArchivalObject[ao.id].unpublish!
+
+        harvested = harvest_all
+        expect(rescinded_uris(harvested)).to include(ao.uri)
+        expect(served_uris(harvested)).not_to include(ao.uri)
+      end
+
+      it "serves a record again once it is unsuppressed" do
+        ao = a_published_archival_object
+        ArchivalObject[ao.id].set_suppressed(true)
+
+        expect(rescinded_uris(harvest_all)).to include(ao.uri)
+
+        ArchivalObject[ao.id].set_suppressed(false)
+
+        harvested = harvest_all
+        expect(served_uris(harvested)).to include(ao.uri)
+        expect(rescinded_uris(harvested)).not_to include(ao.uri)
+      end
+
+      it "only rescinds records suppressed within the requested date range" do
+        ao = a_published_archival_object
+        ArchivalObject[ao.id].set_suppressed(true)
+
+        # The suppression happened before this window opens, so a harvester
+        # asking for recent changes shouldn't hear about it.
+        expect(rescinded_uris(harvest_all(:from => Time.now.utc + 3600))).not_to include(ao.uri)
+
+        expect(rescinded_uris(harvest_all(:from => Time.now.utc - 3600))).to include(ao.uri)
+      end
+
+      it "doesn't rescind records from a repository that OAI isn't serving" do
+        ao = a_published_archival_object
+        ArchivalObject[ao.id].set_suppressed(true)
+
+        expect(rescinded_uris(harvest_all)).to include(ao.uri)
+
+        Repository[@oai_repo_id].update(:oai_is_disabled => 1)
+
+        begin
+          expect(rescinded_uris(harvest_all)).not_to include(ao.uri)
+        ensure
+          Repository[@oai_repo_id].update(:oai_is_disabled => 0)
         end
+      end
 
-        prohibited_uris = [unpublished.uri, suppressed.uri]
+      it "never serves out an empty page while walking a whole harvest" do
+        ArchivalObject[a_published_archival_object.id].set_suppressed(true)
 
-        records.each do |record|
-          if record.is_a?(ArchivesSpaceOAIRecord) && prohibited_uris.include?(record.jsonmodel_record.uri)
-            fail "URI #{record.jsonmodel_record.uri} is unpublished/suppressed and should not be shown in OAI results"
-          end
+        params = {:metadata_prefix => "oai_dc"}
+        pages = 0
+
+        loop do
+          pages += 1
+          fail "harvest didn't terminate after #{pages} pages" if pages > 200
+
+          response = oai_repo.find(:all, params)
+          break if response.is_a?(Array)
+
+          expect(response.records).not_to be_empty
+
+          params = {:resumption_token => response.token.serialize}
         end
+      end
 
-        break if token.nil?
+      it "answers GetRecord for a suppressed record with a deleted header" do
+        ao = a_published_archival_object
+        ArchivalObject[ao.id].set_suppressed(true)
+
+        result = ArchivesSpaceOaiProvider.new.process_request(:verb => 'GetRecord',
+                                                              :identifier => "oai:archivesspace:#{ao.uri}",
+                                                              :metadataPrefix => 'oai_dc')
+
+        doc = Nokogiri::XML(result)
+        doc.remove_namespaces!
+
+        expect(doc.xpath("//header[@status='deleted']/identifier").map(&:text))
+          .to eq(["oai:archivesspace:#{ao.uri}"])
+        expect(doc.xpath("//metadata")).to be_empty
       end
     end
   end
@@ -581,10 +714,13 @@ describe 'OAI handler' do
         Resource[@test_resource_record_id].update(publish: true)
       end
 
-      it "does not return the records" do
+      it "rescinds the records" do
         uri = "/oai?verb=GetRecord&identifier=oai:archivesspace:#{@test_resource_record}&metadataPrefix=oai_dc"
         response = get uri
-        expect(response.body).to match(/<error code="idDoesNotExist">/)
+
+        expect(response.body).not_to match(/<error code="idDoesNotExist">/)
+        expect(response.body).to match(/<header status="deleted">/)
+        expect(response.body).not_to match(/<metadata>/)
       end
     end
 

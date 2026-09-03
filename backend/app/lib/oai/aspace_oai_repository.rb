@@ -128,48 +128,55 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     repo_id = JSONModel.parse_reference(repo_uri).fetch(:id) { raise OAI::IdException.new }
 
-    RequestContext.open(:repo_id => repo_id) do
-      obj = add_visibility_restrictions(model.filter(:id => parsed_ref[:id])).first
+    RequestContext.open(:repo_id => repo_id, :enforce_suppression => false) do
+      obj = apply_repository_restrictions(model.filter(:id => parsed_ref[:id])).first
       raise OAI::IdException.new unless obj
 
+      return OAIHiddenRecordDeletion.new(obj) if hidden_from_harvesters?(obj)
+
       json = fetch_jsonmodels(model, [obj])[0]
-      raise OAI::IdException.new unless !json["has_unpublished_ancestor"]
+
+      return OAIHiddenRecordDeletion.new(obj) if json["has_unpublished_ancestor"]
 
       ArchivesSpaceOAIRecord.new(obj, json)
     end
   end
 
   def find(selector, options = {})
-    if selector.is_a?(String)
-      return fetch_single_record(selector, options)
-    end
-
-    resumption_token = if options.has_key?(:resumption_token)
-                         ArchivesSpaceResumptionToken.parse(options.fetch(:resumption_token), ArchivesSpaceOAIRepository.available_record_types)
-                       else
-                         ArchivesSpaceResumptionToken.new(options, ArchivesSpaceOAIRepository.available_record_types)
-                       end
-
-    if resumption_token.state == ArchivesSpaceResumptionToken::PRODUCING_RECORDS_STATE
-      records = produce_next_record_set(resumption_token, options)
-
-      if records.is_a?(OAI::Provider::PartialResult) && records.records.empty?
-        # We didn't match any records, but there might still be some deletes of interest...
-        produce_next_delete_set(records.token, options)
-      else
-        records
+    RequestContext.open(:enforce_suppression => false) do
+      if selector.is_a?(String)
+        return fetch_single_record(selector, options)
       end
-    elsif resumption_token.state == ArchivesSpaceResumptionToken::PRODUCING_DELETES_STATE
-      produce_next_delete_set(resumption_token, options)
-    else
-      raise OAI::ResumptionTokenException.new
+
+      resumption_token = if options.has_key?(:resumption_token)
+                           ArchivesSpaceResumptionToken.parse(options.fetch(:resumption_token), ArchivesSpaceOAIRepository.available_record_types)
+                         else
+                           ArchivesSpaceResumptionToken.new(options, ArchivesSpaceOAIRepository.available_record_types)
+                         end
+
+      # A harvest runs through three phases: the records themselves, then the
+      # tombstones of deleted records, then the records that have been hidden by
+      # suppression or unpublication
+      loop do
+        state_before = resumption_token.state
+
+        result = produce_next_set(resumption_token, options)
+
+        return result if result.is_a?(Array)
+
+        return result unless result.records.empty?
+
+        next unless resumption_token.state == state_before
+
+        return result unless start_next_phase!(resumption_token, options)
+      end
     end
   end
 
 
   private
 
-  def add_visibility_restrictions(dataset)
+  def apply_repository_restrictions(dataset)
     # ANW-242: restrict excluded sets if enabled per repostiory
     # select repos that
       # -are published
@@ -198,7 +205,25 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       end
     end
 
-    dataset.filter(Sequel.lit(query_strings.join(" OR "))).filter(:publish => 1, :suppressed => 0)
+    # No repository is exposed via OAI at all, so nothing can match.
+    return dataset.filter(Sequel.lit('1 = 0')) if query_strings.empty?
+
+    dataset.filter(Sequel.lit(query_strings.join(" OR ")))
+  end
+
+  def add_visibility_restrictions(dataset)
+    apply_repository_restrictions(dataset).filter(:publish => 1, :suppressed => 0)
+  end
+
+  def add_unavailability_restrictions(dataset)
+    apply_repository_restrictions(dataset)
+      .filter(Sequel.|(Sequel.~(:publish => 1),
+                       {:publish => nil},
+                       {:suppressed => 1}))
+  end
+
+  def hidden_from_harvesters?(obj)
+    obj[:publish] != 1 || obj[:suppressed] == 1
   end
 
   # Don't show deletes for repositories that aren't published.
@@ -270,8 +295,11 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       matches = matches.take(limit)
 
       matches.zip(fetch_jsonmodels(record_type, matches)).each do |obj, json|
-        next unless !json["has_unpublished_ancestor"]
-        matched_records << ArchivesSpaceOAIRecord.new(obj, json)
+        matched_records << if json["has_unpublished_ancestor"]
+                             OAIHiddenRecordDeletion.new(obj)
+                           else
+                             ArchivesSpaceOAIRecord.new(obj, json)
+                           end
       end
     end
 
@@ -280,16 +308,44 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       .set_last_seen(matched_records.last)
 
     unless resumption_token.any_records_left?
-      # We've produced all records.  Start producing deletes.
-      if have_deletes?(resumption_token, options)
-        resumption_token.start_deletes!
-      else
-        # finished with no resumption token needed
-        return matched_records
-      end
+      # We've produced all records.  Move on to the deletes, or finish up if there
+      # aren't any (in which case no resumption token is needed).
+      return matched_records unless start_next_phase!(resumption_token, options)
     end
 
     OAI::Provider::PartialResult.new(matched_records, resumption_token)
+  end
+
+  # Dispatch to whichever phase of the harvest the token says we're in.
+  def produce_next_set(resumption_token, options)
+    case resumption_token.state
+    when ArchivesSpaceResumptionToken::PRODUCING_RECORDS_STATE
+      produce_next_record_set(resumption_token, options)
+    when ArchivesSpaceResumptionToken::PRODUCING_DELETES_STATE
+      produce_next_delete_set(resumption_token, options)
+    when ArchivesSpaceResumptionToken::PRODUCING_HIDDEN_STATE
+      produce_next_hidden_set(resumption_token, options)
+    else
+      raise OAI::ResumptionTokenException.new
+    end
+  end
+
+  # Advance the token to the next phase that actually has something to produce.
+  # Returns false when the harvest is finished.
+  def start_next_phase!(resumption_token, options)
+    case resumption_token.state
+    when ArchivesSpaceResumptionToken::PRODUCING_RECORDS_STATE
+      if have_deletes?(resumption_token, options)
+        resumption_token.start_deletes!
+        true
+      else
+        start_hidden_phase!(resumption_token, options)
+      end
+    when ArchivesSpaceResumptionToken::PRODUCING_DELETES_STATE
+      start_hidden_phase!(resumption_token, options)
+    else
+      false
+    end
   end
 
   # Look ahead a little to see whether we have some deletes to serve out.
@@ -297,6 +353,37 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   # fruitless.
   def have_deletes?(resumption_token, options)
     !build_delete_ds(resumption_token, options).empty?
+  end
+
+  # As with have_deletes?, look ahead so we don't hand out a resumption token for
+  # a phase that would turn out to be empty.  Returns true if the hidden-record
+  # phase was started.
+  def start_hidden_phase!(resumption_token, options)
+    format_options = options_for_type(resumption_token.format || options.fetch(:metadata_prefix))
+
+    have_hidden = format_options.record_types.any? {|record_type|
+      !build_hidden_ds(record_type, resumption_token, options).empty?
+    }
+
+    return false unless have_hidden
+
+    resumption_token.start_hidden!(format_options.record_types)
+
+    true
+  end
+
+  # ANW-1301: records that still exist but are no longer available to harvesters,
+  # because they've been suppressed or unpublished.  Their system_mtime is when
+  # that happened, so the usual from/until range picks them up.
+  def build_hidden_ds(record_type, resumption_token, options)
+    set = resumption_token.set || options.fetch(:set, nil)
+    from_timestamp = resumption_token.from || options.fetch(:from, nil)
+    until_timestamp = resumption_token.until || options.fetch(:until, nil)
+
+    dataset = add_unavailability_restrictions(record_type.any_repo)
+    dataset = apply_time_restrictions(dataset, from_timestamp, until_timestamp)
+
+    apply_set_restrictions(dataset, set, record_type)
   end
 
   def build_delete_ds(resumption_token, options)
@@ -341,13 +428,69 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     matched_records = matches.take(limit).map {|tombstone| OAIDeletion.new(tombstone)}
 
+    resumption_token.last_delete_id = matched_records.last.tombstone_id unless matched_records.empty?
+
     if finished
-      matched_records
-    else
-      # If there are still records to produce, keep going.
-      resumption_token.last_delete_id = matched_records.last.tombstone_id
-      OAI::Provider::PartialResult.new(matched_records, resumption_token)
+      # Out of tombstones.  Move on to the records that have been hidden rather
+      # than deleted, or finish up if there aren't any.
+      return matched_records unless start_next_phase!(resumption_token, options)
     end
+
+    OAI::Provider::PartialResult.new(matched_records, resumption_token)
+  end
+
+  # ANW-1301: the final phase of a harvest.  Serves out a deletion for every
+  # record that has been suppressed or unpublished within the requested date
+  # range, so that harvesters know to withdraw their copies.
+  #
+  # These are paged at DELETES_PER_PAGE rather than the format's page size: they
+  # produce nothing but a header, and oai_ead's page size of one would otherwise
+  # mean a request per hidden resource.
+  def produce_next_hidden_set(resumption_token, options)
+    matched_records = []
+    depleted_types = []
+
+    metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
+    format_options = options_for_type(metadata_prefix)
+
+    resumption_token.hidden_types.each do |record_type_name, last_id|
+      record_type = format_options.record_types.find {|type| type.to_s == record_type_name}
+
+      if record_type.nil?
+        depleted_types << record_type_name
+        next
+      end
+
+      limit = DELETES_PER_PAGE - matched_records.length
+
+      # This page is already full
+      next if limit <= 0
+
+      # Request one extra record (limit + 1) to determine whether we've hit
+      # the end of the stream or not
+      matches = build_hidden_ds(record_type, resumption_token, options)
+                  .where { id > last_id }
+                  .order(:id)
+                  .limit(limit + 1)
+
+      if matches.count <= limit
+        # No more hidden records of this type
+        depleted_types << record_type_name
+      end
+
+      matches.take(limit).each do |obj|
+        matched_records << OAIHiddenRecordDeletion.new(obj)
+      end
+    end
+
+    resumption_token
+      .update_hidden_depleted(depleted_types)
+      .set_last_hidden_seen(matched_records.last)
+
+    # This is the last phase, so once it's depleted the harvest is over.
+    return matched_records unless resumption_token.any_hidden_left?
+
+    OAI::Provider::PartialResult.new(matched_records, resumption_token)
   end
 
 
