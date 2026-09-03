@@ -62,11 +62,7 @@ class SessionController < ApplicationController
     elsif !AppConfig[:pui_require_authentication]
       render json: { can_access: false, mode: nil }
     elsif user_can_view_pui?
-      render json: {
-        session: session[:session],
-        username: session[:user],
-        view_pui: true
-      }
+      render json: pui_handoff_response
     else
       render json: { view_pui: false }
     end
@@ -145,5 +141,23 @@ class SessionController < ApplicationController
 
   def user_can_view_pui?
     user_can?('view_pui')
+  end
+
+  def pui_handoff_response
+    pui_session = User.request_pui_session
+
+    if pui_session
+      {
+        session: pui_session['session'],
+        username: pui_session['username'],
+        view_pui: true
+      }
+    else
+      { view_pui: false }
+    end
+  rescue StandardError => e
+    Rails.logger.error("check_session: could not reach the backend to request a PUI session (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    { view_pui: false }
   end
 end

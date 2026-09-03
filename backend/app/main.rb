@@ -276,6 +276,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     Session.init
 
+    PUI_ONLY_ALLOWED_REQUESTS = [
+      ['GET', '/users/current-user'],
+      ['POST', '/logout'],
+    ].freeze
+
     def initialize(app)
       @app = app
     end
@@ -312,6 +317,17 @@ class ArchivesSpaceService < Sinatra::Base
                    }.to_json]]
         else
           session.touch
+        end
+
+        if session && session[:pui_only] &&
+            !PUI_ONLY_ALLOWED_REQUESTS.include?([env['REQUEST_METHOD'], env['PATH_INFO']])
+
+          return [403,
+                  {"Content-Type" => "application/json"},
+                  [{
+                     :code => "PUI_SESSION_FORBIDDEN",
+                     :error => "This session may only be used for #{PUI_ONLY_ALLOWED_REQUESTS.map { |m, p| "#{m} #{p}" }.join(', ')}"
+                   }.to_json]]
         end
       end
 

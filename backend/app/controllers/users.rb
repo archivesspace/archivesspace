@@ -249,7 +249,7 @@ class ArchivesSpaceService < Sinatra::Base
         halt 403, {"Content-Type" => "application/json"}, [{"error" => "User does not have permission to view the PUI"}.to_json]
       end
 
-      session = create_session_for(username, params[:expiring])
+      session = create_session_for(username, params[:expiring], pui_only: params[:pui])
       json_user = User.to_jsonmodel(user)
       json_user.permissions = user.permissions
       if params[:expiring] == false
@@ -320,18 +320,44 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/logout')
-    .description("Log out the current session")
+    .description("Log out the current session, and any paired staff/PUI session(s)")
     .permissions([])
     .no_data(true)
     .returns([200, "Session logged out"]) \
   do
     if session
+      # A staff session may be paired with several PUI sessions (one per
+      # handoff -- e.g. multiple tabs or windows sharing the same staff
+      # session); a PUI session has at most one paired staff session.
+      Array(session[:paired_session_ids]).each { |id| Session.expire(id) }
+      Session.expire(session[:paired_session_id]) if session[:paired_session_id]
       Session.expire(session.id)
       json_response('status' => 'session_logged_out')
     else
       json_response('status' => 'no_active_session')
     end
   end
+
+
+  Endpoint.post('/users/current-user/pui-session')
+    .description("Exchange the current session for a new, PUI-scoped session, paired to the original")
+    .permissions([])
+    .no_data(true)
+    .returns([200, "PUI session created"],
+             [403, "Forbidden"]) \
+  do
+    raise AccessDeniedException.new unless current_user.can?(:view_pui)
+
+    pui_session = create_session_for(current_user.username, true, pui_only: true)
+
+    pui_session[:paired_session_id] = session.id
+    session[:paired_session_ids] = Array(session[:paired_session_ids]) + [pui_session.id]
+    pui_session.save
+    session.save
+
+    json_response(:session => pui_session.id, :username => current_user.username)
+  end
+
 
   Endpoint.get('/users/:id/activate')
       .description("Set a user to be activated")

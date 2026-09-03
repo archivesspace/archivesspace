@@ -89,4 +89,47 @@ describe 'Session model' do
     expect(Session.find(long_session.id)).to be_nil
   end
 
+  describe "a pui_only session" do
+    before(:each) do
+      create_user
+    end
+
+    let(:pui_only_headers) do
+      session = Session.new
+      session[:user] = 'test1'
+      session[:pui_only] = true
+      session.save
+
+      {"HTTP_X_ARCHIVESSPACE_SESSION" => session.id}
+    end
+
+    it "is allowed to check the current user" do
+      get '/users/current-user', params = {}, pui_only_headers
+      expect(last_response).to be_ok
+    end
+
+    it "is allowed to log out" do
+      post '/logout', params = {}, pui_only_headers
+      expect(last_response).to be_ok
+    end
+
+    it "is forbidden from any other request" do
+      get '/', params = {}, pui_only_headers
+
+      expect(last_response.status).to eq(403)
+      expect(JSON(last_response.body)["code"]).to eq('PUI_SESSION_FORBIDDEN')
+    end
+  end
+
+  describe "a regular (non-pui_only) session" do
+    it "is not restricted to the pui_only allowlist" do
+      session = Session.new
+      session[:user] = 'test1'
+      session.save
+
+      get '/', params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => session.id}
+      expect(last_response).to be_ok
+    end
+  end
+
 end

@@ -5,8 +5,8 @@ require 'rails_helper'
 
 describe SessionController, type: :controller do
   let(:repo) { create(:repo, repo_code: "session_test_#{SecureRandom.hex}") }
-  let(:viewer) { create_user(repo => ['repository-viewers']) }
-  let(:editor) { create_user(repo => ['repository-archivists']) }
+  let(:repo_viewer) { create_user(repo => ['repository-viewers']) }
+  let(:repo_archivist) { create_user(repo => ['repository-archivists']) }
 
   before(:each) do
     set_repo(repo)
@@ -54,9 +54,9 @@ describe SessionController, type: :controller do
 
     context 'when user has view-only permissions' do
       before(:each) do
-        # Login as viewer and set up session
-        session = User.login(viewer.username, viewer.password)
-        User.establish_session(controller, session, viewer.username)
+        # Login as repo_viewer and set up session
+        session = User.login(repo_viewer.username, repo_viewer.password)
+        User.establish_session(controller, session, repo_viewer.username)
         controller.session[:repo_id] = JSONModel.repository
         controller.session[:repo] = repo.repo_code
       end
@@ -140,8 +140,8 @@ describe SessionController, type: :controller do
 
     context 'when user has edit permissions' do
       before(:each) do
-        session = User.login(editor.username, editor.password)
-        User.establish_session(controller, session, editor.username)
+        session = User.login(repo_archivist.username, repo_archivist.password)
+        User.establish_session(controller, session, repo_archivist.username)
         controller.session[:repo_id] = JSONModel.repository
         controller.session[:repo] = repo.repo_code
       end
@@ -246,9 +246,10 @@ describe SessionController, type: :controller do
         end
 
         context 'when the user has view_pui permission' do
+          let(:pui_viewer_staff_session) { User.login('admin', 'admin') }
+
           before(:each) do
-            session = User.login('admin', 'admin')
-            User.establish_session(controller, session, 'admin')
+            User.establish_session(controller, pui_viewer_staff_session, 'admin')
           end
 
           it 'returns the session and view_pui: true' do
@@ -257,6 +258,39 @@ describe SessionController, type: :controller do
             json = JSON.parse(response.body)
             expect(json['view_pui']).to be true
             expect(json['username']).to eq('admin')
+          end
+
+          it 'returns a PUI-scoped session, not the raw staff session' do
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['session']).not_to eq(pui_viewer_staff_session['session'])
+          end
+
+          it 'falls back to view_pui: false if the backend is unreachable' do
+            allow(User).to receive(:request_pui_session).and_raise(Errno::ECONNREFUSED)
+
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['view_pui']).to be false
+          end
+        end
+
+        context 'when the logged-in user lacks view_pui permission' do
+          let(:non_pui_viewer_staff_session) { User.login(repo_viewer.username, repo_viewer.password) }
+
+          before(:each) do
+            User.establish_session(controller, non_pui_viewer_staff_session, repo_viewer.username)
+          end
+
+          it 'returns view_pui: false without requesting a PUI session' do
+            expect(User).not_to receive(:request_pui_session)
+
+            get :check_session
+
+            json = JSON.parse(response.body)
+            expect(json['view_pui']).to be false
           end
         end
 

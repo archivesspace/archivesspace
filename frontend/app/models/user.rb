@@ -49,6 +49,17 @@ class User < JSONModel(:user)
   end
 
 
+  def self.request_pui_session
+    response = JSONModel::HTTP.post_form('/users/current-user/pui-session')
+
+    if response.code == '200'
+      ASUtils.json_parse(response.body)
+    else
+      nil
+    end
+  end
+
+
   def self.logout
     JSONModel::HTTP.post_form('/logout')
   rescue ArchivesSpace::SessionGone, ArchivesSpace::SessionExpired
