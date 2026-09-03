@@ -124,6 +124,12 @@ fr:
       ainsi que toutes les références faites aux autres notices.</p><p>Pour continuer,
       veuillez entrer '%{repository}' ci-dessous :</p><p><input id='deleteRepoConfim'
       data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p>Attention ! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette
+      opération va supprimer la notice de la base de données, ainsi que toutes les
+      références faites aux autres notices.</p><p><strong>Cet agent est lié à des notices
+      dans au moins un autre service d'archives.</strong> Le supprimer le déliera des
+      notices dans tous les services d'archives.</p><p><label><input type=\"checkbox\"
+      id=\"agentCrossRepoConfirm\"> Supprimer cet agent de tous les services d'archives liés</label></p>"
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices ?
     delete_multiple_confirm_message: "<p>Attention ! <strong>Cette opération ne peut
@@ -700,19 +706,19 @@ fr:
   batch_delete:
     archival_records:
       success: Notices supprimées
-      error: "Impossible de supprimer notices :"
+      error: "Aucune des notices sélectionnées n'a été supprimée, en raison des problèmes suivants :"
     subjects:
       success: Mots-matières supprimés
-      error: "Impossible de supprimer sujets :"
+      error: "Aucun des sujets sélectionnés n'a été supprimé, en raison des problèmes suivants :"
     agents:
       success: Agents supprimés
-      error: "Impossible de supprimer agents :"
+      error: "Aucun des agents sélectionnés n'a été supprimé, en raison des problèmes suivants :"
     locations:
       success: Localisations supprimées
-      error: "Impossible de supprimer localisations :"
+      error: "Aucune des localisations sélectionnées n'a été supprimée, en raison des problèmes suivants :"
     assessments:
       success: Evaluations supprimées
-      error: "Impossible de supprimer évaluations :"
+      error: "Aucune des évaluations sélectionnées n'a été supprimée, en raison des problèmes suivants :"
 
   welcome:
     heading: Bienvenue sur ArchivesSpace
@@ -859,8 +865,13 @@ fr:
     linked_to_user: Notice impossible à supprimer, car liée à un utilisateur
     merge_denied_relationship: Ces agents ont une relation. Supprimez la 
       relation avant de procéder à la fusion.
-    cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne 
+    cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne
       peut pas être supprimé.
+    linked_to_other_repo: Cet agent est lié à des notices dans au moins un
+      autre référentiel. Il ne peut pas être supprimé sans autorisations
+      administratives.
+    cannot_delete_system_agent: Il s'agit d'une notice d'agent système et
+      elle ne peut pas être supprimée.
   accession:
     _frontend:
       messages:
@@ -918,6 +929,10 @@ fr:
       action:
         create: Créer agent
         preview: Fusionner l'aperçu
+      linked_in_other_repository:
+        label: Lié dans d'autres référentiels
+        tooltip: Cet agent est lié à des notices dans au moins un autre
+          référentiel.
 
   agent_contact:
     is_representative: Préféré
