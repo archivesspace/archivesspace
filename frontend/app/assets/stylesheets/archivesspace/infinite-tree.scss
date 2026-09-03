@@ -72,7 +72,9 @@
   --tree-reparent-highlight-bg: var(--green-300);
   --tree-reparent-highlight-border: var(--green-600);
   --tree-drop-hover-bg: var(--green-100);
-  --tree-cut-bg: #eee;
+  --tree-cut-bg: var(--gray-250);
+  --tree-cut-border: var(--gray-375);
+  --tree-cut-shadow: inset 0 1px 2px var(--gray-500);
   --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
   --tree-resizer-bg: var(--gray-200);
   --tree-resizer-border-top: var(--gray-300);
@@ -267,9 +269,13 @@
     cursor: not-allowed;
   }
 
-  // Cut rows: solid fill only (same pattern as multiselect/implicit fills).
   &.cut > .node-row > .node-body {
     background-color: var(--tree-cut-bg);
+
+    &::after {
+      border: 1px solid var(--tree-cut-border) !important;
+      box-shadow: var(--tree-cut-shadow) !important;
+    }
 
     .node-indentation {
       --indent-fill: var(--tree-cut-bg);
@@ -281,10 +287,35 @@
     }
   }
 
-  // When cut overlaps selection borders, show fill only.
-  &.cut.selected > .node-row > .node-body::after,
-  &.cut.multiselected > .node-row > .node-body::after {
-    display: none;
+  // Remove doubled-up borders between visually adjacent cut rows.
+  // Same expansion guard as multiselect: only dedupe when the preceding row
+  // has no visible children (collapsed parent or leaf).
+  &.cut:not([aria-expanded='true'])
+    + .node.cut
+    > .node-row
+    > .node-body::after {
+    border-top: none !important;
+  }
+
+  // Cousin case: an expanded branch ends in a collapsed/leaf cut row, and the
+  // branch owner's next sibling is also cut (e.g. collapsed cut child visually
+  // above an ancestor's cut sibling). Depths 0–11 mirror the indent styling loop below
+  // on .node-children[data-tree-level].
+  @for $depth from 0 through 11 {
+    $cut-leaf-selector: "> .node-children > .node.cut:not([aria-expanded='true']):last-child";
+
+    @if $depth > 0 {
+      @for $i from 1 through $depth {
+        $cut-leaf-selector: "> .node-children > .node[aria-expanded='true']:last-child #{$cut-leaf-selector}";
+      }
+    }
+
+    &[aria-expanded='true']:has(+ .node.cut):has(#{$cut-leaf-selector})
+      + .node.cut
+      > .node-row
+      > .node-body::after {
+      border-top: none !important;
+    }
   }
 
   // Reparent highlight/fade: row ::after carries the full border (not ::before).
@@ -424,6 +455,11 @@
   .node.cut > .node-row > .node-body:hover {
     background-color: var(--tree-cut-bg);
 
+    &::after {
+      border: 1px solid var(--tree-cut-border) !important;
+      box-shadow: var(--tree-cut-shadow) !important;
+    }
+
     .node-indentation {
       --indent-fill: var(--tree-cut-bg);
       --indent-line: transparent;
@@ -517,7 +553,7 @@
   // Subtle corner mark; no pill so it does not compete with order numbers.
   .selection-order-badge.implicit-mark:not(:empty) {
     top: 0;
-    right: 0;
+    right: -0.875rem;
     min-width: 0;
     height: auto;
     padding: 0;
