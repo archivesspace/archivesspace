@@ -762,6 +762,7 @@ it:
   archival_object:
     component_id: Identificatore unico del componente
     import_current_ark: Importa ARK corrente
+    lang_materials: Linguaggi dei materiali
     title: Titolo
     title_tooltip: |
       <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE: Il titolo assegnato al materiale descritto. Un oggetto d'archivio deve avere un sottorecord Titolo o Data.</p>
@@ -783,7 +784,6 @@ it:
     dates_tooltip: |
       <p>SOTTORECORD OBBLIGATORIO CONDIZIONALMENTE. Un oggetto di archivio deve avere un sottorecord Titolo o Data.</p>
     extents: Estensione
-    lang_materials: Lingue
     ref_id_auto_generation_message: -- generato automaticamente al salvataggio --
     component_id_tooltip: |
       <p>Esprime un ID univoco, nel contesto della descrizione della risorsa, per il componente.</p>
@@ -1120,9 +1120,17 @@ it:
     mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
       &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
       a contenuto misto."
-  lang_material:
-    _plural: Lingue
-    _singular: Lingua
+  lang_description: &lang_description
+    _plural: Linguaggi della descrizione
+    _singular: Linguaggio della descrizione
+    is_primary: Lingua principale
+    language: Lingua
+    script: Sceneggiatura
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: Linguaggi dei materiali
+    _singular: Lingua del materiale
   parallel_name:
     _frontend:
       action:

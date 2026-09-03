@@ -208,6 +208,16 @@ module JSONModel
     end
 
 
+    def self.current_description_language
+      Thread.current[:description_language]
+    end
+
+
+    def self.current_description_language=(val)
+      Thread.current[:description_language] = val
+    end
+
+
     def self.high_priority?
       if Thread.current[:request_priority]
         Thread.current[:request_priority] == :high
@@ -229,6 +239,10 @@ module JSONModel
 
       if high_priority?
         req['X-ArchivesSpace-Priority'] = "high"
+      end
+
+      if (lang = current_description_language)
+        req['X-ArchivesSpace-Description-Language'] = lang
       end
 
       response = http_conn.request(url, req, &block)

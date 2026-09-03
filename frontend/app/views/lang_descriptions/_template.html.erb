@@ -1,0 +1,13 @@
+<% define_template "lang_description", jsonmodel_definition(:language_and_script_of_description) do |form| %>
+  <div class="subrecord-form-fields">
+    <h3 class="subrecord-form-heading">
+      <%= form.button_with_tooltip(t("lang_description._frontend.action.make_primary_tooltip"), t("lang_description.is_primary"), [], ["badge badge-pill badge-primary fs-14px is-representative-label"], false) %>
+      <%= form.button_with_tooltip(t("lang_description._frontend.action.make_primary_tooltip"), t("lang_description._frontend.action.make_primary"), [], ["btn", "btn-sm", "btn-default", "is-representative-toggle"]) %>
+    </h3>
+
+    <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
+    <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
+
+    <%= form.hidden_input "is_primary", form["is_primary"] ? 1 : 0 %>
+  </div>
+<% end %>

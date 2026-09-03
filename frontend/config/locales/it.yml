@@ -1503,12 +1503,6 @@ it:
       action:
         add_digital_object: Aggiungi oggetto digitale
         add: Aggiungi istanza
-  lang_material:
-    _plural: Lingue
-    _frontend:
-      action:
-        add: Aggiungi lingua
-        add_note: Aggiungi nota sulla lingua
   linked_record:
     _frontend:
       action:
@@ -1904,6 +1898,26 @@ it:
     repository_changed: Impossibile salvare questo record perché il repository 
       attivo è cambiato. Per salvare il record, apri un'altra finestra e 
       reimposta il repository attivo.
+  lang_description:
+    current_language: Lingua attuale
+    default: Predefinito
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    mlc_field: >-
+      Il valore di questo campo può cambiare in base alla lingua di descrizione
+      corrente.
+    _frontend:
+      action:
+        add: Aggiungi la lingua della descrizione
+        make_primary_tooltip: >
+          <p>Utilizzare per indicare quale set di lingua e script è primario.
+          È possibile designare solo una lingua come principale.</p>
+        make_primary: Imposta come principale
+  lang_material:
+    _plural: Linguaggi dei materiali
+    _frontend:
+      action:
+        add: Aggiungi la lingua dei materiali
+        add_note: Aggiungi nota linguistica
   top_container:
     container_profile: Profilo del contenitore
     container_profile_tooltip: |

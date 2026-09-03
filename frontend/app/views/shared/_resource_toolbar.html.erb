@@ -21,6 +21,8 @@
       </div>
     <% end %>
     <div class="btn-group ml-auto" data-allow-disabled>
+      <%= render_aspace_partial :partial => "shared/language_of_description_dropdown",
+      :locals => { :lang_descriptions => record['lang_descriptions'].to_a, :resource_id => record.id } %>
       <% if user_can?('update_event_record') && !record.suppressed %>
         <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
       <% end %>

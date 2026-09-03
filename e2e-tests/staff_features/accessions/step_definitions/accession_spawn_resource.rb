@@ -83,7 +83,7 @@ Then 'the following Resource forms have the same values as the Accession' do |li
       within '#resource_subjects_' do
         expect(page).to have_css('#resource_subjects__0_ .token-input-token', text: 'test_subject_term')
       end
-    when 'Languages'
+    when 'Languages of Materials'
       within '#resource_lang_materials_' do
         expect(page).to have_field('resource_lang_materials__0__language_and_script__language_', with: 'English')
         expect(page).to have_select('resource_lang_materials__0__language_and_script__script__list', selected: 'Adlam', visible: false)

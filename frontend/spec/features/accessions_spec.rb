@@ -944,6 +944,107 @@ describe 'Accessions', js: true do
       end
     end
   end
+
+  context 'when multilingual content enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a multilingual parent record', 'accession'
+
+    it 'can create an accession, but lang_description is required' do
+      click_on('Create')
+      click_on('Accession')
+      fill_in('Title', with: 'MLC Accession')
+      fill_in("Identifier", with: "test_#{Time.now}")
+
+      click_on('Save')
+      expect(page).to have_text "Language - Property is required but was missing"
+      expect(page).to have_text "Script - Property is required but was missing"
+
+      element = find('#accession_lang_descriptions__0__language_')
+      element.click
+      element.send_keys('Eng')
+      element.send_keys(:tab)
+
+      element = find('#accession_lang_descriptions__0__script_')
+      element.click
+      element.send_keys('Lat')
+      element.send_keys(:tab)
+
+      click_on('Save')
+
+      expect(page).to have_text "Accession MLC Accession created"
+    end
+
+    context 'language selector dropdown' do
+      let(:now) { Time.now.to_i }
+      let(:english_title) { "English Accession Title #{now}" }
+
+      let(:accession) do
+        create(:json_accession,
+               title: english_title,
+               lang_descriptions: [
+                 JSONModel(:language_and_script_of_description).new(
+                   'language' => 'eng', 'script' => 'Latn', 'is_primary' => true
+                 ),
+                 JSONModel(:language_and_script_of_description).new(
+                   'language' => 'fre', 'script' => 'Latn', 'is_primary' => false
+                 )
+               ])
+      end
+
+      before do
+        visit "accessions/#{accession.id}/edit"
+      end
+
+      it 'shows the language selector dropdown, defaulting to the primary language value' do
+        expect(page).to have_css('#language-of-description-dropdown')
+        expect(page).to have_field('accession_title_', with: english_title)
+      end
+
+      it 'updates the URL when a non-primary language is selected from the dropdown' do
+        within '#language-of-description-dropdown' do
+          find('.dropdown-toggle').click
+          find('input[type="radio"][value="fre_Latn"]').choose
+        end
+
+        expect(page.current_url).to include('language_of_description=fre_Latn')
+      end
+
+      it 'saves non-primary language edits to that language without modifying the primary language' do
+        within '#language-of-description-dropdown' do
+          find('.dropdown-toggle').click
+          find('input[type="radio"][value="fre_Latn"]').choose
+        end
+
+        french_title = "French Accession Title #{now}"
+        fill_in 'accession_title_', with: french_title
+        click_on 'Save'
+
+        expect(page).to have_text "Accession #{french_title} updated"
+
+        visit "accessions/#{accession.id}/edit?language_of_description=eng_Latn"
+        expect(page).to have_field('accession_title_', with: english_title)
+
+        visit "accessions/#{accession.id}/edit?language_of_description=fre_Latn"
+        expect(page).to have_field('accession_title_', with: french_title)
+      end
+    end
+  end
+
+  context 'when multilingual content disabled' do
+    before do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a non-multilingual parent record', 'accession'
+
+  end
 end
 
 describe 'Accessions (view-only permissions)', js: true do

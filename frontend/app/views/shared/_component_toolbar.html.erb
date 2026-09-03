@@ -37,6 +37,9 @@
     <% end %>
 
     <div class="btn-group ml-auto" data-allow-disabled>
+      <% inherited_lang_descs = (record["resource"]&.dig("_resolved") || record["digital_object"]&.dig("_resolved"))&.dig("lang_descriptions").to_a %>
+      <%= render_aspace_partial :partial => "shared/language_of_description_dropdown",
+            :locals => { :lang_descriptions => inherited_lang_descs } %>
       <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
         <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
       <% end %>

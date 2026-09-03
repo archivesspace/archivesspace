@@ -87,6 +87,12 @@ class DigitalObjectsController < ApplicationController
       end
     end
 
+    if AppConfig[:multilingual_content]
+      if !@digital_object.lang_descriptions || @digital_object.lang_descriptions.empty?
+        @digital_object.lang_descriptions = [JSONModel(:language_and_script_of_description).new._always_valid!]
+      end
+    end
+
     return render_aspace_partial :partial => "digital_objects/new" if params[:inline]
   end
 
