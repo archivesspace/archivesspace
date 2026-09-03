@@ -1,9 +1,22 @@
 default: |
   staff_features
+  pui_features
   --publish-quiet
   --format pretty
   --color
   --require env.rb
   --require helpers
   --require staff_features
-  --tags "not @skip"
+  --require pui_features
+  --tags "not @skip and not @pui_auth_enabled"
+
+pui_auth: |
+  pui_features
+  --publish-quiet
+  --format pretty
+  --color
+  --require env.rb
+  --require helpers
+  --require staff_features
+  --require pui_features
+  --tags "@pui_auth_enabled"
