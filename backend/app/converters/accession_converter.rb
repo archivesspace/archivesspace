@@ -597,6 +597,13 @@ class AccessionConverter < Converter
               I18n.t('importer.error.top_container_mode_conflict', :index => index)
       end
 
+      container_profile_uri = values['top_container_1_container_profile_1_uri']
+      if container_profile_uri && !container_profile_uri.match?(%r{\A/container_profiles/\d+\z})
+        raise AccessionConverterInvalidContainerProfileURIError,
+              I18n.t('importer.error.invalid_container_profile_uri',
+                     :index => index, :container_profile_uri => container_profile_uri)
+      end
+
       if top_container_uri
         unless top_container_uri.match?(%r{\A/repositories/\d+/top_containers/\d+\z})
           raise AccessionConverterInvalidTopContainerURIError,
@@ -734,5 +741,6 @@ class AccessionConverterAgentModeConflictError < AccessionConverterError; end;
 class AccessionConverterSubjectModeConflictError < AccessionConverterError; end;
 class AccessionConverterInvalidAgentTypeError < AccessionConverterError; end;
 class AccessionConverterInvalidTopContainerURIError < AccessionConverterError; end;
+class AccessionConverterInvalidContainerProfileURIError < AccessionConverterError; end;
 class AccessionConverterInvalidRecordIdError < AccessionConverterError; end;
 class AccessionConverterTopContainerModeConflictError < AccessionConverterError; end;

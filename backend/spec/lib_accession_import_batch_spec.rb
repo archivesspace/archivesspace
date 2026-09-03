@@ -1314,6 +1314,29 @@ describe 'Accession import batch' do
       end
     end
 
+    it 'rejects a malformed Container Profile URI before importing the batch' do
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'instance_1_instance_type',
+        'instance_1_top_container_1_indicator',
+        'instance_1_top_container_1_container_profile_1_uri',
+      ]
+
+      ['123', '/repositories/2/container_profiles/123'].each do |invalid_uri|
+        accession_count = Accession.count
+
+        expect do
+          import_accession_csv(
+            headers,
+            [['Invalid Container Profile URI', generate(:alphanumstr), 'mixed_materials', generate(:alphanumstr), invalid_uri]],
+          )
+        end.to raise_error(AccessionConverterInvalidContainerProfileURIError, /#{Regexp.escape(invalid_uri)}/)
+
+        expect(Accession.count).to eq(accession_count)
+      end
+    end
+
     it 'rejects a populated Instance without an Instance type and imports no rows' do
       top_container = create(:json_top_container)
       accession_count = Accession.count
