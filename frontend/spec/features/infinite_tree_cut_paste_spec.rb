@@ -94,7 +94,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
     end
   end
 
-  it 'targets .selected destination, not .multiselected, when they differ' do
+  it 'targets .current destination, not .multiselected, when they differ' do
     install_accept_children_capture
 
     select_tree_row(ao)
@@ -102,7 +102,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
     click_tree_row(ao3.uri)
     click_infinite_tree_toolbar_cut
 
-    # ao remains .selected; ao3 is .multiselected.cut only → Paste targets ao
+    # ao remains .current; ao3 is .multiselected.cut only → Paste targets ao
     click_infinite_tree_toolbar_paste
 
     request = accept_children_requests.last

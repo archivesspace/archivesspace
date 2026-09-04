@@ -399,7 +399,7 @@ describe 'Infinite Tree Toolbar', js: true do
 
               aggregate_failures do
                 within('#infinite-tree-container') do
-                  expect(page).to have_css("li##{child_form_prefix}_new.js-itree-synthetic-new.selected")
+                  expect(page).to have_css("li##{child_form_prefix}_new.js-itree-synthetic-new.current")
                 end
                 within('#infinite-tree-record-pane') do
                   expect(page).to have_css("##{child_form_prefix}_form")
@@ -439,7 +439,7 @@ describe 'Infinite Tree Toolbar', js: true do
                 end
                 expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
                 expect(page).to have_css(
-                  infinite_tree_selected_node_selector(root_record),
+                  infinite_tree_current_node_selector(root_record),
                   visible: :all
                 )
               end
@@ -459,7 +459,7 @@ describe 'Infinite Tree Toolbar', js: true do
               aggregate_failures do
                 within('#infinite-tree-container') do
                   expect(page).to have_css(
-                    "li##{child_form_prefix}_new.js-itree-synthetic-new.selected.indent-level-3"
+                    "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-3"
                   )
                   expect(page).to have_css('ol.node-children[data-tree-level="3"]')
                 end
@@ -501,7 +501,7 @@ describe 'Infinite Tree Toolbar', js: true do
                 end
                 expect(page.current_url).to match(%r{#{Regexp.escape(nested_child_record_hash)}})
                 expect(page).to have_css(
-                  infinite_tree_selected_node_selector(nested_child_record),
+                  infinite_tree_current_node_selector(nested_child_record),
                   visible: :all
                 )
               end
@@ -521,7 +521,7 @@ describe 'Infinite Tree Toolbar', js: true do
             aggregate_failures do
               within('#infinite-tree-container') do
                 expect(page).to have_css(
-                  "li##{child_form_prefix}_new.js-itree-synthetic-new.selected.indent-level-1"
+                  "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-1"
                 )
                 expect(page).to have_css(
                   "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
@@ -565,7 +565,7 @@ describe 'Infinite Tree Toolbar', js: true do
               end
               expect(page.current_url).to match(%r{#{Regexp.escape(child_record_hash)}})
               expect(page).to have_css(
-                infinite_tree_selected_node_selector(child_record),
+                infinite_tree_current_node_selector(child_record),
                 visible: :all
               )
             end
@@ -584,7 +584,7 @@ describe 'Infinite Tree Toolbar', js: true do
             aggregate_failures do
               within('#infinite-tree-container') do
                 expect(page).to have_css(
-                  "li##{child_form_prefix}_new.js-itree-synthetic-new.selected.indent-level-1"
+                  "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-1"
                 )
                 expect(page).to have_css(
                   "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
@@ -637,7 +637,7 @@ describe 'Infinite Tree Toolbar', js: true do
               end
               expect(page.current_url).to match(%r{#{Regexp.escape(child_record_hash)}})
               expect(page).to have_css(
-                infinite_tree_selected_node_selector(child_record),
+                infinite_tree_current_node_selector(child_record),
                 visible: :all
               )
             end
@@ -786,7 +786,7 @@ describe 'Infinite Tree Toolbar', js: true do
             context 'when the cut record is also the current record' do
               it 'stays disabled' do
                 aggregate_failures do
-                  expect(page).to have_css(".node.cut.selected[data-uri='#{child_record.uri}']")
+                  expect(page).to have_css(".node.cut.current[data-uri='#{child_record.uri}']")
                   expect_infinite_tree_toolbar_paste_enabled(false)
                 end
               end
@@ -798,12 +798,12 @@ describe 'Infinite Tree Toolbar', js: true do
               end
 
               it 'is enabled' do
-                expect(page).to have_css(".node.cut[data-uri='#{child_record.uri}']:not(.selected)")
-                expect(page).to have_css(".node.selected[data-uri='#{ao3.uri}']")
+                expect(page).to have_css(".node.cut[data-uri='#{child_record.uri}']:not(.current)")
+                expect(page).to have_css(".node.current[data-uri='#{ao3.uri}']")
                 expect_infinite_tree_toolbar_paste_enabled(true)
 
                 select_tree_row(root_record)
-                expect(page).to have_css('.root.node.selected')
+                expect(page).to have_css('.root.node.current')
                 expect_infinite_tree_toolbar_paste_enabled(true)
               end
 
@@ -815,7 +815,7 @@ describe 'Infinite Tree Toolbar', js: true do
 
                 it 'clears cut state and disables Paste' do
                   aggregate_failures do
-                    expect(page).to have_css(".node.selected[data-uri='#{ao3.uri}']")
+                    expect(page).to have_css(".node.current[data-uri='#{ao3.uri}']")
                     expect(page).to have_no_css('.node.cut', visible: :all)
                     expect_infinite_tree_toolbar_cut_enabled(true)
                     expect_infinite_tree_toolbar_paste_enabled(false)
@@ -1047,22 +1047,22 @@ describe 'Infinite Tree Toolbar', js: true do
             enable_reorder_mode
 
             all_uris = root_child_uris
-            selected_uri = all_uris[12]
-            selected_id = "archival_object_#{selected_uri.split('/').last}"
+            current_uri = all_uris[12]
+            current_id = "archival_object_#{current_uri.split('/').last}"
 
-            select_tree_row(selected_uri)
+            select_tree_row(current_uri)
             click_infinite_tree_toolbar_move_menu
 
             target_uris = down_into_submenu_target_uris
-            selected_index = all_uris.index(selected_uri)
+            current_index = all_uris.index(current_uri)
             expected_target_uris =
-              all_uris[(selected_index - 10)...selected_index] +
-              all_uris[(selected_index + 1)..(selected_index + 10)]
+              all_uris[(current_index - 10)...current_index] +
+              all_uris[(current_index + 1)..(current_index + 10)]
 
             aggregate_failures do
-              expect(selected_index).to be >= 10
-              expect(selected_index).to be <= (all_uris.length - 11)
-              expect(selected_id).to start_with('archival_object_')
+              expect(current_index).to be >= 10
+              expect(current_index).to be <= (all_uris.length - 11)
+              expect(current_id).to start_with('archival_object_')
               expect(target_uris.length).to eq(20)
               expect(target_uris).to eq(expected_target_uris)
             end

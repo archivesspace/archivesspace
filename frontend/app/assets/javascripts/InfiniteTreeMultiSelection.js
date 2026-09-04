@@ -24,7 +24,7 @@
  *   - Plain click on a record title replaces multiselection with the single
  *     clicked row (#replaceWithSingle) for cut/drag workflows, then bubbles to
  *     InfiniteTree's record-title router so URL hash updates (updates
- *     `.selected` for Paste and navigation).
+ *     `.current` for Paste and navigation).
  *   - Plain mousedown on a non-link row: if the row is already in selected,
  *     preserve multiselection (group drag); otherwise #replaceWithSingle so
  *     dragstart sees the intended single-row source.
@@ -141,7 +141,7 @@ class InfiniteTreeMultiSelection {
    * multiselection with the single clicked row (#replaceWithSingle) so the row
    * acts as the paste destination, then fall through to InfiniteTree's
    * bubble-phase router so navigation still occurs in reorder mode (required
-   * for Cut and Move workflows and `.selected` navigation). Plain non-link click selection state
+   * for Cut and Move workflows and `.current` navigation). Plain non-link click selection state
    * is managed by the mousedown handler.
    * @param {MouseEvent} event
    */

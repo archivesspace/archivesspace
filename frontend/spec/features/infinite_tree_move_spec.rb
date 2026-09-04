@@ -73,7 +73,7 @@ describe 'Infinite Tree Move', js: true do
 
         aggregate_failures do
           expect(root_child_uris).to eq(expected_sibling_order_after_move(before_order, ao2.uri, -1))
-          expect(selected_uri).to eq(ao2.uri)
+          expect(current_uri).to eq(ao2.uri)
         end
       end
 
@@ -117,7 +117,7 @@ describe 'Infinite Tree Move', js: true do
 
         aggregate_failures do
           expect(root_child_uris).to eq(expected_sibling_order_after_move(before_order, ao.uri, 1))
-          expect(selected_uri).to eq(ao.uri)
+          expect(current_uri).to eq(ao.uri)
         end
       end
     end
@@ -138,7 +138,7 @@ describe 'Infinite Tree Move', js: true do
         aggregate_failures do
           expect(child_uris_for(ao.uri)).not_to include(nested_child_record.uri)
           expect(root_child_uris).to eq(before_order + [nested_child_record.uri])
-          expect(selected_uri).to eq(nested_child_record.uri)
+          expect(current_uri).to eq(nested_child_record.uri)
         end
       end
     end
@@ -152,7 +152,7 @@ describe 'Infinite Tree Move', js: true do
         aggregate_failures do
           expect(root_child_uris).not_to include(ao.uri)
           expect(child_uris_for(ao2.uri).last).to eq(ao.uri)
-          expect(selected_uri).to eq(ao.uri)
+          expect(current_uri).to eq(ao.uri)
         end
       end
     end
@@ -167,7 +167,7 @@ describe 'Infinite Tree Move', js: true do
         meta_click_row(ao3.uri)
 
         aggregate_failures do
-          expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].selected")
+          expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].current")
           expect(page).to have_css("li.node[data-uri='#{ao.uri}'].multiselected")
           expect(page).to have_css("li.node[data-uri='#{ao3.uri}'].multiselected")
         end
@@ -181,7 +181,7 @@ describe 'Infinite Tree Move', js: true do
 
         aggregate_failures do
           expect(root_child_uris).to eq(expected_sibling_order_after_move(before_order, ao2.uri, -1))
-          expect(selected_uri).to eq(ao2.uri)
+          expect(current_uri).to eq(ao2.uri)
           expect(request['body']).to include("children%5B%5D=#{ERB::Util.url_encode(ao2.uri)}")
           expect(request['body']).not_to include("children%5B%5D=#{ERB::Util.url_encode(ao.uri)}")
           expect(request['body']).not_to include("children%5B%5D=#{ERB::Util.url_encode(ao3.uri)}")

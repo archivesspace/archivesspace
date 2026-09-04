@@ -25,7 +25,7 @@ class InfiniteTreeToolbar {
     this.#bindMoveMenuEvents();
     this.#bindEvents();
     this.#applyReorderState();
-    this.#applySelectionState();
+    this.#applyCurrentNodeState();
 
     if (this.treeContainerEl) {
       this.treeContainerEl.addEventListener(
@@ -77,8 +77,8 @@ class InfiniteTreeToolbar {
 
     if (this.recordPaneEl) {
       this.recordPaneEl.addEventListener(
-        'infiniteTree:nodeSelect',
-        this.#handleSelectionChanged.bind(this)
+        'infiniteTree:currentNodeChanged',
+        this.#handleCurrentNodeChanged.bind(this)
       );
     }
 
@@ -187,19 +187,19 @@ class InfiniteTreeToolbar {
     });
   }
 
-  #handleSelectionChanged(e) {
+  #handleCurrentNodeChanged(e) {
     this.currentNode = e.detail && e.detail.node ? e.detail.node : null;
-    this.#applySelectionState();
+    this.#applyCurrentNodeState();
     if (this.reorderMode) {
       this.#applyCutPasteState();
     }
   }
 
-  #applySelectionState() {
+  #applyCurrentNodeState() {
     if (!this.toolbarEl) return;
 
-    const isArchivalObjectSelected = this.#isArchivalObjectSelected();
-    const moveEnabled = this.reorderMode && this.#hasNonRootSelection();
+    const isArchivalObjectCurrent = this.#isArchivalObjectCurrent();
+    const moveEnabled = this.reorderMode && this.#hasNonRootCurrentNode();
     const moveToggle = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-toggle'
     );
@@ -222,14 +222,14 @@ class InfiniteTreeToolbar {
       '.js-itree-toolbar-add-sibling'
     );
     if (siblingBtn) {
-      siblingBtn.style.display = isArchivalObjectSelected ? '' : 'none';
+      siblingBtn.style.display = isArchivalObjectCurrent ? '' : 'none';
     }
 
     const duplicateBtn = this.toolbarEl.querySelector(
       '.js-itree-toolbar-add-duplicate'
     );
     if (duplicateBtn) {
-      duplicateBtn.style.display = isArchivalObjectSelected ? '' : 'none';
+      duplicateBtn.style.display = isArchivalObjectCurrent ? '' : 'none';
     }
   }
 
@@ -265,7 +265,7 @@ class InfiniteTreeToolbar {
     }
 
     this.#applyReorderState();
-    this.#applySelectionState();
+    this.#applyCurrentNodeState();
     this.#emitSimpleEvent('infiniteTreeToolbar:reorderModeChanged', {
       enabled: this.reorderMode,
     });
@@ -299,7 +299,7 @@ class InfiniteTreeToolbar {
   #onSelectionChanged() {
     if (this.reorderMode) {
       this.#syncCurrentNodeFromTree();
-      this.#applySelectionState();
+      this.#applyCurrentNodeState();
       this.#applyCutPasteState();
     } else if (this.cutActive) {
       this.#applyCutPasteState();
@@ -314,38 +314,38 @@ class InfiniteTreeToolbar {
     if (!this.reorderMode) return;
 
     this.#syncCurrentNodeFromTree();
-    this.#applySelectionState();
+    this.#applyCurrentNodeState();
     this.#applyCutPasteState();
   }
 
   #onRedisplayAndShowComplete() {
     if (this.reorderMode) return;
 
-    this.#syncCurrentNodeFromLiveSelection();
-    this.#applySelectionState();
+    this.#syncCurrentNodeFromLiveTree();
+    this.#applyCurrentNodeState();
   }
 
   /**
-   * Live `.selected` tree row, excluding inline-create synthetic placeholders.
+   * Live `.current` tree row, excluding inline-create synthetic placeholders.
    * After redisplay, cached `currentNode` may reference detached DOM.
    * @returns {HTMLElement|null}
    */
-  #getLiveSelectedNode() {
+  #getLiveCurrentNode() {
     if (!this.treeContainerEl) return null;
 
-    const selected = this.treeContainerEl.querySelector(
-      'li.node.selected:not(.js-itree-synthetic-new)'
+    const current = this.treeContainerEl.querySelector(
+      'li.node.current:not(.js-itree-synthetic-new)'
     );
 
-    if (selected && selected.isConnected) {
-      return selected;
+    if (current && current.isConnected) {
+      return current;
     }
 
     return null;
   }
 
-  #syncCurrentNodeFromLiveSelection() {
-    const node = this.#getLiveSelectedNode();
+  #syncCurrentNodeFromLiveTree() {
+    const node = this.#getLiveCurrentNode();
     if (node) {
       this.currentNode = node;
     }
@@ -353,14 +353,14 @@ class InfiniteTreeToolbar {
 
   /**
    * Resolve the live tree row that Move menu options apply to. Move always
-   * targets the current `.selected` node. After reorder redisplay, cached
-   * `currentNode` can reference detached DOM, so read selection from the tree.
+   * targets the `.current` node. After reorder redisplay, cached `currentNode`
+   * can reference detached DOM, so read the current node from the tree.
    * @returns {HTMLElement|null}
    */
   #getMoveContextNode() {
-    const selected = this.#getLiveSelectedNode();
-    if (selected && !selected.classList.contains('root')) {
-      return selected;
+    const current = this.#getLiveCurrentNode();
+    if (current && !current.classList.contains('root')) {
+      return current;
     }
 
     return null;
@@ -437,7 +437,7 @@ class InfiniteTreeToolbar {
   #emitContextualEvent(name) {
     if (!this.treeContainerEl) return;
 
-    this.#syncCurrentNodeFromLiveSelection();
+    this.#syncCurrentNodeFromLiveTree();
 
     const event = new CustomEvent(name, {
       bubbles: true,
@@ -511,7 +511,7 @@ class InfiniteTreeToolbar {
 
   /**
    * Whether at least one row can be cut: multiselected non-root rows, or a
-   * selected non-root row when no multiselected rows exist.
+   * current non-root row when no multiselected rows exist.
    * @returns {boolean}
    */
   #hasEligibleCutNode() {
@@ -522,27 +522,27 @@ class InfiniteTreeToolbar {
     );
     if (multiselected.length > 0) return true;
 
-    const selected = this.treeContainerEl.querySelector(
-      'li.node.selected:not(.root)'
+    const current = this.treeContainerEl.querySelector(
+      'li.node.current:not(.root)'
     );
-    return !!selected;
+    return !!current;
   }
 
   /**
-   * Whether a valid paste destination exists: the current `.selected` row
+   * Whether a valid paste destination exists: the `.current` row
    * that is not `.cut`, including root.
    * @returns {boolean}
    */
   #hasEligiblePasteTarget() {
     if (!this.treeContainerEl) return false;
 
-    return !!this.treeContainerEl.querySelector('li.node.selected:not(.cut)');
+    return !!this.treeContainerEl.querySelector('li.node.current:not(.cut)');
   }
 
-  #isArchivalObjectSelected() {
+  #isArchivalObjectCurrent() {
     const node = this.reorderMode
       ? this.#getMoveContextNode()
-      : this.currentNode || this.#getSelectedNode();
+      : this.currentNode || this.#getCurrentNode();
     if (!node) return false;
 
     if (node.classList.contains('root')) return false;
@@ -550,20 +550,20 @@ class InfiniteTreeToolbar {
     return (node.id || '').indexOf('archival_object_') === 0;
   }
 
-  #getSelectedNode() {
+  #getCurrentNode() {
     if (!this.treeContainerEl) return null;
 
-    return this.treeContainerEl.querySelector('.node.selected');
+    return this.treeContainerEl.querySelector('.node.current');
   }
 
   /**
-   * Whether the current tree selection is a non-root row.
+   * Whether the current tree node is a non-root row.
    * @returns {boolean}
    */
-  #hasNonRootSelection() {
+  #hasNonRootCurrentNode() {
     if (!this.treeContainerEl) return false;
 
-    return !!this.treeContainerEl.querySelector('li.node.selected:not(.root)');
+    return !!this.treeContainerEl.querySelector('li.node.current:not(.root)');
   }
 
   /**
@@ -709,7 +709,7 @@ class InfiniteTreeToolbar {
   }
 
   /**
-   * Show only a limited number of siblings near the selected row in the Down Into submenu,
+   * Show only a limited number of siblings near the current row in the Down Into submenu,
    * matching largetree behavior, likely for defense against large records.
    * @param {HTMLElement} node
    * @returns {HTMLElement[]}

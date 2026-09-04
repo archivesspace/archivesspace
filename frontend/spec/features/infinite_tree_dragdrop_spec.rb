@@ -169,7 +169,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       expect(params['children']).to eq([source_uri])
       expect(params['index']).to eq(expected_index.to_s)
       expect(root_child_uris).to eq(expected_order)
-      expect(selected_uri).to eq(resource.uri)
+      expect(current_uri).to eq(resource.uri)
       expect(page.current_url).to include(root_hash)
       expect(row_in_tree_viewport?(source_uri)).to eq(true)
       expect(page).to have_css(
@@ -192,7 +192,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     aggregate_failures do
       expect(last_accept_children_params['children']).to eq([source_uri])
       expect(root_child_uris).to eq(expected_order)
-      expect(selected_uri).to eq(resource.uri)
+      expect(current_uri).to eq(resource.uri)
       expect(row_in_tree_viewport?(source_uri)).to eq(true)
     end
   end
@@ -205,12 +205,12 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       expect(last_accept_children_params['children']).to eq([ao.uri])
       expect(root_child_uris).not_to include(ao.uri)
       expect(child_uris_for(ao3.uri)).to include(ao.uri)
-      expect(selected_uri).to eq(resource.uri)
+      expect(current_uri).to eq(resource.uri)
       expect(row_in_tree_viewport?(ao.uri)).to eq(true)
     end
   end
 
-  it 'preserves a selected record that is different from the first moved row' do
+  it 'preserves a current record that is different from the first moved row' do
     expect(page).to have_css('.record-title', text: ao2.title)
     click_link ao2.title
     wait_for_ajax
@@ -218,7 +218,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
     wait_for_reorder_idle
     aggregate_failures do
-      expect(selected_uri).to eq(ao2.uri)
+      expect(current_uri).to eq(ao2.uri)
       expect(page.current_url).to include("##{tree_hash_for(ao2.uri)}")
       expect(row_in_tree_viewport?(ao.uri)).to eq(true)
       expect(page).to have_css(
@@ -313,12 +313,12 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
   end
 
-  it 'clicking a record title after drag-and-drop immediately updates the .selected class' do
+  it 'clicking a record title after drag-and-drop immediately updates the .current class' do
     drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
     wait_for_reorder_idle
 
-    expect(selected_uri).to eq(resource.uri)
-    expect(page).to have_css("li.node[data-uri='#{resource.uri}'].selected")
+    expect(current_uri).to eq(resource.uri)
+    expect(page).to have_css("li.node[data-uri='#{resource.uri}'].current")
 
     within '#infinite-tree-container' do
       click_link ao2.title
@@ -326,9 +326,9 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     wait_for_ajax
 
     aggregate_failures do
-      expect(selected_uri).to eq(ao2.uri)
-      expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].selected")
-      expect(page).to have_no_css("li.node[data-uri='#{resource.uri}'].selected")
+      expect(current_uri).to eq(ao2.uri)
+      expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].current")
+      expect(page).to have_no_css("li.node[data-uri='#{resource.uri}'].current")
       expect(page.current_url).to include("##{tree_hash_for(ao2.uri)}")
     end
 
@@ -338,9 +338,9 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     wait_for_ajax
 
     aggregate_failures do
-      expect(selected_uri).to eq(ao3.uri)
-      expect(page).to have_css("li.node[data-uri='#{ao3.uri}'].selected")
-      expect(page).to have_no_css("li.node[data-uri='#{ao2.uri}'].selected")
+      expect(current_uri).to eq(ao3.uri)
+      expect(page).to have_css("li.node[data-uri='#{ao3.uri}'].current")
+      expect(page).to have_no_css("li.node[data-uri='#{ao2.uri}'].current")
       expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
     end
   end

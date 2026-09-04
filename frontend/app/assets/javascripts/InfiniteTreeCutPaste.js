@@ -70,7 +70,7 @@ class InfiniteTreeCutPaste {
     const rootFilteredSelection = this.explicitSelectionNodes.filter(
       node => node && !node.classList.contains('root')
     );
-    const fallbackNode = this.#currentSelectedNonRootNode();
+    const fallbackNode = this.#currentNonRootNode();
     const cutNodes =
       rootFilteredSelection.length > 0
         ? rootFilteredSelection
@@ -168,19 +168,19 @@ class InfiniteTreeCutPaste {
     });
   }
 
-  #currentSelectedNonRootNode() {
-    const node = this.containerEl.querySelector('li.node.selected');
+  #currentNonRootNode() {
+    const node = this.containerEl.querySelector('li.node.current');
     if (!node || node.classList.contains('root')) return null;
     return node;
   }
 
   /**
-   * Resolve the paste destination from the current `.selected` row, including root,
+   * Resolve the paste destination from the `.current` row, including root,
    * when it is not `.cut`.
    * @returns {HTMLElement|null}
    */
   #currentPasteTargetNode() {
-    const node = this.containerEl.querySelector('li.node.selected:not(.cut)');
+    const node = this.containerEl.querySelector('li.node.current:not(.cut)');
     return node || null;
   }
 
