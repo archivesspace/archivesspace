@@ -4,37 +4,47 @@
 //= require InfiniteTreeIds
 
 (function (exports) {
+  /** @see legacy largetree considerExpandingRow; InfiniteTree equivalent is #considerAutoExpandingNext */
+  const ITREE_SCROLL_DELAY_MS = 100;
+  const ITREE_THRESHOLD_EMS = 300;
+
   class InfiniteTree {
+    static EVENT_TYPE_CURRENT_NODE_CHANGED = 'infiniteTree:currentNodeChanged';
+    static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
+    /** Record pane: resync tree .current after inline create Cancel (pane already shows the parent record). */
+    static EVENT_TYPE_SYNC_CURRENT_NODE = 'infiniteTree:syncCurrentNode';
+
+    #autoExpandEnabled = false;
+    #autoExpandLocked = false;
+
+    /** @type {ReturnType<typeof setTimeout>|null} */
+    #autoExpandScrollTimer = null;
+
     /**
-     * @constructor
-     * @param {Object} initialContext - The data for the "current node"
-     * @param {boolean} initialContext.isRoot - Whether the initial selection is the root
-     * @param {string} initialContext.locationHash - window.location.hash
-     * @param {string} initialContext.rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
-     * @param {number} batchSize - The number of nodes per batch of children
-     * @param {Object} i18n - The i18n object for use in a non .js.erb file
+     * @param {Object} i18n - Translation helpers for markup (sep, bulk, enumerations)
      * @param {string} i18n.sep - The identifier separator
-     * @param {string} i18n.bulk - The date type bulk
+     * @param {string} i18n.bulk - The date type bulk label
      * @param {Object} i18n.enumerations - The enumeration translations object
-     * @returns {InfiniteTree} - InfiniteTree instance
+     *
+     * Reads `rootUri` and `batchSize` from `#infinite-tree-component` dataset.
      */
-    constructor(initialContext, batchSize, i18n) {
-      this.BATCH_SIZE = batchSize;
+    constructor(i18n) {
+      const { rootUri, batchSize } = document.querySelector(
+        '#infinite-tree-component'
+      ).dataset;
+
+      this.BATCH_SIZE = Number(batchSize);
       this.rootMeta = {
-        uri: initialContext.rootUri,
-        ...InfiniteTreeIds.uriToParts(initialContext.rootUri),
+        uri: rootUri,
+        ...InfiniteTreeIds.uriToParts(rootUri),
       };
 
       this.container = document.querySelector('#infinite-tree-container');
       this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
 
-      this.fetch = new InfiniteTreeFetch(initialContext.rootUri);
+      this.fetch = new InfiniteTreeFetch(rootUri);
 
-      this.markup = new InfiniteTreeMarkup(
-        initialContext.rootUri,
-        batchSize,
-        i18n
-      );
+      this.markup = new InfiniteTreeMarkup(rootUri, batchSize, i18n);
 
       new InfiniteTreeResizer(this.container);
 
@@ -49,29 +59,200 @@
         }
       );
 
+      this.container.addEventListener(
+        'infiniteTreeToolbar:expandModeChanged',
+        this.#onToolbarExpandModeChanged.bind(this)
+      );
+      this.container.addEventListener(
+        'infiniteTreeToolbar:collapseTreeRequested',
+        this.#onToolbarCollapseTreeRequested.bind(this)
+      );
+
+      this.container.addEventListener(
+        'scroll',
+        () => {
+          this.#onTreeContainerScroll();
+        },
+        { passive: true }
+      );
+
       this.container.addEventListener('click', e => {
         if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
-        else if (e.target.closest('.record-title')) this.#titleClickHandler(e);
+        else if (e.target.closest('.record-title')) {
+          // Intercept navigation; dispatch titleClick for InfiniteTreeRouter.
+          e.preventDefault();
+          e.stopPropagation();
+
+          this.#titleClickHandler(e);
+        }
       });
 
-      if (initialContext.isRoot) {
-        this.renderRoot();
-      } else {
-        this.loadNodeWithAncestors(initialContext.locationHash);
-      }
+      this.container.addEventListener(
+        'infiniteTreeRouter:setCurrentNode',
+        async e => {
+          const { targetHash } = e.detail;
+
+          const nodeElementId =
+            InfiniteTreeIds.locationHashToHtmlId(targetHash);
+
+          // Defensive guard in case a malformed hash slips through router validation
+          if (!InfiniteTreeIds.parseTreeId(nodeElementId)) {
+            await this.renderRoot();
+
+            return;
+          }
+
+          const currentNode = this.container.querySelector(`#${nodeElementId}`);
+
+          if (currentNode) {
+            this.setCurrentNode(currentNode);
+
+            return;
+          }
+
+          // Treat this event as the initial page load
+          if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
+            const rootNode = await this.renderRoot();
+
+            this.setCurrentNode(rootNode);
+          } else {
+            this.loadNodeWithAncestors(targetHash);
+          }
+        }
+      );
+
+      // Rebuild the tree and show a target node (full redisplay)
+      this.container.addEventListener(
+        'infiniteTreeRouter:redisplayAndShow',
+        async e => {
+          const { targetHash, plusOne, notifyPane = true } = e.detail;
+
+          try {
+            await this.redisplayAndShow(targetHash, {
+              plusOne: !!plusOne,
+              notifyPane,
+            });
+          } finally {
+            this.container.dispatchEvent(
+              new CustomEvent('infiniteTree:redisplayAndShowComplete', {
+                detail: {},
+              })
+            );
+          }
+        }
+      );
+
+      // Rebuild the tree, restore current-record context, and reveal a separate target.
+      this.container.addEventListener(
+        'infiniteTreeRouter:redisplayAndReopen',
+        async e => {
+          const detail = e.detail || {};
+          let succeeded = true;
+
+          try {
+            await this.redisplayAndReopen(detail);
+          } catch (error) {
+            succeeded = false;
+            console.error('Error in redisplayAndReopen:', error);
+
+            if (detail.revealUri) {
+              await this.redisplayAndShow(
+                InfiniteTreeIds.treeLinkUrl(detail.revealUri)
+              );
+            }
+          } finally {
+            this.container.dispatchEvent(
+              new CustomEvent('infiniteTree:redisplayAndReopenComplete', {
+                detail: {
+                  currentUri: detail.currentUri || null,
+                  revealUri: detail.revealUri || null,
+                  succeeded,
+                },
+              })
+            );
+          }
+        }
+      );
+
+      // Refresh a node’s visible data after a save
+      this.container.addEventListener(
+        'infiniteTreeRouter:refreshNode',
+        async e => {
+          const { uri } = e.detail || {};
+
+          if (!uri) return;
+
+          await this.refreshNodeByUri(uri);
+        }
+      );
+
+      const onShowSyntheticNewChild = async e => {
+        const parentNode = e.detail && e.detail.parentNode;
+        if (!parentNode) return;
+
+        await this.#showSyntheticNewChild(parentNode);
+      };
+
+      this.container.addEventListener(
+        'infiniteTree:showSyntheticNewChild',
+        onShowSyntheticNewChild
+      );
+
+      const onRemoveSyntheticNewChild = () => {
+        this.#removeSyntheticNewChild();
+      };
+
+      this.container.addEventListener(
+        'infiniteTree:removeSyntheticNewChild',
+        onRemoveSyntheticNewChild
+      );
+
+      const onShowSyntheticNewSibling = async e => {
+        const anchorNode = e.detail && e.detail.anchorNode;
+        if (!anchorNode) return;
+
+        const placeholderTitle =
+          e.detail && typeof e.detail.placeholderTitle === 'string'
+            ? e.detail.placeholderTitle
+            : null;
+
+        await this.#showSyntheticNewSibling(anchorNode, placeholderTitle);
+      };
+
+      this.container.addEventListener(
+        'infiniteTree:showSyntheticNewSibling',
+        onShowSyntheticNewSibling
+      );
+
+      this.container.addEventListener(
+        InfiniteTree.EVENT_TYPE_SYNC_CURRENT_NODE,
+        e => {
+          const n = e.detail && e.detail.node;
+          if (!n || n.classList.contains('js-itree-synthetic-new')) return;
+
+          this.setCurrentNode(n, { notifyPane: false });
+
+          this.recordPaneEl.dispatchEvent(
+            new CustomEvent(InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED, {
+              detail: { node: n, suppressPaneReload: true },
+            })
+          );
+        }
+      );
     }
 
     /**
      * Renders the root node and its first batch of children
+     * @returns {HTMLElement} The live root node element
      */
     async renderRoot() {
+      this._syntheticNewNode = null;
+
       const rootData = await this.fetch.node();
       const rootListFrag = this.markup.rootList();
       const rootListElement = rootListFrag.querySelector('ol');
       const rootNodeFrag = this.markup.rootNode(rootData);
       const rootNodeElement = rootNodeFrag.querySelector('li');
-
-      rootNodeElement.classList.add('current');
 
       if (rootData.child_count > 0) {
         await this.#renderInitialBatchForNode(rootNodeElement, rootData);
@@ -79,11 +260,14 @@
 
       rootListElement.appendChild(rootNodeFrag);
 
-      this.container.appendChild(rootListFrag);
+      this.container.replaceChildren(rootListFrag);
+
+      return rootNodeElement;
     }
 
     /**
-     * Orchestrates the rendering of a node with all its ancestors on page load
+     * Orchestrates the rendering of a node with all its ancestors on page load, falling
+     * back to the root if the node does not exist
      * @param {string} locationHash - The location hash representing the node to render
      */
     loadNodeWithAncestors(locationHash) {
@@ -108,32 +292,41 @@
 
           this.#renderAncestors(data, nodeElementId);
         })
-        .catch(error => {
+        .catch(async error => {
           console.error('Error in #fetchAncestorBatches:', error);
 
-          this.renderRoot();
+          await this.renderRoot();
+
+          this.recordPaneEl.dispatchEvent(
+            new CustomEvent('infiniteTree:showRecordNotFound')
+          );
         });
     }
 
     /**
-     * Sets the current node and notifies the record pane
-     * @param {HTMLElement} node - The node to set as current
+     * Sets the current node, expanding it if collapsed, and notifies the record pane
+     * @param {HTMLElement} node - The node corresponding to the record pane
+     * @param {{ notifyPane?: boolean }} [options] - When notifyPane is false, only updates tree chrome (used after pane already loaded the same record).
      */
-    setCurrentNode(node) {
-      const old = this.container.querySelector('.current');
-      if (old) old.classList.remove('current');
+    setCurrentNode(node, options = {}) {
+      const notifyPane = options.notifyPane !== false;
+
+      if (!node.classList.contains('js-itree-synthetic-new')) {
+        this.#removeSyntheticNewChild();
+      }
+
+      const oldCurrent = this.container.querySelector('li.node.current');
+
+      if (oldCurrent) oldCurrent.classList.remove('current');
 
       node.classList.add('current');
 
-      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
-        detail: {
-          requestPath: AS.app_prefix(
-            node.dataset.uri.split('/').slice(-2).join('/')
-          ),
-        },
-      });
+      if (node.getAttribute('aria-expanded') === 'false')
+        this.#expandNode(node);
 
-      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
+      if (notifyPane) {
+        this.#dispatchCurrentNodeChangedEvent(node);
+      }
     }
 
     /**
@@ -166,6 +359,7 @@
      */
     #renderBatch(list, nodes, batchNumber, observeForBatch = null) {
       const listMeta = this.#validateList(list);
+
       if (!listMeta) return;
 
       const batchFragment = this.#buildBatchFragment(
@@ -195,6 +389,17 @@
         if (observerNode) {
           this.batchObserver.observe(observerNode);
         }
+      }
+
+      // Notify listeners that a batch was inserted (for reorder-selection class updates)
+      const parentNode = list.closest('li.node');
+      if (parentNode) {
+        this.container.dispatchEvent(
+          new CustomEvent('infiniteTree:didInsertBatch', {
+            bubbles: true,
+            detail: { parentNode },
+          })
+        );
       }
     }
 
@@ -258,6 +463,10 @@
     async #fetchAncestorBatches(id) {
       const ancestors = await this.fetch.ancestors(id);
 
+      if (!ancestors || !ancestors[id] || ancestors[id].length === 0) {
+        throw new Error('Node not found in tree');
+      }
+
       return Promise.all(
         ancestors[id].map(ancestor =>
           this.#fetchAncestorBatchWithNeighbors(ancestor)
@@ -266,8 +475,8 @@
     }
 
     /**
-     * Fetches the initial batch(es) for an ancestor; includes extra metadata
-     * if a target batch's neighbor needs to be observed for its neighbor
+     * Fetches the initial batch(es) for an ancestor, attaching observeForBatch metadata
+     * when a rendered batch needs an IntersectionObserver anchor for an adjacent placeholder.
      * @param {Object} ancestorMetaObj - The ancestor metadata object
      * @returns {Object} An object containing the ancestor's batch(es) and possible metadata
      */
@@ -392,14 +601,181 @@
     }
 
     /**
+     * Rebuilds the entire tree and makes the node pointed to by locationHash current
+     * @param {string} locationHash - The location hash representing the node to render
+     * @param {{ plusOne?: boolean, notifyPane?: boolean }} [options]
+     * @param {boolean} [options.plusOne=false] - Save +1 post-create: defers pane load to
+     * plusOneAfterCreate → #loadNewSiblingRecord.
+     * @param {boolean} [options.notifyPane] - Whether to fire currentNodeChanged so the pane reloads
+     * after the tree rebuilds. Defaults to !plusOne. Pass false after a normal inline create
+     * to keep the create-response HTML in the pane after a successful record create
+     */
+    async redisplayAndShow(
+      locationHash,
+      { plusOne = false, notifyPane = !plusOne } = {}
+    ) {
+      this._syntheticNewNode = null;
+
+      // Normalize hash to include # prefix
+      const fragment =
+        locationHash && locationHash.startsWith('#')
+          ? locationHash
+          : `#${locationHash}`;
+
+      // Clear the container completely
+      this.container.replaceChildren();
+
+      if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
+        const rootNodeElement = await this.renderRoot();
+        this.setCurrentNode(rootNodeElement, { notifyPane });
+        rootNodeElement.scrollIntoView({
+          behavior: 'instant',
+          block: 'center',
+        });
+        return;
+      }
+
+      // Non-root: reuse ancestor batching logic
+      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(fragment);
+      const nodeId = InfiniteTreeIds.parseTreeId(nodeElementId).id;
+
+      try {
+        const data = await this.#fetchAncestorBatches(nodeId);
+        await this.#renderAncestors(data, nodeElementId, {
+          replace: false,
+          notifyPane,
+        });
+      } catch (error) {
+        console.error('Error in redisplayAndShow:', error);
+      }
+    }
+
+    /**
+     * Rebuilds the tree from server data while separating current record from revealed row.
+     * @param {Object} options
+     * @param {string[]} [options.reopenUris] - Expanded/source/destination context to reopen
+     * @param {string|null} [options.currentUri] - URI that should remain current
+     * @param {string} options.revealUri - URI that must be visible after recovery
+     * @param {number|null} [options.scrollTop] - Previous container scroll position
+     * @param {string} [options.revealStrategy] - Scroll behavior after rebuild
+     */
+    async redisplayAndReopen({
+      reopenUris = [],
+      currentUri = null,
+      revealUri,
+      scrollTop = null,
+      revealStrategy = 'restore-scroll-then-reveal-if-needed',
+    }) {
+      this._syntheticNewNode = null;
+
+      const contextUris = this.#uniqueUris([
+        revealUri,
+        currentUri,
+        ...reopenUris,
+      ]);
+      const nonRootContextUris = contextUris.filter(
+        uri => uri && uri !== this.rootMeta.uri
+      );
+
+      this.container.replaceChildren();
+
+      if (nonRootContextUris.length === 0) {
+        await this.renderRoot();
+      } else {
+        const contextBatches =
+          await this.#fetchMergedAncestorBatches(nonRootContextUris);
+
+        if (contextBatches.length === 0) {
+          await this.renderRoot();
+        } else {
+          const revealNodeId = revealUri
+            ? InfiniteTreeIds.uriToTreeId(revealUri)
+            : contextBatches[0].ancestorHtmlId;
+
+          await this.#renderAncestors(contextBatches, revealNodeId, {
+            replace: false,
+            setCurrent: false,
+            center: false,
+          });
+        }
+      }
+
+      await this.#reopenNodesByUri(reopenUris);
+      await this.#setCurrentUriWithoutPaneReload(
+        currentUri || this.rootMeta.uri
+      );
+      this.#restoreScrollThenReveal(revealUri, scrollTop, revealStrategy);
+    }
+
+    async #fetchMergedAncestorBatches(uris) {
+      const contexts = await Promise.all(
+        this.#uniqueUris(uris).map(async uri => {
+          const parts = InfiniteTreeIds.uriToParts(uri);
+
+          if (!parts) return [];
+
+          return this.#fetchAncestorBatches(Number(parts.id));
+        })
+      );
+
+      return this.#mergeAncestorContexts(contexts);
+    }
+
+    #mergeAncestorContexts(contexts) {
+      const byAncestor = new Map();
+
+      contexts.forEach(context => {
+        context.forEach((batch, level) => {
+          const key = batch.ancestorHtmlId;
+          const existing = byAncestor.get(key);
+
+          if (!existing) {
+            byAncestor.set(key, {
+              ...batch,
+              batches: { ...batch.batches },
+              _level: level,
+            });
+
+            return;
+          }
+
+          existing.batches = {
+            ...existing.batches,
+            ...batch.batches,
+          };
+          existing._level = Math.min(existing._level, level);
+        });
+      });
+
+      return Array.from(byAncestor.values()).sort(
+        (a, b) => a._level - b._level
+      );
+    }
+
+    /**
      * Builds the ancestor tree list
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     * @param {Object} [options] - Options for rendering
+     * @param {boolean} [options.replace=true] - Whether to replace container content first
+     * @param {boolean} [options.setCurrent=true] - Whether to call setCurrentNode on the target
+     * @param {boolean} [options.center=true] - Whether to scroll the target into view
+     * @param {boolean} [options.notifyPane=true] - Whether setCurrentNode should notify the record pane
      */
-    async #renderAncestors(ancestorBatches, nodeElementId) {
+    async #renderAncestors(
+      ancestorBatches,
+      nodeElementId,
+      {
+        replace = true,
+        setCurrent = true,
+        center = true,
+        notifyPane = true,
+      } = {}
+    ) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
         const ancestorHtmlId = batch.ancestorHtmlId;
+        const treeLevel = Number.isFinite(batch._level) ? batch._level : i;
 
         if (i === 0) {
           const treeListFrag = this.markup.rootList();
@@ -410,7 +786,7 @@
 
           const nodeListFrag = this.markup.nodeList(
             ancestorHtmlId,
-            i + 1,
+            treeLevel + 1,
             numBatches
           );
           const nodeListElement = nodeListFrag.querySelector('ol');
@@ -418,7 +794,7 @@
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.#buildBatchFragment(
               batchData.nodes,
-              i + 1,
+              treeLevel + 1,
               ancestorHtmlId,
               Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
@@ -440,11 +816,21 @@
         } else {
           // Handle non-root ancestor nodes
           const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+
+          if (!nodeElement) {
+            console.error('Could not find ancestor node while rendering:', {
+              ancestorHtmlId,
+              batch,
+            });
+
+            return acc;
+          }
+
           const icon = nodeElement.querySelector('.node-expand-icon');
 
           const nodeListFrag = this.markup.nodeList(
             ancestorHtmlId,
-            i + 1,
+            treeLevel + 1,
             numBatches
           );
 
@@ -453,7 +839,7 @@
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.#buildBatchFragment(
               batchData.nodes,
-              i + 1,
+              treeLevel + 1,
               ancestorHtmlId,
               Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
@@ -469,11 +855,13 @@
 
           nodeElement.setAttribute('data-has-expanded', 'true');
           nodeElement.setAttribute('aria-expanded', 'true');
-          icon.classList.add('expanded');
+          if (icon) icon.classList.add('expanded');
 
           return acc;
         }
       }, new DocumentFragment());
+
+      if (replace) this.container.replaceChildren();
 
       this.container.appendChild(ancestorsFrag);
 
@@ -483,13 +871,146 @@
       );
 
       if (nodeOfInterest) {
-        this.setCurrentNode(nodeOfInterest);
-        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+        if (setCurrent) this.setCurrentNode(nodeOfInterest, { notifyPane });
+        if (center)
+          nodeOfInterest.scrollIntoView({
+            behavior: 'instant',
+            block: 'center',
+          });
       }
 
       nodesToObserve.forEach(node => {
         this.batchObserver.observe(node);
       });
+    }
+
+    async #reopenNodesByUri(uris) {
+      const nodes = this.#uniqueUris(uris)
+        .map(uri => this.#nodeByUri(uri))
+        .filter(Boolean)
+        .sort(
+          (a, b) => this.#getNodeIndentLevel(a) - this.#getNodeIndentLevel(b)
+        );
+
+      for (const node of nodes) {
+        if (node.classList.contains('root')) continue;
+        if (node.getAttribute('aria-expanded') !== 'true') {
+          await this.#expandNode(node);
+        }
+      }
+    }
+
+    async #setCurrentUriWithoutPaneReload(uri) {
+      const node = this.#nodeByUri(uri) || this.#nodeByUri(this.rootMeta.uri);
+
+      if (!node) return;
+
+      const oldCurrent = this.container.querySelector('li.node.current');
+
+      if (oldCurrent) oldCurrent.classList.remove('current');
+
+      node.classList.add('current');
+
+      if (node.getAttribute('aria-expanded') === 'false') {
+        await this.#expandNode(node);
+      }
+    }
+
+    #restoreScrollThenReveal(uri, scrollTop, revealStrategy) {
+      const revealNode = this.#nodeByUri(uri);
+      const canRestoreScroll = Number.isFinite(Number(scrollTop));
+
+      if (canRestoreScroll) {
+        this.container.scrollTop = Number(scrollTop);
+      }
+
+      if (!revealNode) return;
+
+      const shouldReveal =
+        revealStrategy !== 'restore-scroll' &&
+        (!canRestoreScroll || !this.#isNodeFullyVisible(revealNode));
+
+      if (shouldReveal) {
+        revealNode.scrollIntoView({ behavior: 'instant', block: 'center' });
+      }
+    }
+
+    #isNodeFullyVisible(node) {
+      const row = node.querySelector(':scope > .node-row') || node;
+      const treeRect = this.container.getBoundingClientRect();
+      const rowRect = row.getBoundingClientRect();
+
+      return rowRect.top >= treeRect.top && rowRect.bottom <= treeRect.bottom;
+    }
+
+    #nodeByUri(uri) {
+      if (!uri) return null;
+
+      const treeId = InfiniteTreeIds.uriToTreeId(uri);
+
+      return this.container.querySelector(`#${treeId}`);
+    }
+
+    #uniqueUris(uris) {
+      return Array.from(new Set(uris.filter(Boolean)));
+    }
+
+    /**
+     * Refresh a single node’s DOM using server data
+     * @param {string} uri - Backend URI of the node (e.g., "/repositories/1/archival_objects/2")
+     */
+    async refreshNodeByUri(uri) {
+      try {
+        const parts = InfiniteTreeIds.uriToParts(uri);
+
+        if (!parts) {
+          this.#dispatchRefreshComplete(uri, false);
+          return;
+        }
+
+        let data;
+
+        if (parts.type === 'resource') {
+          data = await this.fetch.node(null); // root
+        } else {
+          const id = Number(parts.id);
+          data = await this.fetch.node(id);
+        }
+
+        const treeId = InfiniteTreeIds.uriToTreeId(uri);
+        const el = this.container.querySelector(`#${treeId}`);
+
+        if (!el) {
+          try {
+            await this.redisplayAndShow(InfiniteTreeIds.treeLinkUrl(uri));
+            this.#dispatchRefreshComplete(uri, true);
+          } catch (err) {
+            console.error('refreshNodeByUri redisplay fallback error:', err);
+            this.#dispatchRefreshComplete(uri, false);
+          }
+
+          return;
+        }
+
+        const currentNodeBody = el.querySelector('.node-body');
+
+        if (currentNodeBody && data) {
+          // Use the markup builder to create a complete new node body with all columns
+          // Pass the current node element to preserve expansion state
+          const newNodeBodyFrag = this.markup.nodeBody(data, uri, el);
+          const newNodeBody = newNodeBodyFrag.querySelector('.node-body');
+
+          if (newNodeBody) {
+            // Replace the entire node body to update all columns
+            currentNodeBody.replaceWith(newNodeBody);
+          }
+        }
+
+        this.#dispatchRefreshComplete(uri, true);
+      } catch (err) {
+        console.error('refreshNodeByUri error:', err);
+        this.#dispatchRefreshComplete(uri, false);
+      }
     }
 
     /**
@@ -504,15 +1025,26 @@
         node.setAttribute('data-has-expanded', 'true');
       }
 
-      node.querySelector('.node-expand-icon').classList.add('expanded');
+      const icon = node.querySelector('.node-expand-icon');
+      if (icon) icon.classList.add('expanded');
       node.setAttribute('aria-expanded', 'true');
+
+      // Notify listeners that a node was expanded (for reorder-selection class updates)
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:didExpand', {
+          bubbles: true,
+          detail: { node },
+        })
+      );
     }
 
     /**
+     * Collapses a node in the UI (icon + aria-expanded only; child rows stay in the DOM).
      * @param {HTMLElement} node - The node to collapse
      */
     #collapseNode(node) {
-      node.querySelector('.node-expand-icon').classList.remove('expanded');
+      const icon = node.querySelector('.node-expand-icon');
+      if (icon) icon.classList.remove('expanded');
       node.setAttribute('aria-expanded', 'false');
     }
 
@@ -522,52 +1054,72 @@
      * @param {IntersectionObserver} observer - The observer instance
      */
     #batchObserverHandler(entries, observer) {
-      entries.forEach(async entry => {
+      entries.forEach(entry => {
         if (!entry.isIntersecting) return;
 
-        const node = entry.target;
-        const parentNodeUri = node.getAttribute('data-observe-node');
-        const siblingList = node.closest('.node-children');
-        const batchOffset = Number(node.getAttribute('data-observe-offset'));
-        const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
+        const observedNode = entry.target;
 
-        if (!batchData) {
-          console.error('#batchObserverHandler failed to fetch batch');
-          return;
-        }
+        (async () => {
+          const parentNodeUri = observedNode.getAttribute('data-observe-node');
+          const siblingList = observedNode.closest('.node-children');
+          const batchOffset = Number(
+            observedNode.getAttribute('data-observe-offset')
+          );
+          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
-        const batchOffsetPlaceholderEl = siblingList.querySelector(
-          `li[data-batch-placeholder="${batchOffset}"]`
-        );
-        const observeForBatch = this.#observeForBatch(batchOffsetPlaceholderEl);
+          if (!batchData) {
+            console.error('#batchObserverHandler failed to fetch batch');
+            return;
+          }
 
-        this.#renderBatch(siblingList, batchData, batchOffset, observeForBatch);
-
-        node.removeAttribute('data-observe-next-batch');
-        node.removeAttribute('data-observe-node');
-        node.removeAttribute('data-observe-offset');
-        observer.unobserve(node);
-
-        if (observeForBatch !== null) {
-          const nextNode = siblingList.querySelector(
-            `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
+          const batchOffsetPlaceholderEl = siblingList.querySelector(
+            `li[data-batch-placeholder="${batchOffset}"]`
+          );
+          const observeForBatch = this.#observeForBatch(
+            batchOffsetPlaceholderEl
           );
 
-          if (nextNode) {
-            observer.observe(nextNode);
-          } else {
-            console.error(
-              `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+          this.#renderBatch(
+            siblingList,
+            batchData,
+            batchOffset,
+            observeForBatch
+          );
+
+          observedNode.removeAttribute('data-observe-next-batch');
+          observedNode.removeAttribute('data-observe-node');
+          observedNode.removeAttribute('data-observe-offset');
+          observer.unobserve(observedNode);
+
+          if (observeForBatch !== null) {
+            const nextNode = siblingList.querySelector(
+              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
             );
+
+            if (nextNode) {
+              observer.observe(nextNode);
+            } else {
+              console.error(
+                `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+              );
+            }
           }
-        }
+
+          this.#scheduleConsiderAutoExpandingNext();
+        })();
       });
     }
 
     /**
+     * Manual expand/collapse toggle. No-op while auto-expand-all mode is active.
      * @param {Event} e - The click event
      */
     async #expandClickHandler(e) {
+      if (this.#autoExpandEnabled) {
+        e.preventDefault();
+        return;
+      }
+
       const node = e.target.closest('.node');
       const isExpanded = node.getAttribute('aria-expanded') === 'true';
 
@@ -579,15 +1131,22 @@
     }
 
     /**
+     * Dispatches titleClick on the container for InfiniteTreeRouter (hash navigation).
+     * Synthetic new-child/sibling rows are ignored.
      * @param {Event} e - The click event
      */
     #titleClickHandler(e) {
+      e.preventDefault();
+
       const node = e.target.closest('.node');
 
-      this.setCurrentNode(node);
+      if (node && node.classList.contains('js-itree-synthetic-new')) {
+        e.stopPropagation();
 
-      if (node.getAttribute('aria-expanded') === 'false')
-        this.#expandNode(node);
+        return;
+      }
+
+      this.#dispatchTitleClickEvent(node);
     }
 
     /**
@@ -634,6 +1193,440 @@
         : prevSiblingIsAPlaceholder
           ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
           : null;
+    }
+
+    /**
+     * Dispatches the current-node-changed event for the record pane
+     * @param {HTMLElement} node - The current node
+     */
+    #dispatchCurrentNodeChangedEvent(node) {
+      if (node.classList.contains('js-itree-synthetic-new')) {
+        return;
+      }
+
+      const target = this.recordPaneEl;
+      const type = InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED;
+
+      this.#dispatchEvent(target, type, { node });
+    }
+
+    /**
+     * Tree level from indent-level-N on a node li (0 = root).
+     * Matches InfiniteTreeToolbar#getNodeLevel.
+     * @param {HTMLElement} parentNode
+     * @returns {number}
+     */
+    #getParentTreeLevel(parentNode) {
+      if (!parentNode) return 0;
+
+      if (parentNode.classList.contains('root')) return 0;
+
+      const match = (parentNode.className || '').match(/indent-level-(\d+)/);
+
+      return match ? parseInt(match[1], 10) : 0;
+    }
+
+    /**
+     * Inserts a placeholder li (parity with legacy largetree tr#new) for Add Child → new_inline.
+     * @param {HTMLElement} parentNode - Root or child record li
+     */
+    async #showSyntheticNewChild(parentNode) {
+      this.#removeSyntheticNewChild();
+
+      const tmpl = document.querySelector(
+        '#infinite-tree-synthetic-new-node-template'
+      );
+      if (!tmpl) return;
+
+      const component = document.querySelector('#infinite-tree-component');
+      const titleText =
+        (component && component.dataset.newChildPlaceholderTitle) || '';
+
+      if (!parentNode.querySelector(':scope > ol.node-children')) {
+        await this.#expandNode(parentNode);
+      }
+
+      const frag = tmpl.content.cloneNode(true);
+      const synthetic = frag.querySelector('li');
+      const titleEl = frag.querySelector('.record-title');
+
+      if (titleEl) titleEl.textContent = titleText;
+
+      const parentLevel = this.#getParentTreeLevel(parentNode);
+      const childLevel = parentLevel + 1;
+
+      synthetic.className = (synthetic.className || '')
+        .replace(/\bindent-level-\d+\b/g, '')
+        .trim();
+      synthetic.classList.add(`indent-level-${childLevel}`);
+
+      let list = parentNode.querySelector(':scope > ol.node-children');
+      if (!list) {
+        list = document.createElement('ol');
+        list.className = 'node-children';
+        list.setAttribute('role', 'group');
+        list.setAttribute('data-parent-id', parentNode.id);
+        list.setAttribute('data-tree-level', String(childLevel));
+        list.setAttribute('data-total-child-batches', '0');
+        parentNode.appendChild(list);
+        parentNode.setAttribute('aria-expanded', 'true');
+      } else {
+        list.setAttribute('data-tree-level', String(childLevel));
+      }
+
+      list.appendChild(synthetic);
+
+      const previousCurrent = this.container.querySelector('li.node.current');
+      if (previousCurrent) previousCurrent.classList.remove('current');
+
+      synthetic.classList.add('current');
+
+      this._syntheticNewNode = synthetic;
+
+      if (titleEl) titleEl.focus();
+    }
+
+    /**
+     * Inserts a placeholder li after the anchor (Add Sibling / Add Duplicate → new_inline), same depth as anchor.
+     * @param {HTMLElement} anchorNode - Current archival object li
+     * @param {string|null} [placeholderTitle] - When non-null and non-empty, overrides row title (duplicate flow).
+     */
+    async #showSyntheticNewSibling(anchorNode, placeholderTitle = null) {
+      this.#removeSyntheticNewChild();
+
+      const tmpl = document.querySelector(
+        '#infinite-tree-synthetic-new-node-template'
+      );
+      if (!tmpl) return;
+
+      const component = document.querySelector('#infinite-tree-component');
+      const titleText =
+        placeholderTitle != null && placeholderTitle !== ''
+          ? placeholderTitle
+          : (component && component.dataset.newChildPlaceholderTitle) || '';
+
+      const frag = tmpl.content.cloneNode(true);
+      const synthetic = frag.querySelector('li');
+      const titleEl = frag.querySelector('.record-title');
+
+      if (titleEl) titleEl.textContent = titleText;
+
+      const level = this.#getParentTreeLevel(anchorNode);
+
+      synthetic.className = (synthetic.className || '')
+        .replace(/\bindent-level-\d+\b/g, '')
+        .trim();
+      synthetic.classList.add(`indent-level-${level}`);
+
+      anchorNode.insertAdjacentElement('afterend', synthetic);
+
+      const previousCurrent = this.container.querySelector('li.node.current');
+      if (previousCurrent) previousCurrent.classList.remove('current');
+
+      synthetic.classList.add('current');
+
+      this._syntheticNewNode = synthetic;
+
+      if (titleEl) titleEl.focus();
+    }
+
+    /**
+     * Removes the Add Child / Add Sibling placeholder row and collapses an empty
+     * child list that was injected for Add Child.
+     */
+    #removeSyntheticNewChild() {
+      if (!this._syntheticNewNode) return;
+
+      const list = this._syntheticNewNode.parentElement;
+
+      this._syntheticNewNode.remove();
+      this._syntheticNewNode = null;
+
+      if (
+        list &&
+        list.classList.contains('node-children') &&
+        list.childElementCount === 0
+      ) {
+        const parentLi = list.parentElement;
+
+        list.remove();
+
+        if (parentLi && !parentLi.querySelector('ol.node-children')) {
+          parentLi.setAttribute('aria-expanded', 'false');
+        }
+      }
+    }
+
+    /**
+     * Dispatches the title click event for the router
+     * @param {HTMLElement} node - The node whose title was clicked
+     */
+    #dispatchTitleClickEvent(node) {
+      const target = this.container;
+      const type = InfiniteTree.EVENT_TYPE_TITLE_CLICK;
+
+      this.#dispatchEvent(target, type, { node });
+    }
+
+    /**
+     * Dispatches a custom event
+     * @param {HTMLElement} target - The target element to dispatch the event on
+     * @param {string} type - The event type
+     * @param {Object} detail - The detail object to include in the event
+     */
+    #dispatchEvent(target, type, detail) {
+      target.dispatchEvent(new CustomEvent(type, { detail }));
+    }
+
+    /**
+     * Dispatches the refresh node complete event
+     * @param {string} uri - The URI that was refreshed
+     * @param {boolean} succeeded - Whether the refresh succeeded
+     */
+    #dispatchRefreshComplete(uri, succeeded) {
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:refreshNodeComplete', {
+          detail: { uri, succeeded },
+        })
+      );
+    }
+
+    /**
+     * @param {CustomEvent} e
+     */
+    #onToolbarExpandModeChanged(e) {
+      const enabled = !!(e.detail && e.detail.enabled);
+
+      this.#applyAutoExpandEnabled(enabled);
+    }
+
+    #onToolbarCollapseTreeRequested() {
+      this.#collapseAllExpandedNodesStaggered();
+    }
+
+    #onTreeContainerScroll() {
+      if (this.#autoExpandScrollTimer !== null) {
+        clearTimeout(this.#autoExpandScrollTimer);
+      }
+      this.#autoExpandScrollTimer = setTimeout(() => {
+        this.#autoExpandScrollTimer = null;
+        this.#scheduleConsiderAutoExpandingNext();
+      }, ITREE_SCROLL_DELAY_MS);
+    }
+
+    /**
+     * @param {boolean} enabled
+     */
+    #applyAutoExpandEnabled(enabled) {
+      this.#autoExpandEnabled = enabled;
+      this.container.classList.toggle('expand-all', enabled);
+
+      if (enabled) {
+        this.#setNodeExpandButtonsDisabled(true);
+        this.#scheduleConsiderAutoExpandingNext();
+      } else {
+        this.#setNodeExpandButtonsDisabled(false);
+        this.#dispatchAutoExpandBusy(false);
+      }
+    }
+
+    #setNodeExpandButtonsDisabled(disabled) {
+      this.container.querySelectorAll('.node-expand').forEach(btn => {
+        if (disabled) {
+          btn.classList.add('disabled');
+          btn.setAttribute('disabled', 'disabled');
+          btn.setAttribute('aria-disabled', 'true');
+        } else {
+          btn.classList.remove('disabled');
+          btn.removeAttribute('disabled');
+          btn.removeAttribute('aria-disabled');
+        }
+      });
+    }
+
+    #dispatchAutoExpandBusy(busy) {
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:autoExpandBusy', {
+          bubbles: true,
+          detail: { busy },
+        })
+      );
+    }
+
+    /**
+     * Collapsed nodes that can be expanded (non-root, with an expand control).
+     * @returns {HTMLElement[]}
+     */
+    #listCollapsedExpandableNodes() {
+      const out = [];
+
+      this.container.querySelectorAll('li.node:not(.root)').forEach(li => {
+        if (li.getAttribute('aria-expanded') !== 'false') return;
+
+        const btn = li.querySelector('.node-expand');
+
+        if (!btn || btn.getAttribute('aria-hidden') === 'true') return;
+        out.push(li);
+      });
+      return out;
+    }
+
+    /**
+     * @returns {HTMLElement|null}
+     */
+    #pickVisibleCollapsedExpandableNode() {
+      const allExpandables = this.#listCollapsedExpandableNodes();
+
+      if (allExpandables.length === 0) return null;
+
+      const emHeight = parseFloat(
+        getComputedStyle(document.body).fontSize || '16px'
+      );
+      const thresholdPx = emHeight * ITREE_THRESHOLD_EMS;
+      const containerRect = this.container.getBoundingClientRect();
+      const containerTop = containerRect.top;
+      const containerHeight = containerRect.height;
+      const rootList = this.container.querySelector('ol.infinite-tree');
+      const contentHeight = rootList ? rootList.scrollHeight : 1;
+      const scrollPercent =
+        contentHeight > 0 ? this.container.scrollTop / contentHeight : 0;
+      const startIdx = Math.floor(scrollPercent * allExpandables.length);
+
+      /** @type {{ elt: HTMLElement; top: number }|null} */
+      let rowToExpand = null;
+
+      const evaluateExpandableFn = btn => {
+        const btnRect = btn.getBoundingClientRect();
+        const eltTop = btnRect.top - containerTop;
+        const eltBottom = eltTop + btnRect.height;
+        const btnVisible =
+          Math.abs(eltTop) <= containerHeight + thresholdPx ||
+          Math.abs(eltBottom) <= containerHeight + thresholdPx ||
+          (eltTop < 0 && eltBottom > 0);
+
+        if (btnVisible) {
+          const candidate = { elt: btn.closest('li.node'), top: eltTop };
+
+          if (
+            candidate.elt &&
+            (!rowToExpand || rowToExpand.top > candidate.top)
+          ) {
+            rowToExpand = candidate;
+          }
+
+          return true;
+        }
+        return false;
+      };
+
+      for (let i = startIdx; i >= 0; i--) {
+        const li = allExpandables[i];
+        const btn = li.querySelector('.node-expand');
+
+        if (!btn) continue;
+
+        const visible = evaluateExpandableFn(btn);
+
+        if (!visible && i < startIdx) break;
+      }
+
+      for (let i = startIdx + 1; i < allExpandables.length; i++) {
+        const li = allExpandables[i];
+        if (li.getAttribute('aria-expanded') === 'true') continue;
+
+        const btn = li.querySelector('.node-expand');
+        if (!btn) continue;
+
+        const visible = evaluateExpandableFn(btn);
+        if (!visible) break;
+      }
+
+      return rowToExpand ? rowToExpand.elt : null;
+    }
+
+    #scheduleConsiderAutoExpandingNext() {
+      if (!this.#autoExpandEnabled) return;
+
+      queueMicrotask(() => {
+        this.#considerAutoExpandingNext();
+      });
+    }
+
+    async #considerAutoExpandingNext() {
+      if (!this.#autoExpandEnabled) {
+        this.#dispatchAutoExpandBusy(false);
+
+        return;
+      }
+
+      if (this.#autoExpandLocked) return;
+
+      const node = this.#pickVisibleCollapsedExpandableNode();
+
+      if (!node) {
+        this.#dispatchAutoExpandBusy(false);
+
+        return;
+      }
+
+      this.#autoExpandLocked = true;
+      this.#dispatchAutoExpandBusy(true);
+
+      try {
+        await this.#expandNode(node);
+        this.#setNodeExpandButtonsDisabled(true);
+      } catch (err) {
+        console.error('InfiniteTree auto-expand failed:', err);
+      } finally {
+        this.#autoExpandLocked = false;
+      }
+
+      setTimeout(() => {
+        this.#considerAutoExpandingNext();
+      }, 100);
+    }
+
+    /**
+     * @param {HTMLElement} node
+     * @returns {number}
+     */
+    #getNodeIndentLevel(node) {
+      if (!node || !node.className) return 0;
+
+      const match = node.className.match(/indent-level-(\d+)/);
+
+      return match ? parseInt(match[1], 10) : 0;
+    }
+
+    #collapseAllExpandedNodesStaggered() {
+      const nodes = Array.from(
+        this.container.querySelectorAll(
+          'li.node[aria-expanded="true"]:not(.root)'
+        )
+      ).filter(n => n.querySelector('.node-expand'));
+
+      if (nodes.length === 0) return;
+
+      nodes.sort(
+        (a, b) => this.#getNodeIndentLevel(b) - this.#getNodeIndentLevel(a)
+      );
+
+      this.#dispatchAutoExpandBusy(true);
+      let remaining = nodes.length;
+
+      nodes.forEach(node => {
+        const level = this.#getNodeIndentLevel(node);
+        const delay = Math.max(0, 600 - 50 * level);
+
+        setTimeout(() => {
+          this.#collapseNode(node);
+          remaining -= 1;
+
+          if (remaining === 0) {
+            this.#dispatchAutoExpandBusy(false);
+          }
+        }, delay);
+      });
     }
   }
 

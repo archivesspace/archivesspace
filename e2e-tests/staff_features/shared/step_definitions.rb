@@ -61,6 +61,14 @@ When 'the user clicks on {string}' do |string|
   end
 end
 
+When 'the user clicks on {string} in the infinite tree toolbar' do |string|
+  within '#infinite-tree-toolbar' do
+    click_on_string string
+  end
+
+  wait_for_ajax
+end
+
 When 'the user hovers on {string} in the dropdown menu' do |string|
   within '.dropdown-menu' do
     element = find(:xpath, "//button[contains(text(), '#{string}')] | //a[contains(text(), '#{string}')]", match: :first)

@@ -2,17 +2,59 @@
    root_type = root_record.jsonmodel_type
    show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_largetree_container]
    read_only = false if read_only.blank?
+   new_child_placeholder_title = case root_type
+                                 when 'resource'
+                                   I18n.t('archival_object._frontend.tree.new_record_title')
+                                 when 'digital_object'
+                                   I18n.t('digital_object_component._frontend.tree.new_record_title')
+                                 when 'classification'
+                                   I18n.t('classification_term._frontend.tree.new_record_title')
+                                 else
+                                   ''
+                                 end
+   new_duplicate_placeholder_title = case root_type
+                                     when 'resource'
+                                       I18n.t('archival_object._frontend.tree.duplicated_record_title')
+                                     else
+                                       ''
+                                     end
 %>
 
-<%= javascript_include_tag "InfiniteTreeInitialContext.js" %>
+<%= javascript_include_tag "InfiniteTreeRouter.js" %>
+<%= javascript_include_tag "InfiniteTreeIds.js" %>
 <%= javascript_include_tag "InfiniteTree.js" %>
 <%= javascript_include_tag "InfiniteTreeResizer.js" %>
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
-<%= javascript_include_tag "InfiniteTreeIds.js" %>
+<%= javascript_include_tag "InfiniteTreeToolbar.js" %>
+<%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
+<%= javascript_include_tag "InfiniteTreeMultiSelection.js" %>
+<%= javascript_include_tag "InfiniteTreeDropHitbox.js" %>
+<%= javascript_include_tag "InfiniteTreeDragDrop.js" %>
+<%= javascript_include_tag "InfiniteTreeCutPaste.js" %>
+<%= javascript_include_tag "InfiniteTreeMove.js" %>
+<%= javascript_include_tag "InfiniteTreeReorderActions.js" %>
 
-<div id="infinite-tree-container" class="mb-2"></div>
-<%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
-<%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
+<div
+  id="infinite-tree-component"
+  data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
+  data-is-read-only="<%= read_only %>"
+  data-root-uri="<%= root_record.uri %>"
+  data-record-type="<%= root_type %>"
+  data-new-child-placeholder-title="<%= new_child_placeholder_title %>"
+  data-new-duplicate-placeholder-title="<%= new_duplicate_placeholder_title %>"
+>
+  <% if !read_only %>
+    <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>
+  <% end %>
+  <div
+    id="infinite-tree-container"
+    data-read-only="<%= read_only %>"
+    class="mb-2"
+  >
+  </div>
+  <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
+  <%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
+</div>
 
 <template id="infinite-tree-root-list-template">
   <ol
@@ -50,6 +92,24 @@
   <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
 </template>
 
+<template id="infinite-tree-empty-drag-image-template">
+  <div class="infinite-tree-empty-drag-image"></div>
+</template>
+
+<template id="infinite-tree-drag-preview-template">
+  <div class="infinite-tree-drag-preview">
+    <ol class="infinite-tree-drag-preview__list"></ol>
+  </div>
+</template>
+
+<template id="infinite-tree-drag-preview-item-template">
+  <li class="infinite-tree-drag-preview__item"></li>
+</template>
+
+<template id="infinite-tree-drag-preview-count-template">
+  <div class="infinite-tree-drag-preview__count"></div>
+</template>
+
 <% if root_type == 'resource' %>
   <%= render_aspace_partial partial: 'resources/infinite_tree_templates', locals: { show_identifiers: show_identifiers } %>
 <% else %>
@@ -57,10 +117,6 @@
 <% end %>
 
 <script>
-const rootUri = "<%= root_record.uri %>";
-
-const initialContext = new InfiniteTreeInitialContext(rootUri).context;
-
 // ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
 // for use in a .js file (not .js.erb)
 <%
@@ -93,15 +149,25 @@ const EnumerationTranslations2 = {
   ENUMERATION_TRANSLATIONS: ENUMERATION_TRANSLATIONS_2
 };
 
-const infiniteTree = new InfiniteTree(
-  initialContext,
-  "<%= Rails.configuration.infinite_tree_batch_size %>",
-  {
-    sep: "<%= I18n.t("#{root_type}.identifier_separator") %>",
-    bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
-    enumerations: EnumerationTranslations2
-  }
-);
+const infiniteTree = new InfiniteTree({
+  sep: "<%= I18n.t("#{root_type}.identifier_separator") %>",
+  bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
+  enumerations: EnumerationTranslations2
+});
 
-const infiniteTreeRecordPane = new InfiniteTreeRecordPane(initialContext);
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane();
+
+const infiniteTreeRouter = new InfiniteTreeRouter({
+    saveChangesTitle: "<%= I18n.t('save_changes_modal.save') %>"
+});
+
+if (!<%= read_only %>) {
+  new InfiniteTreeToolbar();
+  new InfiniteTreeToolbarActions();
+  new InfiniteTreeMultiSelection();
+  new InfiniteTreeDragDrop();
+  new InfiniteTreeCutPaste();
+  new InfiniteTreeMove();
+  new InfiniteTreeReorderActions();
+}
 </script>

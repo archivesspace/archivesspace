@@ -15,9 +15,26 @@ describe 'Infinite Tree Page Load', js: true do
     select_repository(@repo)
   end
 
+  it 'renders the InfiniteTree toolbar on the resources edit view' do
+    resource = create(:resource, title: "Toolbar Resource #{@now}", publish: true)
+
+    visit "/resources/#{resource.id}/edit"
+
+    within '#infinite-tree-component' do
+      expect(page).to have_css('#infinite-tree-toolbar')
+      expect(page).to have_button(I18n.t('actions.enable_reorder'))
+      expect(page).to have_no_button(I18n.t('actions.cut'))
+      expect(page).to have_no_button(I18n.t('actions.paste'))
+      expect(page).to have_button(I18n.t('actions.expand_tree_mode_on'))
+      expect(page).to have_button(I18n.t('actions.collapse_tree'))
+      expect(page).to have_link(I18n.t('actions.finish_editing'))
+    end
+  end
+
   RSpec::Matchers.define :appear_in_tree_viewport do
     match do |node|
       tree = find('#infinite-tree-container')
+      # Documented JS exception: viewport geometry check (no Capybara equivalent)
       tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
       node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
       node_top_in_view = node_rect['top'] >= tree_rect['top'] && node_rect['top'] <= tree_rect['bottom']
@@ -30,7 +47,14 @@ describe 'Infinite Tree Page Load', js: true do
   shared_examples 'having basic details of uri fragment batch rendering' do
     it 'shows the node of interest' do
       node_row = node.find(':scope > .node-row')
-      expect(node_row).to appear_in_tree_viewport
+      aggregate_failures do
+        expect(node_row).to appear_in_tree_viewport
+        expect(page).to have_css(
+          '#infinite-tree-container .node.current',
+          count: 1,
+          visible: :all
+        )
+      end
     end
 
     it 'loads the correct number of sibling nodes' do
@@ -554,15 +578,18 @@ describe 'Infinite Tree Page Load', js: true do
 
       context 'when the location hash is invalid' do
         context 'with a malformed hash' do
-          it 'renders the tree and record pane for the root record' do
+          it 'rewrites the hash to root, rendering the tree root as the current node' do
             visit "/resources/#{@resource.id}#invalid_hash"
+            wait_for_ajax
 
             aggregate_failures do
+              expect(page.current_url).to match(%r{/resources/#{@resource.id}#tree::resource_#{@resource.id}})
               expect(page).to have_css('#infinite-tree-container .infinite-tree .root.current')
-              expect(page).to have_css('#infinite-tree-record-pane .readonly-context')
-              within('#infinite-tree-record-pane') do
-                expect(page).to have_css('h2', text: @resource.title)
-              end
+              expect(page).to have_css(
+                '#infinite-tree-container .node.current',
+                count: 1,
+                visible: :all
+              )
             end
           end
         end
@@ -572,7 +599,11 @@ describe 'Infinite Tree Page Load', js: true do
             visit "/resources/#{@resource.id}#tree::archival_object_999999"
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container .infinite-tree .root.current')
+              expect(page).to have_css('#infinite-tree-container .infinite-tree .root')
+              expect(page).not_to have_css(
+                '#infinite-tree-container .current',
+                visible: :all
+              )
               expect(page).to have_css('#infinite-tree-record-pane .alert.alert-danger', text: 'Record Not Found')
             end
           end

@@ -5,24 +5,36 @@ Given 'a Resource with an Archival Object has been created' do
   create_resource_archival_object(@uuid)
 end
 
-When 'the user selects the Archival Object' do
-  click_on "Archival Object #{@uuid}"
+When 'the user makes the Archival Object current' do
+  within '#infinite-tree-container' do
+    click_link "Archival Object #{@uuid}"
+  end
+
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
 end
 
 Then 'the Archival Object with Title {string} is saved as a child of the Resource' do |title|
-  expect(page).to have_css '#tree-container .table-row.indent-level-1.current', text: title
-  expect(page).to have_css "#tree-container #resource_#{@resource_id} + .table-row-group #archival_object_#{@created_record_id}"
+  root_list_sel = ".infinite-tree > .root.node#resource_#{@resource_id} > .node-children"
+  child_sel = "#{root_list_sel} > .node.indent-level-1.current#archival_object_#{@created_record_id}"
+  expect(page).to have_css child_sel, text: title
 end
 
-Then 'the Archival Object with Title {string} is saved as a sibling of the selected Archival Object' do |title|
-  expect(page).to have_css('#tree-container .table-row.largetree-node.indent-level-1.current', text: title)
-  expect(page).to have_css "#tree-container #resource_#{@resource_id} + .table-row-group #archival_object_#{@created_record_id}"
+Then 'the Archival Object with Title {string} is saved as a sibling of the current Archival Object' do |title|
+  root_list_sel = '.infinite-tree > .root.node > .node-children'
+  expect(page).to have_css(
+    "#{root_list_sel} > li#archival_object_#{@archival_object_id} + li#archival_object_#{@created_record_id}",
+    text: title
+  )
+  expect(page).to have_css(
+    "#{root_list_sel} > li#archival_object_#{@created_record_id}.current",
+    text: title
+  )
 end
 
 Then 'the New Archival Object page is displayed' do
-  wait_for_ajax
   if current_url.include? 'resources'
     expect(current_url).to include "resources/#{@resource_id}/edit#new"
+    wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
   else
     expect(current_url).to include 'archival_objects/new'
   end

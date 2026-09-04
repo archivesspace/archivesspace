@@ -4,7 +4,8 @@ Feature: Resource Archival Object create
   Scenario: Create a Child Archival Object
     Given a Resource has been created
       And the Resource is opened in edit mode
-     When the user clicks on 'Add Child'
+     When the user clicks on 'Add Child' in the infinite tree toolbar
+      And the New Archival Object page is displayed
       And the user fills in 'Title' with 'Archival Object Title Child'
       And the user selects 'File' from 'Level of Description'
       And the user clicks on 'Save'
@@ -13,18 +14,19 @@ Feature: Resource Archival Object create
   Scenario: Create a Sibling Archival Object
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
-     When the user selects the Archival Object
-      And the user clicks on 'Add Sibling'
+     When the user makes the Archival Object current
+      And the user clicks on 'Add Sibling' in the infinite tree toolbar
+      And the New Archival Object page is displayed
       And the user fills in 'Title' with 'Archival Object Title Sibling'
       And the user selects 'File' from 'Level of Description'
       And the user clicks on 'Save'
      Then the 'Archival Object' created message is displayed
-      And the Archival Object with Title 'Archival Object Title Sibling' is saved as a sibling of the selected Archival Object
+      And the Archival Object with Title 'Archival Object Title Sibling' is saved as a sibling of the current Archival Object
   Scenario: Duplicate Archival Object
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
-     When the user selects the Archival Object
-      And the user clicks on 'Add Duplicate'
+     When the user makes the Archival Object current
+      And the user clicks on 'Add Duplicate' in the infinite tree toolbar
      Then the New Archival Object page is displayed
       And the 'Archival Object' duplicated message is displayed
       And the following Archival Object forms have the same values as the Archival Object
