@@ -466,12 +466,12 @@ def wait_for_infinite_tree_inline_new_form(form_prefix:)
   end
 end
 
-# InfiniteTree RDE silently no-ops until a selected tree node with data-uri exists.
-# wait_for_ajax alone is not enough because tree/root selection uses fetch.
+# InfiniteTree RDE silently no-ops until a current tree node with data-uri exists.
+# wait_for_ajax alone is not enough because tree/root navigation uses fetch.
 def wait_for_infinite_tree_ready_for_rde
   aggregate_failures do
     expect(page).to have_css(
-      '#infinite-tree-container li.node.selected[data-uri]',
+      '#infinite-tree-container li.node.current[data-uri]',
       visible: true
     )
     expect(page).to have_css(

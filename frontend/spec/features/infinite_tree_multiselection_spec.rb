@@ -437,7 +437,14 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
         expect(page.current_url).to include("tree::archival_object_#{ao2.id}")
         expect(data_selection_uris).to eq(ao2.uri)
-        expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].multiselected")
+        expect(page).to have_css(
+          "li.node[data-uri='#{ao2.uri}'].current.multiselected"
+        )
+        expect(page).to have_css(
+          '#infinite-tree-container .node.current',
+          count: 1,
+          visible: :all
+        )
       end
     end
 

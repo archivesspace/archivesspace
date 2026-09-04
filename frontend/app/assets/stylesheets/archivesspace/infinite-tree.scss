@@ -156,9 +156,9 @@
     /*
       The border-bottom above creates a white line under the root's last child row, which is consistent with
       all other rows, and matches the old largetree. But it also creates a visual bug where, when the root
-      has only one immediate child that is a parent, and the root is the .selected node, the child's
-      .node-expand button overlays and covers up the root row’s .selected outline for the width of the button.
-      The solution is z-index: 1 on .node.selected > .node-row > .node-body::after.
+      has only one immediate child that is a parent, and the root is the .current node, the child's
+      .node-expand button overlays and covers up the root row’s .current outline for the width of the button.
+      The solution is z-index: 1 on .node.current > .node-row > .node-body::after.
     */
   }
 }
@@ -174,7 +174,7 @@
     display: none;
   }
 
-  &.selected > .node-row > .node-body {
+  &.current > .node-row > .node-body {
     position: relative;
     background-color: var(--tree-current-bg);
 
@@ -234,9 +234,9 @@
     border-top: none;
   }
 
-  // In reorder mode, keep a single border treatment when current selection and
+  // In reorder mode, keep a single border treatment when the current node and
   // multiselect overlap, using the multiselect stroke for consistency.
-  &.selected.multiselected > .node-row > .node-body::after {
+  &.current.multiselected > .node-row > .node-body::after {
     border-color: var(--tree-multiselect-border);
   }
 
@@ -428,11 +428,11 @@
   user-select: none;
   -webkit-user-select: none;
 
-  // Keep selected (record-pane current) rows visually unified on hover.
-  .node.selected:not(.multiselected, .reparented-highlight, .cut)
+  // Keep current rows visually unified on hover.
+  .node.current:not(.multiselected, .reparented-highlight, .cut)
     > .node-row:hover
     > .node-body,
-  .node.selected:not(.multiselected, .reparented-highlight, .cut)
+  .node.current:not(.multiselected, .reparented-highlight, .cut)
     > .node-row
     > .node-body:hover {
     background-color: var(--tree-current-hover-bg);
@@ -489,11 +489,11 @@
     cursor: pointer;
   }
 
-  // Keep indentation lane aligned with non-selected row hover background.
+  // Keep indentation lane aligned with non-current row hover background.
   // .reparented is intentionally not excluded: during the fade phase the fill
   // should already be set to the hover color so that it reveals correctly as
   // ::before fades out, avoiding the green → normal → hover flicker.
-  .node:not(.selected, .multiselected, .reparented-highlight, .cut)
+  .node:not(.current, .multiselected, .reparented-highlight, .cut)
     > .node-row:hover
     > .node-body {
     .node-indentation {

@@ -117,7 +117,7 @@ module InfiniteTreeInteractionHelpers
 
   # Plain click on a tree row body (not the record title). In reorder mode
   # InfiniteTreeMultiSelection handles this on mousedown capture: multiselection
-  # resets to the clicked row and `.selected` is unchanged (no navigation).
+  # resets to the clicked row and `.current` is unchanged (no navigation).
   def click_tree_row(uri)
     row = tree_row(uri)
     drag_handle = row.find('.node-column[data-column="drag-handle"]', visible: :all)
@@ -421,9 +421,9 @@ module InfiniteTreeInteractionHelpers
       .map { |node| node['data-uri'] }
   end
 
-  def selected_uri
-    selected = tree_container.find('li.node.selected', visible: :all)
-    selected['data-uri']
+  def current_uri
+    current = tree_container.find('li.node.current', visible: :all)
+    current['data-uri']
   rescue Capybara::ElementNotFound
     nil
   end
@@ -476,8 +476,8 @@ module InfiniteTreeInteractionHelpers
     "#{type}_#{parts[-1]}"
   end
 
-  def infinite_tree_selected_node_selector(record)
-    "#infinite-tree-container li##{infinite_tree_node_id_for(record)}.selected"
+  def infinite_tree_current_node_selector(record)
+    "#infinite-tree-container li##{infinite_tree_node_id_for(record)}.current"
   end
 
   # ============================================================================

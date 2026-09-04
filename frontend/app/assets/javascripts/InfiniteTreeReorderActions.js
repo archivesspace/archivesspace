@@ -171,7 +171,7 @@ class InfiniteTreeReorderActions {
   }
 
   #recoveryStateForMove(move) {
-    const selectedUri = this.#selectedUri();
+    const currentUri = this.#currentUri();
     const sourceParentUris = move.sourcePositions
       .map(source => source.parentUri)
       .filter(Boolean);
@@ -190,7 +190,7 @@ class InfiniteTreeReorderActions {
 
     return {
       reopenUris,
-      selectedUri,
+      currentUri,
       revealUri: move.childUris[0],
       highlightUris: move.childUris.slice(),
       scrollTop: this.containerEl.scrollTop,
@@ -204,14 +204,14 @@ class InfiniteTreeReorderActions {
       return;
     }
 
-    const selectedHash = InfiniteTreeIds.treeLinkUrl(
-      recovery.selectedUri || this.rootUri
+    const currentHash = InfiniteTreeIds.treeLinkUrl(
+      recovery.currentUri || this.rootUri
     );
     this.pendingHighlightUris = recovery.highlightUris.slice();
 
     this.containerEl.dispatchEvent(
       new CustomEvent('infiniteTreeRouter:replaceHash', {
-        detail: { targetHash: selectedHash },
+        detail: { targetHash: currentHash },
       })
     );
 
@@ -237,11 +237,11 @@ class InfiniteTreeReorderActions {
     }
   }
 
-  #selectedUri() {
-    const selectedNode = this.containerEl.querySelector('li.node.selected');
+  #currentUri() {
+    const currentNode = this.containerEl.querySelector('li.node.current');
 
-    if (selectedNode) {
-      return selectedNode.getAttribute('data-uri') || this.rootUri;
+    if (currentNode) {
+      return currentNode.getAttribute('data-uri') || this.rootUri;
     }
 
     return this.#uriFromHash(window.location.hash) || this.rootUri;
