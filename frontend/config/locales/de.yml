@@ -2049,9 +2049,7 @@ de:
       Standort-Aufzeichnungen. Bitte beachten Sie, dass diese Vorlage für die 
       Erstellung von Standort-Aufzeichnungen selbst ist und nicht zum Verknüpfen
       von Archivgut mit Standorten.
-    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen 
-      und Aufzeichnungen, die mit Eingängen verknüpft werden, wie Akteuren, 
-      Themen und Ereignisse.
+    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen sowie Umfänge, Externe Dokumente, Themen, Akteure und Instanzen mit Haupt-Behältnissen. Der Download enthält je eine _1-Gruppe für jedes davon. Verknüpfen Sie ein bestehendes Thema mit subject_1_record_id und geben Sie dabei entweder eine numerische ID wie 197 oder eine vollständige URI wie /subjects/197 an. Verknüpfen Sie einen bestehenden Akteur auf dieselbe Weise mit agent_1_record_id; agent_1_agent_type ist erforderlich, wenn Sie eine numerische ID angeben, und optional, wenn Sie eine URI wie /agents/people/5 angeben. Füllen Sie Verknüpfungs- und Erstellungsfelder nicht in derselben Gruppe aus. Verknüpfen Sie ein bestehendes Haupt-Behältnis mit einer vollständigen URI wie /repositories/2/top_containers/5 oder allein mit seinem Strichcode. Ein Strichcode allein verknüpft das Haupt-Behältnis, dem er gehört, unabhängig davon, ob dieses bereits bestand oder von einer früheren Zeile erstellt wurde; der Import schlägt fehl, wenn kein Haupt-Behältnis im Repository diesen Strichcode hat. Wird neben einem Strichcode ein weiteres Haupt-Behältnis-Feld ausgefüllt, wird stattdessen ein neues Haupt-Behältnis mit diesem Strichcode erstellt, wobei ein Indikator erforderlich ist; der Import schlägt fehl, wenn dieser Strichcode im Repository bereits verwendet wird.
     bulk_import_template_csv: Erstellen Sie Archiv-Objekte, die an eine bereits 
       bestehende Ressource angehängt werden. Enthält eine Option, um viele 
       verschiedene Teilaufzeichnungen und verknüpfte Aufzeichnungen wie Daten, 
