@@ -60,6 +60,13 @@ class AccessionConverter < Converter
     grandchild_indicator
   ], :parse => false
 
+  TOP_CONTAINER_CREATION_FIELDS = %w[
+    top_container_1_type
+    top_container_1_indicator
+    top_container_1_barcode
+    top_container_1_container_profile_1_uri
+  ].freeze
+
   def self.import_types(show_hidden = false)
     [
      {
@@ -586,12 +593,7 @@ class AccessionConverter < Converter
       next if values.values.all? {|value| blank_value?(value) }
 
       top_container_uri = values['top_container_1_uri']
-      top_container_creation_values = values.values_at(
-        'top_container_1_type',
-        'top_container_1_indicator',
-        'top_container_1_barcode',
-        'top_container_1_container_profile_1_uri',
-      )
+      top_container_creation_values = values.values_at(*TOP_CONTAINER_CREATION_FIELDS)
       if top_container_uri && top_container_creation_values.any?
         raise AccessionConverterTopContainerModeConflictError,
               I18n.t('importer.error.top_container_mode_conflict', :index => index)
@@ -611,7 +613,7 @@ class AccessionConverter < Converter
                        :index => index, :top_container_uri => top_container_uri)
         end
       else
-        top_container_uri = find_or_create_top_container_uri(values)
+        top_container_uri = find_or_create_top_container_uri(values, index)
       end
 
       sub_container = ASpaceImport::JSONModel(:sub_container).new
@@ -630,17 +632,28 @@ class AccessionConverter < Converter
   end
 
 
-  def find_or_create_top_container_uri(values)
+  def find_or_create_top_container_uri(values, index)
     barcode = values['top_container_1_barcode']
+    creating = top_container_creation_values?(values)
 
-    if barcode
-      remembered_uri = top_container_uri_by_barcode[barcode]
-      return remembered_uri if remembered_uri
+    unless blank_value?(barcode)
+      existing_uri = top_container_uri_by_barcode[barcode] || TopContainer.for_barcode(barcode)&.uri
 
-      existing_top_container = TopContainer.for_barcode(barcode)
-      if existing_top_container
-        top_container_uri_by_barcode[barcode] = existing_top_container.uri
-        return existing_top_container.uri
+      if existing_uri
+        if creating
+          raise AccessionConverterDuplicateTopContainerBarcodeError,
+                I18n.t('importer.error.duplicate_top_container_barcode',
+                       :index => index, :barcode => barcode, :top_container_uri => existing_uri)
+        end
+
+        top_container_uri_by_barcode[barcode] = existing_uri
+        return existing_uri
+      end
+
+      unless creating
+        raise AccessionConverterUnknownTopContainerBarcodeError,
+              I18n.t('importer.error.unknown_top_container_barcode',
+                     :index => index, :barcode => barcode)
       end
     end
 
@@ -662,6 +675,13 @@ class AccessionConverter < Converter
 
   def top_container_uri_by_barcode
     @top_container_uri_by_barcode ||= {}
+  end
+
+
+  def top_container_creation_values?(values)
+    (TOP_CONTAINER_CREATION_FIELDS - %w[top_container_1_barcode]).any? do |field|
+      !blank_value?(values[field])
+    end
   end
 
 
@@ -744,3 +764,5 @@ class AccessionConverterInvalidTopContainerURIError < AccessionConverterError; e
 class AccessionConverterInvalidContainerProfileURIError < AccessionConverterError; end;
 class AccessionConverterInvalidRecordIdError < AccessionConverterError; end;
 class AccessionConverterTopContainerModeConflictError < AccessionConverterError; end;
+class AccessionConverterDuplicateTopContainerBarcodeError < AccessionConverterError; end;
+class AccessionConverterUnknownTopContainerBarcodeError < AccessionConverterError; end;

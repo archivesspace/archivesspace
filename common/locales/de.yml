@@ -2198,6 +2198,7 @@ de:
       indicator: Indikator
       barcode: Strichcode
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Jedes Externe Dokument muss innerhalb dieser Aufzeichnung eine eindeutige Kombination aus Titel und Ort haben
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
     is_required_unless_an_expression_or_a_begin_date_is_given: ist erforderlich, es sei denn, es 
@@ -2243,8 +2244,6 @@ de:
     cant_be_empty: darf nicht leer sein
     password_did_not_match: Eingegebener Wert stimmt nicht mit dem Passwort überein
     authority_id_must_be_unique: Autoritäts-ID wird bereits verwendet
-    either_type_1_or_barcode_is_required: Ein Behältnis muss einen Behältnis 1 Typ oder Strichcode 
-      enthalten.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Muss eine Zahl mit 
       höchstens neun Ziffern und fünf Dezimalstellen sein.
     container_3_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie 
@@ -2702,6 +2701,9 @@ de:
       invalid_agent_type: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
       invalid_agent_type_for_link: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ beim Verknüpfen von Datensatz-ID %{record_id}; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
       invalid_top_container_uri: "Ungültige Haupt-Behältnis-URI in Instanz-Gruppe %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "Ungültige Behältnisprofil-URI in Instanz-Gruppe %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "Instanz-Gruppe %{index} kann kein Haupt-Behältnis mit dem Strichcode %{barcode} erstellen; dieser Strichcode gehört bereits zu %{top_container_uri}. Entfernen Sie die übrigen Haupt-Behältnis-Felder, um es zu verknüpfen, oder korrigieren Sie den Strichcode."
+      unknown_top_container_barcode: "Instanz-Gruppe %{index} enthält kein Haupt-Behältnis mit dem Strichcode %{barcode} in diesem Repository; fügen Sie Haupt-Behältnis-Felder hinzu, um eines zu erstellen, oder korrigieren Sie den Strichcode."
       invalid_date_type: "Ungültiger Datumstyp angegeben: %{date_type}; muss einer der folgenden sein: %{allowed}; Angegebenes Datum: %{date};"
       invalid_record_id: "Die Datensatz-ID in Gruppe %{index} muss eine numerische ID oder eine vollständige Datensatz-URI sein; erhalten %{record_id}"
       unrecognized_record_uri: "Unbekannte Datensatz-URI in Gruppe %{index}: %{record_id}"

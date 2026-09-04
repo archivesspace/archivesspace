@@ -2205,6 +2205,7 @@ fr:
       barcode: Code à Barres
 
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Chaque Document externe doit avoir une combinaison unique de titre et d'emplacement dans cette notice
     or_date_expression_is_required: Les dates doivent spécifier au moins une expression de date
     must_specify_either_a_single_or_ranged_date: Les dates doivent être spécifiées comme simples ou 
       à distance
@@ -2263,8 +2264,6 @@ fr:
     cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la 
       localisation n'est pas temporaire.
     authority_id_must_be_unique: Identifiant d'autorité déjà utilisé
-    either_type_1_or_barcode_is_required: Un conditionnement doit contenir un type de 
-      conditionnement 1 ou un code-barres.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Doit être un nombre ne 
       comprenant pas plus de 9 chiffres et 5 décimales.
     container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous 
@@ -2790,6 +2789,9 @@ fr:
       invalid_agent_type: "Le groupe Agent %{index} requiert un type d'Agent pris en charge ; reçu '%{agent_type}', doit être l'un des suivants : %{allowed}"
       invalid_agent_type_for_link: "Le groupe Agent %{index} requiert un type d'Agent pris en charge lors de la liaison à l'identifiant d'enregistrement %{record_id} ; reçu '%{agent_type}', doit être l'un des suivants : %{allowed}"
       invalid_top_container_uri: "URI de contenant supérieur non valide dans le groupe Instance %{index} : %{top_container_uri}"
+      invalid_container_profile_uri: "URI de profil de contenant non valide dans le groupe Instance %{index} : %{container_profile_uri}"
+      duplicate_top_container_barcode: "Le groupe Instance %{index} ne peut pas créer de contenant supérieur avec le code-barres %{barcode} ; ce code-barres appartient déjà à %{top_container_uri}. Supprimez les autres champs de contenant supérieur pour le lier, ou corrigez le code-barres."
+      unknown_top_container_barcode: "Le groupe Instance %{index} ne contient aucun contenant supérieur avec le code-barres %{barcode} dans ce dépôt ; ajoutez des champs de contenant supérieur pour en créer un, ou corrigez le code-barres."
       invalid_date_type: "Type de date non valide : %{date_type} ; doit être l'un des suivants : %{allowed} ; Date fournie : %{date};"
       invalid_record_id: "L’identifiant d’enregistrement du groupe %{index} doit être un identifiant numérique ou une URI d’enregistrement complète ; reçu %{record_id}"
       unrecognized_record_uri: "URI d’enregistrement non reconnue dans le groupe %{index} : %{record_id}"

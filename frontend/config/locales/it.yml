@@ -1,4 +1,6 @@
 it:
+  bulk_import_templates:
+    aspace_accession_import_template_csv: Crea record di Accessione insieme a Estensioni, Documenti esterni, Soggetti, Agenti e Istanze con contenitori principali. Il download include un gruppo _1 per ciascuno di essi. Collega un Soggetto esistente con subject_1_record_id, indicando un ID numerico come 197 oppure un URI completo come /subjects/197. Collega un Agente esistente con agent_1_record_id allo stesso modo; agent_1_agent_type è obbligatorio quando si indica un ID numerico e facoltativo quando si indica un URI come /agents/people/5. Non compilare i campi di collegamento e di creazione nello stesso gruppo. Collega un contenitore principale esistente con un URI completo come /repositories/2/top_containers/5, oppure con il solo codice a barre. Un codice a barre da solo collega il contenitore principale che lo possiede, sia che esistesse già sia che lo abbia creato una riga precedente, e l'importazione non riesce se nessun contenitore principale del repository ha quel codice a barre. Compilare qualsiasi altro campo del contenitore principale accanto a un codice a barre crea invece un nuovo contenitore principale con quel codice a barre, con l'indicatore obbligatorio, e l'importazione non riesce se quel codice a barre è già in uso nel repository.
   actions:
     add_event_event_type: Tipo
     add: Aggiungi

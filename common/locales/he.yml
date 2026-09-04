@@ -18,6 +18,7 @@ he:
       indicator: מחוון
       barcode: ברקוד
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: "כל מסמך חיצוני חייב לכלול שילוב ייחודי של כותרת ומיקום ברשומה זו"
     mixed_content_invalid_inline_ead: "סימון EAD לא חוקי: השתמש במירכאות ישרות (\" או ') עבור ערכי תכונות
       וודא שהתגים מעוצבים כהלכה."
     mixed_content_disallowed_tag: "התגלה תג HTML לא מורשה. מטעמי אבטחה, תגים כגון &lt;script&gt;, &lt;style&gt;,
@@ -32,6 +33,9 @@ he:
       invalid_agent_type: "קבוצת הסוכן %{index} מחייבת סוג סוכן נתמך; התקבל '%{agent_type}', חייב להיות אחד מתוך: %{allowed}"
       invalid_agent_type_for_link: "קבוצת הסוכן %{index} מחייבת סוג סוכן נתמך בעת קישור למזהה רשומה %{record_id}; התקבל '%{agent_type}', חייב להיות אחד מתוך: %{allowed}"
       invalid_top_container_uri: "כתובת URI לא חוקית של מיכל עליון בקבוצת המופע %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "כתובת URI לא חוקית של פרופיל מיכל בקבוצת המופע %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "קבוצת המופע %{index} אינה יכולה ליצור מיכל עליון עם הברקוד %{barcode}; ברקוד זה כבר שייך אל %{top_container_uri}. הסר את שאר שדות המיכל העליון כדי לקשר אותו, או תקן את הברקוד."
+      unknown_top_container_barcode: "בקבוצת המופע %{index} אין מיכל עליון עם הברקוד %{barcode} במאגר זה; הוסף שדות מיכל עליון כדי ליצור אחד, או תקן את הברקוד."
       invalid_date_type: "סופק סוג תאריך לא חוקי: %{date_type}; חייב להיות אחד מתוך: %{allowed}; התאריך שסופק: %{date};"
       invalid_record_id: "מזהה הרשומה בקבוצה %{index} חייב להיות מזהה מספרי או URI מלא של רשומה; התקבל %{record_id}"
       unrecognized_record_uri: "URI לא מזוהה של רשומה בקבוצה %{index}: %{record_id}"

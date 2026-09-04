@@ -1513,6 +1513,7 @@ ja:
       barcode: バーコード
 
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: 各外部文書は、このレコード内でタイトルと場所の組み合わせが一意である必要があります
     or_date_expression_is_required: 日付には、少なくとも1つの日付式を指定する必要があります
     must_specify_either_a_single_or_ranged_date: 日付は、単一または範囲のいずれかとして指定する必要があります
     must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: 
@@ -1560,7 +1561,6 @@ ja:
       ロケーションレコードは現在、1つ以上のインスタンスレコードにリンクされており、削除することはできません。ロケーションレコードを削除する前に、これらのインスタンスを新しいロケーションにリンクしてください。
     cannot_be_previous_if_location_is_not_temporary: その場所が一時的でない場合、前へ転送できません。
     authority_id_must_be_unique: 権限IDは既に使用されています
-    either_type_1_or_barcode_is_required: コンテナにはコンテナ1タイプまたはバーコードが含まれている必要があります。
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: 9桁以上5桁以下の数字である必要があります。
     container_2_requires_both_a_type_and_indicator: タイプを提供する場合は、インジケーターを提示する必要があります
     container_3_requires_both_a_type_and_indicator: タイプを提供する場合は、インジケーターを提示する必要があります
@@ -1949,6 +1949,9 @@ ja:
       invalid_agent_type: "エージェントグループ %{index} にはサポートされているエージェントタイプが必要です。受け取った値: '%{agent_type}'、次のいずれかである必要があります: %{allowed}"
       invalid_agent_type_for_link: "エージェントグループ %{index} でレコードID %{record_id} をリンクするには、サポートされているエージェントタイプが必要です。受け取った値: '%{agent_type}'、次のいずれかである必要があります: %{allowed}"
       invalid_top_container_uri: "インスタンスグループ %{index} のトップコンテナURIが無効です: %{top_container_uri}"
+      invalid_container_profile_uri: "インスタンスグループ %{index} のコンテナプロファイルURIが無効です: %{container_profile_uri}"
+      duplicate_top_container_barcode: "インスタンスグループ %{index} はバーコード %{barcode} のトップコンテナを作成できません。このバーコードは既に %{top_container_uri} に割り当てられています。リンクする場合は他のトップコンテナ項目を削除するか、バーコードを修正してください。"
+      unknown_top_container_barcode: "インスタンスグループ %{index} には、このリポジトリ内にバーコード %{barcode} のトップコンテナが存在しません。作成する場合はトップコンテナ項目を追加するか、バーコードを修正してください。"
       invalid_date_type: "無効な日付タイプが指定されました: %{date_type}; 次のいずれかである必要があります: %{allowed}; 指定された日付: %{date};"
       invalid_record_id: "グループ %{index} のレコード ID は数値 ID または完全なレコード URI である必要があります。受け取った値: %{record_id}"
       unrecognized_record_uri: "グループ %{index} に認識されないレコード URI があります: %{record_id}"

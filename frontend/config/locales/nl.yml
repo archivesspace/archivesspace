@@ -1,4 +1,6 @@
 nl:
+  bulk_import_templates:
+    aspace_accession_import_template_csv: Maak Accession-records aan, samen met Omvang, Externe documenten, Onderwerpen, Agenten en Instanties met topcontainers. De download bevat één _1-groep voor elk daarvan. Koppel een bestaand Onderwerp met subject_1_record_id, met een numeriek ID zoals 197 of een volledige URI zoals /subjects/197. Koppel een bestaande Agent op dezelfde manier met agent_1_record_id; agent_1_agent_type is verplicht wanneer u een numeriek ID opgeeft en optioneel wanneer u een URI zoals /agents/people/5 opgeeft. Vul koppel- en aanmaakvelden niet in dezelfde groep in. Koppel een bestaande topcontainer met een volledige URI zoals /repositories/2/top_containers/5, of met alleen de barcode. Een barcode op zichzelf koppelt de topcontainer die deze heeft, of die nu al bestond of door een eerdere rij is aangemaakt, en de import mislukt als geen enkele topcontainer in de repository die barcode heeft. Wanneer u naast een barcode een ander topcontainerveld invult, wordt in plaats daarvan een nieuwe topcontainer met die barcode aangemaakt, waarbij de indicator verplicht is, en mislukt de import als die barcode al in gebruik is in de repository.
   actions:
     add: Toevoegen
     add_event: Voeg gebeurtenis toe

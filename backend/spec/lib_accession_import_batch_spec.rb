@@ -1249,7 +1249,7 @@ describe 'Accession import batch' do
       )
     end
 
-    it 'links an existing Top Container by barcode and ignores creation values' do
+    it 'links an existing Top Container when only its barcode is given' do
       barcode = generate(:alphanumstr)
       existing_indicator = generate(:alphanumstr)
       top_container = create(
@@ -1258,25 +1258,18 @@ describe 'Accession import batch' do
         :indicator => existing_indicator,
         :type => 'box',
       )
-      ignored_profile = create(:json_container_profile)
       top_container_count = TopContainer.count
       headers = [
         'accession_title',
         'accession_id_1',
         'instance_1_instance_type',
-        'instance_1_top_container_1_type',
-        'instance_1_top_container_1_indicator',
         'instance_1_top_container_1_barcode',
-        'instance_1_top_container_1_container_profile_1_uri',
       ]
       rows = [[
         'Top Container linked by barcode',
         generate(:alphanumstr),
         'mixed_materials',
-        'carton',
-        generate(:alphanumstr),
         barcode,
-        ignored_profile.uri,
       ]]
 
       import_accession_csv(headers, rows)
@@ -1289,7 +1282,76 @@ describe 'Accession import batch' do
         'indicator' => existing_indicator,
         'barcode' => barcode,
       )
+    end
+
+    it 'rejects creating a Top Container whose barcode is already in use' do
+      barcode = generate(:alphanumstr)
+      existing_indicator = generate(:alphanumstr)
+      top_container = create(
+        :json_top_container,
+        :barcode => barcode,
+        :indicator => existing_indicator,
+        :type => 'box',
+      )
+      rejected_profile = create(:json_container_profile)
+      accession_count = Accession.count
+      top_container_count = TopContainer.count
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'instance_1_instance_type',
+        'instance_1_top_container_1_type',
+        'instance_1_top_container_1_indicator',
+        'instance_1_top_container_1_barcode',
+        'instance_1_top_container_1_container_profile_1_uri',
+      ]
+      rows = [[
+        'Top Container barcode already in use',
+        generate(:alphanumstr),
+        'mixed_materials',
+        'carton',
+        generate(:alphanumstr),
+        barcode,
+        rejected_profile.uri,
+      ]]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(AccessionConverterDuplicateTopContainerBarcodeError, /#{Regexp.escape(barcode)}/)
+
+      expect(Accession.count).to eq(accession_count)
+      expect(TopContainer.count).to eq(top_container_count)
+      expect(TopContainer.to_jsonmodel(top_container.id)).to include(
+        'type' => 'box',
+        'indicator' => existing_indicator,
+        'barcode' => barcode,
+      )
       expect(TopContainer.to_jsonmodel(top_container.id)['container_profile']).to be_nil
+    end
+
+    it 'rejects a barcode that matches no Top Container in the repository' do
+      barcode = generate(:alphanumstr)
+      accession_count = Accession.count
+      top_container_count = TopContainer.count
+      headers = [
+        'accession_title',
+        'accession_id_1',
+        'instance_1_instance_type',
+        'instance_1_top_container_1_barcode',
+      ]
+      rows = [[
+        'Unknown Top Container barcode',
+        generate(:alphanumstr),
+        'mixed_materials',
+        barcode,
+      ]]
+
+      expect do
+        import_accession_csv(headers, rows)
+      end.to raise_error(AccessionConverterUnknownTopContainerBarcodeError, /#{Regexp.escape(barcode)}/)
+
+      expect(Accession.count).to eq(accession_count)
+      expect(TopContainer.count).to eq(top_container_count)
     end
 
     it 'rejects bare and shortened Top Container identifiers before importing the batch' do
@@ -1417,7 +1479,7 @@ describe 'Accession import batch' do
       ]
       rows = [
         ['First row sharing a box', generate(:alphanumstr), 'mixed_materials', 'box', shared_indicator, shared_barcode],
-        ['Second row sharing a box', generate(:alphanumstr), 'text', 'box', shared_indicator, shared_barcode],
+        ['Second row sharing a box', generate(:alphanumstr), 'text', '', '', shared_barcode],
       ]
 
       import_accession_csv(headers, rows)

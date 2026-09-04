@@ -64,6 +64,7 @@ pl:
       indicator: Wskaźnik
       barcode: Kod Kreskowy
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Każdy Dokument zewnętrzny musi mieć unikalną kombinację tytułu i lokalizacji w tym rekordzie
     mixed_content_invalid_inline_ead: "Nieprawidłowy znacznik EAD: używaj prostych cudzysłowów (\" lub
       ') dla wartości atrybutów i upewnij się, że znaczniki są poprawnie sformatowane."
     mixed_content_disallowed_tag: "Wykryto niedozwolony znacznik HTML. Ze względów bezpieczeństwa znaczniki
@@ -1410,6 +1411,9 @@ pl:
       invalid_agent_type: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
       invalid_agent_type_for_link: "Grupa Agenta %{index} wymaga obsługiwanego typu Agenta podczas łączenia z identyfikatorem rekordu %{record_id}; otrzymano '%{agent_type}', musi być jednym z: %{allowed}"
       invalid_top_container_uri: "Nieprawidłowy identyfikator URI kontenera nadrzędnego w grupie Instancji %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "Nieprawidłowy identyfikator URI profilu kontenera w grupie Instancji %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "Grupa Instancji %{index} nie może utworzyć kontenera nadrzędnego z kodem kreskowym %{barcode}; ten kod kreskowy należy już do %{top_container_uri}. Usuń pozostałe pola kontenera nadrzędnego, aby go połączyć, lub popraw kod kreskowy."
+      unknown_top_container_barcode: "Grupa Instancji %{index} nie zawiera kontenera nadrzędnego z kodem kreskowym %{barcode} w tym repozytorium; dodaj pola kontenera nadrzędnego, aby go utworzyć, lub popraw kod kreskowy."
       invalid_date_type: "Podano nieprawidłowy typ daty: %{date_type}; musi być jednym z: %{allowed}; Podana data: %{date};"
       invalid_record_id: "Identyfikator rekordu w grupie %{index} musi być identyfikatorem liczbowym lub pełnym URI rekordu; otrzymano %{record_id}"
       unrecognized_record_uri: "Nierozpoznany URI rekordu w grupie %{index}: %{record_id}"

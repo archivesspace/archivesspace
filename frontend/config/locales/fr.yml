@@ -2837,9 +2837,7 @@ fr:
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
   bulk_import_templates:
-    aspace_accession_import_template_csv: Créez des enregistrements d'accession 
-      et des enregistrements liés à des adhésions comme des agents, des sujets 
-      et des événements.
+    aspace_accession_import_template_csv: Créez des enregistrements d'accession ainsi que des Étendues, des Documents externes, des Sujets, des Agents et des Instances avec contenants supérieurs. Le téléchargement comprend un groupe _1 pour chacun d'eux. Liez un Sujet existant avec subject_1_record_id, en indiquant soit un identifiant numérique tel que 197, soit une URI complète telle que /subjects/197. Liez un Agent existant avec agent_1_record_id de la même manière ; agent_1_agent_type est requis lorsque vous indiquez un identifiant numérique et facultatif lorsque vous indiquez une URI telle que /agents/people/5. Ne remplissez pas les champs de liaison et de création dans le même groupe. Liez un contenant supérieur existant avec une URI complète telle que /repositories/2/top_containers/5, ou avec son code-barres seul. Un code-barres seul lie le contenant supérieur qui le porte, qu'il ait déjà existé ou qu'une ligne précédente l'ait créé, et l'importation échoue si aucun contenant supérieur du dépôt ne porte ce code-barres. Remplir tout autre champ de contenant supérieur à côté d'un code-barres crée au contraire un nouveau contenant supérieur portant ce code-barres, l'indicateur étant requis, et l'importation échoue si ce code-barres est déjà utilisé dans le dépôt.
     bulk_import_DO_template_csv: Créez et liez des objets numériques à des 
       objets d'archives existants dans une ressource. Le format CSV est destiné 
       aux personnes n'ayant pas accès à Microsoft Excel.

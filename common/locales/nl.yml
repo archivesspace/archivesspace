@@ -22,6 +22,7 @@ nl:
     deleted: Verwijderd
     auto_generated: Wordt automatisch gegenereerd bij registratie
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Elk Extern document moet binnen dit record een unieke combinatie van titel en locatie hebben
     mixed_content_invalid_inline_ead: "Ongeldige EAD-opmaak: gebruik rechte aanhalingstekens (\" of ')
       voor attribuutwaarden en zorg ervoor dat tags goed gevormd zijn."
     mixed_content_disallowed_tag: "Niet-toegestane HTML-tag gedetecteerd. Om veiligheidsredenen zijn tags
@@ -71,6 +72,9 @@ nl:
       invalid_agent_type: "Agentgroep %{index} vereist een ondersteund Agenttype; ontvangen '%{agent_type}', moet een van de volgende zijn: %{allowed}"
       invalid_agent_type_for_link: "Agentgroep %{index} vereist een ondersteund Agenttype bij het koppelen van record-ID %{record_id}; ontvangen '%{agent_type}', moet een van de volgende zijn: %{allowed}"
       invalid_top_container_uri: "Ongeldige topcontainer-URI in instantiegroep %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "Ongeldige containerprofiel-URI in instantiegroep %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "Instantiegroep %{index} kan geen topcontainer met barcode %{barcode} aanmaken; die barcode hoort al bij %{top_container_uri}. Verwijder de overige topcontainervelden om deze te koppelen, of corrigeer de barcode."
+      unknown_top_container_barcode: "Instantiegroep %{index} heeft geen topcontainer met barcode %{barcode} in deze repository; voeg topcontainervelden toe om er een aan te maken, of corrigeer de barcode."
       invalid_date_type: "Ongeldig datumtype opgegeven: %{date_type}; moet een van de volgende zijn: %{allowed}; Opgegeven datum: %{date};"
       invalid_record_id: "De record-ID in groep %{index} moet een numerieke ID of een volledige record-URI zijn; ontvangen %{record_id}"
       unrecognized_record_uri: "Niet-herkende record-URI in groep %{index}: %{record_id}"
