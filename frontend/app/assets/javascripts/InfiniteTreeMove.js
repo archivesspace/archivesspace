@@ -137,13 +137,13 @@ class InfiniteTreeMove {
   }
 
   /**
-   * Resolve the row to move. Move always applies to the current `.selected` node.
+   * Resolve the row to move. Move always applies to the `.current` node.
    * @returns {HTMLElement|null}
    */
   #sourceNonRootNode() {
-    const selected = this.containerEl.querySelector('li.node.selected');
-    if (!selected || selected.classList.contains('root')) return null;
-    return selected;
+    const current = this.containerEl.querySelector('li.node.current');
+    if (!current || current.classList.contains('root')) return null;
+    return current;
   }
 
   #childCountForNode(node) {

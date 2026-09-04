@@ -152,7 +152,7 @@
           this.#setHashSilently(targetHash);
 
           // When the requested hash matches the URL hash (the common case from
-          // reorder flows where we re-assert the currently-selected record),
+          // reorder flows where we re-assert the current record),
           // no hashchange event fires and `_ignoreHashChange` would otherwise
           // stay stuck at true. Clear it after the current microtask so the
           // next user-initiated hashchange is processed normally.
@@ -197,7 +197,7 @@
         this.setHash(hash);
       } else {
         // No hashchange will occur; dispatch directly
-        this.dispatchNodeSelect(this.currentHash);
+        this.dispatchSetCurrentNode(this.currentHash);
       }
     }
 
@@ -210,7 +210,7 @@
 
       const newHash = window.location.hash;
 
-      // #new is the transient inline-create hash, accept it without dispatching nodeSelect.
+      // #new is the transient inline-create hash, accept it without dispatching setCurrentNode.
       if (this.#isInlineCreateHash(newHash)) {
         this.currentHash = newHash;
 
@@ -229,7 +229,7 @@
         // Navigation allowed
         this.currentHash = newHash;
 
-        this.dispatchNodeSelect(newHash);
+        this.dispatchSetCurrentNode(newHash);
       } else {
         // Navigation not allowed, revert hash and show guard
         const target = newHash;
@@ -253,13 +253,13 @@
 
       $('#saveChangesButton', '#saveYourChangesModal').on('click', () => {
         $('.btn', '#saveYourChangesModal').addClass('disabled');
-        // Capture the currently selected node's URI in case the form doesn't provide one
+        // Capture the current node's URI in case the form doesn't provide one
         try {
-          const selectedNode =
-            this.treeContainer.querySelector('li.node.selected');
+          const currentNode =
+            this.treeContainer.querySelector('li.node.current');
 
-          this._pendingSavedUri = selectedNode
-            ? selectedNode.getAttribute('data-uri')
+          this._pendingSavedUri = currentNode
+            ? currentNode.getAttribute('data-uri')
             : null;
         } catch (e) {
           this._pendingSavedUri = null;
@@ -290,7 +290,7 @@
 
       this.setHash(hash);
 
-      this.dispatchNodeSelect(window.location.hash);
+      this.dispatchSetCurrentNode(window.location.hash);
     }
 
     #requestFormSubmit() {
@@ -299,11 +299,11 @@
       );
     }
 
-    dispatchNodeSelect(hash) {
+    dispatchSetCurrentNode(hash) {
       const prefixedHash = hash && hash.startsWith('#') ? hash : `#${hash}`;
 
       this.treeContainer.dispatchEvent(
-        new CustomEvent('infiniteTreeRouter:nodeSelect', {
+        new CustomEvent('infiniteTreeRouter:setCurrentNode', {
           detail: {
             targetHash: prefixedHash,
           },

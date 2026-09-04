@@ -148,7 +148,7 @@ describe 'Linker Accessibility by Variant', js: true do
         )
         visit "/resources/#{resource.id}/edit#tree::archival_object_#{ao.id}"
         expect(page).to have_css('form#archival_object_form')
-        expect(page).to have_css('.node.selected')
+        expect(page).to have_css('.node.current')
         click_on 'Accession Links'
         click_on 'Add Accession Link'
         expect(page).to have_css("#{linker_container_selector} #{linker_wrapper_selector}")
@@ -159,7 +159,7 @@ describe 'Linker Accessibility by Variant', js: true do
       -> {
         visit "/resources/#{parent_resource.id}/edit#tree::archival_object_#{archival_object.id}"
         expect(page).to have_css('form#archival_object_form')
-        expect(page).to have_css('.node.selected')
+        expect(page).to have_css('.node.current')
         click_on 'Accession Links'
         expect(page).to have_css("#{linker_container_selector} #{linker_wrapper_selector}")
       }

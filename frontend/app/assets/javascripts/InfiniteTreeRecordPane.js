@@ -22,8 +22,8 @@
        */
       this._createPlusOne = false;
 
-      // Respond to tree selection (skip when InfiniteTree already loaded this record and only syncs chrome)
-      this.container.addEventListener('infiniteTree:nodeSelect', e => {
+      // Respond to current-node changes (skip when InfiniteTree already loaded this record and only syncs chrome)
+      this.container.addEventListener('infiniteTree:currentNodeChanged', e => {
         if (e.detail && e.detail.suppressPaneReload) return;
 
         this.loadRecord(e.detail.node);
@@ -87,20 +87,20 @@
     }
 
     /**
-     * Prefer live tree selection over toolbar event detail (which can be stale
+     * Prefer the live current tree node over toolbar event detail (which can be stale
      * after inline-create save recovery).
      * @param {Event} e
      * @returns {HTMLElement|null}
      */
     #resolveInlineCreateAnchorNode(e) {
-      const liveSelected =
+      const liveCurrent =
         this.treeContainerEl &&
         this.treeContainerEl.querySelector(
-          'li.node.selected:not(.js-itree-synthetic-new)'
+          'li.node.current:not(.js-itree-synthetic-new)'
         );
 
-      if (liveSelected && liveSelected.isConnected) {
-        return liveSelected;
+      if (liveCurrent && liveCurrent.isConnected) {
+        return liveCurrent;
       }
 
       const detailNode = e.detail && e.detail.node;
@@ -197,7 +197,7 @@
     /**
      * Shared placement query for sibling and duplicate (legacy AjaxTree sibling branch).
      * @param {string} rootUri
-     * @param {HTMLElement} anchorNode - Selected child-record li
+     * @param {HTMLElement} anchorNode - Current child-record li
      * @returns {URLSearchParams|null}
      */
     #buildSiblingPlacementQuery(rootUri, anchorNode) {
@@ -348,7 +348,7 @@
     }
 
     /**
-     * Load new child record form for the selected tree node (root or child record).
+     * Load new child record form for the current tree node (root or child record).
      * @param {HTMLElement} parentNode
      */
     async #loadNewChildRecord(parentNode) {
@@ -510,30 +510,30 @@
       const anchor = this._inlineCreateAnchorNode;
       this._inlineCreateAnchorNode = null;
 
-      void this.#restoreTreeSelectionAfterCancelNewChild(anchor);
+      void this.#restoreCurrentNodeAfterCancelNewChild(anchor);
     }
 
     /**
-     * Reload parent record from Cancel, then restore tree .selected (loadRecord alone does not select).
+     * Reload parent record from Cancel, then restore tree .current (loadRecord alone does not set it).
      */
-    async #restoreTreeSelectionAfterCancelNewChild(parent) {
+    async #restoreCurrentNodeAfterCancelNewChild(parent) {
       await this.loadRecord(parent);
 
-      this.#requestTreeSelectionSync(parent);
+      this.#requestCurrentNodeSync(parent);
       this.#restoreInlineCreateAnchorHash(parent);
     }
 
     /**
-     * After pane HTML matches `node`, restore tree .selected and toolbar (e.g. Add Child → Cancel).
+     * After pane HTML matches `node`, restore tree .current and toolbar (e.g. Add Child → Cancel).
      * @param {HTMLElement} node
      */
-    #requestTreeSelectionSync(node) {
+    #requestCurrentNodeSync(node) {
       if (!this.treeContainerEl || !node) return;
 
       if (node.classList.contains('js-itree-synthetic-new')) return;
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTree:syncTreeSelection', {
+        new CustomEvent('infiniteTree:syncCurrentNode', {
           bubbles: true,
           detail: { node },
         })
@@ -667,13 +667,13 @@
           e.preventDefault();
           e.stopPropagation();
 
-          const selectedNode =
+          const currentNode =
             this.treeContainerEl &&
-            this.treeContainerEl.querySelector('li.node.selected');
+            this.treeContainerEl.querySelector('li.node.current');
 
-          if (selectedNode) {
+          if (currentNode) {
             this.#setDirty(false);
-            void this.loadRecord(selectedNode);
+            void this.loadRecord(currentNode);
 
             return;
           }

@@ -38,7 +38,10 @@ describe 'Infinite Tree Integration', js: true do
 
         aggregate_failures do
           expect(page).to have_css('#infinite-tree-container .root')
-          expect(page).not_to have_css('#infinite-tree-container .selected')
+          expect(page).not_to have_css(
+            '#infinite-tree-container .current',
+            visible: :all
+          )
           within('#infinite-tree-record-pane') do
             expect(page).to have_css('h2', text: 'Record Not Found')
             expect(page).to have_text("The record you've tried to access may no longer exist or you may not have permission to view it.")
@@ -299,9 +302,9 @@ describe 'Infinite Tree Integration', js: true do
           find('#uri', visible: :all).value.split('/').last.to_i
         end
 
-        aggregate_failures 'saved record is selected in tree' do
+        aggregate_failures 'saved record is current in tree' do
           expect(page).to have_css(
-            "#infinite-tree-container li#archival_object_#{saved_id}.selected",
+            "#infinite-tree-container li#archival_object_#{saved_id}.current",
             visible: :all
           )
         end
@@ -343,9 +346,9 @@ describe 'Infinite Tree Integration', js: true do
           find('#uri', visible: :all).value.split('/').last.to_i
         end
 
-        aggregate_failures 'saved child is selected in tree' do
+        aggregate_failures 'saved child is current in tree' do
           expect(page).to have_css(
-            "#infinite-tree-container li#archival_object_#{saved_id}.selected",
+            "#infinite-tree-container li#archival_object_#{saved_id}.current",
             visible: :all
           )
         end
@@ -383,9 +386,9 @@ describe 'Infinite Tree Integration', js: true do
           find('#uri', visible: :all).value.split('/').last.to_i
         end
 
-        aggregate_failures 'saved record is selected in tree' do
+        aggregate_failures 'saved record is current in tree' do
           expect(page).to have_css(
-            "#infinite-tree-container li#archival_object_#{saved_id}.selected",
+            "#infinite-tree-container li#archival_object_#{saved_id}.current",
             visible: :all
           )
         end

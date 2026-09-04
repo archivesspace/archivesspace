@@ -9,10 +9,10 @@
   const ITREE_THRESHOLD_EMS = 300;
 
   class InfiniteTree {
-    static EVENT_TYPE_NODE_SELECT = 'infiniteTree:nodeSelect';
+    static EVENT_TYPE_CURRENT_NODE_CHANGED = 'infiniteTree:currentNodeChanged';
     static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
-    /** Record pane: resync tree .selected after inline create Cancel (pane already shows the parent record). */
-    static EVENT_TYPE_SYNC_TREE_SELECTION = 'infiniteTree:syncTreeSelection';
+    /** Record pane: resync tree .current after inline create Cancel (pane already shows the parent record). */
+    static EVENT_TYPE_SYNC_CURRENT_NODE = 'infiniteTree:syncCurrentNode';
 
     #autoExpandEnabled = false;
     #autoExpandLocked = false;
@@ -88,7 +88,7 @@
       });
 
       this.container.addEventListener(
-        'infiniteTreeRouter:nodeSelect',
+        'infiniteTreeRouter:setCurrentNode',
         async e => {
           const { targetHash } = e.detail;
 
@@ -102,12 +102,10 @@
             return;
           }
 
-          const selectedNode = this.container.querySelector(
-            `#${nodeElementId}`
-          );
+          const currentNode = this.container.querySelector(`#${nodeElementId}`);
 
-          if (selectedNode) {
-            this.selectNode(selectedNode);
+          if (currentNode) {
+            this.setCurrentNode(currentNode);
 
             return;
           }
@@ -116,7 +114,7 @@
           if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
             const rootNode = await this.renderRoot();
 
-            this.selectNode(rootNode);
+            this.setCurrentNode(rootNode);
           } else {
             this.loadNodeWithAncestors(targetHash);
           }
@@ -144,7 +142,7 @@
         }
       );
 
-      // Rebuild the tree, restore selected context, and reveal a separate target.
+      // Rebuild the tree, restore current-record context, and reveal a separate target.
       this.container.addEventListener(
         'infiniteTreeRouter:redisplayAndReopen',
         async e => {
@@ -166,7 +164,7 @@
             this.container.dispatchEvent(
               new CustomEvent('infiniteTree:redisplayAndReopenComplete', {
                 detail: {
-                  selectedUri: detail.selectedUri || null,
+                  currentUri: detail.currentUri || null,
                   revealUri: detail.revealUri || null,
                   succeeded,
                 },
@@ -227,15 +225,15 @@
       );
 
       this.container.addEventListener(
-        InfiniteTree.EVENT_TYPE_SYNC_TREE_SELECTION,
+        InfiniteTree.EVENT_TYPE_SYNC_CURRENT_NODE,
         e => {
           const n = e.detail && e.detail.node;
           if (!n || n.classList.contains('js-itree-synthetic-new')) return;
 
-          this.selectNode(n, { notifyPane: false });
+          this.setCurrentNode(n, { notifyPane: false });
 
           this.recordPaneEl.dispatchEvent(
-            new CustomEvent(InfiniteTree.EVENT_TYPE_NODE_SELECT, {
+            new CustomEvent(InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED, {
               detail: { node: n, suppressPaneReload: true },
             })
           );
@@ -306,28 +304,28 @@
     }
 
     /**
-     * Sets the selected node, expanding it if collapsed, and notifies the record pane
-     * @param {HTMLElement} node - The node to select corresponding to the record pane
+     * Sets the current node, expanding it if collapsed, and notifies the record pane
+     * @param {HTMLElement} node - The node corresponding to the record pane
      * @param {{ notifyPane?: boolean }} [options] - When notifyPane is false, only updates tree chrome (used after pane already loaded the same record).
      */
-    selectNode(node, options = {}) {
+    setCurrentNode(node, options = {}) {
       const notifyPane = options.notifyPane !== false;
 
       if (!node.classList.contains('js-itree-synthetic-new')) {
         this.#removeSyntheticNewChild();
       }
 
-      const old = this.container.querySelector('.selected');
+      const oldCurrent = this.container.querySelector('li.node.current');
 
-      if (old) old.classList.remove('selected');
+      if (oldCurrent) oldCurrent.classList.remove('current');
 
-      node.classList.add('selected');
+      node.classList.add('current');
 
       if (node.getAttribute('aria-expanded') === 'false')
         this.#expandNode(node);
 
       if (notifyPane) {
-        this.#dispatchNodeSelectEvent(node);
+        this.#dispatchCurrentNodeChangedEvent(node);
       }
     }
 
@@ -393,7 +391,7 @@
         }
       }
 
-      // Notify listeners that a batch was inserted (for selection class updates)
+      // Notify listeners that a batch was inserted (for reorder-selection class updates)
       const parentNode = list.closest('li.node');
       if (parentNode) {
         this.container.dispatchEvent(
@@ -603,12 +601,12 @@
     }
 
     /**
-     * Rebuilds the entire tree and selects the node pointed to by locationHash
+     * Rebuilds the entire tree and makes the node pointed to by locationHash current
      * @param {string} locationHash - The location hash representing the node to render
      * @param {{ plusOne?: boolean, notifyPane?: boolean }} [options]
      * @param {boolean} [options.plusOne=false] - Save +1 post-create: defers pane load to
      * plusOneAfterCreate → #loadNewSiblingRecord.
-     * @param {boolean} [options.notifyPane] - Whether to fire nodeSelect so the pane reloads
+     * @param {boolean} [options.notifyPane] - Whether to fire currentNodeChanged so the pane reloads
      * after the tree rebuilds. Defaults to !plusOne. Pass false after a normal inline create
      * to keep the create-response HTML in the pane after a successful record create
      */
@@ -629,7 +627,7 @@
 
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
-        this.selectNode(rootNodeElement, { notifyPane });
+        this.setCurrentNode(rootNodeElement, { notifyPane });
         rootNodeElement.scrollIntoView({
           behavior: 'instant',
           block: 'center',
@@ -653,17 +651,17 @@
     }
 
     /**
-     * Rebuilds the tree from server data while separating selected record from revealed row.
+     * Rebuilds the tree from server data while separating current record from revealed row.
      * @param {Object} options
      * @param {string[]} [options.reopenUris] - Expanded/source/destination context to reopen
-     * @param {string|null} [options.selectedUri] - URI that should remain selected
+     * @param {string|null} [options.currentUri] - URI that should remain current
      * @param {string} options.revealUri - URI that must be visible after recovery
      * @param {number|null} [options.scrollTop] - Previous container scroll position
      * @param {string} [options.revealStrategy] - Scroll behavior after rebuild
      */
     async redisplayAndReopen({
       reopenUris = [],
-      selectedUri = null,
+      currentUri = null,
       revealUri,
       scrollTop = null,
       revealStrategy = 'restore-scroll-then-reveal-if-needed',
@@ -672,7 +670,7 @@
 
       const contextUris = this.#uniqueUris([
         revealUri,
-        selectedUri,
+        currentUri,
         ...reopenUris,
       ]);
       const nonRootContextUris = contextUris.filter(
@@ -696,14 +694,16 @@
 
           await this.#renderAncestors(contextBatches, revealNodeId, {
             replace: false,
-            select: false,
+            setCurrent: false,
             center: false,
           });
         }
       }
 
       await this.#reopenNodesByUri(reopenUris);
-      await this.#selectUriWithoutPaneReload(selectedUri || this.rootMeta.uri);
+      await this.#setCurrentUriWithoutPaneReload(
+        currentUri || this.rootMeta.uri
+      );
       this.#restoreScrollThenReveal(revealUri, scrollTop, revealStrategy);
     }
 
@@ -758,14 +758,19 @@
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
      * @param {Object} [options] - Options for rendering
      * @param {boolean} [options.replace=true] - Whether to replace container content first
-     * @param {boolean} [options.select=true] - Whether to call selectNode on the target
+     * @param {boolean} [options.setCurrent=true] - Whether to call setCurrentNode on the target
      * @param {boolean} [options.center=true] - Whether to scroll the target into view
-     * @param {boolean} [options.notifyPane=true] - Whether selectNode should notify the record pane
+     * @param {boolean} [options.notifyPane=true] - Whether setCurrentNode should notify the record pane
      */
     async #renderAncestors(
       ancestorBatches,
       nodeElementId,
-      { replace = true, select = true, center = true, notifyPane = true } = {}
+      {
+        replace = true,
+        setCurrent = true,
+        center = true,
+        notifyPane = true,
+      } = {}
     ) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
@@ -866,7 +871,7 @@
       );
 
       if (nodeOfInterest) {
-        if (select) this.selectNode(nodeOfInterest, { notifyPane });
+        if (setCurrent) this.setCurrentNode(nodeOfInterest, { notifyPane });
         if (center)
           nodeOfInterest.scrollIntoView({
             behavior: 'instant',
@@ -895,16 +900,16 @@
       }
     }
 
-    async #selectUriWithoutPaneReload(uri) {
+    async #setCurrentUriWithoutPaneReload(uri) {
       const node = this.#nodeByUri(uri) || this.#nodeByUri(this.rootMeta.uri);
 
       if (!node) return;
 
-      const old = this.container.querySelector('.selected');
+      const oldCurrent = this.container.querySelector('li.node.current');
 
-      if (old) old.classList.remove('selected');
+      if (oldCurrent) oldCurrent.classList.remove('current');
 
-      node.classList.add('selected');
+      node.classList.add('current');
 
       if (node.getAttribute('aria-expanded') === 'false') {
         await this.#expandNode(node);
@@ -1024,7 +1029,7 @@
       if (icon) icon.classList.add('expanded');
       node.setAttribute('aria-expanded', 'true');
 
-      // Notify listeners that a node was expanded (for selection class updates)
+      // Notify listeners that a node was expanded (for reorder-selection class updates)
       this.container.dispatchEvent(
         new CustomEvent('infiniteTree:didExpand', {
           bubbles: true,
@@ -1191,16 +1196,16 @@
     }
 
     /**
-     * Dispatches the node select event for the record pane
-     * @param {HTMLElement} node - The selected node
+     * Dispatches the current-node-changed event for the record pane
+     * @param {HTMLElement} node - The current node
      */
-    #dispatchNodeSelectEvent(node) {
+    #dispatchCurrentNodeChangedEvent(node) {
       if (node.classList.contains('js-itree-synthetic-new')) {
         return;
       }
 
       const target = this.recordPaneEl;
-      const type = InfiniteTree.EVENT_TYPE_NODE_SELECT;
+      const type = InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED;
 
       this.#dispatchEvent(target, type, { node });
     }
@@ -1271,10 +1276,10 @@
 
       list.appendChild(synthetic);
 
-      const prev = this.container.querySelector('.node.selected');
-      if (prev) prev.classList.remove('selected');
+      const previousCurrent = this.container.querySelector('li.node.current');
+      if (previousCurrent) previousCurrent.classList.remove('current');
 
-      synthetic.classList.add('selected');
+      synthetic.classList.add('current');
 
       this._syntheticNewNode = synthetic;
 
@@ -1283,7 +1288,7 @@
 
     /**
      * Inserts a placeholder li after the anchor (Add Sibling / Add Duplicate → new_inline), same depth as anchor.
-     * @param {HTMLElement} anchorNode - Selected archival object li
+     * @param {HTMLElement} anchorNode - Current archival object li
      * @param {string|null} [placeholderTitle] - When non-null and non-empty, overrides row title (duplicate flow).
      */
     async #showSyntheticNewSibling(anchorNode, placeholderTitle = null) {
@@ -1315,10 +1320,10 @@
 
       anchorNode.insertAdjacentElement('afterend', synthetic);
 
-      const prev = this.container.querySelector('.node.selected');
-      if (prev) prev.classList.remove('selected');
+      const previousCurrent = this.container.querySelector('li.node.current');
+      if (previousCurrent) previousCurrent.classList.remove('current');
 
-      synthetic.classList.add('selected');
+      synthetic.classList.add('current');
 
       this._syntheticNewNode = synthetic;
 

@@ -47,7 +47,7 @@ Given 'a Resource with two Archival Objects has been created' do
 
   aggregate_failures do
     expect(page).to have_text "Archival Object Archival Object 1 #{@uuid} on Resource Resource #{@uuid} created"
-    expect(page).to have_css('.infinite-tree .node.selected', text: "Archival Object 1 #{@uuid}")
+    expect(page).to have_css('.infinite-tree .node.current', text: "Archival Object 1 #{@uuid}")
     expect(page).to have_no_css('#infinite-tree-toolbar .js-itree-toolbar-add-child.disabled')
   end
 
@@ -78,13 +78,13 @@ Then 'the Resource is displayed as the top level of the navigation tree' do
   end
 end
 
-Then 'the Resource is highlighted in the tree' do
+Then 'the Resource is current in the tree' do
   rows = all('.infinite-tree .node')
 
   aggregate_failures do
     expect(rows.length).to eq 2
     expect(rows[0].text).to include "Resource #{@uuid}"
-    expect(rows[0][:class]).to include 'selected'
+    expect(rows[0][:class]).to include 'current'
   end
 end
 

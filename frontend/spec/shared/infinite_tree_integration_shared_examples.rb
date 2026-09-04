@@ -43,7 +43,12 @@ RSpec.shared_examples 'adds root hash and displays root on load' do |path_let, v
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(path)}#tree::resource_})
-      expect(page).to have_css('#infinite-tree-container .root.selected')
+      expect(page).to have_css('#infinite-tree-container .root.current')
+      expect(page).to have_css(
+        '#infinite-tree-container .node.current',
+        count: 1,
+        visible: :all
+      )
       within('#infinite-tree-record-pane') do
         expect(page).to have_css('h2', text: resource.title)
         case view_type
@@ -70,6 +75,12 @@ RSpec.shared_examples 'keeps hash and displays record on load' do |path_let, has
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(path)}#{Regexp.escape(hash)}})
+      expect(page).to have_css(infinite_tree_current_node_selector(record))
+      expect(page).to have_css(
+        '#infinite-tree-container .node.current',
+        count: 1,
+        visible: :all
+      )
       within('#infinite-tree-record-pane') do
         expect(page).to have_css('h2', text: record.title)
         case view_type
@@ -101,6 +112,12 @@ RSpec.shared_examples 'tree node title click updates pane and URL when no unsave
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(expected_hash)}})
+      expect(page).to have_css(infinite_tree_current_node_selector(expected_record))
+      expect(page).to have_css(
+        '#infinite-tree-container .node.current',
+        count: 1,
+        visible: :all
+      )
       within('#infinite-tree-record-pane') do
         expect(page).to have_css('h2', text: expected_record.title)
         case view_type
