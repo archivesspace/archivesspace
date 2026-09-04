@@ -17,6 +17,22 @@ describe "Import Digital Objects" do
     [cols, expl]
   end
 
+  def import_digital_object_csv(columns, column_explanations, row, validate_only: false)
+    csv_string = CSV.generate(col_sep: ',') do |csv|
+      csv << columns
+      csv << column_explanations
+      csv << row.values
+    end
+    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+    csv_path = File.join(Dir.tmpdir, csv_filename)
+    File.write(csv_path, csv_string)
+    opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource",
+             :filename => csv_filename, :filepath => csv_path, :load_type => "digital_object",
+             :validate => validate_only }
+
+    ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+  end
+
   before(:each) do
     @now = Time.now.to_i
 
@@ -546,25 +562,7 @@ describe "Import Digital Objects" do
     digital_object_row['lang_material_language_2'] = 'fre'
     digital_object_row['lang_material_script_2'] = 'Latn'
 
-    csv_string = CSV.generate(col_sep: ',') do |csv|
-      csv << columns
-      csv << column_explanations
-      csv << digital_object_row.values
-    end
-
-    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
-    csv_path = File.join(Dir.tmpdir, csv_filename)
-    File.write(csv_path, csv_string)
-
-    opts = { :repo_id => @resource[:repo_id],
-             :rid => @resource[:id],
-             :type => "resource",
-             :filename => csv_filename,
-             :filepath => csv_path,
-             :load_type => "digital_object" }
-
-    importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
-    report = importer.run
+    report = import_digital_object_csv(columns, column_explanations, digital_object_row)
 
     expect(report.terminal_error).to eq(nil)
     expect(report.rows[0].errors).to eq([])
@@ -598,25 +596,7 @@ describe "Import Digital Objects" do
     digital_object_row['user_defined_real_1'] = '3.14159'
     digital_object_row['user_defined_date_1'] = '2024-01-01'
 
-    csv_string = CSV.generate(col_sep: ',') do |csv|
-      csv << columns
-      csv << column_explanations
-      csv << digital_object_row.values
-    end
-
-    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
-    csv_path = File.join(Dir.tmpdir, csv_filename)
-    File.write(csv_path, csv_string)
-
-    opts = { :repo_id => @resource[:repo_id],
-             :rid => @resource[:id],
-             :type => "resource",
-             :filename => csv_filename,
-             :filepath => csv_path,
-             :load_type => "digital_object" }
-
-    importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
-    report = importer.run
+    report = import_digital_object_csv(columns, column_explanations, digital_object_row)
 
     expect(report.terminal_error).to eq(nil)
     expect(report.rows[0].errors).to eq([])
@@ -630,8 +610,52 @@ describe "Import Digital Objects" do
     expect(ud['text_1']).to eq 'a longer note'
     expect(ud['boolean_1']).to eq true
     expect(ud['integer_1']).to eq '42'
-    expect(ud['real_1']).to eq '3.14'
+    expect(ud['real_1']).to eq '3.14159'
     expect(ud['date_1']).to eq '2024-01-01'
+  end
+
+  it 'reads User Defined booleans from the row hash after normalization' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+    importer.instance_variable_set(:@row_hash, { 'user_defined_boolean_1' => 'true' })
+    allow(importer).to receive(:normalize_boolean_column) do |row_hash, column|
+      row_hash[column] = true
+      nil
+    end
+
+    expect(importer.send(:create_user_defined)['boolean_1']).to eq(true)
+  end
+
+  it 'reads Collection Management booleans from the row hash after normalization' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+    importer.instance_variable_set(:@row_hash, { 'collection_management_rights_determined' => 'true' })
+    allow(importer).to receive(:normalize_boolean_column) do |row_hash, column|
+      row_hash[column] = true
+      nil
+    end
+
+    expect(importer.send(:create_collection_management)['rights_determined']).to eq(true)
+  end
+
+  it 'normalizes User Defined whole-number representations without truncating fractions' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+
+    expect(importer.send(:normalize_user_defined_integer, '42')).to eq('42')
+    expect(importer.send(:normalize_user_defined_integer, '42.0')).to eq('42')
+    expect(importer.send(:normalize_user_defined_integer, '4.2e1')).to eq('42')
+    %w[42.5 invalid NaN Infinity].each do |value|
+      expect { importer.send(:normalize_user_defined_integer, value) }.to raise_error(BulkImportException)
+    end
+  end
+
+  it 'normalizes User Defined real values without rounding meaningful precision' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+
+    expect(importer.send(:normalize_user_defined_real, '3.14000')).to eq('3.14')
+    expect(importer.send(:normalize_user_defined_real, '3.14159')).to eq('3.14159')
+    expect(importer.send(:normalize_user_defined_real, '1e3')).to eq('1000')
+    %w[3.141592 invalid NaN Infinity 1234567890].each do |value|
+      expect { importer.send(:normalize_user_defined_real, value) }.to raise_error(BulkImportException)
+    end
   end
 
   it 'successfully creates and assigns a digital object to an existing archival object with collection management' do
@@ -656,25 +680,7 @@ describe "Import Digital Objects" do
     digital_object_row['collection_management_processing_total_extent_type'] = 'cubic_feet'
     digital_object_row['collection_management_rights_determined'] = 'true'
 
-    csv_string = CSV.generate(col_sep: ',') do |csv|
-      csv << columns
-      csv << column_explanations
-      csv << digital_object_row.values
-    end
-
-    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
-    csv_path = File.join(Dir.tmpdir, csv_filename)
-    File.write(csv_path, csv_string)
-
-    opts = { :repo_id => @resource[:repo_id],
-             :rid => @resource[:id],
-             :type => "resource",
-             :filename => csv_filename,
-             :filepath => csv_path,
-             :load_type => "digital_object" }
-
-    importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
-    report = importer.run
+    report = import_digital_object_csv(columns, column_explanations, digital_object_row)
 
     expect(report.terminal_error).to eq(nil)
     expect(report.rows[0].errors).to eq([])

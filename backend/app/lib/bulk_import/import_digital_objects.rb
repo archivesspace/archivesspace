@@ -1,4 +1,5 @@
 require_relative "bulk_import_parser"
+require "bigdecimal"
 
 class ImportDigitalObjects < BulkImportParser
   START_MARKER = /ArchivesSpace digital object import field codes/.freeze
@@ -187,6 +188,7 @@ class ImportDigitalObjects < BulkImportParser
       cm[field] =
         if field == "rights_determined"
           normalize_boolean_column(@row_hash, col)
+          @row_hash[col]
         else
           value
         end
@@ -207,10 +209,11 @@ class ImportDigitalObjects < BulkImportParser
       ud[field] =
         if field.start_with?("boolean_")
           normalize_boolean_column(@row_hash, col)
+          @row_hash[col]
         elsif field.start_with?("integer_")
-          value.to_i.to_s
+          normalize_user_defined_integer(value)
         elsif field.start_with?("real_")
-          "%0.2f" % value.to_f
+          normalize_user_defined_real(value)
         else
           value
         end
@@ -320,6 +323,39 @@ class ImportDigitalObjects < BulkImportParser
     end
 
     subjects
+  end
+
+  def normalize_user_defined_integer(value)
+    integer = Integer(value, exception: false)
+    return integer.to_s unless integer.nil?
+
+    decimal = decimal_from(value)
+    unless decimal&.finite? && decimal.frac.zero?
+      raise BulkImportException.new("Invalid User Defined integer: #{value}")
+    end
+
+    decimal.to_i.to_s
+  end
+
+  def normalize_user_defined_real(value)
+    float = Float(value, exception: false)
+    decimal = decimal_from(value)
+    unless float&.finite? && decimal&.finite? && (decimal * 100_000).frac.zero?
+      raise BulkImportException.new("Invalid User Defined real: #{value}")
+    end
+
+    integer, fraction = decimal.to_s("F").split(".", 2)
+    raise BulkImportException.new("Invalid User Defined real: #{value}") if integer.delete_prefix("-").length > 9
+
+    return integer if fraction.nil?
+
+    "#{integer}.#{fraction.sub(/0+\z/, "")}".sub(/\.\z/, "")
+  end
+
+  def decimal_from(value)
+    BigDecimal(value.to_s)
+  rescue ArgumentError
+    nil
   end
 
   def process_extents

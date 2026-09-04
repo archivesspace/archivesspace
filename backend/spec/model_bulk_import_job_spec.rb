@@ -6,7 +6,7 @@ describe 'Bulk Import Jobs' do
   describe "digital object spreadsheet imports" do
 
     let(:resource) do
-      create(:json_resource, ead_id: "foobar")
+      create(:json_resource, ead_id: SecureRandom.uuid)
     end
 
     let(:archival_object) do
@@ -30,8 +30,8 @@ describe 'Bulk Import Jobs' do
 
       tmp = ASUtils.tempfile("bulk-import-digital-object-csv-#{Time.now.to_i}")
       tmp.write("ArchivesSpace digital object import field codes (please don't edit this row),collection_id,ead,ref_id,res_uri,ao_ref_id,ao_uri,digital_object_id,digital_object_title,digital_object_publish,file_version_file_uri_1,file_version_is_representative_1,file_version_publish_1,file_version_file_uri_2,file_version_is_representative_2,file_version_publish_2\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,blah blah,t,http://blahblah.com,t,,http://thumbnail.com,f,f\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,,hide me,f,http://hideme.com,t,,http://thumbnail.com,f,t\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR,blah blah,t,http://blahblah.com,t,,http://thumbnail.com,f,f\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR_2,hide me,f,http://hideme.com,t,,http://thumbnail.com,f,t\n")
       tmp.rewind
       user = create_nobody_user
       job = Job.create_from_json(json,
@@ -42,12 +42,12 @@ describe 'Bulk Import Jobs' do
       job
     end
 
-    before(:each) do
+    before(:each, :valid_digital_object_import) do
       job_runner = JobRunner.for(job)
       job_runner.run
     end
 
-    it "can determine publication status of digital objects, file link, and thumbnail" do
+    it "can determine publication status of digital objects, file link, and thumbnail", :valid_digital_object_import do
       ao = JSONModel(:archival_object).find(archival_object.id, 'resolve[]' => ["instances", "digital_object"])
       expect(ao.instances[0]['digital_object']['_resolved']['title']).to eq "blah blah"
       expect(ao.instances[0]['digital_object']['_resolved']['publish']).to be true
@@ -57,6 +57,37 @@ describe 'Bulk Import Jobs' do
       expect(ao.instances[0]['digital_object']['_resolved']['file_versions'][1]['publish']).to be false
       expect(ao.instances[1]['digital_object']['_resolved']['file_versions'][0]['publish']).to be true
       expect(ao.instances[1]['digital_object']['_resolved']['file_versions'][1]['publish']).to be true
+    end
+
+    [true, false].each do |validate_only|
+      it "fails a #{validate_only ? 'validate-only' : 'real'} import with an unknown header and attaches its report", :disable_database_transaction do
+        tmp = ASUtils.tempfile("bulk-import-invalid-header-#{Time.now.to_i}")
+        tmp.write("ArchivesSpace digital object import field codes (please don't edit this row),res_uri,ao_uri,digital_object_title,unknown_header\n")
+        tmp.write(",#{resource.uri},#{archival_object.uri},Invalid Digital Object,invalid\n")
+        tmp.rewind
+
+        json = build(:json_job,
+                     :job_type => 'bulk_import_job',
+                     :job_params => {rid: resource.id}.to_json,
+                     :job => JSONModel(:bulk_import_job).new({
+                                                               resource_id: resource.id.to_s,
+                                                               filename: 'invalid-header.csv',
+                                                               load_type: 'digital',
+                                                               content_type: 'csv',
+                                                               format: 'csv',
+                                                               only_validate: validate_only.to_s
+                                                             }))
+        job = Job.create_from_json(json, :repo_id => $repo_id, :user => User.find(:username => 'admin'))
+        job.add_file(tmp)
+
+        expect { BackgroundJobQueue.new.run_pending_job }.not_to change { DigitalObject.count }
+
+        job.reload
+        expect(job.status).to eq('failed')
+        expect(job.get_output_stream.first.read).to include('unknown_header')
+        expect(job.job_files.length).to eq(2)
+        expect(File.read(job.job_files.last.full_file_path)).to include('unknown_header')
+      end
     end
   end
 
