@@ -62,6 +62,9 @@ class DigitalObjectHandler < Handler
     begin
       files = file_versions.map { |fv| JSONModel(:file_version).from_hash(fv) }
       digital_object.file_versions = files if files.any?
+      digital_object.lang_materials = lang_materials if lang_materials.any?
+      digital_object.user_defined = user_defined if user_defined
+      digital_object.collection_management = collection_management if collection_management
       digital_object = save(digital_object, DigitalObject)
     rescue JSONModel::ValidationException => ve
       report.add_errors(I18n.t("bulk_import.error.dig_validation", :err => ve.errors))
