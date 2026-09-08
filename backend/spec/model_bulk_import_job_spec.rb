@@ -89,6 +89,44 @@ describe 'Bulk Import Jobs' do
         expect(File.read(job.job_files.last.full_file_path)).to include('unknown_header')
       end
     end
+
+    it "does not commit records from earlier rows when a later row fails unexpectedly", :disable_database_transaction do
+      tmp = ASUtils.tempfile("bulk-import-midfile-failure-#{Time.now.to_i}")
+      tmp.write("ArchivesSpace digital object import field codes (please don't edit this row),res_uri,ao_uri,digital_object_id,digital_object_title\n")
+      tmp.write(",#{resource.uri},#{archival_object.uri},DO_ROW_1,First Digital Object\n")
+      tmp.write(",#{resource.uri},#{archival_object.uri},DO_ROW_2,Second Digital Object\n")
+      tmp.rewind
+
+      json = build(:json_job,
+                   :job_type => 'bulk_import_job',
+                   :job_params => {rid: resource.id}.to_json,
+                   :job => JSONModel(:bulk_import_job).new({
+                                                             resource_id: resource.id.to_s,
+                                                             filename: 'midfile-failure.csv',
+                                                             load_type: 'digital',
+                                                             content_type: 'csv',
+                                                             format: 'csv',
+                                                             only_validate: 'false'
+                                                           }))
+      job = Job.create_from_json(json, :repo_id => $repo_id, :user => User.find(:username => 'admin'))
+      job.add_file(tmp)
+
+       saves = 0
+      allow_any_instance_of(ImportDigitalObjects).to receive(:ao_save).and_wrap_original do |original, *args|
+        saves += 1
+        raise Sequel::DatabaseError.new("connection lost") if saves > 1
+        original.call(*args)
+      end
+
+      digital_objects_before = DigitalObject.count
+      BackgroundJobQueue.new.run_pending_job
+
+      job.reload
+      expect(job.status).to eq('failed')
+
+      expect(DigitalObject.count).to eq(digital_objects_before)
+      expect(job.created_records).to be_empty
+    end
   end
 
   describe "archival object spreadsheet imports" do
