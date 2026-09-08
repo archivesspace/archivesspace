@@ -62,6 +62,11 @@ class BulkImportRunner < JobRunner
         rescue JSONModel::ValidationException, BulkImportException => e
           last_error = e
         end
+
+        if terminal_error
+          created_uris = []
+          raise Sequel::Rollback
+        end
       end
     rescue
       last_error = $!
