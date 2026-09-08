@@ -2607,8 +2607,7 @@ es:
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
   bulk_import_templates:
-    aspace_accession_import_template_csv: Cree registros de accesiones y 
-      registros vinculados a accesiones como agentes, sujetos y eventos.
+    aspace_accession_import_template_csv: Cree registros de accesiones junto con Extensiones, Documentos externos, Temas, Agentes e Instancias con Top Containers. La descarga incluye un grupo _1 para cada uno de ellos. Vincule un Tema existente con subject_1_record_id, indicando un ID numérico como 197 o una URI completa como /subjects/197. Vincule un Agente existente con agent_1_record_id de la misma forma; agent_1_agent_type es obligatorio cuando indica un ID numérico y opcional cuando indica una URI como /agents/people/5. No rellene campos de vinculación y de creación en el mismo grupo. Vincule un Top Container existente con una URI completa como /repositories/2/top_containers/5, o solo con su código de barras. Un código de barras por sí solo vincula el Top Container que lo tiene, tanto si ya existía como si lo creó una fila anterior, y la importación falla si ningún Top Container del repositorio tiene ese código de barras. Rellenar cualquier otro campo de Top Container junto al código de barras crea en su lugar un nuevo Top Container con ese código de barras, siendo obligatorio el indicador, y la importación falla si ese código de barras ya está en uso en el repositorio.
     bulk_import_DO_template_xlsx: Cree y vincule objetos digitales a objetos de 
       archivo existentes en un recurso. El formato XLSX es para quienes tienen 
       acceso a Microsoft Excel.

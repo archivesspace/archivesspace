@@ -16,6 +16,12 @@ class BatchImportRunner < JobRunner
   register_for_job_type('import_job', :create_permissions => :import_records,
                                       :cancel_permissions => :cancel_importer_job)
 
+  USER_FACING_IMPORT_ERRORS = [
+    ReferenceError,
+    NotFoundException,
+    ASpaceImport::CSVConvert::CSVSyntaxException,
+    AccessionConverterError
+  ].freeze
 
   def run
     ticker = Ticker.new(@job)
@@ -79,7 +85,7 @@ class BatchImportRunner < JobRunner
           log_created_uris(created_uris)
         rescue ImportCanceled
           raise Sequel::Rollback
-        rescue JSONModel::ValidationException, ImportException, Converter::ConverterMappingError, Sequel::ValidationFailed, ReferenceError => e
+        rescue JSONModel::ValidationException, ImportException, Converter::ConverterMappingError, Sequel::ValidationFailed, *USER_FACING_IMPORT_ERRORS => e
           # Note: we deliberately don't catch Sequel::DatabaseError here.  The
           # outer call to DB.open will catch that exception and retry the
           # import for us.
@@ -139,6 +145,9 @@ class BatchImportRunner < JobRunner
           ticker.log("\n\nIn : \n #{ CGI.escapeHTML( last_error.import_context ) } ")
           ticker.log("\n\n")
         end
+      elsif USER_FACING_IMPORT_ERRORS.any? {|error_class| last_error.is_a?(error_class) }
+        ticker.log(last_error.message)
+        Log.exception(last_error)
       else
         ticker.log("Trace:" + last_error.backtrace.inspect)
         ticker.log("Errors: #{last_error.inspect}")

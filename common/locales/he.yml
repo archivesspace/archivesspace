@@ -18,7 +18,30 @@ he:
       indicator: מחוון
       barcode: ברקוד
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: "כל מסמך חיצוני חייב לכלול שילוב ייחודי של כותרת ומיקום ברשומה זו"
     mixed_content_invalid_inline_ead: "סימון EAD לא חוקי: השתמש במירכאות ישרות (\" או ') עבור ערכי תכונות
       וודא שהתגים מעוצבים כהלכה."
     mixed_content_disallowed_tag: "התגלה תג HTML לא מורשה. מטעמי אבטחה, תגים כגון &lt;script&gt;, &lt;style&gt;,
       &lt;iframe&gt; ואלמנטי טפסים אינם מורשים בשדות תוכן מעורב."
+  importer:
+    error:
+      agent_mode_conflict: "קבוצת הסוכן %{index} אינה יכולה להכיל גם מזהה רשומה וגם ערכים ליצירת רשומה חדשה"
+      subject_mode_conflict: "קבוצת הנושא %{index} אינה יכולה להכיל גם מזהה רשומה וגם ערכים ליצירת רשומה חדשה"
+      top_container_mode_conflict: "קבוצת המופע %{index} אינה יכולה להכיל גם כתובת URI של מיכל עליון וגם ערכים ליצירת רשומה חדשה"
+      missing_agent_type: "קבוצת הסוכן %{index} חייבת לכלול סוג סוכן; חייב להיות אחד מתוך: %{allowed}"
+      missing_agent_type_for_link: "קבוצת הסוכן %{index} חייבת לכלול סוג סוכן בעת קישור למזהה רשומה %{record_id}; חייב להיות אחד מתוך: %{allowed}"
+      invalid_agent_type: "קבוצת הסוכן %{index} מחייבת סוג סוכן נתמך; התקבל '%{agent_type}', חייב להיות אחד מתוך: %{allowed}"
+      invalid_agent_type_for_link: "קבוצת הסוכן %{index} מחייבת סוג סוכן נתמך בעת קישור למזהה רשומה %{record_id}; התקבל '%{agent_type}', חייב להיות אחד מתוך: %{allowed}"
+      invalid_top_container_uri: "כתובת URI לא חוקית של מיכל עליון בקבוצת המופע %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "כתובת URI לא חוקית של פרופיל מיכל בקבוצת המופע %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "קבוצת המופע %{index} אינה יכולה ליצור מיכל עליון עם הברקוד %{barcode}; ברקוד זה כבר שייך אל %{top_container_uri}. הסר את שאר שדות המיכל העליון כדי לקשר אותו, או תקן את הברקוד."
+      unknown_top_container_barcode: "בקבוצת המופע %{index} אין מיכל עליון עם הברקוד %{barcode} במאגר זה; הוסף שדות מיכל עליון כדי ליצור אחד, או תקן את הברקוד."
+      invalid_date_type: "סופק סוג תאריך לא חוקי: %{date_type}; חייב להיות אחד מתוך: %{allowed}; התאריך שסופק: %{date};"
+      invalid_record_id: "מזהה הרשומה בקבוצה %{index} חייב להיות מזהה מספרי או URI מלא של רשומה; התקבל %{record_id}"
+      unrecognized_record_uri: "URI לא מזוהה של רשומה בקבוצה %{index}: %{record_id}"
+      agent_type_uri_mismatch: "לקבוצת הסוכן %{index} יש סוג סוכן %{agent_type} שאינו תואם ל-URI של הרשומה %{record_id}"
+      unrecognized_boolean: "העמודה %{column} מחייבת ערך בוליאני; התקבל '%{value}', חייב להיות אחד מתוך: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, או ריק כדי להשתמש בברירת המחדל"
+      unconfigured_headers: "כותרות CSV לא מזוהות: %{columns}"
+      bad_headers: "כותרות CSV לא חוקיות: %{columns}"
+      duplicate_file_version_headers: "עמודות כפולות של גרסת קובץ: %{columns}"
+      csv_syntax_error: "שגיאת ייבוא CSV (%{type}): %{element}"

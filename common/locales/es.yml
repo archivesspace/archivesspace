@@ -2097,6 +2097,7 @@ es:
       barcode: Código de Barras
 
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Cada Documento externo debe tener una combinación única de título y ubicación dentro de este registro
     or_date_expression_is_required: Las fechas deben especificar al menos una expresión de fecha
     must_specify_either_a_single_or_ranged_date: Las fechas deben especificarse como individuales o 
       por intervalos
@@ -2154,8 +2155,6 @@ es:
     cannot_be_previous_if_location_is_not_temporary: No se puede transferir a la anterior si la 
       situación es temporal.
     authority_id_must_be_unique: Identificador de autoridad ya está en uso
-    either_type_1_or_barcode_is_required: Un envase debe contener 1 tipo de envase o código de 
-      barras.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Debe ser un número con 
       no más de 9 dígitos y 5 decimales.
     container_2_requires_both_a_type_and_indicator: Debes dar un Indicador
@@ -2679,6 +2678,28 @@ es:
     sponsor_set_names_tooltip: Nombre del patrocinador
     sponsor_set_description_tooltip: Descripción del set del patrocinador
 
+  importer:
+    error:
+      agent_mode_conflict: "El grupo de Agente %{index} no puede contener a la vez un ID de registro y valores para crear uno nuevo"
+      subject_mode_conflict: "El grupo de Tema %{index} no puede contener a la vez un ID de registro y valores para crear uno nuevo"
+      top_container_mode_conflict: "El grupo de Instancia %{index} no puede contener a la vez una URI de Top Container y valores para crear uno nuevo"
+      missing_agent_type: "El grupo de Agente %{index} debe incluir un tipo de Agente; debe ser uno de: %{allowed}"
+      missing_agent_type_for_link: "El grupo de Agente %{index} debe incluir un tipo de Agente al enlazar el ID de registro %{record_id}; debe ser uno de: %{allowed}"
+      invalid_agent_type: "El grupo de Agente %{index} requiere un tipo de Agente admitido; se recibió '%{agent_type}', debe ser uno de: %{allowed}"
+      invalid_agent_type_for_link: "El grupo de Agente %{index} requiere un tipo de Agente admitido al enlazar el ID de registro %{record_id}; se recibió '%{agent_type}', debe ser uno de: %{allowed}"
+      invalid_top_container_uri: "URI de Top Container no válida en el grupo de Instancia %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "URI de Perfil de contenedor no válida en el grupo de Instancia %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "El grupo de Instancia %{index} no puede crear un Top Container con el código de barras %{barcode}; ese código de barras ya pertenece a %{top_container_uri}. Elimine los demás campos de Top Container para enlazarlo, o corrija el código de barras."
+      unknown_top_container_barcode: "El grupo de Instancia %{index} no tiene ningún Top Container con el código de barras %{barcode} en este repositorio; añada campos de Top Container para crear uno, o corrija el código de barras."
+      invalid_date_type: "Tipo de fecha no válido: %{date_type}; debe ser uno de: %{allowed}; Fecha proporcionada: %{date};"
+      invalid_record_id: "El ID de registro en el grupo %{index} debe ser un ID numérico o una URI de registro completa; se recibió %{record_id}"
+      unrecognized_record_uri: "URI de registro no reconocida en el grupo %{index}: %{record_id}"
+      agent_type_uri_mismatch: "El grupo de Agente %{index} tiene un tipo de Agente %{agent_type} que no coincide con la URI del registro %{record_id}"
+      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}', debe ser uno de: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vacío para usar el valor predeterminado"
+      unconfigured_headers: "Encabezados CSV no reconocidos: %{columns}"
+      bad_headers: "Encabezados CSV no válidos: %{columns}"
+      duplicate_file_version_headers: "Columnas de Versión de Archivo duplicadas: %{columns}"
+      csv_syntax_error: "Error de importación CSV (%{type}): %{element}"
   bulk_import:
     row: "Fila %{row}"
     processing_row: "El procesamiento de fila %{row}"
