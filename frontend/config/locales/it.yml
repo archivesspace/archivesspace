@@ -929,8 +929,18 @@ it:
     xlink_arcrole_attribute: Attributo Xlink Arcrole
     file_version_xlink_actuate_attribute: Attributo Xlink Actuate
     file_version_xlink_show_attribute: Xlink Mostra attributo
+    last_verified_date: Data dell'ultima verifica
   agent_conventions_declaration:
     file_uri: File URI
+    _plural: Dichiarazioni della Convenzione
+    _singular: Dichiarazione della Convenzione
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione della convenzione
+    name_rule: Convenzione
+    citation: Citazione
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
   agent_source:
     file_uri: File URI
   advanced_search:
