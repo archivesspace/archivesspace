@@ -111,7 +111,7 @@ describe 'Bulk Import Jobs' do
       job = Job.create_from_json(json, :repo_id => $repo_id, :user => User.find(:username => 'admin'))
       job.add_file(tmp)
 
-       saves = 0
+      saves = 0
       allow_any_instance_of(ImportDigitalObjects).to receive(:ao_save).and_wrap_original do |original, *args|
         saves += 1
         raise Sequel::DatabaseError.new("connection lost") if saves > 1
