@@ -3014,6 +3014,8 @@ en:
       lang_code: "Cannot validate language (%{lang})"
       script_code: "Cannot validate a language script (%{script})"
       process_error: "Error processing %{type} %{num}: %{why}"
+      invalid_user_defined_integer: "Invalid User Defined integer: %{value}"
+      invalid_user_defined_real: "Invalid User Defined real: %{value}"
       bad_ao_uri: " with uri %{uri}"
       bad_accession_uri: "Accession not found with uri %{uri}"
       bad_ao_ref_id: " with Ref ID  %{ref_id}"

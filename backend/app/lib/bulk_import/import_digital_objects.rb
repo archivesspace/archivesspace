@@ -331,7 +331,7 @@ class ImportDigitalObjects < BulkImportParser
 
     decimal = decimal_from(value)
     unless decimal&.finite? && decimal.frac.zero?
-      raise BulkImportException.new("Invalid User Defined integer: #{value}")
+      raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_integer", :value => value))
     end
 
     decimal.to_i.to_s
@@ -341,11 +341,11 @@ class ImportDigitalObjects < BulkImportParser
     float = Float(value, exception: false)
     decimal = decimal_from(value)
     unless float&.finite? && decimal&.finite? && (decimal * 100_000).frac.zero?
-      raise BulkImportException.new("Invalid User Defined real: #{value}")
+      raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_real", :value => value))
     end
 
     integer, fraction = decimal.to_s("F").split(".", 2)
-    raise BulkImportException.new("Invalid User Defined real: #{value}") if integer.delete_prefix("-").length > 9
+    raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_real", :value => value)) if integer.delete_prefix("-").length > 9
 
     return integer if fraction.nil?
 

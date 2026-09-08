@@ -2894,6 +2894,8 @@ fr:
       lang_code: "Impossible de valider la langue (%{lang})"
       script_code: "Impossible de valider un script de langue (%{script})"
       process_error: "Traitement d'erreur %{type} %{num}: %{why}"
+      invalid_user_defined_integer: "Entier défini par l'utilisateur non valide : %{value}"
+      invalid_user_defined_real: "Réel défini par l'utilisateur non valide : %{value}"
       bad_ao_uri: " Avec uri %{uri}"
       bad_accession_uri: "Entrée non trouvée avec uri %{uri}"
       bad_ao_ref_id: " Avec REF ID %{ref_id}"

@@ -2046,6 +2046,8 @@ ja:
       lang_code: "言語（%{lang}）を検証できません"
       script_code: "（%{script}）言語のスクリプトを検証できません"
       process_error: "エラー処理%{type} %{num}：%{why}"
+      invalid_user_defined_integer: "無効なユーザー定義の整数: %{value}"
+      invalid_user_defined_real: "無効なユーザー定義の実数: %{value}"
       bad_ao_uri: "URIを持つ%{uri}"
       bad_accession_uri: "URI %{uri} のアクセッションが見つかりません"
       bad_ao_ref_id: "REF IDを持つ%{ref_id}"

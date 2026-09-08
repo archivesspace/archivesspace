@@ -2,6 +2,8 @@ nl:
   bulk_import:
     error:
       unknown_columns: "Deze kolommen worden niet herkend (mogelijk gebruikt u een verouderd sjabloon): %{codes}"
+      invalid_user_defined_integer: "Ongeldig gebruikergedefinieerd geheel getal: %{value}"
+      invalid_user_defined_real: "Ongeldig gebruikergedefinieerd reëel getal: %{value}"
   reports:
     formats:
       json: JSON

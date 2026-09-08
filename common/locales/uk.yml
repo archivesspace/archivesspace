@@ -2555,6 +2555,8 @@ uk:
       lang_code: Не вдається перевірити мову (%{lang})
       script_code: Не вдається перевірити мовний скрипт (%{script})
       process_error: 'Помилка обробки %{type} %{num}: %{why}'
+      invalid_user_defined_integer: "Неприпустиме ціле число, визначене користувачем: %{value}"
+      invalid_user_defined_real: "Неприпустиме дійсне число, визначене користувачем: %{value}"
       bad_ao_uri: ' з uri %{uri}'
       bad_accession_uri: 'Доступ не знайдено з uri %{uri}'
       bad_ao_ref_id: ' з ідентифікатором посилання %{ref_id}'

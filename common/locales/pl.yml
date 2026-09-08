@@ -1416,6 +1416,8 @@ pl:
       bad_ao_uri: ' z identyfikatorem URI %{uri}'
       bad_accession_uri: 'Nie znaleziono akcesji z identyfikatorem URI %{uri}'
       process_error: 'Błąd podczas przetwarzania %{type} %{num}: %{why}'
+      invalid_user_defined_integer: "Nieprawidłowa liczba całkowita zdefiniowana przez użytkownika: %{value}"
+      invalid_user_defined_real: "Nieprawidłowa liczba rzeczywista zdefiniowana przez użytkownika: %{value}"
       script_code: Nie można zweryfikować skryptu językowego (%{script}).
       lang_code: Nie można zweryfikować języka (%{lang})
       validated: '%{what} zostało zweryfikowane'
