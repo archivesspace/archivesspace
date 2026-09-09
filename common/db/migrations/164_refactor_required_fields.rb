@@ -25,7 +25,7 @@ Sequel.migration do
     self[:required_fields].each do |row|
       old_required_blob = JSON.parse(row[:blob])
       new_blob = convert_blob(old_required_blob['required'], row[:record_type])
-      self[:required_fields].filter(:id => row[:id]).update(:blob => blobify(self, JSON.generate(new_blob)))
+      self[:required_fields].filter(:id => row[:id]).update(:blob => JSON.generate(new_blob))
     end
   end
 end

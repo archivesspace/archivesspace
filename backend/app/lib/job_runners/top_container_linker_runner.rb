@@ -8,7 +8,7 @@ class TopContainerLinkerRunner < JobRunner
     begin
       job_data = @json.job
 
-      DB.open(DB.supports_mvcc?,
+      DB.open(true,
               :retry_on_optimistic_locking_fail => true) do
 
          begin

@@ -7,4 +7,10 @@ describe 'Help tooltip default placement', js: true do
     visit '/resources/new'
     page.should have_css('.global-header a.context-help.has-tooltip.initialised[data-placement="auto"]')
   end
+
+  it 'should have rel="noopener noreferrer" to prevent reverse tabnabbing' do
+    login_admin
+    visit '/resources/new'
+    page.should have_css('.global-header a.context-help[target="_blank"][rel="noopener noreferrer"]')
+  end
 end

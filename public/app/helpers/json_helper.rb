@@ -19,12 +19,14 @@ module JsonHelper
   end
 
   def merge_notes(note_1, note_2)
+    note_2_text = note_2['note_text']
+
     if note_1['label'].blank?
       # Our first label
       note_1['label'] = note_2['label']
     elsif note_1['label'] != note_2['label']
       # Add a secondary label as an inline label
-      note_2_text = "<span class='inline-label'>#{note_2['label']}</span> #{note_2['note_text']}"
+      note_2_text = "<span class='inline-label'>#{note_2['label']}</span> #{note_2_text}"
     end
 
     note_1['note_text'] = "#{note_1['note_text']}<br/><br/> #{note_2_text}"

@@ -1,6 +1,6 @@
 <% unless @facets.blank? %>
-<h3><%= t('search_results.filter.add') %>: </h3>
-<dl id="facets">
+<h3 id="additional-filters-heading"><%= t('search_results.filter.add') %>: </h3>
+<dl id="facets" aria-labelledby="additional-filters-heading">
 
   <%
     preferred_facet_order = %w(repository primary_type agents subjects langcode)

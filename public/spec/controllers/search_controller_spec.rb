@@ -423,6 +423,50 @@ describe SearchController, type: :controller do
       end
     end
 
+    context 'when searching for a term only matching an agent linked with a non-creator role' do
+      let(:now) { Time.now.to_i }
+      let(:search_term) { "NonCreatorAgent#{now}" }
+      let(:repository) do
+        create(
+          :repo,
+          :repo_code => "resource_search_test_non_creator_#{now}",
+          :name => "Repository Title #{now}",
+          publish: true
+        )
+      end
+
+      it 'highlights the agent name under agents_text' do
+        set_repo repository
+
+        person = JSONModel(:name_person).new(primary_name: "#{search_term} Person", name_order: 'direct')
+        linked_agent = create(:agent_person, names: [person], publish: true, dates_of_existence: [])
+
+        resource = create(:resource,
+          :title => "Resource Title #{now}",
+          :publish => true,
+          :linked_agents => [
+            { 'role' => 'subject', 'ref' => linked_agent.uri }
+          ]
+        )
+
+        run_indexers
+
+        get(:search, params: {
+          :q => [search_term],
+          :op => ['OR'],
+          :field => ['']
+        })
+
+        results = controller.instance_variable_get(:@results)
+        resource_record = results.records.find { |r| r.uri == "/repositories/#{repository.id}/resources/#{resource.id}" }
+
+        expect(resource_record).not_to be_nil
+        expect(resource_record.highlights['agents_text']).to eq(["<span class=\"searchterm\">#{search_term}</span> Person"])
+        expect(resource_record.highlights).not_to have_key('creators_text')
+        expect(resource_record.highlights).not_to have_key('subjects_text')
+      end
+    end
+
     context 'when searching for a resource repository_processing_note' do
       let(:now) { Time.now.to_i }
       let(:search_term) { SecureRandom.uuid }

@@ -12,7 +12,8 @@
                          nil,
                          :id => 'filter_q0',
                          :placeholder => "#{action_text}",
-                         :class=> "form-control") %>
+                         :class=> "form-control",
+                         :autocomplete => 'on') %>
     </div>
 
     <div class="mb-3 d-flex gap-x-3">
@@ -31,7 +32,8 @@
                            :size => 4,
                            :maxlength => 4,
                            :placeholder => t('search_results.filter.from_year'),
-                           :class=>"form-control") %>
+                           :class=>"form-control",
+                           :autocomplete => 'off') %>
       </div>
 
       <div class="year_to p-0 flex-grow-1">
@@ -42,9 +44,10 @@
                            nil,
                            :id => 'filter_to_year',
                            :size => 4,
-                           :maxlength => 4, 
+                           :maxlength => 4,
                            :placeholder => t('search_results.filter.to_year'),
-                           :class=> "form-control") %>
+                           :class=> "form-control",
+                           :autocomplete => 'off') %>
       </div>
 
     </div>

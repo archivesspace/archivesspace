@@ -17,8 +17,14 @@
       </div>
       <footer class="modal-footer">
         <button type="button" class="btn btn-secondary" id="<%= modal_id %>_footer_close" data-bs-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"><%= I18n.t("actions.close") %></button>
-        <% if title != t('actions.cite') %>
-          <button type="button" class="btn btn-primary action-btn"></button>
+        <% if local_assigns[:footer_submit_form_id].present? %>
+          <button
+            type="submit"
+            form="<%= footer_submit_form_id %>"
+            class="btn btn-primary"
+            <% if local_assigns[:footer_submit_id].present? %>id="<%= footer_submit_id %>"<% end %>
+            aria-label="<%= footer_submit_label %>"
+          ><%= footer_submit_label %></button>
         <% end %>
       </footer>
     </div>

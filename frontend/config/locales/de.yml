@@ -236,7 +236,7 @@ de:
     component_switch: Komponenten anzeigen
     help:
       row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge 
-        auszuwählen. Halten Sie Alt während Sie auf ein Kontrollkästchen 
+        auszuwählen. Halten Sie Alt/Option während Sie auf ein Kontrollkästchen 
         klicken, um mehrere vorherige Zeilen an- oder abzuwählen.
   advanced_search:
     operator:
@@ -323,7 +323,7 @@ de:
     top_containers_for: "Haupt-Behältnisse für %{record_title}"
     no_top_containers: Keine verknüpften Haupt-Behältnisse
     edit_top_container: Haupt-Behältnis bearbeiten
-    view_top_container: Haupt-Behältnis
+    view_top_container: Haupt-Behältnis anzeigen
     import_ead: EAD-Datei
     register_prefix: Benötigen Sie einen Zugang?
   job:
@@ -793,6 +793,7 @@ de:
       location: Standort
       type: Typ
       resource_accession: Ressource/Eingang
+      resource_accession_id: Ressource/Eingangs-ID
   become-user:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
@@ -1325,7 +1326,8 @@ de:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "Es ist kein IIIF-Viewer verfügbar. Setzen Sie AppConfig[:iiif_viewer] auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
+        no_iiif_viewer: "Es ist kein IIIF-Viewer verfügbar. Setzen Sie AppConfig[:iiif_viewer]
+          auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
       action:
         add: Dateiversion hinzufügen
         make_representative: Repräsentativ machen
@@ -2000,12 +2002,6 @@ de:
 
   agent_resource_merge_destination:
     <<: *agent_resource_attributes
-  database_warning:
-    message: "<p><strong>Datenbankwarnung:</strong> Sie verwenden derzeit die eingebettete
-      Datenbank (Apache Derby). Die eingebettete Datenbank ist nur für Test-/Demozwecke
-      vorgesehen und wird in der nächsten Hauptversion eingestellt. Sie sollten MySQL
-      für alle Daten verwenden, die für den Produktiveinsatz bestimmt sind, einschließlich
-      Daten in einer Testinstanz, die Sie in eine Produktionsinstanz übernehmen möchten.</p>"
   breadcrumb:
     home: Start
   structured_date_single:
@@ -2054,9 +2050,7 @@ de:
       Standort-Aufzeichnungen. Bitte beachten Sie, dass diese Vorlage für die 
       Erstellung von Standort-Aufzeichnungen selbst ist und nicht zum Verknüpfen
       von Archivgut mit Standorten.
-    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen 
-      und Aufzeichnungen, die mit Eingängen verknüpft werden, wie Akteuren, 
-      Themen und Ereignisse.
+    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen sowie Umfänge, Externe Dokumente, Themen, Akteure und Instanzen mit Haupt-Behältnissen. Der Download enthält je eine _1-Gruppe für jedes davon. Verknüpfen Sie ein bestehendes Thema mit subject_1_record_id und geben Sie dabei entweder eine numerische ID wie 197 oder eine vollständige URI wie /subjects/197 an. Verknüpfen Sie einen bestehenden Akteur auf dieselbe Weise mit agent_1_record_id; agent_1_agent_type ist erforderlich, wenn Sie eine numerische ID angeben, und optional, wenn Sie eine URI wie /agents/people/5 angeben. Füllen Sie Verknüpfungs- und Erstellungsfelder nicht in derselben Gruppe aus. Verknüpfen Sie ein bestehendes Haupt-Behältnis mit einer vollständigen URI wie /repositories/2/top_containers/5 oder allein mit seinem Strichcode. Ein Strichcode allein verknüpft das Haupt-Behältnis, dem er gehört, unabhängig davon, ob dieses bereits bestand oder von einer früheren Zeile erstellt wurde; der Import schlägt fehl, wenn kein Haupt-Behältnis im Repository diesen Strichcode hat. Wird neben einem Strichcode ein weiteres Haupt-Behältnis-Feld ausgefüllt, wird stattdessen ein neues Haupt-Behältnis mit diesem Strichcode erstellt, wobei ein Indikator erforderlich ist; der Import schlägt fehl, wenn dieser Strichcode im Repository bereits verwendet wird.
     bulk_import_template_csv: Erstellen Sie Archiv-Objekte, die an eine bereits 
       bestehende Ressource angehängt werden. Enthält eine Option, um viele 
       verschiedene Teilaufzeichnungen und verknüpfte Aufzeichnungen wie Daten, 

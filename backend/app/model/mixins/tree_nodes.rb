@@ -137,7 +137,7 @@ module TreeNodes
 
     # Sigh.  Work around:
     # http://stackoverflow.com/questions/5403437/atomic-multi-row-update-with-a-unique-constraint
-    siblings.update(:parent_name => Sequel.lit(DB.concat('CAST(id as CHAR(10))', "'_temp'")))
+    siblings.update(:parent_name => Sequel.lit("CONCAT(CAST(id as CHAR(10)), '_temp')"))
 
     # Do the real update
     siblings.update(:position => Sequel.lit('position + ' + TreeNodes::POSITION_STEP.to_s),

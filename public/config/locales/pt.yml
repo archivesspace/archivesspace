@@ -36,7 +36,7 @@ pt:
       four_part_id: Identificador
       dates: Datas
       subjects_text: Assuntos
-      published_agents: Agents
+      agents_text: Agents
       creators_text: Agentes
       role_enum_s: Funções
       linked_agent_roles: Funções de agente vinculado
@@ -75,6 +75,7 @@ pt:
       year_begin: o início
       from: A partir de
       from_to: 'Anos: %{begin} a %{end}'
+      from_to_range: '%{begin} a %{end}'
       child_container_u_sstr: Contentor criança
       grand_child_container_u_sstr: Contentor neto
     page_title: Encontrado %{count} Resultados
@@ -86,6 +87,7 @@ pt:
     filter_by: Filtrar por
     filtered_by: Filtrado por
     remove_filter: Remova esse filtro
+    refine_search_controls_aria: Controles de refinamento da pesquisa
     more_facets: Mais
     fewer_facets: Menos
     op:

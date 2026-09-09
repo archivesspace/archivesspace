@@ -156,7 +156,7 @@ de:
     text_3: Text 3
   section_tooltips: &section_tooltips
     lang_materials_tooltip: "<p>Die Sprachen und Schriften, die im beschriebenen Archivgut vertreten sind.</p>\n\
-      \ <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
+      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
     subjects_tooltip: "<p>Wird verwendet, um Themen mit dem beschriebenen Archivgut zu verknüpfen.</p>\n"
     extents_tooltip: "<p>Gibt den Umfang und physische Beschaffenheit des beschriebenen Archivguts an.</p>\n\
       \ <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
@@ -473,7 +473,7 @@ de:
     resource_type: Art der Ressource
     language: Sprache der Beschreibung
     script_tooltip: "<p>Gibt alle Schriften an, die in der aus der Eingangsbeschreibung erstellten Aufzeichnung
-      vorhanden sind.</p>\n"
+      vorhanden sind.</p><p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
     access_restrictions: Zugangsbeschränkungen?
     access_restrictions_tooltip: "<p>Ein Kontrollkästchen zur Angabe, dass der Zugang zum Archivgut eingeschränkt
       ist.</p>\n<p>Siehe DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>\n"
@@ -839,7 +839,7 @@ de:
     _singular: Abgang
     reason_tooltip: "<p>Der Grund für den Abgang des beschriebenen Archivguts.</p>\n<p>Beispiele:</p>\n\
       \ <ul>\n<li>Der Geber hatte nicht die Absicht, dieses Archivgut weiterzugeben.</li>\n</ul>\n"
-    scope_tooltip: "<p>ERFORDERLICHES FELD: Dient zur Angabe, ob sich eine Umfangssangabe auf die Gesamtheit
+    scope_tooltip: "<p>ERFORDERLICHES FELD: Dient zur Angabe, ob sich eine Umfangsangabe auf die Gesamtheit
       oder einen Teil einer bestimmten beschriebenen Ansammlung oder Objekt bezieht.</p>\n"
     notification: Benachrichtigung erfolgt?
     disposition_tooltip: "<p>Eine Beschreibung, die angibt, was mit dem ausgeschiedenen Archivgut geschehen
@@ -1048,8 +1048,8 @@ de:
     set_component_tooltip: "<p>Eine Beschriftung zur Identifizierung und für den Zugang zu einem entsprechenden
       verknüpften Autoriäts-Datensatz.</p>\n"
     file_uri_tooltip: "<p>Ein URI für einen entsprechenden Eintrag in einer externen Autoritäts-Datei.
-      Beispiel: http://id.loc.gov/authorities/names/n80060393 (für Library of Congress Linked Data Service-Eintrag
-      für Robert W. Service).</p>\n"
+      </p>\n<p>Beispiel: http://id.loc.gov/authorities/names/n80060393 (für Library of Congress Linked
+      Data Service-Eintrag für Robert W. Service).</p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der
       Akteur-Aufzeichnung aufgelöst werden soll.</p>\n"
     file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte
@@ -1272,6 +1272,7 @@ de:
     _singular: Verwandter Akteur
     related_agent_tooltip: <p>Die Person, Familie oder Körperschaft, die mit dem Hauptakteur 
       verwandt ist.</p><p>Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    dates: Daten
   related_agents:
     <<: *related_agent_attributes
   agent_relationship_earlierlater:
@@ -2198,6 +2199,7 @@ de:
       indicator: Indikator
       barcode: Strichcode
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Jedes Externe Dokument muss innerhalb dieser Aufzeichnung eine eindeutige Kombination aus Titel und Ort haben
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
     is_required_unless_an_expression_or_a_begin_date_is_given: ist erforderlich, es sei denn, es 
@@ -2243,8 +2245,6 @@ de:
     cant_be_empty: darf nicht leer sein
     password_did_not_match: Eingegebener Wert stimmt nicht mit dem Passwort überein
     authority_id_must_be_unique: Autoritäts-ID wird bereits verwendet
-    either_type_1_or_barcode_is_required: Ein Behältnis muss einen Behältnis 1 Typ oder Strichcode 
-      enthalten.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Muss eine Zahl mit 
       höchstens neun Ziffern und fünf Dezimalstellen sein.
     container_3_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie 
@@ -2692,6 +2692,28 @@ de:
       "Tape": Band
       "Heat-Sensitive Paper": Hitzeempfindliches Papier
       "Water Damage": Wasserschäden
+  importer:
+    error:
+      agent_mode_conflict: "Akteur-Gruppe %{index} darf nicht sowohl eine Datensatz-ID als auch Werte zum Neuanlegen enthalten"
+      subject_mode_conflict: "Thema-Gruppe %{index} darf nicht sowohl eine Datensatz-ID als auch Werte zum Neuanlegen enthalten"
+      top_container_mode_conflict: "Instanz-Gruppe %{index} darf nicht sowohl eine Haupt-Behältnis-URI als auch Werte zum Neuanlegen enthalten"
+      missing_agent_type: "Akteur-Gruppe %{index} muss einen Akteur-Typ enthalten; muss einer der folgenden sein: %{allowed}"
+      missing_agent_type_for_link: "Akteur-Gruppe %{index} muss beim Verknüpfen von Datensatz-ID %{record_id} einen Akteur-Typ enthalten; muss einer der folgenden sein: %{allowed}"
+      invalid_agent_type: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
+      invalid_agent_type_for_link: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ beim Verknüpfen von Datensatz-ID %{record_id}; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
+      invalid_top_container_uri: "Ungültige Haupt-Behältnis-URI in Instanz-Gruppe %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "Ungültige Behältnisprofil-URI in Instanz-Gruppe %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "Instanz-Gruppe %{index} kann kein Haupt-Behältnis mit dem Strichcode %{barcode} erstellen; dieser Strichcode gehört bereits zu %{top_container_uri}. Entfernen Sie die übrigen Haupt-Behältnis-Felder, um es zu verknüpfen, oder korrigieren Sie den Strichcode."
+      unknown_top_container_barcode: "Instanz-Gruppe %{index} enthält kein Haupt-Behältnis mit dem Strichcode %{barcode} in diesem Repository; fügen Sie Haupt-Behältnis-Felder hinzu, um eines zu erstellen, oder korrigieren Sie den Strichcode."
+      invalid_date_type: "Ungültiger Datumstyp angegeben: %{date_type}; muss einer der folgenden sein: %{allowed}; Angegebenes Datum: %{date};"
+      invalid_record_id: "Die Datensatz-ID in Gruppe %{index} muss eine numerische ID oder eine vollständige Datensatz-URI sein; erhalten %{record_id}"
+      unrecognized_record_uri: "Unbekannte Datensatz-URI in Gruppe %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Akteur-Gruppe %{index} hat den Akteur-Typ %{agent_type}, der nicht zur Datensatz-URI %{record_id} passt"
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oder leer, um den Standardwert zu verwenden"
+      unconfigured_headers: "Unbekannte CSV-Spaltenüberschriften: %{columns}"
+      bad_headers: "Ungültige CSV-Spaltenüberschriften: %{columns}"
+      duplicate_file_version_headers: "Doppelte Dateiversions-Spalten: %{columns}"
+      csv_syntax_error: "CSV-Importfehler (%{type}): %{element}"
   bulk_import:
     processing_row: Verarbeite Zeile %{row}
     max_file_info: '%{size}K und %{rows} Zeilen'
@@ -2786,6 +2808,8 @@ de:
         Zeilenanzahlgrenzen von %{limits}
       utf8: Diese Tabelle enthält ungültigen oder fehlerhaften Text, der nicht verarbeitet werden 
         kann.
+      era: "Ungültige 'Datums-Ära' für %{date_str} wurde ignoriert: (%{what})"
+      calendar: "Ungültiger 'Datums-Kalender' für %{date_str} wurde ignoriert: (%{what})"
     templates: Vorlagen für den Massenimport
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt

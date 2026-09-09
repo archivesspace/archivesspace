@@ -139,22 +139,54 @@ describe 'Read More Notes', js: true do
     end
   end
 
-  it "toggles the aria-expanded attribute on the state element when state changes" do
+  it "toggles the aria-expanded attribute on the label element when state changes" do
     scope_and_contents_read_mores = all('.upper-record-details .abstract.single_note [data-js="readmore"]')
 
     within(scope_and_contents_read_mores[0]) do
-      state = find('.upper-record-details .abstract.single_note .readmore__state[aria-expanded="false"]')
+      label = find('.upper-record-details .abstract.single_note .readmore__label[aria-expanded="false"]')
       see_more = find('.upper-record-details .abstract.single_note .readmore__label--more')
       see_less = find('.upper-record-details .abstract.single_note .readmore__label--less', visible: false)
 
+      expect(label[:'aria-label']).to be_nil
+
       see_more.click
 
-      expect(state[:'aria-expanded']).to eq('true')
+      expect(label[:'aria-expanded']).to eq('true')
 
       see_less.click
 
-      expect(state[:'aria-expanded']).to eq('false')
+      expect(label[:'aria-expanded']).to eq('false')
     end
+  end
+
+  it 'gives each readmore instance unique ids and matching aria-controls' do
+    scope_and_contents_read_mores = all('.upper-record-details .abstract.single_note [data-js="readmore"]')
+    expect(scope_and_contents_read_mores.length).to eq(2)
+
+    ids = scope_and_contents_read_mores.map do |readmore|
+      within(readmore) do
+        state = find('.readmore__state', visible: :all)
+        label = find('.readmore__label')
+        content = find('.readmore__content')
+
+        expect(state[:'aria-hidden']).to eq('true')
+        expect(state[:tabindex]).to eq('-1')
+        expect(label[:'aria-controls']).to eq(content[:id])
+        expect(label[:id]).to eq(content[:'aria-labelledby'])
+        expect(label[:for]).to eq(state[:id])
+        expect(label[:role]).to eq('button')
+
+        {
+          state_id: state[:id],
+          toggle_id: label[:id],
+          content_id: content[:id]
+        }
+      end
+    end
+
+    all_ids = ids.flat_map { |id_set| id_set.values }
+    expect(all_ids).to eq(all_ids.uniq)
+    expect(ids[0][:content_id]).not_to eq(ids[1][:content_id])
   end
 
   it "does not show on second-level notes of a Resource Collection Overview when the note exceeds AppConfig[:pui_readmore_max_characters]" do

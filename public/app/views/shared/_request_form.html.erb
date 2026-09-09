@@ -1,34 +1,31 @@
-<%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form') do %>
+<%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form', :class => 'needs-validation', :novalidate => true) do %>
   <%= render partial: 'shared/request_hiddens' %>
   <div id="request">
-    <div class="form-group required">
-      <%= label_tag(:user_name, "#{t('request.user_name')} #{t('request.required')}", :class => 'visually-hidden') %>
-      <div class="input-group mb-3">
-        <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => "form-control" %>
-        <span class="input-group-text required"><%= t('request.required') %></span>
-      </div>
+    <%= label_tag(:user_name, "#{t('request.user_name')} #{t('request.required')}", :class => 'visually-hidden') %>
+    <div class="input-group has-validation mb-3">
+      <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => 'form-control', :required => true %>
+      <span class="input-group-text required"><%= t('request.required') %></span>
+      <div class="invalid-feedback"><%= t('request.errors.name') %></div>
     </div>
-    <div class="form-group required">
-      <%= label_tag(:user_email, "#{t('request.user_email')} #{t('request.required')}", :class => 'visually-hidden') %>
-      <div class="input-group mb-3">
-        <%= text_field_tag :user_email, nil, :type => 'email', :placeholder => t('request.user_email'), :class => 'form-control' %>
-        <span class="input-group-text required"><%= t('request.required') %></span>
-      </div>
+    <%= label_tag(:user_email, "#{t('request.user_email')} #{t('request.required')}", :class => 'visually-hidden') %>
+    <div class="input-group has-validation mb-3">
+      <%= text_field_tag :user_email, nil, :type => 'email', :placeholder => t('request.user_email'), :class => 'form-control', :required => true %>
+      <span class="input-group-text required"><%= t('request.required') %></span>
+      <div class="invalid-feedback"><%= t('request.errors.email') %></div>
     </div>
-    <div class="form-group mb-3">
+    <div class="mb-3">
       <%= label_tag(:date, t('request.date'),  :class => 'visually-hidden') %>
       <%= text_field_tag :date, nil, :placeholder => t('request.date'), :class => 'form-control' %>
     </div>
-    <div class="form-group mb-3">
+    <div class="mb-3">
       <%= label_tag(:note, t('request.note'),  :class => 'visually-hidden') %>
       <%= text_area_tag :note, nil, :rows=> "3", :cols => "25", :placeholder => t('request.note'), :class => 'form-control' %>
     </div>
-    <div class="form-group honeypot">
+    <div class="honeypot">
       <span class="aria-hidden">
         <%= label_tag :comment %>
         <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control' %>
       </span>
     </div>
-    <button type="submit" class="btn btn-primary action-btn noscript"><%= t('request.submit') %></button>
   </div>
 <% end %>

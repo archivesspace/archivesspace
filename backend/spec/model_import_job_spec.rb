@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'stringio'
+require 'csv'
 
 
 
@@ -64,6 +65,146 @@ describe 'Import job model' do
     expect(job.created_records.count).to eq(1)
     expect(job.created_records.first[:record_uri]).to match(/accessions\/\d+$/)
     expect(Accession[JSONModel(:accession).id_for(job.created_records.first[:record_uri])].title).to eq('foobar')
+  end
+
+
+  it "reports a missing reference without exposing a Ruby trace" do
+    tmp = ASUtils.tempfile("missing-subject-#{Time.now.to_i}")
+    tmp.write(CSV.generate do |csv|
+      csv << %w[accession_title accession_id_1 subject_1_record_id]
+      csv << ['Missing Subject', generate(:alphanumstr), '999999999']
+    end)
+    tmp.rewind
+
+    $icky_hack_to_avoid_gc ||= []
+    $icky_hack_to_avoid_gc << tmp
+
+    json = build(:json_job,
+                 :job_type => 'import_job',
+                 :job => build(:json_import_job,
+                               :filenames => [tmp.path],
+                               :import_type => 'accession_csv'))
+    missing_reference_job = Job.create_from_json(json,
+                                                 :repo_id => $repo_id,
+                                                 :user => create_nobody_user)
+    missing_reference_job.add_file(tmp)
+
+    expect do
+      JobRunner.for(missing_reference_job).run
+    end.to raise_error(ReferenceError, /Reference does not exist/)
+
+    output_stream, = missing_reference_job.get_output_stream
+    output = output_stream.read
+    expect(output).to include("Reference does not exist! (Reference: '/subjects/999999999')")
+    expect(output).not_to include('Trace:')
+    expect(output).not_to include('#<ReferenceError:')
+  end
+
+
+  it "reports unrecognized CSV headers without exposing a Ruby trace" do
+    tmp = ASUtils.tempfile("obsolete-header-#{Time.now.to_i}")
+    tmp.write(CSV.generate do |csv|
+      csv << %w[accession_title accession_id_1 accession_number_1]
+      csv << ['Obsolete header', generate(:alphanumstr), 'UD5V1']
+    end)
+    tmp.rewind
+
+    $icky_hack_to_avoid_gc ||= []
+    $icky_hack_to_avoid_gc << tmp
+
+    json = build(:json_job,
+                 :job_type => 'import_job',
+                 :job => build(:json_import_job,
+                               :filenames => [tmp.path],
+                               :import_type => 'accession_csv'))
+    header_error_job = Job.create_from_json(json,
+                                            :repo_id => $repo_id,
+                                            :user => create_nobody_user)
+    header_error_job.add_file(tmp)
+
+    expect do
+      JobRunner.for(header_error_job).run
+    end.to raise_error(ASpaceImport::CSVConvert::CSVSyntaxException, /accession_number_1/)
+
+    output_stream, = header_error_job.get_output_stream
+    output = output_stream.read
+    expect(output).to include(I18n.t('importer.error.unconfigured_headers', :columns => 'accession_number_1'))
+    expect(output).not_to include('Trace:')
+    expect(output).not_to include('#<CSVSyntaxException')
+  end
+
+
+  def run_failing_accession_import(name, headers, row)
+    tmp = ASUtils.tempfile("#{name}-#{Time.now.to_i}")
+    tmp.write(CSV.generate do |csv|
+      csv << headers
+      csv << row
+    end)
+    tmp.rewind
+
+    $icky_hack_to_avoid_gc ||= []
+    $icky_hack_to_avoid_gc << tmp
+
+    json = build(:json_job,
+                 :job_type => 'import_job',
+                 :job => build(:json_import_job,
+                               :filenames => [tmp.path],
+                               :import_type => 'accession_csv'))
+    job = Job.create_from_json(json,
+                               :repo_id => $repo_id,
+                               :user => create_nobody_user)
+    job.add_file(tmp)
+
+    error = nil
+    begin
+      JobRunner.for(job).run
+    rescue => e
+      error = e
+    end
+
+    output_stream, = job.get_output_stream
+
+    [error, output_stream.read]
+  end
+
+
+  it "reports an Agent link/create conflict without exposing a Ruby trace" do
+    error, output = run_failing_accession_import(
+      'agent-mode-conflict',
+      %w[accession_title accession_id_1 agent_1_record_id agent_1_agent_type agent_1_agent_name_1_primary_name],
+      ['Agent conflict', generate(:alphanumstr), '1', 'agent_person', 'Also create this Agent']
+    )
+
+    expect(error).to be_a AccessionConverterAgentModeConflictError
+    expect(output).to include(I18n.t('importer.error.agent_mode_conflict', :index => 1))
+    expect(output).not_to include('Trace:')
+    expect(output).not_to include('#<AccessionConverter')
+  end
+
+
+  it "reports a Subject link/create conflict without exposing a Ruby trace" do
+    _error, output = run_failing_accession_import(
+      'subject-mode-conflict',
+      %w[accession_title accession_id_1 subject_1_record_id subject_1_source subject_1_term subject_1_term_type],
+      ['Subject conflict', generate(:alphanumstr), '1', 'local', 'Also create this Subject', 'topical']
+    )
+
+    expect(output).to include(I18n.t('importer.error.subject_mode_conflict', :index => 1))
+    expect(output).not_to include('Trace:')
+  end
+
+
+  it "reports an invalid date type without exposing a Ruby trace" do
+    error, output = run_failing_accession_import(
+      'invalid-date-type',
+      %w[accession_title accession_id_1 date_1_label date_1_expression date_1_type],
+      ['Invalid date type', generate(:alphanumstr), 'creation', 'ca. 2006-2008', 'inclusive dates']
+    )
+
+    expect(error).to be_a AccessionConverterInvalidDateTypeError
+    expect(output).to include('Invalid date type provided: inclusive dates')
+    expect(output).not_to include('Trace:')
+    expect(output).not_to include('#<AccessionConverter')
   end
 
 end

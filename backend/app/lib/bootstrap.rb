@@ -57,45 +57,12 @@ class ASpaceEnvironment
       @environment = :production
     end
 
-    prepare_database
+    prepare_data_directory
   end
 
-  def self.demo_db?
-    AppConfig[:db_url] =~ /aspacedemo=true/
-  end
-
-  def self.prepare_database
-    if @environment == :integration && demo_db?
-      # For integration, use an in-memory database instead.
-      AppConfig[:db_url] = "jdbc:derby:memory:integrationdb;create=true;aspacedemo=true"
-    end
-
+  def self.prepare_data_directory
     if @environment != :unit_test
       FileUtils.mkdir_p(AppConfig[:data_directory])
-
-      if demo_db?
-        # Try to discourage Derby from locking whole tables.
-        java.lang.System.set_property("derby.locks.escalationThreshold", "2147483647")
-
-        Sequel.connect(AppConfig[:db_url]) do |db|
-          puts "Running database migrations for demo database"
-          DBMigrator.setup_database(db)
-          puts "All done."
-        end
-
-        puts <<~EOF
-          
-          ************************************************************************
-          ***
-          *** WARNING: Running against the demo database, which is not intended
-          *** for production use.
-          ***
-          *** Please see the README.md file for instructions on configuring MySQL.
-          ***
-          ************************************************************************
-          
-        EOF
-      end
     end
   end
 

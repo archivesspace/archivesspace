@@ -89,7 +89,7 @@ Sequel.migration do
           # add a note
           new_note = get_unique_note
           values = {
-            :notes => blobify(self, ASUtils.to_json(new_note)),
+            :notes => ASUtils.to_json(new_note),
             :publish => 0,
             :notes_json_schema_version => 1,
             foreign_key => row[:id]

@@ -42,7 +42,7 @@ Sequel.migration do
                         :lock_version => row[:lock_version],
                         :json_schema_version => row[:json_schema_version],
                         :job_type_id => job_type_id,
-                        :job_blob => blobify(self, ASUtils.to_json({:import_type => row[:import_type], :filenames => ASUtils.json_parse(row[:filenames])})),
+                        :job_blob => ASUtils.to_json({:import_type => row[:import_type], :filenames => ASUtils.json_parse(row[:filenames])}),
                         :owner_id => row[:owner_id],
                         :status => row[:status],
                         :time_submitted => row[:time_submitted],

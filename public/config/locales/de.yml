@@ -76,7 +76,7 @@ de:
       four_part_id: Kennung
       dates: Termine
       subjects_text: Fächer
-      published_agents: Agentinnen
+      agents_text: Agentinnen
       creators_text: Schöpfer
       role_enum_s: Rollen
       linked_agent_roles: Verknüpfte Agentenrollen
@@ -123,6 +123,7 @@ de:
       from: Von
       year_now: Jetzt
       from_to: 'Jahre: %{begin} bis %{end}'
+      from_to_range: '%{begin} bis %{end}'
       classification_uri: Klassifizierung
       year_begin: Der Anfang
       fullrecord: Schlagwort
@@ -153,6 +154,7 @@ de:
     in_repository: ' in <strong>%{name}</strong>'
     more_facets: Mehr
     remove_filter: Diesen Filter entfernen
+    refine_search_controls_aria: Steuerung zur Suche verfeinern
   page_actions: Seiten-Aktionen
   search-button:
     label: Suchen

@@ -23,17 +23,21 @@
   <% else %>
 
   <% unless defined?(@no_statement) %>
-    <div class="searchstatement">
-      <div class="btn btn-group float-end">
-        <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-secondary" %>
-        <button class="btn btn-sm btn-secondary" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
+    <div class="mb-3 p-3 searchstatement">
+      <div class="d-flex">
+        <% if defined?(@search) %>
+          <div class="search-summary">
+            <%= @search[:search_statement].html_safe %>
+          </div>
+        <% end %>
+
+        <div class="ms-auto p-0 align-self-start" role="group" aria-label="<%= t('search_results.refine_search_controls_aria') %>">
+          <button class="btn btn-sm btn-primary" id="toggleRefineSearch" aria-expanded="false" aria-controls="refineSearchPanel"><%= I18n.t('actions.refine_search') %></button>
+          <%= link_to I18n.t('actions.new_search'), (defined?(@new_search) ? @new_search : root_path), :class => "btn btn-sm btn-primary text-decoration-none" %>
+        </div>
       </div>
 
-      <% if defined?(@search) %>
-        <%= @search[:search_statement].html_safe %>
-      <% end %>
-
-      <div id="refineSearchPanel" class="container refinesearch" aria-hidden="true" style="display:none;">
+      <div id="refineSearchPanel" class="refinesearch" aria-hidden="true" style="display:none;">
         <%= render partial: 'shared/search', locals: {:search_url => @base_search,
                                                       :title => t('archive._plural'),
                                                       :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],

@@ -4,9 +4,6 @@ require_relative 'utils'
 Sequel.migration do
   up do
 
-    auto_increment_opts = self.database_type == :derby ? { :default => 0 } : { :auto_increment => true, :default => 0 }
-
-
     alter_table(:enumeration_value) do
       add_column(:position, :integer, :null => false, :default => 0 )
       add_column(:suppressed, :integer, :default => 0)

@@ -21,29 +21,29 @@
      */
     listen() {
       this.state.addEventListener('change', () => {
-        this.setAriaExpanded(this.state.checked);
+        this.setLabelAriaExpanded(this.state.checked);
       });
 
       this.label.addEventListener('keydown', e => {
         if (!this.state.checked && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault();
           this.state.checked = true;
-          this.setAriaExpanded(this.state.checked);
+          this.setLabelAriaExpanded(this.state.checked);
         } else if (this.state.checked && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault();
           this.state.checked = false;
-          this.setAriaExpanded(this.state.checked);
+          this.setLabelAriaExpanded(this.state.checked);
         }
       });
     }
 
     /**
-     * @description - Set the aria-expanded attribute on the state element
+     * @description - Set the aria-expanded attribute on the toggle/label element
      * @param {boolean} value - The value to set the aria-expanded attribute to
      * @todo - Make this a private method once our js asset pipeline supports es6
      */
-    setAriaExpanded(value) {
-      this.state.setAttribute('aria-expanded', value);
+    setLabelAriaExpanded(value) {
+      this.label.setAttribute('aria-expanded', value);
     }
   }
 

@@ -16,7 +16,7 @@ module Lib
         end
 
         begin
-          DB.open(DB.supports_mvcc?, :retry_on_optimistic_locking_fail => true, :isolation_level => :committed) do
+          DB.open(true, :retry_on_optimistic_locking_fail => true, :isolation_level => :committed) do
             duplicate_resource
 
             raise Sequel::Rollback if !@errors.empty?

@@ -39,6 +39,13 @@ ArchivesSpace build system. From the top level directory, type
 build/run bootstrap
 ```
 
+The test suites run against MySQL and Solr. If you do not have them running
+already, start the development services with Docker:
+
+```sh
+docker compose -f docker-compose-dev.yml up --detach
+```
+
 ArchivesSpace has several test suites that can be run individually or all at
 once. NOTE: running all test suites can take a while to run. The test suites that
 are most applicable are:
@@ -73,9 +80,20 @@ request.
 ### Running components locally
 
 After you have [bootstrapped the environment](#bootstrap), you can run a
-development instance of all ArchivesSpace components. Without any configuration,
-the devservers will spin up an Apache Derby database which will disappear once the
-devservers have been stopped.
+development instance of all ArchivesSpace components. The devservers need a
+MySQL database and a Solr instance to talk to; the quickest way to get both is
+to start the development services with Docker:
+
+```sh
+docker compose -f docker-compose-dev.yml up --detach
+```
+
+That provides the MySQL and Solr instances the devservers and the test suites
+expect by default. Once they are up, create the database schema with
+
+```sh
+build/run db:migrate
+```
 
 #### Database and API
 
@@ -102,7 +120,7 @@ the backend and frontend devservers and the indexer.
 You should now be able to open <http://localhost:3000> in your browser and see
 the staff interface. You can log in using:
 
-_User_: admin
+_User_: admin  
 _Password_: admin
 
 For the public user interface, you will need to start up the backend and public
@@ -137,14 +155,14 @@ quality, so your Pull Request won't be merged until all test suites pass.
 
 ### What happens after you submit a Pull request?
 
-All Pull Requests are reviewed by at least one member of the ArchivesSpace [Core Committer's Group](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/102893918/Core+Committers+Group).
+All Pull Requests are reviewed by at least one member of the ArchivesSpace Program team.
 
-A core committer reviews the issue/ticket associated with the Pull Request to make
+A team member reviews the issue/ticket associated with the Pull Request to make
 sure they understand what the code changes are supposed to do. Next, they review
 the code changes to see the proposed solution. Then they checkout the branch to
 test the solution in a running instance of ArchivesSpace.
 
-During the review, the core committer may have comments or ask questions in the
+During the review, the reviewer may have comments or ask questions in the
 Pull Request. Once the comment/questions have been answered/resolved, a Pull
 Request can only be accepted and merged into the core code base by a core
 committer if:
@@ -170,6 +188,7 @@ git push --force-with-lease ANW-123-descriptive-short-title
 ## Resources
 
 [ArchivesSpace website](https://archivesspace.org/)
+
 [ArchivesSpace Wiki](https://archivesspace.atlassian.net/wiki/spaces/ADC/overview)
 
 ### Documentation
@@ -178,7 +197,7 @@ ArchivesSpace Technical Documentation is maintained in the [tech-docs repository
 
 ### YouTube channels/videos
 
-From development partner Hudson Molongo:
+From original developers Hudson Molongo:
 https://www.youtube.com/channel/UCMBmBY_CsxwJy9rJKxQrVoQ
 
 ArchivesSpace:

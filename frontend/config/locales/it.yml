@@ -1,4 +1,6 @@
 it:
+  bulk_import_templates:
+    aspace_accession_import_template_csv: Crea record di Accessione insieme a Estensioni, Documenti esterni, Soggetti, Agenti e Istanze con contenitori principali. Il download include un gruppo _1 per ciascuno di essi. Collega un Soggetto esistente con subject_1_record_id, indicando un ID numerico come 197 oppure un URI completo come /subjects/197. Collega un Agente esistente con agent_1_record_id allo stesso modo; agent_1_agent_type è obbligatorio quando si indica un ID numerico e facoltativo quando si indica un URI come /agents/people/5. Non compilare i campi di collegamento e di creazione nello stesso gruppo. Collega un contenitore principale esistente con un URI completo come /repositories/2/top_containers/5, oppure con il solo codice a barre. Un codice a barre da solo collega il contenitore principale che lo possiede, sia che esistesse già sia che lo abbia creato una riga precedente, e l'importazione non riesce se nessun contenitore principale del repository ha quel codice a barre. Compilare qualsiasi altro campo del contenitore principale accanto a un codice a barre crea invece un nuovo contenitore principale con quel codice a barre, con l'indicatore obbligatorio, e l'importazione non riesce se quel codice a barre è già in uso nel repository.
   actions:
     add_event_event_type: Tipo
     add: Aggiungi
@@ -740,9 +742,24 @@ it:
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
+    _frontend:
+      action:
+        add: Aggiungi lingua
+    language: Lingua
+    script: Sceneggiatura
   agent_occupation:
     _singular: Occupazione
     _plural: Occupazioni
+    _frontend:
+      action:
+        add: Aggiungi occupazione
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Professioni
+    places: Luoghi
+    publish: Pubblicato
   agent_record_identifier:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
@@ -768,6 +785,8 @@ it:
         following_log: Registro seguente
         create: Crea lavoro
         save: Inizia il lavoro
+        new: Nuovo lavoro in background
+        cancel: Annulla lavoro
       section:
         basic_information: Informazioni di base
         status: Stato occupazionale
@@ -844,20 +863,74 @@ it:
       open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
+    _plural: ID entità
+    _singular: Identificativo
+    _frontend:
+      action:
+        add: Aggiungi ID entità
+    entity_identifier: ID entità
   agent_gender:
     _singular: Genere
     _plural: Generi
+    _frontend:
+      action:
+        add: Aggiungi il genere
+    gender: Genere
+    note: Nota
+    dates: Dati
   agent_function:
     _singular: Funzione
     _plural: Funzioni
+    _frontend:
+      action:
+        add: Aggiungi funzione
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Funzioni
+    places: Luoghi
+    publish: Pubblicato
   agent_place:
     _singular: Luogo
     _plural: Luoghi
+    _frontend:
+      action:
+        add: Aggiungi luogo
+    section:
+      dates: Dati
+    place_role: Ruolo dell'agente
+    text_note: Nota
+    dates: Dati
+    subjects: Luoghi
+    publish: Pubblicata
   agent_topic:
     _singular: Argomento
     _plural: Argomenti
+    _frontend:
+      action:
+        add: Aggiungi argomento
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Argomenti
+    places: Luoghi
+    publish: Pubblicato
   agent_alternate_set:
     file_uri: File URI
+    _plural: Insiemi alternativi
+    _singular: Set alternativo
+    _frontend:
+      action:
+        add: Aggiungi set alternativo
+    set_component: Imposta componente
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo Titolo Xlink
+    xlink_role_attribute: Attributo ruolo Xlink
+    xlink_arcrole_attribute: Attributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attributo Xlink Actuate
+    file_version_xlink_show_attribute: Xlink Mostra attributo
   agent_conventions_declaration:
     file_uri: File URI
   agent_source:
@@ -981,13 +1054,6 @@ it:
     heading: Benvenuto in ArchivesSpace
   skipnav:
     main_content: Passa al contenuto principale
-  database_warning:
-    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando
-      il database integrato (Apache Derby). Il database integrato è destinato esclusivamente
-      a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale.
-      Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi
-      i dati presenti in un'istanza di test che intendi trasferire in un'istanza di
-      produzione.</p>"
   become-user:
     become-user: Diventa utente
     failed: Impossibile passare all'utente specificato
@@ -1418,7 +1484,9 @@ it:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer] su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato esternamente."
+        no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer]
+          su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato
+          esternamente."
       action:
         add: Aggiungi versione del file
         make_representative: Rendere rappresentante
@@ -1808,6 +1876,27 @@ it:
       <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
       <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
     top_container: Contenitore superiore
+    type_2_tooltip: |
+      <p>Il tipo di contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    indicator_2: Indicatore figlio
+    indicator_2_tooltip: |
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di secondo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di secondo livello, ad esempio Cartelle 1-16.</p>
+    barcode_2: Codice a barre del contenitore figlio
+    barcode_2_tooltip: |
+      <p>Un codice a barre per identificare il contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+    type_3: Tipo nipote
+    type_3_tooltip: |
+      <p>Il tipo di contenitore di terzo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    indicator_3: Indicatore nipote
+    indicator_3_tooltip: |
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di terzo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di terzo livello, ad esempio Cartelle 1-16.</p>
+    _singular: Sotto-contenitore
+    _plural: Sotto-contenitori
+    _frontend:
+      action:
+        add: Aggiungi istanza di contenitore
   update_monitor:
     save_failed: Impossibile salvare le modifiche.
     stale_record: Questo record è stato aggiornato da un altro utente. Aggiorna 
@@ -1818,3 +1907,562 @@ it:
     repository_changed: Impossibile salvare questo record perché il repository 
       attivo è cambiato. Per salvare il record, apri un'altra finestra e 
       reimposta il repository attivo.
+  top_container:
+    container_profile: Profilo del contenitore
+    container_profile_tooltip: |
+      <p>Una descrizione delle varie caratteristiche di un particolare tipo di contenitore, comprese le dimensioni.</p>
+    indicator: Indicatore
+    indicator_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Un'espressione alfanumerica per indicare la collocazione del contenitore di livello più alto, che può anche essere la posizione del contenitore all'interno di una sequenza di contenitori.</p>
+    barcode: Codice a barre
+    barcode_tooltip: |
+      <p>Utilizzato per registrare il codice a barre che identifica in modo univoco il contenitore di livello più alto.</p>
+    type: Tipo di contenitore
+    type_tooltip: |
+      <p>Il tipo di contenitore di livello più alto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    ils_holding_id: ID holding ILS
+    ils_holding_id_tooltip: |
+      <p>Identificatore del record di holding associato nell'ILS della biblioteca</p>
+    ils_item_id: ID elemento ILS
+    ils_item_id_tooltip: |
+      <p>Identificatore, fornito dall'API, per un record di elemento associato nell'ILS della biblioteca (campo di sistema; non può essere modificato manualmente)</p>
+    internal_note: Nota interna
+    internal_note_tooltip: |
+      <p>Note per uso interno. Visibili solo nell'interfaccia del personale.</p>
+    exported_to_ils: Esportato in ILS
+    not_exported: Non esportato
+    restricted: Soggetto a restrizioni?
+    parent: Contenitore principale
+    has_location: Ha una collocazione
+    managed_container_2_type: Tipo di contenitore figlio
+    managed_container_2_type_tooltip: |
+      <p>Il tipo di contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    managed_container_2_indicator: Indicatore del contenitore figlio
+    managed_container_2_indicator_tooltip: |
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di secondo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di secondo livello, ad esempio Cartelle 1-16.</p>
+    managed_container_3_type: Tipo di contenitore nipote
+    managed_container_3_type_tooltip: |
+      <p>Il tipo di contenitore di terzo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    managed_container_3_indicator: Indicatore del contenitore nipote
+    managed_container_3_indicator_tooltip: |
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di terzo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di terzo livello, ad esempio Cartelle 1-16.</p>
+    barcode_length_for_this_repository: 'Lunghezza del codice a barre per questo repository:'
+    characters: caratteri
+    batch_delete:
+      success: Contenitori superiori eliminati con successo
+      error: Si è verificato un problema durante l'eliminazione dei contenitori 
+        superiori
+    _singular: Contenitore superiore
+    _plural: Contenitori superiori
+    _frontend:
+      section:
+        active_restrictions: Restrizioni attive
+        linked_records: Record collegati
+        basic_information: Informazioni sul contenitore
+      action:
+        add: Aggiungi contenitore superiore
+        create: Crea un contenitore superiore
+        save: Salva contenitore superiore
+      messages:
+        created: Contenitore superiore creato
+        updated: Contenitore superiore aggiornato
+        filter_required: Fornisci un filtro
+        max_results_limit_reached: Non tutti i risultati sono stati elencati. 
+          Perfeziona la ricerca.
+        max_results_limit_details: Visualizzati <strong>%{visible}</strong> di 
+          <strong>%{num_found}</strong> risultati corrispondenti
+        results_summary: 'Risultati corrispondenti: <strong>%{num_found}</strong>'
+        bulk_selection_sort_help: Fai clic su una colonna per impostare 
+          l'ordinamento. Tieni premuto Shift per ordinare in base a più colonne.
+        merged: Contenitore/i superiore/i unito/i
+        bulk_action_success: Contenitori superiori aggiornati con successo
+        bulk_action_success_info: Tieni presente che potrebbe essere necessario 
+          qualche istante prima che le modifiche vengano riflesse nei risultati 
+          di ricerca o nelle tabelle di sfoglia.
+        no_active_restrictions: Nessuna restrizione attiva
+      bulk_operations:
+        title: Operazioni in blocco
+        collection_singular: Risorsa/Accessione
+        collection_plural: Risorse/Accessioni
+        collection_resource_singular: Risorsa
+        collection_resource_plural: Risorse
+        collection_accession_singular: Accessione
+        collection_accession_plural: Accessioni
+        collection_resource_linker:
+          browse: Sfoglia risorse
+          create: Crea risorsa
+          link_title: Collegamento alla risorsa
+        collection_accession_linker:
+          browse: Sfoglia accessioni
+          create: Crea accessione
+          link_title: Collegamento all'accessione
+        series: Serie
+        current_location: Collocazione corrente
+        keyword_criteria: Parola chiave
+        barcodes_criteria: Codice/i a barre
+        exported_to_ils_true: Sì
+        exported_to_ils_false: 'No'
+        empty: Contenitori non associati
+        empty_true: Sì
+        empty_false: 'No'
+        search: Cerca
+        update_ils_holding_ids: Aggiorna gli ID delle holding ILS
+        update_ils_holding_ids_help: Inserisci un valore per l'ID di 
+          contenimento ILS per tutti i contenitori selezionati. Lascia vuoto 
+          questo campo per rimuovere il valore corrente senza sostituirlo con un
+          altro.
+        update_container_profiles: Aggiorna i profili dei contenitori
+        update_container_profiles_help: Scegli un profilo contenitore per tutti 
+          i contenitori selezionati. Lascia vuoto questo campo per rimuovere il 
+          valore corrente senza sostituirlo con un altro.
+        update_locations_singular: 'Posizioni di aggiornamento: posizione singola'
+        update_locations_singular_help: Scegli una posizione per tutti i 
+          contenitori selezionati. Lascia vuoto questo campo per rimuovere il 
+          valore corrente senza sostituirlo con un altro.
+        update_locations_multiple: 'Posizioni di aggiornamento: più posizioni'
+        update_locations_multiple_help: Scegli una posizione per ciascun 
+          contenitore selezionato. Lascia vuoto questo campo per rimuovere il 
+          valore corrente senza sostituirlo con un altro.
+        rapid_indicator_entry: Aggiorna gli indicatori
+        rapid_indicator_entry_new_indicator: Nuovo indicatore
+        rapid_indicator_entry_help: Inserisci un indicatore per ciascun 
+          contenitore selezionato. Lascia vuoto il campo Nuovo indicatore per 
+          non modificarlo.
+        rapid_barcode_entry: Inserimento rapido del codice a barre
+        rapid_barcode_entry_existing_barcode: Codice a barre esistente
+        rapid_barcode_entry_new_barcode: Nuovo codice a barre
+        rapid_barcode_entry_help: Inserisci un codice a barre per ogni 
+          contenitore selezionato. Lascia vuoto il campo Nuovo codice a barre 
+          per rimuovere il codice a barre corrente senza sostituirlo con un 
+          nuovo valore.
+        batch_merge: Unisci contenitori superiori
+        batch_merge_instructions: Seleziona il contenitore principale in cui 
+          verranno uniti tutti gli altri contenitori principali elencati. 
+          Accessi, risorse, componenti di risorse ed eventi collegati verranno 
+          ricollegati a questo contenitore. I profili dei contenitori verranno 
+          spostati in questo contenitore solo se non ne possiede già uno. Le 
+          posizioni e tutte le altre informazioni relative agli altri 
+          contenitori principali verranno eliminate.
+        batch_merge_confirm: Conferma l'unione dei contenitori superiori
+        batch_merge_confirm_question: Sei sicuro di voler unire i contenitori 
+          superiori come elencato di seguito? Questa operazione è irreversibile.
+        batch_merge_container_profile_too_many_warning: Questi contenitori 
+          superiori hanno profili contenitore diversi. Nessuno di questi profili
+          contenitore verrà unito al contenitore di destinazione dell'unione.
+        batch_merge_container_profile_mismatch_warning: Questi contenitori 
+          superiori hanno un profilo contenitore diverso rispetto al contenitore
+          superiore di destinazione dell'unione. Il profilo contenitore non 
+          verrà unito al contenitore di destinazione dell'unione.
+        batch_merge_confirm_merge_candidates: 'Unisci i seguenti contenitori superiori:'
+        batch_merge_confirm_merge_destination: 'In questo contenitore superiore:'
+        batch_delete: Elimina i contenitori superiori
+        batch_delete_help: Elimina tutti i contenitori selezionati.
+        update_n_records: Aggiorna %{n} record
+        select_merge_destination: Seleziona la destinazione di unione
+        merge_n_records: Unisci %{n} record
+        delete_n_records: Elimina %{n} record
+        update_locations_current_location: Posizione attuale
+        update_locations_new_location: Nuova posizione
+        has_location_true: Si
+        has_location_false: No
+    linker:
+      browse: Scopri i migliori contenitori
+      create: Crea contenitore superiore
+      link_title: Collegamento al contenitore superiore
+  container_profile:
+    _singular: Profilo del contenitore
+    _plural: Profili dei contenitori
+    _frontend:
+      action:
+        save: Salva profilo contenitore
+        edit: Modifica profilo contenitore
+        create: Crea profilo contenitore
+        space_calculator: Calcolatrice spaziale
+      messages:
+        created: Profilo del contenitore creato
+        updated: Profilo del contenitore aggiornato
+        merged: Profili contenitore uniti
+      section:
+        basic_information: Informazioni di base
+      bulk_operations:
+        merge: Unione dei profili dei contenitori
+        merge_instructions: Seleziona il profilo contenitore in cui verranno 
+          uniti tutti gli altri profili contenitore elencati. Tutti i record 
+          collegati verranno ricollegati a questo profilo e tutte le 
+          informazioni relative agli altri profili contenitore verranno 
+          eliminate.
+        merge_select_merge_destination: Seleziona la destinazione di unione
+        confirm_merge: Conferma l'unione dei profili del contenitore
+        confirm_merge_question: Sei sicuro di voler unire i profili dei 
+          container come elencato di seguito? Questa operazione è irreversibile.
+        confirm_merge_candidates: 'Unisci i seguenti profili contenitore:'
+        confirm_merge_destination: 'In questo profilo container:'
+    notes: Nota
+    notes_tooltip: |
+      <p>Nota per informazioni/metadati vari.</p>
+    name: Nome
+    name_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il nome del profilo del contenitore. Può essere generico o specifico.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Scatola per documenti</li>
+      <li>Paige 15</li>
+      <li>Scatola portadocumenti per schede piccole</li>
+      </ul>
+    url: URL
+    url_tooltip: |
+      <p>Un collegamento ipertestuale per una descrizione esterna del contenitore.</p>
+    dimension_units: Unità di misura
+    dimension_units_tooltip: |
+      <p>Unità di misura per le dimensioni.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    extent_dimension: Dimensione di estensione
+    extent_dimension_tooltip: |
+      <p>La dimensione utilizzata per calcolare e indicare l'ingombro dei materiali nel contenitore. Questo aiuta a determinare quale dimensione verrà misurata dal calcolatore di ingombro.</p>
+    extent_dimension_depth: Profondità
+    extent_dimension_depth_tooltip: |
+      <p>Valore numerico per la profondità (dimensione dalla parte anteriore a quella posteriore) del contenitore.</p>
+    extent_dimension_height: Altezza
+    extent_dimension_height_tooltip: |
+      <p>Valore numerico per l'altezza (dimensione dall'alto verso il basso) del contenitore.</p>
+    extent_dimension_width: Larghezza
+    extent_dimension_width_tooltip: |
+      <p>Valore numerico per la larghezza (dimensione da lato a lato) del contenitore.</p>
+    depth: Profondità
+    depth_tooltip: |
+      <p>Valore numerico per la profondità (dimensione dalla parte anteriore a quella posteriore) del contenitore.</p>
+    height: Altezza
+    height_tooltip: |
+      <p>Valore numerico per l'altezza (dimensione dall'alto verso il basso) del contenitore.</p>
+    width: larghezza
+    width_tooltip: |
+      <p>Valore numerico per la larghezza (dimensione da lato a lato) del contenitore.</p>
+    stacking_limit: Limite di impilamento
+    stacking_limit_tooltip: |
+      <p>Il numero di questi contenitori che possono essere impilati uno sopra l'altro. Lasciare vuoto se non c'è limite. Deve essere un numero intero positivo o zero.</p>
+    linker:
+      browse: Sfoglia i profili dei contenitori
+      create: Crea profilo contenitore
+      link_title: Collegamento al profilo del contenitore
+  rights_restriction:
+    begin: Inizio della restrizione
+    begin_tooltip: |
+      <p>Per una restrizione limitata nel tempo, la data di inizio di una restrizione all'accesso. Deve essere una singola data nel modulo YYYY-MM-DD. Verrà dissociato dai contenitori una volta scaduto. Utilizzare il testo della nota per indicare una data o un intervallo di date meno preciso.</p>
+    end: Fine della restrizione
+    end_tooltip: |
+      <p>Per una restrizione con limiti di tempo, la data di fine di una restrizione all'accesso. Deve essere una singola data nel modulo YYYY-MM-DD. Verrà dissociato dai contenitori una volta scaduto. Utilizzare il testo della nota per indicare una data o un intervallo di date meno preciso.</p>
+    local_access_restriction_type: Tipo di restrizione dell'accesso locale
+    local_access_restriction_type_inline_help: Tenere premuto CTRL (Windows) / 
+      Comando (Mac) per selezionare più opzioni o deselezionare un'opzione
+    local_access_restriction_type_tooltip: |
+      <p>Per le restrizioni non vincolate nel tempo, indicazione del motivo della restrizione.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+    linked_records: Record collegato
+    restriction_note_type: tipo di nota
+  extent_calculator:
+    no_object_message: Specificare un oggetto su cui eseguire il calcolatore di 
+      estensione.
+    report_title: Rapporto sull'estensione calcolata
+    container_profile_header: Profilo del contenitore
+    count_header: conte
+    extent_header: grado
+    no_profile: <span class="text-error">NESSUN PROFILO</span>
+    all_containers_label: Tutti i contenitori
+    timestamp_label: Rapporto generato alle
+    extent_record_header: Record di estensione
+    create_extent: Crea estensione
+    calculate_extent: Calcola l'estensione
+    create_extent_record_message: Esegui il Calcolatore di estensione in 
+      modalità di modifica per avere la possibilità di creare un record di 
+      estensione basato sul report.
+    waiting_for_report_message: Calcolo dell'estensione...
+    required_fields_alert_message: Assicurati che tutti i campi obbligatori 
+      contengano un valore.
+    container_summary_type:
+      _singular: contenitrice
+      _plural: contenitrici
+  location_profile:
+    _singular: Profilo della località
+    _plural: Profili delle località
+    _frontend:
+      action:
+        save: Salva profilo posizione
+        edit: Modifica profilo posizione
+        create: Crea profilo posizione
+      messages:
+        created: Profilo di localizzazione creato
+        updated: Profilo della località aggiornato
+        fields_required_for_calculator: Si prega di notare che le unità di 
+          misura, la profondità, l'altezza e la larghezza sono tutte necessarie 
+          per il calcolo dello spazio. Le posizioni verranno escluse dai 
+          risultati se manca uno qualsiasi di questi valori.
+      section:
+        basic_information: Informazioni di base
+    name: Nome
+    dimension_units: Unità di misura
+    depth: Profondità
+    height: Altezza
+    width: Larghezza
+    linker:
+      browse: Esplora i profili delle località
+      create: Crea profilo posizione
+      link_title: Collegamento al profilo della località
+  space_calculator:
+    modal_title: Calcolatrice spaziale
+    modal_loading: Caricamento...
+    message_container_profile_required: Il Calcolatore di spazio richiede 
+      l'impostazione di un profilo contenitore.
+    message_locations_required: Il Calcolatore di Spazio richiede l'impostazione
+      di una o più posizioni.
+    message_select_locations: 'Verifica la disponibilità di posti nelle seguenti località:'
+    message_no_locations_with_space: Non sono state trovate posizioni con spazio
+      disponibile
+    message_total_spaces: 'Numero totale di spazi disponibili per questo tipo di contenitore:
+      %{total_spaces}'
+    message_total_containers: 'Numero totale di contenitori di questo tipo trovati
+      in queste posizioni: %{total_containers}'
+    message_loading: Caricamento...
+    count: Spazio disponibile (del tipo di container)
+    calculate_space: Verifica la disponibilità di spazio
+    locations_without_space_details: Visualizza le posizioni senza spazio
+    by_locations: Per località
+    by_building: Costruire
+    result_filter: Filtra i risultati
+    summary:
+      locations_with_space: 'Posti con spazio disponibile: <strong>%{count}</strong>'
+      locations_without_space: 'Posti senza spazio disponibile: <strong>%{count}</strong>'
+      uncalculatable_locations: 'Impossibile calcolare: <strong>%{count}</strong>'
+    view_all_toggle: Mostra le posizioni senza spazio
+    reason:
+      location_lacks_a_profile: La località non ha un profilo
+      location_lacks_dimension_data: Il profilo di localizzazione non dispone di
+        dati dimensionali
+      container_is_bigger: Il contenitore è più grande del luogo in almeno una 
+        dimensione
+      container_at_location_lacks_profile: Almeno uno dei container attualmente 
+        presenti sul posto è privo di profilo
+      containers_at_location_dont_fit: I contenitori attualmente presenti nel 
+        luogo non sono adatti
+      location_cannot_fit_container: Al momento, in questo luogo non è possibile
+        alloggiare contenitori di questo tipo
+  date_calculator:
+    toolbar_button: Calcola le date
+    calculate_button: Calcola la data del record
+    modal_title: Calcola le date
+    all_labels: Calcola per tutte le date
+    no_object_message: Record non trovato
+    results_title: Record della data calcolata
+    create_date_button: Data di creazione del record
+    generic_create_error: La data non è valida e non è stato possibile crearla
+    create_success: Data creata con successo. Aggiornamento della pagina in 
+      corso...
+    no_dates: Non sono state trovate date adatte
+    no_dates_for_label: Non sono state trovate date %{label} idonee
+  act:
+    _frontend:
+      action:
+        add: Aggiungi atto
+  bulk_archival_object_update_spreadsheet:
+    title: Genera un foglio di calcolo per oggetti di archiviazione in blocco
+    description: Utilizza il modulo sottostante per selezionare gli oggetti di 
+      archivio che desideri aggiornare in blocco.
+    selected_records: Registrazioni selezionate
+    selected: Selezionata
+    record_title: Titolo del record
+    column_types_to_include_in_spreadsheet: Tipi di colonne da includere nel 
+      foglio di calcolo
+    note_types: Tipi di note
+    minimum_subrecords: Sottorecord minimi
+    minimum_subrecords_description: Il numero minimo di sottorecord già 
+      esistenti di ciascun tipo da includere.
+    extra_subrecords: Sottorecord aggiuntivi
+    extra_subrecords_description: Il numero di nuovi sottorecord da includere in
+      aggiunta al numero massimo di sottorecord esistenti già presenti in uno 
+      qualsiasi dei record selezionati.
+    minimum_notes: Note minime
+    minimum_notes_description: Il numero minimo di sottorecord di note già 
+      esistenti di ciascun tipo da includere.
+    download_spreadsheet: Scarica il foglio di calcolo
+    download_spreadsheet_modal_message: La generazione di questo foglio di 
+      calcolo potrebbe richiedere qualche istante.
+    too_many_rows_warning: "Attenzione: il numero di righe che verranno generate in
+      questo foglio di calcolo supera il numero di righe che possono essere aggiornate
+      tramite il processo in background di Aggiornamento in blocco degli oggetti di
+      archiviazione. Se si prevede di eseguire il processo di Aggiornamento in blocco
+      degli oggetti di archiviazione utilizzando questo foglio di calcolo, sarà necessario
+      ridurre il numero di righe in questo foglio a un valore inferiore o uguale a
+      <strong>%{max_row_count} righe</strong> prima dell'inserimento. Si consiglia
+      di generare ora un foglio di calcolo di dimensioni inferiori. Questo avviso
+      può essere tranquillamente ignorato se non si intende eseguire un processo di
+      Aggiornamento in blocco degli oggetti di archiviazione con questi dati."
+  assessment:
+    _frontend:
+      form_header: Valutazione %{display_string}
+      formats: Tipologie/Formati dei materiali
+      ratings: Valutazioni
+      conservation_issues: Questioni di conservazione
+      record_types: Tipi di record
+      action:
+        create: Crea valutazione
+        save: Salva valutazione
+        add_rating_note: Aggiungi nota
+        remove_rating_note: Rimuovi nota
+        create_for_record: Crea valutazione
+      section:
+        basic_information: Informazioni di base
+        existing_description: Descrizione esistente
+        rating_attributes: Informazioni sulla valutazione
+        rating_attributes_empty: Nessuna informazione di valutazione inserita
+        rating_attributes_additional: Valutazioni aggiuntive
+        format_attributes: Elenco dei tipi/formati di materiale
+        format_attributes_empty: Nessun tipo/formato di materiale inserito
+        format_attributes_additional: Tipologie/formati di materiale aggiuntivi
+        conservation_issue_attributes: Questioni di conservazione
+        conservation_issue_attributes_empty: Non sono stati inseriti problemi di
+          conservazione
+        conservation_issue_attributes_additional: Ulteriori problematiche di 
+          conservazione
+      messages:
+        created: Valutazione creata
+        updated: Valutazione aggiornata
+        deleted: Valutazione eliminata
+        attributes_hint: Contatta il tuo amministratore per aggiungere ulteriori
+          %{attribute_type}
+        manage_attributes_hint: Gestisci l'attributo aggiuntivo 
+          %{attribute_type} per questo repository
+      assessment_review_required:
+        true_value: Si
+        false_value: No
+      assessment_sensitive_material:
+        true_value: Si
+        false_value: No
+      assessment_inactive:
+        true_value: Si
+        false_value: No
+      assessment_completed:
+        true_value: Si
+        false_value: No
+      browse_reviewers: Recensori
+      linked_records:
+        heading: Record collegati
+        loading: Caricamento...
+        linked_via_assessment_records: Valutazioni
+        linked_via_assessment_surveyed_by: Valutazioni - Sondaggio effettuato da
+        linked_via_assessment_reviewer: Valutazioni - Revisore
+        record_type: Tipo di record
+        title: Titolo
+        identifier: Identificativo
+      ratings_list:
+        rating: Valutazione
+        score: Punto
+        note: Nota
+  assessment_attribute_definitions:
+    _frontend:
+      title: Attributi di valutazione
+      section:
+        formats: Tipologie/Formati dei materiali
+        ratings: Valutazioni
+        conservation_issues: Questioni di conservazione
+      global: Globale %{type}
+      repository: Repository %{type}
+      action:
+        save: Salva attributi di valutazione
+        add_type: Aggiungi %{type}
+        find_rating: Trova i record con una valutazione %{rating_type}
+        find_format: Trova i record con un tipo/formato materiale %{format_type}
+        find_issue: Trova i record con un problema di conservazione di tipo 
+          %{issue_type}
+        remove_rating: Rimuovi la valutazione %{rating_type}
+        remove_format: Rimuovi il tipo/formato materiale %{format_type}
+        remove_issue: Rimuovi il problema di conservazione %{issue_type}
+      messages:
+        updated: Attributi di valutazione aggiornati
+        error: Errore durante l'aggiornamento degli attributi di valutazione
+        conflict: "Errore durante l'aggiornamento degli attributi di valutazione.
+          Le seguenti etichette sono in conflitto con le voci esistenti: %{conflicts}"
+        attribute_in_use: Impossibile eliminare un attributo attualmente in uso 
+          da una valutazione
+      database_value: Valore del database
+      translation: Traduzione
+  custom_report_template:
+    new_title: Nuovo modello di report personalizzato
+    _frontend:
+      section:
+        template_information: Informazioni sul modello
+        basic_information_fields: Campi informativi di base
+        linked_records: Record collegati
+        sort_by: Ordina il report per
+      action:
+        create: Crea modello
+        save: Salva modello
+        search_usernames: Ricerca nomi utente
+      messages:
+        copied: Modello di report personalizzato copiato
+        created: Modello di report personalizzato creato
+        updated: Modello di report personalizzato aggiornato
+  oai_config:
+    title: Modello di report personalizzato aggiornato
+    title_repo_section: Impostazioni OAI-PMH per repository
+    general_section: Impostazioni generali
+    repo_set_section: Set di repository
+    sponsor_set_section: Set di sponsor
+    repo_set_desc: Oltre ai set basati sul livello di descrizione, è possibile 
+      definire un set OAI basato sui repository.
+    sponsor_set_desc: Oltre ai set basati sul livello di descrizione, è 
+      possibile definire un set OAI basato sui nomi degli sponsor.
+    oai_record_prefix: Prefisso del record OAI
+    oai_admin_email: Indirizzo email dell'amministratore OAI
+    oai_repository_name: Nome del repository OAI
+    repo_set_name: Nome del set di repository
+    repo_set_codes: Repository in Set
+    repo_set_description: Descrizione del set di repository
+    sponsor_set_name: Nome del set dello sponsor
+    sponsor_set_names: Nomi degli sponsor
+    sponsor_set_description: Descrizione del set di sponsor
+    oai_leave_repo_form: Queste opzioni influiscono su OAI-PMH solo per questo 
+      repository. Fare clic qui sotto per visualizzare/modificare le opzioni OAI
+      globali. In questo modo si uscirà dalla schermata corrente senza salvare 
+      le modifiche.
+    _frontend:
+      section:
+        basic_information: Impostazioni generali
+      action:
+        create: Aggiorna le impostazioni di OAI-PMH
+        updated: Impostazioni OAI-PMH aggiornate con successo!
+    _sidebar:
+      repo_set_section:
+        _plural: Set di repository
+      sponsor_set_section:
+        _plural: Set di sponsor
+      repo_settings:
+        _plural: Impostazioni OAI-PMH per repository
+  agent_record_control:
+    _plural: Informazioni sul record
+    _singular: Informazioni sul record
+    _frontend:
+      action:
+        add: Aggiungi informazioni sul record
+    maintenance_status: Stato di manutenzione del controllo dei record
+    publication_status: Stato di pubblicazione del controllo dei record
+    romanization: romanizzazione
+    government_agency_type: Controllo dei documenti - Tipo di agenzia 
+      governativa
+    reference_evaluation: Valutazione di riferimento per il controllo dei record
+    name_type: Nome del controllo record Tipo
+    level_of_detail: Livello di dettaglio del controllo dei record
+    modified_record: Controllo dei record di tipo modificato
+    cataloging_source: Fonte di catalogazione per il controllo dei record
+    maintenance_agency: Agenzia di manutenzione
+    agency_name: Nome dell'agenzia
+    maintenance_agency_note: Nota dell'agenzia di manutenzione
+    language: Lingua
+    script: Sceneggiatura
+    language_note: Nota linguistica
+  place:
+    _plural: Luoghi
+    _frontend:
+      action:
+        add: Aggiungi luogo

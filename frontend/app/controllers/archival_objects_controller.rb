@@ -18,11 +18,10 @@ class ArchivalObjectsController < ApplicationController
       @archival_object.ref_id = nil
       @archival_object.instances = []
       @archival_object.position = params[:position]
-      @archival_object.notes.each do |note|
-        if note.is_a?(Hash)
-          note.delete('persistent_id')
-        end
-      end
+      strip_persistent_ids(@archival_object.notes)
+      strip_persistent_ids(@archival_object.lang_materials, 'notes')
+      strip_persistent_ids(@archival_object.rights_statements, 'notes')
+      strip_persistent_ids(@archival_object.rights_statements, 'acts', 'notes')
 
       flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: clean_mixed_content(@archival_object.display_string))
     else
@@ -374,5 +373,17 @@ class ArchivalObjectsController < ApplicationController
     render :json => list.select { |type| type != "lang_material" }.map {|type|
       [type, t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
     }
+  end
+
+  private
+
+  def strip_persistent_ids(records, *nested_keys)
+    notes = nested_keys.reduce(Array(records)) do |items, key|
+      items.flat_map { |item| item.is_a?(Hash) ? Array(item[key]) : [] }
+    end
+
+    notes.each do |note|
+      note.delete('persistent_id') if note.is_a?(Hash)
+    end
   end
 end

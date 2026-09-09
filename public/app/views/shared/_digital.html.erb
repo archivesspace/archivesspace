@@ -59,13 +59,17 @@
 
           <% else %>
 
-            <div class="panel panel-default">
-              <a class="thumbnail" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link') %>">
-                <img src="<%= d_file['thumb'] %>" alt="<%= strip_mixed_content(d_file['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
-              </a>
-              <div class="panel-heading">
-                <%= (d_file['caption'] || t('enumerations.instance_instance_type.digital_object')).html_safe %>
-              </div>
+            <div class="card">
+              <figure class="mb-0">
+                <a href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link') %>">
+                  <img src="<%= d_file['thumb'] %>" alt="<%= strip_mixed_content(d_file['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
+                </a>
+                <figcaption class="bg-lightgray rounded-bottom">
+                  <p class="mb-0">
+                    <%= (d_file['caption'] || t('enumerations.instance_instance_type.digital_object')).html_safe %>
+                  </p>
+                </figcaption>
+              </figure>
             </div>
 
           <% end %>
