@@ -4,6 +4,68 @@ class AccessionConverter < Converter
   require_relative 'lib/csv_converter'
   include ASpaceImport::CSVConvert
 
+  SUPPORTED_AGENT_TYPES = %w[agent_person agent_family agent_corporate_entity].freeze
+
+  repeatable_record :extent
+  repeatable_record :external_document
+  repeatable_record :agent, :fields => %w[
+    record_id
+    role
+    relator
+    agent_type
+    agent_contact_1_address_1
+    agent_contact_1_address_2
+    agent_contact_1_address_3
+    agent_contact_1_city
+    agent_contact_1_country
+    agent_contact_1_email
+    agent_contact_1_fax_1_number
+    agent_contact_1_name
+    agent_contact_1_post_code
+    agent_contact_1_region
+    agent_contact_1_salutation
+    agent_contact_1_telephone_1_number
+    agent_contact_1_telephone_1_ext
+    agent_name_1_authority_id
+    agent_name_1_dates
+    agent_name_1_fuller_form
+    agent_name_1_name_order
+    agent_name_1_number
+    agent_name_1_prefix
+    agent_name_1_title
+    agent_name_1_primary_name
+    agent_name_1_qualifier
+    agent_name_1_rest_of_name
+    agent_name_1_rules
+    agent_name_1_sort_name
+    agent_name_1_source
+    agent_name_1_subordinate_name_1
+    agent_name_1_subordinate_name_2
+    agent_name_1_suffix
+    note_1_content
+    note_1_citation
+  ], :parse => false
+  repeatable_record :subject, :fields => %w[record_id source term term_type], :parse => false
+  repeatable_record :instance, :fields => %w[
+    instance_type
+    top_container_1_uri
+    top_container_1_type
+    top_container_1_indicator
+    top_container_1_barcode
+    top_container_1_container_profile_1_uri
+    child_type
+    child_indicator
+    child_barcode
+    grandchild_type
+    grandchild_indicator
+  ], :parse => false
+
+  TOP_CONTAINER_CREATION_FIELDS = %w[
+    top_container_1_type
+    top_container_1_indicator
+    top_container_1_barcode
+    top_container_1_container_profile_1_uri
+  ].freeze
 
   def self.import_types(show_hidden = false)
     [
@@ -25,16 +87,19 @@ class AccessionConverter < Converter
 
   def self.configure
     {
-      # 1. Map the cell data to schemas / handlers
+      # 1. Map directly parsed cell data to RecordProxy property paths
       # {column header} => {data address}
       # or,
       # {column header} => [{filter method}, {data address}]
+      #
+      # Composite repeatable groups declared with :parse => false are assembled in
+      # after_row_parsed.
 
       'accession_title' => 'accession.title',
-      'accession_number_1' => 'accession.id_0',
-      'accession_number_2' => 'accession.id_1',
-      'accession_number_3' => 'accession.id_2',
-      'accession_number_4' => 'accession.id_3',
+      'accession_id_1' => 'accession.id_0',
+      'accession_id_2' => 'accession.id_1',
+      'accession_id_3' => 'accession.id_2',
+      'accession_id_4' => 'accession.id_3',
       'accession_accession_date' => [date_flip, 'accession.accession_date'],
       'accession_access_restrictions' => 'accession.access_restrictions',
       'accession_access_restrictions_note' => 'accession.access_restrictions_note',
@@ -78,10 +143,6 @@ class AccessionConverter < Converter
       'date_2_end' => 'date_2.end',
       'date_2_type' => 'date_2.date_type',
 
-      'extent_type' => 'extent.extent_type',
-      'extent_container_summary' => 'extent.container_summary',
-      'extent_number' => 'extent.number',
-
       'accession_acknowledgement_sent' => [normalize_boolean, 'acknowledgement_sent_event.boolean'],
       'accession_acknowledgement_sent_date' => [date_flip, 'acknowledgement_sent_event.expression'],
 
@@ -98,9 +159,9 @@ class AccessionConverter < Converter
       'accession_processed' => [normalize_boolean, 'processed_event.boolean'],
       'accession_processed_date' => [date_flip, 'processed_event.expression'],
 
-      'user_defined_boolean_1' => 'user_defined.boolean_1',
-      'user_defined_boolean_2' => 'user_defined.boolean_2',
-      'user_defined_boolean_3' => 'user_defined.boolean_3',
+      'user_defined_boolean_1' => [normalize_boolean, 'user_defined.boolean_1'],
+      'user_defined_boolean_2' => [normalize_boolean, 'user_defined.boolean_2'],
+      'user_defined_boolean_3' => [normalize_boolean, 'user_defined.boolean_3'],
       'user_defined_integer_1' => 'user_defined.integer_1',
       'user_defined_integer_2' => 'user_defined.integer_2',
       'user_defined_integer_3' => 'user_defined.integer_3',
@@ -124,142 +185,18 @@ class AccessionConverter < Converter
       'user_defined_enum_3' => 'user_defined.enum_3',
       'user_defined_enum_4' => 'user_defined.enum_4',
 
-      'agent_role' => 'accession.agent_role',
-      'agent_relator' => 'accession.agent_relator',
-      'agent_type' => 'agent.agent_type',
-
-      'agent_contact_address_1' => 'agent_contact.address_1',
-      'agent_contact_address_2' => 'agent_contact.address_2',
-      'agent_contact_address_3' => 'agent_contact.address_3',
-      'agent_contact_city' => 'agent_contact.city',
-      'agent_contact_country' => 'agent_contact.country',
-      'agent_contact_email' => 'agent_contact.email',
-      'agent_contact_name' => 'agent_contact.name',
-
-      'agent_contact_post_code' => 'agent_contact.post_code',
-      'agent_contact_region' => 'agent_contact.region',
-      'agent_contact_salutation' => 'agent_contact.salutation',
-
-      'agent_contact_fax' => 'agent_fax.number',
-
-      'agent_contact_telephone' => 'agent_telephone.number',
-      'agent_contact_telephone_ext' => 'agent_telephone.ext',
-
-      'agent_name_authority_id' => 'agent_name.authority_id',
-      'agent_name_dates' => 'agent_name.dates',
-      'agent_name_fuller_form' => 'agent_name.fuller_form',
-      'agent_name_name_order' => 'agent_name.name_order',
-      'agent_name_number' => 'agent_name.number',
-      'agent_name_prefix' => 'agent_name.prefix',
-      'agent_name_title' => 'agent_name.title',
-      'agent_name_primary_name' => 'agent_name.primary_name',
-      'agent_name_qualifier' => 'agent_name.qualifier',
-      'agent_name_rest_of_name' => 'agent_name.rest_of_name',
-      'agent_name_rules' => 'agent_name.rules',
-      'agent_name_sort_name' => 'agent_name.sort_name',
-      'agent_name_source' => 'agent_name.source',
-      'agent_name_subordinate_name_1' => 'agent_name.subordinate_name_1',
-      'agent_name_subordinate_name_2' => 'agent_name.subordinate_name_2',
-      'agent_name_suffix' => 'agent_name.suffix',
-
-      'agent_name_description_note' => 'note_bioghist.content',
-      'agent_name_description_citation' => 'note_citation.content',
-
-      'subject_source' => 'subject.source',
-      'subject_term' => 'subject.term',
-      'subject_term_type' => 'subject.term_type',
-
-      # 2. Define data handlers
-      #    :record_type of the schema (if other than the handler key)
-      #    :defaults - hash which maps property keys to default values if nothing shows up in the source date
-      #    :on_row_complete - Proc to run whenever a row in the CSV table is complete
+      # 2. Define RecordProxy lifecycle handlers for directly parsed records
+      #    :record_type - schema type, if different from the handler key
+      #    :defaults - properties to set when no value appears in the source data
+      #    :on_row_complete - Proc run after the CSV row has been parsed
       #        param 1 is the set of objects generated by the row
-      #        param 2 is an object in the row (of the type described in the handler)
-
-      :agent => {
-        :record_type => Proc.new {|data|
-            @agent_type = data['agent_type']
-          },
-        :on_row_complete => Proc.new {|cache, agent|
-            accession = cache.find {|obj| obj.class.record_type == 'accession' }
-
-            if accession
-              accession.linked_agents[0]['ref'] = agent.uri
-            else
-              cache.reject! {|obj| obj.key == agent.key}
-            end
-          },
-
-      },
-
-      :agent_contact => {
-        :on_row_complete => Proc.new {|cache, this|
-          agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
-          agent.agent_contacts << this
-        }
-      },
-
-      :agent_fax => telephone_template('fax'),
-
-      :agent_telephone => telephone_template('home'),
-
-      :agent_name => {
-        :record_type => Proc.new {|data|
-          @agent_type.sub(/agent_/, 'name_')
-        },
-        :on_create => Proc.new {|data, obj|
-          if @agent_type =~ /family/
-            obj.family_name = data['primary_name']
-          end
-        },
-        :on_row_complete => Proc.new {|cache, this|
-          agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
-          agent.names << this
-        }
-      },
+      #        param 2 is the object represented by this handler
 
       :accession => {
-        :on_create => Proc.new {|data, obj|
-          if data['agent_role']
-            if data['agent_relator']
-              obj.linked_agents << {'role' => data['agent_role'], 'relator' => data['agent_relator']}
-            else
-              obj.linked_agents << {'role' => data['agent_role']}
-            end
-          end
-        },
         :on_row_complete => Proc.new { |queue, accession|
           queue.select {|obj| obj.class.record_type == 'event'}.each do |event|
             event.linked_records << {'role' => 'source', 'ref' => accession.uri}
           end
-        }
-      },
-
-      :note_bioghist => {
-        :on_create => Proc.new {|data, obj|
-          obj.subnotes = [{'jsonmodel_type' => 'note_text', 'content' => data['content']}]
-        },
-        :on_row_complete => Proc.new {|cache, this|
-          agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|fami|corpo)/}
-          agent.notes << this
-        }
-      },
-
-      :note_citation => {
-        :on_row_complete => Proc.new {|cache, this|
-          note_biogist = cache.find {|obj| obj.class.record_type == 'note_bioghist'}
-          note_biogist.subnotes << this
-        }
-      },
-
-      :subject => {
-        :on_create => Proc.new {|data, obj|
-          obj.terms = [{:term => data['term'], :term_type => data['term_type'], :vocabulary => '/vocabularies/1'}]
-          obj.vocabulary = '/vocabularies/1'
-        },
-        :on_row_complete => Proc.new {|cache, this|
-          accession = cache.find {|obj| obj.class.record_type == 'accession'}
-          accession.subjects << {'ref' => this.uri}
         }
       },
 
@@ -300,10 +237,17 @@ class AccessionConverter < Converter
       },
 
       :extent => {
-        :defaults => {:portion => 'whole'},
         :on_row_complete => Proc.new { |queue, extent|
           queue.select {|obj| obj.class.record_type == 'accession'}.each do |accession|
             accession.extents << extent
+          end
+        }
+      },
+
+      :external_document => {
+        :on_row_complete => Proc.new { |queue, document|
+          queue.select {|obj| obj.class.record_type == 'accession'}.each do |accession|
+            accession.external_documents << document
           end
         }
       },
@@ -340,6 +284,423 @@ class AccessionConverter < Converter
 
   private
 
+  def after_row_parsed(row)
+    accession = @batch.working_area.find {|obj| obj.class.record_type == 'accession' }
+    if accession
+      append_agents(repeatable_row_data('agent', row), accession)
+      append_subjects(repeatable_row_data('subject', row), accession)
+      append_instances(repeatable_row_data('instance', row), accession)
+    end
+  end
+
+
+  def append_agents(agent_groups, accession)
+    agent_groups.each do |index, values|
+      values = normalize_agent_values(values)
+      next if values.values.all? {|value| blank_value?(value) }
+
+      create_values = values.reject {|property, _value| %w[record_id role relator agent_type].include?(property) }.values
+      record_id = values['record_id'] unless blank_value?(values['record_id'])
+      if record_id && create_values.any? {|value| !blank_value?(value) }
+        raise AccessionConverterAgentModeConflictError,
+              I18n.t('importer.error.agent_mode_conflict', :index => index)
+      end
+
+      if record_id
+        accession.linked_agents << agent_relationship(values, agent_uri(index, values['agent_type'], record_id))
+      else
+        agent = build_agent(index, values)
+        accession.linked_agents << agent_relationship(values, agent.uri)
+        @batch << agent
+      end
+    end
+  end
+
+
+  def normalize_agent_values(values)
+    values.to_h do |property, value|
+      normalized = blank_value?(value) || value == 'NULL' ? nil : value
+      normalized = normalize_record_id(normalized) if property == 'record_id'
+
+      [property, normalized]
+    end
+  end
+
+
+  def agent_uri(index, agent_type, record_id)
+    uri_type = agent_type_from_uri(record_id)
+
+    if uri_type.nil?
+      if record_uri?(record_id)
+        raise AccessionConverterInvalidRecordIdError,
+              I18n.t('importer.error.unrecognized_record_uri',
+                     :index => index, :record_id => record_id)
+      end
+
+      verify_agent_type(index, agent_type, record_id)
+
+      return resolve_record_uri(index, agent_type.to_sym, record_id)
+    end
+
+    unless blank_value?(agent_type)
+      verify_agent_type(index, agent_type, record_id)
+
+      unless agent_type == uri_type
+        raise AccessionConverterInvalidAgentTypeError,
+              I18n.t('importer.error.agent_type_uri_mismatch',
+                     :index => index, :agent_type => agent_type, :record_id => record_id)
+      end
+    end
+
+    resolve_record_uri(index, uri_type.to_sym, record_id)
+  end
+
+
+  def record_uri?(value)
+    value.to_s.strip.start_with?('/')
+  end
+
+
+  def agent_type_from_uri(record_id)
+    return nil unless record_uri?(record_id)
+
+    value = record_id.to_s.strip
+    SUPPORTED_AGENT_TYPES.find do |type|
+      JSONModel(type.to_sym).id_for(value, {}, true)
+    end
+  end
+
+
+  def resolve_record_uri(index, record_type, record_id)
+    ASpaceImport::Utils.record_uri(record_type, record_id)
+  rescue ASpaceImport::Utils::InvalidRecordReference => e
+    key = e.reason == :unrecognized_uri ? 'importer.error.unrecognized_record_uri' : 'importer.error.invalid_record_id'
+
+    raise AccessionConverterInvalidRecordIdError,
+          I18n.t(key, :index => index, :record_id => e.value)
+  end
+
+
+  def verify_agent_type(index, agent_type, record_id = nil)
+    return if SUPPORTED_AGENT_TYPES.include?(agent_type)
+
+    key = if blank_value?(agent_type)
+            record_id ? 'importer.error.missing_agent_type_for_link' : 'importer.error.missing_agent_type'
+          else
+            record_id ? 'importer.error.invalid_agent_type_for_link' : 'importer.error.invalid_agent_type'
+          end
+
+    raise AccessionConverterInvalidAgentTypeError,
+          I18n.t(key,
+                 :index => index,
+                 :agent_type => agent_type,
+                 :record_id => record_id,
+                 :allowed => SUPPORTED_AGENT_TYPES)
+  end
+
+
+  def agent_relationship(values, uri)
+    relationship = {'ref' => uri}
+    relationship['role'] = values['role'] unless blank_value?(values['role'])
+    relationship['relator'] = values['relator'] unless blank_value?(values['relator'])
+    relationship
+  end
+
+
+  def build_agent(index, values)
+    agent_type = values['agent_type']
+    verify_agent_type(index, agent_type)
+
+    attributes = agent_creation_attributes(values)
+    agent = ASpaceImport::JSONModel(agent_type.to_sym).new
+    agent.names = [build_agent_name(agent_type, attributes[:name])]
+
+    contact = build_agent_contact(attributes[:contact], attributes[:telephone], attributes[:fax])
+    agent.agent_contacts = [contact] if contact
+
+    note = build_agent_note(attributes[:note])
+    agent.notes = [note] if note
+
+    agent
+  end
+
+
+  def build_agent_name(agent_type, values)
+    name_type = agent_type.sub(/agent_/, 'name_').to_sym
+    name = ASpaceImport::JSONModel(name_type).new
+    assign_agent_properties(name, name_type, values)
+
+    if agent_type == 'agent_family' && !blank_value?(values['primary_name'])
+      name.family_name = normalize_schema_value(:name_family, 'family_name', values['primary_name'])
+    end
+    name.sort_name_auto_generate = false unless blank_value?(values['sort_name'])
+
+    name
+  end
+
+
+  def build_agent_contact(contact_values, telephone_values, fax_values)
+    values = contact_values.values + telephone_values.values + fax_values.values
+    return nil if values.all? {|value| blank_value?(value) }
+
+    contact = ASpaceImport::JSONModel(:agent_contact).new
+    assign_agent_properties(contact, :agent_contact, contact_values)
+    contact.telephones = [
+      build_agent_telephone('fax', fax_values),
+      build_agent_telephone('home', telephone_values),
+    ].compact
+
+    contact
+  end
+
+
+  def build_agent_telephone(number_type, values)
+    return nil if blank_value?(values['number'])
+
+    telephone = {
+      'jsonmodel_type' => 'telephone',
+      'number_type' => number_type,
+      'number' => normalize_schema_value(:telephone, 'number', values['number']),
+    }
+    unless blank_value?(values['ext'])
+      telephone['ext'] = normalize_schema_value(:telephone, 'ext', values['ext'])
+    end
+
+    telephone
+  end
+
+
+  def build_agent_note(values)
+    content = values['content']
+    citation = values['citation']
+    return nil if blank_value?(content) && blank_value?(citation)
+
+    subnotes = []
+    unless blank_value?(content)
+      subnotes << {
+        'jsonmodel_type' => 'note_text',
+        'content' => normalize_schema_value(:note_text, 'content', content),
+      }
+    end
+    unless blank_value?(citation)
+      subnotes << {
+        'jsonmodel_type' => 'note_citation',
+        'content' => [normalize_schema_value(:note_citation, 'content', citation)],
+      }
+    end
+
+    ASpaceImport::JSONModel(:note_bioghist).new('subnotes' => subnotes)
+  end
+
+
+  def assign_agent_properties(record, record_type, values)
+    schema_properties = record.class.schema['properties']
+    values.each do |property, value|
+      next if blank_value?(value)
+      next unless schema_properties.has_key?(property)
+
+      record.send("#{property}=", normalize_schema_value(record_type, property, value))
+    end
+  end
+
+
+  def agent_creation_attributes(values)
+    contact = agent_group_values(values, 'agent_contact_1_')
+    telephone = {
+      'number' => contact.delete('telephone_1_number'),
+      'ext' => contact.delete('telephone_1_ext'),
+    }
+    fax = {'number' => contact.delete('fax_1_number')}
+
+    {
+      :name => agent_group_values(values, 'agent_name_1_'),
+      :contact => contact,
+      :telephone => telephone,
+      :fax => fax,
+      :note => {
+        'content' => values['note_1_content'],
+        'citation' => values['note_1_citation'],
+      },
+    }
+  end
+
+
+  def agent_group_values(values, prefix)
+    values.each_with_object({}) do |(property, value), result|
+      next unless property.start_with?(prefix)
+
+      result[property.delete_prefix(prefix)] = value
+    end
+  end
+
+
+  def normalize_record_id(value)
+    return nil if blank_value?(value) || value == 'NULL'
+
+    value.strip
+  end
+
+
+  def blank_value?(value)
+    value.nil? || value.to_s.strip.empty?
+  end
+
+
+  def append_subjects(subject_groups, accession)
+    subject_groups.each do |index, values|
+      values = normalize_subject_values(values)
+      next if values.values.all? {|value| blank_value?(value) }
+
+      create_values = values.reject {|property, _value| property == 'record_id' }.values
+      record_id = values['record_id'] unless blank_value?(values['record_id'])
+      if record_id && create_values.any? {|value| !blank_value?(value) }
+        raise AccessionConverterSubjectModeConflictError,
+              I18n.t('importer.error.subject_mode_conflict', :index => index)
+      end
+
+      if record_id
+        accession.subjects << {'ref' => resolve_record_uri(index, :subject, record_id)}
+      else
+        subject = ASpaceImport::JSONModel(:subject).new
+        subject.source = values['source'] unless blank_value?(values['source'])
+        subject.terms = [{
+          :term => values['term'],
+          :term_type => values['term_type'],
+          :vocabulary => '/vocabularies/1',
+        }]
+        subject.vocabulary = '/vocabularies/1'
+
+        accession.subjects << {'ref' => subject.uri}
+        @batch << subject
+      end
+    end
+  end
+
+
+  def normalize_subject_values(values)
+    {
+      'record_id' => normalize_record_id(values['record_id']),
+      'source' => normalize_schema_value(:subject, 'source', values['source']),
+      'term' => normalize_schema_value(:term, 'term', values['term']),
+      'term_type' => normalize_schema_value(:term, 'term_type', values['term_type']),
+    }
+  end
+
+
+  def append_instances(instance_groups, accession)
+    instance_groups.each do |index, values|
+      values = normalize_instance_values(values)
+      next if values.values.all? {|value| blank_value?(value) }
+
+      top_container_uri = values['top_container_1_uri']
+      top_container_creation_values = values.values_at(*TOP_CONTAINER_CREATION_FIELDS)
+      if top_container_uri && top_container_creation_values.any?
+        raise AccessionConverterTopContainerModeConflictError,
+              I18n.t('importer.error.top_container_mode_conflict', :index => index)
+      end
+
+      container_profile_uri = values['top_container_1_container_profile_1_uri']
+      if container_profile_uri && !container_profile_uri.match?(%r{\A/container_profiles/\d+\z})
+        raise AccessionConverterInvalidContainerProfileURIError,
+              I18n.t('importer.error.invalid_container_profile_uri',
+                     :index => index, :container_profile_uri => container_profile_uri)
+      end
+
+      if top_container_uri
+        unless top_container_uri.match?(%r{\A/repositories/\d+/top_containers/\d+\z})
+          raise AccessionConverterInvalidTopContainerURIError,
+                I18n.t('importer.error.invalid_top_container_uri',
+                       :index => index, :top_container_uri => top_container_uri)
+        end
+      else
+        top_container_uri = find_or_create_top_container_uri(values, index)
+      end
+
+      sub_container = ASpaceImport::JSONModel(:sub_container).new
+      sub_container.top_container = {'ref' => top_container_uri}
+      sub_container.type_2 = values['child_type']
+      sub_container.indicator_2 = values['child_indicator']
+      sub_container.barcode_2 = values['child_barcode']
+      sub_container.type_3 = values['grandchild_type']
+      sub_container.indicator_3 = values['grandchild_indicator']
+
+      instance = ASpaceImport::JSONModel(:instance).new
+      instance.instance_type = values['instance_type']
+      instance.sub_container = sub_container
+      accession.instances << instance
+    end
+  end
+
+
+  def find_or_create_top_container_uri(values, index)
+    barcode = values['top_container_1_barcode']
+    creating = top_container_creation_values?(values)
+
+    unless blank_value?(barcode)
+      existing_uri = top_container_uri_by_barcode[barcode] || TopContainer.for_barcode(barcode)&.uri
+
+      if existing_uri
+        if creating
+          raise AccessionConverterDuplicateTopContainerBarcodeError,
+                I18n.t('importer.error.duplicate_top_container_barcode',
+                       :index => index, :barcode => barcode, :top_container_uri => existing_uri)
+        end
+
+        top_container_uri_by_barcode[barcode] = existing_uri
+        return existing_uri
+      end
+
+      unless creating
+        raise AccessionConverterUnknownTopContainerBarcodeError,
+              I18n.t('importer.error.unknown_top_container_barcode',
+                     :index => index, :barcode => barcode)
+      end
+    end
+
+    top_container = ASpaceImport::JSONModel(:top_container).new
+    top_container.type = values['top_container_1_type']
+    top_container.indicator = values['top_container_1_indicator']
+    top_container.barcode = barcode
+    if values['top_container_1_container_profile_1_uri']
+      top_container.container_profile = {
+        'ref' => values['top_container_1_container_profile_1_uri'],
+      }
+    end
+
+    @batch << top_container
+    top_container_uri_by_barcode[barcode] = top_container.uri if barcode
+    top_container.uri
+  end
+
+
+  def top_container_uri_by_barcode
+    @top_container_uri_by_barcode ||= {}
+  end
+
+
+  def top_container_creation_values?(values)
+    (TOP_CONTAINER_CREATION_FIELDS - %w[top_container_1_barcode]).any? do |field|
+      !blank_value?(values[field])
+    end
+  end
+
+
+  def normalize_instance_values(values)
+    {
+      'instance_type' => normalize_schema_value(:instance, 'instance_type', values['instance_type']),
+      'top_container_1_uri' => normalize_schema_value(:top_container, 'uri', values['top_container_1_uri']),
+      'top_container_1_type' => normalize_schema_value(:top_container, 'type', values['top_container_1_type']),
+      'top_container_1_indicator' => normalize_schema_value(:top_container, 'indicator', values['top_container_1_indicator']),
+      'top_container_1_barcode' => normalize_schema_value(:top_container, 'barcode', values['top_container_1_barcode']),
+      'top_container_1_container_profile_1_uri' => normalize_schema_value(:container_profile, 'uri', values['top_container_1_container_profile_1_uri']),
+      'child_type' => normalize_schema_value(:sub_container, 'type_2', values['child_type']),
+      'child_indicator' => normalize_schema_value(:sub_container, 'indicator_2', values['child_indicator']),
+      'child_barcode' => normalize_schema_value(:sub_container, 'barcode_2', values['child_barcode']),
+      'grandchild_type' => normalize_schema_value(:sub_container, 'type_3', values['grandchild_type']),
+      'grandchild_indicator' => normalize_schema_value(:sub_container, 'indicator_3', values['grandchild_indicator']),
+    }
+  end
+
   def self.verify_date_type(date)
     date_types = EnumerationValue.filter(
       :enumeration_id => Enumeration.find(:name => 'date_type').values[:id],
@@ -349,7 +710,10 @@ class AccessionConverter < Converter
     .reject { |value| value == 'range' }
 
     unless date_types.include? date['date_type']
-      error_message = "Invalid date type provided: #{date['date_type']}; must be one of: #{date_types}; Date provided: #{date.inspect};"
+      error_message = I18n.t('importer.error.invalid_date_type',
+                             :date_type => date['date_type'],
+                             :allowed => date_types,
+                             :date => date.inspect)
 
       raise AccessionConverterInvalidDateTypeError, error_message
     end
@@ -372,22 +736,6 @@ class AccessionConverter < Converter
   end
 
 
-  def self.telephone_template(type)
-    {
-      :record_type => Proc.new {|data|
-        data['number'] ? :telephone : nil
-      },
-      :on_create => Proc.new {|data, obj|
-        obj.number_type = type
-      },
-      :on_row_complete => Proc.new {|cache, this|
-        agent = cache.find {|obj| obj.class.record_type =~ /^agent_(perso|corpo|famil)/}
-        agent.agent_contacts.first['telephones'] << this
-      }
-    }
-  end
-
-
   def self.date_defaults
     {
       :label => 'other',
@@ -402,17 +750,19 @@ class AccessionConverter < Converter
     @date_flip
   end
 
-  # need to resue the agent type
-  def self.agent_type
-    @agent_type ||= "agent_family"
-    @agent_type
-  end
-
-
   def self.normalize_boolean
-    @normalize_boolean ||= Proc.new {|val| val.to_s.upcase.match(/\A(1|T|Y|YES|TRUE)\Z/) ? true : false }
-    @normalize_boolean
+    ASpaceImport::Utils.normalize_boolean
   end
 end
 
-class AccessionConverterInvalidDateTypeError < StandardError; end;
+class AccessionConverterError < StandardError; end;
+class AccessionConverterInvalidDateTypeError < AccessionConverterError; end;
+class AccessionConverterAgentModeConflictError < AccessionConverterError; end;
+class AccessionConverterSubjectModeConflictError < AccessionConverterError; end;
+class AccessionConverterInvalidAgentTypeError < AccessionConverterError; end;
+class AccessionConverterInvalidTopContainerURIError < AccessionConverterError; end;
+class AccessionConverterInvalidContainerProfileURIError < AccessionConverterError; end;
+class AccessionConverterInvalidRecordIdError < AccessionConverterError; end;
+class AccessionConverterTopContainerModeConflictError < AccessionConverterError; end;
+class AccessionConverterDuplicateTopContainerBarcodeError < AccessionConverterError; end;
+class AccessionConverterUnknownTopContainerBarcodeError < AccessionConverterError; end;
