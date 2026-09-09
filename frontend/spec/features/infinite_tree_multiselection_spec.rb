@@ -740,4 +740,55 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       expect(handle_display(ao.uri)).not_to eq('none')
     end
   end
+
+  # A successful reorder calls redisplayAndReopen, which runs
+  # container.replaceChildren(). InfiniteTreeMultiSelection binds no listener for
+  # infiniteTree:redisplayAndReopenComplete, so every element left in `selected`
+  # is detached from the document while the array itself survives.
+  context 'after a successful reorder rebuilds the tree' do
+    before do
+      enable_reorder_mode
+      wait_for_reorder_mode_ready
+    end
+
+    it 'starts a fresh selection instead of carrying over rows detached by the rebuild' do
+      meta_click_row(ao.uri)
+      expect(selection_uris).to eq([ao.uri])
+
+      drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
+      wait_for_reorder_idle
+
+      # The tree was rebuilt, so nothing is visibly selected any more.
+      expect(page).to have_no_css('#infinite-tree-container .node.multiselected')
+
+      meta_click_row(ao2.uri)
+
+      aggregate_failures do
+        expect(selection_uris).to eq([ao2.uri])
+        expect(find_badge(ao2.uri)).to eq('1')
+        expect(page).to have_css(
+          '#infinite-tree-container .node.multiselected',
+          count: 1,
+          visible: :all
+        )
+      end
+    end
+
+    it 'does not send rows detached by the rebuild to accept_children' do
+      install_accept_children_capture
+
+      meta_click_row(ao.uri)
+      drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
+      wait_for_reorder_idle
+
+      # Only ao2 is selected now; ao already lives under ao3 after the drag.
+      meta_click_row(ao2.uri)
+      click_infinite_tree_toolbar_cut
+      select_tree_row(ao3)
+      click_infinite_tree_toolbar_paste
+      wait_for_reorder_idle
+
+      expect(last_accept_children_params['children']).to eq([ao2.uri])
+    end
+  end
 end

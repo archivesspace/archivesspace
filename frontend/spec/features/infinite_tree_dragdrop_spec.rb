@@ -765,4 +765,44 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       end
     end
   end
+
+  # #refreshDraggables writes the literal string 'Drag to reorder' into title and
+  # aria-label on every draggable row, so the tooltip and the screen-reader name
+  # stay English on a localized install.
+  describe 'draggable row labelling' do
+    after { set_admin_locale_preference(:en) }
+
+    # State-based rather than label-based: the shared enable_reorder_mode helper
+    # compares the toggle's text against an English translation, which is not a
+    # safe check once the UI is localized.
+    def ensure_reorder_mode
+      return if page.has_css?('#infinite-tree-container.reorder-mode', wait: 2)
+
+      find('.js-itree-toolbar-reorder-toggle').click
+      expect(page).to have_css('#infinite-tree-container.reorder-mode')
+    end
+
+    def drag_row_labels
+      ensure_reorder_mode
+      row = tree_row(ao.uri)
+
+      { title: row['title'], aria_label: row['aria-label'] }
+    end
+
+    it 'localizes the drag tooltip and accessible name' do
+      # The outer before block already loaded the tree and enabled reorder mode.
+      english = drag_row_labels
+
+      set_admin_locale_preference(:fr)
+      visit_in_locale("#{edit_path}#{root_hash}", :fr)
+      french = drag_row_labels
+
+      aggregate_failures do
+        expect(english[:title]).to be_present
+        expect(english[:aria_label]).to be_present
+        expect(french[:title]).not_to eq(english[:title])
+        expect(french[:aria_label]).not_to eq(english[:aria_label])
+      end
+    end
+  end
 end
