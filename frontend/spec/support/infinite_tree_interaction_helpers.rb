@@ -428,6 +428,15 @@ module InfiniteTreeInteractionHelpers
     nil
   end
 
+  # DOCUMENTED EXCEPTION: assigning window.location.hash is the only way to
+  # exercise the router's hashchange path (back/forward, manually edited URL)
+  # for a node that is not rendered yet.
+  def navigate_tree_hash(hash)
+    normalized = hash.start_with?('#') ? hash : "##{hash}"
+    page.execute_script('window.location.hash = arguments[0];', normalized)
+    wait_for_ajax
+  end
+
   def wait_for_reorder_idle
     expect(page).to have_no_css('#infinite-tree-container[data-reorder-move-in-flight]')
   end
