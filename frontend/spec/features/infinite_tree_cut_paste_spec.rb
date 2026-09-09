@@ -150,4 +150,44 @@ describe 'Infinite Tree Cut/Paste', js: true do
       expect(page).to have_css("li.node.cut[data-uri='#{ao.uri}']")
     end
   end
+
+  # InfiniteTreeCutPaste#currentPasteTargetNode excludes `.cut` rows but not their
+  # descendants, so a descendant is offered as a paste target and the move is only
+  # rejected by the backend ("Can't make a parent into its own child").
+  # InfiniteTreeDragDrop#isBlockedTarget already gets this right.
+  describe 'paste target eligibility inside a cut subtree' do
+    before do
+      install_accept_children_capture
+      enable_reorder_mode
+      wait_for_reorder_mode_ready
+      expand_tree_node(ao2.uri)
+      wait_for_ajax
+      expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+    end
+
+    it 'disables Paste when the current record is a descendant of a cut record' do
+      select_tree_row(ao2)
+      click_infinite_tree_toolbar_cut
+      expect(page).to have_css("li.node.cut[data-uri='#{ao2.uri}']")
+
+      select_tree_row(child_ao)
+
+      expect_infinite_tree_toolbar_paste_enabled(false)
+    end
+
+    it 'does not call accept_children when Paste is clicked on a descendant of a cut record' do
+      select_tree_row(ao2)
+      click_infinite_tree_toolbar_cut
+      select_tree_row(child_ao)
+
+      find('.js-itree-toolbar-paste').click
+      wait_for_ajax
+
+      aggregate_failures do
+        expect(accept_children_requests).to eq([])
+        expect(page).to have_css("li.node.cut[data-uri='#{ao2.uri}']")
+      end
+    end
+  end
+
 end
