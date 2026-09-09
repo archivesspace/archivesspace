@@ -1096,4 +1096,64 @@ describe 'Infinite Tree Toolbar', js: true do
       end
     end
   end
+
+  # InfiniteTreeToolbar#translate only performs a lookup when window.AS.I18n.t
+  # exists. Nothing in the app defines it, so every JS-rendered label falls back
+  # to its hard-coded English string while the server-rendered labels around it
+  # are localized. tree_toolbar.js.erb, which this replaces, interpolated I18n.t
+  # at asset-compile time and did not have this gap.
+  describe 'localization of JS-rendered labels' do
+    before do
+      set_admin_locale_preference(:fr)
+      visit_in_locale(edit_path, :fr)
+    end
+
+    after { set_admin_locale_preference(:en) }
+
+    def click_reorder_toggle
+      find('.js-itree-toolbar-reorder-toggle').click
+      expect(page).to have_css('#infinite-tree-container.reorder-mode')
+    end
+
+    it 'renders the initial reorder toggle label in the active locale' do
+      expect(find('.js-itree-toolbar-reorder-toggle').text)
+        .to eq(I18n.t('actions.enable_reorder', locale: :fr))
+    end
+
+    it 'renders the toggled reorder label in the active locale' do
+      click_reorder_toggle
+
+      expect(find('.js-itree-toolbar-reorder-toggle').text)
+        .to eq(I18n.t('actions.reorder_active', locale: :fr))
+    end
+
+    it 'renders the auto-expand toggle labels in the active locale' do
+      expect(find('.js-itree-toolbar-expand-mode').text)
+        .to eq(I18n.t('actions.expand_tree_mode_on', locale: :fr))
+
+      find('.js-itree-toolbar-expand-mode').click
+      wait_for_ajax
+
+      expect(find('.js-itree-toolbar-expand-mode').text)
+        .to eq(I18n.t('actions.expand_tree_mode_off', locale: :fr))
+    end
+
+    it 'renders the Move menu item labels in the active locale' do
+      click_reorder_toggle
+      select_tree_row(ao)
+      click_infinite_tree_toolbar_move_menu
+
+      labels = page
+        .all('.js-itree-toolbar-move-menu button[data-move-action]:not([data-target-node-id])')
+        .map { |button| button.text.strip }
+
+      expect(labels).to include(
+        I18n.t('actions.move_up', locale: :fr),
+        I18n.t('actions.move_down', locale: :fr),
+        I18n.t('actions.move_up_a_level', locale: :fr),
+        I18n.t('actions.move_down_into', locale: :fr)
+      )
+    end
+  end
+
 end
