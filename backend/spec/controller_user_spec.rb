@@ -473,8 +473,10 @@ describe 'User controller' do
       end
       pui_token = JSON(last_response.body)["session"]
 
-      expect(Session.find(staff_token)[:paired_session_ids]).to eq([pui_token])
-      expect(Session.find(pui_token)[:paired_session_id]).to eq(staff_token)
+      expect(Session.find(pui_token)[:parent_session]).to eq(Session.digest(staff_token))
+
+      # the pairing must not put a usable token in the session table
+      expect(Session.find(pui_token)[:parent_session]).to_not eq(staff_token)
     end
 
     it "supports multiple PUI sessions handed off from the same staff session (e.g. multiple tabs)" do
@@ -491,9 +493,9 @@ describe 'User controller' do
       end
       pui_token_2 = JSON(last_response.body)["session"]
 
-      expect(Session.find(staff_token)[:paired_session_ids]).to eq([pui_token_1, pui_token_2])
-      expect(Session.find(pui_token_1)[:paired_session_id]).to eq(staff_token)
-      expect(Session.find(pui_token_2)[:paired_session_id]).to eq(staff_token)
+      expect(pui_token_1).to_not eq(pui_token_2)
+      expect(Session.find(pui_token_1)[:parent_session]).to eq(Session.digest(staff_token))
+      expect(Session.find(pui_token_2)[:parent_session]).to eq(Session.digest(staff_token))
     end
   end
 
@@ -583,6 +585,53 @@ describe 'User controller' do
 
       expect(alive?(staff_token)).to be false
       expect(alive?(pui_token_1)).to be false
+      expect(alive?(pui_token_2)).to be false
+    end
+
+    # A staff session that lapses through inactivity is never "logged out", so
+    # nothing runs to tidy up the PUI sessions handed off from it.  They are
+    # invalidated by the parent check on their next request instead.
+    it "invalidates a PUI session whose staff session expired rather than logged out" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token = JSON(last_response.body)["session"]
+
+      expect(alive?(pui_token)).to be true
+
+      # as `expire_old_sessions` would reap it
+      Session.expire(staff_token)
+
+      expect(alive?(pui_token)).to be false
+      expect(Session.find(pui_token)).to be_nil
+    end
+
+    # The mirror of the case above.  `paired_session_ids` is only ever written
+    # onto the staff session, so logging out from one PUI session reaches the
+    # staff session but not the other PUI sessions handed off from it: the user
+    # clicks Logout in one tab and stays logged in to the PUI in another.
+    it "a PUI-side logout logs out every other PUI session handed off from the same staff session" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_1 = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_2 = JSON(last_response.body)["session"]
+
+      # The user clicks Logout in the first tab.
+      post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => pui_token_1}
+
+      expect(alive?(pui_token_1)).to be false
+      expect(alive?(staff_token)).to be false
       expect(alive?(pui_token_2)).to be false
     end
   end

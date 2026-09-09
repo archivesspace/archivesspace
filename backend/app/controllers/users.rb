@@ -326,11 +326,11 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "Session logged out"]) \
   do
     if session
-      # A staff session may be paired with several PUI sessions (one per
-      # handoff -- e.g. multiple tabs or windows sharing the same staff
-      # session); a PUI session has at most one paired staff session.
-      Array(session[:paired_session_ids]).each { |id| Session.expire(id) }
-      Session.expire(session[:paired_session_id]) if session[:paired_session_id]
+      # A PUI session is paired to the staff session it was handed off from:
+      # ending either ends both.  Any sibling PUI sessions handed off from that
+      # same staff session are invalidated by the parent check in the request
+      # middleware, so there is no list to walk here.
+      Session.expire_digest(session[:parent_session]) if session[:parent_session]
       Session.expire(session.id)
       json_response('status' => 'session_logged_out')
     else
@@ -348,12 +348,9 @@ class ArchivesSpaceService < Sinatra::Base
   do
     raise AccessDeniedException.new unless current_user.can?(:view_pui)
 
-    pui_session = create_session_for(current_user.username, true, pui_only: true)
-
-    pui_session[:paired_session_id] = session.id
-    session[:paired_session_ids] = Array(session[:paired_session_ids]) + [pui_session.id]
-    pui_session.save
-    session.save
+    pui_session = create_session_for(current_user.username, true,
+                                     pui_only: true,
+                                     parent_session: session.id)
 
     json_response(:session => pui_session.id, :username => current_user.username)
   end

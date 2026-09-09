@@ -319,15 +319,31 @@ class ArchivesSpaceService < Sinatra::Base
           session.touch
         end
 
-        if session && session[:pui_only] &&
-            !PUI_ONLY_ALLOWED_REQUESTS.include?([env['REQUEST_METHOD'], env['PATH_INFO']])
+        if session && session[:pui_only]
+          parent = session[:parent_session]
 
-          return [403,
-                  {"Content-Type" => "application/json"},
-                  [{
-                     :code => "PUI_SESSION_FORBIDDEN",
-                     :error => "This session may only be used for #{PUI_ONLY_ALLOWED_REQUESTS.map { |m, p| "#{m} #{p}" }.join(', ')}"
-                   }.to_json]]
+          # The staff session this one was handed off from has gone -- a logout
+          # from it, a logout from a sibling PUI session, or expiry -- so this
+          # one goes with it.
+          if parent && !Session.exists_by_digest?(parent)
+            Session.expire(session_token)
+
+            return [412,
+                    {"Content-Type" => "application/json"},
+                    [{
+                       :code => "SESSION_GONE",
+                       :error => "No session found for #{session_token}"
+                     }.to_json]]
+          end
+
+          unless PUI_ONLY_ALLOWED_REQUESTS.include?([env['REQUEST_METHOD'], env['PATH_INFO']])
+            return [403,
+                    {"Content-Type" => "application/json"},
+                    [{
+                       :code => "PUI_SESSION_FORBIDDEN",
+                       :error => "This session may only be used for #{PUI_ONLY_ALLOWED_REQUESTS.map { |m, p| "#{m} #{p}" }.join(', ')}"
+                     }.to_json]]
+          end
         end
       end
 
