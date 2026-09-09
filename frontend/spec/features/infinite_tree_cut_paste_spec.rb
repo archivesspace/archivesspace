@@ -150,4 +150,80 @@ describe 'Infinite Tree Cut/Paste', js: true do
       expect(page).to have_css("li.node.cut[data-uri='#{ao.uri}']")
     end
   end
+
+  # InfiniteTreeCutPaste#currentPasteTargetNode excludes `.cut` rows but not their
+  # descendants, so a descendant is offered as a paste target and the move is only
+  # rejected by the backend ("Can't make a parent into its own child").
+  # InfiniteTreeDragDrop#isBlockedTarget already gets this right.
+  describe 'paste target eligibility inside a cut subtree' do
+    before do
+      install_accept_children_capture
+      enable_reorder_mode
+      wait_for_reorder_mode_ready
+      expand_tree_node(ao2.uri)
+      wait_for_ajax
+      expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+    end
+
+    it 'disables Paste when the current record is a descendant of a cut record' do
+      select_tree_row(ao2)
+      click_infinite_tree_toolbar_cut
+      expect(page).to have_css("li.node.cut[data-uri='#{ao2.uri}']")
+
+      select_tree_row(child_ao)
+
+      expect_infinite_tree_toolbar_paste_enabled(false)
+    end
+
+    it 'does not call accept_children when Paste is clicked on a descendant of a cut record' do
+      select_tree_row(ao2)
+      click_infinite_tree_toolbar_cut
+      select_tree_row(child_ao)
+
+      find('.js-itree-toolbar-paste').click
+      wait_for_ajax
+
+      aggregate_failures do
+        expect(accept_children_requests).to eq([])
+        expect(page).to have_css("li.node.cut[data-uri='#{ao2.uri}']")
+      end
+    end
+  end
+
+  # Cut state is cleared by reorderModeChanged and EVENT_MOVE_SUCCESS only. A tree
+  # rebuild that comes from anywhere else (loadNodeWithAncestors via back/forward
+  # or a hand-edited hash) drops the `.cut` classes with the old DOM but leaves
+  # cutUris and the toolbar's cutActive in place.
+  describe 'cut state when the tree is rebuilt by navigation' do
+    it 'keeps the Paste control in sync with the cut markers in the tree' do
+      install_accept_children_capture
+      enable_reorder_mode
+      wait_for_reorder_mode_ready
+
+      select_tree_row(ao)
+      click_infinite_tree_toolbar_cut
+      expect(page).to have_css("li.node.cut[data-uri='#{ao.uri}']")
+
+      select_tree_row(ao3)
+      expect_infinite_tree_toolbar_paste_enabled(true)
+
+      # child_ao has never been expanded into view, so this hash goes through
+      # loadNodeWithAncestors -> #renderAncestors(replace: true), which calls
+      # container.replaceChildren().
+      navigate_tree_hash(tree_hash_for(child_ao.uri))
+      expect(page).to have_css("li.node.current[data-uri='#{child_ao.uri}']")
+
+      cut_uris = page
+        .all('#infinite-tree-container li.node.cut', visible: :all)
+        .map { |node| node['data-uri'] }
+      paste_enabled = page.has_no_css?('.js-itree-toolbar-paste.disabled[disabled]')
+
+      aggregate_failures do
+        # Either the rebuild cleared the cut, or it re-applied the markers.
+        # Paste must never be offered with nothing marked as cut.
+        expect(paste_enabled).to eq(cut_uris.any?)
+        expect(cut_uris - [ao.uri]).to be_empty
+      end
+    end
+  end
 end

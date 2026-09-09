@@ -446,4 +446,39 @@ describe 'Infinite Tree Integration', js: true do
       end
     end
   end
+
+  # InfiniteTreeRouter#proceedToHash calls setHash (which assigns
+  # window.location.hash while _ignoreHashChange is still false, queueing a
+  # hashchange) and then dispatches setCurrentNode immediately, so the queued
+  # hashchange dispatches a second one. #setHashSilently already exists for this.
+  describe 'discarding changes on the way to a node that is not loaded yet' do
+    it 'dispatches a single tree navigation' do
+      # Referencing the hash creates the record before the tree is rendered.
+      target_hash = nested_child_record_hash
+
+      visit "#{edit_path}#{ao_hash}"
+      wait_for_ajax
+      install_tree_event_capture('infiniteTreeRouter:setCurrentNode')
+
+      fill_in 'archival_object_component_id_', with: 'unsaved change'
+      wait_for_ajax
+
+      # nested_child_record has never been expanded into view, so this target
+      # goes through loadNodeWithAncestors, which rebuilds the whole container.
+      navigate_tree_hash(target_hash)
+      expect(page).to have_css('#saveYourChangesModal', visible: true)
+
+      within('#saveYourChangesModal') { click_on 'Dismiss Changes' }
+      wait_for_ajax
+
+      expect(page).to have_css(
+        "#infinite-tree-container li.node.current[data-uri='#{nested_child_record.uri}']"
+      )
+
+      aggregate_failures do
+        expect(page.current_url).to match(/#{Regexp.escape(target_hash)}/)
+        expect(tree_event_count('infiniteTreeRouter:setCurrentNode')).to eq(1)
+      end
+    end
+  end
 end

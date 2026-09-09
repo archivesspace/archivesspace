@@ -428,6 +428,15 @@ module InfiniteTreeInteractionHelpers
     nil
   end
 
+  # DOCUMENTED EXCEPTION: assigning window.location.hash is the only way to
+  # exercise the router's hashchange path (back/forward, manually edited URL)
+  # for a node that is not rendered yet.
+  def navigate_tree_hash(hash)
+    normalized = hash.start_with?('#') ? hash : "##{hash}"
+    page.execute_script('window.location.hash = arguments[0];', normalized)
+    wait_for_ajax
+  end
+
   def wait_for_reorder_idle
     expect(page).to have_no_css('#infinite-tree-container[data-reorder-move-in-flight]')
   end
@@ -678,6 +687,43 @@ module InfiniteTreeRequestSpies
         };
       })()
     JS
+  end
+
+  # Capture custom events dispatched on the tree container. Needed for events
+  # that do not bubble (e.g. infiniteTreeRouter:setCurrentNode), which cannot be
+  # observed from `document`.
+  def install_tree_event_capture(*event_names)
+    page.execute_script(<<~JS, event_names)
+      var names = arguments[0];
+      var container = document.querySelector('#infinite-tree-container');
+      if (!container) throw new Error('infinite tree container not found');
+
+      window.__itreeCapturedEvents = window.__itreeCapturedEvents || {};
+
+      names.forEach(function(name) {
+        window.__itreeCapturedEvents[name] = [];
+
+        container.addEventListener(name, function(event) {
+          var detail = null;
+          try {
+            detail = event.detail ? JSON.parse(JSON.stringify(event.detail)) : null;
+          } catch (e) {
+            detail = null;
+          }
+          window.__itreeCapturedEvents[name].push(detail);
+        });
+      });
+    JS
+  end
+
+  def captured_tree_events(name)
+    page.evaluate_script(
+      "(window.__itreeCapturedEvents && window.__itreeCapturedEvents['#{name}']) || []"
+    )
+  end
+
+  def tree_event_count(name)
+    captured_tree_events(name).length
   end
 
   def reorder_events(name)
