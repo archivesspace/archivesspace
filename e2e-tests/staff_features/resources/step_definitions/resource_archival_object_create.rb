@@ -5,7 +5,7 @@ Given 'a Resource with an Archival Object has been created' do
   create_resource_archival_object(@uuid)
 end
 
-When 'the user makes the Archival Object current' do
+When 'the user selects the Archival Object' do
   within '#infinite-tree-container' do
     click_link "Archival Object #{@uuid}"
   end

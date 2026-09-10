@@ -54,6 +54,7 @@ de:
       Aufzeichnung(en) werden gelöscht.
     merge_n_records: '%{n} Aufzeichnungen zusammenführen'
     move: Verschieben
+    move_group: Knoten verschieben
     move_up_a_level: Eine Ebene hinauf
     move_up: Hinauf
     move_down: Hinunter
@@ -925,6 +926,7 @@ de:
     messages:
       required_fields_updated: Erforderliche Felder aktualisiert
   tree:
+    toolbar_aria_label: Baum-Werkzeugleiste
     drag_and_drop_actions:
       before: Elemente vorher hinzufügen
       after: Elemente nachher hinzufügen
@@ -933,6 +935,10 @@ de:
       versuchen Sie die Seite neu zu laden.
     resize: Ziehen, um die Baumhöhe zu ändern
     maximize: Baumhöhe maximieren/minimieren
+    drag_to_reorder: Ziehen zum Neuordnen
+    errors:
+      move_records: Datensätze können nicht verschoben werden
+      move_records_message: Die Datensätze konnten nicht verschoben werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen

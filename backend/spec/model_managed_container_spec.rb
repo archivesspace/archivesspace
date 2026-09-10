@@ -358,6 +358,26 @@ describe 'Managed Container model' do
     end
 
 
+    it "reindexes top containers when multiple siblings are moved via accept_children" do
+      (resource, grandparent, parent, child) = create_tree(top_container_json)
+      sibling = create(:json_archival_object,
+                       "resource" => {"ref" => resource.uri},
+                       "parent" => {"ref" => parent.uri})
+
+      original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
+
+      response = JSONModel::HTTP.post_form("#{grandparent.uri}/accept_children",
+                                           "children[]" => [child.uri, sibling.uri],
+                                           "position" => 0)
+      expect(response).to be_ok
+      expect(top_container.refresh.system_mtime).to be > original_mtime
+
+      children = ArchivalObject[grandparent.id].children
+      expect(children.map(&:id)).to eq([child.id, sibling.id, parent.id])
+      expect(ArchivalObject[parent.id].children.map(&:id)).to eq([])
+    end
+
     it "refreshes top containers when an archival object is deleted" do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 

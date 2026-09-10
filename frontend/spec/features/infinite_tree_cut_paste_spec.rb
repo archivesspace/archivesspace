@@ -44,7 +44,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
     wait_for_ajax
   end
 
-  it 'cuts multiselection and pastes using deduped effective move set' do
+  it 'pastes only the parent when both parent and child are cut' do
     install_accept_children_capture
     enable_reorder_mode
     expand_tree_node(ao2.uri)
@@ -151,10 +151,6 @@ describe 'Infinite Tree Cut/Paste', js: true do
     end
   end
 
-  # InfiniteTreeCutPaste#currentPasteTargetNode excludes `.cut` rows but not their
-  # descendants, so a descendant is offered as a paste target and the move is only
-  # rejected by the backend ("Can't make a parent into its own child").
-  # InfiniteTreeDragDrop#isBlockedTarget already gets this right.
   describe 'paste target eligibility inside a cut subtree' do
     before do
       install_accept_children_capture

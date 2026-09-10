@@ -13,6 +13,9 @@
     static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
     /** Record pane: resync tree .current after inline create Cancel (pane already shows the parent record). */
     static EVENT_TYPE_SYNC_CURRENT_NODE = 'infiniteTree:syncCurrentNode';
+    /** Fired after container.replaceChildren() rebuilds the tree DOM. */
+    static EVENT_TYPE_TREE_CONTENT_REPLACED =
+      'infiniteTree:treeContentReplaced';
 
     #autoExpandEnabled = false;
     #autoExpandLocked = false;
@@ -260,7 +263,7 @@
 
       rootListElement.appendChild(rootNodeFrag);
 
-      this.container.replaceChildren(rootListFrag);
+      this.#replaceContainerChildren(rootListFrag);
 
       return rootNodeElement;
     }
@@ -623,7 +626,7 @@
           : `#${locationHash}`;
 
       // Clear the container completely
-      this.container.replaceChildren();
+      this.#replaceContainerChildren();
 
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
@@ -677,7 +680,7 @@
         uri => uri && uri !== this.rootMeta.uri
       );
 
-      this.container.replaceChildren();
+      this.#replaceContainerChildren();
 
       if (nonRootContextUris.length === 0) {
         await this.renderRoot();
@@ -861,7 +864,7 @@
         }
       }, new DocumentFragment());
 
-      if (replace) this.container.replaceChildren();
+      if (replace) this.#replaceContainerChildren();
 
       this.container.appendChild(ancestorsFrag);
 
@@ -949,6 +952,22 @@
       const treeId = InfiniteTreeIds.uriToTreeId(uri);
 
       return this.container.querySelector(`#${treeId}`);
+    }
+
+    /**
+     * Replace container children and notify listeners that prior node DOM is gone.
+     * Covers renderRoot, loadNodeWithAncestors (#renderAncestors replace:true),
+     * redisplayAndShow, and redisplayAndReopen.
+     * @param {...Node} nodes - Nodes passed through to replaceChildren
+     */
+    #replaceContainerChildren(...nodes) {
+      this.container.replaceChildren(...nodes);
+      this.container.dispatchEvent(
+        new CustomEvent(InfiniteTree.EVENT_TYPE_TREE_CONTENT_REPLACED, {
+          bubbles: true,
+          detail: {},
+        })
+      );
     }
 
     #uniqueUris(uris) {
