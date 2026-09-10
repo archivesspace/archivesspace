@@ -47,6 +47,10 @@ class InfiniteTreeCutPaste {
       InfiniteTreeReorderActions.EVENT_MOVE_SUCCESS,
       this.#onMoveSuccess.bind(this)
     );
+    this.containerEl.addEventListener(
+      InfiniteTree.EVENT_TYPE_TREE_CONTENT_REPLACED,
+      this.#onTreeContentReplaced.bind(this)
+    );
   }
 
   #onReorderModeChanged(event) {
@@ -146,6 +150,15 @@ class InfiniteTreeCutPaste {
 
   #onMoveSuccess() {
     if (this.cutUris.length === 0) return;
+    this.#clearCutState();
+  }
+
+  /**
+   * Full tree rebuilds (replaceChildren) detach every previously cut <li>.
+   * Clear cutUris/cutActive so Paste cannot stay armed without .cut markers.
+   */
+  #onTreeContentReplaced() {
+    if (this.cutUris.length === 0 && this.cutNodes.length === 0) return;
     this.#clearCutState();
   }
 
