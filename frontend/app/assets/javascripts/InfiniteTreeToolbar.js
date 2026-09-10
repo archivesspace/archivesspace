@@ -529,14 +529,25 @@ class InfiniteTreeToolbar {
   }
 
   /**
-   * Whether a valid paste destination exists: the `.current` row
-   * that is not `.cut`, including root.
+   * Whether a valid paste destination exists: the `.current` row that is not
+   * `.cut` and not a descendant of a cut row, including root. Matches
+   * InfiniteTreeCutPaste / InfiniteTreeDragDrop blocked-target rules.
    * @returns {boolean}
    */
   #hasEligiblePasteTarget() {
     if (!this.treeContainerEl) return false;
 
-    return !!this.treeContainerEl.querySelector('li.node.current:not(.cut)');
+    const current = this.treeContainerEl.querySelector(
+      'li.node.current:not(.cut)'
+    );
+    if (!current) return false;
+
+    const cutNodes = this.treeContainerEl.querySelectorAll('li.node.cut');
+    for (let i = 0; i < cutNodes.length; i += 1) {
+      if (cutNodes[i].contains(current)) return false;
+    }
+
+    return true;
   }
 
   #isArchivalObjectCurrent() {

@@ -176,12 +176,30 @@ class InfiniteTreeCutPaste {
 
   /**
    * Resolve the paste destination from the `.current` row, including root,
-   * when it is not `.cut`.
+   * when it is not part of a cut subtree. Mirrors InfiniteTreeDragDrop#isBlockedTarget:
+   * a cut source and any of its descendants are invalid paste destinations.
    * @returns {HTMLElement|null}
    */
   #currentPasteTargetNode() {
     const node = this.containerEl.querySelector('li.node.current:not(.cut)');
-    return node || null;
+    if (!node) return null;
+    if (this.#isBlockedPasteTarget(node)) return null;
+
+    return node;
+  }
+
+  /**
+   * Whether `targetNode` is a cut source or a descendant of one.
+   * @param {HTMLElement} targetNode
+   * @returns {boolean}
+   */
+  #isBlockedPasteTarget(targetNode) {
+    return this.cutEffectiveNodes.some(source => {
+      if (!source) return false;
+      if (source === targetNode) return true;
+
+      return source.contains(targetNode);
+    });
   }
 
   #childCountForNode(node) {
