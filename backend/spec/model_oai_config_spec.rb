@@ -2,6 +2,32 @@ require 'spec_helper'
 
 describe 'OAIConfig model' do
 
+  def update_oai_config(properties)
+    oai_config = JSONModel(:oai_config).all.first
+    properties.each do |property, value|
+      oai_config[property.to_s] = value
+    end
+    oai_config.save
+
+    JSONModel(:oai_config).all.first
+  end
+
+  def repository_set(properties = {})
+    {
+      'set_name' => 'a_repository_set',
+      'set_description' => 'Some repositories',
+      'repo_codes' => ['oai_test']
+    }.merge(properties)
+  end
+
+  def sponsor_set(properties = {})
+    {
+      'set_name' => 'a_sponsor_set',
+      'set_description' => 'Some sponsors',
+      'sponsor_names' => ['A sponsor']
+    }.merge(properties)
+  end
+
   it "does not create an additional row in the OAIConfig table" do
     expect {OAIConfig.create(:oai_admin_email => "a@b.com",
                             :oai_repository_name => "foo",
@@ -40,51 +66,66 @@ describe 'OAIConfig model' do
                        :oai_record_prefix => "bim") }.to raise_error(Sequel::ValidationFailed)
   end
 
-  it "requires repo_set_description to be set if repo_set_fields defined" do
-    oc = OAIConfig.first
+  # ANW-2707
+  describe "repository sets and sponsor sets" do
 
-    expect { oc.update(:repo_set_codes       => ['foo', 'bar'].to_json,
-                       :repo_set_name        => "repository_set",
-                       :repo_set_description => nil) }.to raise_error(Sequel::ValidationFailed)
+    it "stores any number of repository sets and sponsor sets" do
+      updated = update_oai_config('oai_repository_sets' => [repository_set('set_name' => 'repos_1'),
+                                                            repository_set('set_name' => 'repos_2',
+                                                                           'repo_codes' => ['a', 'b'])],
+                                  'oai_sponsor_sets' => [sponsor_set('set_name' => 'sponsors_1'),
+                                                         sponsor_set('set_name' => 'sponsors_2',
+                                                                     'sponsor_names' => ['x', 'y'])])
 
-    expect { oc.update(:repo_set_codes       => ['foo', 'bar'].to_json,
-                       :repo_set_name        => "repository_set",
-                       :repo_set_description => "foo") }.to_not raise_error
-  end
+      expect(updated['oai_repository_sets'].map {|s| s['set_name']}).to eq(['repos_1', 'repos_2'])
+      expect(updated['oai_repository_sets'][1]['repo_codes']).to eq(['a', 'b'])
 
-  it "requires sponsor_set_description to be set if repo_set_fields defined" do
-    oc = OAIConfig.first
+      expect(updated['oai_sponsor_sets'].map {|s| s['set_name']}).to eq(['sponsors_1', 'sponsors_2'])
+      expect(updated['oai_sponsor_sets'][1]['sponsor_names']).to eq(['x', 'y'])
+    end
 
-    expect { oc.update(:sponsor_set_names => ['foo', 'bar'].to_json,
-                       :sponsor_set_name  => "sponsor_set",
-                       :sponsor_set_description => nil) }.to raise_error(Sequel::ValidationFailed)
+    it "removes sets that are no longer in the record" do
+      update_oai_config('oai_repository_sets' => [repository_set('set_name' => 'repos_1'),
+                                                  repository_set('set_name' => 'repos_2')])
 
-    expect { oc.update(:sponsor_set_names => ['foo', 'bar'].to_json,
-                       :sponsor_set_name  => "sponsor_set",
-                       :sponsor_set_description => "foo") }.to_not raise_error
-  end
+      updated = update_oai_config('oai_repository_sets' => [repository_set('set_name' => 'repos_2')])
 
-  it "requires repo_set_name to be set if repo_set_fields defined" do
-    oc = OAIConfig.first
+      expect(updated['oai_repository_sets'].map {|s| s['set_name']}).to eq(['repos_2'])
+      expect(OAIRepositorySet.all.count).to eq(1)
+    end
 
-    expect { oc.update(:repo_set_codes       => ['foo', 'bar'].to_json,
-                       :repo_set_name        => nil,
-                       :repo_set_description => "foo") }.to raise_error(Sequel::ValidationFailed)
+    it "requires a name, a description and at least one value" do
+      ['set_name', 'set_description', 'repo_codes'].each do |property|
+        expect {
+          update_oai_config('oai_repository_sets' => [repository_set.reject {|k, _| k == property}])
+        }.to raise_error(JSONModel::ValidationException)
+      end
 
-    expect { oc.update(:repo_set_codes       => ['foo', 'bar'].to_json,
-                       :repo_set_name        => "baz",
-                       :repo_set_description => "foo") }.to_not raise_error
-  end
+      ['set_name', 'set_description', 'sponsor_names'].each do |property|
+        expect {
+          update_oai_config('oai_sponsor_sets' => [sponsor_set.reject {|k, _| k == property}])
+        }.to raise_error(JSONModel::ValidationException)
+      end
+    end
 
-  it "requires sponsor_set_description to be set if repo_set_fields defined" do
-    oc = OAIConfig.first
+    it "rejects two sets sharing a name" do
+      expect {
+        update_oai_config('oai_repository_sets' => [repository_set('set_name' => 'same'),
+                                                    repository_set('set_name' => 'same')])
+      }.to raise_error(JSONModel::ValidationException)
 
-    expect { oc.update(:sponsor_set_names => ['foo', 'bar'].to_json,
-                       :sponsor_set_name        => nil,
-                       :sponsor_set_description => "foo") }.to raise_error(Sequel::ValidationFailed)
+      expect {
+        update_oai_config('oai_repository_sets' => [repository_set('set_name' => 'same')],
+                          'oai_sponsor_sets' => [sponsor_set('set_name' => 'same')])
+      }.to raise_error(JSONModel::ValidationException)
+    end
 
-    expect { oc.update(:sponsor_set_names => ['foo', 'bar'].to_json,
-                       :sponsor_set_name        => "baz",
-                       :sponsor_set_description => "foo") }.to_not raise_error
+    it "rejects a set named after a level of description" do
+      level = BackendEnumSource.values_for("archival_record_level").first
+
+      expect {
+        update_oai_config('oai_repository_sets' => [repository_set('set_name' => level)])
+      }.to raise_error(JSONModel::ValidationException)
+    end
   end
 end
