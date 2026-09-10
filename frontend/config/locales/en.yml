@@ -767,6 +767,7 @@ en:
     unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
     resize: Drag to resize the tree height
     maximize: Maximize/minimize the tree height
+    drag_to_reorder: Drag to reorder
 
   errors:
     sidebar_label: Errors and Warnings

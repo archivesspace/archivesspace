@@ -42,6 +42,7 @@
   data-record-type="<%= root_type %>"
   data-new-child-placeholder-title="<%= new_child_placeholder_title %>"
   data-new-duplicate-placeholder-title="<%= new_duplicate_placeholder_title %>"
+  data-label-drag-to-reorder="<%= h(I18n.t('tree.drag_to_reorder')) %>"
 >
   <% if !read_only %>
     <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>

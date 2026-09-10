@@ -1151,6 +1151,7 @@ it:
       albero. Per favore, prova ad aggiornare la pagina.
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
+    drag_to_reorder: Trascina per riordinare
   component_link:
     _plural: Collegamenti dei componenti
     _singular: Collegamento dei componenti
