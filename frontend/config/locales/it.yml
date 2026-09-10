@@ -764,6 +764,13 @@ it:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
     record_identifier: Identificatore del record
+    _plural: ID dei record
+    _singular: ID dei record
+    _frontend:
+      action:
+        add: Aggiungi ID record
+    identifier_type: Tipo di identificatore di controllo del record
+    primary: Primario
   agent_resource:
     file_uri: File URI
     _singular: Risorsa esterna correlata
@@ -931,8 +938,23 @@ it:
     xlink_arcrole_attribute: Attributo Xlink Arcrole
     file_version_xlink_actuate_attribute: Attributo Xlink Actuate
     file_version_xlink_show_attribute: Xlink Mostra attributo
+    last_verified_date: Data dell'ultima verifica
   agent_conventions_declaration:
     file_uri: File URI
+    _plural: Dichiarazioni della Convenzione
+    _singular: Dichiarazione della Convenzione
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione della convenzione
+    name_rule: Convenzione
+    citation: Citazione
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole Xlink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   agent_source:
     file_uri: File URI
   advanced_search:
@@ -2465,3 +2487,24 @@ it:
     _frontend:
       action:
         add: Aggiungi luogo
+  agent_other_agency_code:
+    _plural: Altri codici dell'agenzia
+    _singular: Codice di altro ente
+    _frontend:
+      action:
+        add: Aggiungi codice agenzia
+    agency_code_type: Tipo di codice dell'ente di controllo dei record
+    maintenance_agency: Agenzia di manutenzione
+  agent_maintenance_history:
+    _plural: Cronologia della manutenzione
+    _singular: Cronologia manutenzione dell'agente
+    _frontend:
+      action:
+        add: Aggiungi evento
+    maintenance_event_type: Tipo di evento di manutenzione del controllo dei 
+      record
+    maintenance_agent_type: Tipo di agente di manutenzione del controllo dei 
+      record
+    agent: Agente
+    descriptive_note: Nota descrittiva
+    event_date: Data dell'evento
