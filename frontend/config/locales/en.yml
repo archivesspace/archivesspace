@@ -760,6 +760,7 @@ en:
       required_fields_updated: Required Fields Updated
 
   tree:
+    toolbar_aria_label: Tree toolbar
     drag_and_drop_actions:
       before: Add Items Before
       after: Add Items After
@@ -768,6 +769,9 @@ en:
     resize: Drag to resize the tree height
     maximize: Maximize/minimize the tree height
     drag_to_reorder: Drag to reorder
+    errors:
+      move_records: Unable to move records
+      move_records_message: The records could not be moved. Please refresh the page and try again.
 
   errors:
     sidebar_label: Errors and Warnings
