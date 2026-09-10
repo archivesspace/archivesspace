@@ -2731,6 +2731,7 @@ de:
       enum: "UNGÜLTIG: %{which}: '%{label}'. Gültige Werte: %{valid_values}"
       error: 'FEHLER: Fehler erkannt: %{term}'
       duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
+      unknown_columns: 'Diese Spalten werden nicht erkannt (möglicherweise verwenden Sie eine veraltete Vorlage): %{codes}'
       uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile 
         [%{row_uri}] überein
       title: Fehlender Titel
@@ -2759,6 +2760,8 @@ de:
       lang_code: Sprache (%{lang}) kann nicht validiert werden
       script_code: Schrift (%{script}) kann nicht validiert werden
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
+      invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
+      invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
       bad_ao_uri: ' mit URI %{uri}'
       bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'
       bad_ao_ref_id: ' mit Ref-ID %{ref_id}'

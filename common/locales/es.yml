@@ -2760,6 +2760,7 @@ es:
       initialize: "Procesamiento se termina [%{msg}]"
       stopped: "Procesamiento detuvo en fila %{row} [%{msg}]"
       duplicates: "Esta hoja de cálculo tiene códigos duplicados Archivo campo espacial: %{codes}"
+      unknown_columns: "Estas columnas no se reconocen (es posible que esté usando una plantilla desactualizada): %{codes}"
       res_ead: Recursos de esta forma es que falta un EAD ID
       row_ead: Esta fila no aparece un EAD ID
       row_missing_ead_uri: Esta fila le falta la EAD y un ID URI
@@ -2814,6 +2815,8 @@ es:
       lang_code: "No se puede validar el lenguaje (%{lang})"
       script_code: "No se puede validar un script language (%{script})"
       process_error: "Procesamiento de Error %{type} %{num}: %{why}"
+      invalid_user_defined_integer: "Entero definido por el usuario no válido: %{value}"
+      invalid_user_defined_real: "Real definido por el usuario no válido: %{value}"
       bad_ao_uri: " con uri %{uri}"
       bad_accession_uri: "Adquisición no encontrada con uri %{uri}"
       bad_ao_ref_id: " con REF ID  %{ref_id}"

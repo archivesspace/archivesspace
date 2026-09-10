@@ -8,6 +8,31 @@ describe "Import Digital Objects" do
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
   # Templates are canonical in frontend/public/bulk_import_templates/; pointing there directly so specs always use the current version
   TEMPLATES_DIR = File.join(File.dirname(__FILE__), "../", "../", "frontend", "public", "bulk_import_templates")
+
+  def columns_with_second_file_version(columns, explanations)
+    fv1 = columns.each_index.select { |i| columns[i].to_s =~ /\Afile_version_.*_1\z/ }
+    at = fv1.max + 1
+    cols = columns.dup.insert(at, *fv1.map { |i| columns[i].sub(/_1\z/, "_2") })
+    expl = explanations.dup.insert(at, *fv1.map { |i| explanations[i].to_s.sub("(1)", "(2)") })
+    [cols, expl]
+  end
+
+  def import_digital_object_csv(columns, column_explanations, row, validate_only: false)
+    csv_string = CSV.generate(col_sep: ',') do |csv|
+      csv << columns
+      csv << column_explanations
+      csv << row.values
+    end
+    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+    csv_path = File.join(Dir.tmpdir, csv_filename)
+    File.write(csv_path, csv_string)
+    opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource",
+             :filename => csv_filename, :filepath => csv_path, :load_type => "digital_object",
+             :validate => validate_only }
+
+    ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+  end
+
   before(:each) do
     @now = Time.now.to_i
 
@@ -177,12 +202,12 @@ describe "Import Digital Objects" do
     digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
 
     # Subject 1
-    digital_object_row['subject_1_record_id'] = subject.id
+    digital_object_row['subject_record_id_1'] = subject.id
 
     # Subject 2
-    digital_object_row['subject_2_term'] = "Subject Term #{@now}"
-    digital_object_row['subject_2_type'] = 'genre_form'
-    digital_object_row['subject_2_source'] = 'local'
+    digital_object_row['subject_term_2'] = "Subject Term #{@now}"
+    digital_object_row['subject_type_2'] = 'genre_form'
+    digital_object_row['subject_source_2'] = 'local'
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
@@ -521,6 +546,198 @@ describe "Import Digital Objects" do
     )
   end
 
+  it 'successfully creates and assigns a digital object to an existing archival object with repeatable language materials' do
+    csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
+    csv_data = CSV.read(csv_template_path)
+    columns = csv_data[0] + ['lang_material_language_2', 'lang_material_script_2']
+    column_explanations = csv_data[1] + ['Digital Object Language(2)', 'Digital Object Script(2)']
+
+    digital_object_row = {}
+    columns.each { |column| digital_object_row[column] = nil }
+    digital_object_row['res_uri'] = @resource.uri
+    digital_object_row['ao_uri'] = @archival_object.uri
+    digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+    digital_object_row['lang_material_language_1'] = 'eng'
+    digital_object_row['lang_material_script_1'] = 'Latn'
+    digital_object_row['lang_material_language_2'] = 'fre'
+    digital_object_row['lang_material_script_2'] = 'Latn'
+
+    report = import_digital_object_csv(columns, column_explanations, digital_object_row)
+
+    expect(report.terminal_error).to eq(nil)
+    expect(report.rows[0].errors).to eq([])
+
+    digital_objects_created = DigitalObject.where(:title => "Digital Object Title #{@now}").all
+    expect(digital_objects_created.count).to eq 1
+
+    digital_object_created = JSONModel(:digital_object).find(digital_objects_created[0].id)
+    expect(digital_object_created.lang_materials.count).to eq 2
+    expect(digital_object_created.lang_materials[0]['language_and_script']['language']).to eq 'eng'
+    expect(digital_object_created.lang_materials[0]['language_and_script']['script']).to eq 'Latn'
+    expect(digital_object_created.lang_materials[1]['language_and_script']['language']).to eq 'fre'
+    expect(digital_object_created.lang_materials[1]['language_and_script']['script']).to eq 'Latn'
+  end
+
+  it 'successfully creates and assigns a digital object to an existing archival object with user-defined fields' do
+    csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
+    csv_data = CSV.read(csv_template_path)
+    columns = csv_data[0]
+    column_explanations = csv_data[1]
+
+    digital_object_row = {}
+    columns.each { |column| digital_object_row[column] = nil }
+    digital_object_row['res_uri'] = @resource.uri
+    digital_object_row['ao_uri'] = @archival_object.uri
+    digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+    digital_object_row['user_defined_string_1'] = 'sv'
+    digital_object_row['user_defined_text_1'] = 'a longer note'
+    digital_object_row['user_defined_boolean_1'] = 'true'
+    digital_object_row['user_defined_integer_1'] = '42'
+    digital_object_row['user_defined_real_1'] = '3.14159'
+    digital_object_row['user_defined_date_1'] = '2024-01-01'
+
+    report = import_digital_object_csv(columns, column_explanations, digital_object_row)
+
+    expect(report.terminal_error).to eq(nil)
+    expect(report.rows[0].errors).to eq([])
+
+    digital_objects_created = DigitalObject.where(:title => "Digital Object Title #{@now}").all
+    expect(digital_objects_created.count).to eq 1
+
+    digital_object_created = JSONModel(:digital_object).find(digital_objects_created[0].id)
+    ud = digital_object_created.user_defined
+    expect(ud['string_1']).to eq 'sv'
+    expect(ud['text_1']).to eq 'a longer note'
+    expect(ud['boolean_1']).to eq true
+    expect(ud['integer_1']).to eq '42'
+    expect(ud['real_1']).to eq '3.14159'
+    expect(ud['date_1']).to eq '2024-01-01'
+  end
+
+  it 'reads User Defined booleans from the row hash after normalization' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+    importer.instance_variable_set(:@row_hash, { 'user_defined_boolean_1' => 'true' })
+    allow(importer).to receive(:normalize_boolean_column) do |row_hash, column|
+      row_hash[column] = true
+      nil
+    end
+
+    expect(importer.send(:create_user_defined)['boolean_1']).to eq(true)
+  end
+
+  it 'reads Collection Management booleans from the row hash after normalization' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+    importer.instance_variable_set(:@row_hash, { 'collection_management_rights_determined' => 'true' })
+    allow(importer).to receive(:normalize_boolean_column) do |row_hash, column|
+      row_hash[column] = true
+      nil
+    end
+
+    expect(importer.send(:create_collection_management)['rights_determined']).to eq(true)
+  end
+
+  it 'normalizes User Defined whole-number representations without truncating fractions' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+
+    expect(importer.send(:normalize_user_defined_integer, '42')).to eq('42')
+    expect(importer.send(:normalize_user_defined_integer, '42.0')).to eq('42')
+    expect(importer.send(:normalize_user_defined_integer, '4.2e1')).to eq('42')
+    %w[42.5 invalid NaN Infinity].each do |value|
+      expect { importer.send(:normalize_user_defined_integer, value) }.to raise_error(BulkImportException)
+    end
+  end
+
+  it 'normalizes User Defined real values without rounding meaningful precision' do
+    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
+
+    expect(importer.send(:normalize_user_defined_real, '3.14000')).to eq('3.14')
+    expect(importer.send(:normalize_user_defined_real, '3.14159')).to eq('3.14159')
+    expect(importer.send(:normalize_user_defined_real, '1e3')).to eq('1000')
+    %w[3.141592 invalid NaN Infinity 1234567890].each do |value|
+      expect { importer.send(:normalize_user_defined_real, value) }.to raise_error(BulkImportException)
+    end
+  end
+
+  it 'successfully creates and assigns a digital object to an existing archival object with collection management' do
+    csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
+    csv_data = CSV.read(csv_template_path)
+    columns = csv_data[0]
+    column_explanations = csv_data[1]
+
+    digital_object_row = {}
+    columns.each { |column| digital_object_row[column] = nil }
+    digital_object_row['res_uri'] = @resource.uri
+    digital_object_row['ao_uri'] = @archival_object.uri
+    digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+    digital_object_row['collection_management_processing_status'] = 'completed'
+    digital_object_row['collection_management_processing_priority'] = 'high'
+    digital_object_row['collection_management_processing_plan'] = 'the plan'
+    digital_object_row['collection_management_processors'] = 'Jane Archivist'
+    digital_object_row['collection_management_processing_funding_source'] = 'NEH grant'
+    digital_object_row['collection_management_processing_hours_per_foot_estimate'] = '5'
+    digital_object_row['collection_management_processing_hours_total'] = '40'
+    digital_object_row['collection_management_processing_total_extent'] = '3'
+    digital_object_row['collection_management_processing_total_extent_type'] = 'cubic_feet'
+    digital_object_row['collection_management_rights_determined'] = 'true'
+
+    report = import_digital_object_csv(columns, column_explanations, digital_object_row)
+
+    expect(report.terminal_error).to eq(nil)
+    expect(report.rows[0].errors).to eq([])
+
+    digital_objects_created = DigitalObject.where(:title => "Digital Object Title #{@now}").all
+    expect(digital_objects_created.count).to eq 1
+
+    digital_object_created = JSONModel(:digital_object).find(digital_objects_created[0].id)
+    cm = digital_object_created.collection_management
+    expect(cm['processing_status']).to eq 'completed'
+    expect(cm['processing_priority']).to eq 'high'
+    expect(cm['processing_plan']).to eq 'the plan'
+    expect(cm['processors']).to eq 'Jane Archivist'
+    expect(cm['processing_funding_source']).to eq 'NEH grant'
+    expect(cm['processing_hours_per_foot_estimate']).to eq '5'
+    expect(cm['processing_hours_total']).to eq '40'
+    expect(cm['processing_total_extent']).to eq '3'
+    expect(cm['processing_total_extent_type']).to eq 'cubic_feet'
+    expect(cm['rights_determined']).to eq true
+  end
+
+  it 'does not report the header marker cell as an unknown column when it differs from the template marker' do
+    csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
+    csv_data = CSV.read(csv_template_path)
+    columns = csv_data[0].dup
+    columns[0] = "ArchivesSpace digital object import field codes"
+    column_explanations = csv_data[1]
+
+    digital_object_row = {}
+    csv_data[0].each { |column| digital_object_row[column] = nil }
+    digital_object_row['res_uri'] = @resource.uri
+    digital_object_row['ao_uri'] = @archival_object.uri
+    digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+
+    csv_string = CSV.generate(col_sep: ',') do |csv|
+      csv << columns
+      csv << column_explanations
+      csv << digital_object_row.values
+    end
+
+    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+    csv_path = File.join(Dir.tmpdir, csv_filename)
+    File.write(csv_path, csv_string)
+
+    opts = { :repo_id => @resource[:repo_id],
+             :rid => @resource[:id],
+             :type => "resource",
+             :filename => csv_filename,
+             :filepath => csv_path,
+             :load_type => "digital_object" }
+
+    report = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+
+    expect(report.terminal_error).to eq(nil)
+    expect(DigitalObject.where(:title => "Digital Object Title #{@now}").all.count).to eq 1
+  end
+
   it 'successfully creates and assigns a digital object to an existing archival object' do
     # Load Digital Object CSV template file to get columns
     csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
@@ -612,8 +829,8 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['rep_file_uri'] = "uri"
-        digital_object_row['rep_use_statement'] = "application-pdf"
+        digital_object_row['file_version_file_uri_1'] = "uri"
+        digital_object_row['file_version_use_statement_1'] = "application-pdf"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
           csv << columns
@@ -679,10 +896,10 @@ describe "Import Digital Objects" do
         find_index = column_names.find_index('digital_object_title')
         sheet[5][find_index].change_contents("Digital Object Title #{@now}")
 
-        find_index = column_names.find_index('rep_file_uri')
+        find_index = column_names.find_index('file_version_file_uri_1')
         sheet[5][find_index].change_contents('file-uri')
 
-        find_index = column_names.find_index('rep_use_statement')
+        find_index = column_names.find_index('file_version_use_statement_1')
         sheet[5][find_index].change_contents('application-pdf')
 
         xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
@@ -739,10 +956,8 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['rep_file_uri'] = "rep-file-uri"
-        digital_object_row['rep_use_statement'] = "INVALID_REP_USE_STATEMENT"
-        digital_object_row['nonrep_file_uri'] = "nonrep-file-uri"
-        digital_object_row['nonrep_use_statement'] = "INVALID_NONREP_USE_STATEMENT"
+        digital_object_row['file_version_file_uri_1'] = "rep-file-uri"
+        digital_object_row['file_version_use_statement_1'] = "INVALID_REP_USE_STATEMENT"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
           csv << columns
@@ -767,8 +982,7 @@ describe "Import Digital Objects" do
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
         rep_use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_REP_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
-        nonrep_use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_NONREP_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
-        expect(report.rows[0].errors).to include(rep_use_statement_error, nonrep_use_statement_error)
+        expect(report.rows[0].errors).to include(rep_use_statement_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -803,17 +1017,11 @@ describe "Import Digital Objects" do
         find_index = column_names.find_index('digital_object_title')
         sheet[5][find_index].change_contents("Digital Object Title #{@now}")
 
-        find_index = column_names.find_index('rep_file_uri')
+        find_index = column_names.find_index('file_version_file_uri_1')
         sheet[5][find_index].change_contents('file-uri')
 
-        find_index = column_names.find_index('rep_use_statement')
+        find_index = column_names.find_index('file_version_use_statement_1')
         sheet[5][find_index].change_contents('INVALID_REP_USE_STATEMENT')
-
-        find_index = column_names.find_index('nonrep_file_uri')
-        sheet[5][find_index].change_contents('file-uri')
-
-        find_index = column_names.find_index('nonrep_use_statement')
-        sheet[5][find_index].change_contents('INVALID_NONREP_USE_STATEMENT')
 
         xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
         xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
@@ -831,8 +1039,7 @@ describe "Import Digital Objects" do
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
         rep_use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_REP_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
-        nonrep_use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_NONREP_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
-        expect(report.rows[0].errors).to include(rep_use_statement_error, nonrep_use_statement_error)
+        expect(report.rows[0].errors).to include(rep_use_statement_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -864,8 +1071,8 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['rep_file_uri'] = "uri"
-        digital_object_row['rep_file_format'] = "aiff"
+        digital_object_row['file_version_file_uri_1'] = "uri"
+        digital_object_row['file_version_file_format_name_1'] = "aiff"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
           csv << columns
@@ -930,10 +1137,10 @@ describe "Import Digital Objects" do
         find_index = column_names.find_index('digital_object_title')
         sheet[5][find_index].change_contents("Digital Object Title #{@now}")
 
-        find_index = column_names.find_index('rep_file_uri')
+        find_index = column_names.find_index('file_version_file_uri_1')
         sheet[5][find_index].change_contents('file-uri')
 
-        find_index = column_names.find_index('rep_file_format')
+        find_index = column_names.find_index('file_version_file_format_name_1')
         sheet[5][find_index].change_contents('aiff')
 
         xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
@@ -990,10 +1197,8 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['rep_file_uri'] = "rep-file-uri"
-        digital_object_row['rep_file_format'] = "INVALID_REP_FILE_FORMAT"
-        digital_object_row['nonrep_file_uri'] = "nonrep-file-uri"
-        digital_object_row['nonrep_file_format'] = "INVALID_NONREP_FILE_FORMAT"
+        digital_object_row['file_version_file_uri_1'] = "rep-file-uri"
+        digital_object_row['file_version_file_format_name_1'] = "INVALID_REP_FILE_FORMAT"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
           csv << columns
@@ -1018,8 +1223,7 @@ describe "Import Digital Objects" do
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
         rep_file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_REP_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
-        nonrep_file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_NONREP_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
-        expect(report.rows[0].errors).to include(rep_file_format_error, nonrep_file_format_error)
+        expect(report.rows[0].errors).to include(rep_file_format_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -1054,17 +1258,11 @@ describe "Import Digital Objects" do
         find_index = column_names.find_index('digital_object_title')
         sheet[5][find_index].change_contents("Digital Object Title #{@now}")
 
-        find_index = column_names.find_index('rep_file_uri')
+        find_index = column_names.find_index('file_version_file_uri_1')
         sheet[5][find_index].change_contents('rep-file-uri')
 
-        find_index = column_names.find_index('rep_file_format')
+        find_index = column_names.find_index('file_version_file_format_name_1')
         sheet[5][find_index].change_contents('INVALID_REP_FILE_FORMAT')
-
-        find_index = column_names.find_index('nonrep_file_uri')
-        sheet[5][find_index].change_contents('nonrep-file-uri')
-
-        find_index = column_names.find_index('nonrep_file_format')
-        sheet[5][find_index].change_contents('INVALID_NONREP_FILE_FORMAT')
 
         xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
         xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
@@ -1082,14 +1280,265 @@ describe "Import Digital Objects" do
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
         rep_file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_REP_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
-        nonrep_file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_NONREP_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
-        expect(report.rows[0].errors).to include(rep_file_format_error, nonrep_file_format_error)
+        expect(report.rows[0].errors).to include(rep_file_format_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
         digital_object_count_after = ::DigitalObject.count
         expect(digital_object_count_after).to eq digital_object_count_before
       end
+    end
+  end
+
+  context 'create and assign digital object to an archival object with a repeatable file version' do
+    context 'when provided file is CSV' do
+      it 'creates a digital object with a single representative file version' do
+        digital_object_count_before = ::DigitalObject.count
+
+        csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
+        csv_data = CSV.read(csv_template_path)
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        digital_object_row = {}
+        columns.each { |column| digital_object_row[column] = nil }
+
+        digital_object_row['res_uri'] = @resource.uri
+        digital_object_row['ao_uri'] = @archival_object.uri
+        digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+        digital_object_row['file_version_file_uri_1'] = "http://example.com/av1"
+        digital_object_row['file_version_is_representative_1'] = "true"
+        digital_object_row['file_version_use_statement_1'] = "image-service"
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << digital_object_row.values
+        end
+
+        csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id],
+                 :type => "resource", :filename => csv_filename,
+                 :filepath => csv_path, :load_type => "digital_object" }
+        importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).to eq([])
+
+        digital_object_count_after = ::DigitalObject.count
+        expect(digital_object_count_after).to eq digital_object_count_before + 1
+
+        digital_objects_created = DigitalObject.where(:title => "Digital Object Title #{@now}").all
+        expect(digital_objects_created.count).to eq 1
+        digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
+
+        expect(digital_object.file_versions.length).to eq 1
+        expect(digital_object.file_versions[0]['is_representative']).to be true
+        expect(digital_object.file_versions[0]['file_uri']).to eq "http://example.com/av1"
+        expect(digital_object.file_versions[0]['use_statement']).to eq 'image-service'
+      end
+
+      it 'creates a digital object with two file versions, one representative' do
+        digital_object_count_before = ::DigitalObject.count
+
+        csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+        columns, column_explanations = columns_with_second_file_version(csv_data[0], csv_data[1])
+
+        digital_object_row = {}
+        columns.each { |column| digital_object_row[column] = nil }
+
+        digital_object_row['res_uri'] = @resource.uri
+        digital_object_row['ao_uri'] = @archival_object.uri
+        digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+        digital_object_row['file_version_file_uri_1'] = "http://example.com/rep"
+        digital_object_row['file_version_is_representative_1'] = "true"
+        digital_object_row['file_version_use_statement_1'] = "image-service"
+        digital_object_row['file_version_file_uri_2'] = "http://example.com/nonrep"
+        digital_object_row['file_version_use_statement_2'] = "image-thumbnail"
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << digital_object_row.values
+        end
+
+        csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id],
+                 :type => "resource", :filename => csv_filename,
+                 :filepath => csv_path, :load_type => "digital_object" }
+        importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).to eq([])
+
+        digital_object_count_after = ::DigitalObject.count
+        expect(digital_object_count_after).to eq digital_object_count_before + 1
+
+        digital_objects_created = DigitalObject.where(:title => "Digital Object Title #{@now}").all
+        expect(digital_objects_created.count).to eq 1
+        digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
+
+        expect(digital_object.file_versions.length).to eq 2
+        expect(digital_object.file_versions.map { |fv| fv['is_representative'] }).to contain_exactly(true, false)
+        expect(digital_object.file_versions.map { |fv| fv['file_uri'] }).to contain_exactly(
+          "http://example.com/rep", "http://example.com/nonrep")
+      end
+
+      it 'reports an error for each invalid file version and creates no records' do
+        digital_object_count_before = ::DigitalObject.count
+
+        csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+        columns, column_explanations = columns_with_second_file_version(csv_data[0], csv_data[1])
+
+        digital_object_row = {}
+        columns.each { |column| digital_object_row[column] = nil }
+
+        digital_object_row['res_uri'] = @resource.uri
+        digital_object_row['ao_uri'] = @archival_object.uri
+        digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+        digital_object_row['file_version_file_uri_1'] = "uri-1"
+        digital_object_row['file_version_use_statement_1'] = "INVALID_ONE"
+        digital_object_row['file_version_file_uri_2'] = "uri-2"
+        digital_object_row['file_version_use_statement_2'] = "INVALID_TWO"
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << digital_object_row.values
+        end
+
+        csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id],
+                 :type => "resource", :filename => csv_filename,
+                 :filepath => csv_path, :load_type => "digital_object" }
+        importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).to include(
+          a_string_matching(/INVALID_ONE/), a_string_matching(/INVALID_TWO/))
+
+        digital_object_count_after = ::DigitalObject.count
+        expect(digital_object_count_after).to eq digital_object_count_before
+      end
+
+      it 'reports an error when a file version block is filled in but file_uri is blank' do
+        digital_object_count_before = ::DigitalObject.count
+
+        csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        digital_object_row = {}
+        columns.each { |column| digital_object_row[column] = nil }
+
+        digital_object_row['res_uri'] = @resource.uri
+        digital_object_row['ao_uri'] = @archival_object.uri
+        digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+        digital_object_row['file_version_use_statement_1'] = "image-service"
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << digital_object_row.values
+        end
+
+        csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id],
+                 :type => "resource", :filename => csv_filename,
+                 :filepath => csv_path, :load_type => "digital_object" }
+        importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).not_to be_empty
+        expect(report.rows[0].errors.join(" ")).to match(/file_uri/)
+
+        digital_object_count_after = ::DigitalObject.count
+        expect(digital_object_count_after).to eq digital_object_count_before
+      end
+    end
+  end
+
+  context 'header validation guard against outdated templates' do
+    def build_do_csv(columns, column_explanations)
+      digital_object_row = {}
+      columns.each { |column| digital_object_row[column] = nil }
+      digital_object_row['res_uri'] = @resource.uri
+      digital_object_row['ao_uri'] = @archival_object.uri
+      digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+      digital_object_row['digital_object_id'] = "do#{@now}"
+      yield digital_object_row if block_given?
+
+      csv_string = CSV.generate(col_sep: ',') do |csv|
+        csv << columns
+        csv << column_explanations
+        csv << digital_object_row.values
+      end
+      csv_filename = "bulk_import_DO_guard_#{@now}_#{SecureRandom.uuid}.csv"
+      csv_path = File.join(Dir.tmpdir, csv_filename)
+      File.write(csv_path, csv_string)
+      [csv_filename, csv_path]
+    end
+
+    def run_guard_import(csv_filename, csv_path)
+      opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id],
+               :type => "resource", :filename => csv_filename,
+               :filepath => csv_path, :load_type => "digital_object", :validate => true }
+      ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+    end
+
+    it 'aborts the whole import with a terminal error when an unrecognized column is present' do
+      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+      columns = csv_data[0] + ['rep_file_uri']
+      column_explanations = csv_data[1] + ['Legacy column']
+      csv_filename, csv_path = build_do_csv(columns, column_explanations) do |row|
+        row['rep_file_uri'] = "http://example.com/legacy"
+      end
+
+      report = run_guard_import(csv_filename, csv_path)
+
+      expect(report.terminal_error).to match(/rep_file_uri/)
+    end
+
+    it 'does not flag any column when the spreadsheet matches the current template' do
+      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+      csv_filename, csv_path = build_do_csv(csv_data[0], csv_data[1])
+
+      report = run_guard_import(csv_filename, csv_path)
+
+      expect(report.terminal_error).to be_nil
+    end
+
+    it 'does not flag a repeatable column with a higher index than the template lists (file_version_file_uri_2)' do
+      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+      columns, column_explanations = columns_with_second_file_version(csv_data[0], csv_data[1])
+      csv_filename, csv_path = build_do_csv(columns, column_explanations) do |row|
+        row['file_version_file_uri_1'] = "http://example.com/1"
+        row['file_version_file_uri_2'] = "http://example.com/2"
+      end
+
+      report = run_guard_import(csv_filename, csv_path)
+
+      expect(report.terminal_error).to be_nil
     end
   end
 end

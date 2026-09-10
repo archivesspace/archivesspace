@@ -1,4 +1,8 @@
 it:
+  bulk_import:
+    error:
+      invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
+      invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
   states:
     suppressed: Bloccato
     deleted: Eliminato

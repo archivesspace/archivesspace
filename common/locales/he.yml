@@ -1,4 +1,8 @@
 he:
+  bulk_import:
+    error:
+      invalid_user_defined_integer: "מספר שלם לא חוקי המוגדר על ידי המשתמש: %{value}"
+      invalid_user_defined_real: "מספר ממשי לא חוקי המוגדר על ידי המשתמש: %{value}"
   reports:
     formats:
       json: JSON
