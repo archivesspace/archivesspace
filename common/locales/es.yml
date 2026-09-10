@@ -2181,6 +2181,8 @@ es:
       dirección válida
     repo_set_desc_required: La descripción del conjunto de repositorios es necesaria para crear un 
       conjunto de repositorios OAI
+    oai_set_name_unique: Los nombres de conjunto OAI deben ser únicos entre los conjuntos de repositorio y los conjuntos de patrocinadores
+    oai_set_name_matches_level: Los nombres de conjunto OAI no pueden repetir un nivel de descripción, que ya tiene su propio conjunto
     repo_set_name_required: El nombre del conjunto de repositorios es necesario para crear un 
       conjunto de repositorios OAI
     is_not_present: Falta el campo requerido
@@ -2677,6 +2679,16 @@ es:
     sponsor_set_name_tooltip: Nombre del patrocinador
     sponsor_set_names_tooltip: Nombre del patrocinador
     sponsor_set_description_tooltip: Descripción del set del patrocinador
+
+  oai_repository_set:
+    set_name_tooltip: El setSpec que los recolectores usan para solicitar este conjunto. Debe ser único entre todos los conjuntos OAI, incluidos los generados a partir de los niveles de descripción.
+    repo_codes_tooltip: Los repositorios cuyos registros componen este conjunto.
+    set_description_tooltip: La descripción que se ofrece a los recolectores para este conjunto.
+
+  oai_sponsor_set:
+    set_name_tooltip: El setSpec que los recolectores usan para solicitar este conjunto. Debe ser único entre todos los conjuntos OAI, incluidos los generados a partir de los niveles de descripción.
+    sponsor_names_tooltip: Los patrocinadores del instrumento de descripción cuyos registros componen este conjunto. Pulse Intro después de cada nombre de patrocinador.
+    set_description_tooltip: La descripción que se ofrece a los recolectores para este conjunto.
 
   importer:
     error:

@@ -2256,6 +2256,8 @@ de:
       eindeutig sein
     repo_set_desc_required: Die Beschreibung der Aufbewahrungsort-Menge ist für die Erstellung eines
       OAI-Repository-Sets erforderlich
+    oai_set_name_unique: OAI-Mengen-Namen müssen über Aufbewahrungsort-Mengen und Sponsoren-Mengen hinweg eindeutig sein
+    oai_set_name_matches_level: OAI-Mengen-Namen dürfen keine Beschreibungsebene wiederholen, da diese bereits eine eigene Menge hat
     repo_set_name_required: Der Name der Aufbewahrungsort-Menge ist für die Erstellung eines 
       OAI-Repository-Sets erforderlich
     is_not_present: Erforderliches Feld fehlt
@@ -2893,6 +2895,17 @@ de:
     oai_record_prefix_tooltip: OAI-Datensatz-Präfix-Tooltip
     oai_admin_email_tooltip: OAI-Admin-E-Mail-Tooltip
     repo_set_name_tooltip: Repo Set Name Tooltip
+
+  oai_repository_set:
+    set_name_tooltip: Der setSpec, mit dem Harvester diese Menge anfordern. Muss über alle OAI-Mengen hinweg eindeutig sein, einschließlich der aus den Beschreibungsebenen erzeugten Mengen.
+    repo_codes_tooltip: Die Aufbewahrungsorte, deren Datensätze diese Menge bilden.
+    set_description_tooltip: Die Beschreibung, die Harvester für diese Menge erhalten.
+
+  oai_sponsor_set:
+    set_name_tooltip: Der setSpec, mit dem Harvester diese Menge anfordern. Muss über alle OAI-Mengen hinweg eindeutig sein, einschließlich der aus den Beschreibungsebenen erzeugten Mengen.
+    sponsor_names_tooltip: Die Findbuch-Sponsoren, deren Datensätze diese Menge bilden. Drücken Sie nach jedem Sponsorennamen die Eingabetaste.
+    set_description_tooltip: Die Beschreibung, die Harvester für diese Menge erhalten.
+
   top_container_linker:
     error:
       ref_id_miss: Ref-ID fehlt in der Tabelle in Zeile %{row_num} .

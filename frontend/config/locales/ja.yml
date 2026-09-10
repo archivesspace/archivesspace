@@ -1937,6 +1937,27 @@ ja:
         _plural: スポンサーセット
       repo_settings:
         _plural: リポジトリごとのOAI-PMH設定
+    oai_repository_sets: リポジトリセット
+    oai_sponsor_sets: スポンサーセット
+
+  oai_repository_set:
+    _plural: リポジトリセット
+    set_name: リポジトリセット名
+    set_description: リポジトリセットの説明
+    repo_codes: セット内のリポジトリ
+    _frontend:
+      action:
+        add: リポジトリセットを追加
+
+  oai_sponsor_set:
+    _plural: スポンサーセット
+    set_name: スポンサーセット名
+    set_description: スポンサーセットの説明
+    sponsor_names: スポンサー名
+    _frontend:
+      action:
+        add: スポンサーセットを追加
+
   bulk_import:
     _frontend:
       actions:
