@@ -31,6 +31,8 @@
  *   - mousedown outside tree/toolbar/resizer without modifier key clears selection.
  *   - Expanding/collapsing a parent does NOT mutate selection. Hidden selected
  *     descendants persist and re-appear when re-expanded.
+ *   - Full tree rebuilds (redisplayAndReopen / redisplayAndShow) clear selection
+ *     because replaceChildren() detaches every previously selected <li>.
  *
  * Visual classes (recomputed on every selection mutation via #applyClasses):
  *   - .multiselected: explicitly selected rows (in selected array)
@@ -120,6 +122,23 @@ class InfiniteTreeMultiSelection {
       'infiniteTree:didExpand',
       this.#onNodeExpanded.bind(this)
     );
+
+    // Listen for full rebuilds to reset selection
+    this.containerEl.addEventListener(
+      'infiniteTree:redisplayAndReopenComplete',
+      this.#onTreeRedisplayed.bind(this)
+    );
+    this.containerEl.addEventListener(
+      'infiniteTree:redisplayAndShowComplete',
+      this.#onTreeRedisplayed.bind(this)
+    );
+  }
+
+  /**
+   * Reset selection after a full tree rebuild.
+   */
+  #onTreeRedisplayed() {
+    this.#clearAll();
   }
 
   #onReorderModeChanged(e) {
