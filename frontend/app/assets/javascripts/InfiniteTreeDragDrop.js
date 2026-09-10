@@ -15,6 +15,9 @@ class InfiniteTreeDragDrop {
     if (!this.treeContainerEl) return;
 
     this.rootUri = this.treeComponentEl.getAttribute('data-root-uri') || '';
+    this.dragToReorderLabel = this.treeComponentEl.getAttribute(
+      'data-label-drag-to-reorder'
+    );
     this.reorderMode = false;
     this.explicitSelectionNodes = [];
     this.dragSelectionNodes = [];
@@ -89,8 +92,8 @@ class InfiniteTreeDragDrop {
 
     rows.forEach(row => {
       row.setAttribute('draggable', 'true');
-      row.setAttribute('title', 'Drag to reorder');
-      row.setAttribute('aria-label', 'Drag to reorder');
+      row.setAttribute('title', this.dragToReorderLabel);
+      row.setAttribute('aria-label', this.dragToReorderLabel);
     });
   }
 

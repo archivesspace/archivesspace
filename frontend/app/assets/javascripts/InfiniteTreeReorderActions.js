@@ -16,6 +16,12 @@ class InfiniteTreeReorderActions {
     if (!this.containerEl) return;
 
     this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
+    this.moveErrorTitle =
+      this.componentEl.getAttribute('data-error-move-records') ||
+      'Unable to move records';
+    this.moveErrorMessage =
+      this.componentEl.getAttribute('data-error-move-records-message') ||
+      'The records could not be moved. Please refresh the page and try again.';
     this.rootParts = InfiniteTreeIds.rootUriToParts(this.rootUri);
     this.fetch = new InfiniteTreeFetch(this.rootUri);
     this.inFlight = false;
@@ -353,10 +359,7 @@ class InfiniteTreeReorderActions {
   #showMoveError() {
     if (!window.AS || typeof window.AS.openQuickModal !== 'function') return;
 
-    window.AS.openQuickModal(
-      'Unable to move records',
-      'The records could not be moved. Please refresh the page and try again.'
-    );
+    window.AS.openQuickModal(this.moveErrorTitle, this.moveErrorMessage);
   }
 
   #positionForNode(node) {

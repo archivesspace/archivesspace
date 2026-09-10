@@ -2,12 +2,14 @@
   id="infinite-tree-toolbar"
   class="infinite-tree-toolbar btn-toolbar"
   role="toolbar"
-  aria-label="<%= I18n.t('tree.toolbar_aria_label', default: 'Tree toolbar') %>"
+  aria-label="<%= I18n.t('tree.toolbar_aria_label') %>"
 >
   <button
     type="button"
     class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle js-itree-toolbar-reorder-toggle"
     data-itree-action="reorder-toggle"
+    data-label-enable-reorder="<%= h(I18n.t('actions.enable_reorder')) %>"
+    data-label-reorder-active="<%= h(I18n.t('actions.reorder_active')) %>"
   >
     <%= I18n.t('actions.enable_reorder') %>
   </button>
@@ -33,6 +35,10 @@
     class="btn-group dropdown infinite-tree-toolbar__group ml-1 js-itree-toolbar-move-group"
     role="group"
     aria-label="<%= I18n.t('actions.move_group', default: 'Move node') %>"
+    data-label-move-up-a-level="<%= h(I18n.t('actions.move_up_a_level')) %>"
+    data-label-move-up="<%= h(I18n.t('actions.move_up')) %>"
+    data-label-move-down="<%= h(I18n.t('actions.move_down')) %>"
+    data-label-move-down-into="<%= h(I18n.t('actions.move_down_into')) %>"
   >
     <button
       type="button"
@@ -56,6 +62,8 @@
       type="button"
       class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-expand-mode"
       data-itree-action="expand-mode"
+      data-label-expand-tree-mode-on="<%= h(I18n.t('actions.expand_tree_mode_on')) %>"
+      data-label-expand-tree-mode-off="<%= h(I18n.t('actions.expand_tree_mode_off')) %>"
     >
       <%= I18n.t('actions.expand_tree_mode_on') %>
     </button>

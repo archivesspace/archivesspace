@@ -237,6 +237,7 @@ class InfiniteTreeToolbar {
     if (!this.toolbarEl) return;
 
     const selector =
+      '.js-itree-toolbar-reorder-toggle,' +
       '.js-itree-toolbar-add-child,' +
       '.js-itree-toolbar-add-sibling,' +
       '.js-itree-toolbar-add-duplicate,' +
@@ -452,12 +453,61 @@ class InfiniteTreeToolbar {
     this.treeContainerEl.dispatchEvent(event);
   }
 
+  /**
+   * Resolve a localized label from server-rendered data attributes on the
+   * toolbar. The page locale is already applied in ERB; JS only needs the
+   * strings for labels that change after the initial render.
+   * @param {string} key I18n-style key used to select a data attribute
+   * @param {string} fallback English fallback when the attribute is absent
+   * @returns {string}
+   */
   #translate(key, fallback) {
-    if (window.AS && window.AS.I18n && typeof window.AS.I18n.t === 'function') {
-      return window.AS.I18n.t(key);
+    const attrName = this.#labelDataAttributeName(key);
+    if (!attrName || !this.toolbarEl) return fallback;
+
+    const hosts = [
+      this.toolbarEl.querySelector('.js-itree-toolbar-reorder-toggle'),
+      this.toolbarEl.querySelector('.js-itree-toolbar-expand-mode'),
+      this.toolbarEl.querySelector('.js-itree-toolbar-move-group'),
+      this.toolbarEl,
+    ];
+
+    for (let i = 0; i < hosts.length; i += 1) {
+      const host = hosts[i];
+      if (!host || !host.hasAttribute(attrName)) continue;
+
+      const value = host.getAttribute(attrName);
+      if (value != null && value !== '') return value;
     }
 
     return fallback;
+  }
+
+  /**
+   * @param {string} key
+   * @returns {string|null}
+   */
+  #labelDataAttributeName(key) {
+    switch (key) {
+      case 'actions.enable_reorder':
+        return 'data-label-enable-reorder';
+      case 'actions.reorder_active':
+        return 'data-label-reorder-active';
+      case 'actions.expand_tree_mode_on':
+        return 'data-label-expand-tree-mode-on';
+      case 'actions.expand_tree_mode_off':
+        return 'data-label-expand-tree-mode-off';
+      case 'actions.move_up_a_level':
+        return 'data-label-move-up-a-level';
+      case 'actions.move_up':
+        return 'data-label-move-up';
+      case 'actions.move_down':
+        return 'data-label-move-down';
+      case 'actions.move_down_into':
+        return 'data-label-move-down-into';
+      default:
+        return null;
+    }
   }
 
   #applyReorderState() {
@@ -529,14 +579,25 @@ class InfiniteTreeToolbar {
   }
 
   /**
-   * Whether a valid paste destination exists: the `.current` row
-   * that is not `.cut`, including root.
+   * Whether a valid paste destination exists: the `.current` row that is not
+   * `.cut` and not a descendant of a cut row, including root. Matches
+   * InfiniteTreeCutPaste / InfiniteTreeDragDrop blocked-target rules.
    * @returns {boolean}
    */
   #hasEligiblePasteTarget() {
     if (!this.treeContainerEl) return false;
 
-    return !!this.treeContainerEl.querySelector('li.node.current:not(.cut)');
+    const current = this.treeContainerEl.querySelector(
+      'li.node.current:not(.cut)'
+    );
+    if (!current) return false;
+
+    const cutNodes = this.treeContainerEl.querySelectorAll('li.node.cut');
+    for (let i = 0; i < cutNodes.length; i += 1) {
+      if (cutNodes[i].contains(current)) return false;
+    }
+
+    return true;
   }
 
   #isArchivalObjectCurrent() {

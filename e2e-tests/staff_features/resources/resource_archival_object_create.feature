@@ -14,7 +14,7 @@ Feature: Resource Archival Object create
   Scenario: Create a Sibling Archival Object
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
-     When the user makes the Archival Object current
+     When the user selects the Archival Object
       And the user clicks on 'Add Sibling' in the infinite tree toolbar
       And the New Archival Object page is displayed
       And the user fills in 'Title' with 'Archival Object Title Sibling'
@@ -25,7 +25,7 @@ Feature: Resource Archival Object create
   Scenario: Duplicate Archival Object
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
-     When the user makes the Archival Object current
+     When the user selects the Archival Object
       And the user clicks on 'Add Duplicate' in the infinite tree toolbar
      Then the New Archival Object page is displayed
       And the 'Archival Object' duplicated message is displayed

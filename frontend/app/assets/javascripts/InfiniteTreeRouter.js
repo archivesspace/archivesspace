@@ -288,7 +288,7 @@
     #proceedToHash(hash) {
       if (!hash) return;
 
-      this.setHash(hash);
+      this.#setHashSilently(hash);
 
       this.dispatchSetCurrentNode(window.location.hash);
     }
