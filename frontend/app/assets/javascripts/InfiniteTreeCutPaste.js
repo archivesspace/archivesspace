@@ -47,6 +47,10 @@ class InfiniteTreeCutPaste {
       InfiniteTreeReorderActions.EVENT_MOVE_SUCCESS,
       this.#onMoveSuccess.bind(this)
     );
+    this.containerEl.addEventListener(
+      InfiniteTree.EVENT_TYPE_TREE_CONTENT_REPLACED,
+      this.#onTreeContentReplaced.bind(this)
+    );
   }
 
   #onReorderModeChanged(event) {
@@ -149,6 +153,15 @@ class InfiniteTreeCutPaste {
     this.#clearCutState();
   }
 
+  /**
+   * Full tree rebuilds (replaceChildren) detach every previously cut <li>.
+   * Clear cutUris/cutActive so Paste cannot stay armed without .cut markers.
+   */
+  #onTreeContentReplaced() {
+    if (this.cutUris.length === 0 && this.cutNodes.length === 0) return;
+    this.#clearCutState();
+  }
+
   #clearCutState() {
     const hadCutState = this.cutNodes.length > 0 || this.cutUris.length > 0;
 
@@ -176,12 +189,30 @@ class InfiniteTreeCutPaste {
 
   /**
    * Resolve the paste destination from the `.current` row, including root,
-   * when it is not `.cut`.
+   * when it is not part of a cut subtree. Mirrors InfiniteTreeDragDrop#isBlockedTarget:
+   * a cut source and any of its descendants are invalid paste destinations.
    * @returns {HTMLElement|null}
    */
   #currentPasteTargetNode() {
     const node = this.containerEl.querySelector('li.node.current:not(.cut)');
-    return node || null;
+    if (!node) return null;
+    if (this.#isBlockedPasteTarget(node)) return null;
+
+    return node;
+  }
+
+  /**
+   * Whether `targetNode` is a cut source or a descendant of one.
+   * @param {HTMLElement} targetNode
+   * @returns {boolean}
+   */
+  #isBlockedPasteTarget(targetNode) {
+    return this.cutEffectiveNodes.some(source => {
+      if (!source) return false;
+      if (source === targetNode) return true;
+
+      return source.contains(targetNode);
+    });
   }
 
   #childCountForNode(node) {
