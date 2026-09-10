@@ -905,6 +905,7 @@ label {
 .is-authorized-label,
 .is-display-name-label,
 .is-primary-label,
+.is-thumbnail-label,
 .is-representative-label {
   display: none;
 }
@@ -945,6 +946,22 @@ label {
     cursor: pointer;
   }
   .is-representative-toggle {
+    display: none;
+  }
+}
+
+.is-thumbnail {
+  .is-thumbnail-label {
+    display: inline;
+    vertical-align: middle;
+
+    .cancel-thumbnail {
+      display: inline;
+      padding: 0 0 0 8px;
+      color: #ccc;
+    }
+  }
+  .is-thumbnail-toggle {
     display: none;
   }
 }

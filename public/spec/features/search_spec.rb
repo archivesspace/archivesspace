@@ -238,7 +238,7 @@ describe 'Search', js: true do
 
     matcher :highlight_term_found_in do |label, term|
       match_unless_raises do |page|
-        expect(page).to have_xpath "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., '#{label}')]]/span[contains(@class, 'searchterm')][contains(., '#{term}')]"
+        expect(page).to have_xpath "//div[contains(@class, 'recordrow')][div[h2[contains(., '#{searched_record.title}')]]]//div[contains(@class, 'highlighting')][strong[contains(., '#{label}')]]/span[contains(@class, 'searchterm')][contains(., '#{term}')]"
       end
     end
 
@@ -253,8 +253,8 @@ describe 'Search', js: true do
       )
     end
 
-    let(:result_title) { find('.recordrow > h2', text: searched_record.title) }
-    let(:result_highlights) { all(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')]") }
+    let(:result_title) { find('.recordrow .record-title', text: searched_record.title) }
+    let(:result_highlights) { all(:xpath, "//div[contains(@class, 'recordrow')][div[h2[contains(., '#{searched_record.title}')]]]//div[contains(@class, 'highlighting')]") }
 
     before :each do
       set_repo repository
@@ -326,7 +326,7 @@ describe 'Search', js: true do
         it 'highlights the search term in the results title and found in sections' do
           expect(page).to highlight_term_in_title search_term
 
-          page.all(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
+          page.all(:xpath, "//div[contains(@class, 'recordrow')][div[h2[contains(., '#{searched_record.title}')]]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
             expect(e.text).to eq(search_term)
           end
 

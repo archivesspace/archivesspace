@@ -303,12 +303,15 @@ module SearchHelper
   def add_columns
     if @search_data
       return if @columns
+
       type = @search_data.get_type
       type = 'agent' if type.include? 'agent'
       type = 'classification' if type == 'classification_term'
 
       add_multiselect_column if can_delete_search_results?(type) && !(request.path =~ /\/(advanced_)*search/)
       add_linker_column if params[:linker]==='true'
+
+      add_thumbnail_column if thumbnails_in_search_results?
 
       if params[:include_components]
         case type
@@ -432,5 +435,21 @@ module SearchHelper
       result
     end
 
+  end
+
+  def thumbnails_in_search_results?
+    @search_data && @search_data.results? && @search_data['results'].any? do |result|
+      !!ASUtils.json_parse(result['json'])['thumbnail']
+    end
+  end
+
+  def add_thumbnail_column
+    add_column(
+      "<span class=\"sr-only\">#{I18n.t("search_results.thumbnail")}</span>".html_safe,
+      {
+        :template => 'search/thumbnail_cell',
+        :class => 'thumbnail-column',
+      }
+    )
   end
 end

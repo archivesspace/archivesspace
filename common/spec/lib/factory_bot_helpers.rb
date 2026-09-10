@@ -1657,4 +1657,11 @@ FactoryBot.define do
     record_type { 'archival_object' }
     subrecord_requirements { [build(:json_subrecord_requirement)] }
   end
+
+  # Not actual used as is a readonly JSONModel, but keeps tests happy
+  factory :json_thumbnail, class: JSONModel(:thumbnail) do
+    image_url { generate(:alphanumstr) }
+    link_url { generate(:alphanumstr) }
+    caption { generate(:alphanumstr) }
+  end
 end
