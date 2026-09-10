@@ -1084,6 +1084,7 @@ describe 'Infinite Tree Toolbar', js: true do
         end
 
         %w[
+          .js-itree-toolbar-reorder-toggle
           .js-itree-toolbar-add-child
           .js-itree-toolbar-add-sibling
           .js-itree-toolbar-add-duplicate
@@ -1158,8 +1159,9 @@ describe 'Infinite Tree Toolbar', js: true do
 
   # Ported from reorder_mode_spec.rb 'disables reorder mode toggle when the form
   # is dirty', which skip_if_infinite_tree_toolbar_active now skips on every
-  # resource edit run. #onReorderToggle bails on this.isDirty, so the assertion
-  # here is behavioural rather than a check for a .disabled class.
+  # resource edit run. Legacy asserted #tree-toolbar .drag-toggle.disabled;
+  # InfiniteTree must do the same for .js-itree-toolbar-reorder-toggle rather
+  # than only bailing inside #onReorderToggle while leaving the control enabled.
   describe 'reorder toggle while the record pane is dirty' do
     before do
       visit edit_path
@@ -1170,11 +1172,9 @@ describe 'Infinite Tree Toolbar', js: true do
       end
     end
 
-    it 'does not enter reorder mode' do
-      find('.js-itree-toolbar-reorder-toggle').click
-      wait_for_ajax
-
+    it 'disables the reorder toggle and does not enter reorder mode' do
       aggregate_failures do
+        expect(page).to have_css('.js-itree-toolbar-reorder-toggle.disabled')
         expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
         expect(page).to have_css(
           '.js-itree-toolbar-reorder-toggle',

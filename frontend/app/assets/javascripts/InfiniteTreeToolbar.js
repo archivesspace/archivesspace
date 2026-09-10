@@ -237,6 +237,7 @@ class InfiniteTreeToolbar {
     if (!this.toolbarEl) return;
 
     const selector =
+      '.js-itree-toolbar-reorder-toggle,' +
       '.js-itree-toolbar-add-child,' +
       '.js-itree-toolbar-add-sibling,' +
       '.js-itree-toolbar-add-duplicate,' +
