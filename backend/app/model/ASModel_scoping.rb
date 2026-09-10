@@ -1,15 +1,54 @@
 module ASModel
   # Code that keeps the records of different repositories isolated and hiding suppressed records.
 
+  # ANW-1301: records that are unpublished or suppressed are announced to OAI
+  # harvesters as deletions, hidden_at records the moment a record became unavailable
+  HIDDEN_FROM_HARVESTERS = Sequel.|(Sequel.~(:publish => 1),
+                                    {:publish => nil},
+                                    {:suppressed => 1})
+
+
   def self.update_suppressed_flag(dataset, val)
     dataset.update(:suppressed => (val ? 1 : 0),
                    :system_mtime => Time.now)
+
+    reconcile_hidden_at(dataset)
   end
 
 
   def self.update_publish_flag(dataset, val)
     dataset.update(:publish => (val ? 1 : 0),
                    :system_mtime => Time.now)
+
+    reconcile_hidden_at(dataset)
+  end
+
+
+  # Update hidden_at of records that have just become unavailable (unpublished or suppressed), and clear
+  # it from records that have become available again.
+  def self.reconcile_hidden_at(dataset)
+    return unless dataset.model.columns.include?(:hidden_at)
+
+    dataset.where(HIDDEN_FROM_HARVESTERS).where(:hidden_at => nil).update(:hidden_at => Time.now)
+    dataset.exclude(HIDDEN_FROM_HARVESTERS).exclude(:hidden_at => nil).update(:hidden_at => nil)
+  end
+
+
+  # As above, but for a single record that has just been saved.
+  def self.reconcile_hidden_at_for(obj)
+    return unless obj.class.columns.include?(:hidden_at)
+
+    hidden = (obj[:publish] != 1 || obj[:suppressed] == 1)
+    stamped = !obj[:hidden_at].nil?
+
+    return if hidden == stamped
+
+    hidden_at = hidden ? Time.now : nil
+
+    obj.class.dataset.filter(:id => obj.id).update(:hidden_at => hidden_at)
+
+    # so a second save in the same request doesn't update again the record
+    obj.values[:hidden_at] = hidden_at
   end
 
 

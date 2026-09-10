@@ -209,6 +209,8 @@ module ASModel
                   merge(:user_mtime => Time.now,
                         :last_modified_by => RequestContext.get(:current_username)))
 
+      ASModel.reconcile_hidden_at_for(self)
+
       if apply_nested_records
         self.apply_nested_records(json)
       end
@@ -343,6 +345,9 @@ module ASModel
         fire_update(json, obj)
 
         obj.refresh
+
+        ASModel.reconcile_hidden_at_for(obj)
+
         obj
       end
 

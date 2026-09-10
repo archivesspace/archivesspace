@@ -372,16 +372,13 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     true
   end
 
-  # ANW-1301: records that still exist but are no longer available to harvesters,
-  # because they've been suppressed or unpublished.  Their system_mtime is when
-  # that happened, so the usual from/until range picks them up.
   def build_hidden_ds(record_type, resumption_token, options)
     set = resumption_token.set || options.fetch(:set, nil)
     from_timestamp = resumption_token.from || options.fetch(:from, nil)
     until_timestamp = resumption_token.until || options.fetch(:until, nil)
 
     dataset = add_unavailability_restrictions(record_type.any_repo)
-    dataset = apply_time_restrictions(dataset, from_timestamp, until_timestamp)
+    dataset = apply_time_restrictions(dataset, from_timestamp, until_timestamp, :hidden_at)
 
     apply_set_restrictions(dataset, set, record_type)
   end

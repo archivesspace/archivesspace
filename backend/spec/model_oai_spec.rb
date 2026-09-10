@@ -522,6 +522,42 @@ describe 'OAI handler' do
         expect(rescinded_uris(harvest_all(:from => Time.now.utc - 3600))).to include(ao.uri)
       end
 
+      it "doesn't rescind a record again when it's touched after being hidden" do
+        ao = a_published_archival_object
+        ArchivalObject[ao.id].set_suppressed(true)
+
+        # Pretend the suppression, and the harvest that reported it, happened an
+        # hour ago.
+        an_hour_ago = Time.now.utc - 3600
+        ArchivalObject.dataset.filter(:id => ao.id).update(:hidden_at => an_hour_ago)
+
+        # publishing or unpublishing a records repository, or the TouchRecords mixin firing for a
+        # related record should not re-announce a deletion
+        ArchivalObject.update_mtime_for_ids([ao.id])
+
+        expect(rescinded_uris(harvest_all(:from => Time.now.utc - 60))).not_to include(ao.uri)
+        expect(rescinded_uris(harvest_all(:from => an_hour_ago - 60))).to include(ao.uri)
+      end
+
+      it "dates a rescission from when the record became unavailable" do
+        ao = a_published_archival_object
+        ArchivalObject[ao.id].set_suppressed(true)
+        expect(ArchivalObject[ao.id][:hidden_at]).not_to be_nil
+
+        an_hour_ago = Time.now.utc - 3600
+        ArchivalObject.dataset.filter(:id => ao.id).update(:hidden_at => an_hour_ago)
+
+        # Touching the record moves system_mtime, but not the date it became
+        # unavailable.
+        ArchivalObject.update_mtime_for_ids([ao.id])
+
+        rescinded = harvest_all.find {|record|
+          record.is_a?(OAIHiddenRecordDeletion) && record.id == ao.uri
+        }
+
+        expect(rescinded.updated_at.to_i).to eq(an_hour_ago.to_i)
+      end
+
       it "doesn't rescind records from a repository that OAI isn't serving" do
         ao = a_published_archival_object
         ArchivalObject[ao.id].set_suppressed(true)

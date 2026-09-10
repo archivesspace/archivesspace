@@ -1,5 +1,4 @@
 class OAIDeletion
-
   def initialize(tombstone)
     @tombstone = tombstone
   end
@@ -22,11 +21,12 @@ class OAIDeletion
 
 end
 
-# For supressed records there is no tombstone so using system_mtime serves as both
-# ASModel.update_suppressed_flag and ASModel.update_publish_flag update it, and a
-# suppressed record can't subsequently be updated.
+# For suppressed and unpublished records there is no tombstone, so hidden_at
+# stands records when the record became unavailable and is not updated until
+# the records becomes available again. Records hidden by something other than
+# their own flags - an unpublished ancestor - have no hidden_at, and fall back
+# to system_mtime.
 class OAIHiddenRecordDeletion
-
   attr_reader :sequel_record
 
   def initialize(sequel_record)
@@ -43,7 +43,6 @@ class OAIHiddenRecordDeletion
   end
 
   def updated_at
-    @sequel_record.system_mtime
+    @sequel_record[:hidden_at] || @sequel_record.system_mtime
   end
-
 end
