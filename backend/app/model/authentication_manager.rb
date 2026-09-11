@@ -45,6 +45,7 @@ class AuthenticationManager
 
         # Force their admin status based on what they already had
         jsonmodel_user.is_admin = (user && user.can?(:administer_system))
+        jsonmodel_user.is_pui_viewer = (user && user.can?(:view_pui))
 
         if user
           begin

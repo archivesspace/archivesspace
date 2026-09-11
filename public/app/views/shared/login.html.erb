@@ -1,0 +1,38 @@
+<script>var PUI_SKIP_AUTOCHECK = <%= flash.now[:error].present? || @skip_pui_autocheck.present? %>;</script>
+
+<%= render partial: 'shared/authentication' %>
+
+<div id="login-form-wrapper" class="p-4" style="display: none;">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+      <div class="card p-3 p-sm-4 border-lightblue">
+        <h1 class="mt-0 mb-3"><%= t('login.login_please') %></h1>
+
+        <%= form_tag(app_prefix("/login"), method: "post", class: "login mb-0") do %>
+          <div class="mb-2">
+            <%= label_tag :user_name, t('login.username_placeholder'), class: 'visually-hidden' %>
+            <%= text_field_tag :user_name, nil,
+                  placeholder: t('login.username_placeholder'),
+                  class: 'form-control',
+                  autocomplete: 'username',
+                  autofocus: true,
+                  'aria-label': t('login.username_aria_label'),
+                  required: true %>
+          </div>
+
+          <div class="mb-3">
+            <%= label_tag :password, t('login.password_placeholder'), class: 'visually-hidden' %>
+            <%= password_field_tag :password, nil,
+                  placeholder: t('login.password_placeholder'),
+                  class: 'form-control',
+                  autocomplete: 'current-password',
+                  'aria-label': t('login.password_aria_label'),
+                  required: true %>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100"><%= t('login.login') %></button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

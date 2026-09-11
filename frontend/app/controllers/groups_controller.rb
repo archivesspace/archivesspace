@@ -40,7 +40,7 @@ class GroupsController < ApplicationController
     params[:group][:member_usernames] ||= []
 
     handle_crud(:instance => :group,
-                :model => Accession,
+                :model => JSONModel(:group),
                 :obj => JSONModel(:group).find(params[:id]),
                 :replace => false,
                 :on_invalid => ->() {

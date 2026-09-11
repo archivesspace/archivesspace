@@ -1609,7 +1609,8 @@ es:
         personalizados</b> (en este repositorio)
     _singular: Grupo
     _plural: Los grupos
-
+    default_group_names:
+      pui_viewers: Visores PUI
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:

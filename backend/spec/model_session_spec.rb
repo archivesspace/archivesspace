@@ -89,4 +89,70 @@ describe 'Session model' do
     expect(Session.find(long_session.id)).to be_nil
   end
 
+  it "keeps the session token out of #inspect, so per-request debug logging can't leak it" do
+    session = Session.new
+    session[:user] = 'test1'
+    session.save
+
+    expect(session.inspect).to_not include(session.id)
+    expect(session.inspect).to include(Session.digest(session.id))
+  end
+
+  it "keeps a paired session's token out of the session store" do
+    parent = Session.new
+    parent[:user] = 'test1'
+    parent.save
+
+    child = Session.new
+    child[:user] = 'test1'
+    child[:parent_session] = Session.digest(parent.id)
+    child.save
+
+    expect(Session.find(child.id)[:parent_session]).to_not eq(parent.id)
+    expect(Session.exists_by_digest?(Session.find(child.id)[:parent_session])).to be true
+  end
+
+  describe "a pui_only session" do
+    before(:each) do
+      create_user
+    end
+
+    let(:pui_only_headers) do
+      session = Session.new
+      session[:user] = 'test1'
+      session[:pui_only] = true
+      session.save
+
+      {"HTTP_X_ARCHIVESSPACE_SESSION" => session.id}
+    end
+
+    it "is allowed to check the current user" do
+      get '/users/current-user', params = {}, pui_only_headers
+      expect(last_response).to be_ok
+    end
+
+    it "is allowed to log out" do
+      post '/logout', params = {}, pui_only_headers
+      expect(last_response).to be_ok
+    end
+
+    it "is forbidden from any other request" do
+      get '/', params = {}, pui_only_headers
+
+      expect(last_response.status).to eq(403)
+      expect(JSON(last_response.body)["code"]).to eq('PUI_SESSION_FORBIDDEN')
+    end
+  end
+
+  describe "a regular (non-pui_only) session" do
+    it "is not restricted to the pui_only allowlist" do
+      session = Session.new
+      session[:user] = 'test1'
+      session.save
+
+      get '/', params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => session.id}
+      expect(last_response).to be_ok
+    end
+  end
+
 end
