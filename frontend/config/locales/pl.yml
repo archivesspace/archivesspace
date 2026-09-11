@@ -1045,8 +1045,10 @@ pl:
     cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i
       nie można go usunąć.
     linked_to_other_repo: Ten agent jest powiązany z rekordami w co najmniej
-      jednym innym repozytorium. Nie można go usunąć bez uprawnień
-      administracyjnych.
+      jednym innym repozytorium. Nie można go usunąć z tego repozytorium.
+      Przełącz się na repozytorium, z którym jest powiązany (jeśli masz tam
+      uprawnienia menedżera agentów), albo poproś administratora o jego
+      usunięcie.
     cannot_delete_system_agent: To jest rekord agenta systemowego i nie
       można go usunąć.
     error_404: Nie znaleziono rekordu

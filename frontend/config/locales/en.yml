@@ -788,7 +788,10 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
     linked_to_user: Record cannot be deleted as it is linked to a user
     cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
-    linked_to_other_repo: This agent is linked to records in at least one other repository. It cannot be deleted without administrative permissions.
+    linked_to_other_repo: This agent is linked to records in at least one
+      other repository. It cannot be deleted from this repository. Either
+      switch to the repository where it's linked (if you hold agent manager
+      permissions there), or ask an administrator.
     cannot_delete_system_agent: This is a system agent record and cannot be deleted.
 
   component_link:

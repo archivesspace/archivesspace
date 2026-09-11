@@ -876,8 +876,10 @@ fr:
     cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne
       peut pas être supprimé.
     linked_to_other_repo: Cet agent est lié à des notices dans au moins un
-      autre référentiel. Il ne peut pas être supprimé sans autorisations
-      administratives.
+      autre référentiel. Il ne peut pas être supprimé depuis ce référentiel.
+      Basculez vers le référentiel où il est lié (si vous y disposez des
+      autorisations de gestionnaire d'agents), ou demandez à un administrateur
+      de le supprimer.
     cannot_delete_system_agent: Il s'agit d'une notice d'agent système et
       elle ne peut pas être supprimée.
   accession:

@@ -797,7 +797,9 @@ es:
     cannot_delete_repository_agent: Este agente está vinculado a un repositorio
       y no se puede eliminar.
     linked_to_other_repo: Este agente está vinculado a registros en al menos
-      otro repositorio. No se puede eliminar sin permisos administrativos.
+      otro repositorio. No se puede eliminar desde este repositorio. Cambie
+      al repositorio donde está vinculado (si tiene permisos de gestor de
+      agentes allí), o pida a un administrador que lo elimine.
     cannot_delete_system_agent: Este es un registro de agente del sistema y
       no se puede eliminar.
   accession:

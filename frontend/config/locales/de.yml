@@ -960,8 +960,10 @@ de:
     cannot_delete_repository_agent: Dieser Akteur ist mit einem Aufbewahrungsort
       verknüpft und kann nicht entfernt werden.
     linked_to_other_repo: Dieser Akteur ist mit Datensätzen in mindestens einem
-      anderen Aufbewahrungsort verknüpft. Er kann nicht ohne Administratorrechte
-      gelöscht werden.
+      anderen Aufbewahrungsort verknüpft. Er kann nicht aus diesem Aufbewahrungsort
+      gelöscht werden. Wechseln Sie entweder zu dem Aufbewahrungsort, mit dem er
+      verknüpft ist (sofern Sie dort über Akteur-Verwalter-Rechte verfügen), oder
+      wenden Sie sich an eine:n Administrator:in.
     cannot_delete_system_agent: Dies ist ein Systemakteur-Datensatz und kann
       nicht gelöscht werden.
     error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder 

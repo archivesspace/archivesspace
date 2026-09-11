@@ -681,8 +681,10 @@ it:
     cannot_delete_repository_agent: Questo agent è linkato a una repository e
       non può essere rimosso.
     linked_to_other_repo: Questo agente è collegato a record in almeno un
-      altro repository. Non può essere eliminato senza autorizzazioni
-      amministrative.
+      altro repository. Non può essere eliminato da questo repository.
+      Passa al repository a cui è collegato (se disponi delle autorizzazioni
+      di gestione agenti in quel repository), oppure chiedi a un
+      amministratore di eliminarlo.
     cannot_delete_system_agent: Questo è un record di agente di sistema e
       non può essere eliminato.
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
