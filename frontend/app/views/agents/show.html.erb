@@ -10,7 +10,13 @@
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
         <h2><%= clean_mixed_content(@agent.title) %>  <span class="label label-info badge"><%= t("agent._singular") %></span>
           <% if @agent.linked_in_other_repository %>
-            <span class="label badge badge-danger has-tooltip" data-toggle="tooltip" data-placement="auto" data-container="body" title="<%= t("agent._frontend.linked_in_other_repository.tooltip") %>"><%= t("agent._frontend.linked_in_other_repository.label") %></span>
+            <span
+              class="label badge badge-danger has-tooltip"
+              data-toggle="tooltip"
+              data-placement="auto"
+              data-container="body"
+              title="<%= t("agent._frontend.linked_in_other_repository.tooltip") %>"
+            ><%= t("agent._frontend.linked_in_other_repository.label") %></span>
           <% end %>
         </h2>
 
