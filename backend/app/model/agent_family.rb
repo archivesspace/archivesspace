@@ -32,4 +32,10 @@ class AgentFamily < Sequel::Model(:agent_family)
                 }
 
 
+  def delete
+    check_cross_repo_delete_conflict!
+
+    super
+  end
+
 end

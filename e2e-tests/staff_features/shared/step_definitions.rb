@@ -47,6 +47,18 @@ When 'the user waits for the page to update' do
   wait_for_ajax
 end
 
+When 'the user selects {string} as the current repository' do |repository_name|
+  click_on 'Select Repository'
+
+  within '.dropdown-menu' do
+    find('select').select repository_name
+
+    click_on 'Select Repository'
+  end
+
+  expect(page).to have_text "The Repository #{repository_name} is now active"
+end
+
 When 'the user clicks on {string}' do |string|
   click_on_string string
 
@@ -564,6 +576,18 @@ Then 'the {string} button is disabled' do |text|
 
   buttons.each do |button|
     expect(button.disabled?).to eq true
+  end
+end
+
+Then 'the {string} button is disabled in the modal' do |text|
+  within '.modal-content' do
+    expect(find('button', text: text).disabled?).to eq true
+  end
+end
+
+Then 'the {string} button is enabled in the modal' do |text|
+  within '.modal-content' do
+    expect(find('button', text: text).disabled?).to eq false
   end
 end
 

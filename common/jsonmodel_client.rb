@@ -361,8 +361,8 @@ module JSONModel
     end
 
 
-    def delete
-      response = JSONModel::HTTP.delete_request(self.class.my_url(self.id))
+    def delete(opts = {})
+      response = JSONModel::HTTP.delete_request(self.class.my_url(self.id, opts))
 
       if response.code == '200'
         true

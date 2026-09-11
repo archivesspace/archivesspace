@@ -41,22 +41,29 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/agents/software/:id')
     .description("Get a software agent by ID")
     .params(["id", Integer, "ID of the software agent"],
-            ["resolve", :resolve])
+            ["resolve", :resolve],
+            ["current_repo_id", Integer, "Optionally passes the caller's current repository. Populated by the frontend to warn/guard against cross-repo agent deletions.", :optional => true])
     .permissions([])
     .returns([200, "(:agent_software)"],
              [404, "Not found"]) \
   do
-    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+    opts = {
+      :calculate_linked_repositories => current_user.can?(:index_system),
+      :calculate_linked_in_other_repository => true,
+      :current_repo_id => params[:current_repo_id]
+    }
     json_response(resolve_references(AgentSoftware.to_jsonmodel(AgentSoftware.get_or_die(params[:id]), opts),
                                      params[:resolve]))
   end
 
   Endpoint.delete('/agents/software/:id')
     .description("Delete a software agent")
-    .params(["id", Integer, "ID of the software agent"])
+    .params(["id", Integer, "ID of the software agent"],
+            ["current_repo_id", Integer, "Optionally passes the caller's current repository. Populated by the frontend to warn/guard against cross-repo agent deletions.", :optional => true])
     .permissions([:delete_agent_record])
     .returns([200, :deleted]) \
   do
+    RequestContext.put(:current_repo_id, params[:current_repo_id])
     handle_delete(AgentSoftware, params[:id])
   end
 

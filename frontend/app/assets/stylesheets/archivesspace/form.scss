@@ -392,6 +392,8 @@ ul.subrecord-form-list {
 .alert pre {
   background-color: transparent;
   border: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 .dropdown-menu.subrecord-selector {

@@ -2,11 +2,14 @@ require 'spec_helper'
 
 describe 'Delete request controller' do
 
-  def perform_delete(record_uris)
+  def perform_delete(record_uris, current_repo_id = nil)
     uri = "/batch_delete"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
-    JSONModel::HTTP.post_json(url, {:record_uris => record_uris})
+    body = {:record_uris => record_uris}
+    body[:current_repo_id] = current_repo_id if current_repo_id
+
+    JSONModel::HTTP.post_json(url, body)
   end
 
 
@@ -56,6 +59,28 @@ describe 'Delete request controller' do
     response_json = ASUtils.json_parse(response.body)
 
     expect(response_json["error"]["failures"][0]["uri"]).to eq(a_404_uri)
+  end
+
+
+  describe 'agent cross-repository delete guard' do
+    it "forwards current_repo_id, so an agent linked only within the caller's own repository can be bulk-deleted" do
+      repo_a = create(:repo)
+
+      RequestContext.put(:repo_id, repo_a.id)
+      agent = AgentPerson.create_from_json(build(:json_agent_person))
+      create(:json_accession, 'linked_agents' => [{
+                                                     'ref' => agent.uri,
+                                                     'role' => 'source'
+                                                   }])
+
+      response = perform_delete([agent.uri], repo_a.id)
+
+      expect(response.code).to eq('200')
+
+      expect {
+        JSONModel(:agent_person).find(agent.id)
+      }.to raise_error(RecordNotFound)
+    end
   end
 
 end

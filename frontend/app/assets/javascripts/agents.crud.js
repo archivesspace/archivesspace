@@ -9,6 +9,7 @@
 //= require slug
 //= require lightmode
 //= require representativemembers.js
+//= require agents.cross_repo_delete_confirm
 
 $(function () {
   var init_id_form = function (subform) {

@@ -1,7 +1,13 @@
 require 'spec_helper'
 require_relative 'spec_slugs_helper'
+require_relative 'agent_cross_repo_delete_shared_examples'
 
 describe 'Agent model' do
+
+  describe 'cross-repository delete guard' do
+    include_examples 'agent cross-repository delete guard', AgentSoftware, :json_agent_software
+  end
+
 
   it "allows software agent records to be created with multiple names" do
 
@@ -117,6 +123,22 @@ describe 'Agent model' do
   it "maintains a record that represents the ArchivesSpace application itself" do
     as_json = AgentSoftware.to_jsonmodel(AgentSoftware.archivesspace_record)
     expect(as_json['names'][0]['version']).to eq ASConstants.VERSION
+  end
+
+
+  it "blocks deletion of the system's own software agent" do
+    expect {
+      AgentSoftware.archivesspace_record.delete
+    }.to raise_error(ConflictException, /cannot_delete_system_agent/)
+  end
+
+
+  it 'allows deletion of an ordinary software agent' do
+    agent = AgentSoftware.create_from_json(build(:json_agent_software))
+
+    expect {
+      AgentSoftware[agent[:id]].delete
+    }.not_to raise_error
   end
 
 
