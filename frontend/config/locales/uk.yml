@@ -2180,6 +2180,27 @@ uk:
         _plural: Набори спонсорів
       repo_settings:
         _plural: Налаштування OAI-PMH для кожного репозиторію
+    oai_repository_sets: Набори репозиторіїв
+    oai_sponsor_sets: Набори спонсорів
+
+  oai_repository_set:
+    _plural: Набори репозиторіїв
+    set_name: Назва набору репозиторію
+    set_description: Опис набору репозиторію
+    repo_codes: Репозиторії в наборі
+    _frontend:
+      action:
+        add: Додати набір репозиторію
+
+  oai_sponsor_set:
+    _plural: Набори спонсорів
+    set_name: Назва набору спонсора
+    set_description: Опис набору спонсора
+    sponsor_names: Імена спонсорів
+    _frontend:
+      action:
+        add: Додати набір спонсора
+
   agent_record_control:
     _plural: Інформація про запис
     _singular: Інформація про запис

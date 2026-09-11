@@ -1080,6 +1080,18 @@ FactoryBot.define do
     oai_repository_name { 'ArchivesSpace OAI Repo' }
   end
 
+  factory :json_oai_repository_set, class: JSONModel(:oai_repository_set) do
+    set_name { generate(:alphanumstr) }
+    set_description { generate(:alphanumstr) }
+    repo_codes { [generate(:repo_code)] }
+  end
+
+  factory :json_oai_sponsor_set, class: JSONModel(:oai_sponsor_set) do
+    set_name { generate(:alphanumstr) }
+    set_description { generate(:alphanumstr) }
+    sponsor_names { [generate(:alphanumstr)] }
+  end
+
   factory :json_parallel_name_corporate_entity, class: JSONModel(:parallel_name_corporate_entity) do
     primary_name { generate(:generic_name) }
     subordinate_name_1  { generate(:alphanumstr) }

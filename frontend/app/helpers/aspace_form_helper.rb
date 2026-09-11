@@ -630,57 +630,38 @@ module AspaceFormHelper
       return html.html_safe
     end
 
-    def oai_config_repo_set_codes_field(set_json, repositories)
-      #label_and_textfield(name, opts)
-      set_arry = JSON::parse(set_json)
+    # Checkboxes submitted as one array property.  `options` is [label, value] pairs.
+    def label_and_checkbox_list(name, options, opts = {})
+      selected = Array(obj[name])
 
-      html = ""
+      html = "<ul class='checkbox-list'>"
 
-      html << "<div class='form-group row'>"
-      html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
-      html << "<div class='col-sm-9'>"
-      html << "<ul class='checkbox-list'>"
-      repositories.each do |r|
-        # a checkbox is on if it's the in the list we get from the backend.
-        checked = set_arry.include?(r['repo_code'].to_s)
+      options.each_with_index do |(option_label, value), idx|
+        input_id = "#{id_for(name)}_#{idx}"
 
         html << "<li class='list-group-item'>"
         html << "<div class='checkbox'>"
-        html << "<label>"
-        html << "<input id=\"#{r['repo_code']}\" name=\"repo_set_codes[#{r['repo_code']}]\" type=\"checkbox\" "
-        if checked
-          html << "checked=\"checked\" "
-        end
-
-        html << "/>"
-
-        html << "#{r['repo_code']}"
-        html << "</label>"
+        html << "<input id=\"#{input_id}\" name=\"#{path(name)}[]\" type=\"checkbox\" value=\"#{h(value)}\""
+        html << " checked=\"checked\"" if selected.include?(value)
+        html << " disabled" if readonly?
+        html << " />"
+        html << "<label for=\"#{input_id}\">#{h(option_label)}</label>"
         html << "</div>"
         html << "</li>"
       end
-      html << "</ul>"
-      html << "</div>" #col-sm-9
-      html << "</div>" #form-group
 
-      return html.html_safe
+      html << "</ul>"
+
+      label_with_field(name, html.html_safe, opts)
     end
 
-    def oai_config_sponsor_set_names_field(set_json, opts = {})
-      # turn array from DB into a comma delimited list for UI
-      set_arry = JSON::parse(set_json)
-      value = set_arry.join("|")
+    def label_and_tag_list(name, opts = {})
+      field = @forms.text_field_tag(path(name),
+                                    Array(obj[name]).join("|"),
+                                    {:id => id_for(name),
+                                     :class => "form-control js-taggable"}.merge(opts[:field_opts] || {}))
 
-      html = ""
-
-      html << "<div class='form-group row'>"
-      html << label("sponsor_set_names", {}, ["control-label", "col-sm-2"])
-      html << "<div class='col-sm-9'>"
-      html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
-      html << "</div>"
-      html << "</div>"
-
-      return html.html_safe
+      label_with_field(name, field, opts)
     end
 
     def merge_checkbox(name, opts = {}, default = false, force_checked = false)

@@ -2460,6 +2460,27 @@ it:
         _plural: Set di sponsor
       repo_settings:
         _plural: Impostazioni OAI-PMH per repository
+    oai_repository_sets: Set di repository
+    oai_sponsor_sets: Set di sponsor
+
+  oai_repository_set:
+    _plural: Set di repository
+    set_name: Nome del set di repository
+    set_description: Descrizione del set di repository
+    repo_codes: Repository in Set
+    _frontend:
+      action:
+        add: Aggiungi set di repository
+
+  oai_sponsor_set:
+    _plural: Set di sponsor
+    set_name: Nome del set dello sponsor
+    set_description: Descrizione del set di sponsor
+    sponsor_names: Nomi degli sponsor
+    _frontend:
+      action:
+        add: Aggiungi set di sponsor
+
   agent_record_control:
     _plural: Informazioni sul record
     _singular: Informazioni sul record

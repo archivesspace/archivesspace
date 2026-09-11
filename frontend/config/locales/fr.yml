@@ -2357,6 +2357,27 @@ fr:
         _plural: Sets de sponsors
       repo_settings:
         _plural: Paramètres OAI-PMH par référentiel
+    oai_repository_sets: Ensembles de référentiels
+    oai_sponsor_sets: Sets de sponsors
+
+  oai_repository_set:
+    _plural: Ensembles de référentiels
+    set_name: Nom du jeu de référentiel
+    set_description: Description du référentiel
+    repo_codes: Dépôts dans l'ensemble
+    _frontend:
+      action:
+        add: Ajouter ensemble de référentiels
+
+  oai_sponsor_set:
+    _plural: Sets de sponsors
+    set_name: Nom du sponsor
+    set_description: Description de l'ensemble de sponsors
+    sponsor_names: Noms de sponsors
+    _frontend:
+      action:
+        add: Ajouter ensemble de sponsors
+
   bulk_import:
     _frontend:
       actions:

@@ -2291,6 +2291,8 @@ fr:
     must_be_a_valid_email_address: Le champ d'adresse email doit contenir une adresse valide
     repo_set_desc_required: La description d'un ensemble de référentiels est requise pour créer un 
       ensemble de référentiels OAI
+    oai_set_name_unique: Les noms d'ensemble OAI doivent être uniques parmi les ensembles de référentiels et les ensembles de sponsors
+    oai_set_name_matches_level: Les noms d'ensemble OAI ne peuvent pas reprendre un niveau de description, qui dispose déjà de son propre ensemble
     repo_set_name_required: Le nom de l'ensemble de référentiel est requis pour créer un ensemble de
       référentiels OAI
     is_not_present: Champ obligatoire manquant
@@ -2778,6 +2780,16 @@ fr:
     sponsor_set_name_tooltip: Info-bulle du nom du sponsor
     sponsor_set_names_tooltip: Info-bulle sur les noms des ensembles de sponsors
     sponsor_set_description_tooltip: Info-bulle de description du jeu de sponsors
+
+  oai_repository_set:
+    set_name_tooltip: Le setSpec utilisé par les moissonneurs pour demander cet ensemble. Doit être unique parmi tous les ensembles OAI, y compris ceux générés à partir des niveaux de description.
+    repo_codes_tooltip: Les référentiels dont les notices composent cet ensemble.
+    set_description_tooltip: La description fournie aux moissonneurs pour cet ensemble.
+
+  oai_sponsor_set:
+    set_name_tooltip: Le setSpec utilisé par les moissonneurs pour demander cet ensemble. Doit être unique parmi tous les ensembles OAI, y compris ceux générés à partir des niveaux de description.
+    sponsor_names_tooltip: Les sponsors de l'instrument de recherche dont les notices composent cet ensemble. Appuyez sur Entrée après chaque nom de sponsor.
+    set_description_tooltip: La description fournie aux moissonneurs pour cet ensemble.
 
   importer:
     error:

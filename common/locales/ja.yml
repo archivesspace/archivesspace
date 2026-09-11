@@ -1578,6 +1578,8 @@ ja:
     custom_report_must_include_field_or_subreport: 
       カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
     repo_set_desc_required: OAIリポジトリセットを作成するには、リポジトリセットの説明が必要です。
+    oai_set_name_unique: OAIセット名は、リポジトリセットとスポンサーセットの間で一意である必要があります
+    oai_set_name_matches_level: OAIセット名に記述レベルと同じ名前は使用できません。記述レベルには専用のセットがすでに存在します
     repo_set_name_required: OAIリポジトリセットを作成するにはリポジトリセット名が必要です
     is_not_present: 必須フィールドがありません
     must_be_a_valid_email_address: 有効な住所を含める必要があります
@@ -1938,6 +1940,16 @@ ja:
     sponsor_set_name_tooltip: スポンサーセット名ツールチップ
     sponsor_set_names_tooltip: スポンサーセット名のツールチップ
     sponsor_set_description_tooltip: スポンサーセットの説明のツールチップ
+
+  oai_repository_set:
+    set_name_tooltip: ハーベスターがこのセットを要求するために使用するsetSpecです。記述レベルから生成されるセットを含め、すべてのOAIセットの中で一意である必要があります。
+    repo_codes_tooltip: このセットを構成するレコードが属するリポジトリです。
+    set_description_tooltip: このセットについてハーベスターに提供される説明です。
+
+  oai_sponsor_set:
+    set_name_tooltip: ハーベスターがこのセットを要求するために使用するsetSpecです。記述レベルから生成されるセットを含め、すべてのOAIセットの中で一意である必要があります。
+    sponsor_names_tooltip: このセットを構成するレコードの検索手段スポンサーです。各スポンサー名の入力後にEnterキーを押してください。
+    set_description_tooltip: このセットについてハーベスターに提供される説明です。
 
   importer:
     error:

@@ -2639,6 +2639,27 @@ de:
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen 
       Aufbewahrungsort. Klicken Sie unten, um globale OAI-Optionen anzuzeigen 
       oder zu bearbeiten. Dies verlässt das aktuelle Formular ohne zu speichern.
+    oai_repository_sets: Aufbewahrungsort-Mengen
+    oai_sponsor_sets: Sponsoren-Mengen
+
+  oai_repository_set:
+    _plural: Aufbewahrungsort-Mengen
+    set_name: Name der Aufzeichnungsort-Menge
+    set_description: Beschreibung der Aufbewahrungsort-Menge
+    repo_codes: Aufzeichnungsorte in der Menge
+    _frontend:
+      action:
+        add: Aufbewahrungsort-Menge hinzufügen
+
+  oai_sponsor_set:
+    _plural: Sponsoren-Mengen
+    set_name: Name der Sponsoren-Menge
+    set_description: Beschreibung der Sponsoren-Menge
+    sponsor_names: Namen der Sponsoren
+    _frontend:
+      action:
+        add: Sponsoren-Menge hinzufügen
+
   agent_record_control: &agent_record_control_attributes
     language: Sprache
     cataloging_source: Aufzeichnungs-Steuerung Katalogisierungs-Quelle

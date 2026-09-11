@@ -1137,8 +1137,20 @@ AS.app_prefix = function (path) {
 };
 
 // Enable bootstrap-tagsinput for any elements with class 'js-taggable'
+AS.initTagsInput = function (scope) {
+  $('.js-taggable', scope).tagsinput({ confirmKeys: [13], delimiter: '|' });
+};
+
 $(function () {
   $(document).ready(function () {
-    $('.js-taggable').tagsinput({ confirmKeys: [13], delimiter: '|' });
+    AS.initTagsInput(document);
   });
+
+  // Subrecords added after page load bring their own tag fields
+  $(document).bind(
+    'subrecordcreated.aspace',
+    function (event, object_name, subform) {
+      AS.initTagsInput($(subform));
+    }
+  );
 });

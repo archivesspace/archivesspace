@@ -2138,6 +2138,27 @@ es:
         _plural: Conjuntos de patrocinadores
       repo_settings:
         _plural: Configuraciones por repositorio OAI-PMH
+    oai_repository_sets: Conjuntos de repositorio
+    oai_sponsor_sets: Conjuntos de patrocinadores
+
+  oai_repository_set:
+    _plural: Conjuntos de repositorio
+    set_name: Nombre del conjunto de repositorio
+    set_description: Descripción del conjunto de repositorios
+    repo_codes: Repositorios en conjunto
+    _frontend:
+      action:
+        add: Agregar conjunto de repositorio
+
+  oai_sponsor_set:
+    _plural: Conjuntos de patrocinadores
+    set_name: Nombre del Patrocinador
+    set_description: Patrocinador Descripción del conjunto
+    sponsor_names: Nombres de patrocinadores
+    _frontend:
+      action:
+        add: Agregar conjunto de patrocinadores
+
   bulk_import:
     _frontend:
       actions:

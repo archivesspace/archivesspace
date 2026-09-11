@@ -4,6 +4,17 @@ class OAIConfig < Sequel::Model(:oai_config)
 
   set_model_scope :global
 
+  one_to_many :oai_repository_set, :class => 'OAIRepositorySet', :key => :oai_config_id
+  one_to_many :oai_sponsor_set, :class => 'OAISponsorSet', :key => :oai_config_id
+
+  def_nested_record(:the_property => :oai_repository_sets,
+                    :contains_records_of_type => :oai_repository_set,
+                    :corresponding_to_association => :oai_repository_set)
+
+  def_nested_record(:the_property => :oai_sponsor_sets,
+                    :contains_records_of_type => :oai_sponsor_set,
+                    :corresponding_to_association => :oai_sponsor_set)
+
   # validations
   # only one row in table allowed
   # oai_repository_name must have a value
@@ -18,8 +29,6 @@ class OAIConfig < Sequel::Model(:oai_config)
     validates_presence :oai_repository_name
 
     validate_oai_admin_email_is_email
-    validate_repo_set_fields
-    validate_sponsor_set_fields
   end
 
   def validate_single_record
@@ -38,26 +47,6 @@ class OAIConfig < Sequel::Model(:oai_config)
   def validate_oai_admin_email_is_email
     unless self.oai_admin_email =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
       errors.add(:oai_admin_email, 'must be a valid email address')
-    end
-  end
-
-  def validate_repo_set_fields
-    if self.repo_set_codes && self.repo_set_codes != "[]" && !self.repo_set_description
-      errors.add(:repo_set_description, 'repo_set_desc_required')
-    end
-
-    if self.repo_set_codes && self.repo_set_codes != "[]" && !self.repo_set_name
-      errors.add(:repo_set_name, 'repo_set_name_required')
-    end
-  end
-
-  def validate_sponsor_set_fields
-    if self.sponsor_set_names && self.sponsor_set_names != "[]" && !self.sponsor_set_description
-      errors.add(:sponsor_set_description, 'sponsor_set_desc_required')
-    end
-
-    if self.sponsor_set_names && self.sponsor_set_names != "[]" && !self.sponsor_set_name
-      errors.add(:sponsor_set_name, 'sponsor_set_name_required')
     end
   end
 
