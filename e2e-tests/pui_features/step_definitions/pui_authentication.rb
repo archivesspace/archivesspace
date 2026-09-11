@@ -25,6 +25,7 @@ When(/^(?:an anonymous visitor visits|the user visits) the PUI$/) do
 end
 
 When 'the user logs out of the PUI' do
+  find('#user-menu-dropdown').click
   click_link 'pui-logout'
 end
 
