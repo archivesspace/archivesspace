@@ -72,6 +72,22 @@ module AgentManager
   end
 
 
+  # ANW-2829: current_repo_id is caller-supplied, so a claimed repository
+  # isn't trustworthy unless the user actually holds manage_agent_record
+  # there (or holds delete_agent_record_linked_elsewhere, which trusts any
+  # repository). Returns current_repo_id unchanged if trustworthy, else nil.
+  def self.current_repo_id_if_agent_manager(current_user, current_repo_id)
+    return nil if current_repo_id.nil? || current_user.nil?
+
+    return current_repo_id if current_user.can?(:delete_agent_record_linked_elsewhere)
+
+    repo_uri = JSONModel(:repository).uri_for(current_repo_id)
+    return nil unless current_user.permissions.fetch(repo_uri, []).include?('manage_agent_record')
+
+    current_repo_id
+  end
+
+
   module Mixin
 
     def self.included(base)
@@ -161,9 +177,10 @@ module AgentManager
 
 
     def check_cross_repo_delete_conflict!
-      return unless linked_in_other_repository?(RequestContext.get(:current_repo_id))
-
       current_user = User[:username => RequestContext.get(:current_username)]
+      current_repo_id = AgentManager.current_repo_id_if_agent_manager(current_user, RequestContext.get(:current_repo_id))
+
+      return unless linked_in_other_repository?(current_repo_id)
       return if current_user.can?(:delete_agent_record_linked_elsewhere)
 
       raise ConflictException.new("linked_to_other_repo")
@@ -531,9 +548,12 @@ module AgentManager
           end
 
           if opts[:calculate_linked_in_other_repository]
+            current_user = User[:username => RequestContext.get(:current_username)]
+            current_repo_id = AgentManager.current_repo_id_if_agent_manager(current_user, opts[:current_repo_id])
+
             jsons.zip(objs).each do |json, obj|
               repos = agents_to_repositories.fetch(obj, [])
-              json.linked_in_other_repository = AgentManager.linked_elsewhere?(repos, opts[:current_repo_id])
+              json.linked_in_other_repository = AgentManager.linked_elsewhere?(repos, current_repo_id)
             end
           end
         end
