@@ -755,6 +755,7 @@ es:
       árbol. Por favor, intente actualizar la página.
     resize: Arrastrar para cambiar la altura del árbol
     maximize: Maximizar/minimizar la altura del árbol
+    drag_to_reorder: Arrastrar para reordenar
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.

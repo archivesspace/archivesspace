@@ -1001,6 +1001,7 @@ pl:
       Spróbuj odświeżyć stronę.
     resize: Przeciągnij, aby zmienić wysokość drzewa.
     maximize: Maksymalizacja/minimalizacja wysokości drzewa.
+    drag_to_reorder: Przeciągnij, aby zmienić kolejność
   errors:
     sidebar_label: Błędy i ostrzeżenia
     error_403: Nie można uzyskać dostępu do strony.

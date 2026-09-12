@@ -708,6 +708,7 @@ ja:
     unexpected_failure: おっとっと！このツリーを取得する際に問題が発生しています。ページをリフレッシュしてみてください。
     resize: ツリーの高さをドラッグして調整
     maximize: ツリーの高さを最大化/最小化
+    drag_to_reorder: ドラッグして並べ替え
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。

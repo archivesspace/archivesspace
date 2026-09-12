@@ -834,6 +834,7 @@ fr:
       Veuillez rafraîchir la page .
     resize: Faire glisser pour ajuster la hauteur de l'arborescence
     maximize: Maximiser/minimiser la hauteur de l'arborescence
+    drag_to_reorder: Faire glisser pour réordonner
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 

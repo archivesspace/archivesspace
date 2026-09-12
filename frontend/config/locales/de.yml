@@ -933,6 +933,7 @@ de:
       versuchen Sie die Seite neu zu laden.
     resize: Ziehen, um die Baumhöhe zu ändern
     maximize: Baumhöhe maximieren/minimieren
+    drag_to_reorder: Ziehen zum Neuordnen
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen
