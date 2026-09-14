@@ -1,6 +1,8 @@
 # NOTE: Many of the translations in this file have been generated using
 # Google translate
 ja:
+  bulk_import_templates:
+    aspace_accession_import_template_csv: アクセッションレコードに加えて、数量、外部文書、主題、エージェント、およびトップコンテナ付きのインスタンスを作成します。ダウンロードには、それぞれについて _1 グループが 1 つ含まれます。既存の主題をリンクするには、subject_1_record_id に 197 のような数値 ID、または /subjects/197 のような完全な URI を指定します。既存のエージェントも同じ方法で agent_1_record_id を使ってリンクします。agent_1_agent_type は、数値 ID を指定する場合は必須で、/agents/people/5 のような URI を指定する場合は任意です。同じグループ内でリンク用の項目と作成用の項目の両方を入力しないでください。既存のトップコンテナをリンクするには、/repositories/2/top_containers/5 のような完全な URI を指定するか、バーコードのみを指定します。バーコードのみを指定した場合は、そのバーコードを持つトップコンテナ（既存のものでも、前の行で作成されたものでも）がリンクされ、リポジトリ内にそのバーコードを持つトップコンテナが存在しない場合、インポートは失敗します。バーコードとともに他のトップコンテナ項目を入力した場合は、代わりにそのバーコードを持つ新しいトップコンテナが作成され、インジケーターが必須となります。そのバーコードがリポジトリ内ですでに使用されている場合、インポートは失敗します。
   actions:
     lightmode_toggle: ライトモード
     export_marc_auth: MARCXMLAuthorityをダウンロードする

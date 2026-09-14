@@ -108,6 +108,21 @@ describe 'Digital Object converter' do
 
 
   describe "duplicate file version headers" do
+    it "permits legacy headers that remain in the maintained template" do
+      _handlers, bad_headers = DigitalObjectConverter.configure_cell_handlers(
+        [
+          'digital_object_id',
+          'digital_object_title',
+          'agent_name_description_type',
+          'digital_object_rights_transferred',
+          'digital_object_rights_transferred_date',
+          'digital_object_rights_transferred_note',
+        ],
+      )
+
+      expect(bad_headers).to be_empty
+    end
+
     it "raises an error when file_version headers are duplicated" do
       headers = ['digital_object_id', 'digital_object_title',
                  'file_version_file_uri_1', 'file_version_publish_1',
@@ -115,6 +130,22 @@ describe 'Digital Object converter' do
       expect {
         DigitalObjectConverter.configure_cell_handlers(headers)
       }.to raise_error(ASpaceImport::CSVConvert::CSVSyntaxException)
+    end
+
+    it "reports duplicated file_version headers with a translated message" do
+      headers = ['digital_object_id', 'digital_object_title',
+                 'file_version_file_uri_1', 'file_version_publish_1',
+                 'file_version_file_uri_1', 'file_version_publish_1']
+
+      expect(I18n.exists?('importer.error.duplicate_file_version_headers')).to be true
+
+      expect {
+        DigitalObjectConverter.configure_cell_handlers(headers)
+      }.to raise_error(
+        ASpaceImport::CSVConvert::CSVSyntaxException,
+        I18n.t('importer.error.duplicate_file_version_headers',
+               :columns => 'file_version_file_uri_1, file_version_publish_1'),
+      )
     end
   end
 
