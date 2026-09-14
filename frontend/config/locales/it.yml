@@ -773,6 +773,24 @@ it:
     file_uri: File URI
     _singular: Risorsa esterna correlata
     _plural: Risorse esterne correlate
+    _frontend:
+      action:
+        add: Aggiungi risorsa esterna correlata
+    section:
+      dates: Dati
+      places: Luoghi
+    dates: Dati
+    places: Luoghi
+    publish: Pubblicata
+    linked_agent_role: Tipo di relazione della risorsa
+    linked_resource: Risorsa esterna correlata
+    linked_resource_description: Descrizione
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Ultima data verificata
   metadata_rights_declaration:
     license: Licenza
     file_uri: File URI
@@ -781,6 +799,13 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione sui diritti dei metadati
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   job:
     _frontend:
       audit_data: Dati dell'audit
@@ -955,6 +980,19 @@ it:
     last_verified_date: Data dell'ultima verifica
   agent_source:
     file_uri: File URI
+    _plural: Fonti
+    _singular: Origine dell'agente
+    _frontend:
+      action:
+        add: Aggiungi sorgente
+    source_entry: Voce di origine
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   advanced_search:
     operator:
       NOT: Non
@@ -2506,3 +2544,93 @@ it:
     agent: Agente
     descriptive_note: Nota descrittiva
     event_date: Data dell'evento
+  agent_parallel_name:
+    _plural: Nomi paralleli
+    use_dates: Utilizza le date
+  agent_name:
+    use_dates: Utilizza le date
+  subsections:
+    notes: Note
+    dates: Dati
+  section_headings:
+    basic_information_tooltip: |
+      <p>Questa sezione indica il tipo di agente e se l'agente è pubblicato o meno.</p>
+    record_control_information_tooltip: |
+      <p>Questa sezione contiene informazioni relative al record stesso, presupponendo che esso abbia avuto origine al di fuori di ArchivesSpace o che debba essere condiviso con un sistema diverso da ArchivesSpace.</p>
+    identity_information_tooltip: |
+      <p>Questa sezione contiene le informazioni fondamentali sull'agente. Il modulo relativo al nome è l'unico sottorecord obbligatorio all'interno di un record agente.</p>
+    description_information_tooltip: |
+      <p>Questa sezione contiene le informazioni fondamentali sull'agente. Il modulo relativo al nome è l'unico sottorecord obbligatorio all'interno di un record agente.</p>
+    relation_information_tooltip: |
+      <p>Questa sezione viene utilizzata per indicare relazioni con altri agenti o materiali, all'interno o all'esterno di ArchivesSpace.</p>
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Seleziona file
+        add_archival_objects: Importa oggetti d'archivio
+        add_digital_objects: Aggiungi oggetti digitali a oggetti archivistici
+        import: Importa da foglio di calcolo
+        drag_drop: Trascina e rilascia il file qui
+        clip_btn: Copia negli appunti
+        only_validate: Solo convalida
+        link_top_containers: Collega i contenitori superiori
+      messages:
+        missing_file: Non hai aggiunto alcun file
+        not_excel: Il file che hai scelto non è un foglio di calcolo Excel
+        not_excel_csv: Il controllo fileRecord selezionato non è né un foglio di
+          calcolo Excel né un file CSV
+        processed: Il file è stato elaborato
+        error: 'ERRORE: Rilevato/i errore/i: '
+        copied: Copiato!
+        uncopied: Impossibile copiare
+        submitted: <p>Il job è stato inviato ai job in background. <br/> Fai 
+          clic su "Chiudi" per aggiornare questa schermata.</p>
+  bulk_import_job:
+    active: "È in corso un'operazione di importazione massiva per questo record; riprova
+      a modificarlo più tardi: <a href ='%{url}'>%{uri}</a>"
+    resource_id: ID risorsa
+    format: Formato del file di download
+    filename: Nome del file del foglio di calcolo
+    not_direct: Al momento, questo job può essere creato solo a partire dal 
+      record della risorsa
+  bulk_archival_object_updater_job:
+    _singular: Job di aggiornamento massivo degli oggetti di archiviazione 
+      tramite foglio di calcolo
+    create_missing_top_containers: Crea i contenitori di livello superiore 
+      mancanti
+  note_contact_note:
+    contact_notes_tooltip: |
+      <p>Dettagli sull'interazione con il contatto</p>
+    date_of_contact_tooltip: |
+      <p>Utilizzato per registrare la data specifica o l'arco temporale di un'interazione</p>
+  bulk_import_templates:
+    overview: |
+      <p>Questi modelli servono per caricare dati da fogli di calcolo in ArchivesSpace utilizzando le diverse opzioni di importazione disponibili nell'area "Background Jobs" (Attività in background). I dati necessari per un'importazione corretta variano in base al tipo di record da creare. Non è necessario compilare ogni riga e colonna.</p><p>Ogni modello CSV contiene una riga di dati di esempio. A meno che non si intenda creare un record utilizzando tali dati, si prega di eliminarli prima di caricare il foglio di calcolo. <b>Non eliminare la riga di intestazione, non aggiungere colonne né modificare l'ordine delle colonne esistenti.</b></p><p>I modelli Excel includono istruzioni aggiuntive per il loro utilizzo e regole di convalida per alcune celle. Non eliminare le istruzioni o le convalide.</p>
+    aspace_accession_import_template_csv: Crea record di adesione e record 
+      collegati ad adesioni come agenti, soggetti ed eventi.
+    aspace_digital_object_import_template_csv: Crea record di oggetti digitali e
+      record collegati a oggetti digitali come agenti, soggetti ed eventi.
+    bulk_import_template_csv: Consente di creare oggetti archivistici collegati 
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato CSV è destinato a chi non 
+      dispone di Microsoft Excel.
+    bulk_import_template_xlsx: Consente di creare oggetti archivistici collegati
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato XLSX è destinato a chi dispone 
+      di Microsoft Excel.
+    bulk_import_DO_template_csv: Crea oggetti digitali e collegali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato CSV è 
+      destinato a chi non dispone di Microsoft Excel.
+    bulk_import_DO_template_xlsx: Crea e collega oggetti digitali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato XLSX è 
+      destinato a chi dispone di Microsoft Excel.
+    aspace_location_import_template_csv: Crea nuovi record di collocazione. Si 
+      prega di notare che questo modello serve a creare i record di collocazione
+      stessi, non ad associare i materiali alle collocazioni.
+    aspace_assessment_import_template_csv: Crea e collega valutazioni ad 
+      acquisizioni, risorse, oggetti archivistici o oggetti digitali esistenti.
+    aspace_subject_import_template_csv: Crea nuovi record Soggetto. Si prega di 
+      notare che questo modello serve a creare i record Soggetto stessi, non a 
+      collegarli ad altri record.
