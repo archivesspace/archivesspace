@@ -73,6 +73,7 @@ es:
       y se eliminará toda la información de los otros registros."
     merge_n_records: "Fusionar %{n} registros"
     move: Mover
+    move_group: Mover nodo
     move_up_a_level: Un nivel
     move_up: Arriba
     move_down: Abajo
@@ -180,6 +181,9 @@ es:
     rapid_data_entry: Entrada rápida de datos
     enable_reorder: Habilitar el modo de reorden
     reorder_active: Deshabilitar el modo de reorden
+    expand_tree_mode_on: Expandir todo automáticamente
+    expand_tree_mode_off: Deshabilitar la expansión automática
+    collapse_tree: Contraer árbol
     copy: Dupdo
 
     transfer_failed_barcodes_in_use: Los siguientes contenedores superiores 
@@ -747,6 +751,7 @@ es:
       required_fields_updated: Campos obligatorios actualizados
 
   tree:
+    toolbar_aria_label: Barra de herramientas del árbol
     drag_and_drop_actions:
       before: Añadir artículos antes
       after: Añadir artículos después
@@ -756,6 +761,9 @@ es:
     resize: Arrastrar para cambiar la altura del árbol
     maximize: Maximizar/minimizar la altura del árbol
     drag_to_reorder: Arrastrar para reordenar
+    errors:
+      move_records: No se pudieron mover los registros
+      move_records_message: No se pudieron mover los registros. Actualice la página e inténtelo de nuevo.
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.

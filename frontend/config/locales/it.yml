@@ -41,6 +41,7 @@ it:
       questo record e ogni informazione per gli altri record(s) sarà eliminata.
     merge_n_records: Unisci %{n} records
     move: Muovi
+    move_group: Sposta nodo
     move_down: Sotto
     paste: Incolla
     remove: Rimuovi
@@ -1143,6 +1144,7 @@ it:
     messages:
       required_fields_updated: Campi obbligatori aggiornati
   tree:
+    toolbar_aria_label: Barra degli strumenti dell'albero
     drag_and_drop_actions:
       before: Aggiungi elementi prima
       after: Aggiungi elementi dopo
@@ -1152,6 +1154,9 @@ it:
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
     drag_to_reorder: Trascina per riordinare
+    errors:
+      move_records: Impossibile spostare i record
+      move_records_message: I record non possono essere spostati. Aggiorna la pagina e riprova.
   component_link:
     _plural: Collegamenti dei componenti
     _singular: Collegamento dei componenti

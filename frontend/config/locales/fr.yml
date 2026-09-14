@@ -72,6 +72,7 @@ fr:
       for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: Déplacer
+    move_group: Déplacer le nœud
     move_up_a_level: Un niveau plus haut
     move_up: Plus haut
     move_down: Plus bas
@@ -826,6 +827,7 @@ fr:
       required_fields_updated: Champs obligatoires mis à jour
 
   tree:
+    toolbar_aria_label: Barre d'outils de l'arborescence
     drag_and_drop_actions:
       before: Ajouter items avant
       after: Ajouter items après
@@ -835,6 +837,9 @@ fr:
     resize: Faire glisser pour ajuster la hauteur de l'arborescence
     maximize: Maximiser/minimiser la hauteur de l'arborescence
     drag_to_reorder: Faire glisser pour réordonner
+    errors:
+      move_records: Impossible de déplacer les notices
+      move_records_message: Les notices n'ont pas pu être déplacées. Veuillez rafraîchir la page et réessayer.
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 

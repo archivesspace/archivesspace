@@ -105,6 +105,7 @@ pl:
       mogą zostać przeniesione, dopóki te powiązania nie zostaną zerwane.
     merge_n_records: Połącz %{n} rekordów
     move: Przenosić
+    move_group: Przenieś węzeł
     save_prefix: Zachowaj
     transfer_failed_barcodes_in_use: Następujące kontenery najwyższego poziomu 
       wykorzystują kody kreskowe używane w docelowym repozytorium i nie mogą 
@@ -991,6 +992,7 @@ pl:
         korporacyjny)
       agent_software: Wymagane pola rekordu agenta (oprogramowanie)
   tree:
+    toolbar_aria_label: Pasek narzędzi drzewa
     drag_and_drop_actions:
       after: Dodaj elementy po
       before: Dodaj elementy przed
@@ -1000,6 +1002,9 @@ pl:
     resize: Przeciągnij, aby zmienić wysokość drzewa.
     maximize: Maksymalizacja/minimalizacja wysokości drzewa.
     drag_to_reorder: Przeciągnij, aby zmienić kolejność
+    errors:
+      move_records: Nie można przenieść rekordów
+      move_records_message: Nie można przenieść rekordów. Odśwież stronę i spróbuj ponownie.
   errors:
     sidebar_label: Błędy i ostrzeżenia
     error_403: Nie można uzyskać dostępu do strony.

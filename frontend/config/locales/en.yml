@@ -61,6 +61,7 @@ en:
     batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: Move
+    move_group: Move node
     move_up_a_level: Up a Level
     move_up: Up
     move_down: Down
