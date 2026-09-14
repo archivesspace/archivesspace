@@ -901,6 +901,21 @@ it:
       <li>Documenti della famiglia Rooney</li>
       <li>Documenti del Partito Comunista degli Stati Uniti</li>
       </ul>
+    finding_aid_date: Data dello strumento di ricerca
+    finding_aid_date_tooltip: |
+      <p>L'indicazione della data in cui lo strumento di ricerca corrente è stato generato a partire dalla descrizione della risorsa.</p>
+    finding_aid_author: Autore dello strumento di ricerca
+    finding_aid_author_tooltip: |
+      <p>Il/i nome/i dei soggetti responsabili della creazione del contenuto dello strumento di ricerca o della sua codifica.</p>
+    finding_aid_description_rules: Descrizione e regole
+    finding_aid_description_rules_tooltip: |
+      <p>Indica le regole descrittive utilizzate per guidare la descrizione della Risorsa.</p>
+      <p>I valori presenti in questo elenco di valori controllati possono essere modificati.</p>
+    finding_aid_language: Lingua della descrizione
+    finding_aid_language_tooltip: |
+      <p>Indica tutte le lingue presenti nello strumento di ricerca generato a partire dalla descrizione della risorsa.</p>
+    finding_aid_langusage_label: 'La descrizione è scritta in: '
+    finding_aid_script: Testo descrittivo
   classification_term:
     identifier: Identificatore
   file_version:
@@ -1828,3 +1843,22 @@ it:
         personalizzati</b> (in questo repository)
     _singular: Gruppo
     _plural: Gruppi
+  event_linked_agent:
+    role: Ruolo
+    role_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Indicazione della funzione svolta dall'Agente in relazione all'azione descritta dall'evento.</p>
+    relator: Agente immobiliare
+    relator_tooltip: |
+      <p>Un'indicazione del ruolo svolto dall'Agente in relazione alla sua funzione, desunta dalle modalità del suo collegamento (ad es. creatore, fonte o soggetto) a un determinato record descrittivo. Ad esempio, un Agente può essere collegato a un record in qualità di creatore, ma con il ruolo più specifico di "illustratore".</p>
+      <p>Si vedano DACS 14.3, ISAAR (CPF) 6.3 e la MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
+    ref: Agente
+    ref_tooltip: |
+      <p>CAMPO OBBLIGATORIO. La persona, la famiglia, l'ente o il software che ha partecipato all'azione descritta dall'evento.</p>
+    terms: Termini
+    title: Titolo
+    title_tooltip: |
+      <p>Campo facoltativo: registrare qui il titolo autorevole di un'opera per creare un'intestazione Nome/Titolo per un agente collegato come creatore o soggetto:</p>
+      <p>Ad esempio,</p>
+      <ul><li>Shakespeare, Guglielmo, 1564-1616. Re Lear</li><li> Pound, Esdra, 1885-1972. Canti</li><li> Lincoln, Abraham, 1809-1865. Proclamazione di emancipazione</li></ul>
+    _singular: Link per agenti
+    _plural: Link per gli agenti
