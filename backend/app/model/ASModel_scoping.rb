@@ -8,6 +8,12 @@ module ASModel
                                     {:suppressed => 1})
 
 
+  # The HIDDEN_FROM_HARVESTERS filter above, for a record we already have in hand.
+  def self.hidden_from_harvesters?(obj)
+    obj[:publish] != 1 || obj[:suppressed] == 1
+  end
+
+
   def self.update_suppressed_flag(dataset, val)
     dataset.update(:suppressed => (val ? 1 : 0),
                    :system_mtime => Time.now)
@@ -38,7 +44,7 @@ module ASModel
   def self.reconcile_hidden_at_for(obj)
     return unless obj.class.columns.include?(:hidden_at)
 
-    hidden = (obj[:publish] != 1 || obj[:suppressed] == 1)
+    hidden = hidden_from_harvesters?(obj)
     stamped = !obj[:hidden_at].nil?
 
     return if hidden == stamped

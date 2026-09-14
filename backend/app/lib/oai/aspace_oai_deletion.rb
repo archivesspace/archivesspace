@@ -22,10 +22,10 @@ class OAIDeletion
 end
 
 # For suppressed and unpublished records there is no tombstone, so hidden_at
-# stands records when the record became unavailable and is not updated until
-# the records becomes available again. Records hidden by something other than
-# their own flags - an unpublished ancestor - have no hidden_at, and fall back
-# to system_mtime.
+# stands in for when the record became unavailable to harvesters. `hidden_at` is
+# not updated until the record becomes available again.  Records hidden by
+# something other than their own flags - an unpublished ancestor - have no
+# hidden_at, and fallback to system_mtime.
 class OAIHiddenRecordDeletion
   attr_reader :sequel_record
 

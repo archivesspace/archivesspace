@@ -132,7 +132,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       obj = apply_repository_restrictions(model.filter(:id => parsed_ref[:id])).first
       raise OAI::IdException.new unless obj
 
-      return OAIHiddenRecordDeletion.new(obj) if hidden_from_harvesters?(obj)
+      return OAIHiddenRecordDeletion.new(obj) if ASModel.hidden_from_harvesters?(obj)
 
       json = fetch_jsonmodels(model, [obj])[0]
 
@@ -216,14 +216,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   end
 
   def add_unavailability_restrictions(dataset)
-    apply_repository_restrictions(dataset)
-      .filter(Sequel.|(Sequel.~(:publish => 1),
-                       {:publish => nil},
-                       {:suppressed => 1}))
-  end
-
-  def hidden_from_harvesters?(obj)
-    obj[:publish] != 1 || obj[:suppressed] == 1
+    apply_repository_restrictions(dataset).filter(ASModel::HIDDEN_FROM_HARVESTERS)
   end
 
   # Don't show deletes for repositories that aren't published.

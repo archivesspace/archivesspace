@@ -2,8 +2,10 @@ require_relative 'utils'
 
 Sequel.migration do
 
-  # hidden_at is the timestamp of when a records becase  unavailable (unpublished or suppressed)
-  # it becomes nil when the record becomes available again. It is used to generate OAI-PMH tombstones for records that are hidden from harvesters.
+  # hidden_at is the timestamp of when a record became unavailable to OAI
+  # harvesters (unpublished or suppressed), and is cleared back to nil when the
+  # record becomes available again. It is used to generate OAI-PMH tombstones
+  # for records that are hidden from harvesters.
   up do
     hidden_from_harvesters = Sequel.|(Sequel.~(:publish => 1),
                                       {:publish => nil},
