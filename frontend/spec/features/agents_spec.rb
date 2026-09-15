@@ -1375,6 +1375,77 @@ describe 'Agents', js: true do
             expect(element.text).to eq "This agent is linked to a repository and can't be removed."
           end
         end
+
+        context 'when linked to records in another repository' do
+          it 'lets an admin user delete the agent, but only after checking a confirmation box' do
+            agent = create(:agent_person)
+
+            other_repo = create(:repo, repo_code: "agents_cross_repo_test_#{Time.now.to_i}")
+            set_repo(other_repo)
+            create(:json_accession, 'linked_agents' => [{
+                                                           'ref' => agent.uri,
+                                                           'role' => 'source'
+                                                         }])
+            set_repo($repo)
+
+            run_index_round
+
+            element = find('#global-search-box')
+            element.fill_in with: agent.names.first['primary_name']
+            find('#global-search-button').click
+
+            click_on 'Edit'
+            click_on 'Delete'
+
+            within '#confirmChangesModal' do
+              confirm_button = find('#confirmButton')
+              expect(confirm_button.disabled?).to be true
+
+              check 'Delete this agent from all linked repositories'
+              expect(confirm_button.disabled?).to be false
+
+              confirm_button.click
+            end
+
+            expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Deleted")
+          end
+
+          it "shows no confirmation checkbox and still blocks deletion for a user who lacks the 'delete agent record linked elsewhere' permission" do
+            repository = create(:repo, repo_code: "agents_cross_repo_manager_test_#{Time.now.to_i}")
+            manager_user = create_user(repository => ['repository-managers'])
+
+            set_repo(repository)
+            agent = create(:agent_person)
+
+            other_repo = create(:repo, repo_code: "agents_cross_repo_test_b_#{Time.now.to_i}")
+            set_repo(other_repo)
+            create(:json_accession, 'linked_agents' => [{
+                                                           'ref' => agent.uri,
+                                                           'role' => 'source'
+                                                         }])
+            set_repo($repo)
+
+            visit 'logout'
+            login_user(manager_user)
+            select_repository(repository)
+            run_index_round
+
+            element = find('#global-search-box')
+            element.fill_in with: agent.names.first['primary_name']
+            find('#global-search-button').click
+
+            click_on 'Edit'
+            click_on 'Delete'
+
+            within '#confirmChangesModal' do
+              expect(page).to_not have_css('#agentCrossRepoConfirm')
+              click_on 'Delete'
+            end
+
+            element = find('.alert.alert-danger.with-hide-alert')
+            expect(element.text).to include('This agent is linked to records in at least one other repository')
+          end
+        end
       end
     end
   end
