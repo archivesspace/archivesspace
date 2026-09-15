@@ -2327,8 +2327,6 @@ fr:
     title: Paramètres OAI-PMH
     title_repo_section: Paramètres OAI-PMH par référentiel
     general_section: Réglages généraux
-    repo_set_section: Ensemble de référentiels
-    sponsor_set_section: Ensemble de sponsors
     repo_set_desc: Outre les ensembles basés sur le niveau de description, vous 
       pouvez définir un ensemble OAI basé sur des référentiels.
     sponsor_set_desc: Outre les ensembles basés sur le niveau de description, 
@@ -2336,12 +2334,6 @@ fr:
     oai_record_prefix: Préfixe d'enregistrement OAI
     oai_admin_email: E-mail administrateur OAI
     oai_repository_name: Nom du référentiel OAI
-    repo_set_name: Nom du jeu de référentiel
-    repo_set_codes: Dépôts dans l'ensemble
-    repo_set_description: Description du référentiel
-    sponsor_set_name: Nom du sponsor
-    sponsor_set_names: Noms de sponsors
-    sponsor_set_description: Description de l'ensemble de sponsors
     oai_leave_repo_form: Ces options affectent OAI-PMH pour ce référentiel 
       uniquement. Cliquez ci-dessous pour afficher / modifier les options 
       globales OAI. Cela laissera le formulaire actuel sans enregistrer les 
@@ -2353,10 +2345,6 @@ fr:
         create: Mettre à jour les paramètres OAI-PMH
         updated: Paramètres OAI-PMH mis à jour avec succès!
     _sidebar:
-      repo_set_section:
-        _plural: Ensembles de référentiels
-      sponsor_set_section:
-        _plural: Sets de sponsors
       repo_settings:
         _plural: Paramètres OAI-PMH par référentiel
     oai_repository_sets: Ensembles de référentiels

@@ -2630,31 +2630,19 @@ de:
       action:
         create: OAI-PHM Einstellungen aktualisieren
         updated: OAI-PMH Einstellungen erfolgreich aktualisiert!
-    sponsor_set_description: Beschreibung der Sponsoren-Menge
     oai_repository_name: Name des OAI-Aufzeichnungsortes
     oai_admin_email: E-Mail des OAI-Administrators
     repo_set_desc: Zusätzlich zu Mengen basierend auf Beschreibungsebenen können
       Sie eine OAI-Menge basierend auf Aufbewahrungsarten festlegen.
     _sidebar:
-      sponsor_set_section:
-        _plural: Sponsoren-Mengen
-      repo_set_section:
-        _plural: Aufbewahrungsort-Mengen
       repo_settings:
         _plural: OAI-PHM Einstellungen pro Aufbewahrungsort
     title: OAI-PMH Einstellungen
     title_repo_section: OAI-PMH Einstellungen pro Aufbewahrungsort
     general_section: Allgemeine Einstellungen
-    repo_set_section: Aufbewahrungsort-Menge
-    sponsor_set_section: Sponsor-Menge
     sponsor_set_desc: Zusätzlich zu Mengen basierend auf Beschreibungsebenen 
       können Sie eine OAI-Menge basierend auf Sponsoren-Namen festlegen.
     oai_record_prefix: OAI-Aufzeichnungs-Präfix
-    repo_set_name: Name der Aufzeichnungsort-Menge
-    repo_set_codes: Aufzeichnungsorte in der Menge
-    repo_set_description: Beschreibung der Aufbewahrungsort-Menge
-    sponsor_set_name: Name der Sponsoren-Menge
-    sponsor_set_names: Namen der Sponsoren
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen 
       Aufbewahrungsort. Klicken Sie unten, um globale OAI-Optionen anzuzeigen 
       oder zu bearbeiten. Dies verlässt das aktuelle Formular ohne zu speichern.
