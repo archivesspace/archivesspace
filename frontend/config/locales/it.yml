@@ -1,6 +1,35 @@
 it:
   bulk_import_templates:
-    aspace_accession_import_template_csv: Crea record di Accessione insieme a Estensioni, Documenti esterni, Soggetti, Agenti e Istanze con contenitori principali. Il download include un gruppo _1 per ciascuno di essi. Collega un Soggetto esistente con subject_1_record_id, indicando un ID numerico come 197 oppure un URI completo come /subjects/197. Collega un Agente esistente con agent_1_record_id allo stesso modo; agent_1_agent_type è obbligatorio quando si indica un ID numerico e facoltativo quando si indica un URI come /agents/people/5. Non compilare i campi di collegamento e di creazione nello stesso gruppo. Collega un contenitore principale esistente con un URI completo come /repositories/2/top_containers/5, oppure con il solo codice a barre. Un codice a barre da solo collega il contenitore principale che lo possiede, sia che esistesse già sia che lo abbia creato una riga precedente, e l'importazione non riesce se nessun contenitore principale del repository ha quel codice a barre. Compilare qualsiasi altro campo del contenitore principale accanto a un codice a barre crea invece un nuovo contenitore principale con quel codice a barre, con l'indicatore obbligatorio, e l'importazione non riesce se quel codice a barre è già in uso nel repository.
+    overview: |
+      <p>Questi modelli servono per caricare dati da fogli di calcolo in ArchivesSpace utilizzando le diverse opzioni di importazione disponibili nell'area "Background Jobs" (Attività in background). I dati necessari per un'importazione corretta variano in base al tipo di record da creare. Non è necessario compilare ogni riga e colonna.</p><p>Ogni modello CSV contiene una riga di dati di esempio. A meno che non si intenda creare un record utilizzando tali dati, si prega di eliminarli prima di caricare il foglio di calcolo. <b>Non eliminare la riga di intestazione, non aggiungere colonne né modificare l'ordine delle colonne esistenti.</b></p><p>I modelli Excel includono istruzioni aggiuntive per il loro utilizzo e regole di convalida per alcune celle. Non eliminare le istruzioni o le convalide.</p>
+    aspace_accession_import_template_csv: Crea record di adesione e record 
+      collegati ad adesioni come agenti, soggetti ed eventi.
+    aspace_digital_object_import_template_csv: Crea record di oggetti digitali e
+      record collegati a oggetti digitali come agenti, soggetti ed eventi.
+    bulk_import_template_csv: Consente di creare oggetti archivistici collegati 
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato CSV è destinato a chi non 
+      dispone di Microsoft Excel.
+    bulk_import_template_xlsx: Consente di creare oggetti archivistici collegati
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato XLSX è destinato a chi dispone 
+      di Microsoft Excel.
+    bulk_import_DO_template_csv: Crea oggetti digitali e collegali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato CSV è 
+      destinato a chi non dispone di Microsoft Excel.
+    bulk_import_DO_template_xlsx: Crea e collega oggetti digitali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato XLSX è 
+      destinato a chi dispone di Microsoft Excel.
+    aspace_location_import_template_csv: Crea nuovi record di collocazione. Si 
+      prega di notare che questo modello serve a creare i record di collocazione
+      stessi, non ad associare i materiali alle collocazioni.
+    aspace_assessment_import_template_csv: Crea e collega valutazioni ad 
+      acquisizioni, risorse, oggetti archivistici o oggetti digitali esistenti.
+    aspace_subject_import_template_csv: Crea nuovi record Soggetto. Si prega di 
+      notare che questo modello serve a creare i record Soggetto stessi, non a 
+      collegarli ad altri record.
   actions:
     add_event_event_type: Tipo
     add: Aggiungi
@@ -2605,34 +2634,3 @@ it:
       <p>Dettagli sull'interazione con il contatto</p>
     date_of_contact_tooltip: |
       <p>Utilizzato per registrare la data specifica o l'arco temporale di un'interazione</p>
-  bulk_import_templates:
-    overview: |
-      <p>Questi modelli servono per caricare dati da fogli di calcolo in ArchivesSpace utilizzando le diverse opzioni di importazione disponibili nell'area "Background Jobs" (Attività in background). I dati necessari per un'importazione corretta variano in base al tipo di record da creare. Non è necessario compilare ogni riga e colonna.</p><p>Ogni modello CSV contiene una riga di dati di esempio. A meno che non si intenda creare un record utilizzando tali dati, si prega di eliminarli prima di caricare il foglio di calcolo. <b>Non eliminare la riga di intestazione, non aggiungere colonne né modificare l'ordine delle colonne esistenti.</b></p><p>I modelli Excel includono istruzioni aggiuntive per il loro utilizzo e regole di convalida per alcune celle. Non eliminare le istruzioni o le convalide.</p>
-    aspace_accession_import_template_csv: Crea record di adesione e record 
-      collegati ad adesioni come agenti, soggetti ed eventi.
-    aspace_digital_object_import_template_csv: Crea record di oggetti digitali e
-      record collegati a oggetti digitali come agenti, soggetti ed eventi.
-    bulk_import_template_csv: Consente di creare oggetti archivistici collegati 
-      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
-      sottoregistri e record collegati, tra cui date, estensioni, note, 
-      contenitori e oggetti digitali. Il formato CSV è destinato a chi non 
-      dispone di Microsoft Excel.
-    bulk_import_template_xlsx: Consente di creare oggetti archivistici collegati
-      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
-      sottoregistri e record collegati, tra cui date, estensioni, note, 
-      contenitori e oggetti digitali. Il formato XLSX è destinato a chi dispone 
-      di Microsoft Excel.
-    bulk_import_DO_template_csv: Crea oggetti digitali e collegali a oggetti 
-      archivistici esistenti all'interno di una risorsa. Il formato CSV è 
-      destinato a chi non dispone di Microsoft Excel.
-    bulk_import_DO_template_xlsx: Crea e collega oggetti digitali a oggetti 
-      archivistici esistenti all'interno di una risorsa. Il formato XLSX è 
-      destinato a chi dispone di Microsoft Excel.
-    aspace_location_import_template_csv: Crea nuovi record di collocazione. Si 
-      prega di notare che questo modello serve a creare i record di collocazione
-      stessi, non ad associare i materiali alle collocazioni.
-    aspace_assessment_import_template_csv: Crea e collega valutazioni ad 
-      acquisizioni, risorse, oggetti archivistici o oggetti digitali esistenti.
-    aspace_subject_import_template_csv: Crea nuovi record Soggetto. Si prega di 
-      notare che questo modello serve a creare i record Soggetto stessi, non a 
-      collegarli ad altri record.
