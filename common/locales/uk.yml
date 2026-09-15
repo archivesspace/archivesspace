@@ -1958,14 +1958,9 @@ uk:
     missing_start_filter_date: Для фільтрації за датою обов’язкові дати початку та завершення. Будь 
       ласка, вкажіть дату початку.
     must_be_a_valid_email_address: Поле адреси електронної пошти має містити дійсну адресу
-    repo_set_desc_required: Для створення набору репозиторіїв OAI потрібен опис набору репозиторіїв.
     oai_set_name_unique: Назви наборів OAI мають бути унікальними серед наборів репозиторіїв і наборів спонсорів
     oai_set_name_matches_level: Назви наборів OAI не можуть повторювати рівень опису, який уже має власний набір
-    repo_set_name_required: Для створення набору репозиторіїв OAI потрібна назва набору 
-      репозиторіїв.
     is_not_present: Обов'язкове поле відсутнє
-    sponsor_set_desc_required: Для створення набору спонсорів OAI потрібен опис набору спонсорів
-    sponsor_set_name_required: Для створення набору спонсорів OAI потрібна назва набору спонсорів.
     invalid_characters: Містить недійсні символи
     conflicting_record: Переглянути конфліктний запис
     or_date_expression_is_required: Дати повинні вказувати принаймні один вираз дати
@@ -2435,12 +2430,6 @@ uk:
     oai_record_prefix_tooltip: Підказка префікса запису OAI
     oai_admin_email_tooltip: Підказка електронної пошти адміністратора OAI
     oai_repository_name_tooltip: Підказка щодо назви репозиторію OAI
-    repo_set_name_tooltip: Підказка щодо назви набору репозиторію
-    repo_set_section_tooltip: Підказка розділу «Набір репозиторію»
-    repo_set_description_tooltip: Підказка щодо опису набору репозиторію
-    sponsor_set_name_tooltip: Підказка до назви набору спонсора
-    sponsor_set_names_tooltip: Підказка щодо назв наборів спонсорів
-    sponsor_set_description_tooltip: Підказка з описом набору спонсорів
 
   oai_repository_set:
     set_name_tooltip: setSpec, який збирачі використовують для запиту цього набору. Має бути унікальним серед усіх наборів OAI, включно з наборами, створеними на основі рівнів опису.

@@ -2149,8 +2149,6 @@ uk:
     title: Налаштування OAI-PMH
     title_repo_section: Налаштування OAI-PMH для кожного репозиторію
     general_section: Загальні налаштування
-    repo_set_section: Набір репозиторію
-    sponsor_set_section: Набір спонсора
     repo_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
       набір OAI на основі репозиторіїв.
     sponsor_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
@@ -2158,12 +2156,6 @@ uk:
     oai_record_prefix: Префікс запису OAI
     oai_admin_email: Електронна пошта адміністратора OAI
     oai_repository_name: Назва репозиторію OAI
-    repo_set_name: Назва набору репозиторію
-    repo_set_codes: Репозиторії в наборі
-    repo_set_description: Опис набору репозиторію
-    sponsor_set_name: Назва набору спонсора
-    sponsor_set_names: Імена спонсорів
-    sponsor_set_description: Опис набору спонсора
     oai_leave_repo_form: Ці опції впливають на OAI-PMH лише для цього 
       репозиторію. Натисніть нижче, щоб переглянути/редагувати глобальні опції 
       OAI. Це призведе до збереження поточної форми без зміни.
@@ -2174,10 +2166,6 @@ uk:
         create: Оновлення налаштувань OAI-PMH
         updated: Налаштування OAI-PMH успішно оновлено!
     _sidebar:
-      repo_set_section:
-        _plural: Набори репозиторіїв
-      sponsor_set_section:
-        _plural: Набори спонсорів
       repo_settings:
         _plural: Налаштування OAI-PMH для кожного репозиторію
     oai_repository_sets: Набори репозиторіїв
