@@ -96,6 +96,11 @@ describe 'Archival objects', js: true do
     run_index_round
     visit "resources/#{resource.id}/edit"
 
+    aggregate_failures do
+      expect(page).to have_css('.infinite-tree .root.node')
+      expect(page).to have_css('#infinite-tree-record-pane h2', text: "Resource Title #{now}")
+    end
+
     click_on 'Add Child'
 
     expect(page).to have_css '#archival_object_title_'
@@ -109,10 +114,8 @@ describe 'Archival objects', js: true do
     expect(page).to have_text "Archival Object Archival Object Title #{now} on Resource Resource Title #{now} created"
 
     %w[January February December].each do |month|
-      sleep 5
-      expect(page).to have_text 'Archival Object'
-      expect(page).to have_css '#archival_object_title_'
-      expect(page).to have_css '#archival_object_level_'
+      expect(page).to have_css '#archival_object_form'
+      wait_for_ajax
 
       fill_in 'Title', with: "Archival Object Title #{month} #{now}"
       select 'Item', from: 'archival_object_level_'
@@ -122,7 +125,7 @@ describe 'Archival objects', js: true do
       expect(page).to have_text "Archival Object Archival Object Title #{month} #{now} on Resource Resource Title #{now} created"
     end
 
-    elements = all('#tree-container .largetree-node.indent-level-1').map { |li| li.text.strip }
+    elements = all('#infinite-tree-container .node.indent-level-1').map { |li| li.text.strip }
 
     %w[January February December].each do |month|
       expect(elements.any? { |element| element =~ /#{month}/ }).to be_truthy
@@ -137,16 +140,16 @@ describe 'Archival objects', js: true do
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
-    within '#tree-container' do
+    within '#infinite-tree-container' do
       click_on archival_object.title
     end
 
-    expect(page).to have_css '.ui-resizable-handle.ui-resizable-s'
+    expect(page).to have_css '#infinite-tree-resizer > .resize-handle'
 
     fill_in 'archival_object_component_id_', with: 'unimportant change'
 
 
-    within '#tree-container' do
+    within '#infinite-tree-container' do
       click_on resource.title
     end
 

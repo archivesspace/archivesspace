@@ -5,7 +5,7 @@ Feature: Resource Tree navigate
   Scenario: View the Resource Record tree
      When the Resource is opened in edit mode
      Then the Resource is displayed as the top level of the navigation tree
-      And the Resource is highlighted in the tree
+      And the Resource is current in the tree
       And only the top-level Archival Objects are displayed
   Scenario: Expand all levels of the tree
     Given the Resource is opened in edit mode

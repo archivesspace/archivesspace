@@ -12,6 +12,9 @@ require File.expand_path("../../../common/spec/support/file_runtime_formatter.rb
 # Load shared examples
 Dir[File.expand_path('../shared/**/*.rb', __FILE__)].sort.each { |f| require f }
 
+# Load support helpers
+Dir[File.expand_path('../support/**/*.rb', __FILE__)].sort.each { |f| require f }
+
 CHROME_OPTS = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --remote-debugging-port=9222 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
 FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless --width=1920 --height=1080').split(' ')
 
@@ -84,6 +87,8 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include Capybara::DSL
   config.include ASpaceHelpers
+  config.include InfiniteTreeInteractionHelpers, type: :feature
+  config.include InfiniteTreeRequestSpies, type: :feature
 
   if Capybara.current_driver == :chrome
     log_files = {}
