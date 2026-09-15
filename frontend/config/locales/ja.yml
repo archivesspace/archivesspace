@@ -1909,19 +1909,11 @@ ja:
     title: OAI-PMH設定
     title_repo_section: リポジトリごとのOAI-PMH設定
     general_section: 一般設定
-    repo_set_section: リポジトリセット
-    sponsor_set_section: スポンサーセット
     repo_set_desc: 記述レベルに基づくセットに加えて、リポジトリに基づいてOAIセットを定義できます。
     sponsor_set_desc: 説明レベルに基づくセットに加えて、スポンサー名に基づいてOAIセットを定義できます。
     oai_record_prefix: OAIレコードプレフィックス
     oai_admin_email: OAI管理者メールアドレス
     oai_repository_name: OOAIリポジトリ名
-    repo_set_name: リポジトリセット名
-    repo_set_codes: セット内のリポジトリ
-    repo_set_description: リポジトリセットの説明
-    sponsor_set_name: スポンサーセット名
-    sponsor_set_names: スポンサー名
-    sponsor_set_description: スポンサーセットの説明
     oai_leave_repo_form: これらのオプションは、このリポジトリに対してのみOAI-PMHに影響します。 
       グローバルOAIオプションを表示/編集するには、下をクリックしてください。 変更を保存せずに現在のフォームをそのままにします。
     _frontend:
@@ -1931,12 +1923,29 @@ ja:
         create: OAI-PMH設定を更新する
         updated: OAI-PMH設定が更新されました。
     _sidebar:
-      repo_set_section:
-        _plural: リポジトリセット
-      sponsor_set_section:
-        _plural: スポンサーセット
       repo_settings:
         _plural: リポジトリごとのOAI-PMH設定
+    oai_repository_sets: リポジトリセット
+    oai_sponsor_sets: スポンサーセット
+
+  oai_repository_set:
+    _plural: リポジトリセット
+    set_name: リポジトリセット名
+    set_description: リポジトリセットの説明
+    repo_codes: セット内のリポジトリ
+    _frontend:
+      action:
+        add: リポジトリセットを追加
+
+  oai_sponsor_set:
+    _plural: スポンサーセット
+    set_name: スポンサーセット名
+    set_description: スポンサーセットの説明
+    sponsor_names: スポンサー名
+    _frontend:
+      action:
+        add: スポンサーセットを追加
+
   bulk_import:
     _frontend:
       actions:

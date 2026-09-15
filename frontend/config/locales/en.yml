@@ -2078,19 +2078,13 @@ en:
     title: OAI-PMH Settings
     title_repo_section: Per Repository OAI-PMH Settings
     general_section: General Settings
-    repo_set_section: Repository Set
-    sponsor_set_section: Sponsor Set
-    repo_set_desc: In addition to sets based on level of description, you can define an OAI Set based on repositories.
-    sponsor_set_desc: In addition to sets based on level of description, you can define an OAI Set based on sponsor names.
+    repo_set_desc: In addition to sets based on level of description, you can define OAI Sets based on repositories.
+    sponsor_set_desc: In addition to sets based on level of description, you can define OAI Sets based on sponsor names.
     oai_record_prefix: OAI Record Prefix
     oai_admin_email: OAI Admin Email
     oai_repository_name: OAI Repository Name
-    repo_set_name: Repository Set Name
-    repo_set_codes: Repositories in Set
-    repo_set_description: Repository Set Description
-    sponsor_set_name: Sponsor Set Name
-    sponsor_set_names: Sponsor Names
-    sponsor_set_description: Sponsor Set Description
+    oai_repository_sets: Repository Sets
+    oai_sponsor_sets: Sponsor Sets
     oai_leave_repo_form: These options affect OAI-PMH for this repository only. Click below to view/edit global OAI options. This will leave current form without saving changes.
     _frontend:
       section:
@@ -2099,12 +2093,26 @@ en:
         create: Update OAI-PMH Settings
         updated: OAI-PMH settings successfully updated!
     _sidebar:
-      repo_set_section:
-        _plural: Repository Sets
-      sponsor_set_section:
-        _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+
+  oai_repository_set:
+    _plural: Repository Sets
+    set_name: Repository Set Name
+    set_description: Repository Set Description
+    repo_codes: Repositories in Set
+    _frontend:
+      action:
+        add: Add Repository Set
+
+  oai_sponsor_set:
+    _plural: Sponsor Sets
+    set_name: Sponsor Set Name
+    set_description: Sponsor Set Description
+    sponsor_names: Sponsor Names
+    _frontend:
+      action:
+        add: Add Sponsor Set
 
   agent_record_control: &agent_record_control_attributes
     _plural: Record Info

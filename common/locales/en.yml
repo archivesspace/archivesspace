@@ -2532,11 +2532,9 @@ en:
     missing_end_filter_date: Start and end dates are required to filter by date. Please provide an end date.
     missing_start_filter_date: Start and end dates are required to filter by date. Please provide a start date.
     must_be_a_valid_email_address: Email address field must contain a valid address
-    repo_set_desc_required: Repository set description is required for creating an OAI repository set
-    repo_set_name_required: Repository set name is required for creating an OAI repository set
     is_not_present: Required field missing
-    sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
-    sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
+    oai_set_name_unique: OAI set names must be unique across repository sets and sponsor sets
+    oai_set_name_matches_level: OAI set names cannot repeat a level of description, which already has a set of its own
     invalid_characters: Contains invalid characters
     conflicting_record: View conflicting record
     or_date_expression_is_required: Dates must specify at least one date expression
@@ -2913,12 +2911,16 @@ en:
     oai_record_prefix_tooltip: OAI Record Prefix Tooltip
     oai_admin_email_tooltip: OAI Admin Email tooltip
     oai_repository_name_tooltip: OAI Repository name tooltip
-    repo_set_name_tooltip: Repo Set name tooltip
-    repo_set_section_tooltip: Repo Set section tooltip
-    repo_set_description_tooltip: Repo set description tooltip
-    sponsor_set_name_tooltip: Sponsor set name tooltip
-    sponsor_set_names_tooltip: Sponsor set names tooltip
-    sponsor_set_description_tooltip: Sponsor set description tooltip
+
+  oai_repository_set:
+    set_name_tooltip: The setSpec harvesters use to request this set. Must be unique across all OAI sets, including the sets generated from the levels of description.
+    repo_codes_tooltip: The repositories whose records make up this set.
+    set_description_tooltip: The description harvesters are given for this set.
+
+  oai_sponsor_set:
+    set_name_tooltip: The setSpec harvesters use to request this set. Must be unique across all OAI sets, including the sets generated from the levels of description.
+    sponsor_names_tooltip: The finding aid sponsors whose records make up this set. Press enter after each sponsor name.
+    set_description_tooltip: The description harvesters are given for this set.
 
   importer:
     error:

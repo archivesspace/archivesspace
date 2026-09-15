@@ -16,14 +16,27 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     }
   end
 
-  def get_oai_config_values
-    @oai_config          = OAIConfig.all.first
-    @repo_set_codes      = @oai_config[:repo_set_codes] ? JSON.parse(@oai_config[:repo_set_codes]) : []
-    @sponsor_set_names   = @oai_config[:sponsor_set_names] ? JSON.parse(@oai_config[:sponsor_set_names]) : []
-    @repo_description    = @oai_config[:repo_set_description]
-    @sponsor_description = @oai_config[:sponsor_set_description]
-    @repo_set_name       = @oai_config[:repo_set_name]
-    @sponsor_set_name    = @oai_config[:sponsor_set_name]
+  def repository_sets
+    OAIRepositorySet.all.reject {|set| set.repo_code_list.empty? }
+  end
+
+  def sponsor_sets
+    OAISponsorSet.all.reject {|set| set.sponsor_name_list.empty? }
+  end
+
+  # An empty setSpec asks for no set at all, not for a set called ''
+  def set_for_request(resumption_token, options)
+    set = resumption_token.set || options.fetch(:set, nil)
+
+    set.to_s.strip.empty? ? nil : set
+  end
+
+  def known_set?(set)
+    set = set.to_s
+
+    BackendEnumSource.values_for("archival_record_level").include?(set) ||
+      repository_sets.any? {|s| s.set_name == set } ||
+      sponsor_sets.any? {|s| s.set_name == set }
   end
 
   # If a given record type supports deletes, we'll need a way to look up its
@@ -59,27 +72,14 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   def sets
     available_levels = BackendEnumSource.values_for("archival_record_level")
-    get_oai_config_values
 
-    # ANW-674:
-    # Get set values from OAIConfig table instead of config file
-    config_sets = []
-
-    if @repo_set_codes.any? && !available_levels.include?(@repo_set_name)
-      repo_oai_set = OAI::Set.new({:name => @repo_set_name,
-                                   :spec => @repo_set_name,
-                                   :description => build_set_description(@repo_description)})
-
-      config_sets.push(repo_oai_set)
-    end
-
-    if @sponsor_set_names.any? && !available_levels.include?(@sponsor_set_name)
-      repo_sponsor_set = OAI::Set.new({:name => @sponsor_set_name,
-                                       :spec => @sponsor_set_name,
-                                       :description => build_set_description(@sponsor_description)})
-
-      config_sets.push(repo_sponsor_set)
-    end
+    config_sets = (repository_sets + sponsor_sets)
+                    .reject {|set| available_levels.include?(set.set_name) }
+                    .map {|set|
+                      OAI::Set.new({:name => set.set_name,
+                                    :spec => set.set_name,
+                                    :description => build_set_description(set.set_description)})
+                    }
 
     level_sets = available_levels.map {|level|
       OAI::Set.new(:name => level, :spec => level)
@@ -149,6 +149,10 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
                        else
                          ArchivesSpaceResumptionToken.new(options, ArchivesSpaceOAIRepository.available_record_types)
                        end
+
+    requested_set = set_for_request(resumption_token, options)
+
+    raise OAI::NoMatchException.new if !requested_set.nil? && !known_set?(requested_set)
 
     if resumption_token.state == ArchivesSpaceResumptionToken::PRODUCING_RECORDS_STATE
       records = produce_next_record_set(resumption_token, options)
@@ -239,7 +243,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     depleted_types = []
 
     metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
-    set = resumption_token.set || options.fetch(:set, nil)
+    set = set_for_request(resumption_token, options)
 
     format_options = options_for_type(metadata_prefix)
 
@@ -301,7 +305,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   def build_delete_ds(resumption_token, options)
     metadata_prefix = resumption_token.format || options.fetch(:metadata_prefix)
-    set = resumption_token.set || options.fetch(:set, nil)
+    set = set_for_request(resumption_token, options)
 
     format_options = options_for_type(metadata_prefix)
 
@@ -403,26 +407,27 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     end
 
     # ANW-674
-    # Otherwise, look for manually defined sets in the OAIConfig table
-    get_oai_config_values
+    # Otherwise, look for manually defined sets in the OAIConfig record
+    repository_set = repository_sets.find {|s| s.set_name == set }
 
-    if @repo_set_codes.any? && set == @repo_set_name
-      dataset = dataset.filter(:repo_id => Repository.filter(:repo_code => @repo_set_codes).select(:id))
+    if repository_set
+      return dataset.filter(:repo_id => Repository.filter(:repo_code => repository_set.repo_code_list).select(:id))
+    end
 
-    # We work off the SHA1 of the sponsor here because the sponsor is stored in
-    # a text column, and since we don't know how long people's sponsor text
-    # might be in the wild, it seemed risky to change the column type.
-    elsif @sponsor_set_names.any? && set == @sponsor_set_name
-      sponsor_hashes = @sponsor_set_names.map {|sponsor| Digest::SHA1.hexdigest(sponsor)}
+    sponsor_set = sponsor_sets.find {|s| s.set_name == set }
+
+    if sponsor_set
+      sponsor_hashes = sponsor_set.sponsor_name_list.map {|sponsor| Digest::SHA1.hexdigest(sponsor)}
 
       if model == Resource
-        dataset = dataset.filter(:finding_aid_sponsor_sha1 => sponsor_hashes)
+        return dataset.filter(:finding_aid_sponsor_sha1 => sponsor_hashes)
       else
-        dataset = dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor_sha1 => sponsor_hashes).select(:id))
+        return dataset.filter(:root_record_id => Resource.filter(:finding_aid_sponsor_sha1 => sponsor_hashes).select(:id))
       end
     end
 
-    dataset
+    # requested set does not exist
+    raise OAI::NoMatchException.new
   end
 
   def fetch_jsonmodels(record_type, objs)

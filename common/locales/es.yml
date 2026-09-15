@@ -2179,15 +2179,9 @@ es:
       incluir al menos un campo o subinforme.
     must_be_a_valid_email_address: El campo de dirección de correo electrónico debe contener una 
       dirección válida
-    repo_set_desc_required: La descripción del conjunto de repositorios es necesaria para crear un 
-      conjunto de repositorios OAI
-    repo_set_name_required: El nombre del conjunto de repositorios es necesario para crear un 
-      conjunto de repositorios OAI
+    oai_set_name_unique: Los nombres de conjunto OAI deben ser únicos entre los conjuntos de repositorio y los conjuntos de patrocinadores
+    oai_set_name_matches_level: Los nombres de conjunto OAI no pueden repetir un nivel de descripción, que ya tiene su propio conjunto
     is_not_present: Falta el campo requerido
-    sponsor_set_desc_required: Se requiere la descripción del conjunto de patrocinadores para crear 
-      un conjunto de patrocinadores de OAI
-    sponsor_set_name_required: Se requiere el nombre del conjunto de patrocinadores para crear un 
-      conjunto de patrocinadores de OAI
     invalid_characters: Contiene caracteres invalidos
 
     subrecord_not_allowed_for_agent_software: Los agentes de software no pueden tener control de 
@@ -2671,12 +2665,16 @@ es:
     oai_record_prefix_tooltip: Herramienta de prefijo de registro de OAI
     oai_admin_email_tooltip: Herramienta de correo electrónico de administrador de OAI
     oai_repository_name_tooltip: Información sobre el nombre del repositorio OAI
-    repo_set_name_tooltip: Descripción del conjunto de repositorios
-    repo_set_section_tooltip: Descripción del repositorio Set tooltip
-    repo_set_description_tooltip: Descripción del conjunto de repositorios
-    sponsor_set_name_tooltip: Nombre del patrocinador
-    sponsor_set_names_tooltip: Nombre del patrocinador
-    sponsor_set_description_tooltip: Descripción del set del patrocinador
+
+  oai_repository_set:
+    set_name_tooltip: El setSpec que los recolectores usan para solicitar este conjunto. Debe ser único entre todos los conjuntos OAI, incluidos los generados a partir de los niveles de descripción.
+    repo_codes_tooltip: Los repositorios cuyos registros componen este conjunto.
+    set_description_tooltip: La descripción que se ofrece a los recolectores para este conjunto.
+
+  oai_sponsor_set:
+    set_name_tooltip: El setSpec que los recolectores usan para solicitar este conjunto. Debe ser único entre todos los conjuntos OAI, incluidos los generados a partir de los niveles de descripción.
+    sponsor_names_tooltip: Los patrocinadores del instrumento de descripción cuyos registros componen este conjunto. Pulse Intro después de cada nombre de patrocinador.
+    set_description_tooltip: La descripción que se ofrece a los recolectores para este conjunto.
 
   importer:
     error:
