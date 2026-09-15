@@ -62,4 +62,40 @@ describe 'agent current_repo_id validation' do
 
     expect(json['linked_in_other_repository']).to eq(true)
   end
+
+  context 'when manage_agent_record is granted through a group in the global repository' do
+    before(:each) do
+      global_group = Group.create_from_json(build(:json_group),
+                                            :repo_id => Repository.global_repo_id)
+      global_group.grant("manage_agent_record")
+
+      @global_user = make_test_user("global_agent_manager")
+      global_group.add_user(@global_user)
+
+      expect(User[:username => @global_user.username]
+               .can?(:delete_agent_record_linked_elsewhere)).to be_falsey
+    end
+
+    it 'honours a current_repo_id for an agent linked only within that repository' do
+      link_agent_to_new_accession_in_repo(@agent, @repo_a)
+
+      response = as_test_user(@global_user.username) do
+        delete_agent(@agent, @repo_a.id)
+      end
+
+      expect(response.code).to eq('200')
+      expect(AgentPerson[@agent[:id]]).to be_nil
+    end
+
+    it 'still blocks deletion when the agent is linked outside the claimed repository' do
+      link_agent_to_new_accession_in_repo(@agent, @repo_b)
+
+      response = as_test_user(@global_user.username) do
+        delete_agent(@agent, @repo_a.id)
+      end
+
+      expect(response.code).to eq('409')
+      expect(AgentPerson[@agent[:id]]).not_to be_nil
+    end
+  end
 end

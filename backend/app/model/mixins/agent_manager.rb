@@ -81,10 +81,9 @@ module AgentManager
 
     return current_repo_id if current_user.can?(:delete_agent_record_linked_elsewhere)
 
-    repo_uri = JSONModel(:repository).uri_for(current_repo_id)
-    return nil unless current_user.permissions.fetch(repo_uri, []).include?('manage_agent_record')
-
-    current_repo_id
+    RequestContext.open(:repo_id => current_repo_id) do
+      current_user.can?(:manage_agent_record) ? current_repo_id : nil
+    end
   end
 
 
