@@ -148,6 +148,7 @@ class BulkImportParser
     end
     begin
       check_for_code_dups
+      check_unknown_columns
     rescue Exception => e
       raise StopBulkImportException.new(e.message)
     end
@@ -182,6 +183,32 @@ class BulkImportParser
     end
     if !dups.empty?
       raise Exception.new(I18n.t("bulk_import.error.duplicates", :codes => dups))
+    end
+  end
+
+  def valid_column_codes
+    nil
+  end
+
+  def repeatable_column_prefixes
+    []
+  end
+
+  def repeatable_column?(code, prefixes)
+    return false unless code.to_s.match?(/_\d+\z/)
+    prefixes.any? { |prefix| code.to_s.start_with?(prefix) }
+  end
+
+  def check_unknown_columns
+    valid = valid_column_codes
+    return if valid.nil?
+    known = valid.compact
+    prefixes = repeatable_column_prefixes
+    unknown = @headers.compact.reject do |head|
+      head =~ self.class::START_MARKER || known.include?(head) || repeatable_column?(head, prefixes)
+    end
+    unless unknown.empty?
+      raise Exception.new(I18n.t("bulk_import.error.unknown_columns", :codes => unknown.join(", ")))
     end
   end
 
