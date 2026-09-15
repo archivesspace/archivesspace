@@ -9,6 +9,13 @@
           :result => @result,
         }
       %>
+
+      <%= render partial: 'shared/thumbnail', locals: {
+        result: @result,
+        show_spacer: false,
+        thumbnail_link: app_prefix(@result.uri)
+      }
+      %>
   </div>
 
   <% scopecontent_note = @result.note('scopecontent') %>
