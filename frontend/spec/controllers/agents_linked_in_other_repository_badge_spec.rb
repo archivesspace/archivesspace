@@ -10,7 +10,7 @@ describe AgentsController, type: :controller do
   end
 
   context 'on the show page' do
-    it "shows the 'Linked in Other Repos' badge when the agent is linked to a record in another repository" do
+    it "shows the 'Linked Outside This Repository' badge when the agent is linked to a record in another repository" do
       agent = create(:json_agent_person)
 
       other_repo = create(:repo, :repo_code => "other_repo_#{Time.now.to_i}", publish: true)
@@ -49,7 +49,7 @@ describe AgentsController, type: :controller do
   end
 
   context 'on the edit page' do
-    it "shows the 'Linked in Other Repos' badge when the agent is linked to a record in another repository" do
+    it "shows the 'Linked Outside This Repository' badge when the agent is linked to a record in another repository" do
       agent = create(:json_agent_person)
 
       other_repo = create(:repo, :repo_code => "other_repo_#{Time.now.to_i}", publish: true)

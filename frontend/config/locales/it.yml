@@ -737,8 +737,8 @@ it:
         preview: Preview unione
         create: Crea agente
       linked_in_other_repository:
-        label: Collegato in altri repository
-        tooltip: Questo agente è collegato a record in almeno un altro
+        label: Collegato al di fuori di questo repository
+        tooltip: Questo agente è collegato a record al di fuori di questo
           repository.
   agent_contact:
     is_representative: Preferito

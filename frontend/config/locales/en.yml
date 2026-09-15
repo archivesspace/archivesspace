@@ -861,8 +861,8 @@ en:
         create: Create Agent
         preview: Merge Preview
       linked_in_other_repository:
-        label: Linked in Other Repos
-        tooltip: This agent is linked to records in at least one other repository.
+        label: Linked Outside This Repository
+        tooltip: This agent is linked to records outside this repository.
 
   agent_contact:
     is_representative: Preferred

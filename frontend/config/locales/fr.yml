@@ -940,8 +940,8 @@ fr:
         create: Créer agent
         preview: Fusionner l'aperçu
       linked_in_other_repository:
-        label: Lié dans d'autres référentiels
-        tooltip: Cet agent est lié à des notices dans au moins un autre
+        label: Lié en dehors de ce référentiel
+        tooltip: Cet agent est lié à des notices en dehors de ce
           référentiel.
 
   agent_contact:

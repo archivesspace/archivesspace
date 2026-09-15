@@ -860,8 +860,8 @@ es:
         create: Crear autoridad
         preview: Vista previa de combinación
       linked_in_other_repository:
-        label: Vinculado en otros repositorios
-        tooltip: Este agente está vinculado a registros en al menos otro
+        label: Vinculado fuera de este repositorio
+        tooltip: Este agente está vinculado a registros fuera de este
           repositorio.
 
   agent_contact:

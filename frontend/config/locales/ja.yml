@@ -787,8 +787,8 @@ ja:
         create: エージェントを作成する
         preview: マージプレビュー
       linked_in_other_repository:
-        label: 他のリポジトリにリンク
-        tooltip: このエージェントは他の少なくとも1つのリポジトリのレコードにリンクされています。
+        label: このリポジトリ外にリンク
+        tooltip: このエージェントはこのリポジトリ外のレコードにリンクされています。
 
   agent_contact:
     is_representative: 優先

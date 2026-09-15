@@ -797,9 +797,9 @@ pl:
         preview: Podgląd scalania
         create: Utwórz agenta
       linked_in_other_repository:
-        label: Powiązany w innych repozytoriach
-        tooltip: Ten agent jest powiązany z rekordami w co najmniej jednym
-          innym repozytorium.
+        label: Powiązany poza tym repozytorium
+        tooltip: Ten agent jest powiązany z rekordami poza tym
+          repozytorium.
       messages:
         created: Utworzono agenta
         updated: Agent zapisany

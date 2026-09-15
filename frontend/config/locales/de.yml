@@ -1037,9 +1037,9 @@ de:
         create: Akteur erstellen
         preview: Zusammenführungs-Vorschau
       linked_in_other_repository:
-        label: In anderen Aufbewahrungsorten verknüpft
-        tooltip: Dieser Akteur ist mit Datensätzen in mindestens einem anderen
-          Aufbewahrungsort verknüpft.
+        label: Außerhalb dieses Aufbewahrungsorts verknüpft
+        tooltip: Dieser Akteur ist mit Datensätzen außerhalb dieses
+          Aufbewahrungsorts verknüpft.
   agent_contact:
     is_representative: Bevorzugt
     notes_tooltip: "<p>Weitere Anmerkungen oder andere Information über den Kontakt.</p>\n"
