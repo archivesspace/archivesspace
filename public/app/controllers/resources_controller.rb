@@ -4,7 +4,9 @@ class ResourcesController < ApplicationController
   helper_method :process_subjects
   helper_method :process_agents
 
-  skip_before_action  :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
+
+  json_response_for :waypoints, :tree_root, :tree_node, :tree_waypoint, :tree_node_from_root
 
   before_action(:only => [:show]) {
     process_slug_or_id(params)

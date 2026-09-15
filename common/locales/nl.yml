@@ -62,6 +62,9 @@ nl:
     number_type: Soort nummer
     number: Nummer
     ext: Doorkiesnummer
+  group:
+    default_group_names:
+      pui_viewers: PUI-kijkers
   importer:
     error:
       agent_mode_conflict: "Agentgroep %{index} mag niet zowel een record-ID als waarden voor het aanmaken van een nieuw record bevatten"

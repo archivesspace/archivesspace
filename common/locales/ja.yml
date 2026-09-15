@@ -1163,7 +1163,8 @@ ja:
       manage_custom_report_templates: <b>カスタム レポート テンプレート</b>の作成/更新/削除 (このリポジトリ内)
     _singular: グループ
     _plural: グループ
-
+    default_group_names:
+      pui_viewers: PUI ビューア
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
