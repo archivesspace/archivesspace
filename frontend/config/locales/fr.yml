@@ -128,8 +128,9 @@ fr:
       opération va supprimer la notice de la base de données, ainsi que toutes les
       références faites aux autres notices.</p><p><strong>Cet agent est lié à des notices
       dans au moins un autre service d'archives.</strong> Le supprimer le déliera des
-      notices dans tous les services d'archives.</p><p><label><input type=\"checkbox\"
-      id=\"agentCrossRepoConfirm\"> Supprimer cet agent de tous les services d'archives liés</label></p>"
+      notices dans tous les services d'archives.</p>"
+    delete_agent_cross_repo_confirm_checkbox_label: Supprimer cet agent de
+      tous les services d'archives liés
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices ?
     delete_multiple_confirm_message: "<p>Attention ! <strong>Cette opération ne peut

@@ -191,8 +191,8 @@ de:
       ist mit Aufzeichnungen in mindestens einem anderen Aufbewahrungsort
       verknüpft.</strong> Durch das Löschen werden die Verknüpfungen zu
       Aufzeichnungen in allen Aufbewahrungsorten aufgehoben.</p>
-      <p><label><input type="checkbox" id="agentCrossRepoConfirm"> Diesen
-      Akteur aus allen verknüpften Aufbewahrungsorten löschen</label></p>
+    delete_agent_cross_repo_confirm_checkbox_label: Diesen Akteur aus allen
+      verknüpften Aufbewahrungsorten löschen
     delete_multiple_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie
       <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit
       werden diese Aufzeichnungen inklusive aller Verweise zu anderen 

@@ -156,9 +156,9 @@ it:
       dal database, incluso ogni riferimento dello stesso presente in altri
       records.</p><p><strong>Questo agente è collegato a record in almeno
       un altro repository.</strong> Eliminandolo verrà scollegato dai record
-      in tutti i repository.</p><p><label><input type="checkbox"
-      id="agentCrossRepoConfirm"> Elimina questo agente da tutti i repository
-      collegati</label></p>
+      in tutti i repository.</p>
+    delete_agent_cross_repo_confirm_checkbox_label: Elimina questo agente da
+      tutti i repository collegati
     publish_archival_object_confirm_title: Pubblicare?
     publish_archival_object_confirm_message: <p>Effettuando questa operazione 
       pubblicherai il record, ogni sub-records (documenti esterni, note, etc) e 

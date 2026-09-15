@@ -148,9 +148,9 @@ pl:
       rekordu z bazy danych, w tym wszelkich powiązań z innymi rekordami.</p>
       <p><strong>Ten agent jest powiązany z rekordami w co najmniej jednym
       innym repozytorium.</strong> Usunięcie go spowoduje odłączenie go od
-      rekordów we wszystkich repozytoriach.</p><p><label><input type="checkbox"
-      id="agentCrossRepoConfirm"> Usuń tego agenta ze wszystkich powiązanych
-      repozytoriów</label></p>
+      rekordów we wszystkich repozytoriach.</p>
+    delete_agent_cross_repo_confirm_checkbox_label: Usuń tego agenta ze
+      wszystkich powiązanych repozytoriów
     delete_multiple_confirm_message: <p>Należy pamiętać, że <strong>tej
       czynności nie można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie
       tych rekordów z bazy danych, w tym wszelkich powiązań z innymi 

@@ -109,8 +109,8 @@ ja:
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_agent_cross_repo_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。 </p><p>このアクションは、レコードをデータベースから削除します。これには、他のレコードに対する参照も含まれます。
       </p><p><strong>このエージェントは、少なくとも1つの他のリポジトリのレコードにリンクされています。</strong>
-      削除すると、すべてのリポジトリのレコードとのリンクが解除されます。</p><p><label><input type=\"checkbox\"
-      id=\"agentCrossRepoConfirm\"> リンクされているすべてのリポジトリからこのエージェントを削除する</label></p>"
+      削除すると、すべてのリポジトリのレコードとのリンクが解除されます。</p>"
+    delete_agent_cross_repo_confirm_checkbox_label: リンクされているすべてのリポジトリからこのエージェントを削除する
     delete_multiple: レコードの削除
     delete_multiple_confirm_title: レコードを削除しますか？
     delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
