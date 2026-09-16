@@ -450,13 +450,27 @@ module InfiniteTreeInteractionHelpers
   # Wait for an inline edit form to finish loading in the record pane.
   # form_prefix is the record type form id prefix (e.g. 'resource', 'archival_object').
   def wait_for_infinite_tree_inline_edit_form(form_prefix:)
-    form_id = "#{form_prefix}_form"
     pane = '#infinite-tree-record-pane'
+    explicit_form_id = "#{form_prefix}_form"
+    form_context_id = "form_#{form_prefix}"
 
     aggregate_failures do
       expect(page).to have_no_css("#{pane}.blocked")
-      expect(page).to have_css("#{pane} ##{form_id}[data-update-monitor-record-uri]")
+      expect(page).to have_css(
+        "#{pane} ##{explicit_form_id}[data-update-monitor-record-uri], " \
+        "#{pane} ##{form_context_id}, #{pane} ##{explicit_form_id}",
+        wait: 10
+      )
+      expect(page).to have_css("#{pane} form[data-update-monitor-record-uri]", wait: 10)
     end
+  end
+
+  # Select a tree row by record id rather than title text.
+  # @param record [Object] record with #uri
+  def select_tree_row_by_id(record)
+    node_id = infinite_tree_node_id_for(record)
+    find("#infinite-tree-container li##{node_id} > .node-row a.record-title").click
+    wait_for_ajax
   end
 
   # Wait for tree to be fully ready for reorder mode interactions
@@ -550,6 +564,36 @@ module InfiniteTreeInteractionHelpers
   def saved_child_id_from_pane
     within('#infinite-tree-record-pane') do
       find('#uri', visible: :all).value.split('/').last.to_i
+    end
+  end
+
+  def wait_for_infinite_tree_ready_for_rde
+    aggregate_failures do
+      expect(page).to have_css(
+        '#infinite-tree-container li.node.current[data-uri]',
+        visible: true
+      )
+      expect(page).to have_css(
+        '#infinite-tree-toolbar .js-itree-toolbar-rde:not(.disabled)',
+        visible: true
+      )
+      expect(page).to have_css('#infinite-tree-record-pane:not(.blocked)')
+    end
+  end
+
+  def open_infinite_tree_rapid_data_entry_modal
+    wait_for_infinite_tree_ready_for_rde
+
+    within '#infinite-tree-toolbar' do
+      find('.js-itree-toolbar-rde:not(.disabled)', visible: true).click
+    end
+
+    wait_for_ajax
+
+    aggregate_failures do
+      expect(page).to have_css('#rapidDataEntryModal', visible: true)
+      expect(page).to have_css('#rapidDataEntryModal #rde_form', visible: true)
+      expect(page).to have_css('#rapidDataEntryModal #rdeTable', visible: true)
     end
   end
 
