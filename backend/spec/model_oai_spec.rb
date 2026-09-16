@@ -340,6 +340,80 @@ describe 'OAI handler' do
       expect((page2_uris + page1_uris).length).to eq(page1_uris.length + page2_uris.length)
     end
 
+    # ANW-2929: a resumption token used to take its cursor from the last record a
+    # page served, so a page that served nothing left the cursor where it was.  The
+    # harvest then re-read the same rows, came back empty again, and reported
+    # itself finished with most of the repository never sent.
+    describe "resuming across records hidden by an unpublished ancestor" do
+
+      # Enough consecutive hidden records to fill a whole page of the harvest,
+      # whichever record that page happens to start on.
+      let (:hidden_count) { page_size * 2 }
+      let (:visible_count) { 2 }
+
+      before(:each) do
+        hidden_resource = create(:json_resource, :publish => false)
+        @hidden_uris = hidden_count.times.map {
+          create(:json_archival_object,
+                 :publish => true,
+                 :resource => {:ref => hidden_resource.uri}).uri
+        }
+
+        # Created last, so the harvest only reaches these if it gets past the run
+        # of hidden records above.
+        visible_resource = create(:json_resource, :publish => true)
+        @visible_uris = visible_count.times.map {
+          create(:json_archival_object,
+                 :publish => true,
+                 :resource => {:ref => visible_resource.uri}).uri
+        }
+      end
+
+      it "serves the records that follow the hidden ones" do
+        expect(served_uris(harvest_all)).to include(*@visible_uris)
+      end
+
+      it "rescinds the hidden records rather than serving them" do
+        harvested = harvest_all
+
+        expect(served_uris(harvested)).not_to include(*@hidden_uris)
+        expect(rescinded_uris(harvested)).to include(*@hidden_uris)
+      end
+
+      it "serves each record only once" do
+        uris = served_uris(harvest_all)
+
+        expect(uris).to eq(uris.uniq)
+      end
+
+      context 'when the format serves more than one record type' do
+        # Each type carries its own cursor.  A page that finishes off one type
+        # used to overwrite the other type's cursor with the finished type's
+        # position, which then re-served rows the harvester already had.
+        let (:oai_repo) {
+          oai_repo = ArchivesSpaceOAIRepository.new
+
+          both_types = ArchivesSpaceOAIRepository::FormatOptions.new([Resource, ArchivalObject], page_size)
+
+          allow(oai_repo).to receive(:options_for_type)
+                               .with('oai_dc')
+                               .and_return(both_types)
+
+          oai_repo
+        }
+
+        it "serves each record only once" do
+          uris = served_uris(harvest_all)
+
+          expect(uris).to eq(uris.uniq)
+        end
+
+        it "serves the records that follow the hidden ones" do
+          expect(served_uris(harvest_all)).to include(*@visible_uris)
+        end
+      end
+    end
+
     it "supports date ranges when listing records" do
       start_time = Time.parse('1975-01-01 00:00:00 UTC')
       end_time = Time.parse('1976-01-01 00:00:00 UTC')
