@@ -172,6 +172,118 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     end
   end
 
+  describe 'Defensive action authorization' do
+    def install_integration_stubs
+      page.execute_script(<<~JS)
+        window.__itreeBulkCalled = false;
+        window.__itreeRdeCalled = false;
+        window.bulkFileSelection = function() {
+          window.__itreeBulkCalled = true;
+        };
+        window.jQuery(document).on('rdeshow.aspace', function() {
+          window.__itreeRdeCalled = true;
+        });
+      JS
+    end
+
+    def dispatch_toolbar_event(event_name)
+      page.execute_script(<<~JS)
+        var container = document.getElementById('infinite-tree-container');
+        var current = container.querySelector('li.node.current');
+        container.dispatchEvent(new CustomEvent('#{event_name}', {
+          bubbles: true,
+          detail: { node: current, rootUri: current && current.getAttribute('data-uri') }
+        }));
+      JS
+    end
+
+    def dispatch_rde_event
+      dispatch_toolbar_event('infiniteTreeToolbar:rdeRequested')
+    end
+
+    shared_examples 'bulk load is available' do
+      before do
+        install_integration_stubs
+        dispatch_toolbar_event('infiniteTreeToolbar:loadBulkRequested')
+      end
+
+      it 'invokes bulk file selection' do
+        expect(page.evaluate_script('window.__itreeBulkCalled')).to be(true)
+      end
+    end
+
+    shared_examples 'bulk load is unavailable' do
+      before do
+        install_integration_stubs
+        dispatch_toolbar_event('infiniteTreeToolbar:loadBulkRequested')
+      end
+
+      it 'does not invoke bulk file selection' do
+        expect(page.evaluate_script('window.__itreeBulkCalled')).to be(false)
+      end
+    end
+
+    shared_examples 'RDE is available' do
+      before do
+        install_integration_stubs
+        dispatch_rde_event
+      end
+
+      it 'invokes the RDE integration' do
+        expect(page.evaluate_script('window.__itreeRdeCalled')).to be(true)
+      end
+    end
+
+    shared_examples 'RDE is unavailable' do
+      before do
+        install_integration_stubs
+        dispatch_rde_event
+      end
+
+      it 'does not invoke the RDE integration' do
+        expect(page.evaluate_script('window.__itreeRdeCalled')).to be(false)
+      end
+    end
+
+    context 'Resources' do
+      before do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+      end
+
+      it_behaves_like 'bulk load is available'
+      it_behaves_like 'RDE is available'
+    end
+
+    context 'Digital Objects' do
+      let(:digital_object) { create(:digital_object, title: "Contract DO #{now}") }
+      let(:edit_path) { "/digital_objects/#{digital_object.id}/edit" }
+      let(:root_hash) { "#tree::digital_object_#{digital_object.id}" }
+
+      before do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+      end
+
+      it_behaves_like 'bulk load is unavailable'
+      it_behaves_like 'RDE is available'
+    end
+
+    context 'Classifications' do
+      let(:classification) { create(:classification, title: "Contract Classification #{now}") }
+      let(:edit_path) { "/classifications/#{classification.id}/edit" }
+      let(:root_hash) { "#tree::classification_#{classification.id}" }
+
+      before do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+      end
+
+      it_behaves_like 'bulk load is unavailable'
+      it_behaves_like 'RDE is unavailable'
+    end
+  end
+
   describe 'Finish editing' do
     it 'preserves hash in target URL' do
       page.execute_script(<<~JS)
