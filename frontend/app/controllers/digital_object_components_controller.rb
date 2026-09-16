@@ -51,16 +51,26 @@ class DigitalObjectComponentsController < ApplicationController
                   digital_object = @digital_object_component['digital_object']['_resolved']
                   parent = @digital_object_component['parent']? @digital_object_component['parent']['_resolved'] : false
 
-                  flash[:success] = @digital_object_component.parent ?
+                  success_message = @digital_object_component.parent ?
                     t("digital_object_component._frontend.messages.created_with_parent", digital_object_component_display_string: clean_mixed_content(@digital_object_component.title), digital_object_title: clean_mixed_content(digital_object['title']), parent_display_string: clean_mixed_content(parent['title'])) :
                     t("digital_object_component._frontend.messages.created", digital_object_component_display_string: clean_mixed_content(@digital_object_component.title), digital_object_title: clean_mixed_content(digital_object['title']))
+
+                  if params.has_key?(:plus_one)
+                    flash[:success] = success_message
+                  else
+                    flash.now[:success] = success_message
+                  end
 
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
 
-                    flash[:warning] = t("slug.autogen_disabled")
+                    if params.has_key?(:plus_one)
+                      flash[:warning] = t("slug.autogen_disabled")
+                    else
+                      flash.now[:warning] = t("slug.autogen_disabled")
+                    end
                   end
 
                   render_aspace_partial :partial => "digital_object_components/edit_inline"
