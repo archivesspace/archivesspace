@@ -42,6 +42,10 @@
       return { type, id };
     }
 
+    /**
+     * @param {string} rootUri
+     * @returns {{ repoId: string, type: string, id: string, childType: string, childCollectionPath: string, newFormPath: string }|null}
+     */
     static rootUriToParts(rootUri) {
       const match = rootUri.match(this.#uriPattern);
       if (!match) return null;
