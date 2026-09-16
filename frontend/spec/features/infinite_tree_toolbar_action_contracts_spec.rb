@@ -78,12 +78,11 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
   describe 'Mode controls' do
     it 'emits events with expected details' do
-      # Expand/collapse controls are hidden while reorder mode is on — exercise them first.
-      find('.js-itree-toolbar-expand-mode').click
+      click_infinite_tree_toolbar_enable_auto_expand
       expect(event_names).to include('infiniteTreeToolbar:expandModeChanged')
       expect(last_event_detail['enabled']).to be(true)
 
-      find('.js-itree-toolbar-collapse-tree').click
+      click_infinite_tree_toolbar_collapse_tree
       expect(event_names).to include('infiniteTreeToolbar:collapseTreeRequested')
       expect(last_event_detail).to eq({})
 

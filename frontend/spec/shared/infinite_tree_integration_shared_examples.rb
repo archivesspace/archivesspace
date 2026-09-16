@@ -3,34 +3,57 @@
 # Shared setup and examples for Infinite Tree integration specs.
 # Examples are parameterized by view (show vs edit) and scenario.
 
-RSpec.shared_context 'infinite tree integration setup' do
+RSpec.shared_context 'infinite tree integration hierarchy setup' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "infinite_tree_integration_#{now}") }
-  let(:resource) { create(:resource, title: "Resource #{now}") }
-  let(:ao) { create(:archival_object, resource: { 'ref' => resource.uri }, title: "Archival Object #{now}") }
-
-  # Record-type-agnostic aliases (Resources mapping today; swap via config later).
-  let(:root_record) { resource }
-  let(:child_record) { ao }
-  let(:child_record_hash) { "#tree::archival_object_#{child_record.id}" }
-  let(:nested_child_record) do
+  let(:repo) { create(:repo, repo_code: "infinite_tree_integration_#{config[:root_type]}_#{now}") }
+  let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
+  let(:child_record) do
     create(
-      :archival_object,
-      resource: { 'ref' => resource.uri },
-      parent: { 'ref' => child_record.uri },
-      title: "Nested Child Record #{now}"
+      config[:child_factory],
+      title: "Child #{now}",
+      config[:root_relationship_key] => { ref: root_record.uri }
     )
   end
-  let(:nested_child_record_hash) { "#tree::archival_object_#{nested_child_record.id}" }
-  let(:root_form_prefix) { 'resource' }
-  let(:child_form_prefix) { 'archival_object' }
+  let(:nested_child_record) do
+    create(
+      config[:child_factory],
+      title: "Nested Child #{now}",
+      config[:root_relationship_key] => { ref: root_record.uri },
+      parent: { ref: child_record.uri }
+    )
+  end
+  let(:root_type) { config[:root_type] }
+  let(:child_type) { config[:child_type] }
+  let(:root_form_prefix) { config[:root_type] }
+  let(:child_form_prefix) { config[:child_type] }
+  let(:show_path) { "/#{config[:root_type]}s/#{root_record.id}" }
+  let(:edit_path) { "#{show_path}/edit" }
+  let(:root_hash) { "#tree::#{config[:root_type]}_#{root_record.id}" }
+  let(:child_record_hash) { "#tree::#{config[:child_type]}_#{child_record.id}" }
+  let(:nested_child_record_hash) { "#tree::#{config[:child_type]}_#{nested_child_record.id}" }
+  let(:child_save_label) { I18n.t("#{config[:child_type]}._frontend.action.save") }
 
   before do
     set_repo(repo)
     login_admin
     select_repository(repo)
-    ao
+    child_record
+    run_indexer if config.fetch(:run_indexer, false)
   end
+end
+
+RSpec.shared_context 'infinite tree integration setup' do
+  include_context 'infinite tree integration hierarchy setup',
+                  root_type: 'resource',
+                  child_type: 'archival_object',
+                  root_factory: :resource,
+                  child_factory: :archival_object,
+                  root_relationship_key: :resource,
+                  run_indexer: false
+
+  # Legacy aliases used by existing Resource-only specs.
+  let(:resource) { root_record }
+  let(:ao) { child_record }
 end
 
 # path_let: symbol for let that returns the path (e.g. :show_path)
@@ -42,7 +65,7 @@ RSpec.shared_examples 'adds root hash and displays root on load' do |path_let, v
     wait_for_ajax
 
     aggregate_failures do
-      expect(page.current_url).to match(%r{#{Regexp.escape(path)}#tree::resource_})
+      expect(page.current_url).to match(%r{#{Regexp.escape(path)}#tree::#{root_type}_})
       expect(page).to have_css('#infinite-tree-container .root.current')
       expect(page).to have_css(
         '#infinite-tree-container .node.current',
@@ -50,13 +73,13 @@ RSpec.shared_examples 'adds root hash and displays root on load' do |path_let, v
         visible: :all
       )
       within('#infinite-tree-record-pane') do
-        expect(page).to have_css('h2', text: resource.title)
+        expect(page).to have_css('h2', text: root_record.title)
         case view_type
         when :show
           expect(page).to have_css('.readonly-context')
-          expect(page).to have_field('uri', with: resource.uri)
+          expect(page).to have_field('uri', with: root_record.uri)
         when :edit
-          expect(page).to have_css('#form_resource')
+          expect(page).to have_css("#form_#{root_form_prefix}")
         end
       end
     end
@@ -131,8 +154,8 @@ RSpec.shared_examples 'tree node title click updates pane and URL when no unsave
   end
 end
 
-RSpec.shared_examples 'infinite tree integration edit parity' do |config|
-  include_context 'infinite tree integration hierarchy setup', config.merge(run_indexer: true)
+RSpec.shared_examples 'navigating the edit view with integrated router and pane' do |config|
+  include_context 'infinite tree integration hierarchy setup', config
 
   describe 'on initial load' do
     context 'when the URL has no record hash' do

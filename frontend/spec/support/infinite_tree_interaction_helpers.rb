@@ -450,13 +450,27 @@ module InfiniteTreeInteractionHelpers
   # Wait for an inline edit form to finish loading in the record pane.
   # form_prefix is the record type form id prefix (e.g. 'resource', 'archival_object').
   def wait_for_infinite_tree_inline_edit_form(form_prefix:)
-    form_id = "#{form_prefix}_form"
     pane = '#infinite-tree-record-pane'
+    explicit_form_id = "#{form_prefix}_form"
+    form_context_id = "form_#{form_prefix}"
 
     aggregate_failures do
       expect(page).to have_no_css("#{pane}.blocked")
-      expect(page).to have_css("#{pane} ##{form_id}[data-update-monitor-record-uri]")
+      expect(page).to have_css(
+        "#{pane} ##{explicit_form_id}[data-update-monitor-record-uri], " \
+        "#{pane} ##{form_context_id}, #{pane} ##{explicit_form_id}",
+        wait: 10
+      )
+      expect(page).to have_css("#{pane} form[data-update-monitor-record-uri]", wait: 10)
     end
+  end
+
+  # Select a tree row by record id rather than title text.
+  # @param record [Object] record with #uri
+  def select_tree_row_by_id(record)
+    node_id = infinite_tree_node_id_for(record)
+    find("#infinite-tree-container li##{node_id} > .node-row a.record-title").click
+    wait_for_ajax
   end
 
   # Wait for tree to be fully ready for reorder mode interactions
@@ -490,27 +504,127 @@ module InfiniteTreeInteractionHelpers
   end
 
   # ============================================================================
+  # Toolbar expand / collapse (Auto-Expand All, Collapse Tree)
+  # ============================================================================
+
+  # Auto-expand uses fetch and timers; jQuery.active does not reflect completion.
+  def wait_for_infinite_tree_auto_expand_toolbar_idle
+    expect(page).to have_css(
+      '.js-itree-toolbar-expand-mode:not(.disabled):not([disabled])',
+      wait: 15
+    )
+  end
+
+  def wait_for_infinite_tree_auto_expand_mode_on
+    aggregate_failures do
+      expect(page).to have_css('#infinite-tree-container.expand-all', wait: 10)
+      expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success', wait: 10)
+    end
+    wait_for_infinite_tree_auto_expand_toolbar_idle
+  end
+
+  def wait_for_infinite_tree_auto_expand_mode_off
+    aggregate_failures do
+      expect(page).to have_css('#infinite-tree-container:not(.expand-all)', wait: 10)
+      expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success', wait: 10)
+    end
+    wait_for_infinite_tree_auto_expand_toolbar_idle
+  end
+
+  def wait_for_infinite_tree_collapsed
+    expect(page).to have_no_css(
+      '#infinite-tree-container li.node[aria-expanded="true"]:not(.root)',
+      wait: 15
+    )
+    wait_for_infinite_tree_auto_expand_toolbar_idle
+  end
+
+  def click_infinite_tree_toolbar_enable_auto_expand
+    return if page.has_css?('#infinite-tree-container.expand-all', wait: 0)
+
+    find('.js-itree-toolbar-expand-mode').click
+    wait_for_infinite_tree_auto_expand_mode_on
+  end
+
+  def click_infinite_tree_toolbar_disable_auto_expand
+    return unless page.has_css?('#infinite-tree-container.expand-all', wait: 0)
+
+    find('.js-itree-toolbar-expand-mode').click
+    wait_for_infinite_tree_auto_expand_mode_off
+  end
+
+  def click_infinite_tree_toolbar_collapse_tree
+    find('.js-itree-toolbar-collapse-tree').click
+    wait_for_infinite_tree_auto_expand_mode_off
+    wait_for_infinite_tree_collapsed
+  end
+
+  # ============================================================================
   # Toolbar inline create helpers
   # ============================================================================
 
   def click_infinite_tree_toolbar_add_child
     find('.js-itree-toolbar-add-child').click
-    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
   end
 
   def click_infinite_tree_toolbar_add_sibling
     find('.js-itree-toolbar-add-sibling').click
-    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
   end
 
   def click_infinite_tree_toolbar_add_duplicate
     find('.js-itree-toolbar-add-duplicate').click
-    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
   end
 
   def cancel_infinite_tree_record_pane_form
     within('#infinite-tree-record-pane') { find('.btn-cancel').click }
-    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
+  end
+
+  def install_inline_create_fetch_capture
+    page.execute_script(<<~JS)
+      window.__itreeInlineCreateRequests = [];
+      var originalFetch = window.fetch.bind(window);
+      window.fetch = function(input, init) {
+        var url = typeof input === 'string' ? input : input.url;
+        if (url && url.indexOf('/new?') !== -1) {
+          window.__itreeInlineCreateRequests.push(url);
+        }
+        return originalFetch(input, init);
+      };
+    JS
+  end
+
+  def last_inline_create_request_params
+    url = page.evaluate_script(
+      'window.__itreeInlineCreateRequests[window.__itreeInlineCreateRequests.length - 1]'
+    )
+    return {} if url.nil? || url.empty?
+
+    uri = URI.parse(url)
+    Hash[URI.decode_www_form(uri.query || '')]
+  end
+
+  def anchor_tree_position(record)
+    page.find(
+      "#infinite-tree-container li##{infinite_tree_node_id_for(record)}"
+    )['data-tree-position'].to_i
+  end
+
+  def anchor_parent_record_id(record)
+    page.find(
+      "#infinite-tree-container li##{infinite_tree_node_id_for(record)}"
+    )['data-tree-parent-record-id']
+  end
+
+  def fill_invalid_digital_object_component_fields(now)
+    fill_in 'digital_object_component_component_id_', with: "Invalid #{now}"
+  end
+
+  def fill_invalid_classification_term_fields(_now)
+    # Leave required fields blank.
   end
 
   # @param title [String]
@@ -534,8 +648,11 @@ module InfiniteTreeInteractionHelpers
 
   # Fill hierarchy-specific required fields for a valid inline child create.
   # @param child_type [String] e.g. 'digital_object_component', 'classification_term'
-  def fill_valid_inline_child_fields(child_type:, title:)
+  def fill_valid_inline_child_fields(child_type:, title:, level: 'Item')
     case child_type
+    when 'archival_object'
+      fill_in 'archival_object_title_', with: title
+      select level, from: 'archival_object_level_'
     when 'digital_object_component'
       fill_in 'digital_object_component_title_', with: title
       fill_in 'digital_object_component_component_id_', with: title
@@ -547,9 +664,43 @@ module InfiniteTreeInteractionHelpers
     end
   end
 
+  def fill_invalid_archival_object_fields(_now)
+    # Leave required fields blank.
+  end
+
   def saved_child_id_from_pane
     within('#infinite-tree-record-pane') do
       find('#uri', visible: :all).value.split('/').last.to_i
+    end
+  end
+
+  def wait_for_infinite_tree_ready_for_rde
+    aggregate_failures do
+      expect(page).to have_css(
+        '#infinite-tree-container li.node.current[data-uri]',
+        visible: true
+      )
+      expect(page).to have_css(
+        '#infinite-tree-toolbar .js-itree-toolbar-rde:not(.disabled)',
+        visible: true
+      )
+      expect(page).to have_css('#infinite-tree-record-pane:not(.blocked)')
+    end
+  end
+
+  def open_infinite_tree_rapid_data_entry_modal
+    wait_for_infinite_tree_ready_for_rde
+
+    within '#infinite-tree-toolbar' do
+      find('.js-itree-toolbar-rde:not(.disabled)', visible: true).click
+    end
+
+    wait_for_ajax
+
+    aggregate_failures do
+      expect(page).to have_css('#rapidDataEntryModal', visible: true)
+      expect(page).to have_css('#rapidDataEntryModal #rde_form', visible: true)
+      expect(page).to have_css('#rapidDataEntryModal #rdeTable', visible: true)
     end
   end
 
