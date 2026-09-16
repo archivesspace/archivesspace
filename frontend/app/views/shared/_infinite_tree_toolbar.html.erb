@@ -86,54 +86,60 @@
       class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-add-child"
       data-itree-action="add-child"
     >
-      <%= I18n.t('resource._frontend.action.add_child') %>
+      <%= add_child_label %>
     </button>
     <button
       type="button"
       class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-add-sibling"
       data-itree-action="add-sibling"
     >
-      <%= I18n.t('archival_object._frontend.action.add_sibling') %>
+      <%= add_sibling_label %>
     </button>
-    <button
-      type="button"
-      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-add-duplicate"
-      data-itree-action="add-duplicate"
-    >
-      <%= I18n.t('archival_object._frontend.action.add_duplicate') %>
-    </button>
-    <div
-      class="btn-group js-itree-toolbar-load-bulk-group"
-      role="group"
-      aria-label="<%= I18n.t('resource._frontend.action.load_bulk') %>"
-    >
+    <% if show_add_duplicate %>
       <button
         type="button"
-        class="btn btn-sm btn-default infinite-tree-toolbar__btn border-right-0 js-itree-toolbar-load-bulk"
-        data-itree-action="load-bulk"
+        class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-add-duplicate"
+        data-itree-action="add-duplicate"
       >
-        <%= I18n.t('resource._frontend.action.load_bulk') %>
+        <%= add_duplicate_label %>
       </button>
-      <a
-        target="_blank"
-        class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-load-via-spreadsheet-help"
-        id="load_via_spreadsheet_help_icon"
-        href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>"
-        data-toggle="tooltip"
-        data-placement="auto"
-        title="<%= t('help.topics.resource_load_via_spreadsheet') %>"
-        data-container="body"
+    <% end %>
+    <% if show_load_bulk %>
+      <div
+        class="btn-group js-itree-toolbar-load-bulk-group"
+        role="group"
+        aria-label="<%= I18n.t('resource._frontend.action.load_bulk') %>"
       >
-        <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
-      </a>
-    </div>
-    <button
-      type="button"
-      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-rde"
-      data-itree-action="rde"
-    >
-      <%= I18n.t('actions.rapid_data_entry') %>
-    </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-default infinite-tree-toolbar__btn border-right-0 js-itree-toolbar-load-bulk"
+          data-itree-action="load-bulk"
+        >
+          <%= I18n.t('resource._frontend.action.load_bulk') %>
+        </button>
+        <a
+          target="_blank"
+          class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-load-via-spreadsheet-help"
+          id="load_via_spreadsheet_help_icon"
+          href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>"
+          data-toggle="tooltip"
+          data-placement="auto"
+          title="<%= t('help.topics.resource_load_via_spreadsheet') %>"
+          data-container="body"
+        >
+          <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
+        </a>
+      </div>
+    <% end %>
+    <% if show_rde %>
+      <button
+        type="button"
+        class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-rde"
+        data-itree-action="rde"
+      >
+        <%= I18n.t('actions.rapid_data_entry') %>
+      </button>
+    <% end %>
   </div>
 
   <a

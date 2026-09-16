@@ -5,6 +5,7 @@ class InfiniteTreeToolbarActions {
       '#infinite-tree-container'
     );
     this.toolbarEl = this.componentEl.querySelector('#infinite-tree-toolbar');
+    this.rootType = this.componentEl.getAttribute('data-record-type');
 
     this.#bindEvents();
   }
@@ -22,6 +23,8 @@ class InfiniteTreeToolbarActions {
   }
 
   #onLoadBulkRequested(event) {
+    if (this.rootType !== 'resource') return;
+
     const node = this.#eventNode(event);
     if (!node) return;
 
@@ -30,6 +33,10 @@ class InfiniteTreeToolbarActions {
   }
 
   #onRdeRequested(event) {
+    if (this.rootType !== 'resource' && this.rootType !== 'digital_object') {
+      return;
+    }
+
     const node = this.#eventNode(event);
     if (!node || !node.getAttribute('data-uri')) return;
 

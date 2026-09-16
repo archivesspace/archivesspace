@@ -2,11 +2,35 @@
   class InfiniteTreeIds {
     static #uriPattern = /\/repositories\/([0-9]+)\/([a-z_]+)\/([0-9]+)/;
 
-    static #childTypeMap = {
-      resource: 'archival_object',
-      digital_object: 'digital_object_component',
-      classification: 'classification_term',
-    };
+    /**
+     * @returns {Record<string, { childType: string }>}
+     */
+    static #hierarchyConfig() {
+      const config = exports.InfiniteTreeHierarchyConfig;
+
+      if (!config || typeof config !== 'object') {
+        throw new Error(
+          'InfiniteTreeHierarchyConfig is missing. It must be assigned before ' +
+            'InfiniteTree modules initialize.'
+        );
+      }
+
+      return config;
+    }
+
+    /**
+     * @param {string} childType
+     * @returns {{ childType: string, childCollectionPath: string, newFormPath: string }}
+     */
+    static #pathsForChildType(childType) {
+      const childCollectionPath = `${childType}s`;
+
+      return {
+        childType,
+        childCollectionPath,
+        newFormPath: `${childCollectionPath}/new`,
+      };
+    }
 
     static uriToParts(uri) {
       const match = uri.match(this.#uriPattern);
@@ -24,9 +48,36 @@
 
       const [, repoId, typePlural, id] = match;
       const type = typePlural.replace(/s$/, '');
-      const childType = this.#childTypeMap[type];
+      const entry = this.#hierarchyConfig()[type];
 
-      return { repoId, type, id, childType };
+      if (!entry || !entry.childType) return null;
+
+      const paths = this.#pathsForChildType(entry.childType);
+
+      return {
+        repoId,
+        type,
+        id,
+        childType: paths.childType,
+        childCollectionPath: paths.childCollectionPath,
+        newFormPath: paths.newFormPath,
+      };
+    }
+
+    /**
+     * @param {string} childType
+     * @returns {{ childType: string, childCollectionPath: string, newFormPath: string }|null}
+     */
+    static hierarchyForChildType(childType) {
+      if (!childType) return null;
+
+      const known = Object.values(this.#hierarchyConfig()).some(
+        entry => entry && entry.childType === childType
+      );
+
+      if (!known) return null;
+
+      return this.#pathsForChildType(childType);
     }
 
     static uriToTreeId(uri) {
