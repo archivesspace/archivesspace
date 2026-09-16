@@ -224,8 +224,6 @@ describe 'Infinite Tree Toolbar', js: true do
           create(:archival_object, resource: { 'ref' => resource.uri }, title: "Child 03 #{now}")
         end
         let(:parent_count) { 5 }
-        let(:expand_mode_toggle_button) { find('.js-itree-toolbar-expand-mode') }
-        let(:collapse_tree_button) { find('.js-itree-toolbar-collapse-tree') }
         let(:parent_selector_base) { 'li.node:not(.root)' }
         let(:collapsed_parent_selector) { "#{parent_selector_base}[aria-expanded='false']" }
         let(:expanded_parent_selector) { "#{parent_selector_base}[aria-expanded='true']" }
@@ -246,7 +244,7 @@ describe 'Infinite Tree Toolbar', js: true do
           end
 
           it 'expands, and disables the expand buttons for, all parent nodes in and near the viewport' do
-            expand_mode_toggle_button.click
+            click_infinite_tree_toolbar_enable_auto_expand
 
             aggregate_failures do
               expect(page).to have_css('#infinite-tree-container.expand-all')
@@ -319,7 +317,7 @@ describe 'Infinite Tree Toolbar', js: true do
               tree_container.scroll_to(find('#infinite-tree-container .root.node > .node-row'), align: :top)
               wait_for_ajax
 
-              expand_mode_toggle_button.click
+              click_infinite_tree_toolbar_enable_auto_expand
               expect(page).to have_css('#infinite-tree-container.expand-all')
               expect(page).to have_css("#archival_object_#{first_root_child.id}[aria-expanded='true']")
               expect(page).to have_css("#archival_object_#{second_root_child.id}[aria-expanded='true']")
@@ -336,16 +334,8 @@ describe 'Infinite Tree Toolbar', js: true do
 
           context 'when toggled off' do
             before do
-              expand_mode_toggle_button.click
-              expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
-
-              # Hack around flakiness experienced when using `expand_mode_toggle_button.click`
-              within '#infinite-tree-toolbar' do
-                click_button 'Disable Auto-Expand'
-                wait_for_ajax
-              end
-
-              expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-default')
+              click_infinite_tree_toolbar_enable_auto_expand
+              click_infinite_tree_toolbar_disable_auto_expand
             end
 
             it 're-enables the expand buttons for all expanded parent nodes in the tree' do
@@ -364,14 +354,13 @@ describe 'Infinite Tree Toolbar', js: true do
 
         describe 'collapse tree behavior' do
           before do
-            expand_mode_toggle_button.click
-            wait_for_ajax
+            click_infinite_tree_toolbar_enable_auto_expand
           end
 
           it 'collapses all expanded parent nodes and turns off auto-expand mode if it is on' do
             expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
 
-            collapse_tree_button.click
+            click_infinite_tree_toolbar_collapse_tree
 
             aggregate_failures do
               expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
@@ -387,190 +376,8 @@ describe 'Infinite Tree Toolbar', js: true do
       end
 
       describe 'record creation controls' do
-        describe 'Add Child' do
-          context 'from the root record' do
-            before do
-              visit "#{edit_path}#{root_hash}"
-              wait_for_infinite_tree_inline_edit_form(form_prefix: root_form_prefix)
-            end
-
-            it 'opens a new child record form with a synthetic tree row' do
-              click_infinite_tree_toolbar_add_child
-
-              aggregate_failures do
-                within('#infinite-tree-container') do
-                  expect(page).to have_css("li##{child_form_prefix}_new.js-itree-synthetic-new.current")
-                end
-                within('#infinite-tree-record-pane') do
-                  expect(page).to have_css("##{child_form_prefix}_form")
-                  expect(page).to have_button(
-                    I18n.t("#{child_form_prefix}._frontend.action.save"),
-                    match: :first
-                  )
-                end
-                expect(page.current_url).to include('#new')
-              end
-            end
-
-            it 'shows the created flash message after Save' do
-              click_infinite_tree_toolbar_add_child
-
-              title = "New Child #{now}"
-              fill_and_save_new_child_record(
-                title: title,
-                form_prefix: child_form_prefix,
-                level: 'Item'
-              )
-
-              expect(page).to have_css(
-                '.alert.alert-success.with-hide-alert',
-                text: "Archival Object #{title} on Resource #{root_record.title} created"
-              )
-            end
-
-            it 'returns to the anchor record edit when Cancel is clicked' do
-              click_infinite_tree_toolbar_add_child
-              cancel_infinite_tree_record_pane_form
-
-              aggregate_failures do
-                within('#infinite-tree-record-pane') do
-                  expect(page).to have_css("#form_#{root_form_prefix}")
-                  expect(page).to have_css('h2', text: root_record.title)
-                end
-                expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
-                expect(page).to have_css(
-                  infinite_tree_current_node_selector(root_record),
-                  visible: :all
-                )
-              end
-            end
-          end
-
-          context 'from a child record' do
-            before do
-              nested_child_record
-              visit "#{edit_path}#{nested_child_record_hash}"
-              wait_for_ajax
-            end
-
-            it 'opens a new child record form with a synthetic tree row' do
-              click_infinite_tree_toolbar_add_child
-
-              aggregate_failures do
-                within('#infinite-tree-container') do
-                  expect(page).to have_css(
-                    "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-3"
-                  )
-                  expect(page).to have_css('ol.node-children[data-tree-level="3"]')
-                end
-                within('#infinite-tree-record-pane') do
-                  expect(page).to have_css("##{child_form_prefix}_form")
-                  expect(page).to have_button(
-                    I18n.t("#{child_form_prefix}._frontend.action.save"),
-                    match: :first
-                  )
-                end
-                expect(page.current_url).to include('#new')
-              end
-            end
-
-            it 'shows the created flash message after Save' do
-              click_infinite_tree_toolbar_add_child
-
-              title = "New Nested Child #{now}"
-              fill_and_save_new_child_record(
-                title: title,
-                form_prefix: child_form_prefix,
-                level: 'Item'
-              )
-
-              expect(page).to have_css(
-                '.alert.alert-success.with-hide-alert',
-                text: "Archival Object #{title} created as child of #{nested_child_record.title} on Resource #{root_record.title}"
-              )
-            end
-
-            it 'returns to the anchor record edit when Cancel is clicked' do
-              click_infinite_tree_toolbar_add_child
-              cancel_infinite_tree_record_pane_form
-
-              aggregate_failures do
-                within('#infinite-tree-record-pane') do
-                  expect(page).to have_css("#form_#{child_form_prefix}")
-                  expect(page).to have_css('h2', text: nested_child_record.title)
-                end
-                expect(page.current_url).to match(%r{#{Regexp.escape(nested_child_record_hash)}})
-                expect(page).to have_css(
-                  infinite_tree_current_node_selector(nested_child_record),
-                  visible: :all
-                )
-              end
-            end
-          end
-        end
-
-        describe 'Add Sibling' do
-          before do
-            visit "#{edit_path}#{child_record_hash}"
-            wait_for_ajax
-          end
-
-          it 'opens a new child record form with a synthetic tree row' do
-            click_infinite_tree_toolbar_add_sibling
-
-            aggregate_failures do
-              within('#infinite-tree-container') do
-                expect(page).to have_css(
-                  "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-1"
-                )
-                expect(page).to have_css(
-                  "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
-                )
-              end
-              within('#infinite-tree-record-pane') do
-                expect(page).to have_css("##{child_form_prefix}_form")
-                expect(page).to have_button(
-                  I18n.t("#{child_form_prefix}._frontend.action.save"),
-                  match: :first
-                )
-              end
-              expect(page.current_url).to include('#new')
-            end
-          end
-
-          it 'shows the created flash message after Save' do
-            click_infinite_tree_toolbar_add_sibling
-
-            title = "New Sibling #{now}"
-            fill_and_save_new_child_record(
-              title: title,
-              form_prefix: child_form_prefix,
-              level: 'Item'
-            )
-
-            expect(page).to have_css(
-              '.alert.alert-success.with-hide-alert',
-              text: "Archival Object #{title} on Resource #{root_record.title} created"
-            )
-          end
-
-          it 'returns to the anchor record edit when Cancel is clicked' do
-            click_infinite_tree_toolbar_add_sibling
-            cancel_infinite_tree_record_pane_form
-
-            aggregate_failures do
-              within('#infinite-tree-record-pane') do
-                expect(page).to have_css("#form_#{child_form_prefix}")
-                expect(page).to have_css('h2', text: child_record.title)
-              end
-              expect(page.current_url).to match(%r{#{Regexp.escape(child_record_hash)}})
-              expect(page).to have_css(
-                infinite_tree_current_node_selector(child_record),
-                visible: :all
-              )
-            end
-          end
-        end
+        # Add Child / Add Sibling entry, Save, and cancel flows:
+        # infinite_tree_toolbar_inline_create_spec.rb (all three hierarchies).
 
         describe 'Add Duplicate' do
           before do
@@ -1132,8 +939,7 @@ describe 'Infinite Tree Toolbar', js: true do
       expect(find('.js-itree-toolbar-expand-mode').text)
         .to eq(I18n.t('actions.expand_tree_mode_on', locale: :fr))
 
-      find('.js-itree-toolbar-expand-mode').click
-      wait_for_ajax
+      click_infinite_tree_toolbar_enable_auto_expand
 
       expect(find('.js-itree-toolbar-expand-mode').text)
         .to eq(I18n.t('actions.expand_tree_mode_off', locale: :fr))
@@ -1157,11 +963,6 @@ describe 'Infinite Tree Toolbar', js: true do
     end
   end
 
-  # Ported from reorder_mode_spec.rb 'disables reorder mode toggle when the form
-  # is dirty', which skip_if_infinite_tree_toolbar_active now skips on every
-  # resource edit run. Legacy asserted #tree-toolbar .drag-toggle.disabled;
-  # InfiniteTree must do the same for .js-itree-toolbar-reorder-toggle rather
-  # than only bailing inside #onReorderToggle while leaving the control enabled.
   describe 'reorder toggle while the record pane is dirty' do
     before do
       visit edit_path

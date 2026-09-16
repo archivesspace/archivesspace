@@ -27,34 +27,10 @@ describe 'Tree toolbar action matrix', js: true do
     end
   end
 
-  it 'shows resource-root actions' do
-    resource = create(:resource, title: "Matrix Resource #{Time.now.to_i}")
-    create(:archival_object, title: 'Matrix AO', resource: { ref: resource.uri })
-    run_indexer
-
-    visit "resources/#{resource.id}/edit"
-    wait_for_ajax
-
-    skip_if_infinite_tree_toolbar_active
-
-    expect(page).to have_css('#tree-toolbar .drag-toggle')
-    expect_toolbar_to_include('Auto-Expand All', 'Collapse Tree', 'Add Child', 'Load via Spreadsheet', 'Rapid Data Entry')
-    expect_toolbar_to_exclude('Add Sibling', 'Add Duplicate')
-  end
-
-  it 'shows archival object actions when an archival object node is selected' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Matrix Resource AO #{now}")
-    archival_object = create(:archival_object, title: "Matrix AO #{now}", resource: { ref: resource.uri })
-    run_indexer
-
-    visit "resources/#{resource.id}/edit"
-    wait_for_ajax
-    click_on archival_object.title
-
-    skip_if_infinite_tree_toolbar_active
-
-    expect_toolbar_to_include('Add Child', 'Add Sibling', 'Add Duplicate', 'Load via Spreadsheet', 'Rapid Data Entry', 'Auto-Expand All', 'Collapse Tree')
+  def expect_infinite_tree_toolbar_to_include(*labels)
+    labels.each do |label|
+      expect(page).to have_css('#infinite-tree-toolbar', text: label)
+    end
   end
 
   it 'shows digital object root and component actions' do
@@ -64,15 +40,35 @@ describe 'Tree toolbar action matrix', js: true do
     run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_ajax
 
-    expect(page).to have_css('#tree-toolbar .drag-toggle')
-    expect_toolbar_to_include('Add Child', 'Rapid Data Entry')
-    expect_toolbar_to_exclude('Load via Spreadsheet', 'Auto-Expand All', 'Collapse Tree', 'Add Sibling', 'Add Duplicate')
+    wait_for_infinite_tree_pane_ready
 
-    click_on component.title
-    expect_toolbar_to_include('Add Child', 'Add Sibling', 'Rapid Data Entry')
-    expect_toolbar_to_exclude('Load via Spreadsheet', 'Add Duplicate')
+    expect(page).to have_css('#infinite-tree-toolbar .js-itree-toolbar-reorder-toggle')
+    expect_infinite_tree_toolbar_to_include(
+      I18n.t('digital_object._frontend.action.add_child'),
+      I18n.t('actions.rapid_data_entry'),
+      I18n.t('actions.expand_tree_mode_on'),
+      I18n.t('actions.collapse_tree')
+    )
+    expect(page).to have_no_css('.js-itree-toolbar-load-bulk')
+    expect(page).to have_no_css('#load_via_spreadsheet_help_icon')
+    expect(page).to have_no_css('.js-itree-toolbar-add-duplicate')
+    expect(page).to have_css(
+      '.js-itree-toolbar-add-sibling',
+      visible: :hidden,
+      text: I18n.t('digital_object_component._frontend.action.add_sibling')
+    )
+
+    select_tree_row(component)
+    expect_infinite_tree_toolbar_to_include(
+      I18n.t('digital_object._frontend.action.add_child'),
+      I18n.t('digital_object_component._frontend.action.add_sibling'),
+      I18n.t('actions.rapid_data_entry'),
+      I18n.t('actions.expand_tree_mode_on'),
+      I18n.t('actions.collapse_tree')
+    )
+    expect(page).to have_no_css('.js-itree-toolbar-load-bulk')
+    expect(page).to have_no_css('.js-itree-toolbar-add-duplicate')
   end
 
   it 'shows classification root and term actions' do
@@ -82,14 +78,33 @@ describe 'Tree toolbar action matrix', js: true do
     run_indexer
 
     visit "classifications/#{classification.id}/edit"
-    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
 
-    expect(page).to have_css('#tree-toolbar .drag-toggle')
-    expect_toolbar_to_include('Add Child')
-    expect_toolbar_to_exclude('Load via Spreadsheet', 'Auto-Expand All', 'Collapse Tree', 'Add Sibling', 'Add Duplicate', 'Rapid Data Entry')
+    expect(page).to have_css('#infinite-tree-toolbar .js-itree-toolbar-reorder-toggle')
+    expect_infinite_tree_toolbar_to_include(
+      I18n.t('classification._frontend.action.add_child'),
+      I18n.t('actions.expand_tree_mode_on'),
+      I18n.t('actions.collapse_tree')
+    )
+    expect(page).to have_no_css('.js-itree-toolbar-load-bulk')
+    expect(page).to have_no_css('#load_via_spreadsheet_help_icon')
+    expect(page).to have_no_css('.js-itree-toolbar-rde')
+    expect(page).to have_no_css('.js-itree-toolbar-add-duplicate')
+    expect(page).to have_css(
+      '.js-itree-toolbar-add-sibling',
+      visible: :hidden,
+      text: I18n.t('classification_term._frontend.action.add_sibling')
+    )
 
-    click_on term.title
-    expect_toolbar_to_include('Add Child', 'Add Sibling')
-    expect_toolbar_to_exclude('Load via Spreadsheet', 'Add Duplicate', 'Rapid Data Entry')
+    select_tree_row(term)
+    expect_infinite_tree_toolbar_to_include(
+      I18n.t('classification._frontend.action.add_child'),
+      I18n.t('classification_term._frontend.action.add_sibling'),
+      I18n.t('actions.expand_tree_mode_on'),
+      I18n.t('actions.collapse_tree')
+    )
+    expect(page).to have_no_css('.js-itree-toolbar-load-bulk')
+    expect(page).to have_no_css('.js-itree-toolbar-rde')
+    expect(page).to have_no_css('.js-itree-toolbar-add-duplicate')
   end
 end

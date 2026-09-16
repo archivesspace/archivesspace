@@ -60,25 +60,21 @@ When 'the user selects {string} as the current repository' do |repository_name|
 end
 
 When 'the user clicks on {string}' do |string|
-  click_on_string string
-
-  if [
-    "resources/#{@resource_id}/edit",
-    "digital_objects/#{@digital_object_id}/edit",
-    'merge_selector',
-    'defaults'
-  ].any? { |s| current_url.include?(s) }
-    wait_for_ajax
-    sleep 2
-  end
-end
-
-When 'the user clicks on {string} in the infinite tree toolbar' do |string|
-  within '#infinite-tree-toolbar' do
+  if infinite_tree_toolbar_click?(string)
+    click_infinite_tree_toolbar_button(string)
+  else
     click_on_string string
-  end
 
-  wait_for_ajax
+    if [
+      "resources/#{@resource_id}/edit",
+      "digital_objects/#{@digital_object_id}/edit",
+      'merge_selector',
+      'defaults'
+    ].any? { |s| current_url.include?(s) }
+      wait_for_ajax
+      sleep 2
+    end
+  end
 end
 
 When 'the user hovers on {string} in the dropdown menu' do |string|
@@ -211,13 +207,16 @@ end
 
 When 'the user clicks on remove icon in the {string} form' do |form_title|
   section_title = find('h3', text: form_title)
-  section = section_title.ancestor('section')
-  expect(section[:id]).to_not eq nil
+  section_id = section_title.ancestor('section')[:id]
+  expect(section_id).to_not eq nil
 
-  within section do
-    find('.subrecord-form-remove').click
-    expect(page).to have_text 'Confirm Removal'
+  expect(page).to have_css("##{section_id} .subrecord-form-remove", wait: 10)
+
+  within "##{section_id}" do
+    find('.subrecord-form-remove', match: :first).click
   end
+
+  expect(page).to have_text 'Confirm Removal'
 end
 
 When 'the user fills in {string} with {string} in the {string} form' do |label, value, form_title|
