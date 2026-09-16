@@ -523,6 +523,93 @@ module InfiniteTreeInteractionHelpers
     save_label = I18n.t("#{form_prefix}._frontend.action.save")
     find('button', text: save_label, match: :first).click
     wait_for_ajax
+    wait_for_infinite_tree_pane_ready
+  end
+
+  def click_infinite_tree_create_plus_one
+    find('#createPlusOne', match: :first).click
+    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
+  end
+
+  # Fill hierarchy-specific required fields for a valid inline child create.
+  # @param child_type [String] e.g. 'digital_object_component', 'classification_term'
+  def fill_valid_inline_child_fields(child_type:, title:)
+    case child_type
+    when 'digital_object_component'
+      fill_in 'digital_object_component_title_', with: title
+      fill_in 'digital_object_component_component_id_', with: title
+    when 'classification_term'
+      fill_in 'classification_term_title_', with: title
+      fill_in 'classification_term_identifier_', with: "id-#{title}"
+    else
+      raise ArgumentError, "unsupported child_type: #{child_type}"
+    end
+  end
+
+  def saved_child_id_from_pane
+    within('#infinite-tree-record-pane') do
+      find('#uri', visible: :all).value.split('/').last.to_i
+    end
+  end
+
+  # HTML id for a tree row from a backend record URI.
+  def infinite_tree_node_id_for_uri(uri)
+    parts = uri.split('/')
+    type = parts[-2].sub(/s$/, '')
+    "#{type}_#{parts[-1]}"
+  end
+
+  # Capture inline create POST submits and record-pane submitSuccess events.
+  def install_inline_create_submit_capture
+    page.execute_script(<<~JS)
+      window.__itreeInlineCreateSubmits = [];
+      window.__itreeRecordPaneSubmitEvents = [];
+
+      var recordPane = document.querySelector('#infinite-tree-record-pane');
+      if (recordPane) {
+        recordPane.addEventListener('infiniteTreeRecordPane:submitSuccess', function(event) {
+          window.__itreeRecordPaneSubmitEvents.push(event.detail || {});
+        });
+      }
+
+      if (!window.__itreeInlineCreateFetchPatched) {
+        window.__itreeInlineCreateFetchPatched = true;
+        window.__itreeOriginalFetch = window.fetch.bind(window);
+        window.fetch = function(input, init) {
+          var url = typeof input === 'string' ? input : input.url;
+          var method = (init && init.method ? init.method : 'GET').toUpperCase();
+          var isCreatePost = method === 'POST' && url && url.indexOf('/accept_children') === -1 && (
+            url.indexOf('/archival_objects') !== -1 ||
+            url.indexOf('/digital_object_components') !== -1 ||
+            url.indexOf('/classification_terms') !== -1
+          );
+
+          if (isCreatePost) {
+            var plusOne = false;
+            var body = init && init.body;
+            if (body instanceof FormData) {
+              plusOne = body.has('plus_one');
+            }
+            window.__itreeInlineCreateSubmits.push({ url: url, plusOne: plusOne });
+          }
+
+          return window.__itreeOriginalFetch(input, init);
+        };
+      }
+    JS
+  end
+
+  def last_inline_create_submit_detail
+    page.evaluate_script(
+      'window.__itreeInlineCreateSubmits[window.__itreeInlineCreateSubmits.length - 1] || null'
+    )
+  end
+
+  def last_record_pane_submit_success_detail
+    page.evaluate_script(
+      'window.__itreeRecordPaneSubmitEvents[window.__itreeRecordPaneSubmitEvents.length - 1] || null'
+    )
   end
 
   def click_infinite_tree_toolbar_cut
