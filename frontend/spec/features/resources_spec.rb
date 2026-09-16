@@ -664,7 +664,6 @@ describe 'Resources', js: true do
 
     click_on 'Add Child'
 
-    # Click on save (+1)
     find('#createPlusOne').click
 
     within '#form_messages' do
@@ -684,7 +683,6 @@ describe 'Resources', js: true do
 
     select 'Item', from: 'archival_object_level_'
 
-    # Click on save (+1)
     find('#createPlusOne').click
 
     within '#form_messages' do

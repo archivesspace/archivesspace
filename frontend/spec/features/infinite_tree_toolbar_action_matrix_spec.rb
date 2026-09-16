@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Default- and reorder-mode toolbar buttons for Digital Objects and Classifications.
+# Resource toolbar layout is covered in infinite_tree_toolbar_spec.rb.
+
 require 'spec_helper'
 require 'rails_helper'
 
@@ -19,67 +22,6 @@ describe 'Infinite Tree toolbar action matrix', js: true do
     labels.each do |label|
       expect(page).to have_css('#infinite-tree-toolbar', text: label)
     end
-  end
-
-  def expect_itree_toolbar_to_exclude(*labels)
-    labels.each do |label|
-      expect(page).to have_no_css('#infinite-tree-toolbar', text: label)
-    end
-  end
-
-  it 'shows resource-root actions' do
-    resource = create(:resource, title: "Matrix Resource #{Time.now.to_i}")
-    create(:archival_object, title: 'Matrix AO', resource: { ref: resource.uri })
-    run_indexer
-
-    visit "resources/#{resource.id}/edit"
-    wait_for_ajax
-
-    expect(page).to have_css('#infinite-tree-toolbar .js-itree-toolbar-reorder-toggle')
-    expect_itree_toolbar_to_include(
-      I18n.t('actions.expand_tree_mode_on'),
-      I18n.t('actions.collapse_tree'),
-      I18n.t('resource._frontend.action.add_child'),
-      I18n.t('resource._frontend.action.load_bulk'),
-      I18n.t('actions.rapid_data_entry')
-    )
-    expect(page).to have_css('#load_via_spreadsheet_help_icon')
-    expect(page).to have_css(
-      '.js-itree-toolbar-add-sibling',
-      visible: :hidden,
-      text: I18n.t('archival_object._frontend.action.add_sibling')
-    )
-    expect(page).to have_css(
-      '.js-itree-toolbar-add-duplicate',
-      visible: :hidden,
-      text: I18n.t('archival_object._frontend.action.add_duplicate')
-    )
-  end
-
-  it 'shows archival object actions when an archival object node is selected' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Matrix Resource AO #{now}")
-    archival_object = create(
-      :archival_object,
-      title: "Matrix AO #{now}",
-      resource: { ref: resource.uri }
-    )
-    run_indexer
-
-    visit "resources/#{resource.id}/edit"
-    wait_for_ajax
-    select_tree_row(archival_object)
-
-    expect_itree_toolbar_to_include(
-      I18n.t('resource._frontend.action.add_child'),
-      I18n.t('archival_object._frontend.action.add_sibling'),
-      I18n.t('archival_object._frontend.action.add_duplicate'),
-      I18n.t('resource._frontend.action.load_bulk'),
-      I18n.t('actions.rapid_data_entry'),
-      I18n.t('actions.expand_tree_mode_on'),
-      I18n.t('actions.collapse_tree')
-    )
-    expect(page).to have_css('#load_via_spreadsheet_help_icon')
   end
 
   it 'shows digital object root and component actions' do
@@ -121,6 +63,13 @@ describe 'Infinite Tree toolbar action matrix', js: true do
     )
     expect(page).to have_no_css('.js-itree-toolbar-load-bulk')
     expect(page).to have_no_css('.js-itree-toolbar-add-duplicate')
+
+    select_tree_row(digital_object)
+    enable_reorder_mode
+    expect_infinite_tree_reorder_toolbar_for_root(InfiniteTreeHierarchyConfigs::DIGITAL_OBJECT)
+
+    select_tree_row(component)
+    expect_infinite_tree_reorder_toolbar_for_child(InfiniteTreeHierarchyConfigs::DIGITAL_OBJECT)
   end
 
   it 'shows classification root and term actions' do
@@ -162,5 +111,12 @@ describe 'Infinite Tree toolbar action matrix', js: true do
     expect(page).to have_no_css('.js-itree-toolbar-load-bulk')
     expect(page).to have_no_css('.js-itree-toolbar-rde')
     expect(page).to have_no_css('.js-itree-toolbar-add-duplicate')
+
+    select_tree_row(classification)
+    enable_reorder_mode
+    expect_infinite_tree_reorder_toolbar_for_root(InfiniteTreeHierarchyConfigs::CLASSIFICATION)
+
+    select_tree_row(term)
+    expect_infinite_tree_reorder_toolbar_for_child(InfiniteTreeHierarchyConfigs::CLASSIFICATION)
   end
 end

@@ -4,7 +4,7 @@ Feature: Resource Archival Object create
   Scenario: Create a Child Archival Object
     Given a Resource has been created
       And the Resource is opened in edit mode
-     When the user clicks on 'Add Child' in the infinite tree toolbar
+     When the user clicks on 'Add Child'
       And the New Archival Object page is displayed
       And the user fills in 'Title' with 'Archival Object Title Child'
       And the user selects 'File' from 'Level of Description'
@@ -15,7 +15,7 @@ Feature: Resource Archival Object create
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
      When the user selects the Archival Object
-      And the user clicks on 'Add Sibling' in the infinite tree toolbar
+      And the user clicks on 'Add Sibling'
       And the New Archival Object page is displayed
       And the user fills in 'Title' with 'Archival Object Title Sibling'
       And the user selects 'File' from 'Level of Description'
@@ -26,7 +26,7 @@ Feature: Resource Archival Object create
     Given a Resource with an Archival Object has been created
       And the Resource is opened in edit mode
      When the user selects the Archival Object
-      And the user clicks on 'Add Duplicate' in the infinite tree toolbar
+      And the user clicks on 'Add Duplicate'
      Then the New Archival Object page is displayed
       And the 'Archival Object' duplicated message is displayed
       And the following Archival Object forms have the same values as the Archival Object
