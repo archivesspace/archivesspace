@@ -440,41 +440,37 @@ describe 'MARC Export' do
   end
 
   describe "datafield 65x subdivision subfield mapping" do
-    # Every term_type that maps to subfield v or x, respectively.  Sampling one
-    # of each per run (rather than hardcoding all of them every time) means
-    # repeated test runs collectively cover the whole list without paying for
-    # every combination on every run.
-    v_type = ['genre_form', 'style_period', 'technique'].sample
-    x_type = ['topical', 'cultural_context', 'function', 'occupation'].sample
+    v_types = ['genre_form', 'style_period', 'technique']
+    x_types = ['topical', 'cultural_context', 'function', 'occupation']
 
     before(:all) do
       as_test_user('admin', true) do
         primary_term = build(:json_term, :term_type => 'uniform_title')
-        v_term = build(:json_term, :term_type => v_type)
-        x_term = build(:json_term, :term_type => x_type)
+        subdivisions = (v_types + x_types).map {|term_type|
+          build(:json_term, :term_type => term_type, :term => term_type)
+        }
 
-        subject = create(:json_subject,
-                          :terms => [primary_term, v_term, x_term])
-
-        resource = create(:json_resource,
-                           :subjects => [{:ref => subject.uri}])
+        subject = create(:json_subject, :terms => [primary_term] + subdivisions)
+        resource = create(:json_resource, :subjects => [{:ref => subject.uri}])
 
         @marc = get_marc(resource)
-        @v_term = v_term
-        @x_term = x_term
 
         raise Sequel::Rollback
       end
     end
 
-    it "maps a subdivision term_type of #{v_type} to subfield v" do
-      df = @marc.df('630')
-      expect(df.sf_t('v')).to eq(@v_term['term'])
+    v_types.each do |term_type|
+      it "maps a subdivision term_type of #{term_type} to subfield v" do
+        subfields = @marc.df('630').sf('v').map {|sf| sf.inner_text}
+        expect(subfields).to include(term_type)
+      end
     end
 
-    it "maps a subdivision term_type of #{x_type} to subfield x" do
-      df = @marc.df('630')
-      expect(df.sf_t('x')).to eq(@x_term['term'])
+    x_types.each do |term_type|
+      it "maps a subdivision term_type of #{term_type} to subfield x" do
+        subfields = @marc.df('630').sf('x').map {|sf| sf.inner_text}
+        expect(subfields).to include(term_type)
+      end
     end
   end
 
