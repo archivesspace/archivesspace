@@ -144,7 +144,7 @@ jobs:
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/models/*_spec.rb,spec/controllers/*_spec.rb"
+        ./build/run frontend:test -Dpattern="spec/models/*_spec.rb,spec/controllers/*_spec.rb,spec/helpers/*_spec.rb"
       name: models_and_controllers
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
