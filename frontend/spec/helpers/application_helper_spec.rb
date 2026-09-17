@@ -31,5 +31,11 @@ describe ApplicationHelper do
       expect(html).to include("<span class='icon-token icon-book'></span>")
       expect(html).to include('target="_blank"')
     end
+
+    it 'renders edit mode tokens without readonly token styling' do
+      html = helper.render_token(**token_options, inside_token_editor: true)
+
+      expect(html).not_to include('class="token resource"')
+    end
   end
 end
