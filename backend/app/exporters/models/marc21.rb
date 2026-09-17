@@ -515,8 +515,8 @@ class MARCModel < ASpaceExport::ExportModel
     terms.each do |t|
       tag = case t['term_type']
             when 'uniform_title'; 't'
-            when 'genre_form', 'style_period'; 'v'
-            when 'topical', 'cultural_context'; 'x'
+            when 'genre_form', 'style_period', 'technique'; 'v'
+            when 'topical', 'cultural_context', 'function', 'occupation'; 'x'
             when 'temporal'; 'y'
             when 'geographic'; 'z'
             end
