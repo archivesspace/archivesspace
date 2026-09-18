@@ -82,7 +82,11 @@
         <% end %>
 
         <% if @resource.related_accessions.length > 0 %>
-          <%= render_aspace_partial :partial => "related_accessions/show", :locals => { :related_accessions => @resource.related_accessions, :section_id => "resource_related_accessions_" } %>
+          <%= render_aspace_partial :partial => "search/embedded", :locals => {
+                :record => @resource,
+                :section_id => "resource_related_accessions_",
+                :filter_term => {"related_resource_uris" => @resource.uri}.to_json,
+                :heading_text => t("related_accession._plural") } %>
         <% end %>
 
         <% if @resource.linked_agents.length > 0 %>
