@@ -34,8 +34,11 @@ class ResourcesController < ApplicationController
     flash.keep
 
     if params[:inline]
+      excludes = ['related_accessions']
+
       event_hits = fetch_linked_events_count(:resource, params[:id])
-      excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
+      excludes += ['linked_events', 'linked_events::linked_records'] if event_hits > AppConfig[:max_linked_events_to_resolve]
+
       @resource = fetch_resolved(:resource, params[:id], excludes: excludes)
 
       flash.now[:info] = t("resource._frontend.messages.suppressed_info") if @resource.suppressed
