@@ -28,6 +28,10 @@ class Group < Sequel::Model(:group)
     'staffsystem'
   end
 
+  def self.PUI_VIEWERS_GROUP_CODE
+    'pui-viewers'
+  end
+
 
   def before_save
     super
