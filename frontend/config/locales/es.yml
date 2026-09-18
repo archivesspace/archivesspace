@@ -73,6 +73,7 @@ es:
       y se eliminará toda la información de los otros registros."
     merge_n_records: "Fusionar %{n} registros"
     move: Mover
+    move_group: Mover nodo
     move_up_a_level: Un nivel
     move_up: Arriba
     move_down: Abajo
@@ -180,6 +181,9 @@ es:
     rapid_data_entry: Entrada rápida de datos
     enable_reorder: Habilitar el modo de reorden
     reorder_active: Deshabilitar el modo de reorden
+    expand_tree_mode_on: Expandir todo automáticamente
+    expand_tree_mode_off: Deshabilitar la expansión automática
+    collapse_tree: Contraer árbol
     copy: Dupdo
 
     transfer_failed_barcodes_in_use: Los siguientes contenedores superiores 
@@ -747,6 +751,7 @@ es:
       required_fields_updated: Campos obligatorios actualizados
 
   tree:
+    toolbar_aria_label: Barra de herramientas del árbol
     drag_and_drop_actions:
       before: Añadir artículos antes
       after: Añadir artículos después
@@ -755,6 +760,10 @@ es:
       árbol. Por favor, intente actualizar la página.
     resize: Arrastrar para cambiar la altura del árbol
     maximize: Maximizar/minimizar la altura del árbol
+    drag_to_reorder: Arrastrar para reordenar
+    errors:
+      move_records: No se pudieron mover los registros
+      move_records_message: No se pudieron mover los registros. Actualice la página e inténtelo de nuevo.
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
@@ -1119,7 +1128,8 @@ es:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "No hay ningún visor IIIF disponible. Establezca AppConfig[:iiif_viewer] en 'universal_viewer', 'mirador' o la URL de un visor IIIF alojado externamente."
+        no_iiif_viewer: "No hay ningún visor IIIF disponible. Establezca AppConfig[:iiif_viewer]
+          en 'universal_viewer', 'mirador' o la URL de un visor IIIF alojado externamente."
       action:
         add: Añadir la versión del archivo
         make_representative: Hacer representante
@@ -2107,8 +2117,6 @@ es:
     title: Configuraciones OAI-PMH
     title_repo_section: Configuraciones por repositorio OAI-PMH
     general_section: Configuración general
-    repo_set_section: Conjunto de repositorio
-    sponsor_set_section: Conjunto Patrocinador
     repo_set_desc: Además de los conjuntos basados en el nivel de descripción, 
       puede definir un conjunto OAI basado en repositorios.
     sponsor_set_desc: Además de los conjuntos basados en el nivel de 
@@ -2117,12 +2125,6 @@ es:
     oai_record_prefix: Prefijo de registro OAI
     oai_admin_email: Correo electrónico del administrador de OAI
     oai_repository_name: Nombre del repositorio OAI
-    repo_set_name: Nombre del conjunto de repositorio
-    repo_set_codes: Repositorios en conjunto
-    repo_set_description: Descripción del conjunto de repositorios
-    sponsor_set_name: Nombre del Patrocinador
-    sponsor_set_names: Nombres de patrocinadores
-    sponsor_set_description: Patrocinador Descripción del conjunto
     oai_leave_repo_form: Estas opciones afectan a OAI-PMH solo para este 
       repositorio. Haga clic a continuación para ver / editar las opciones 
       globales de OAI. Esto dejará la forma actual sin guardar los cambios.
@@ -2133,12 +2135,29 @@ es:
         create: Actualizar la configuración de OAI-PMH
         updated: Configuraciones OAI-PMH actualizadas exitosamente!
     _sidebar:
-      repo_set_section:
-        _plural: Conjuntos de repositorio
-      sponsor_set_section:
-        _plural: Conjuntos de patrocinadores
       repo_settings:
         _plural: Configuraciones por repositorio OAI-PMH
+    oai_repository_sets: Conjuntos de repositorio
+    oai_sponsor_sets: Conjuntos de patrocinadores
+
+  oai_repository_set:
+    _plural: Conjuntos de repositorio
+    set_name: Nombre del conjunto de repositorio
+    set_description: Descripción del conjunto de repositorios
+    repo_codes: Repositorios en conjunto
+    _frontend:
+      action:
+        add: Agregar conjunto de repositorio
+
+  oai_sponsor_set:
+    _plural: Conjuntos de patrocinadores
+    set_name: Nombre del Patrocinador
+    set_description: Patrocinador Descripción del conjunto
+    sponsor_names: Nombres de patrocinadores
+    _frontend:
+      action:
+        add: Agregar conjunto de patrocinadores
+
   bulk_import:
     _frontend:
       actions:
@@ -2608,7 +2627,23 @@ es:
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
   bulk_import_templates:
-    aspace_accession_import_template_csv: Cree registros de accesiones junto con Extensiones, Documentos externos, Temas, Agentes e Instancias con Top Containers. La descarga incluye un grupo _1 para cada uno de ellos. Vincule un Tema existente con subject_1_record_id, indicando un ID numérico como 197 o una URI completa como /subjects/197. Vincule un Agente existente con agent_1_record_id de la misma forma; agent_1_agent_type es obligatorio cuando indica un ID numérico y opcional cuando indica una URI como /agents/people/5. No rellene campos de vinculación y de creación en el mismo grupo. Vincule un Top Container existente con una URI completa como /repositories/2/top_containers/5, o solo con su código de barras. Un código de barras por sí solo vincula el Top Container que lo tiene, tanto si ya existía como si lo creó una fila anterior, y la importación falla si ningún Top Container del repositorio tiene ese código de barras. Rellenar cualquier otro campo de Top Container junto al código de barras crea en su lugar un nuevo Top Container con ese código de barras, siendo obligatorio el indicador, y la importación falla si ese código de barras ya está en uso en el repositorio.
+    aspace_accession_import_template_csv: Cree registros de accesiones junto con
+      Extensiones, Documentos externos, Temas, Agentes e Instancias con Top 
+      Containers. La descarga incluye un grupo _1 para cada uno de ellos. 
+      Vincule un Tema existente con subject_1_record_id, indicando un ID 
+      numérico como 197 o una URI completa como /subjects/197. Vincule un Agente
+      existente con agent_1_record_id de la misma forma; agent_1_agent_type es 
+      obligatorio cuando indica un ID numérico y opcional cuando indica una URI 
+      como /agents/people/5. No rellene campos de vinculación y de creación en 
+      el mismo grupo. Vincule un Top Container existente con una URI completa 
+      como /repositories/2/top_containers/5, o solo con su código de barras. Un 
+      código de barras por sí solo vincula el Top Container que lo tiene, tanto 
+      si ya existía como si lo creó una fila anterior, y la importación falla si
+      ningún Top Container del repositorio tiene ese código de barras. Rellenar 
+      cualquier otro campo de Top Container junto al código de barras crea en su
+      lugar un nuevo Top Container con ese código de barras, siendo obligatorio 
+      el indicador, y la importación falla si ese código de barras ya está en 
+      uso en el repositorio.
     bulk_import_DO_template_xlsx: Cree y vincule objetos digitales a objetos de 
       archivo existentes en un recurso. El formato XLSX es para quienes tienen 
       acceso a Microsoft Excel.

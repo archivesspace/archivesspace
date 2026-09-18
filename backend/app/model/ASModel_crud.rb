@@ -209,6 +209,11 @@ module ASModel
                   merge(:user_mtime => Time.now,
                         :last_modified_by => RequestContext.get(:current_username)))
 
+      # Only publication changes reach this: lines 178-186 force suppressed to
+      # false for anything updated through here, and real suppression transitions
+      # go through ASModel.update_suppressed_flag instead.
+      ASModel.reconcile_hidden_at_for(self)
+
       if apply_nested_records
         self.apply_nested_records(json)
       end
@@ -343,6 +348,9 @@ module ASModel
         fire_update(json, obj)
 
         obj.refresh
+
+        ASModel.reconcile_hidden_at_for(obj)
+
         obj
       end
 

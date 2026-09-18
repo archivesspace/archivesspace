@@ -72,6 +72,7 @@ fr:
       for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: Déplacer
+    move_group: Déplacer le nœud
     move_up_a_level: Un niveau plus haut
     move_up: Plus haut
     move_down: Plus bas
@@ -826,6 +827,7 @@ fr:
       required_fields_updated: Champs obligatoires mis à jour
 
   tree:
+    toolbar_aria_label: Barre d'outils de l'arborescence
     drag_and_drop_actions:
       before: Ajouter items avant
       after: Ajouter items après
@@ -834,6 +836,10 @@ fr:
       Veuillez rafraîchir la page .
     resize: Faire glisser pour ajuster la hauteur de l'arborescence
     maximize: Maximiser/minimiser la hauteur de l'arborescence
+    drag_to_reorder: Faire glisser pour réordonner
+    errors:
+      move_records: Impossible de déplacer les notices
+      move_records_message: Les notices n'ont pas pu être déplacées. Veuillez rafraîchir la page et réessayer.
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 
@@ -1214,7 +1220,9 @@ fr:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "Aucune visionneuse IIIF n'est disponible. Définissez AppConfig[:iiif_viewer] sur 'universal_viewer', 'mirador' ou l'URL d'une visionneuse IIIF hébergée en externe."
+        no_iiif_viewer: "Aucune visionneuse IIIF n'est disponible. Définissez AppConfig[:iiif_viewer]
+          sur 'universal_viewer', 'mirador' ou l'URL d'une visionneuse IIIF hébergée
+          en externe."
       action:
         add: Ajouter version de fichier
         make_representative: Rendre représentatif
@@ -2326,8 +2334,6 @@ fr:
     title: Paramètres OAI-PMH
     title_repo_section: Paramètres OAI-PMH par référentiel
     general_section: Réglages généraux
-    repo_set_section: Ensemble de référentiels
-    sponsor_set_section: Ensemble de sponsors
     repo_set_desc: Outre les ensembles basés sur le niveau de description, vous 
       pouvez définir un ensemble OAI basé sur des référentiels.
     sponsor_set_desc: Outre les ensembles basés sur le niveau de description, 
@@ -2335,12 +2341,6 @@ fr:
     oai_record_prefix: Préfixe d'enregistrement OAI
     oai_admin_email: E-mail administrateur OAI
     oai_repository_name: Nom du référentiel OAI
-    repo_set_name: Nom du jeu de référentiel
-    repo_set_codes: Dépôts dans l'ensemble
-    repo_set_description: Description du référentiel
-    sponsor_set_name: Nom du sponsor
-    sponsor_set_names: Noms de sponsors
-    sponsor_set_description: Description de l'ensemble de sponsors
     oai_leave_repo_form: Ces options affectent OAI-PMH pour ce référentiel 
       uniquement. Cliquez ci-dessous pour afficher / modifier les options 
       globales OAI. Cela laissera le formulaire actuel sans enregistrer les 
@@ -2352,12 +2352,29 @@ fr:
         create: Mettre à jour les paramètres OAI-PMH
         updated: Paramètres OAI-PMH mis à jour avec succès!
     _sidebar:
-      repo_set_section:
-        _plural: Ensembles de référentiels
-      sponsor_set_section:
-        _plural: Sets de sponsors
       repo_settings:
         _plural: Paramètres OAI-PMH par référentiel
+    oai_repository_sets: Ensembles de référentiels
+    oai_sponsor_sets: Sets de sponsors
+
+  oai_repository_set:
+    _plural: Ensembles de référentiels
+    set_name: Nom du jeu de référentiel
+    set_description: Description du référentiel
+    repo_codes: Dépôts dans l'ensemble
+    _frontend:
+      action:
+        add: Ajouter ensemble de référentiels
+
+  oai_sponsor_set:
+    _plural: Sets de sponsors
+    set_name: Nom du sponsor
+    set_description: Description de l'ensemble de sponsors
+    sponsor_names: Noms de sponsors
+    _frontend:
+      action:
+        add: Ajouter ensemble de sponsors
+
   bulk_import:
     _frontend:
       actions:
@@ -2830,7 +2847,24 @@ fr:
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
   bulk_import_templates:
-    aspace_accession_import_template_csv: Créez des enregistrements d'accession ainsi que des Étendues, des Documents externes, des Sujets, des Agents et des Instances avec contenants supérieurs. Le téléchargement comprend un groupe _1 pour chacun d'eux. Liez un Sujet existant avec subject_1_record_id, en indiquant soit un identifiant numérique tel que 197, soit une URI complète telle que /subjects/197. Liez un Agent existant avec agent_1_record_id de la même manière ; agent_1_agent_type est requis lorsque vous indiquez un identifiant numérique et facultatif lorsque vous indiquez une URI telle que /agents/people/5. Ne remplissez pas les champs de liaison et de création dans le même groupe. Liez un contenant supérieur existant avec une URI complète telle que /repositories/2/top_containers/5, ou avec son code-barres seul. Un code-barres seul lie le contenant supérieur qui le porte, qu'il ait déjà existé ou qu'une ligne précédente l'ait créé, et l'importation échoue si aucun contenant supérieur du dépôt ne porte ce code-barres. Remplir tout autre champ de contenant supérieur à côté d'un code-barres crée au contraire un nouveau contenant supérieur portant ce code-barres, l'indicateur étant requis, et l'importation échoue si ce code-barres est déjà utilisé dans le dépôt.
+    aspace_accession_import_template_csv: Créez des enregistrements d'accession 
+      ainsi que des Étendues, des Documents externes, des Sujets, des Agents et 
+      des Instances avec contenants supérieurs. Le téléchargement comprend un 
+      groupe _1 pour chacun d'eux. Liez un Sujet existant avec 
+      subject_1_record_id, en indiquant soit un identifiant numérique tel que 
+      197, soit une URI complète telle que /subjects/197. Liez un Agent existant
+      avec agent_1_record_id de la même manière ; agent_1_agent_type est requis 
+      lorsque vous indiquez un identifiant numérique et facultatif lorsque vous 
+      indiquez une URI telle que /agents/people/5. Ne remplissez pas les champs 
+      de liaison et de création dans le même groupe. Liez un contenant supérieur
+      existant avec une URI complète telle que /repositories/2/top_containers/5,
+      ou avec son code-barres seul. Un code-barres seul lie le contenant 
+      supérieur qui le porte, qu'il ait déjà existé ou qu'une ligne précédente 
+      l'ait créé, et l'importation échoue si aucun contenant supérieur du dépôt 
+      ne porte ce code-barres. Remplir tout autre champ de contenant supérieur à
+      côté d'un code-barres crée au contraire un nouveau contenant supérieur 
+      portant ce code-barres, l'indicateur étant requis, et l'importation échoue
+      si ce code-barres est déjà utilisé dans le dépôt.
     bulk_import_DO_template_csv: Créez et liez des objets numériques à des 
       objets d'archives existants dans une ressource. Le format CSV est destiné 
       aux personnes n'ayant pas accès à Microsoft Excel.

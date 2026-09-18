@@ -2255,13 +2255,9 @@ de:
       Aufbewahrungsortes eindeutig sein
     must_be_unique_to_its_level_in_the_tree: Dieser Wert muss für diese Ebene der Hierarchie 
       eindeutig sein
-    repo_set_desc_required: Die Beschreibung der Aufbewahrungsort-Menge ist für die Erstellung eines
-      OAI-Repository-Sets erforderlich
-    repo_set_name_required: Der Name der Aufbewahrungsort-Menge ist für die Erstellung eines 
-      OAI-Repository-Sets erforderlich
+    oai_set_name_unique: OAI-Mengen-Namen müssen über Aufbewahrungsort-Mengen und Sponsoren-Mengen hinweg eindeutig sein
+    oai_set_name_matches_level: OAI-Mengen-Namen dürfen keine Beschreibungsebene wiederholen, da diese bereits eine eigene Menge hat
     is_not_present: Erforderliches Feld fehlt
-    sponsor_set_desc_required: Die Beschreibung der Geber-Menge ist für die Erstellung eines 
-      OAI-Sponsor-Sets erforderlich
     invalid_characters: Enthält ungültige Zeichen
     external_ark_collision: Externer ARK bereits im Einsatz
     location_cannot_be_deleted_if_linked: Die Standort-Aufzeichnung ist derzeit mit einer oder 
@@ -2295,8 +2291,6 @@ de:
     must_be_a_valid_email_address: Das Feld E-Mail-Adresse muss eine gültige Adresse enthalten
     ark_collision: Bei der Erstellung eines ARK für diese Aufzeichnung ist ein Problem aufgetreten. 
       Bitte wenden Sie sich an Ihren Systemadministrator.
-    sponsor_set_name_required: Der Name der Geber-Menge ist für die Erstellung eines 
-      OAI-Sponsor-Sets erforderlich
     must_specify_either_a_single_or_ranged_date: Die Daten müssen entweder als Einzel- oder als 
       Bereichsdatum angegeben werden
     requires_that_end_dates_are_after_begin_dates: Enddaten müssen nach den Anfangsdaten liegen
@@ -2885,15 +2879,20 @@ de:
       message: Das Verschieben wurde nicht durchgeführt, weil ein Elternteil nicht sein eigenes Kind
         werden kann.
   oai_config:
-    sponsor_set_description_tooltip: Sponsor Set Beschreibung Tooltip
-    repo_set_section_tooltip: Repo Set Abschnitt Tooltip
-    repo_set_description_tooltip: Repo Set Beschreibung Tooltip
-    sponsor_set_name_tooltip: Sponsor Set Name Tooltip
-    sponsor_set_names_tooltip: Sponsor Set Namen Tooltip
     oai_repository_name_tooltip: OAI-Repository-Name Tooltip
     oai_record_prefix_tooltip: OAI-Datensatz-Präfix-Tooltip
     oai_admin_email_tooltip: OAI-Admin-E-Mail-Tooltip
-    repo_set_name_tooltip: Repo Set Name Tooltip
+
+  oai_repository_set:
+    set_name_tooltip: Der setSpec, mit dem Harvester diese Menge anfordern. Muss über alle OAI-Mengen hinweg eindeutig sein, einschließlich der aus den Beschreibungsebenen erzeugten Mengen.
+    repo_codes_tooltip: Die Aufbewahrungsorte, deren Datensätze diese Menge bilden.
+    set_description_tooltip: Die Beschreibung, die Harvester für diese Menge erhalten.
+
+  oai_sponsor_set:
+    set_name_tooltip: Der setSpec, mit dem Harvester diese Menge anfordern. Muss über alle OAI-Mengen hinweg eindeutig sein, einschließlich der aus den Beschreibungsebenen erzeugten Mengen.
+    sponsor_names_tooltip: Die Findbuch-Sponsoren, deren Datensätze diese Menge bilden. Drücken Sie nach jedem Sponsorennamen die Eingabetaste.
+    set_description_tooltip: Die Beschreibung, die Harvester für diese Menge erhalten.
+
   top_container_linker:
     error:
       ref_id_miss: Ref-ID fehlt in der Tabelle in Zeile %{row_num} .

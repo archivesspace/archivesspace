@@ -1,6 +1,35 @@
 it:
   bulk_import_templates:
-    aspace_accession_import_template_csv: Crea record di Accessione insieme a Estensioni, Documenti esterni, Soggetti, Agenti e Istanze con contenitori principali. Il download include un gruppo _1 per ciascuno di essi. Collega un Soggetto esistente con subject_1_record_id, indicando un ID numerico come 197 oppure un URI completo come /subjects/197. Collega un Agente esistente con agent_1_record_id allo stesso modo; agent_1_agent_type è obbligatorio quando si indica un ID numerico e facoltativo quando si indica un URI come /agents/people/5. Non compilare i campi di collegamento e di creazione nello stesso gruppo. Collega un contenitore principale esistente con un URI completo come /repositories/2/top_containers/5, oppure con il solo codice a barre. Un codice a barre da solo collega il contenitore principale che lo possiede, sia che esistesse già sia che lo abbia creato una riga precedente, e l'importazione non riesce se nessun contenitore principale del repository ha quel codice a barre. Compilare qualsiasi altro campo del contenitore principale accanto a un codice a barre crea invece un nuovo contenitore principale con quel codice a barre, con l'indicatore obbligatorio, e l'importazione non riesce se quel codice a barre è già in uso nel repository.
+    overview: |
+      <p>Questi modelli servono per caricare dati da fogli di calcolo in ArchivesSpace utilizzando le diverse opzioni di importazione disponibili nell'area "Background Jobs" (Attività in background). I dati necessari per un'importazione corretta variano in base al tipo di record da creare. Non è necessario compilare ogni riga e colonna.</p><p>Ogni modello CSV contiene una riga di dati di esempio. A meno che non si intenda creare un record utilizzando tali dati, si prega di eliminarli prima di caricare il foglio di calcolo. <b>Non eliminare la riga di intestazione, non aggiungere colonne né modificare l'ordine delle colonne esistenti.</b></p><p>I modelli Excel includono istruzioni aggiuntive per il loro utilizzo e regole di convalida per alcune celle. Non eliminare le istruzioni o le convalide.</p>
+    aspace_accession_import_template_csv: Crea record di adesione e record 
+      collegati ad adesioni come agenti, soggetti ed eventi.
+    aspace_digital_object_import_template_csv: Crea record di oggetti digitali e
+      record collegati a oggetti digitali come agenti, soggetti ed eventi.
+    bulk_import_template_csv: Consente di creare oggetti archivistici collegati 
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato CSV è destinato a chi non 
+      dispone di Microsoft Excel.
+    bulk_import_template_xlsx: Consente di creare oggetti archivistici collegati
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato XLSX è destinato a chi dispone 
+      di Microsoft Excel.
+    bulk_import_DO_template_csv: Crea oggetti digitali e collegali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato CSV è 
+      destinato a chi non dispone di Microsoft Excel.
+    bulk_import_DO_template_xlsx: Crea e collega oggetti digitali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato XLSX è 
+      destinato a chi dispone di Microsoft Excel.
+    aspace_location_import_template_csv: Crea nuovi record di collocazione. Si 
+      prega di notare che questo modello serve a creare i record di collocazione
+      stessi, non ad associare i materiali alle collocazioni.
+    aspace_assessment_import_template_csv: Crea e collega valutazioni ad 
+      acquisizioni, risorse, oggetti archivistici o oggetti digitali esistenti.
+    aspace_subject_import_template_csv: Crea nuovi record Soggetto. Si prega di 
+      notare che questo modello serve a creare i record Soggetto stessi, non a 
+      collegarli ad altri record.
   actions:
     add_event_event_type: Tipo
     add: Aggiungi
@@ -43,6 +72,7 @@ it:
       questo record e ogni informazione per gli altri record(s) sarà eliminata.
     merge_n_records: Unisci %{n} records
     move: Muovi
+    move_group: Sposta nodo
     move_down: Sotto
     paste: Incolla
     remove: Rimuovi
@@ -764,10 +794,35 @@ it:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
     record_identifier: Identificatore del record
+    _plural: ID dei record
+    _singular: ID dei record
+    _frontend:
+      action:
+        add: Aggiungi ID record
+    identifier_type: Tipo di identificatore di controllo del record
+    primary: Primario
   agent_resource:
     file_uri: File URI
     _singular: Risorsa esterna correlata
     _plural: Risorse esterne correlate
+    _frontend:
+      action:
+        add: Aggiungi risorsa esterna correlata
+    section:
+      dates: Dati
+      places: Luoghi
+    dates: Dati
+    places: Luoghi
+    publish: Pubblicata
+    linked_agent_role: Tipo di relazione della risorsa
+    linked_resource: Risorsa esterna correlata
+    linked_resource_description: Descrizione
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Ultima data verificata
   metadata_rights_declaration:
     license: Licenza
     file_uri: File URI
@@ -776,6 +831,13 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione sui diritti dei metadati
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   job:
     _frontend:
       audit_data: Dati dell'audit
@@ -931,10 +993,38 @@ it:
     xlink_arcrole_attribute: Attributo Xlink Arcrole
     file_version_xlink_actuate_attribute: Attributo Xlink Actuate
     file_version_xlink_show_attribute: Xlink Mostra attributo
+    last_verified_date: Data dell'ultima verifica
   agent_conventions_declaration:
     file_uri: File URI
+    _plural: Dichiarazioni della Convenzione
+    _singular: Dichiarazione della Convenzione
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione della convenzione
+    name_rule: Convenzione
+    citation: Citazione
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole Xlink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   agent_source:
     file_uri: File URI
+    _plural: Fonti
+    _singular: Origine dell'agente
+    _frontend:
+      action:
+        add: Aggiungi sorgente
+    source_entry: Voce di origine
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   advanced_search:
     operator:
       NOT: Non
@@ -1145,6 +1235,7 @@ it:
     messages:
       required_fields_updated: Campi obbligatori aggiornati
   tree:
+    toolbar_aria_label: Barra degli strumenti dell'albero
     drag_and_drop_actions:
       before: Aggiungi elementi prima
       after: Aggiungi elementi dopo
@@ -1153,6 +1244,10 @@ it:
       albero. Per favore, prova ad aggiornare la pagina.
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
+    drag_to_reorder: Trascina per riordinare
+    errors:
+      move_records: Impossibile spostare i record
+      move_records_message: I record non possono essere spostati. Aggiorna la pagina e riprova.
   component_link:
     _plural: Collegamenti dei componenti
     _singular: Collegamento dei componenti
@@ -2407,8 +2502,6 @@ it:
     title: Modello di report personalizzato aggiornato
     title_repo_section: Impostazioni OAI-PMH per repository
     general_section: Impostazioni generali
-    repo_set_section: Set di repository
-    sponsor_set_section: Set di sponsor
     repo_set_desc: Oltre ai set basati sul livello di descrizione, è possibile 
       definire un set OAI basato sui repository.
     sponsor_set_desc: Oltre ai set basati sul livello di descrizione, è 
@@ -2416,12 +2509,6 @@ it:
     oai_record_prefix: Prefisso del record OAI
     oai_admin_email: Indirizzo email dell'amministratore OAI
     oai_repository_name: Nome del repository OAI
-    repo_set_name: Nome del set di repository
-    repo_set_codes: Repository in Set
-    repo_set_description: Descrizione del set di repository
-    sponsor_set_name: Nome del set dello sponsor
-    sponsor_set_names: Nomi degli sponsor
-    sponsor_set_description: Descrizione del set di sponsor
     oai_leave_repo_form: Queste opzioni influiscono su OAI-PMH solo per questo 
       repository. Fare clic qui sotto per visualizzare/modificare le opzioni OAI
       globali. In questo modo si uscirà dalla schermata corrente senza salvare 
@@ -2433,12 +2520,29 @@ it:
         create: Aggiorna le impostazioni di OAI-PMH
         updated: Impostazioni OAI-PMH aggiornate con successo!
     _sidebar:
-      repo_set_section:
-        _plural: Set di repository
-      sponsor_set_section:
-        _plural: Set di sponsor
       repo_settings:
         _plural: Impostazioni OAI-PMH per repository
+    oai_repository_sets: Set di repository
+    oai_sponsor_sets: Set di sponsor
+
+  oai_repository_set:
+    _plural: Set di repository
+    set_name: Nome del set di repository
+    set_description: Descrizione del set di repository
+    repo_codes: Repository in Set
+    _frontend:
+      action:
+        add: Aggiungi set di repository
+
+  oai_sponsor_set:
+    _plural: Set di sponsor
+    set_name: Nome del set dello sponsor
+    set_description: Descrizione del set di sponsor
+    sponsor_names: Nomi degli sponsor
+    _frontend:
+      action:
+        add: Aggiungi set di sponsor
+
   agent_record_control:
     _plural: Informazioni sul record
     _singular: Informazioni sul record
@@ -2466,3 +2570,83 @@ it:
     _frontend:
       action:
         add: Aggiungi luogo
+  agent_other_agency_code:
+    _plural: Altri codici dell'agenzia
+    _singular: Codice di altro ente
+    _frontend:
+      action:
+        add: Aggiungi codice agenzia
+    agency_code_type: Tipo di codice dell'ente di controllo dei record
+    maintenance_agency: Agenzia di manutenzione
+  agent_maintenance_history:
+    _plural: Cronologia della manutenzione
+    _singular: Cronologia manutenzione dell'agente
+    _frontend:
+      action:
+        add: Aggiungi evento
+    maintenance_event_type: Tipo di evento di manutenzione del controllo dei 
+      record
+    maintenance_agent_type: Tipo di agente di manutenzione del controllo dei 
+      record
+    agent: Agente
+    descriptive_note: Nota descrittiva
+    event_date: Data dell'evento
+  agent_parallel_name:
+    _plural: Nomi paralleli
+    use_dates: Utilizza le date
+  agent_name:
+    use_dates: Utilizza le date
+  subsections:
+    notes: Note
+    dates: Dati
+  section_headings:
+    basic_information_tooltip: |
+      <p>Questa sezione indica il tipo di agente e se l'agente è pubblicato o meno.</p>
+    record_control_information_tooltip: |
+      <p>Questa sezione contiene informazioni relative al record stesso, presupponendo che esso abbia avuto origine al di fuori di ArchivesSpace o che debba essere condiviso con un sistema diverso da ArchivesSpace.</p>
+    identity_information_tooltip: |
+      <p>Questa sezione contiene le informazioni fondamentali sull'agente. Il modulo relativo al nome è l'unico sottorecord obbligatorio all'interno di un record agente.</p>
+    description_information_tooltip: |
+      <p>Questa sezione contiene le informazioni fondamentali sull'agente. Il modulo relativo al nome è l'unico sottorecord obbligatorio all'interno di un record agente.</p>
+    relation_information_tooltip: |
+      <p>Questa sezione viene utilizzata per indicare relazioni con altri agenti o materiali, all'interno o all'esterno di ArchivesSpace.</p>
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Seleziona file
+        add_archival_objects: Importa oggetti d'archivio
+        add_digital_objects: Aggiungi oggetti digitali a oggetti archivistici
+        import: Importa da foglio di calcolo
+        drag_drop: Trascina e rilascia il file qui
+        clip_btn: Copia negli appunti
+        only_validate: Solo convalida
+        link_top_containers: Collega i contenitori superiori
+      messages:
+        missing_file: Non hai aggiunto alcun file
+        not_excel: Il file che hai scelto non è un foglio di calcolo Excel
+        not_excel_csv: Il controllo fileRecord selezionato non è né un foglio di
+          calcolo Excel né un file CSV
+        processed: Il file è stato elaborato
+        error: 'ERRORE: Rilevato/i errore/i: '
+        copied: Copiato!
+        uncopied: Impossibile copiare
+        submitted: <p>Il job è stato inviato ai job in background. <br/> Fai 
+          clic su "Chiudi" per aggiornare questa schermata.</p>
+  bulk_import_job:
+    active: "È in corso un'operazione di importazione massiva per questo record; riprova
+      a modificarlo più tardi: <a href ='%{url}'>%{uri}</a>"
+    resource_id: ID risorsa
+    format: Formato del file di download
+    filename: Nome del file del foglio di calcolo
+    not_direct: Al momento, questo job può essere creato solo a partire dal 
+      record della risorsa
+  bulk_archival_object_updater_job:
+    _singular: Job di aggiornamento massivo degli oggetti di archiviazione 
+      tramite foglio di calcolo
+    create_missing_top_containers: Crea i contenitori di livello superiore 
+      mancanti
+  note_contact_note:
+    contact_notes_tooltip: |
+      <p>Dettagli sull'interazione con il contatto</p>
+    date_of_contact_tooltip: |
+      <p>Utilizzato per registrare la data specifica o l'arco temporale di un'interazione</p>

@@ -67,6 +67,7 @@ ja:
       for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: 移動
+    move_group: ノードを移動
     move_up_a_level: レベルアップ
     move_up: アップ
     move_down: ダウン
@@ -159,6 +160,9 @@ ja:
     rapid_data_entry: 迅速なデータ入力
     enable_reorder: 並べ替えモードを有効にする
     reorder_active: リオーダーモードを無効にする
+    expand_tree_mode_on: すべてを自動展開
+    expand_tree_mode_off: 自動展開を無効にする
+    collapse_tree: ツリーを折りたたむ
     copy: コピー
 
     transfer_failed_barcodes_in_use: 
@@ -701,6 +705,7 @@ ja:
       required_fields_updated: 更新された必須フィールド
 
   tree:
+    toolbar_aria_label: ツリーツールバー
     drag_and_drop_actions:
       before: 項目を前に追加する
       after: 後に項目を追加
@@ -708,6 +713,10 @@ ja:
     unexpected_failure: おっとっと！このツリーを取得する際に問題が発生しています。ページをリフレッシュしてみてください。
     resize: ツリーの高さをドラッグして調整
     maximize: ツリーの高さを最大化/最小化
+    drag_to_reorder: ドラッグして並べ替え
+    errors:
+      move_records: レコードを移動できません
+      move_records_message: レコードを移動できませんでした。ページを更新してもう一度お試しください。
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。
@@ -1910,19 +1919,11 @@ ja:
     title: OAI-PMH設定
     title_repo_section: リポジトリごとのOAI-PMH設定
     general_section: 一般設定
-    repo_set_section: リポジトリセット
-    sponsor_set_section: スポンサーセット
     repo_set_desc: 記述レベルに基づくセットに加えて、リポジトリに基づいてOAIセットを定義できます。
     sponsor_set_desc: 説明レベルに基づくセットに加えて、スポンサー名に基づいてOAIセットを定義できます。
     oai_record_prefix: OAIレコードプレフィックス
     oai_admin_email: OAI管理者メールアドレス
     oai_repository_name: OOAIリポジトリ名
-    repo_set_name: リポジトリセット名
-    repo_set_codes: セット内のリポジトリ
-    repo_set_description: リポジトリセットの説明
-    sponsor_set_name: スポンサーセット名
-    sponsor_set_names: スポンサー名
-    sponsor_set_description: スポンサーセットの説明
     oai_leave_repo_form: これらのオプションは、このリポジトリに対してのみOAI-PMHに影響します。 
       グローバルOAIオプションを表示/編集するには、下をクリックしてください。 変更を保存せずに現在のフォームをそのままにします。
     _frontend:
@@ -1932,12 +1933,29 @@ ja:
         create: OAI-PMH設定を更新する
         updated: OAI-PMH設定が更新されました。
     _sidebar:
-      repo_set_section:
-        _plural: リポジトリセット
-      sponsor_set_section:
-        _plural: スポンサーセット
       repo_settings:
         _plural: リポジトリごとのOAI-PMH設定
+    oai_repository_sets: リポジトリセット
+    oai_sponsor_sets: スポンサーセット
+
+  oai_repository_set:
+    _plural: リポジトリセット
+    set_name: リポジトリセット名
+    set_description: リポジトリセットの説明
+    repo_codes: セット内のリポジトリ
+    _frontend:
+      action:
+        add: リポジトリセットを追加
+
+  oai_sponsor_set:
+    _plural: スポンサーセット
+    set_name: スポンサーセット名
+    set_description: スポンサーセットの説明
+    sponsor_names: スポンサー名
+    _frontend:
+      action:
+        add: スポンサーセットを追加
+
   bulk_import:
     _frontend:
       actions:

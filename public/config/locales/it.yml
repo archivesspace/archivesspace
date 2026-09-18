@@ -403,10 +403,10 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
-    xlink_arcrole_attribute: Attributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Attributo Xlink Actuate
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
     file_version_xlink_show_attribute: Attributo Xlink Show
-    last_verified_date: Ultima data verificata
+    last_verified_date: Data dell'ultima verifica
   languages:
     select: Seleziona lingua
 

@@ -44,11 +44,11 @@ describe 'Spawning', js: true do
     expect(accession_link.value).to eq(@accession.uri)
     find(".save-changes button[type='submit']").click
     # wait for the form and tree container to load
-    find("#tree-container")
-    find(".record-pane")
-    expect(find("#archival_object_#{@parent.id}  a.record-title ").text).to include "#{@parent.title}"
+    find("#infinite-tree-container")
+    find("#infinite-tree-record-pane")
+    expect(find("#archival_object_#{@parent.id} > .node-row a.record-title").text).to include "#{@parent.title}"
     spawned_archival_object_id = page.current_url.sub(/.*_/, "")
-    expect(find("#archival_object_#{spawned_archival_object_id}  a.record-title ").text).to include "#{@accession.title}"
+    expect(find("#archival_object_#{spawned_archival_object_id} > .node-row a.record-title ").text).to include "#{@accession.title}"
     ref_id = find(".identifier-display").text
     visit "/accessions/#{@accession.id}"
     linked_component_ref_id = find("#accession_component_links_ table tbody tr td:nth-child(1)").text

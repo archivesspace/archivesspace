@@ -54,6 +54,7 @@ de:
       Aufzeichnung(en) werden gelöscht.
     merge_n_records: '%{n} Aufzeichnungen zusammenführen'
     move: Verschieben
+    move_group: Knoten verschieben
     move_up_a_level: Eine Ebene hinauf
     move_up: Hinauf
     move_down: Hinunter
@@ -925,6 +926,7 @@ de:
     messages:
       required_fields_updated: Erforderliche Felder aktualisiert
   tree:
+    toolbar_aria_label: Baum-Werkzeugleiste
     drag_and_drop_actions:
       before: Elemente vorher hinzufügen
       after: Elemente nachher hinzufügen
@@ -933,6 +935,10 @@ de:
       versuchen Sie die Seite neu zu laden.
     resize: Ziehen, um die Baumhöhe zu ändern
     maximize: Baumhöhe maximieren/minimieren
+    drag_to_reorder: Ziehen zum Neuordnen
+    errors:
+      move_records: Datensätze können nicht verschoben werden
+      move_records_message: Die Datensätze konnten nicht verschoben werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen
@@ -2050,7 +2056,26 @@ de:
       Standort-Aufzeichnungen. Bitte beachten Sie, dass diese Vorlage für die 
       Erstellung von Standort-Aufzeichnungen selbst ist und nicht zum Verknüpfen
       von Archivgut mit Standorten.
-    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen sowie Umfänge, Externe Dokumente, Themen, Akteure und Instanzen mit Haupt-Behältnissen. Der Download enthält je eine _1-Gruppe für jedes davon. Verknüpfen Sie ein bestehendes Thema mit subject_1_record_id und geben Sie dabei entweder eine numerische ID wie 197 oder eine vollständige URI wie /subjects/197 an. Verknüpfen Sie einen bestehenden Akteur auf dieselbe Weise mit agent_1_record_id; agent_1_agent_type ist erforderlich, wenn Sie eine numerische ID angeben, und optional, wenn Sie eine URI wie /agents/people/5 angeben. Füllen Sie Verknüpfungs- und Erstellungsfelder nicht in derselben Gruppe aus. Verknüpfen Sie ein bestehendes Haupt-Behältnis mit einer vollständigen URI wie /repositories/2/top_containers/5 oder allein mit seinem Strichcode. Ein Strichcode allein verknüpft das Haupt-Behältnis, dem er gehört, unabhängig davon, ob dieses bereits bestand oder von einer früheren Zeile erstellt wurde; der Import schlägt fehl, wenn kein Haupt-Behältnis im Repository diesen Strichcode hat. Wird neben einem Strichcode ein weiteres Haupt-Behältnis-Feld ausgefüllt, wird stattdessen ein neues Haupt-Behältnis mit diesem Strichcode erstellt, wobei ein Indikator erforderlich ist; der Import schlägt fehl, wenn dieser Strichcode im Repository bereits verwendet wird.
+    aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen 
+      sowie Umfänge, Externe Dokumente, Themen, Akteure und Instanzen mit 
+      Haupt-Behältnissen. Der Download enthält je eine _1-Gruppe für jedes 
+      davon. Verknüpfen Sie ein bestehendes Thema mit subject_1_record_id und 
+      geben Sie dabei entweder eine numerische ID wie 197 oder eine vollständige
+      URI wie /subjects/197 an. Verknüpfen Sie einen bestehenden Akteur auf 
+      dieselbe Weise mit agent_1_record_id; agent_1_agent_type ist erforderlich,
+      wenn Sie eine numerische ID angeben, und optional, wenn Sie eine URI wie 
+      /agents/people/5 angeben. Füllen Sie Verknüpfungs- und Erstellungsfelder 
+      nicht in derselben Gruppe aus. Verknüpfen Sie ein bestehendes 
+      Haupt-Behältnis mit einer vollständigen URI wie 
+      /repositories/2/top_containers/5 oder allein mit seinem Strichcode. Ein 
+      Strichcode allein verknüpft das Haupt-Behältnis, dem er gehört, unabhängig
+      davon, ob dieses bereits bestand oder von einer früheren Zeile erstellt 
+      wurde; der Import schlägt fehl, wenn kein Haupt-Behältnis im Repository 
+      diesen Strichcode hat. Wird neben einem Strichcode ein weiteres 
+      Haupt-Behältnis-Feld ausgefüllt, wird stattdessen ein neues 
+      Haupt-Behältnis mit diesem Strichcode erstellt, wobei ein Indikator 
+      erforderlich ist; der Import schlägt fehl, wenn dieser Strichcode im 
+      Repository bereits verwendet wird.
     bulk_import_template_csv: Erstellen Sie Archiv-Objekte, die an eine bereits 
       bestehende Ressource angehängt werden. Enthält eine Option, um viele 
       verschiedene Teilaufzeichnungen und verknüpfte Aufzeichnungen wie Daten, 
@@ -2612,34 +2637,43 @@ de:
       action:
         create: OAI-PHM Einstellungen aktualisieren
         updated: OAI-PMH Einstellungen erfolgreich aktualisiert!
-    sponsor_set_description: Beschreibung der Sponsoren-Menge
     oai_repository_name: Name des OAI-Aufzeichnungsortes
     oai_admin_email: E-Mail des OAI-Administrators
     repo_set_desc: Zusätzlich zu Mengen basierend auf Beschreibungsebenen können
       Sie eine OAI-Menge basierend auf Aufbewahrungsarten festlegen.
     _sidebar:
-      sponsor_set_section:
-        _plural: Sponsoren-Mengen
-      repo_set_section:
-        _plural: Aufbewahrungsort-Mengen
       repo_settings:
         _plural: OAI-PHM Einstellungen pro Aufbewahrungsort
     title: OAI-PMH Einstellungen
     title_repo_section: OAI-PMH Einstellungen pro Aufbewahrungsort
     general_section: Allgemeine Einstellungen
-    repo_set_section: Aufbewahrungsort-Menge
-    sponsor_set_section: Sponsor-Menge
     sponsor_set_desc: Zusätzlich zu Mengen basierend auf Beschreibungsebenen 
       können Sie eine OAI-Menge basierend auf Sponsoren-Namen festlegen.
     oai_record_prefix: OAI-Aufzeichnungs-Präfix
-    repo_set_name: Name der Aufzeichnungsort-Menge
-    repo_set_codes: Aufzeichnungsorte in der Menge
-    repo_set_description: Beschreibung der Aufbewahrungsort-Menge
-    sponsor_set_name: Name der Sponsoren-Menge
-    sponsor_set_names: Namen der Sponsoren
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen 
       Aufbewahrungsort. Klicken Sie unten, um globale OAI-Optionen anzuzeigen 
       oder zu bearbeiten. Dies verlässt das aktuelle Formular ohne zu speichern.
+    oai_repository_sets: Aufbewahrungsort-Mengen
+    oai_sponsor_sets: Sponsoren-Mengen
+
+  oai_repository_set:
+    _plural: Aufbewahrungsort-Mengen
+    set_name: Name der Aufzeichnungsort-Menge
+    set_description: Beschreibung der Aufbewahrungsort-Menge
+    repo_codes: Aufzeichnungsorte in der Menge
+    _frontend:
+      action:
+        add: Aufbewahrungsort-Menge hinzufügen
+
+  oai_sponsor_set:
+    _plural: Sponsoren-Mengen
+    set_name: Name der Sponsoren-Menge
+    set_description: Beschreibung der Sponsoren-Menge
+    sponsor_names: Namen der Sponsoren
+    _frontend:
+      action:
+        add: Sponsoren-Menge hinzufügen
+
   agent_record_control: &agent_record_control_attributes
     language: Sprache
     cataloging_source: Aufzeichnungs-Steuerung Katalogisierungs-Quelle
