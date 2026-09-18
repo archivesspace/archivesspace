@@ -5,22 +5,23 @@ require 'rails_helper'
 
 describe 'Digital Object RDE', js: true do
   let(:user) { create_user(repo => ['repository-archivists']) }
-  let(:repo) { create(:repo, repo_code: "accession_test_#{Time.now.to_i}") }
+  let(:repo) { create(:repo, repo_code: "digital_object_rde_#{Time.now.to_i}") }
 
   before(:each) do
+    set_repo repo
     login_user(user)
-    run_all_indexers
+    run_indexer
     select_repository(repo)
   end
 
   it 'can review error messages on an invalid entry' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
+    run_indexer
     visit "digital_objects/#{digital_object.id}/edit"
+    wait_for_infinite_tree_pane_ready
 
-    click_on 'Rapid Data Entry'
-    expect(page).to have_css '#rapidDataEntryModal'
+    open_infinite_tree_rapid_data_entry_modal
     expect(page).to have_css '#digital_record_children_children__0__title_'
 
     click_on 'Save Rows'
@@ -37,11 +38,7 @@ describe 'Digital Object RDE', js: true do
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
 
     click_on 'Save Rows'
-
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+    wait_for_ajax
 
     element = find('.alert.alert-danger')
     expect(element.text).to eq '1 row(s) with an error - click a row field to view the errors for that row'
@@ -56,59 +53,79 @@ describe 'Digital Object RDE', js: true do
 
   it 'can add a child via the RDE form' do
     now = Time.now.to_i
+    child_title = "Children Title #{now}"
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
+    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
+    wait_for_infinite_tree_pane_ready
 
-    click_on 'Rapid Data Entry'
-    expect(page).to have_css '#rapidDataEntryModal'
+    open_infinite_tree_rapid_data_entry_modal
 
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
-    fill_in 'digital_record_children_children__0__title_', with: "Children Title #{now}"
-    fill_in 'digital_record_children_children__0__dates__0__begin_', with: "2013"
+    fill_in 'digital_record_children_children__0__title_', with: child_title
+    fill_in 'digital_record_children_children__0__dates__0__begin_', with: '2013'
 
     click_on 'Save Rows'
+    wait_for_ajax
 
-    element = find("#tree-container a", text: "Children Title #{now}")
+    expect(page).to have_css(
+      "#infinite-tree-container .node.indent-level-1 a.record-title",
+      text: child_title,
+      wait: 20
+    )
   end
 
-  it 'can access the RDE form when editing an digital object' do
+  it 'can access the RDE form when editing a digital object component' do
     now = Time.now.to_i
+    child_title = "Children Title nav #{now}"
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
+    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
+    wait_for_infinite_tree_pane_ready
 
-    click_on 'Rapid Data Entry'
-    expect(page).to have_css '#rapidDataEntryModal'
+    open_infinite_tree_rapid_data_entry_modal
 
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
-    fill_in 'digital_record_children_children__0__title_', with: "Children Title #{now}"
-    fill_in 'digital_record_children_children__0__dates__0__begin_', with: "2013"
+    fill_in 'digital_record_children_children__0__title_', with: child_title
+    fill_in 'digital_record_children_children__0__dates__0__begin_', with: '2013'
 
     click_on 'Save Rows'
 
-    find('.table-row.largetree-node.indent-level-1 a.record-title').click
+    expect(page).to have_css(
+      "#infinite-tree-container .node.indent-level-1 a.record-title",
+      text: child_title,
+      wait: 20
+    )
 
-    element = find('h2')
-    expect(element.text).to eq "Children Title #{now}, 2013 Digital Object Component"
-    element = find('#digital_object_component_title_', visible: false)
-    expect(element.text).to eq "Children Title #{now}"
+    expect(page).to have_css('#infinite-tree-record-pane #form_digital_object', wait: 20)
+    wait_for_ajax
 
-    click_on 'Rapid Data Entry'
-    expect(page).to have_css '#rapidDataEntryModal'
+    within('#infinite-tree-container') do
+      click_link child_title
+    end
+    wait_for_ajax
+
+    within('#infinite-tree-record-pane') do
+      expect(page).to have_css('#form_digital_object_component', wait: 20)
+      expect(page).to have_css('h2', text: "#{child_title}, 2013 Digital Object Component")
+    end
+
+    expect(find('#digital_object_component_title_', visible: false).text).to eq child_title
+
+    open_infinite_tree_rapid_data_entry_modal
   end
 
   it 'can add multiple children and sticky columns stick' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
+    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
+    wait_for_infinite_tree_pane_ready
 
-    click_on 'Rapid Data Entry'
-    expect(page).to have_css '#rapidDataEntryModal'
+    open_infinite_tree_rapid_data_entry_modal
 
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
     find('#digital_record_children_children__0__publish_').click
@@ -126,23 +143,29 @@ describe 'Digital Object RDE', js: true do
     fill_in 'digital_record_children_children__1__title_', with: 'Child 2'
 
     click_on 'Save Rows'
+    wait_for_ajax
 
-    element = find("#tree-container a", text: "Child 1")
-    element = element.find(:xpath, "ancestor::*[@role='listitem']")
-
-    element = find("#tree-container a", text: "Child 2")
-    element = element.find(:xpath, "ancestor::*[@role='listitem']")
+    expect(page).to have_css(
+      "#infinite-tree-container a.record-title",
+      text: 'Child 1',
+      wait: 20
+    )
+    expect(page).to have_css(
+      "#infinite-tree-container a.record-title",
+      text: 'Child 2',
+      wait: 20
+    )
   end
 
   it 'can add multiple rows in one action and can perform a basic fill and a sequence fill' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
+    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
+    wait_for_infinite_tree_pane_ready
 
-    click_on 'Rapid Data Entry'
-    expect(page).to have_css '#rapidDataEntryModal'
+    open_infinite_tree_rapid_data_entry_modal
 
     find('#digital_record_children_children__0__publish_').click
 

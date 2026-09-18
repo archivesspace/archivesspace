@@ -2,10 +2,26 @@
   class InfiniteTreeIds {
     static #uriPattern = /\/repositories\/([0-9]+)\/([a-z_]+)\/([0-9]+)/;
 
-    static #childTypeMap = {
-      resource: 'archival_object',
-      digital_object: 'digital_object_component',
-      classification: 'classification_term',
+    /**
+     * Explicit edit-mode hierarchy contract per root record type.
+     * @type {Record<string, { childType: string, childCollectionPath: string, newFormPath: string }>}
+     */
+    static #hierarchyMap = {
+      resource: {
+        childType: 'archival_object',
+        childCollectionPath: 'archival_objects',
+        newFormPath: 'archival_objects/new',
+      },
+      digital_object: {
+        childType: 'digital_object_component',
+        childCollectionPath: 'digital_object_components',
+        newFormPath: 'digital_object_components/new',
+      },
+      classification: {
+        childType: 'classification_term',
+        childCollectionPath: 'classification_terms',
+        newFormPath: 'classification_terms/new',
+      },
     };
 
     static uriToParts(uri) {
@@ -18,15 +34,40 @@
       return { type, id };
     }
 
+    /**
+     * @param {string} rootUri
+     * @returns {{ repoId: string, type: string, id: string, childType: string, childCollectionPath: string, newFormPath: string }|null}
+     */
     static rootUriToParts(rootUri) {
       const match = rootUri.match(this.#uriPattern);
       if (!match) return null;
 
       const [, repoId, typePlural, id] = match;
       const type = typePlural.replace(/s$/, '');
-      const childType = this.#childTypeMap[type];
+      const hierarchy = this.#hierarchyMap[type];
 
-      return { repoId, type, id, childType };
+      if (!hierarchy) return null;
+
+      return {
+        repoId,
+        type,
+        id,
+        childType: hierarchy.childType,
+        childCollectionPath: hierarchy.childCollectionPath,
+        newFormPath: hierarchy.newFormPath,
+      };
+    }
+
+    /**
+     * @param {string} childType
+     * @returns {{ childType: string, childCollectionPath: string, newFormPath: string }|null}
+     */
+    static hierarchyForChildType(childType) {
+      const entry = Object.values(this.#hierarchyMap).find(
+        hierarchy => hierarchy.childType === childType
+      );
+
+      return entry || null;
     }
 
     static uriToTreeId(uri) {

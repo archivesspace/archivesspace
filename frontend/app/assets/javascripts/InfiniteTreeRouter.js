@@ -164,8 +164,10 @@
 
       this.recordPaneEl.addEventListener(
         'infiniteTreeRecordPane:submitError',
-        () => {}
-        // Leave the user on the current record; no further action}
+        () => {
+          this.#abandonPendingNavigation();
+          this.#closeDirtyModal();
+        }
       );
 
       // Intercept title clicks
@@ -273,16 +275,23 @@
 
         this.#proceedToHash(this._pendingHash);
 
-        this._pendingHash = null;
-
-        $('#saveYourChangesModal').modal('hide');
+        this.#abandonPendingNavigation();
+        this.#closeDirtyModal();
       });
 
       $('.btn-cancel', '#saveYourChangesModal').on('click', () => {
-        this._pendingHash = null;
-
-        $('#saveYourChangesModal').modal('hide');
+        this.#abandonPendingNavigation();
+        this.#closeDirtyModal();
       });
+    }
+
+    #abandonPendingNavigation() {
+      this._pendingHash = null;
+      this._pendingSavedUri = null;
+    }
+
+    #closeDirtyModal() {
+      $('#saveYourChangesModal').modal('hide');
     }
 
     #proceedToHash(hash) {
@@ -372,7 +381,7 @@
 
       const { target } = this._pendingTransaction;
 
-      $('#saveYourChangesModal').modal('hide');
+      this.#closeDirtyModal();
 
       if (target) {
         this.setHash(target);
