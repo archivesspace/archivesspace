@@ -358,6 +358,37 @@ RSpec.shared_examples 'infinite tree integration edit parity' do |config|
           within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
         end
       end
+
+      it 'Save with validation errors closes modal and stays on the invalid form' do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+        wait_for_infinite_tree_pane_ready
+
+        click_infinite_tree_toolbar_add_child
+        wait_for_infinite_tree_pane_ready
+
+        within('#infinite-tree-container') { click_link child_record.title }
+
+        expect(page).to have_css('#saveYourChangesModal', visible: true)
+
+        within('#saveYourChangesModal') { click_on 'Save Changes' }
+        wait_for_infinite_tree_pane_ready
+
+        aggregate_failures do
+          expect(page).not_to have_css('#saveYourChangesModal', visible: true)
+          expect(page.current_url).to match(/#new/)
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('.error')
+          end
+          within('#infinite-tree-container') do
+            expect(page).to have_css('li.js-itree-synthetic-new')
+          end
+        end
+
+        within('#infinite-tree-container') { click_link child_record.title }
+        expect(page).to have_css('#saveYourChangesModal', visible: true)
+        within('#saveYourChangesModal') { click_on 'Cancel' }
+      end
     end
   end
 
