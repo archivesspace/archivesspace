@@ -346,6 +346,30 @@ module BulkImportMixins
     ret_val
   end
 
+  def file_versions
+    groups = @row_hash.keys
+      .grep(/\Afile_version_.+_\d+\z/)
+      .group_by { |key| key[/_(\d+)\z/, 1] }
+
+    groups.keys.sort_by(&:to_i).filter_map do |suffix|
+      keys = groups[suffix]
+      next if keys.all? { |key| @row_hash[key].nil? }
+
+      normalize_boolean_column(@row_hash, "file_version_is_representative_#{suffix}")
+      normalize_boolean_column(@row_hash, "file_version_publish_#{suffix}")
+
+      fv = {}
+      keys.each do |key|
+        field = key.sub(/\Afile_version_/, "").sub(/_\d+\z/, "")
+        fv[field.to_sym] = @row_hash[key]
+      end
+
+      fv[:publish] = fv[:is_representative] || fv[:publish] || false
+      fv[:file_size_bytes] = fv[:file_size_bytes].to_i
+      fv
+    end
+  end
+
   def representative_file_version
     if @row_hash['rep_file_uri'].present?
       {
