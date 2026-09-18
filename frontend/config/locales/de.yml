@@ -491,7 +491,6 @@ de:
       accession_date_year: Eingangsdatum
       extents: Umfang
       uri: URI
-      representative_file_version: Vorschaubild
     resource:
       score: Relevanz
       title: Titel
@@ -515,7 +514,6 @@ de:
       subjects: Thema
       extents: Umfang
       uri: URI
-      representative_file_version: Vorschaubild
     archival_object:
       score: Relevanz
       title: Titel
@@ -533,7 +531,6 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
-      representative_file_version: Vorschaubild
     subject:
       score: Relevanz
       source: Quelle
@@ -564,7 +561,6 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
-      representative_file_version: Vorschaubild
     digital_object_component:
       score: Relevanz
       title: Titel
@@ -579,7 +575,6 @@ de:
       desc: Absteigend
       publish: Veröffentlicht
       uri: URI
-      representative_file_version: Vorschaubild
     agent:
       score: Relevanz
       primary_type: Typ des Akteurs
@@ -774,7 +769,6 @@ de:
       asc: Aufsteigend
       desc: Absteigend
       uri: URI
-      representative_file_version: Vorschaubild
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Aufbewahrungsort
     top_container_mgmt:

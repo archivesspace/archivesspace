@@ -69,6 +69,11 @@
           }
         }
       },
+
+      "thumbnail" => {
+        "type" => "JSONModel(:thumbnail) object",
+        "readonly" => true
+      },
     },
   },
 }
