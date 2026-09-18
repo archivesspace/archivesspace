@@ -30,5 +30,7 @@
 
   <% if AppConfig[:pui_require_authentication] && user_can?('manage_users') && !@self_edit %>
     <%= form.label_and_boolean "is_pui_viewer" %>
+  <% else %>
+    <%= form.hidden_input "is_pui_viewer", (form["is_pui_viewer"] ? 1 : 0) %>
   <% end %>
 </fieldset>

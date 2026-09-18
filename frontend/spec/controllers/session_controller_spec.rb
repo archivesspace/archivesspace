@@ -5,7 +5,7 @@ require 'rails_helper'
 
 describe SessionController, type: :controller do
   let(:repo) { create(:repo, repo_code: "session_test_#{SecureRandom.hex}") }
-  let(:repo_viewer) { create_user(repo => ['repository-viewers']) }
+  let(:repo_viewer) { create_user({repo => ['repository-viewers']}, true, false) }
   let(:repo_archivist) { create_user(repo => ['repository-archivists']) }
 
   before(:each) do

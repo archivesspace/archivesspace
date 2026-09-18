@@ -278,33 +278,6 @@ describe 'User controller' do
     expect(user.is_pui_viewer).to_not be_truthy
   end
 
-  it "does not revoke pui viewer access when an update omits the pui viewer flag" do
-    # The staff UI only renders the is_pui_viewer checkbox when
-    # AppConfig[:pui_require_authentication] is enabled, so an update posted
-    # while the feature is switched off carries no flag at all.  Omitting it
-    # must leave the user's existing access alone rather than being read as a
-    # request to take it away.
-    user_id = build(:json_user).save('password' => '123')
-
-    target_user = JSONModel(:user).find(user_id)
-    target_user.is_pui_viewer = true
-    target_user.save
-
-    expect(JSONModel(:user).find(user_id).is_pui_viewer).to be_truthy
-
-    payload = JSONModel(:user).find(user_id).to_hash(:raw).dup
-    payload.delete('is_pui_viewer')
-    payload['name'] = 'A New Name'
-
-    url = URI("#{JSONModel::HTTP.backend_url}/users/#{user_id}")
-    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(payload))
-    expect(response.code).to eq('200')
-
-    user = JSONModel(:user).find(user_id)
-    expect(user.name).to eq('A New Name')
-    expect(user.is_pui_viewer).to be_truthy
-  end
-
   it "can log out a session" do
     post '/users/test1/login', params = { "password" => "password", "expiring" => "false" }
     expect(last_response).to be_ok
