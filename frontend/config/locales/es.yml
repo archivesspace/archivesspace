@@ -770,7 +770,8 @@ es:
     drag_to_reorder: Arrastrar para reordenar
     errors:
       move_records: No se pudieron mover los registros
-      move_records_message: No se pudieron mover los registros. Actualice la página e inténtelo de nuevo.
+      move_records_message: No se pudieron mover los registros. Actualice la 
+        página e inténtelo de nuevo.
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
