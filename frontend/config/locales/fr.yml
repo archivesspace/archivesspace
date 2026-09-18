@@ -839,7 +839,8 @@ fr:
     drag_to_reorder: Faire glisser pour réordonner
     errors:
       move_records: Impossible de déplacer les notices
-      move_records_message: Les notices n'ont pas pu être déplacées. Veuillez rafraîchir la page et réessayer.
+      move_records_message: Les notices n'ont pas pu être déplacées. Veuillez 
+        rafraîchir la page et réessayer.
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 
