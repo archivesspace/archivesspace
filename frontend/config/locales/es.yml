@@ -2116,8 +2116,6 @@ es:
     title: Configuraciones OAI-PMH
     title_repo_section: Configuraciones por repositorio OAI-PMH
     general_section: Configuración general
-    repo_set_section: Conjunto de repositorio
-    sponsor_set_section: Conjunto Patrocinador
     repo_set_desc: Además de los conjuntos basados en el nivel de descripción, 
       puede definir un conjunto OAI basado en repositorios.
     sponsor_set_desc: Además de los conjuntos basados en el nivel de 
@@ -2126,12 +2124,6 @@ es:
     oai_record_prefix: Prefijo de registro OAI
     oai_admin_email: Correo electrónico del administrador de OAI
     oai_repository_name: Nombre del repositorio OAI
-    repo_set_name: Nombre del conjunto de repositorio
-    repo_set_codes: Repositorios en conjunto
-    repo_set_description: Descripción del conjunto de repositorios
-    sponsor_set_name: Nombre del Patrocinador
-    sponsor_set_names: Nombres de patrocinadores
-    sponsor_set_description: Patrocinador Descripción del conjunto
     oai_leave_repo_form: Estas opciones afectan a OAI-PMH solo para este 
       repositorio. Haga clic a continuación para ver / editar las opciones 
       globales de OAI. Esto dejará la forma actual sin guardar los cambios.
@@ -2142,12 +2134,29 @@ es:
         create: Actualizar la configuración de OAI-PMH
         updated: Configuraciones OAI-PMH actualizadas exitosamente!
     _sidebar:
-      repo_set_section:
-        _plural: Conjuntos de repositorio
-      sponsor_set_section:
-        _plural: Conjuntos de patrocinadores
       repo_settings:
         _plural: Configuraciones por repositorio OAI-PMH
+    oai_repository_sets: Conjuntos de repositorio
+    oai_sponsor_sets: Conjuntos de patrocinadores
+
+  oai_repository_set:
+    _plural: Conjuntos de repositorio
+    set_name: Nombre del conjunto de repositorio
+    set_description: Descripción del conjunto de repositorios
+    repo_codes: Repositorios en conjunto
+    _frontend:
+      action:
+        add: Agregar conjunto de repositorio
+
+  oai_sponsor_set:
+    _plural: Conjuntos de patrocinadores
+    set_name: Nombre del Patrocinador
+    set_description: Patrocinador Descripción del conjunto
+    sponsor_names: Nombres de patrocinadores
+    _frontend:
+      action:
+        add: Agregar conjunto de patrocinadores
+
   bulk_import:
     _frontend:
       actions:

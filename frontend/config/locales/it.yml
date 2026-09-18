@@ -2501,8 +2501,6 @@ it:
     title: Modello di report personalizzato aggiornato
     title_repo_section: Impostazioni OAI-PMH per repository
     general_section: Impostazioni generali
-    repo_set_section: Set di repository
-    sponsor_set_section: Set di sponsor
     repo_set_desc: Oltre ai set basati sul livello di descrizione, è possibile 
       definire un set OAI basato sui repository.
     sponsor_set_desc: Oltre ai set basati sul livello di descrizione, è 
@@ -2510,12 +2508,6 @@ it:
     oai_record_prefix: Prefisso del record OAI
     oai_admin_email: Indirizzo email dell'amministratore OAI
     oai_repository_name: Nome del repository OAI
-    repo_set_name: Nome del set di repository
-    repo_set_codes: Repository in Set
-    repo_set_description: Descrizione del set di repository
-    sponsor_set_name: Nome del set dello sponsor
-    sponsor_set_names: Nomi degli sponsor
-    sponsor_set_description: Descrizione del set di sponsor
     oai_leave_repo_form: Queste opzioni influiscono su OAI-PMH solo per questo 
       repository. Fare clic qui sotto per visualizzare/modificare le opzioni OAI
       globali. In questo modo si uscirà dalla schermata corrente senza salvare 
@@ -2527,12 +2519,29 @@ it:
         create: Aggiorna le impostazioni di OAI-PMH
         updated: Impostazioni OAI-PMH aggiornate con successo!
     _sidebar:
-      repo_set_section:
-        _plural: Set di repository
-      sponsor_set_section:
-        _plural: Set di sponsor
       repo_settings:
         _plural: Impostazioni OAI-PMH per repository
+    oai_repository_sets: Set di repository
+    oai_sponsor_sets: Set di sponsor
+
+  oai_repository_set:
+    _plural: Set di repository
+    set_name: Nome del set di repository
+    set_description: Descrizione del set di repository
+    repo_codes: Repository in Set
+    _frontend:
+      action:
+        add: Aggiungi set di repository
+
+  oai_sponsor_set:
+    _plural: Set di sponsor
+    set_name: Nome del set dello sponsor
+    set_description: Descrizione del set di sponsor
+    sponsor_names: Nomi degli sponsor
+    _frontend:
+      action:
+        add: Aggiungi set di sponsor
+
   agent_record_control:
     _plural: Informazioni sul record
     _singular: Informazioni sul record
