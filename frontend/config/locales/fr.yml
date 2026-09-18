@@ -292,7 +292,6 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
     resource:
       score: Pertinence
       title: Intitulé
@@ -316,7 +315,6 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
     archival_object:
       score: Pertinence
       title: Intitulé
@@ -334,7 +332,6 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
     subject:
       score: Pertinence
       source: Source
@@ -365,7 +362,6 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
     digital_object_component:
       score: Pertinence
       title: Intitulé
@@ -380,7 +376,6 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
     agent:
       score: Pertinence
       title: Nom
@@ -574,7 +569,6 @@ fr:
       langcode: Langue des matériaux
       asc: Ascendant
       desc: Descendant
-      representative_file_version: Image miniature
       uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Service
