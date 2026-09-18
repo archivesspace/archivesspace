@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def show
     return head :forbidden unless AppConfig[:pui_require_authentication]
-    return redirect_to('/') if pui_auth_status == :ok
+    return redirect_to(root_path) if pui_auth_status == :ok
 
     @skip_pui_autocheck = skip_pui_autocheck?
     render 'shared/login'
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
     if response.code == '200' && parsed_body
       session[:session] = parsed_body['session']
       session[:pui_username] = parsed_body['user']['username']
-      redirect_to '/'
+      redirect_to root_path
     elsif response.code == '403'
       flash.now[:error] = I18n.t('login.pui_permission_denied', username: params[:user_name])
       render 'shared/login'
@@ -72,6 +72,6 @@ class SessionsController < ApplicationController
 
     reset_session
     session[:skip_pui_autocheck] = true
-    redirect_to '/', notice: "Logged out successfully."
+    redirect_to root_path, notice: "Logged out successfully."
   end
 end
