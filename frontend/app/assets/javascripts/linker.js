@@ -556,9 +556,6 @@ $(function () {
             if (config.sortable && config.allow_multiple) {
               enableSorting();
             }
-
-            //            $this.triggerHandler("change");
-            $(document).triggerHandler('init.popovers', [$this.parent()]);
           },
           formatQueryParam: function (q, ajax_params) {
             if (
