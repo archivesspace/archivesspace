@@ -45,7 +45,7 @@ describe 'Events', js: true do
     end
 
     expect(page).to have_content 'New Event'
-    expect(page).to have_selector 'div.resource'
+    expect(page).to have_selector '.resource'
     select 'Single', from: 'event[date][date_type]'
     fill_in 'event[date][begin]', with: '2023'
     select 'Authorizer', from: 'event[linked_agents][0][role]'
@@ -61,7 +61,7 @@ describe 'Events', js: true do
 
     click_button id: 'createPlusOne'
     expect(page).to have_content 'Event Created'
-    expect(page).to have_selector 'div.resource'
+    expect(page).to have_selector '.resource'
   end
 
   it 'adds an event via +1 button when using Create -> Event without a previously linked record' do
