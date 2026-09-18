@@ -31,7 +31,7 @@ class AgentsController < ApplicationController
   end
 
   def show
-    @agent = JSONModel(@agent_type).find(params[:id], find_opts)
+    @agent = JSONModel(@agent_type).find(params[:id], find_opts.merge('current_repo_id' => session[:repo_id]))
   end
 
   def new
@@ -57,7 +57,7 @@ class AgentsController < ApplicationController
   end
 
   def edit
-    @agent = JSONModel(@agent_type).find(params[:id], find_opts)
+    @agent = JSONModel(@agent_type).find(params[:id], find_opts.merge('current_repo_id' => session[:repo_id]))
   end
 
   def create
@@ -127,7 +127,7 @@ class AgentsController < ApplicationController
     end
 
     begin
-      agent.delete
+      agent.delete('current_repo_id' => session[:repo_id])
     rescue ConflictException => e
       flash[:error] = t('agent._frontend.messages.delete_conflict', error: t("errors.#{e.conflicts}", default: e.message))
       redirect_to(controller: :agents, action: :show, id: params[:id])
