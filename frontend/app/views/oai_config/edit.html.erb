@@ -76,8 +76,10 @@
             <h2><%= I18n.t("oai_config.title_repo_section") %></h2>
             <table class="table table-striped table-bordered table-sm">
               <thead>
+              <tr>
                 <th>Name</th>
                 <th><span class="sr-only"><%= t('search_results.actions') %></span></th>
+              </tr>
               </thead>
               <tbody>
                 <% @repositories.each do |r| %>
