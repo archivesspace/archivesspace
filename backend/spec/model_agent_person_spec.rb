@@ -1,7 +1,13 @@
 require 'spec_helper'
 require_relative 'spec_slugs_helper'
+require_relative 'agent_cross_repo_delete_shared_examples'
 
 describe 'Agent model' do
+
+  describe 'cross-repository delete guard' do
+    include_examples 'agent cross-repository delete guard', AgentPerson, :json_agent_person
+  end
+
 
   it "allows agents to be created" do
 
