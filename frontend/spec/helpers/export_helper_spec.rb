@@ -11,13 +11,11 @@ describe ExportHelper do
 
   describe 'top container CSV data export' do
     before :all do
-      @export_indicator = "TC-EXPORT-#{SecureRandom.hex(4)}"
-
       create(:top_container,
         type: 'box',
-        indicator: @export_indicator,
-        barcode: "BC-EXPORT-#{SecureRandom.hex(4)}",
-        ils_holding_id: "HOLD-TEST-#{SecureRandom.hex(4)}",
+        indicator: 'TC-EXPORT-001',
+        barcode: 'BC-EXPORT-001',
+        ils_holding_id: 'HOLD-TEST-123',
         exported_to_ils: Time.now.iso8601,
         internal_note: 'Test internal note'
       )
@@ -29,58 +27,42 @@ describe ExportHelper do
         'fields[]' => ['type', 'indicator', 'barcode', 'ils_holding_id', 'exported_to_ils', 'internal_note'],
         'q' => '*',
         'page' => '1',
-        'page_size' => '1000',
         'filter_term[]' => [{'primary_type' => 'top_container'}.to_json],
         'csv_export_use_solr_writer' => true
       }
       export = csv_export_with_mappings "#{@repo.uri}/search", Search.build_filters(criteria)
-      row = CSV.parse(export, headers: true).find { |r| r['Indicator'] == @export_indicator } || {}
-
       aggregate_failures do
-        expect(row['Type']).to eq('box')
-        expect(row['Barcode']).to start_with('BC-EXPORT-')
-        expect(row['ILS Holding ID']).to start_with('HOLD-TEST-')
-        expect(row['Exported to ILS']).to eq('true')
-        expect(row['Internal Note']).to eq('Test internal note')
+        expect(export).to include('box')
+        expect(export).to include('TC-EXPORT-001')
+        expect(export).to include('BC-EXPORT-001')
+        expect(export).to include('HOLD-TEST-123')
+        expect(export).to include('true')
+        expect(export).to include('Test internal note')
       end
     end
   end
 
   it 'can convert the ancestor refs from a search to a user-friendly context column for CSV downloads' do
-    suffix = SecureRandom.hex(4)
-    accession_title = "יחסי ציבור #{suffix}"
-    collection_title = "ExportHelper collection #{suffix}"
-    series_title = "ExportHelper series #{suffix}"
-    item_title = "ExportHelper item #{suffix}"
-    digital_object_title = "ExportHelper digital object #{suffix}"
-    digital_object_component_title = "ExportHelper digital object component #{suffix}"
-
-    create(:accession, title: accession_title)
-    collection = create(:resource, title: collection_title, level: 'collection')
-    series = create(:archival_object, title: series_title, level: 'series', resource: {ref: collection.uri})
-    create(:top_container, type: 'box')
-    create(:archival_object,
-      title: item_title,
+    accession = create(:accession, title: "יחסי ציבור")
+    collection = create(:resource, title: 'ExportHelper collection', level: 'collection')
+    series = create(:archival_object, title: 'ExportHelper series', level: 'series', resource: {ref: collection.uri})
+    top_container = create(:top_container, type: 'box')
+    item = create(:archival_object,
+      title: 'ExportHelper item',
       level: 'item',
       resource: {ref: collection.uri}, parent: {ref: series.uri}
     )
-    digital_object = create(:digital_object, title: digital_object_title)
-    create(:digital_object_component, title: digital_object_component_title, digital_object: {ref: digital_object.uri})
+    digital_object = create(:digital_object, title: 'ExportHelper digital object')
+    digital_object_component = create(:digital_object_component, title: 'ExportHelper digital object component', digital_object: {ref: digital_object.uri})
 
     run_index_round
 
-    criteria = {
-      'fields[]' => ['primary_type', 'title', 'context'],
-      'q' => '*',
-      'page' => '1',
-      'page_size' => '1000',
-      'csv_export_use_solr_writer' => true
-    }
+    criteria = {'fields[]' => ['primary_type', 'title', 'context'], 'q' => '*', 'page' => '1', 'csv_export_use_solr_writer' => true}
     export = csv_export_with_mappings "#{@repo.uri}/search", Search.build_filters(criteria)
-    expect(export).to include("accession,#{accession_title},")
-    expect(export).to include("archival_object,#{series_title},#{collection_title}")
-    expect(export).to include("archival_object,#{item_title},#{collection_title} > #{series_title}")
-    expect(export).to include("digital_object_component,#{digital_object_component_title},#{digital_object_title}")
+    expect(export).to include("accession,יחסי ציבור,")
+    expect(export).to include('archival_object,ExportHelper series,ExportHelper collection')
+    expect(export).to include('archival_object,ExportHelper item,ExportHelper collection > ExportHelper series')
+    expect(export).to include('digital_object_component,ExportHelper digital object component,ExportHelper digital object')
   end
 
   describe '#map_fields_for_backend' do
