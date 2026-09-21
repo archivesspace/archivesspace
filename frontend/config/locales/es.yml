@@ -123,12 +123,13 @@ es:
       acción eliminará el <strong>repositorio</strong> y todos los registros asociados
       incluidas las referencias a otros registros.</p><p>Para seguir adelante por
       favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
-    delete_agent_cross_repo_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede
-      deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la
-      base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p><p><strong>Este
-      agente está vinculado a registros en al menos otro repositorio.</strong> Al eliminarlo,
-      se desvinculará de los registros en todos los repositorios.</p>"
-    delete_agent_cross_repo_confirm_checkbox_label: Eliminar este agente de
+    delete_agent_cross_repo_confirm_message: "<p>Por favor, ser conscientes de que
+      <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará
+      el registro de la base de datos, incluyendo cualquier referencia que se tiene
+      con otros registros.</p><p><strong>Este agente está vinculado a registros en
+      al menos otro repositorio.</strong> Al eliminarlo, se desvinculará de los registros
+      en todos los repositorios.</p>"
+    delete_agent_cross_repo_confirm_checkbox_label: Eliminar este agente de 
       todos los repositorios vinculados
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
@@ -650,16 +651,20 @@ es:
   batch_delete:
     archival_records:
       success: Registros eliminados
-      error: "Ninguno de los registros seleccionados fue eliminado, debido a los siguientes problemas:"
+      error: "Ninguno de los registros seleccionados fue eliminado, debido a los siguientes
+        problemas:"
     subjects:
       success: Materias eliminadas
-      error: "Ninguna de las materias seleccionadas fue eliminada, debido a los siguientes problemas:"
+      error: "Ninguna de las materias seleccionadas fue eliminada, debido a los siguientes
+        problemas:"
     agents:
       success: Autoridades eliminadas
-      error: "Ninguna de las autoridades seleccionadas fue eliminada, debido a los siguientes problemas:"
+      error: "Ninguna de las autoridades seleccionadas fue eliminada, debido a los
+        siguientes problemas:"
     locations:
       success: Ubicaciones eliminadas
-      error: "Ninguna de las ubicaciones seleccionadas fue eliminada, debido a los siguientes problemas:"
+      error: "Ninguna de las ubicaciones seleccionadas fue eliminada, debido a los
+        siguientes problemas:"
     assessments:
       success: Evaluaciones eliminadas
       error: "No se pueden eliminar evaluaciones:"
@@ -770,7 +775,8 @@ es:
     drag_to_reorder: Arrastrar para reordenar
     errors:
       move_records: No se pudieron mover los registros
-      move_records_message: No se pudieron mover los registros. Actualice la página e inténtelo de nuevo.
+      move_records_message: No se pudieron mover los registros. Actualice la 
+        página e inténtelo de nuevo.
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
@@ -796,14 +802,14 @@ es:
       usuario
     merge_denied_relationship: Estos agentes tienen una relación. Elimine la 
       relación antes de continuar con la fusión.
-    cannot_delete_repository_agent: Este agente está vinculado a un repositorio
+    cannot_delete_repository_agent: Este agente está vinculado a un repositorio 
       y no se puede eliminar.
-    linked_to_other_repo: Este agente está vinculado a registros en al menos
-      otro repositorio. No se puede eliminar desde este repositorio. Cambie
-      al repositorio donde está vinculado (si tiene permisos de gestor de
-      agentes allí), o pida a un administrador que lo elimine.
-    cannot_delete_system_agent: Este es un registro de agente del sistema y
-      no se puede eliminar.
+    linked_to_other_repo: Este agente está vinculado a registros en al menos 
+      otro repositorio. No se puede eliminar desde este repositorio. Cambie al 
+      repositorio donde está vinculado (si tiene permisos de gestor de agentes 
+      allí), o pida a un administrador que lo elimine.
+    cannot_delete_system_agent: Este es un registro de agente del sistema y no 
+      se puede eliminar.
   accession:
     _frontend:
       messages:
@@ -863,7 +869,7 @@ es:
         preview: Vista previa de combinación
       linked_in_other_repository:
         label: Vinculado fuera de este repositorio
-        tooltip: Este agente está vinculado a registros fuera de este
+        tooltip: Este agente está vinculado a registros fuera de este 
           repositorio.
 
   agent_contact:

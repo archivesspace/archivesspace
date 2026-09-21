@@ -947,7 +947,8 @@ de:
     drag_to_reorder: Ziehen zum Neuordnen
     errors:
       move_records: Datensätze können nicht verschoben werden
-      move_records_message: Die Datensätze konnten nicht verschoben werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.
+      move_records_message: Die Datensätze konnten nicht verschoben werden. 
+        Bitte laden Sie die Seite neu und versuchen Sie es erneut.
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen

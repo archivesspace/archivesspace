@@ -1266,7 +1266,8 @@ it:
     drag_to_reorder: Trascina per riordinare
     errors:
       move_records: Impossibile spostare i record
-      move_records_message: I record non possono essere spostati. Aggiorna la pagina e riprova.
+      move_records_message: I record non possono essere spostati. Aggiorna la 
+        pagina e riprova.
   component_link:
     _plural: Collegamenti dei componenti
     _singular: Collegamento dei componenti
