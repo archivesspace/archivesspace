@@ -51,6 +51,7 @@ describe 'Linker Accessibility by Variant', js: true do
     let(:searchable_record) { create(:agent_person) }
     let(:search_term) { searchable_record.names.first['primary_name'] }
     let(:linked_record) { create(:agent_person) }
+    let(:readonly_linked_record_path) { "agents/#{linked_record['jsonmodel_type']}/#{linked_record['id']}" }
     let(:parent_resource) do
       create(:resource, linked_agents: [{ 'ref' => linked_record.uri, 'role' => 'creator' }])
     end
@@ -63,6 +64,12 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 
   describe 'subjects linker' do
@@ -82,6 +89,12 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 
   describe 'classifications linker' do
@@ -101,6 +114,12 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 
   describe 'accessions linker' do
@@ -121,6 +140,12 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 
   describe 'accession links linker' do
@@ -166,6 +191,12 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 
   describe 'container profiles linker' do
@@ -173,6 +204,7 @@ describe 'Linker Accessibility by Variant', js: true do
     let(:searchable_record) { create(:container_profile) }
     let(:search_term) { searchable_record.name }
     let(:linked_record) { create(:container_profile) }
+    let(:linked_record_label) { linked_record['name'] }
     let(:top_container) do
       create(:top_container, container_profile: { 'ref' => linked_record.uri })
     end
@@ -193,6 +225,12 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 
   describe 'top containers linker' do
@@ -200,6 +238,7 @@ describe 'Linker Accessibility by Variant', js: true do
     let(:searchable_record) { create(:top_container) }
     let(:search_term) { searchable_record.indicator }
     let(:linked_record) { create(:top_container) }
+    let(:linked_record_label) { linked_record['display_string'] }
     let(:parent_resource) do
       create(
         :resource,
@@ -228,5 +267,11 @@ describe 'Linker Accessibility by Variant', js: true do
     end
 
     include_examples 'linker accessibility states'
+
+    context 'when linker has an existing linked record' do
+      before { navigate_to_linked_record.call }
+
+      it_behaves_like 'a token that opens its linked record in a new tab'
+    end
   end
 end
