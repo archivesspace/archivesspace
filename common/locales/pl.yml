@@ -1424,6 +1424,7 @@ pl:
       duplicate_file_version_headers: "Zduplikowane kolumny Wersji Pliku: %{columns}"
       csv_syntax_error: "Błąd importu CSV (%{type}): %{element}"
   bulk_import:
+    agent: Agent
     error:
       utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 
         przetworzyć.
@@ -1440,10 +1441,16 @@ pl:
       bad_ao_uri: ' z identyfikatorem URI %{uri}'
       bad_accession_uri: 'Nie znaleziono akcesji z identyfikatorem URI %{uri}'
       process_error: 'Błąd podczas przetwarzania %{type} %{num}: %{why}'
+      unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}'"
       invalid_user_defined_integer: "Nieprawidłowa liczba całkowita zdefiniowana przez użytkownika: %{value}"
+      invalid_file_version_size: "Kolumna %{column} wymaga całkowitej liczby bajtów; otrzymano '%{value}'"
       invalid_user_defined_real: "Nieprawidłowa liczba rzeczywista zdefiniowana przez użytkownika: %{value}"
       script_code: Nie można zweryfikować skryptu językowego (%{script}).
       lang_code: Nie można zweryfikować języka (%{lang})
+      subject_missing_identity: "Temat %{num} wymaga identyfikatora rekordu lub terminu"
+      agent_missing_identity: "Agent %{num} wymaga identyfikatora rekordu lub nagłówka"
+      agent_missing_type: "Agent %{num} wymaga typu agenta"
+      agent_unsupported_type: "Agent %{num} ma nieobsługiwany typ agenta '%{agent_type}'"
       validated: '%{what} zostało zweryfikowane'
       validation_error: 'Nie można zweryfikować %{what}: %{err}'
       ao_validation: 'Wystąpił błąd walidacji podczas próby zapisania obiektu archiwalnego: %{err}'

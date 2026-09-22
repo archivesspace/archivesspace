@@ -1,8 +1,15 @@
 he:
   bulk_import:
     error:
+      unrecognized_boolean: "העמודה %{column} דורשת ערך בוליאני; התקבל '%{value}'"
       invalid_user_defined_integer: "מספר שלם לא חוקי המוגדר על ידי המשתמש: %{value}"
+      invalid_file_version_size: "העמודה %{column} דורשת מספר שלם של בתים; התקבל '%{value}'"
       invalid_user_defined_real: "מספר ממשי לא חוקי המוגדר על ידי המשתמש: %{value}"
+      subject_missing_identity: "נושא %{num} דורש מזהה רשומה או מונח"
+      agent_missing_identity: "סוכן %{num} דורש מזהה רשומה או כותרת"
+      agent_missing_type: "סוכן %{num} דורש סוג סוכן"
+      agent_unsupported_type: "לסוכן %{num} יש סוג סוכן שאינו נתמך '%{agent_type}'"
+    agent: סוכן
   reports:
     formats:
       json: JSON

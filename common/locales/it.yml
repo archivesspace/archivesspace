@@ -1,8 +1,15 @@
 it:
   bulk_import:
     error:
+      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}'"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
+      invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
       invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
+      subject_missing_identity: "Il soggetto %{num} richiede un ID record o un termine"
+      agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"
+      agent_missing_type: "L'agente %{num} richiede un tipo di agente"
+      agent_unsupported_type: "L'agente %{num} ha un tipo di agente non supportato '%{agent_type}'"
+    agent: Agente
   states:
     suppressed: Bloccato
     deleted: Eliminato

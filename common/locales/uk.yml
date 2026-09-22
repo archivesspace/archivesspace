@@ -2579,8 +2579,14 @@ uk:
       validated: '%{what} перевірено'
       lang_code: Не вдається перевірити мову (%{lang})
       script_code: Не вдається перевірити мовний скрипт (%{script})
+      subject_missing_identity: "Тема %{num} потребує ідентифікатора запису або терміна"
+      agent_missing_identity: "Агент %{num} потребує ідентифікатора запису або заголовка"
+      agent_missing_type: "Агент %{num} потребує типу агента"
+      agent_unsupported_type: "Агент %{num} має непідтримуваний тип агента '%{agent_type}'"
       process_error: 'Помилка обробки %{type} %{num}: %{why}'
+      unrecognized_boolean: "Стовпець %{column} вимагає логічного значення; отримано '%{value}'"
       invalid_user_defined_integer: "Неприпустиме ціле число, визначене користувачем: %{value}"
+      invalid_file_version_size: "Стовпець %{column} вимагає цілого числа байтів; отримано '%{value}'"
       invalid_user_defined_real: "Неприпустиме дійсне число, визначене користувачем: %{value}"
       bad_ao_uri: ' з uri %{uri}'
       bad_accession_uri: 'Доступ не знайдено з uri %{uri}'
