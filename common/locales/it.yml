@@ -916,6 +916,11 @@ it:
       <p>Indica tutte le lingue presenti nello strumento di ricerca generato a partire dalla descrizione della risorsa.</p>
     finding_aid_langusage_label: 'La descrizione è scritta in: '
     finding_aid_script: Testo descrittivo
+    finding_aid_script_tooltip: |
+      <p>Indica tutti i sistemi di scrittura presenti nello strumento di ricerca generato a partire dalla descrizione della risorsa.</p>
+    finding_aid_language_note: Nota sulla lingua della descrizione
+    finding_aid_language_note_tooltip: |
+      <p>Note sulle lingue presenti negli aiuti alla ricerca generati dalla descrizione della risorsa.</p>
   classification_term:
     identifier: Identificatore
   file_version:
