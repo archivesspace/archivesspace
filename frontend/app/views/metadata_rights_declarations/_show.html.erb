@@ -10,14 +10,16 @@
       <% license = metadata_rights_declaration['license'] || "other" %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_metadata_rights_declaration_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_metadata_rights_declaration_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_metadata_rights_declaration_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-6">
+                <%= t("enumerations.metadata_license.#{license}", :default => metadata_rights_declaration['rights_statement']) %>
+              </div>
             </div>
-            <div class="col-md-6">
-              <%= t("enumerations.metadata_license.#{license}", :default => metadata_rights_declaration['rights_statement']) %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="<%= section_id %>_metadata_rights_declaration_<%= index %>" class="panel-collapse collapse">
           <%= render_aspace_partial :partial => "metadata_rights_declarations/show_fields", :locals => { :metadata_rights_declaration => metadata_rights_declaration } %>

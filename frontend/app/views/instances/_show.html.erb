@@ -9,21 +9,23 @@
 
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#instances_accordion" href="#instance_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#instances_accordion" data-target="#instance_<%= index %>" aria-expanded="false" aria-controls="instance_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-3">
+                <%= t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type']) %>
+              </div>
+              <div class="col-md-7">
+                <% if instance["instance_type"] == "digital_object" %>
+                  <%= clean_mixed_content(instance["digital_object"]["_resolved"]["title"]) %>
+                <% elsif instance["sub_container"] and instance["sub_container"].length > 0 %>
+                  <%= instance["sub_container"]["top_container"]["_resolved"]["display_string"] %>
+                <% end %>
+              </div>
             </div>
-            <div class="col-md-3">
-              <%= t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type']) %>
-            </div>
-            <div class="col-md-7">
-              <% if instance["instance_type"] == "digital_object" %>
-                <%= clean_mixed_content(instance["digital_object"]["_resolved"]["title"]) %>
-              <% elsif instance["sub_container"] and instance["sub_container"].length > 0 %>
-                <%= instance["sub_container"]["top_container"]["_resolved"]["display_string"] %>
-              <% end %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="instance_<%= index %>" class="panel-collapse collapse">
           <div class="panel-body">

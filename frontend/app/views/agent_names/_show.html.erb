@@ -9,18 +9,20 @@
     <% @agent.names.each_with_index do | name, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_name_accordion" href="#agent_name_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_name_accordion" data-target="#agent_name_<%= index %>" aria-expanded="false" aria-controls="agent_name_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-6">
+                <%= clean_mixed_content(name['sort_name']) %>
+              </div>
+              <div class="col-md-4">
+                <% if name['authorized'] %><span class="badge"><%= t("name_person.authorized") %></span><% end %>
+                <% if name['is_display_name'] %><span class="badge badge-info"><%= t("name_person.is_display_name") %></span><% end %>
+              </div>
             </div>
-            <div class="col-md-6">
-              <%= clean_mixed_content(name['sort_name']) %>
-            </div>
-            <div class="col-md-4">
-              <% if name['authorized'] %><span class="badge"><%= t("name_person.authorized") %></span><% end %>
-              <% if name['is_display_name'] %><span class="badge badge-info"><%= t("name_person.is_display_name") %></span><% end %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="agent_name_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(name.to_hash) %>

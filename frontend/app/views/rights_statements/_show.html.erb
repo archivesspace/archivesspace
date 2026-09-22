@@ -8,25 +8,27 @@
     <% rights_statements.each_with_index do | rights_statement, index | %>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#rights_statements_accordion" href="#rights_statement_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#rights_statements_accordion" data-target="#rights_statement_<%= index %>" aria-expanded="false" aria-controls="rights_statement_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-2">
+                <%= t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
+              </div>
+              <div class="col-md-4">
+                <% if rights_statement['status'] %>
+                  <%= t("enumerations.rights_statement_ip_status.#{rights_statement['status']}", :default => rights_statement['ip_status']) %>
+                <% end %>
+              </div>
+              <div class="col-md-4">
+                <%= rights_statement['start_date'] %>
+                <% if rights_statement['end_date'] %>
+                  - <%= rights_statement['end_date'] %>
+                <% end %>
+              </div>
             </div>
-            <div class="col-md-2">
-              <%= t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
-            </div>
-            <div class="col-md-4">
-              <% if rights_statement['status'] %>
-                <%= t("enumerations.rights_statement_ip_status.#{rights_statement['status']}", :default => rights_statement['ip_status']) %>
-              <% end %>
-            </div>
-            <div class="col-md-4">
-              <%= rights_statement['start_date'] %>
-              <% if rights_statement['end_date'] %>
-                - <%= rights_statement['end_date'] %>
-              <% end %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="rights_statement_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(rights_statement) %>
