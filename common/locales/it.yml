@@ -270,6 +270,43 @@ it:
       d'America, questo include codici dalla lista MARC Organization Code. Vedi ISDIAH 5.1.1</p>\n<p>Esempi:</p>\n\
       <ul>\n <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar
       <em>(for University of Illinois Archives)</em></li>\n</ul>\n"
+    repo_code: Nome breve del repository
+    repo_code_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Un'abbreviazione o un acronimo del nome del repository, più adatto a essere visualizzato nell'interfaccia utente.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>YNHSCL <em>(per Your Name Here Special Collections Library)</em></li>
+      <li>MSCL <em>(per Mandeville Special Collections Library)</em></li>
+      <li>Tamwag <em>(per Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+      </ul>
+    name: Nome del repository
+    name_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il nome dell'istituto di conservazione che detiene la responsabilità amministrativa e la custodia dei materiali descritti nei moduli dell'applicazione relativi ad acquisizione, risorsa e oggetto digitale.</p>
+      <p>Vedi DACS 2.2</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Your Name Here Special Collections Library</li>
+      <li>Mandeville Special Collections Library</li>
+      <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
+      </ul>
+    ark_shoulder: ARK Shoulder (spazio dei nomi locale)
+    ark_shoulder_tooltip: Stringa specifica per repository da includere negli ARK generati
+    org_code: Codice dell'organizzazione / dell'agenzia
+    parent_institution_name: Nome dell'ente di appartenenza
+    parent_institution_name_tooltip: |
+      <p>Il nome dell'istituzione di appartenenza di cui il repository fa parte.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>University of Illinois <em>(per University of Illinois Archives)</em></li>
+      <li>New York University <em>(per Tamiment Library e Robert F. Wagner Labor Archives)</em></li>
+      </ul>
+    address_1: Indirizzo 1
+    address_1_tooltip: |
+      <p>L'indirizzo postale o l'indirizzo stradale del repository.</p>
+    address_2: Indirizzo 2
+    address_2_tooltip: |
+      <p>L'indirizzo postale o l'indirizzo stradale del repository.</p>
+    city: Città
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
@@ -921,6 +958,31 @@ it:
     finding_aid_language_note: Nota sulla lingua della descrizione
     finding_aid_language_note_tooltip: |
       <p>Note sulle lingue presenti negli aiuti alla ricerca generati dalla descrizione della risorsa.</p>
+    finding_aid_sponsor: garante
+    finding_aid_sponsor_tooltip: |
+      <p>Indica gli eventuali sponsor che hanno contribuito alla descrizione dello strumento di ricerca.</p>
+    finding_aid_edition_statement: Indicazione dell'edizione
+    finding_aid_edition_statement_tooltip: |
+      <p>Per registrare informazioni sull'edizione dello strumento di ricerca.</p>
+    finding_aid_series_statement: Indicazione della serie
+    finding_aid_series_statement_tooltip: |
+      <p>Indica l'eventuale collana bibliografica a cui appartiene lo strumento di ricerca.</p>
+    finding_aid_status: Stato dello strumento di ricerca
+    finding_aid_status_tooltip: |
+      <p>Indica lo stato dello strumento di ricerca.</p>
+    is_finding_aid_status_published: 'Stato dello strumento di ricerca: pubblicato?'
+    is_finding_aid_status_published_tooltip: |
+      <p>Determina se lo stato dello strumento di ricerca viene reso pubblico.</p>
+    finding_aid_note: Nota sullo strumento di ricerca
+    finding_aid_note_tooltip: |
+      <p>Per registrare qualsiasi informazione aggiuntiva sull'aiuto alla ricerca (non la risorsa descritta) non coperta dagli altri elementi dei dati dell'aiuto alla ricerca.</p>
+    created_by: Creato da
+    last_modified_by: Ultima modifica da
+    create_time: Creata
+    user_mtime: Modificato
+    _singular: Risorsa
+    _plural: Risorse
+    new_title: Nuova risorsa
   classification_term:
     identifier: Identificatore
   file_version:
@@ -1867,3 +1929,24 @@ it:
       <ul><li>Shakespeare, Guglielmo, 1564-1616. Re Lear</li><li> Pound, Esdra, 1885-1972. Canti</li><li> Lincoln, Abraham, 1809-1865. Proclamazione di emancipazione</li></ul>
     _singular: Link per agenti
     _plural: Link per gli agenti
+  resource_and_archival_object:
+    _singular: Risorsa e/o oggetto archivistico
+    _plural: Risorse e/o oggetti d'archivio
+  related_accession:
+    _singular: Acquisizione correlata
+    _plural: Acquisizioni correlate
+  revision_statement:
+    _singular: Dichiarazione di revisione
+    _plural: Dichiarazioni di revisione
+    date: Data di revisione
+    date_tooltip: |
+      <p>Specifica la data dell'ultima revisione dello strumento di ricerca.</p>
+    description: Descrizione della revisione
+    description_tooltip: |
+      <p>Una descrizione delle ultime revisioni apportate all'aiuto per la ricerca.</p>
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questa dichiarazione di revisione viene pubblicata sulle interfacce pubbliche (per gli utenti).</p>
+  related_resource:
+    _singular: Risorsa correlata
+    _plural: Risorse correlate
