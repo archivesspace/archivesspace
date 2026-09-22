@@ -10,29 +10,31 @@
     <%= context.list_for(context["deaccessions"], "deaccessions[]") do |deaccession, index| %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#deaccessions_accordion" href="#deaccession_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#deaccessions_accordion" data-target="#deaccession_<%= index %>" aria-expanded="false" aria-controls="deaccession_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-1">
+                <%= t("enumerations.deaccession_scope.#{deaccession["scope"]}", :default => deaccession["scope"]) %>
+              </div>
+              <div class="col-md-3">
+                <% if deaccession["date"]['date_type'] === "expression" %>
+                  <%= deaccession["date"]['expression'] %>
+                <% elsif deaccession["date"]['date_type'] === "single" %>
+                  <%= deaccession["date"]['begin'] %>
+                <% else %>
+                  <%= deaccession["date"]['begin'] %> &ndash; <%= deaccession["date"]['end'] %>
+                <% end %>
+              </div>
+              <div class="col-md-7">
+                <% if !deaccession["extents"].blank? %>
+                  <%= deaccession["extents"][0]['number'] %>
+                  <%= t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type'], :default => deaccession["extents"][0]['extent_type']) %>
+                <% end %>
+              </div>
             </div>
-            <div class="col-md-1">
-              <%= t("enumerations.deaccession_scope.#{deaccession["scope"]}", :default => deaccession["scope"]) %>
-            </div>
-            <div class="col-md-3">
-              <% if deaccession["date"]['date_type'] === "expression" %>
-                <%= deaccession["date"]['expression'] %>
-              <% elsif deaccession["date"]['date_type'] === "single" %>
-                <%= deaccession["date"]['begin'] %>
-              <% else %>
-                <%= deaccession["date"]['begin'] %> &ndash; <%= deaccession["date"]['end'] %>
-              <% end %>
-            </div>
-            <div class="col-md-7">
-              <% if !deaccession["extents"].blank? %>
-                <%= deaccession["extents"][0]['number'] %>
-                <%= t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type'], :default => deaccession["extents"][0]['extent_type']) %>
-              <% end %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="deaccession_<%= index %>" class="accordion-body collapse">
           <div class="accordion-inner">

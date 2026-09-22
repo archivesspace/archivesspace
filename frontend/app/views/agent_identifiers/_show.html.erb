@@ -9,15 +9,16 @@
     <% agent_identifiers.each_with_index do | agent_identifier, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_agent_identifier_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_agent_identifier_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_agent_identifier_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-6">
+                <%= agent_identifier["entity_identifier"] %>
+              </div>
             </div>
-            <div class="col-md-6">
-              <%= agent_identifier["entity_identifier"] %>
-
-            </div>
-          </div>
+          </button>
         </div>
         <div id="<%= section_id %>_agent_identifier_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(agent_identifier) %>

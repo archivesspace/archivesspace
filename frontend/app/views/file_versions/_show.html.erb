@@ -8,14 +8,16 @@
     <% file_versions.each_with_index do | file_version, index | %>
       <div class="card border">
         <div class="panel-heading card-header">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_file_version_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_file_version_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_file_version_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-11">
+                <%= file_version['file_uri'] %>
+              </div>
             </div>
-            <div class="col-md-11">
-              <%= file_version['file_uri'] %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="<%= section_id %>_file_version_<%= index %>" class="accordion-body collapse">
           <div class="form-horizontal">

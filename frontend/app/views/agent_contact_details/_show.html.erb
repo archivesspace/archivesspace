@@ -9,19 +9,21 @@
     <%= context.list_for(context["agent_contacts"], "agent_contacts[]") do |contact, index| %>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" href="#agent_contact_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
+          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" data-target="#agent_contact_<%= index %>" aria-expanded="false" aria-controls="agent_contact_<%= index %>">
+            <div class="row">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-6">
+                <%= contact['name'] %>
+              </div>
+              <div class="col-md-4">
+                <% if contact['is_representative'] %>
+                  <span class="badge badge-info"><%= t("agent_contact.is_representative") %></span>
+                <% end %>
+              </div>
             </div>
-            <div class="col-md-6">
-              <%= contact['name'] %>
-            </div>
-            <div class="col-md-4">
-              <% if contact['is_representative'] %>
-                <span class="badge badge-info"><%= t("agent_contact.is_representative") %></span>
-              <% end %>
-            </div>
-          </div>
+          </button>
         </div>
         <div id="agent_contact_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(contact) %>
