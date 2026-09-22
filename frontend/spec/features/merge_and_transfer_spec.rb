@@ -109,6 +109,20 @@ describe 'Merge and Transfer', js: true do
     expect(ids.sort == ids_from_dom.sort).to eq true
   end
 
+  it 'updates the agent merge dropdown expanded state' do
+    agent = create(:agent_person, title: 'Agent to merge')
+
+    visit "agents/agent_person/#{agent.id}/edit"
+
+    merge_button = find('#merge-dropdown .merge-action')
+    expect(merge_button[:role]).to eq 'button'
+    expect(merge_button[:'aria-expanded']).to eq 'false'
+
+    merge_button.click
+
+    expect(find('#merge-dropdown .merge-action')[:'aria-expanded']).to eq 'true'
+  end
+
   it 'can transfer an archival object to another resource' do
     now = Time.now.to_i
 

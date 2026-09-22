@@ -3,7 +3,7 @@
 <% if session[:user] %>
   <% if @repositories.length > 0 %>
     <li class="dropdown select-a-repository">
-      <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown"><%= t("repository._frontend.action.select") %></button>
+      <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= t("repository._frontend.action.select") %></button>
       <ul class="dropdown-menu dropdown-menu-right" style="padding: 15px;">
         <li>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
@@ -19,7 +19,7 @@
     </li>
   <% end %>
   <li class="dropdown system-menu">
-    <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown"><%= t("navbar.global_admin") %></button>
+    <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown" aria-expanded="false"><%= t("navbar.global_admin") %></button>
     <ul class="dropdown-menu dropdown-menu-right">
       <% if user_can?('update_enumeration_record') %>
         <li><%= link_to t("navbar.manage_enumerations"), {:controller => :enumerations, :action => :index}, :class => "dropdown-item" %></li>
@@ -72,7 +72,7 @@
     <div class="btn-group align-items-center">
       <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
       <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default'}) %>
-      <button type="button" class="btn btn-default dropdown-toggle" id="user-menu-dropdown" data-toggle="dropdown" title="<%= t("navbar.global_settings") %>" aria-label="<%= t("navbar.global_settings") %>"></button>
+      <button type="button" class="btn btn-default dropdown-toggle" id="user-menu-dropdown" data-toggle="dropdown" title="<%= t("navbar.global_settings") %>" aria-label="<%= t("navbar.global_settings") %>" aria-haspopup="true" aria-expanded="false"><span class="sr-only"><%= t("navbar.global_settings") %></span></button>
       <ul class="dropdown-menu dropdown-menu-right">
         <li><%= link_to t("navbar.global_preferences") + " (#{username})", {:controller => :preferences, :action => :edit, :id => 0, :global => true}, :class => "dropdown-item" %></li>
         <li><%= link_to t("navbar.user_repo_preferences") + " (#{username})", {:controller => :preferences, :action => :edit, :id => 0}, :class => "dropdown-item" %></li>

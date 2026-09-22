@@ -12,7 +12,16 @@ describe 'System Information', js: true do
     login_user(archivist_user)
     select_repository(repository)
 
-    click_on 'System'
+    repository_button = find('.select-a-repository button[type="button"]')
+    expect(repository_button[:'aria-haspopup']).to eq 'true'
+    expect(repository_button[:'aria-expanded']).to eq 'false'
+    repository_button.click
+    expect(repository_button[:'aria-expanded']).to eq 'true'
+
+    system_button = find('.system-menu button')
+    expect(system_button[:'aria-expanded']).to eq 'false'
+    system_button.click
+    expect(find('.system-menu button')[:'aria-expanded']).to eq 'true'
     expect(page).to_not have_text 'System Information'
 
     visit '/system_info'

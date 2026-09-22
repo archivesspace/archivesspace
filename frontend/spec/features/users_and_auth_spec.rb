@@ -76,10 +76,12 @@ describe 'Users and Authentication', js: true do
     end
 
     expect(page).to have_text 'Welcome to ArchivesSpace'
+    expect(page).to have_css('#user-menu-dropdown[aria-label="Global Settings"][aria-haspopup="true"][aria-expanded="false"]')
+    find('#user-menu-dropdown').click
+    expect(page).to have_css('#user-menu-dropdown[aria-expanded="true"]')
     element = find('.user-container')
     expect(element).to have_text 'admin'
 
-    find('#user-menu-dropdown').click
     click_on 'Become User'
     fill_in 'select-user', with: user.username
     click_on 'Become User'
