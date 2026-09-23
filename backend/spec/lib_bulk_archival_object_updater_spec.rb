@@ -670,6 +670,58 @@ describe 'Bulk Archival Object Updater' do
     end
   end
 
+  context 'when the bulk updater is given a cancelation signal' do
+    let(:job_canceled) { double('cancelation signal') }
+
+    let(:bulk_archival_object_updater) do
+      BulkArchivalObjectUpdater.new(excel_filename, parameters, job_canceled)
+    end
+
+    context 'and cancelation is requested part way through the run', :disable_database_transaction do
+      it 'aborts and reverts the updates it had already applied' do
+        # False while the first archival object is processed, true before the second.
+        allow(job_canceled).to receive(:value).and_return(false, true)
+
+        # Change the title of archival objects in the downloaded excel.
+        sheet[2][2].change_contents('Updated Archival Object Title 1')
+        sheet[3][2].change_contents('Updated Archival Object Title 2')
+
+        # Save excel file after updates
+        excel_file.write(excel_filename)
+
+        total_records_count_before = total_records_count
+
+        expect do
+          bulk_archival_object_updater.run
+        end.to raise_error BulkArchivalObjectUpdater::BulkUpdateCanceled
+
+        # Ensure neither archival object title was updated, including the row
+        # that was processed before cancelation was requested.
+        reload_archival_object_1 = ::ArchivalObject.where(id: archival_object_1.id).first
+        reload_archival_object_2 = ::ArchivalObject.where(id: archival_object_2.id).first
+        expect(reload_archival_object_1.title).to eq "Archival Object Title 1 #{uuid}"
+        expect(reload_archival_object_2.title).to eq "Archival Object Title 2 #{uuid}"
+
+        expect(total_records_count).to eq total_records_count_before
+      end
+    end
+
+    context 'and cancelation is never requested' do
+      it 'updates the archival objects as usual' do
+        allow(job_canceled).to receive(:value).and_return(false)
+
+        sheet[2][2].change_contents('Updated Archival Object Title 1')
+
+        excel_file.write(excel_filename)
+
+        updated_records = bulk_archival_object_updater.run
+
+        expect(bulk_archival_object_updater.errors).to eq []
+        expect(updated_records[:updated_uris]).to include archival_object_1.uri
+      end
+    end
+  end
+
   context 'when the bulk updater triggers a reindex of top containers' do
     let(:resource_obj) { Resource[resource.id] }
     let(:top_container_2) { create(:json_top_container) }

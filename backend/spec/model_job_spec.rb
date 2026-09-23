@@ -257,6 +257,12 @@ describe 'Background jobs' do
     it "can stop a canceled job and finish it", :skip_db_open do
       NugatoryJobRunner.run_till_canceled!
 
+      allow(JobRunner).to receive(:for).and_wrap_original do |original, running_job|
+        running_job.write_output("Waiting for cancelation\n")
+        expect(running_job.file_store).to receive(:close_output).and_call_original
+        original.call(running_job)
+      end
+
       json = JSONModel(:job).from_hash({:job => {'jsonmodel_type' => 'nugatory_job'}})
 
       as_test_user("admin") do
@@ -289,6 +295,41 @@ describe 'Background jobs' do
       expect(job.status).to eq('canceled')
       expect(job.time_finished).not_to be_nil
       expect(job.time_finished).to be < Time.now
+    end
+
+    it "preserves completion when cancelation has already reached the runner", :skip_db_open do
+      json = JSONModel(:job).from_hash({:job => {'jsonmodel_type' => 'nugatory_job'}})
+
+      as_test_user("admin") do
+        RequestContext.open(:repo_id => $repo_id, :current_username => "admin") do
+          user = create(:user, :username => 'jobber')
+          @job = Job.create_from_json(json, :repo_id => $repo_id, :user => user)
+        end
+      end
+
+      cancelation_observed = false
+      allow(JobRunner).to receive(:for).and_wrap_original do |original, job|
+        runner = original.call(job)
+        allow(runner).to receive(:run) do
+          Job.any_repo[job.id].cancel!
+
+          deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + 15
+          until runner.canceled?
+            raise 'Watchdog did not signal cancelation' if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
+            sleep(0.05)
+          end
+          cancelation_observed = true
+
+          # The work has committed: a late cancel request must not overwrite the completed status.
+          runner.success!
+        end
+        runner
+      end
+
+      queue.run_pending_job
+
+      expect(cancelation_observed).to be true
+      expect(Job.any_repo[@job.id].status).to eq('completed')
     end
 
     it "quietly logs and swallows error when a stale job doesn't exist", :skip_db_open do

@@ -25,7 +25,7 @@ class BulkArchivalObjectUpdaterRunner < JobRunner
           parameters['create_missing_top_containers'] = @job.job['create_missing_top_containers']
         end
 
-        bulk_archival_object_updater = BulkArchivalObjectUpdater.new(spreadsheet.full_file_path, parameters.transform_keys(&:to_sym))
+        bulk_archival_object_updater = BulkArchivalObjectUpdater.new(spreadsheet.full_file_path, parameters.transform_keys(&:to_sym), @job_canceled)
 
         result = bulk_archival_object_updater.run
 
@@ -34,13 +34,18 @@ class BulkArchivalObjectUpdaterRunner < JobRunner
         end
 
         @job.write_output("\nBulk update job successfully completed. %d record(s) were updated." % [ result[:updated_uris].length ])
+        # Stop the watchdog before saving metadata. The queue's success hook calls
+        # @job.finish!, which reloads @job and refreshes its status and lock version.
+        self.success!
         @job.record_created_uris(result[:updated_uris])
         @job.job_blob = ASUtils.to_json(result)
         @job.job_files[0].delete
         @job.save
         @job.finish!(:completed)
-        self.success!
       end
+    rescue BulkArchivalObjectUpdater::BulkUpdateCanceled
+      @job.write_output("\nJob canceled.\n")
+      @job.write_output("All changes have been discarded.\n")
     rescue BulkArchivalObjectUpdater::BulkUpdateFailed => e
       @job.write_output("\nErrors encountered during processing.\n")
       @job.write_output("All changes have been reverted.\n\n")
