@@ -13,7 +13,7 @@
 #   record types populate on their resolved/rendered JSON. Override for  types that
 #   render a different field instead (e.g. container profiles use 'name' and top
 #   containers use 'display_string')
-# - let(:readonly_linked_record_path) - Default is "#{linked_record['jsonmodel_type']}s/#{linked_record['id']}",
+# - let(:readonly_linked_record_path) - Default is "#{linked_record['jsonmodel_type']}s/#{linked_record.id}",
 #   which is used for most record types. Override for special-cases (e.g. agents
 #   resolve to "agents/#{agent_type}/#{id}" rather than "#{agent_type}s/#{id}")
 RSpec.shared_examples 'a token that opens its linked record in a new tab' do
@@ -28,7 +28,7 @@ RSpec.shared_examples 'a token that opens its linked record in a new tab' do
     path = if respond_to?(:readonly_linked_record_path)
              readonly_linked_record_path
            else
-             "#{linked_record['jsonmodel_type']}s/#{linked_record['id']}"
+             "#{linked_record['jsonmodel_type']}s/#{linked_record.id}"
            end
     label = respond_to?(:linked_record_label) ? linked_record_label : linked_record['title']
 

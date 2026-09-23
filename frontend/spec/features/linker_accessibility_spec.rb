@@ -51,7 +51,7 @@ describe 'Linker Accessibility by Variant', js: true do
     let(:searchable_record) { create(:agent_person) }
     let(:search_term) { searchable_record.names.first['primary_name'] }
     let(:linked_record) { create(:agent_person) }
-    let(:readonly_linked_record_path) { "agents/#{linked_record['jsonmodel_type']}/#{linked_record['id']}" }
+    let(:readonly_linked_record_path) { "agents/#{linked_record['jsonmodel_type']}/#{linked_record.id}" }
     let(:parent_resource) do
       create(:resource, linked_agents: [{ 'ref' => linked_record.uri, 'role' => 'creator' }])
     end
