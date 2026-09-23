@@ -143,6 +143,7 @@ describe 'Resources', js: true do
           expect(page).to have_xpath("//select[@id='add_event_event_type']")
           expect(page).not_to have_css("label.sr-only")
           expect(page).to have_xpath("//label[@for='add_event_event_type']")
+          expect(page).not_to have_css("select#add_event_event_type[aria-labelledby]")
         end
       end
 
