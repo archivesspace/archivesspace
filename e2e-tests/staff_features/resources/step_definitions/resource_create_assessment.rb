@@ -10,5 +10,5 @@ Then 'the Assessment is linked to the Resource in the {string} form' do |form_ti
   expect(related_resources_elements.length).to eq 1
   related_resource = related_resources_elements[0].find('.resource')
 
-  expect(related_resource[:'data-content']).to include "resources/#{@resource_id}"
+  expect(related_resource[:href]).to include "resources/#{@resource_id}"
 end
