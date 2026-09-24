@@ -107,8 +107,28 @@ class Session
 
 
   def self.expire(sid)
+    expire_digest(digest(sid))
+  end
+
+
+  # A session records only the *digest* of the session it is paired with, never
+  # the paired token itself: the session table stores its own key hashed for
+  # exactly this reason, and a row that held a live token would undo that.
+  def self.digest(sid)
+    Digest::SHA1.hexdigest(sid)
+  end
+
+
+  def self.expire_digest(session_digest)
     DB.open do |db|
-      db[:session].filter(:session_id => Digest::SHA1.hexdigest(sid)).delete
+      db[:session].filter(:session_id => session_digest).delete
+    end
+  end
+
+
+  def self.exists_by_digest?(session_digest)
+    DB.open do |db|
+      !db[:session].filter(:session_id => session_digest).empty?
     end
   end
 
@@ -152,6 +172,14 @@ class Session
 
   def age
     (Time.now - system_mtime).to_i
+  end
+
+
+  # `@id` is the bearer token itself, and main.rb logs a session per request at
+  # debug level -- so keep it out of #inspect the way the session table keeps it
+  # out of its own key.  See Session.digest.
+  def inspect
+    "#<Session:#{self.class.digest(@id)} store=#{@store.inspect} system_mtime=#{@system_mtime.inspect}>"
   end
 
 end

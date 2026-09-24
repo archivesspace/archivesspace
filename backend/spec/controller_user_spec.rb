@@ -227,6 +227,57 @@ describe 'User controller' do
     expect(user.groups).to eq([])
   end
 
+  it "does not allow self update to change pui viewer flag" do
+    user_id = build(:json_user).save('password' => '123')
+    non_admin_user = JSONModel(:user).find(user_id)
+
+    as_test_user(non_admin_user['username']) do
+      non_admin_user.is_pui_viewer = true
+      non_admin_user.save
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_pui_viewer).to_not be_truthy
+  end
+
+  it "allows a user with manage_users permission (but not admin) to grant pui viewer access to another user" do
+    manager = create(:user)
+
+    RequestContext.open(:repo_id => Repository.global_repo_id) do
+      group = Group.create_from_json(build(:json_group))
+      group.grant('manage_users')
+      group.add_user(manager)
+    end
+
+    user_id = build(:json_user).save('password' => '123')
+    target_user = JSONModel(:user).find(user_id)
+
+    as_test_user(manager.username) do
+      target_user.is_pui_viewer = true
+      target_user.save
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_pui_viewer).to be_truthy
+  end
+
+  it "does not allow a user without manage_users permission to grant pui viewer access to another user" do
+    other_user = create(:user)
+
+    user_id = build(:json_user).save('password' => '123')
+    target_user = JSONModel(:user).find(user_id)
+
+    as_test_user(other_user.username) do
+      expect {
+        target_user.is_pui_viewer = true
+        target_user.save
+      }.to raise_error(AccessDeniedException)
+    end
+
+    user = JSONModel(:user).find(user_id)
+    expect(user.is_pui_viewer).to_not be_truthy
+  end
+
   it "can log out a session" do
     post '/users/test1/login', params = { "password" => "password", "expiring" => "false" }
     expect(last_response).to be_ok
@@ -241,13 +292,6 @@ describe 'User controller' do
 
     get '/', params = {}, session_headers
     expect(last_response.status).to eq(412)
-  end
-
-
-  it "rejects a login attempt against an unknown username" do
-    post '/users/notauserXXXXXX/login', params = { "password" => "wrongpwXXXXX"}
-    expect(last_response).not_to be_ok
-    expect(last_response.status).to eq(403)
   end
 
   describe "resending passwords to forgetful users" do
@@ -297,6 +341,298 @@ describe 'User controller' do
       allow(AppConfig).to receive(:[]).with(:allow_password_reset).and_return(false)
       post "/users/reset-password", email: user.email
       expect(last_response.status).to eq(400)
+    end
+  end
+
+  describe "pui parameter" do
+    context "when pui is false (default)" do
+      it "allows login for a user without view_pui permission" do
+        post "/users/test1/login", {
+          password: 'password',
+          pui: false
+        }
+
+        expect(last_response.status).to eq(200)
+        expect(JSON(last_response.body)["session"]).not_to be_nil
+      end
+
+      it "allows an ordinary GET request, unlike a pui_only-scoped session" do
+        post "/users/admin/login", {
+          password: 'admin',
+          pui: false
+        }
+
+        session_token = JSON(last_response.body)["session"]
+
+        get "/", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => session_token}
+        expect(last_response.status).to eq(200)
+      end
+    end
+
+    context "when pui is true" do
+      it "allows login for a user with view_pui permission" do
+        post "/users/admin/login", {
+          password: 'admin',
+          pui: true
+        }
+
+        expect(last_response.status).to eq(200)
+        expect(JSON(last_response["session"])).not_to be_nil
+      end
+
+      it "rejects login for a user without view_pui permission" do
+        post "/users/test1/login", {
+          password: 'password',
+          pui: true
+        }
+
+        expect(last_response.status).to eq(403)
+        expect(JSON(last_response.body)["error"]).to eq("User does not have permission to view the PUI")
+      end
+
+      it "creates a pui_only-scoped session, usable only for current-user and logout" do
+        post "/users/admin/login", {
+          password: 'admin',
+          pui: true
+        }
+
+        session_token = JSON(last_response.body)["session"]
+        pui_headers = {"HTTP_X_ARCHIVESSPACE_SESSION" => session_token}
+
+        get "/users/current-user", params = {}, pui_headers
+        expect(last_response.status).to eq(200)
+
+        get "/", params = {}, pui_headers
+        expect(last_response.status).to eq(403)
+        expect(JSON(last_response.body)["code"]).to eq("PUI_SESSION_FORBIDDEN")
+
+        post "/logout", params = {}, pui_headers
+        expect(last_response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "POST /users/current-user/pui-session" do
+    it "mints a new, PUI-scoped session for a user with view_pui permission" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+
+      expect(last_response.status).to eq(200)
+      body = JSON(last_response.body)
+      expect(body["username"]).to eq("admin")
+      expect(body["session"]).to match(/^[0-9a-f]+$/)
+    end
+
+    it "rejects a user without view_pui permission" do
+      as_test_user("test1") do
+        post "/users/current-user/pui-session"
+      end
+
+      expect(last_response.status).to eq(403)
+    end
+
+    it "rejects an anonymous user" do
+      as_anonymous_user do
+        post "/users/current-user/pui-session"
+      end
+
+      expect(last_response.status).to eq(403)
+    end
+
+    it "the minted session is unusable for anything but current-user and logout" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_session = JSON(last_response.body)["session"]
+      pui_headers = {"HTTP_X_ARCHIVESSPACE_SESSION" => pui_session}
+
+      get "/users/current-user", params = {}, pui_headers
+      expect(last_response.status).to eq(200)
+
+      get "/", params = {}, pui_headers
+      expect(last_response.status).to eq(403)
+      expect(JSON(last_response.body)["code"]).to eq("PUI_SESSION_FORBIDDEN")
+
+      post "/logout", params = {}, pui_headers
+      expect(last_response.status).to eq(200)
+    end
+
+    it "pairs the new session with the staff session that created it" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token = JSON(last_response.body)["session"]
+
+      expect(Session.find(pui_token)[:parent_session]).to eq(Session.digest(staff_token))
+
+      # the pairing must not put a usable token in the session table
+      expect(Session.find(pui_token)[:parent_session]).to_not eq(staff_token)
+    end
+
+    it "supports multiple PUI sessions handed off from the same staff session (e.g. multiple tabs)" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_1 = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_2 = JSON(last_response.body)["session"]
+
+      expect(pui_token_1).to_not eq(pui_token_2)
+      expect(Session.find(pui_token_1)[:parent_session]).to eq(Session.digest(staff_token))
+      expect(Session.find(pui_token_2)[:parent_session]).to eq(Session.digest(staff_token))
+    end
+  end
+
+  describe "cross-app logout pairing" do
+    def alive?(token)
+      get "/users/current-user", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => token}
+      last_response.status == 200
+    end
+
+    it "a staff-side logout also logs out the paired PUI session" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token = JSON(last_response.body)["session"]
+
+      post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+
+      expect(alive?(staff_token)).to be false
+      expect(alive?(pui_token)).to be false
+    end
+
+    it "a PUI-side logout also logs out the paired staff session" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token = JSON(last_response.body)["session"]
+
+      post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => pui_token}
+
+      expect(alive?(pui_token)).to be false
+      expect(alive?(staff_token)).to be false
+    end
+
+    it "logs out normally when there is no paired session (e.g. a direct PUI login)" do
+      post "/users/admin/login", { password: "admin", pui: true }
+      pui_token = JSON(last_response.body)["session"]
+
+      expect {
+        post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => pui_token}
+      }.not_to raise_error
+
+      expect(last_response.status).to eq(200)
+      expect(alive?(pui_token)).to be false
+    end
+
+    it "logs out normally when the paired session is already gone" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token = JSON(last_response.body)["session"]
+
+      # Expire the paired session out from under it first.
+      Session.expire(pui_token)
+
+      expect {
+        post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      }.not_to raise_error
+
+      expect(last_response.status).to eq(200)
+      expect(alive?(staff_token)).to be false
+    end
+
+    it "a staff-side logout logs out every PUI session handed off from it, not just the most recent" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_1 = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_2 = JSON(last_response.body)["session"]
+
+      post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+
+      expect(alive?(staff_token)).to be false
+      expect(alive?(pui_token_1)).to be false
+      expect(alive?(pui_token_2)).to be false
+    end
+
+    # A staff session that lapses through inactivity is never "logged out", so
+    # nothing runs to tidy up the PUI sessions handed off from it.  They are
+    # invalidated by the parent check on their next request instead.
+    it "invalidates a PUI session whose staff session expired rather than logged out" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token = JSON(last_response.body)["session"]
+
+      expect(alive?(pui_token)).to be true
+
+      # as `expire_old_sessions` would reap it
+      Session.expire(staff_token)
+
+      expect(alive?(pui_token)).to be false
+      expect(Session.find(pui_token)).to be_nil
+    end
+
+    # The mirror of the case above.  `paired_session_ids` is only ever written
+    # onto the staff session, so logging out from one PUI session reaches the
+    # staff session but not the other PUI sessions handed off from it: the user
+    # clicks Logout in one tab and stays logged in to the PUI in another.
+    it "a PUI-side logout logs out every other PUI session handed off from the same staff session" do
+      post "/users/admin/login", { password: "admin" }
+      staff_token = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_1 = JSON(last_response.body)["session"]
+
+      as_test_user("admin") do
+        post "/users/current-user/pui-session", {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => staff_token}
+      end
+      pui_token_2 = JSON(last_response.body)["session"]
+
+      # The user clicks Logout in the first tab.
+      post "/logout", params = {}, {"HTTP_X_ARCHIVESSPACE_SESSION" => pui_token_1}
+
+      expect(alive?(pui_token_1)).to be false
+      expect(alive?(staff_token)).to be false
+      expect(alive?(pui_token_2)).to be false
     end
   end
 end

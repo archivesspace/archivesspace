@@ -345,3 +345,96 @@ require 'spec_helper'
 #     end
 #   end
 # end
+
+def stub_current_user_response(response)
+  allow(JSONModel::HTTP).to receive(:get_response).and_return(response)
+end
+
+describe WelcomeController, type: :controller do
+  context 'when pui_require_authentication is disabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+    end
+
+    it 'renders the real page with no session' do
+      get :show
+      expect(response).to have_http_status(200)
+      expect(response).not_to render_template('shared/login')
+    end
+  end
+
+  context 'when pui_require_authentication is enabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+    end
+
+    it 'renders the login screen in place when there is no session' do
+      get :show
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(response).to render_template('shared/login')
+      expect(response).to render_template(layout: 'layouts/login')
+    end
+
+    it 'passes through to the real page when the backend confirms a pui viewer session' do
+      stub_current_user_response(instance_double(Net::HTTPResponse, code: '200', body: { 'is_pui_viewer' => true }.to_json))
+      session[:session] = 'abc123'
+
+      get :show
+
+      expect(response).to have_http_status(200)
+      expect(response).not_to render_template('shared/login')
+    end
+
+    it 'renders the login screen with a permission-denied flash for a valid session without pui access' do
+      stub_current_user_response(instance_double(Net::HTTPResponse, code: '200', body: { 'username' => 'someuser', 'is_pui_viewer' => false }.to_json))
+      session[:session] = 'abc123'
+      session[:pui_username] = 'someuser'
+
+      get :show
+
+      expect(response).to render_template('shared/login')
+      expect(flash.now[:error]).to include('does not have permission to view the PUI')
+    end
+
+    it 'shows the current session user in the permission-denied flash, not a stale one' do
+      stub_current_user_response(instance_double(Net::HTTPResponse, code: '200', body: { 'username' => 'newuser', 'is_pui_viewer' => false }.to_json))
+      session[:session] = 'abc123'
+      session[:pui_username] = 'originaladminuser'
+
+      get :show
+
+      expect(response).to render_template('shared/login')
+      expect(flash.now[:error]).to include('newuser')
+      expect(flash.now[:error]).not_to include('originaladminuser')
+    end
+
+    it 'renders the login screen when the backend rejects the session' do
+      stub_current_user_response(instance_double(Net::HTTPResponse, code: '412', body: '{}'))
+      session[:session] = 'expired'
+
+      get :show
+
+      expect(response).to render_template('shared/login')
+    end
+  end
+end
+
+describe ResourcesController, type: :controller do
+  context 'when pui_require_authentication is enabled and there is no session' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(true)
+    end
+
+    it 'returns a JSON 401 instead of the HTML login page for JSON-only actions' do
+      get :waypoints, params: { rid: 2, id: 1, urls: [] }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.media_type).to eq('application/json')
+      expect(JSON.parse(response.body)['error']).to eq('authentication_required')
+    end
+  end
+end
