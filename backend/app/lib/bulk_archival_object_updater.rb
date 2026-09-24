@@ -36,9 +36,10 @@ class BulkArchivalObjectUpdater
     ['indicator_3', 'sub_container_indicator_3']
   ]
 
-  def initialize(filename, parameters)
+  def initialize(filename, parameters, job_canceled = nil)
     @filename = filename
     @parameters = parameters
+    @job_canceled = job_canceled
     @errors = []
     @info_messages = []
     @updated_uris = []
@@ -80,6 +81,8 @@ class BulkArchivalObjectUpdater
         ao_jsons = ArchivalObject.sequel_to_jsonmodel(ao_objs)
 
         ao_objs.zip(ao_jsons).each do |ao, ao_json|
+          abort_if_canceled
+
           tc_ids_before = ao_json.instances
                             .select { |instance| instance['instance_type'] != 'digital_object' }
                             .map { |instance|
@@ -125,6 +128,10 @@ class BulkArchivalObjectUpdater
   end
 
   private
+
+  def abort_if_canceled
+    raise BulkUpdateCanceled.new if @job_canceled && @job_canceled.value
+  end
 
   def process_row(row, ao, ao_json, column_by_path, subrecord_columns)
     record_changed = false
@@ -1338,6 +1345,9 @@ class BulkArchivalObjectUpdater
         yield Row.new(headers.zip(values).to_h, idx + 1)
       end
     end
+  end
+
+  class BulkUpdateCanceled < StandardError
   end
 
   class BulkUpdateFailed < StandardError

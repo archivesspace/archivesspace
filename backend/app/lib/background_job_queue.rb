@@ -90,15 +90,16 @@ class BackgroundJobQueue
       while !finished.value
         DB.open do |db|
           Log.debug("Running job #{job.id} on #{job_thread_name}")
-          job = job.class.any_repo[job.id]
+          # Keep the original job shared by the queue and runner.
+          current_job = job.class.any_repo[job.id]
 
-          if job.status === "canceled"
+          if current_job.status === "canceled"
             # Notify the running job that we've been manually canceled
             Log.info("Received cancel request for job #{job.id} on #{job_thread_name}")
             job_canceled.value = true
           end
 
-          job.update_mtime
+          current_job.update_mtime
         end
 
         sleep [5, (JOB_TIMEOUT_SECONDS / 2)].min
@@ -131,8 +132,8 @@ class BackgroundJobQueue
       watchdog_thread.join
 
       if job_canceled.value
-        # Mark the job as permanently canceled
-        job.finish!(:canceled)
+        # Preserve success if cancelation arrived too late to stop the work.
+        job.finish!(:canceled) unless job.success?
       else
         if job.running?
           # If the job didn't record success, mark it as finished ourselves.
