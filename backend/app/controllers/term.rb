@@ -9,7 +9,8 @@ class ArchivesSpaceService < Sinatra::Base
     query = params[:q].gsub(/[%]/, '').downcase
     handle_listing(Term, {:page => 1, :page_size => 20, :modified_since => 0},
                    Sequel.like(Sequel.function(:lower, :term),
-                               "#{query}%"))
+                               "#{query}%"),
+                   Sequel.asc(:id))
   end
 
 end
