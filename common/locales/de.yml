@@ -2726,6 +2726,7 @@ de:
       enum: "UNGÜLTIG: %{which}: '%{label}'. Gültige Werte: %{valid_values}"
       error: 'FEHLER: Fehler erkannt: %{term}'
       duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
+      unknown_columns: 'Diese Spalten werden nicht erkannt (möglicherweise verwenden Sie eine veraltete Vorlage): %{codes}'
       uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile 
         [%{row_uri}] überein
       title: Fehlender Titel
@@ -2753,7 +2754,15 @@ de:
       validated: '%{what} validiert'
       lang_code: Sprache (%{lang}) kann nicht validiert werden
       script_code: Schrift (%{script}) kann nicht validiert werden
+      subject_missing_identity: "Thema %{num} erfordert eine Datensatz-ID oder einen Begriff"
+      agent_missing_identity: "Agent %{num} erfordert eine Datensatz-ID oder einen Header"
+      agent_missing_type: "Agent %{num} erfordert einen Agententyp"
+      agent_unsupported_type: "Agent %{num} hat den nicht unterstützten Agententyp '%{agent_type}'"
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}'"
+      invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
+      invalid_file_version_size: "Spalte %{column} erfordert eine ganze Zahl von Bytes; erhalten '%{value}'"
+      invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
       bad_ao_uri: ' mit URI %{uri}'
       bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'
       bad_ao_ref_id: ' mit Ref-ID %{ref_id}'

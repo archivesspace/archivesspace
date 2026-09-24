@@ -346,6 +346,33 @@ module BulkImportMixins
     ret_val
   end
 
+  def file_versions
+    groups = @row_hash.keys
+      .grep(/\Afile_version_\d+_.+\z/)
+      .group_by { |key| key[/\Afile_version_(\d+)_/, 1] }
+
+    groups.keys.sort_by(&:to_i).filter_map do |index|
+      keys = groups[index]
+      next if keys.all? { |key| @row_hash[key].nil? }
+
+      fv = {}
+      keys.each do |key|
+        field = key.sub(/\Afile_version_\d+_/, "")
+        fv[field.to_sym] = @row_hash[key]
+      end
+
+      representative_column = "file_version_#{index}_is_representative"
+      publish_column = "file_version_#{index}_publish"
+      fv[:is_representative] = file_version_boolean(representative_column) if keys.include?(representative_column)
+      fv[:publish] = file_version_boolean(publish_column) if keys.include?(publish_column)
+
+      fv[:publish] = file_version_publish_value(fv[:is_representative], fv[:publish])
+      size_column = "file_version_#{index}_file_size_bytes"
+      fv[:file_size_bytes] = file_version_file_size_bytes(size_column, fv[:file_size_bytes])
+      fv
+    end
+  end
+
   def representative_file_version
     if @row_hash['rep_file_uri'].present?
       {
@@ -391,6 +418,21 @@ module BulkImportMixins
   end
 
   private
+
+  # ImportDigitalObjects overrides this with the strict Digital Object contract.
+  def file_version_boolean(column)
+    normalize_boolean_column(@row_hash, column)
+    @row_hash[column]
+  end
+
+  def file_version_publish_value(is_representative, publish)
+    is_representative || publish || false
+  end
+
+  # ImportDigitalObjects overrides this with exact File Version size parsing.
+  def file_version_file_size_bytes(_column, value)
+    value.to_i
+  end
 
   def apply_cv_field(date, field_name, cv_list, value, date_str)
     return unless value

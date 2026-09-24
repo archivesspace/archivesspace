@@ -1,4 +1,16 @@
 nl:
+  bulk_import:
+    error:
+      unknown_columns: "Deze kolommen worden niet herkend (mogelijk gebruikt u een verouderd sjabloon): %{codes}"
+      unrecognized_boolean: "Kolom %{column} vereist een booleaanse waarde; ontvangen '%{value}'"
+      invalid_user_defined_integer: "Ongeldig gebruikergedefinieerd geheel getal: %{value}"
+      invalid_file_version_size: "Kolom %{column} vereist een geheel aantal bytes; ontvangen '%{value}'"
+      invalid_user_defined_real: "Ongeldig gebruikergedefinieerd reëel getal: %{value}"
+      subject_missing_identity: "Onderwerp %{num} vereist een record-ID of term"
+      agent_missing_identity: "Agent %{num} vereist een record-ID of koptekst"
+      agent_missing_type: "Agent %{num} vereist een agenttype"
+      agent_unsupported_type: "Agent %{num} heeft een niet-ondersteund agenttype '%{agent_type}'"
+    agent: Agent
   reports:
     formats:
       json: JSON

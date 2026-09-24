@@ -1,4 +1,6 @@
 require_relative "bulk_import_parser"
+require_relative "../../converters/lib/utils"
+require "bigdecimal"
 
 class ImportDigitalObjects < BulkImportParser
   START_MARKER = /ArchivesSpace digital object import field codes/.freeze
@@ -23,11 +25,11 @@ class ImportDigitalObjects < BulkImportParser
     @notes_handler = NotesHandler.new
     @agent_handler = AgentHandler.new(@current_user, @validate_only)
     @subject_handler = SubjectHandler.new(@current_user, @validate_only)
+    @lang_handler = LangHandler.new(@current_user)
 
     begin
-      normalize_boolean_column(@row_hash, 'digital_object_publish')
-      normalize_boolean_column(@row_hash, 'restrictions')
-      normalize_boolean_column(@row_hash, 'nonrep_publish')
+      publish = digital_object_boolean('digital_object_publish')
+      restrictions = digital_object_boolean('restrictions')
       dates = create_dates
       notes = create_notes
       extents = process_extents
@@ -35,21 +37,23 @@ class ImportDigitalObjects < BulkImportParser
       linked_agents = process_agents
 
       dig_instance = @digital_object_handler.create(
-        @row_hash["digital_object_title"],
-        @row_hash["digital_object_id"],
-        @row_hash["digital_object_publish"],
-        @row_hash["level"],
-        @row_hash["digital_object_type"],
-        @row_hash["restrictions"],
-        dates,
-        notes,
-        extents,
-        subjects,
-        linked_agents,
-        ao,
-        @report,
-        representative_file_version,
-        non_representative_file_version)
+        title: @row_hash["digital_object_title"],
+        id: @row_hash["digital_object_id"],
+        publish: publish,
+        level: @row_hash["level"],
+        digital_object_type: @row_hash["digital_object_type"],
+        restrictions: restrictions,
+        dates: dates,
+        notes: notes,
+        extents: extents,
+        subjects: subjects,
+        linked_agents: linked_agents,
+        archival_object: ao,
+        report: @report,
+        file_versions: file_versions,
+        lang_materials: create_lang_materials,
+        user_defined: create_user_defined,
+        collection_management: create_collection_management)
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -147,23 +151,147 @@ class ImportDigitalObjects < BulkImportParser
 
   private
 
+  def digital_object_boolean(column)
+    ASpaceImport::Utils.normalize_boolean.call(@row_hash[column])
+  rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
+    raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value))
+  end
+
+  # File Version rows are built by the shared mixin. Override only these reads so
+  # Archival Object imports keep normalize_boolean_column, its publish fallback,
+  # and the legacy file-size conversion.
+  def file_version_boolean(column)
+    digital_object_boolean(column)
+  end
+
+  def file_version_publish_value(is_representative, publish)
+    is_representative ? true : publish
+  end
+
+  def file_version_file_size_bytes(column, value)
+    return nil if value.nil?
+
+    integer = exact_whole_number(value)
+    return integer unless integer.nil?
+
+    raise BulkImportException.new(
+      I18n.t(
+        "bulk_import.error.invalid_file_version_size",
+        :column => column,
+        :value => value
+      )
+    )
+  end
+
+  def valid_column_codes
+    @valid_column_codes ||= CSV.read(
+      File.join(File.dirname(__FILE__), "..", "templates", "bulk_import_DO_template.csv")
+    ).first
+  end
+
+  # This importer's repeatable root namespaces. Exact accepted leaves remain
+  # the maintained CSV via valid_column_codes; Language Material keeps its
+  # fixed language_and_script segment. The Agent pattern captures only the
+  # outer agent_N_ index.
+  def structural_column_rules
+    [
+      { :namespace => "file_version" },
+      { :namespace => "lang_material", :fixed_segment => "language_and_script" },
+      { :namespace => "subject" },
+      { :namespace => "date" },
+      { :namespace => "note" },
+      { :namespace => "agent" },
+      { :namespace => "extent" },
+    ].map do |family|
+      infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
+      {
+        :pattern => /\A#{Regexp.escape(family[:namespace])}_(?<index>[1-9]\d*)#{infix}.+\z/,
+        :representative => "1",
+      }
+    end
+  end
+
+  def canonical_group_indices(namespace)
+    pattern = /\A#{Regexp.escape(namespace)}_([1-9]\d*)_/
+    @row_hash.keys.grep(pattern).map { |key| key[pattern, 1] }.uniq.sort_by(&:to_i)
+  end
+
+  def create_lang_materials
+    lang_materials = []
+    canonical_group_indices("lang_material").each do |index|
+      language = @row_hash["lang_material_#{index}_language_and_script_language"]
+      script = @row_hash["lang_material_#{index}_language_and_script_script"]
+      next if language.nil? && script.nil?
+
+      lang_materials.concat(
+        @lang_handler.create_language(
+          language || "",
+          script,
+          nil, nil, @report
+        )
+      )
+    end
+    lang_materials
+  end
+
+  def create_collection_management
+    cm = {}
+    @row_hash.keys.grep(/\Acollection_management_/).each do |col|
+      value = @row_hash[col]
+      next if value.nil?
+
+      field = col.sub(/\Acollection_management_/, "")
+      cm[field] =
+        if field == "rights_determined"
+          digital_object_boolean(col)
+        else
+          value
+        end
+    end
+    return nil if cm.empty?
+
+    cm["jsonmodel_type"] = "collection_management"
+    cm
+  end
+
+  def create_user_defined
+    ud = {}
+    @row_hash.keys.grep(/\Auser_defined_/).each do |col|
+      value = @row_hash[col]
+      next if value.nil?
+
+      field = col.sub(/\Auser_defined_/, "")
+      ud[field] =
+        if %w[boolean_1 boolean_2 boolean_3].include?(field)
+          digital_object_boolean(col)
+        elsif field.start_with?("integer_")
+          normalize_user_defined_integer(value)
+        elsif field.start_with?("real_")
+          normalize_user_defined_real(value)
+        else
+          value
+        end
+    end
+    return nil if ud.empty?
+
+    ud["jsonmodel_type"] = "user_defined"
+    ud
+  end
+
   def create_dates
     dates = []
 
-    counter = 1
-    column_counter = ""
-    until [@row_hash["begin#{column_counter}"], @row_hash["end#{column_counter}"], @row_hash["expression#{column_counter}"]].reject(&:nil?).empty?
-      date = create_date(
-        @row_hash["dates_label#{column_counter}"],
-        @row_hash["begin#{column_counter}"],
-        @row_hash["end#{column_counter}"],
-        @row_hash["date_type#{column_counter}"],
-        @row_hash["expression#{column_counter}"],
-        @row_hash["date_certainty#{column_counter}"]
-      )
+    canonical_group_indices("date").each do |index|
+      label = @row_hash["date_#{index}_label"]
+      date_begin = @row_hash["date_#{index}_begin"]
+      date_end = @row_hash["date_#{index}_end"]
+      date_type = @row_hash["date_#{index}_date_type"]
+      expression = @row_hash["date_#{index}_expression"]
+      certainty = @row_hash["date_#{index}_certainty"]
+      next if [label, date_begin, date_end, date_type, expression, certainty].all?(&:nil?)
+
+      date = create_date(label, date_begin, date_end, date_type, expression, certainty)
       dates << date if date
-      counter += 1
-      column_counter = "_#{counter}"
     end
 
     dates
@@ -172,19 +300,21 @@ class ImportDigitalObjects < BulkImportParser
   def create_notes
     notes = []
 
-    counter = 1
-    column_counter = ""
-    until [@row_hash["note_type#{column_counter}"], @row_hash["note_label#{column_counter}"], @row_hash["note_publish#{column_counter}"]].reject(&:nil?).empty?
+    canonical_group_indices("note").each do |index|
+      type = @row_hash["note_#{index}_type"]
+      label = @row_hash["note_#{index}_label"]
+      content = @row_hash["note_#{index}_content"]
+      publish_column = "note_#{index}_publish"
+      next if [type, label, @row_hash[publish_column], content].all?(&:nil?)
+
       note = @notes_handler.create_note(
-        @row_hash["note_type#{column_counter}"],
-        @row_hash["note_label#{column_counter}"],
-        @row_hash["note_content#{column_counter}"],
-        normalize_boolean_column(@row_hash, "note_publish#{column_counter}"),
+        type,
+        label,
+        content,
+        digital_object_boolean(publish_column),
         true
       )
       notes << note if note
-      counter += 1
-      column_counter = "_#{counter}"
     end
 
     notes
@@ -193,87 +323,170 @@ class ImportDigitalObjects < BulkImportParser
   def process_agents
     agent_links = []
 
-    %w(people corporate_entities families).each do |type|
-      num = 1
-      while true
-        id_key = "#{type}_agent_record_id_#{num}"
-        header_key = "#{type}_agent_header_#{num}"
+    canonical_group_indices("agent").each do |num|
+      agent_type = @row_hash["agent_#{num}_agent_type"]
+      record_id = @row_hash["agent_#{num}_record_id"]
+      header = @row_hash["agent_#{num}_header"]
+      role = @row_hash["agent_#{num}_role"]
+      relator = @row_hash["agent_#{num}_relator"]
+      next if [agent_type, record_id, header, role, relator].all?(&:nil?)
 
-        break if @row_hash[id_key].nil? && @row_hash[header_key].nil?
+      if record_id.nil? && header.nil?
+        @report.add_errors(I18n.t("bulk_import.error.agent_missing_identity", :num => num))
+        next
+      end
 
-        link = nil
-        begin
-          link = @agent_handler.get_or_create(
-            type,
-            @row_hash[id_key],
-            @row_hash[header_key],
-            @row_hash["#{type}_agent_relator_#{num}"],
-            @row_hash["#{type}_agent_role_#{num}"], @report
-          )
+      if agent_type.nil?
+        @report.add_errors(I18n.t("bulk_import.error.agent_missing_type", :num => num))
+        next
+      end
 
-          agent_links.push link if link && !@validate_only
+      type = handler_agent_type(agent_type)
+      if type.nil?
+        @report.add_errors(I18n.t("bulk_import.error.agent_unsupported_type", :num => num, :agent_type => agent_type))
+        next
+      end
 
-        rescue BulkImportException => e
-          @report.add_errors(I18n.t("bulk_import.error.process_error", :type => "#{type} Agent", :num => num, :why => e.message))
-        end
-        num += 1
+      begin
+        link = @agent_handler.get_or_create(
+          type,
+          record_id,
+          header,
+          relator,
+          role, @report
+        )
+
+        agent_links.push link if link && !@validate_only
+
+      rescue BulkImportException => e
+        @report.add_errors(I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => num, :why => e.message))
       end
     end
 
     agent_links
   end
 
+  def handler_agent_type(agent_type)
+    case agent_type
+    when "agent_person"
+      "people"
+    when "agent_family"
+      "families"
+    when "agent_corporate_entity"
+      "corporate_entities"
+    end
+  end
+
   def process_subjects
     subjects = []
 
     repo_id = @repository.split("/")[2]
-    (1..10).each do |num|
-      unless @row_hash["subject_#{num}_record_id"].nil? && @row_hash["subject_#{num}_term"].nil?
-        subj = nil
-        begin
-          subj = @subject_handler.get_or_create(
-            @row_hash["subject_#{num}_record_id"],
-            @row_hash["subject_#{num}_term"], @row_hash["subject_#{num}_type"],
-            @row_hash["subject_#{num}_source"], repo_id, @report
-          )
+    canonical_group_indices("subject").each do |num|
+      record_id = @row_hash["subject_#{num}_record_id"]
+      term = @row_hash["subject_#{num}_term"]
+      type = @row_hash["subject_#{num}_type"]
+      source = @row_hash["subject_#{num}_source"]
+      next if [record_id, term, type, source].all?(&:nil?)
 
-          subjects.push subj if subj
+      if record_id.nil? && term.nil?
+        @report.add_errors(I18n.t("bulk_import.error.subject_missing_identity", :num => num))
+        next
+      end
 
-        rescue Exception => e
-          @report.add_errors(I18n.t("bulk_import.error.process_error", :type => "Subject", :num => num, :why => e.message))
-        end
+      begin
+        subj = @subject_handler.get_or_create(
+          record_id, term, type, source, repo_id, @report
+        )
+
+        subjects.push subj if subj
+
+      rescue Exception => e
+        @report.add_errors(I18n.t("bulk_import.error.process_error", :type => "Subject", :num => num, :why => e.message))
       end
     end
 
     subjects
   end
 
+  def normalize_user_defined_integer(value)
+    integer = exact_whole_number(value)
+    return integer.to_s unless integer.nil?
+
+    raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_integer", :value => value))
+  end
+
+  def exact_whole_number(value)
+    # JRuby Integer() truncates Floats, so 42.5 becomes 42. Those values use
+    # the decimal exactness check below instead of that shortcut.
+    unless value.is_a?(Float)
+      integer = Integer(value, exception: false)
+      return integer unless integer.nil?
+    end
+
+    decimal = decimal_from(value)
+    return nil unless decimal&.finite? && decimal.frac.zero?
+
+    decimal.to_i
+  rescue FloatDomainError
+    nil
+  end
+
+  def normalize_user_defined_real(value)
+    float = Float(value, exception: false)
+    decimal = decimal_from(value)
+    unless float&.finite? && decimal&.finite? && (decimal * 100_000).frac.zero?
+      raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_real", :value => value))
+    end
+
+    integer, fraction = decimal.to_s("F").split(".", 2)
+    raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_real", :value => value)) if integer.delete_prefix("-").length > 9
+
+    return integer if fraction.nil?
+
+    "#{integer}.#{fraction.sub(/0+\z/, "")}".sub(/\.\z/, "")
+  end
+
+  def decimal_from(value)
+    BigDecimal(value.to_s)
+  rescue ArgumentError
+    nil
+  end
+
   def process_extents
     extents = []
 
-    counter = 1
-    column_counter = ""
-    until @row_hash["number#{column_counter}"].nil? && @row_hash["extent_type#{column_counter}"].nil?
-      extent = create_extent(column_counter)
+    canonical_group_indices("extent").each do |index|
+      next if @row_hash.none? { |key, value| key.is_a?(String) && key.start_with?("extent_#{index}_") && !value.nil? }
+
+      extent = create_extent(index)
       extents << extent if extent
-      counter += 1
-      column_counter = "_#{counter}"
     end
 
     extents
   end
 
-  def create_extent(substr)
-    ext_str = "Extent: #{@row_hash["portion#{substr}"] || "whole"} #{@row_hash["number#{substr}"]} #{@row_hash["extent_type#{substr}"]} #{@row_hash["container_summary#{substr}"]} #{@row_hash["physical_details#{substr}"]} #{@row_hash["dimensions#{substr}"]}"
+  def extent_cell(index, leaf)
+    @row_hash["extent_#{index}_#{leaf}"]
+  end
+
+  def create_extent(index)
+    portion_cell = extent_cell(index, "portion")
+    number_cell = extent_cell(index, "number")
+    type_cell = extent_cell(index, "extent_type")
+    container_summary_cell = extent_cell(index, "container_summary")
+    physical_details_cell = extent_cell(index, "physical_details")
+    dimensions_cell = extent_cell(index, "dimensions")
+    ext_str = "Extent: #{portion_cell || "whole"} #{number_cell} #{type_cell} #{container_summary_cell} #{physical_details_cell} #{dimensions_cell}"
     errs = []
-    portion = value_check(@extent_portions, (@row_hash["portion#{substr}"] || "whole"), errs)
-    type = value_check(@extent_types, @row_hash["extent_type#{substr}"], errs)
+    portion = value_check(@extent_portions, (portion_cell || "whole"), errs)
+    type = value_check(@extent_types, type_cell, errs)
 
     extent = { "portion" => portion,
                "extent_type" => type }
-    %w(number container_summary physical_details dimensions).each do |w|
-      extent[w] = @row_hash["#{w}#{substr}"] || nil
-    end
+    extent["number"] = number_cell || nil
+    extent["container_summary"] = container_summary_cell || nil
+    extent["physical_details"] = physical_details_cell || nil
+    extent["dimensions"] = dimensions_cell || nil
     if errs.empty?
       begin
         ex = JSONModel(:extent).new(extent)
