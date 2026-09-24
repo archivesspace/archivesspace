@@ -1,11 +1,11 @@
 /* panel styles (BS 3) */
 
-.panel-heading .accordion-toggle div:first-child span::before {
+.panel-heading .accordion-toggle div.row > div:first-child span::before {
   font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
   content: '\e114';
 }
 
-.panel-heading .accordion-toggle.collapsed div:first-child span::before {
+.panel-heading .accordion-toggle.collapsed div.row > div:first-child span::before {
   content: '\e080';
 }
 
