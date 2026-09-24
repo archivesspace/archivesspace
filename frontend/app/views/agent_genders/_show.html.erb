@@ -9,20 +9,16 @@
     <%= context.list_for(context["agent_genders"], "agent_genders[]") do |agent_gender, index| %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_agent_gender_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_agent_gender_<%= index %>">
-            <div class="row">
-              <div class="col-md-1">
-                <span class="glyphicon"></span>
-              </div>
-              <div class="col-md-6">
-                <% if agent_gender['gender'] %>
-                  <%= t("enumerations.gender.#{agent_gender['gender']}", :default => agent_gender['gender']) %>
-                <% else %>
-                  <%= t("agent_gender._singular") %>
-                <% end %>
-              </div>
-            </div>
-          </button>
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_agent_gender_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
+              <% if agent_gender['gender'] %>
+                <%= t("enumerations.gender.#{agent_gender['gender']}", :default => agent_gender['gender']) %>
+              <% else %>
+                <%= t("agent_gender._singular") %>
+              <% end %>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_agent_gender_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(agent_gender) %>

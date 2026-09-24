@@ -9,16 +9,12 @@
     <% agent_other_agency_codes.each_with_index do | agent_other_agency_code, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_agent_other_agency_code_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_agent_other_agency_code_<%= index %>">
-            <div class="row">
-              <div class="col-md-1">
-                <span class="glyphicon"></span>
-              </div>
-              <div class="col-md-6">
-                <%= agent_other_agency_code["maintenance_agency"] %>
-              </div>
-            </div>
-          </button>
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_agent_other_agency_code_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
+              <%= agent_other_agency_code["maintenance_agency"] %>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_agent_other_agency_code_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(agent_other_agency_code) %>

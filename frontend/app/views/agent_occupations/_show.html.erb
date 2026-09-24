@@ -10,16 +10,12 @@
     <%= context.list_for(context["agent_occupations"], "agent_occupations[]") do |agent_occupation, index| %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_agent_occupation_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_agent_occupation_<%= index %>">
-            <div class="row">
-              <div class="col-md-1">
-                <span class="glyphicon"></span>
-              </div>
-              <div class="col-md-6">
-                <%= render_aspace_partial :partial => "subjects/show_inline_abbr", :locals => {:subjects => agent_occupation['subjects']} %>
-              </div>
-            </div>
-          </button>
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_agent_occupation_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
+              <%= render_aspace_partial :partial => "subjects/show_inline_abbr", :locals => {:subjects => agent_occupation['subjects']} %>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_agent_occupation_<%= index %>" class="panel-collapse collapse">
           <% if agent_occupation["subjects"].length > 0 %>

@@ -9,20 +9,16 @@
     <% agent_alternate_sets.each_with_index do | agent_alternate_set, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_agent_alternate_set_<%= index %>" aria-expanded="false" aria-controls="<%= section_id %>_agent_alternate_set_<%= index %>">
-            <div class="row">
-              <div class="col-md-1">
-                <span class="glyphicon"></span>
-              </div>
-              <div class="col-md-6">
-                <% if !agent_alternate_set["set_component"].blank? %>
-                  <%= agent_alternate_set["set_component"] %>
-                <% else %>
-                  <%= t("agent_alternate_set._singular") %>
-                <% end %>
-              </div>
-            </div>
-          </button>
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_agent_alternate_set_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
+              <% if !agent_alternate_set["set_component"].blank? %>
+                <%= agent_alternate_set["set_component"] %>
+              <% else %>
+                <%= t("agent_alternate_set._singular") %>
+              <% end %>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_agent_alternate_set_<%= index %>" class="panel-collapse collapse">
           <%= render_aspace_partial :partial => "agent_alternate_sets/show_fields", :locals => { :agent_alternate_set => agent_alternate_set } %>

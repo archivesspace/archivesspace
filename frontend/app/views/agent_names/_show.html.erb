@@ -9,20 +9,16 @@
     <% @agent.names.each_with_index do | name, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <button class="btn btn-block accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_name_accordion" data-target="#agent_name_<%= index %>" aria-expanded="false" aria-controls="agent_name_<%= index %>">
-            <div class="row">
-              <div class="col-md-1">
-                <span class="glyphicon"></span>
-              </div>
-              <div class="col-md-6">
-                <%= clean_mixed_content(name['sort_name']) %>
-              </div>
-              <div class="col-md-4">
-                <% if name['authorized'] %><span class="badge"><%= t("name_person.authorized") %></span><% end %>
-                <% if name['is_display_name'] %><span class="badge badge-info"><%= t("name_person.is_display_name") %></span><% end %>
-              </div>
-            </div>
-          </button>
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "agent_name_#{index}", :accordion_parent_id => "agent_name_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
+              <%= clean_mixed_content(name['sort_name']) %>
+            </span>
+            <span class="accordion-header-toggle__badges">
+              <% if name['authorized'] %><span class="badge"><%= t("name_person.authorized") %></span><% end %>
+              <% if name['is_display_name'] %><span class="badge badge-info"><%= t("name_person.is_display_name") %></span><% end %>
+            </span>
+          <% end %>
         </div>
         <div id="agent_name_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(name.to_hash) %>
