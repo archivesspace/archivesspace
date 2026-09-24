@@ -5,7 +5,11 @@
   content: '\e114';
 }
 
-.panel-heading .accordion-toggle.collapsed div.row > div:first-child span::before {
+.panel-heading
+  .accordion-toggle.collapsed
+  div.row
+  > div:first-child
+  span::before {
   content: '\e080';
 }
 
