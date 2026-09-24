@@ -15,5 +15,5 @@ Then 'the Assessment is linked to the Accession in the {string} form' do |form_t
   expect(related_accessions_elements.length).to eq 1
   related_accession = related_accessions_elements[0].find('.accession')
 
-  expect(related_accession[:'data-content']).to include "accessions/#{@accession_id}"
+  expect(related_accession[:href]).to include "accessions/#{@accession_id}"
 end
