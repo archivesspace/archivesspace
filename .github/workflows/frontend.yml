@@ -28,6 +28,7 @@ on:
           - 'r'
           - 's-z'
           - 'models-controllers'
+          - 'helpers'
         default: 'all'
       browser:
         description: Which browser to use
@@ -146,5 +147,18 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/models/*_spec.rb,spec/controllers/*_spec.rb"
       name: models_and_controllers
+      java-version: ${{ inputs.java-version || 17 }}
+      browser: ${{ inputs.browser || 'firefox' }}
+
+  # ANW-2997: Temporarily moving to own group (and out of models/controllers) until resolved.
+  frontend_helpers:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'helpers' || inputs.group-choice == '' }}
+    name: helpers
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/helpers/*_spec.rb"
+      name: helpers
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}

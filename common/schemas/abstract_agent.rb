@@ -140,6 +140,13 @@
       "used_within_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
       "used_within_published_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
 
+      # Boolean indicating whether or not this agent is linked to records in
+      # a repository other than the current one. Since it reveals no
+      # repository details, the boolean is viewable by all and not gated
+      # behind an `index_system` permissions check like the existing
+      # `used_within_repositories` above.
+      "linked_in_other_repository" => {"type" => "boolean", "readonly" => true},
+
       "dates_of_existence" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:structured_date_label) object"}
