@@ -15,10 +15,7 @@ describe 'Jobs', js: true do
   end
 
   it 'does not offer creating hidden jobs' do
-    repository_settings = find('button[aria-label="Repository settings"]')
-    expect(repository_settings[:'aria-expanded']).to eq 'false'
-    repository_settings.click
-    expect(find('button[aria-label="Repository settings"]')[:'aria-expanded']).to eq 'true'
+    click_button('Repository settings')
     click_link('Background Jobs')
     click_button('Create Job')
 

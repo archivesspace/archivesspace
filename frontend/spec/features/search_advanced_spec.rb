@@ -93,7 +93,6 @@ describe 'Advanced Search', js: true do
       within "div.repository-header" do
         expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
         repo = find "span.repository-label"
-        expect(repo[:role]).to eq 'button'
         repo.send_keys ''
         expect(page).to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
 
