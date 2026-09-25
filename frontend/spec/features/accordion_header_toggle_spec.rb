@@ -35,6 +35,33 @@ describe 'Read-only accordion header toggles', js: true do
     include_examples 'read-only accordion header toggle'
   end
 
+  describe 'agent places (plain-text subject summary in header)' do
+    let!(:agent) { create(:agent_person, agent_places: [build(:json_agent_place)]) }
+    let(:readonly_page_path) { "/agents/agent_person/#{agent.id}" }
+    let(:accordion_selector) { '#agent_person_agent_place_accordion' }
+    let(:panel_id) { 'agent_person_agent_place_agent_place_0' }
+
+    include_examples 'read-only accordion header toggle'
+
+    before do
+      visit readonly_page_path
+    end
+
+    it 'does not nest token buttons in the accordion header' do
+      within("#{accordion_selector} button.accordion-toggle[aria-controls='#{panel_id}']") do
+        expect(page).to have_no_css('button.token')
+        expect(page).to have_css('.subject-inline-abbr')
+      end
+    end
+
+    it 'shows a linked token when the panel is expanded' do
+      find("#{accordion_selector} button.accordion-toggle[aria-controls='#{panel_id}']").click
+      within("##{panel_id}") do
+        expect(page).to have_css('a.token', minimum: 1)
+      end
+    end
+  end
+
   describe 'digital object file versions (wide summary header)' do
     let(:now) { Time.now.to_i }
     let(:file_uri) { "/accordion/do/#{now}.txt" }
