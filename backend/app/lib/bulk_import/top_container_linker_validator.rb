@@ -1,8 +1,6 @@
 require_relative "bulk_import_parser"
 
 class TopContainerLinkerValidator < BulkImportParser
-  include BulkImportMixins
-
   #ASpace field headers row indicator
   START_MARKER = /ArchivesSpace field code/.freeze
 

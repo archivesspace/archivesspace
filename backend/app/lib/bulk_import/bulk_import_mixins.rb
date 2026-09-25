@@ -3,7 +3,6 @@ require_relative "crud_helpers"
 # contains  methods that might be needed for more than one bulk import converter
 module BulkImportMixins
   include CrudHelpers
-  # METHOD(s)
   def resolves
     ["subjects", "related_resources", "linked_agents",
      "revision_statements",
@@ -153,22 +152,6 @@ module BulkImportMixins
     sc
   end
 
-  #Finds the top container using the hash values (AND clause only)
-  def find_top_container(where_params)
-    dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
-    tc = nil
-    if !dataset.empty?
-      objs = dataset.respond_to?(:all) ? dataset.all : dataset
-      jsonms = TopContainer.sequel_to_jsonmodel(objs)
-      if jsonms.length > 0
-        tc = jsonms[0]
-      else
-        raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
-      end
-    end
-    tc
-  end
-
   def created(obj, type, message, report)
     if @validate_only
       report.add_info(I18n.t("bulk_import.could_be", :what => message))
@@ -242,98 +225,6 @@ module BulkImportMixins
     ret_val
   end
 
-  # The following methods assume @report is defined, and is a BulkImportReport object
-  def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty, date_era = nil, date_calendar = nil)
-    date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
-    date = {}
-
-    begin
-      date['date_type'] = @date_types.value(date_type || "inclusive")
-    rescue Exception => e
-      @report.add_errors(I18n.t("bulk_import.error.date_type",
-                                :what => date_type,
-                                :date_str => date_str))
-
-      return nil
-    end
-    begin
-      date['label'] = @date_labels.value(dates_label || "creation")
-    rescue Exception => e
-      @report.add_errors(I18n.t("bulk_import.error.date_label",
-                                :what => dates_label,
-                                :date_str => date_str))
-
-      return nil
-    end
-
-    apply_cv_field(date, "certainty", @date_certainty, date_certainty, date_str)
-    apply_cv_field(date, "era", @date_era, date_era, date_str)
-    apply_cv_field(date, "calendar", @date_calendar, date_calendar, date_str)
-
-    date["begin"] = date_begin if date_begin
-    date["end"] = date_end if date_end
-    date["expression"] = expression if expression
-    invalids = JSONModel::Validations.check_date(date)
-    unless (invalids.nil? || invalids.empty?)
-      err_msg = ""
-      invalids.each do |inv|
-        err_msg << " #{inv[0]}: #{inv[1]}"
-      end
-      @report.add_errors(I18n.t("bulk_import.error.invalid_date", :what => err_msg, :date_str => date_str))
-      return nil
-    end
-    if date_type == "single" && !date_end.nil?
-      @report.add_errors(I18n.t("bulk_import.warn.single_date_end", :date_str => date_str))
-    end
-    d = JSONModel(:date).new(date)
-  end
-
-  def handle_notes(ao, hash, dig_obj = false)
-    @nh = NotesHandler.new
-    errs = []
-    hash.keys.grep(/^n_/).each do |key|
-      next if hash[key].nil?
-      content = hash[key]
-      type = key.match(/n_(.+)$/)[1]
-      extras = handle_note_restriction_params(type, hash)
-      pubnote = resolve_publish(hash, "p_#{type}", ao.publish)
-      note_label = hash["l_#{type}"]
-      begin
-        note = @nh.create_note(type, note_label, content, pubnote, dig_obj,
-                                extras[:b_date], extras[:e_date], extras[:local_restrictions])
-        ao.notes.push(note) if note
-      rescue BulkImportException => bei
-        errs.push([bei.message])
-      end
-    end
-    errs
-  end
-
-  def handle_note_restriction_params(type, hash)
-    case type
-    when 'accessrestrict'
-      accessrestrict_note_params(hash)
-    when 'userestrict'
-      { b_date: hash['b_userestrict'], e_date: hash['e_userestrict'] }
-    else
-      {}
-    end
-  end
-
-  def accessrestrict_note_params(hash)
-    restrictions = hash.keys.grep(/^t_accessrestrict(_\d+)?$/).sort_by { |k| k[/\d+/].to_i }.filter_map { |k| hash[k] unless hash[k].to_s.strip.empty? }
-    {
-      b_date: hash['b_accessrestrict'],
-      e_date: hash['e_accessrestrict'],
-      local_restrictions: restrictions.empty? ? nil : restrictions,
-    }
-  end
-
-  def resolve_publish(hash, column, default_publish)
-    normalize_boolean_column(hash, column)
-    hash[column].nil? ? default_publish : hash[column]
-  end
-
   def test_exceptions(obj, what = "")
     ret_val = false
     begin
@@ -344,103 +235,6 @@ module BulkImportMixins
       raise e
     end
     ret_val
-  end
-
-  def file_versions
-    groups = @row_hash.keys
-      .grep(/\Afile_version_\d+_.+\z/)
-      .group_by { |key| key[/\Afile_version_(\d+)_/, 1] }
-
-    groups.keys.sort_by(&:to_i).filter_map do |index|
-      keys = groups[index]
-      next if keys.all? { |key| @row_hash[key].nil? }
-
-      fv = {}
-      keys.each do |key|
-        field = key.sub(/\Afile_version_\d+_/, "")
-        fv[field.to_sym] = @row_hash[key]
-      end
-
-      representative_column = "file_version_#{index}_is_representative"
-      publish_column = "file_version_#{index}_publish"
-      fv[:is_representative] = file_version_boolean(representative_column) if keys.include?(representative_column)
-      fv[:publish] = file_version_boolean(publish_column) if keys.include?(publish_column)
-
-      fv[:publish] = file_version_publish_value(fv[:is_representative], fv[:publish])
-      size_column = "file_version_#{index}_file_size_bytes"
-      fv[:file_size_bytes] = file_version_file_size_bytes(size_column, fv[:file_size_bytes])
-      fv
-    end
-  end
-
-  def representative_file_version
-    if @row_hash['rep_file_uri'].present?
-      {
-        is_representative: true,
-        file_uri: @row_hash['rep_file_uri'],
-        xlink_actuate_attribute: @row_hash['rep_xlink_actuate_attribute'],
-        xlink_show_attribute: @row_hash['rep_xlink_show_attribute'],
-        publish: true,
-        use_statement: @row_hash['rep_use_statement'],
-        file_format_name: @row_hash['rep_file_format'],
-        file_format_version: @row_hash['rep_file_format_version'],
-        file_size_bytes: @row_hash['rep_file_size'].to_i,
-        checksum: @row_hash['rep_checksum'],
-        checksum_method: @row_hash['rep_checksum_method'],
-        caption: @row_hash['rep_caption']
-      }
-    end
-  end
-
-  def non_representative_file_version
-    if @row_hash['nonrep_file_uri'].present?
-      {
-        is_representative: false,
-        file_uri: @row_hash['nonrep_file_uri'],
-        xlink_actuate_attribute: @row_hash['nonrep_xlink_actuate_attribute'],
-        xlink_show_attribute: @row_hash['nonrep_xlink_show_attribute'],
-        publish: @row_hash['nonrep_publish'],
-        use_statement: @row_hash['nonrep_use_statement'],
-        file_format_name: @row_hash['nonrep_file_format'],
-        file_format_version: @row_hash['nonrep_file_format_version'],
-        file_size_bytes: @row_hash['nonrep_file_size'].to_i,
-        checksum: @row_hash['nonrep_checksum'],
-        checksum_method: @row_hash['nonrep_checksum_method'],
-        caption: @row_hash['nonrep_caption']
-      }
-    end
-  end
-
-  def normalize_boolean_column(row_hash, column)
-    return if row_hash[column].nil?
-    return if [TrueClass, FalseClass].include? row_hash[column].class
-    row_hash[column] = ['t', '1', 'true'].include? row_hash[column].to_s.strip.downcase
-  end
-
-  private
-
-  # ImportDigitalObjects overrides this with the strict Digital Object contract.
-  def file_version_boolean(column)
-    normalize_boolean_column(@row_hash, column)
-    @row_hash[column]
-  end
-
-  def file_version_publish_value(is_representative, publish)
-    is_representative || publish || false
-  end
-
-  # ImportDigitalObjects overrides this with exact File Version size parsing.
-  def file_version_file_size_bytes(_column, value)
-    value.to_i
-  end
-
-  def apply_cv_field(date, field_name, cv_list, value, date_str)
-    return unless value
-    begin
-      date[field_name] = cv_list.value(value)
-    rescue Exception => e
-      @report.add_errors(I18n.t("bulk_import.error.#{field_name}", :what => e.message, :date_str => date_str))
-    end
   end
 end
 

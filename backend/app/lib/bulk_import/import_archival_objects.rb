@@ -1,6 +1,9 @@
 require_relative "bulk_import_parser"
+require_relative "row_field_builders"
 
 class ImportArchivalObjects < BulkImportParser
+  include RowFieldBuilders
+
   START_MARKER = /ArchivesSpace field code/.freeze
 
   def initialize(input_file, content_type, current_user, opts, log_method = nil)
