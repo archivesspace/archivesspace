@@ -8,14 +8,12 @@
     <% file_versions.each_with_index do | file_version, index | %>
       <div class="card border">
         <div class="panel-heading card-header">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_file_version_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-11">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_file_version_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-11">
               <%= file_version['file_uri'] %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_file_version_<%= index %>" class="accordion-body collapse">
           <div class="form-horizontal">

@@ -9,14 +9,12 @@
     <% dates.each_with_index do | date, index | %>
       <div class="card">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_date_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-2">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_date_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__cell--md-2">
               <%= t("enumerations.date_label.#{date['label']}", :default => date['label']) %>
-            </div>
-            <div class="col-md-6">
+            </span>
+            <span class="accordion-header-toggle__cell--md-6">
               <!--https://www.pivotaltracker.com/story/show/41527633 -->
               <% if date['expression'] %>
                 <%= date['expression'] %>
@@ -25,11 +23,11 @@
               <% elsif date['date_type'] %>
                 <%= date['begin'] %> &ndash; <%= date['end'] %>
               <% end %>
-            </div>
-            <div class="col-md-3">
+            </span>
+            <span class="accordion-header-toggle__cell--md-3">
               <% if date['certainty'] %><%= t("enumerations.date_certainty.#{date['certainty']}", :default => date['certainty']) %><% end %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_date_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(date) %>

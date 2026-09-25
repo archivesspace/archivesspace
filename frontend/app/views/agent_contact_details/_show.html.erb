@@ -9,19 +9,17 @@
     <%= context.list_for(context["agent_contacts"], "agent_contacts[]") do |contact, index| %>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_contact_accordion" href="#agent_contact_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-6">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "agent_contact_#{index}", :accordion_parent_id => "agent_contact_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
               <%= contact['name'] %>
-            </div>
-            <div class="col-md-4">
+            </span>
+            <span class="accordion-header-toggle__badges">
               <% if contact['is_representative'] %>
                 <span class="badge badge-info"><%= t("agent_contact.is_representative") %></span>
               <% end %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="agent_contact_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(contact) %>

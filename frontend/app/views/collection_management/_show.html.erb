@@ -7,15 +7,13 @@
   <div class="details my-3" id="<%= section_id %>_accordion">
     <div class="card">
       <div class="card-header panel-heading">
-        <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_collection_management" aria-expanded="false" aria-controls="<%= section_id %>_collection_management">
-          <div class="col-md-1">
-            <span class="glyphicon"></span>
-          </div>
-          <div class="col-md-4">
+        <%= render :layout => "shared/accordion_header_toggle",
+              :locals => { :panel_id => "#{section_id}_collection_management", :accordion_parent_id => "#{section_id}_accordion" } do %>
+          <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-4">
             <%= t("collection_management.processing_priority") %>:
             <strong><%= t("enumerations.collection_management_processing_priority.#{collection_management['processing_priority'] || 'none'}", :default => collection_management['processing_priority']) %></strong>
-          </div>
-        </div>
+          </span>
+        <% end %>
       </div>
       <div id="<%= section_id %>_collection_management" class="collapse">
         <%= read_only_view(collection_management) %>

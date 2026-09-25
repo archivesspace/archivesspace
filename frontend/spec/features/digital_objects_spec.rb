@@ -74,7 +74,7 @@ describe 'Digital Objects', js: true do
     element = find('h2')
     expect(element.text).to eq "Digital Object Title #{now} Digital Object"
     expect(page).to have_css 'h3', text: 'File Versions'
-    elements = all('#digital_object_file_versions__accordion .row')
+    elements = all('#digital_object_file_versions__accordion .accordion-toggle')
     expect(elements.length).to eq 3
 
     expect(elements[0]).to have_text '/root/top_secret.txt'

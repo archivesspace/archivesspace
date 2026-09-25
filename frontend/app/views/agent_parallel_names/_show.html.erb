@@ -11,11 +11,9 @@
     <% names.each_with_index do | name, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_parallel_name_accordion_<%= parent_index %>" href="#agent_parallel_name_<%= parent_index %>_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-6">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "agent_parallel_name_#{parent_index}_#{index}", :accordion_parent_id => "agent_parallel_name_accordion_#{parent_index}" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
               <% if name["primary_name"] %>
                 <%= name['primary_name'] %>
               <% elsif name["family_name"] %>
@@ -23,8 +21,8 @@
               <% elsif name["software_name"] %>
                 <%= name['software_name'] %>
               <% end %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="agent_parallel_name_<%= parent_index %>_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(name.to_hash) %>

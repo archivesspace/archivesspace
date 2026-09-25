@@ -1,12 +1,77 @@
 /* panel styles (BS 3) */
 
-.panel-heading .accordion-toggle div:first-child span::before {
-  font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
+.panel-heading
+  .accordion-toggle.accordion-header-toggle
+  .accordion-header-toggle__icon
+  span::before {
+  font-family: 'Glyphicons Halflings';
   content: '\e114';
 }
 
-.panel-heading .accordion-toggle.collapsed div:first-child span::before {
+.panel-heading
+  .accordion-toggle.accordion-header-toggle.collapsed
+  .accordion-header-toggle__icon
+  span::before {
   content: '\e080';
+}
+
+.accordion-header-toggle {
+  text-align: left;
+
+  &__layout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__icon {
+    flex: 0 0 8.333%;
+    max-width: 8.333%;
+  }
+
+  &__cell {
+    min-width: 0;
+
+    &--md-1 {
+      flex: 0 0 8.333%;
+      max-width: 8.333%;
+    }
+
+    &--md-2 {
+      flex: 0 0 16.666%;
+      max-width: 16.666%;
+    }
+
+    &--md-3 {
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+
+    &--md-4 {
+      flex: 0 0 33.333%;
+      max-width: 33.333%;
+    }
+
+    &--md-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+
+    &--md-7 {
+      flex: 0 0 58.333%;
+      max-width: 58.333%;
+    }
+
+    &--md-11 {
+      flex: 0 0 91.666%;
+      max-width: 91.666%;
+    }
+  }
+
+  &__badges {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
 }
 
 .panel-group {

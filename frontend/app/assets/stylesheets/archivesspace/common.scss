@@ -276,6 +276,10 @@ td .btn-group {
   @include vertical(#f3f3f3, #ededed);
 }
 
+.bg-image-none {
+  background-image: none !important;
+}
+
 .hover-grayLighter:hover {
   background-color: $grayLighter;
 }

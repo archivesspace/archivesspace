@@ -8,18 +8,16 @@
     <% extents.each_with_index do | extent, index | %>
       <div class="card">
         <div class="panel-heading card-header">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_extent_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-4">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_extent_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__cell--md-4">
               <%= extent['number'] %>
               <%= t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
-            </div>
-            <div class="col-md-7">
+            </span>
+            <span class="accordion-header-toggle__cell--md-7">
               <%= extent['container_summary'] %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_extent_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(extent) %>

@@ -9,18 +9,16 @@
     <% agent_sources.each_with_index do | agent_source, index | %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_agent_source_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-6">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_agent_source_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
               <% if !agent_source["source_entry"].blank? %>
                 <%= agent_source["source_entry"] %>
               <% else %>
                 <%= t("agent_source._singular") %>
               <% end %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_agent_source_<%= index %>" class="panel-collapse collapse">
           <%= render_aspace_partial :partial => "agent_sources/show_fields", :locals => { :agent_source => agent_source } %>
