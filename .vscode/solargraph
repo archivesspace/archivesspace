@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Wrapper script for the VS Code Solargraph extension.
+#
+# Solargraph runs under MRI Ruby and parses the project Gemfile via
+# Bundler::Dsl to discover dependencies. The ArchivesSpace root Gemfile
+# evaluates backend/Gemfile, which `require 'asutils'` at parse time,
+# and asutils is JRuby-only - so the parse crashes under MRI.
+#
+# This wrapper points Bundler at .vscode/Gemfile-solargraph instead, so
+# Solargraph sees a minimal MRI-only Gemfile. Wired up via
+# `solargraph.commandPath` in .vscode/settings.json.
+
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+export BUNDLE_GEMFILE="$script_dir/Gemfile-solargraph"
+
+exec solargraph "$@"
