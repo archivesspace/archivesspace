@@ -153,22 +153,6 @@ module BulkImportMixins
     sc
   end
 
-  #Finds the top container using the hash values (AND clause only)
-  def find_top_container(where_params)
-    dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
-    tc = nil
-    if !dataset.empty?
-      objs = dataset.respond_to?(:all) ? dataset.all : dataset
-      jsonms = TopContainer.sequel_to_jsonmodel(objs)
-      if jsonms.length > 0
-        tc = jsonms[0]
-      else
-        raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
-      end
-    end
-    tc
-  end
-
   def created(obj, type, message, report)
     if @validate_only
       report.add_info(I18n.t("bulk_import.could_be", :what => message))
