@@ -770,6 +770,7 @@ module Relationships
           next
         end
 
+        ids_to_delete = []
 
         relationship_defn.find_by_participant(obj).each do |relationship|
 
@@ -788,8 +789,12 @@ module Relationships
             DB.increase_lock_version_or_fail(referent) if referent
           end
 
-          relationship.delete
+          ids_to_delete << relationship.id
         end
+
+        # One DELETE per relationship type rather than one per row: records can
+        # have thousands of links (e.g. a resource with many related accessions)
+        relationship_defn.filter(:id => ids_to_delete).delete unless ids_to_delete.empty?
       end
     end
 
@@ -804,15 +809,32 @@ module Relationships
         # If there's no property name, the relationship is just read-only
         next if !property_name
 
-        # For each record reference in our JSON data
-        ASUtils.as_array(json[property_name]).each_with_index do |reference, idx|
+        references = ASUtils.as_array(json[property_name])
+        next if references.empty?
+
+        # Resolve each reference to its model, then load the referents with one
+        # query per model instead of one per reference.
+        targets = references.map {|reference|
           record_type = parse_reference(reference['ref'], opts)
 
           referent_model = relationship_defn.participating_models.find {|model|
             model.my_jsonmodel.record_type == record_type[:type]
           } or raise "Couldn't find model for #{record_type[:type]}"
 
-          referent = referent_model[record_type[:id]]
+          [referent_model, record_type[:id]]
+        }
+
+        referents_by_model = targets.group_by(&:first).to_h {|referent_model, model_targets|
+          [referent_model, referent_model.filter(:id => model_targets.map(&:last).uniq).to_hash(:id)]
+        }
+
+        # Referents whose lock version we bump, grouped by model
+        referents_to_bump = Hash.new {|h, k| h[k] = {}}
+
+        # For each record reference in our JSON data
+        references.each_with_index do |reference, idx|
+          referent_model, referent_id = targets[idx]
+          referent = referents_by_model[referent_model][referent_id]
 
           if !referent
             raise ReferenceError.new("Can't relate to non-existent record: #{reference['ref']}")
@@ -835,8 +857,12 @@ module Relationships
           # concurrent update to that object won't clobber our changes.
 
           if referent_model.find_relationship(relationship_name, true) && !opts[:system_generated]
-            DB.increase_lock_version_or_fail(referent)
+            referents_to_bump[referent_model][referent.id] = referent
           end
+        end
+
+        referents_to_bump.each do |referent_model, referents|
+          DB.increase_lock_versions_or_fail(referent_model, referents.values)
         end
       end
     end
