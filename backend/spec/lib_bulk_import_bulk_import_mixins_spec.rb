@@ -1,8 +1,9 @@
 require "spec_helper"
 require_relative "../app/lib/bulk_import/bulk_import_mixins.rb"
-include BulkImportMixins
 
 describe "Bulk Import Mixins" do
+  include BulkImportMixins
+
   before(:each) do
     @current_user = User.find(:username => "admin")
     # create the resource
