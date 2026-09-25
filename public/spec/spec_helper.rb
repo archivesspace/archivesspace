@@ -32,6 +32,17 @@ app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "public_app_log.
 AppConfig[:pui_log] = app_logfile
 AppConfig[:public_url] = ENV['ASPACE_TEST_APP_SERVER_URL'] || AppConfig[:public_url]
 
+# Prefix is decided at Rails boot; set it here before require environment so routes and
+# app_prefix-generated links use the same URL path prefix (e.g. /public/, not /).
+# Set ASPACE_TEST_PUBLIC_PROXY_PREFIX only for a separate RSpec run (e.g. only
+# public_proxy_prefix_spec.rb); leave it unset for the main public suite, which expects "/".
+if ENV['ASPACE_TEST_PUBLIC_PROXY_PREFIX'] == 'true'
+  public_uri = URI.parse(AppConfig[:public_url])
+  path_segment = ENV.fetch('ASPACE_TEST_PUBLIC_PROXY_PATH', 'public').gsub(%r{\A/+|/+\z}, '')
+  path_segment = 'public' if path_segment.empty?
+  AppConfig[:public_url] = "#{public_uri.scheme}://#{public_uri.host}:#{public_uri.port}/#{path_segment}"
+end
+
 $backend_start_fn = proc {
   TestUtils::start_backend(URI(AppConfig[:backend_url]).port,
                            {
