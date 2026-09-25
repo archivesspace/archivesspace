@@ -1,7 +1,25 @@
 <%
    root_type = root_record.jsonmodel_type
+   child_type = case root_type
+                when 'resource'
+                  'archival_object'
+                when 'digital_object'
+                  'digital_object_component'
+                when 'classification'
+                  'classification_term'
+                else
+                  nil
+                end
    show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_largetree_container]
    read_only = false if read_only.blank?
+   toolbar_capabilities = {
+     show_add_duplicate: root_type == 'resource',
+     show_load_bulk: root_type == 'resource',
+     show_rde: %w[resource digital_object].include?(root_type),
+   }
+   toolbar_add_child_label = I18n.t("#{root_type}._frontend.action.add_child")
+   toolbar_add_sibling_label = child_type ? I18n.t("#{child_type}._frontend.action.add_sibling") : ''
+   toolbar_add_duplicate_label = I18n.t('archival_object._frontend.action.add_duplicate')
    new_child_placeholder_title = case root_type
                                  when 'resource'
                                    I18n.t('archival_object._frontend.tree.new_record_title')
@@ -40,6 +58,7 @@
   data-is-read-only="<%= read_only %>"
   data-root-uri="<%= root_record.uri %>"
   data-record-type="<%= root_type %>"
+  data-child-type="<%= child_type %>"
   data-new-child-placeholder-title="<%= new_child_placeholder_title %>"
   data-new-duplicate-placeholder-title="<%= new_duplicate_placeholder_title %>"
   data-label-drag-to-reorder="<%= h(I18n.t('tree.drag_to_reorder')) %>"
@@ -47,7 +66,14 @@
   data-error-move-records-message="<%= h(I18n.t('tree.errors.move_records_message')) %>"
 >
   <% if !read_only %>
-    <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>
+    <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar", :locals => {
+         :add_child_label => toolbar_add_child_label,
+         :add_sibling_label => toolbar_add_sibling_label,
+         :add_duplicate_label => toolbar_add_duplicate_label,
+         :show_add_duplicate => toolbar_capabilities[:show_add_duplicate],
+         :show_load_bulk => toolbar_capabilities[:show_load_bulk],
+         :show_rde => toolbar_capabilities[:show_rde],
+       } %>
   <% end %>
   <div
     id="infinite-tree-container"

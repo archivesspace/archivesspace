@@ -15,6 +15,7 @@ class InfiniteTreeToolbar {
       this.componentEl.getAttribute('data-is-read-only') === 'true';
     this.rootUri = this.componentEl.getAttribute('data-root-uri');
     this.rootType = this.componentEl.getAttribute('data-record-type');
+    this.childType = this.componentEl.getAttribute('data-child-type');
 
     this.currentNode = null;
     this.isDirty = false;
@@ -198,7 +199,7 @@ class InfiniteTreeToolbar {
   #applyCurrentNodeState() {
     if (!this.toolbarEl) return;
 
-    const isArchivalObjectCurrent = this.#isArchivalObjectCurrent();
+    const isChildTypeCurrent = this.#isChildTypeCurrent();
     const moveEnabled = this.reorderMode && this.#hasNonRootCurrentNode();
     const moveToggle = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-toggle'
@@ -222,14 +223,15 @@ class InfiniteTreeToolbar {
       '.js-itree-toolbar-add-sibling'
     );
     if (siblingBtn) {
-      siblingBtn.style.display = isArchivalObjectCurrent ? '' : 'none';
+      siblingBtn.style.display = isChildTypeCurrent ? '' : 'none';
     }
 
     const duplicateBtn = this.toolbarEl.querySelector(
       '.js-itree-toolbar-add-duplicate'
     );
     if (duplicateBtn) {
-      duplicateBtn.style.display = isArchivalObjectCurrent ? '' : 'none';
+      duplicateBtn.style.display =
+        isChildTypeCurrent && this.rootType === 'resource' ? '' : 'none';
     }
   }
 
@@ -600,15 +602,25 @@ class InfiniteTreeToolbar {
     return true;
   }
 
-  #isArchivalObjectCurrent() {
+  /**
+   * Whether the current tree row is this hierarchy's child record type.
+   * @returns {boolean}
+   */
+  #isChildTypeCurrent() {
     const node = this.reorderMode
       ? this.#getMoveContextNode()
       : this.currentNode || this.#getCurrentNode();
-    if (!node) return false;
+    if (!node || !this.childType) return false;
 
     if (node.classList.contains('root')) return false;
 
-    return (node.id || '').indexOf('archival_object_') === 0;
+    const uri = node.getAttribute('data-uri');
+    if (!uri || !window.InfiniteTreeIds) return false;
+
+    const parts = InfiniteTreeIds.uriToParts(uri);
+    const matchesChildType = !!parts && parts.type === this.childType;
+
+    return matchesChildType;
   }
 
   #getCurrentNode() {

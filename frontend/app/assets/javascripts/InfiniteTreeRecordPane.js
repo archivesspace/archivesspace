@@ -11,7 +11,7 @@
           .isReadOnly === 'true';
       this.form = null;
       this.isDirty = false;
-      /** @type {HTMLElement|null} Anchor tree node when the pane shows archival_objects new_inline (Cancel restores this record). */
+      /** @type {HTMLElement|null} Anchor tree node when the pane shows a child new_inline form (Cancel restores this record). */
       this._inlineCreateAnchorNode = null;
       /**
        * Set when the user clicks a Save +1 (.btn-plus-one) control; cleared after each
@@ -137,8 +137,9 @@
 
       const uri = node.getAttribute('data-uri');
       const parts = InfiniteTreeIds.uriToParts(uri);
+      const childType = this.#childType();
 
-      if (!parts || parts.type !== 'archival_object') return;
+      if (!parts || !childType || parts.type !== childType) return;
 
       this.#loadNewSiblingRecord(node);
     }
@@ -172,22 +173,16 @@
       if (!rootMeta || !parentParts) return null;
 
       const { type: rootType, id: rootId, childType } = rootMeta;
-
-      // First slice: resource tree → new archival object only
-      if (rootType !== 'resource' || childType !== 'archival_object') {
-        return null;
-      }
-
       const qs = new URLSearchParams({ inline: 'true' });
 
-      if (parentParts.type === 'resource') {
-        qs.set('resource_id', String(parentParts.id));
+      if (parentParts.type === rootType) {
+        qs.set(`${rootType}_id`, String(rootId));
         return qs;
       }
 
-      if (parentParts.type === 'archival_object') {
-        qs.set('resource_id', String(rootId));
-        qs.set('archival_object_id', String(parentParts.id));
+      if (parentParts.type === childType) {
+        qs.set(`${rootType}_id`, String(rootId));
+        qs.set(`${childType}_id`, String(parentParts.id));
         return qs;
       }
 
@@ -206,10 +201,6 @@
 
       const { type: rootType, id: rootId, childType } = rootMeta;
 
-      if (rootType !== 'resource' || childType !== 'archival_object') {
-        return null;
-      }
-
       const posStr = anchorNode.getAttribute('data-tree-position');
       if (posStr === null || posStr === '') return null;
 
@@ -218,14 +209,14 @@
 
       const qs = new URLSearchParams({ inline: 'true' });
 
-      qs.set('resource_id', String(rootId));
+      qs.set(`${rootType}_id`, String(rootId));
       qs.set('position', String(pos + 1));
 
       const parentRecordId = anchorNode.getAttribute(
         'data-tree-parent-record-id'
       );
       if (parentRecordId) {
-        qs.set('archival_object_id', parentRecordId);
+        qs.set(`${childType}_id`, parentRecordId);
       }
 
       return qs;
@@ -266,9 +257,18 @@
      * @returns {string|null} path segment under app prefix, e.g. archival_objects/new
      */
     #newChildFormPath(childType) {
-      if (childType === 'archival_object') return 'archival_objects/new';
+      const hierarchy = InfiniteTreeIds.hierarchyForChildType(childType);
 
-      return null;
+      return hierarchy ? hierarchy.newFormPath : null;
+    }
+
+    /**
+     * @returns {string|null} configured child record type for this tree
+     */
+    #childType() {
+      const component = document.querySelector('#infinite-tree-component');
+
+      return (component && component.dataset.childType) || null;
     }
 
     #dispatchShowSyntheticNewChild(parentNode) {
@@ -498,7 +498,7 @@
       if (!cancel || !this.form || !this.form.contains(cancel)) return;
 
       if (
-        !this.#isArchivalObjectCreateForm(this.form) ||
+        !this.#isChildTypeCreateForm(this.form) ||
         !this._inlineCreateAnchorNode
       ) {
         return;
@@ -581,16 +581,23 @@
      * @param {HTMLFormElement} form
      * @returns {boolean}
      */
-    #isArchivalObjectCreateForm(form) {
-      return this.#isArchivalObjectCreateSubmission(form);
+    #isChildTypeCreateForm(form) {
+      return this.#isChildTypeCreateSubmission(form);
     }
 
     /**
-     * True when the form POSTs to archival_objects#create (inline new record).
+     * True when the form POSTs to this tree's child collection#create (inline new record).
      * @param {HTMLFormElement} form
      * @returns {boolean}
      */
-    #isArchivalObjectCreateSubmission(form) {
+    #isChildTypeCreateSubmission(form) {
+      const childType = this.#childType();
+      const hierarchy = childType
+        ? InfiniteTreeIds.hierarchyForChildType(childType)
+        : null;
+
+      if (!hierarchy) return false;
+
       const method = (form.getAttribute('method') || 'GET').toUpperCase();
       if (method !== 'POST') return false;
 
@@ -602,8 +609,11 @@
           /\/$/,
           ''
         );
+        const collectionPattern = new RegExp(
+          `/${hierarchy.childCollectionPath}$`
+        );
 
-        return /\/archival_objects$/.test(path);
+        return collectionPattern.test(path);
       } catch {
         return false;
       }
@@ -720,9 +730,7 @@
 
       if (submitButton) submitButton.setAttribute('disabled', 'disabled');
 
-      const isCreateSubmission = this.#isArchivalObjectCreateSubmission(
-        this.form
-      );
+      const isCreateSubmission = this.#isChildTypeCreateSubmission(this.form);
 
       // Snapshot and clear plus-one flag before any async work so failed validation on
       // re-render starts clean (#bindForm sets a fresh flag on the next form instance).

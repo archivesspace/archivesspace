@@ -111,19 +111,12 @@ Then 'the expand arrows are disabled' do
 end
 
 Then 'all Archival Objects are displayed' do
-  wait_for_ajax
   rows = all('.infinite-tree .node')
 
   aggregate_failures do
     expect(rows.length).to eq 3
     expect(rows[1].text).to include "Archival Object 1 #{@uuid}"
     expect(rows[2].text).to include "Archival Object 2 #{@uuid}"
-  end
-end
-
-When 'the user clicks on {string} in the tree toolbar' do |string|
-  within '#infinite-tree-toolbar' do
-    click_on_string string
   end
 end
 
@@ -136,9 +129,7 @@ Then 'only the top-level Archival Objects are displayed' do
 end
 
 Given 'all levels of hierarchy in the tree are expanded' do
-  within '#infinite-tree-toolbar' do
-    click_on 'Auto-Expand All'
-  end
+  click_infinite_tree_toolbar_enable_auto_expand
   aggregate_failures do
     expect(page).to have_css('#infinite-tree-container.expand-all')
     expect(page).to have_css(

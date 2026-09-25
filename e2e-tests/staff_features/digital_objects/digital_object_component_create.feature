@@ -1,6 +1,8 @@
 Feature: Digital Object Component Create
+
   Background:
     Given an administrator user is logged in
+
   Scenario: Create a Child Digital Object
     Given a Digital Object has been created
       And the Digital Object is opened in edit mode
@@ -9,6 +11,7 @@ Feature: Digital Object Component Create
       And the user clicks on 'Save'
      Then the 'Digital Object Component' created message is displayed
       And the Digital Object Component with Label 'Digital Object Component Label Child' is saved as a child of the Digital Object
+
   Scenario: Create a Sibling Digital Object
     Given a Digital Object with a Digital Object Component has been created
       And the Digital Object is opened in edit mode
@@ -17,4 +20,4 @@ Feature: Digital Object Component Create
       And the user fills in 'Label' with 'Digital Object Component Label Sibling'
       And the user clicks on 'Save'
      Then the 'Digital Object Component' created message is displayed
-      And the Digital Object Component with Title 'Digital Object Component Label Sibling' is saved as a sibling of the selected Digital Object Component
+      And the Digital Object Component with Title 'Digital Object Component Label Sibling' is saved as the next sibling of the previously selected Digital Object Component

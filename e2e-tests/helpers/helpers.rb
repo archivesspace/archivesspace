@@ -446,24 +446,149 @@ end
 # not enough. These helpers wait for the pane to finish loading and become interactable.
 # form_prefix is the record type form id prefix (e.g. 'archival_object', 'digital_object_component').
 def wait_for_infinite_tree_inline_edit_form(form_prefix:)
-  form_id = "#{form_prefix}_form"
+  explicit_form_id = "#{form_prefix}_form"
+  form_context_id = "form_#{form_prefix}"
   pane = '#infinite-tree-record-pane'
 
   aggregate_failures do
     expect(page).to have_no_css("#{pane}.blocked")
-    expect(page).to have_css("#{pane} ##{form_id}[data-update-monitor-record-uri]")
+    expect(page).to have_css(
+      "#{pane} ##{explicit_form_id}[data-update-monitor-record-uri], " \
+      "#{pane} ##{form_context_id}, #{pane} ##{explicit_form_id}"
+    )
+    expect(page).to have_css("#{pane} form[data-update-monitor-record-uri]")
   end
 end
 
 def wait_for_infinite_tree_inline_new_form(form_prefix:)
   form_id = "#{form_prefix}_form"
+  form_context_id = "form_#{form_prefix}"
   pane = '#infinite-tree-record-pane'
 
   aggregate_failures do
     expect(page).to have_no_css("#{pane}.blocked")
-    expect(page).to have_css("#{pane} ##{form_id}")
-    expect(page).to have_css("#{pane} #createPlusOne")
+    expect(page).to have_css(
+      "#{pane} ##{form_id}, #{pane} ##{form_context_id}"
+    )
   end
+end
+
+def wait_for_infinite_tree_pane_ready
+  expect(page).to have_no_css('#infinite-tree-record-pane.blocked')
+end
+
+def wait_for_infinite_tree_reorder_idle
+  expect(page).to have_no_css('#infinite-tree-container[data-reorder-move-in-flight]')
+end
+
+def wait_for_infinite_tree_auto_expand_toolbar_idle
+  expect(page).to have_css(
+    '.js-itree-toolbar-expand-mode:not(.disabled):not([disabled])'
+  )
+end
+
+def wait_for_infinite_tree_auto_expand_mode_on
+  aggregate_failures do
+    expect(page).to have_css('#infinite-tree-container.expand-all')
+    expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+  end
+  wait_for_infinite_tree_auto_expand_toolbar_idle
+end
+
+def wait_for_infinite_tree_auto_expand_mode_off
+  aggregate_failures do
+    expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
+    expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
+  end
+  wait_for_infinite_tree_auto_expand_toolbar_idle
+end
+
+def wait_for_infinite_tree_collapsed
+  expect(page).to have_no_css(
+    '#infinite-tree-container li.node[aria-expanded="true"]:not(.root)'
+  )
+  wait_for_infinite_tree_auto_expand_toolbar_idle
+end
+
+def click_infinite_tree_toolbar_enable_auto_expand
+  return if page.has_css?('#infinite-tree-container.expand-all')
+
+  find('.js-itree-toolbar-expand-mode').click
+  wait_for_infinite_tree_auto_expand_mode_on
+end
+
+def click_infinite_tree_toolbar_disable_auto_expand
+  return unless page.has_css?('#infinite-tree-container.expand-all')
+
+  find('.js-itree-toolbar-expand-mode').click
+  wait_for_infinite_tree_auto_expand_mode_off
+end
+
+def click_infinite_tree_toolbar_collapse_tree
+  find('.js-itree-toolbar-collapse-tree').click
+  wait_for_infinite_tree_auto_expand_mode_off
+  wait_for_infinite_tree_collapsed
+end
+
+INFINITE_TREE_TOOLBAR_CLICK_LABELS = [
+  'Add Child',
+  'Add Sibling',
+  'Add Duplicate',
+  'Auto-Expand All',
+  'Disable Auto-Expand',
+  'Collapse Tree'
+].freeze
+
+# Clicks a known InfiniteTree toolbar control with fetch/DOM-aware waits.
+def click_infinite_tree_toolbar_button(label)
+  case label
+  when 'Auto-Expand All'
+    click_infinite_tree_toolbar_enable_auto_expand
+  when 'Disable Auto-Expand'
+    click_infinite_tree_toolbar_disable_auto_expand
+  when 'Collapse Tree'
+    click_infinite_tree_toolbar_collapse_tree
+  when 'Add Child', 'Add Sibling', 'Add Duplicate'
+    within '#infinite-tree-toolbar' do
+      click_on_string label
+    end
+
+    wait_for_ajax
+
+    child_type = find('#infinite-tree-component', visible: :all)['data-child-type']
+    wait_for_infinite_tree_inline_new_form(form_prefix: child_type) if child_type
+  end
+end
+
+def infinite_tree_toolbar_click?(label)
+  page.has_css?('#infinite-tree-toolbar', visible: :all) &&
+    INFINITE_TREE_TOOLBAR_CLICK_LABELS.include?(label)
+end
+
+def wait_for_digital_object_component_new_inline_form
+  pane = '#infinite-tree-record-pane'
+
+  aggregate_failures do
+    expect(page).to have_no_css("#{pane}.blocked")
+    expect(page).to have_css(
+      "#{pane} #digital_object_component_form, #{pane} #form_digital_object_component"
+    )
+  end
+end
+
+def saved_digital_object_component_id_from_pane
+  within('#infinite-tree-record-pane') do
+    find('#uri', visible: :all).value.split('/').last
+  end
+end
+
+def wait_for_digital_object_component_create_settled
+  wait_for_infinite_tree_pane_ready
+  expect(page).to have_no_css(
+    '#infinite-tree-container li.js-itree-synthetic-new',
+    visible: :all
+  )
+  @created_record_id = saved_digital_object_component_id_from_pane
 end
 
 # InfiniteTree RDE silently no-ops until a current tree node with data-uri exists.
@@ -496,6 +621,102 @@ def open_rapid_data_entry_modal
     expect(page).to have_css('#rapidDataEntryModal #rde_form', visible: true)
     expect(page).to have_css('#rapidDataEntryModal #rdeTable', visible: true)
   end
+end
+
+def create_e2e_digital_object_in_tree
+  visit "#{STAFF_URL}/digital_objects/new"
+
+  fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{@uuid}"
+  fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
+
+  click_on 'Add Date'
+  select 'Single', from: 'digital_object_dates__0__date_type_'
+  fill_in 'digital_object_dates__0__begin_', with: '2000-01-01'
+
+  click_on 'Save'
+
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
+  @digital_object_id = current_url[%r{/digital_objects/(\d+)}, 1]
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+end
+
+def add_digital_object_component_via_toolbar(label)
+  find('.js-itree-toolbar-add-child:not(.disabled)').click
+  wait_for_ajax
+  wait_for_digital_object_component_new_inline_form
+
+  fill_in 'Label', with: label
+  click_on 'Save'
+
+  expect(page).to have_css('.alert.alert-success', text: /Digital Object Component .*created/i)
+
+  wait_for_infinite_tree_pane_ready
+  component_id = saved_digital_object_component_id_from_pane
+  expect(page).to have_css("#digital_object_component_#{component_id}.current")
+  component_id
+end
+
+def add_digital_object_component_sibling_via_toolbar(label)
+  find('.js-itree-toolbar-add-sibling:not(.disabled)').click
+  wait_for_ajax
+  wait_for_digital_object_component_new_inline_form
+
+  fill_in 'Label', with: label
+  click_on 'Save'
+
+  expect(page).to have_css('.alert.alert-success', text: /Digital Object Component .*created/i)
+
+  wait_for_infinite_tree_pane_ready
+  component_id = saved_digital_object_component_id_from_pane
+  expect(page).to have_css("#digital_object_component_#{component_id}.current")
+  component_id
+end
+
+def select_digital_object_root_in_infinite_tree
+  within '#infinite-tree-container' do
+    find("#digital_object_#{@digital_object_id} > .node-row a.record-title", match: :first).click
+  end
+
+  wait_for_ajax
+  expect(page).to have_css("#digital_object_#{@digital_object_id}.current")
+  wait_for_infinite_tree_pane_ready
+end
+
+def select_digital_object_component_in_infinite_tree(component_id, label: nil)
+  row_title_selector = "#digital_object_component_#{component_id} > .node-row a.record-title"
+
+  within '#infinite-tree-container' do
+    if label
+      find(row_title_selector, text: label).click
+    else
+      find(row_title_selector, match: :first).click
+    end
+  end
+
+  wait_for_ajax
+  expect(page).to have_css("#digital_object_component_#{component_id}.current")
+  wait_for_infinite_tree_pane_ready
+end
+
+def digital_object_root_child_component_nodes
+  all(
+    "#infinite-tree-container #digital_object_#{@digital_object_id} > ol.node-children > li.node",
+    minimum: 0
+  )
+end
+
+# @param component_ids [Array<Integer, String>] numeric component ids in expected DOM order
+def expect_digital_object_root_child_order(*component_ids)
+  wait_for_infinite_tree_reorder_idle
+
+  expected_dom_ids = component_ids.map { |id| "digital_object_component_#{id}" }
+  root_children_selector =
+    "#infinite-tree-container #digital_object_#{@digital_object_id} > ol.node-children > li.node"
+
+  expect(page).to have_css(root_children_selector, count: expected_dom_ids.length)
+
+  actual_dom_ids = digital_object_root_child_component_nodes.map { |node| node[:id] }
+  expect(actual_dom_ids).to eq expected_dom_ids
 end
 
 def extract_created_record_id(string)
