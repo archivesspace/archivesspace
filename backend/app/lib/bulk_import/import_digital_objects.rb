@@ -1,8 +1,11 @@
 require_relative "bulk_import_parser"
+require_relative "row_field_builders"
 require_relative "../../converters/lib/utils"
 require "bigdecimal"
 
 class ImportDigitalObjects < BulkImportParser
+  include RowFieldBuilders
+
   START_MARKER = /ArchivesSpace digital object import field codes/.freeze
 
   def initialize(input_file, content_type, current_user, opts, log_method = nil)
@@ -149,23 +152,39 @@ class ImportDigitalObjects < BulkImportParser
     ao
   end
 
+  def file_versions
+    groups = @row_hash.keys
+      .grep(/\Afile_version_\d+_.+\z/)
+      .group_by { |key| key[/\Afile_version_(\d+)_/, 1] }
+
+    groups.keys.sort_by(&:to_i).filter_map do |index|
+      keys = groups[index]
+      next if keys.all? { |key| @row_hash[key].nil? }
+
+      fv = {}
+      keys.each do |key|
+        field = key.sub(/\Afile_version_\d+_/, "")
+        fv[field.to_sym] = @row_hash[key]
+      end
+
+      representative_column = "file_version_#{index}_is_representative"
+      publish_column = "file_version_#{index}_publish"
+      fv[:is_representative] = digital_object_boolean(representative_column) if keys.include?(representative_column)
+      fv[:publish] = digital_object_boolean(publish_column) if keys.include?(publish_column)
+
+      fv[:publish] = true if fv[:is_representative]
+      size_column = "file_version_#{index}_file_size_bytes"
+      fv[:file_size_bytes] = file_version_file_size_bytes(size_column, fv[:file_size_bytes])
+      fv
+    end
+  end
+
   private
 
   def digital_object_boolean(column)
     ASpaceImport::Utils.normalize_boolean.call(@row_hash[column])
   rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
     raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value))
-  end
-
-  # File Version rows are built by the shared mixin. Override only these reads so
-  # Archival Object imports keep normalize_boolean_column, its publish fallback,
-  # and the legacy file-size conversion.
-  def file_version_boolean(column)
-    digital_object_boolean(column)
-  end
-
-  def file_version_publish_value(is_representative, publish)
-    is_representative ? true : publish
   end
 
   def file_version_file_size_bytes(column, value)
