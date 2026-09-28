@@ -55,6 +55,12 @@ AppConfig[:docs_url] = "http://localhost:8888"
 AppConfig[:frontend_log] = "default"
 # Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:frontend_log_level] = "debug"
+
+# Maximum number of fields in a multipart form submitted to the staff interface
+# (Rack's default is 4096). Each linked record in an edit form adds two fields,
+# so this allows saving e.g. a resource with around 4000 related accessions.
+AppConfig[:frontend_multipart_total_part_limit] = 8192
+
 # Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:backend_log] = "default"
 AppConfig[:backend_log_level] = "debug"
