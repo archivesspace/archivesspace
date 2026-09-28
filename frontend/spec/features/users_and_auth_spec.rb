@@ -17,7 +17,7 @@ describe 'Users and Authentication', js: true do
       click_button "Sign In"
     end
 
-    expect(page).to have_text 'Login attempt failed'
+    expect(page).to have_css('form.login p.alert.alert-danger[role="alert"]', text: 'Login attempt failed')
   end
 
   it 'fails login when user is inactive' do

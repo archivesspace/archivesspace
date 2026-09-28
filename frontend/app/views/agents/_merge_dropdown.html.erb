@@ -14,7 +14,7 @@
         <%= form_context :merge, {} do |form| %>
 
         <fieldset class="mt-3 mb-4 p-0">
-          <div class="alert alert-danger missing-ref-message" style="display: none;"><%= t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
+          <div class="alert alert-danger missing-ref-message" role="alert" style="display: none;"><%= t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
           <%= render_aspace_partial :partial => "#{controller}/linker",
                                     :locals => {
                                       :form => form,

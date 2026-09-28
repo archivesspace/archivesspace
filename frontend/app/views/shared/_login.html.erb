@@ -1,6 +1,6 @@
 <%= form_tag({:controller => "session",:action => "login"}, :method => "post", :class => "login mb-2") do %>
-    <p class="alert alert-danger"><%= t "login.login_fail" %></p>
-    <p class="alert alert-success"><%= t "login.login_success" %>.</p>
+    <p class="alert alert-danger" role="alert"><%= t "login.login_fail" %></p>
+    <p class="alert alert-success" role="status"><%= t "login.login_success" %>.</p>
     <div class="form-group">
       <input id="user_username" type="text" name="username" size="30" placeholder="<%= t "login.username_placeholder" %>" class="form-control" aria-label="<%= t "login.username_aria_label" %>" />
     </div>

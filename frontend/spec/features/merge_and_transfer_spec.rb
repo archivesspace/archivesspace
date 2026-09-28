@@ -83,6 +83,9 @@ describe 'Merge and Transfer', js: true do
     find('#merge-dropdown button').click
 
     expect(page).to have_selector('#form_merge', visible: true)
+    within '#form_merge' do
+      expect(find('.missing-ref-message', visible: false)[:role]).to eq 'alert'
+    end
 
     within '#form_merge' do
       fill_in 'token-input-merge_ref_', with: resource_source.title
@@ -107,6 +110,22 @@ describe 'Merge and Transfer', js: true do
     ids += archival_objects_target.map { |entry| "archival_object_#{entry.id}" }
     ids_from_dom = elements.map { |element| element[:id] }
     expect(ids.sort == ids_from_dom.sort).to eq true
+  end
+
+  it 'updates the agent merge dropdown expanded state' do
+    agent = create(:agent_person, title: 'Agent to merge')
+
+    visit "agents/agent_person/#{agent.id}/edit"
+
+    merge_button = find('#merge-dropdown .merge-action')
+    expect(merge_button[:role]).to eq 'button'
+    expect(merge_button[:'aria-expanded']).to eq 'false'
+
+    merge_button.click
+
+    expect(find('#merge-dropdown .merge-action')[:'aria-expanded']).to eq 'true'
+    expect(page).to have_selector('#form_merge', visible: true)
+    expect(find('.missing-ref-message', visible: false)[:role]).to eq 'alert'
   end
 
   it 'can transfer an archival object to another resource' do

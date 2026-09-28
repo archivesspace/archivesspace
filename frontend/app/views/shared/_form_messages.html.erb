@@ -90,7 +90,7 @@
    </script>
 
    <% if @exceptions.has_key?(:errors) %>
-      <div class="alert alert-danger">
+      <div class="alert alert-danger" role="alert">
          <% @exceptions[:errors].each do |attr, messages| %>
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>
@@ -108,7 +108,7 @@
       </div>
    <% end %>
    <% if @exceptions.has_key?(:warnings) %>
-      <div class="alert alert-warning">
+      <div class="alert alert-warning" role="alert">
          <% @exceptions[:warnings].each do |attr, messages| %>
             <div class="warnings-for-attribute">
               <% messages.each do |msg| %>

@@ -436,6 +436,7 @@ describe 'Resources', js: true do
       ]
 
       element = find('.alert.alert-danger.with-hide-alert')
+      expect(element[:role]).to eq('alert')
       messages.each do |message|
         expect(element).to have_text message
       end
