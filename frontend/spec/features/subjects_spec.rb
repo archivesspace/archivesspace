@@ -25,7 +25,7 @@ describe 'Subjects', js: true do
     element = find('button', text: 'Save', match: :first)
     element.click
 
-    expect(page).to have_text 'Terms and Subdivisions - At least 1 item(s) is required'
+    expect(page).to have_text('Terms and Subdivisions - At least 1 item(s) is required')
   end
 
   it 'can create a new subject' do
@@ -92,7 +92,7 @@ describe 'Subjects', js: true do
     element.click
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Terms and Subdivisions - Subject records cannot be identical\nAuthority ID - Subject heading identifier must be unique within source\nView conflicting record"
+    expect(element.text).to have_text("Terms and Subdivisions - Subject records cannot be identical\nAuthority ID - Subject heading identifier must be unique within source\nView conflicting record")
     expect(page).to have_link(text: 'View conflicting record', href: "http://localhost:8080/resolve/readonly?uri=/subjects/#{existing_subject_id}")
   end
 

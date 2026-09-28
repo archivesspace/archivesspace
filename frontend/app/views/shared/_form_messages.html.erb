@@ -61,6 +61,7 @@
 
        var callback = function () {
          if (_errors.errors) {
+           $("#form_messages .alert-danger").focus();
            $(_errors.errors).each(function (idx, elt) {
              setupErrorMessage(idx, elt, "error");
            });
@@ -90,7 +91,8 @@
    </script>
 
    <% if @exceptions.has_key?(:errors) %>
-      <div class="alert alert-danger">
+      <div class="alert alert-danger" role="alert" tabindex="-1">
+        <p class="error-heading"><strong><%= t("errors.submission_failed") %></strong></p>
          <% @exceptions[:errors].each do |attr, messages| %>
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>
@@ -108,7 +110,7 @@
       </div>
    <% end %>
    <% if @exceptions.has_key?(:warnings) %>
-      <div class="alert alert-warning">
+      <div class="alert alert-warning" role="alert">
          <% @exceptions[:warnings].each do |attr, messages| %>
             <div class="warnings-for-attribute">
               <% messages.each do |msg| %>

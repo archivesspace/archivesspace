@@ -32,7 +32,7 @@ describe 'Digital Objects', js: true do
     expect(page).to have_selector('h2', visible: true, text: "New Digital Object Digital Object")
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Title - Property is required but was missing\nIdentifier - Property is required but was missing"
+    expect(element.text).to have_text("Title - Property is required but was missing\nIdentifier - Property is required but was missing")
   end
 
   it 'can handle multiple file versions and file system and network path types' do
@@ -134,7 +134,7 @@ describe 'Digital Objects', js: true do
     find('#createPlusOne').click
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Dates - you must provide a Label, Title or Date\nTitle - you must provide a Label, Title or Date\nLabel - you must provide a Label, Title or Date"
+    expect(element.text).to have_text("Dates - you must provide a Label, Title or Date\nTitle - you must provide a Label, Title or Date\nLabel - you must provide a Label, Title or Date")
   end
 
   it 'can populate the digital object component tree' do
