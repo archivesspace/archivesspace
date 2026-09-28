@@ -9,18 +9,16 @@
     <%= context.list_for(context["used_languages"], "used_languages[]") do |used_language, index| %>
       <div class="card mb-3">
         <div class="card-header panel-heading">
-          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_used_language_<%= index %>">
-            <div class="col-md-1">
-              <span class="glyphicon"></span>
-            </div>
-            <div class="col-md-6">
+          <%= render :layout => "shared/accordion_header_toggle",
+                :locals => { :panel_id => "#{section_id}_used_language_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-6">
               <% if !used_language["language"].blank? %>
                 <%= t("enumerations.language_iso639_2.#{used_language['language']}", :default => used_language['language']) %>
               <% else %>
                 <%= t("used_language._singular") %>
               <% end %>
-            </div>
-          </div>
+            </span>
+          <% end %>
         </div>
         <div id="<%= section_id %>_used_language_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(used_language) %>

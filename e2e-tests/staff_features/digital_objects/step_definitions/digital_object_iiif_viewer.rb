@@ -32,7 +32,7 @@ Given 'the user has added an IIIF manifest File Version to the Digital Object' d
 end
 
 When 'the user expands the File Version' do
-  find('.accordion-toggle[href*="_file_version_"]', match: :first).click
+  find('.accordion-toggle[data-target*="_file_version_"]', match: :first).click
 end
 
 When 'the user is on the Digital Object page in the public interface' do

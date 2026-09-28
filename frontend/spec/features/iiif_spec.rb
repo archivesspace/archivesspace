@@ -49,7 +49,7 @@ describe 'IIIF viewer', js: true do
       expect(collapsed_iframe['src'].to_s).to be_empty
       expect(collapsed_iframe['data-iiif-src']).to end_with("/uv/uv.html#?manifest=#{CGI.escape(@manifest_url)}")
 
-      find('.accordion-toggle[href*="_file_version_"]', match: :first).click
+      find('.accordion-toggle[data-target*="_file_version_"]', match: :first).click
 
       # The src is set once the subrecord has finished expanding, so wait for it
       # rather than reading the attribute the moment the iframe becomes visible.
@@ -82,7 +82,7 @@ describe 'IIIF viewer', js: true do
       expect(collapsed_iframe['src'].to_s).to be_empty
       expect(collapsed_iframe['data-iiif-src']).to end_with("/mirador/index.html?manifest=#{CGI.escape(@manifest_url)}")
 
-      find('.accordion-toggle[href*="_file_version_"]', match: :first).click
+      find('.accordion-toggle[data-target*="_file_version_"]', match: :first).click
 
       expect(page).to have_css('.iiif-embed iframe[src]')
 

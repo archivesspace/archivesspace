@@ -1,0 +1,28 @@
+<%
+  panel_id = local_assigns.fetch(:panel_id)
+  accordion_parent_id = local_assigns.fetch(:accordion_parent_id)
+  heading_tag = local_assigns.fetch(:heading_tag, 'h4')
+  collapsed = local_assigns.fetch(:collapsed, true)
+  extra_button_classes = local_assigns[:extra_button_classes].to_s.strip
+  button_class_parts = ['p-0', 'btn', 'btn-block', 'accordion-toggle', 'accordion-header-toggle']
+  button_class_parts << 'collapsed' if collapsed
+  button_class_parts << extra_button_classes unless extra_button_classes.blank?
+  button_classes = button_class_parts.join(' ')
+  aria_expanded = collapsed ? 'false' : 'true'
+%>
+<%= content_tag heading_tag, :class => 'accordion-header mb-0 p-0 border-0 bg-image-none' do %>
+  <button type="button"
+          class="<%= button_classes %>"
+          data-toggle="collapse"
+          data-parent="#<%= accordion_parent_id %>"
+          data-target="#<%= panel_id %>"
+          aria-expanded="<%= aria_expanded %>"
+          aria-controls="<%= panel_id %>">
+    <span class="accordion-header-toggle__layout">
+      <span class="accordion-header-toggle__icon" aria-hidden="true">
+        <span class="glyphicon"></span>
+      </span>
+      <%= yield %>
+    </span>
+  </button>
+<% end %>
