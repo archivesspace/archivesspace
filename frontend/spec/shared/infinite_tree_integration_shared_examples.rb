@@ -416,6 +416,25 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
         within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
       end
     end
+
+    it 'refreshes the root row in the tree with the saved root data' do
+      visit "#{edit_path}#{root_hash}"
+      wait_for_ajax
+      wait_for_infinite_tree_pane_ready
+
+      updated_title = "Updated Root #{now}"
+      fill_in config[:root_dirty_field], with: updated_title
+
+      find('button', text: I18n.t("#{config[:root_type]}._frontend.action.save"), match: :first).click
+      wait_for_ajax
+
+      root_title = find('#infinite-tree-container li.node.root > .node-row .record-title')
+
+      aggregate_failures do
+        expect(root_title).to have_text(updated_title)
+        expect(root_title[:href]).to end_with(root_hash)
+      end
+    end
   end
 
   describe 'discarding changes on the way to a node that is not loaded yet' do
