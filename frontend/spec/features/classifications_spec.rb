@@ -316,6 +316,7 @@ describe 'Classifications', js: true do
           run_index_round
         end
 
+        it_behaves_like 'results table initial sort'
         it_behaves_like 'results table sorting'
       end
 

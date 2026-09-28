@@ -224,6 +224,7 @@ describe 'Search Listing', js: true do
         ]
       end
 
+      it_behaves_like 'results table initial relevance sort'
       it_behaves_like 'results table sorting'
     end
   end
