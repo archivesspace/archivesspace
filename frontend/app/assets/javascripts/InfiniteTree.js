@@ -989,7 +989,7 @@
 
         let data;
 
-        if (parts.type === 'resource') {
+        if (parts.type === this.rootMeta.type) {
           data = await this.fetch.node(null); // root
         } else {
           const id = Number(parts.id);
