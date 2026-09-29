@@ -131,11 +131,10 @@ Then 'a new File Version is added to the Digital Object with the following value
 end
 
 Given 'the user has added a File Version to the Digital Object with the following values' do |form_values_table|
-  click_on 'Add File Version'
-
-  form_values_hash = form_values_table.rows_hash
-  form_values_hash.each do |field, value|
-    fill_in field, with: value
+  within add_file_version('digital_object') do
+    form_values_table.rows_hash.each do |field, value|
+      fill_in field, with: value
+    end
   end
 
   click_on 'Save'
@@ -167,7 +166,7 @@ Then 'the Digital Object opens on a new tab in the public interface' do
     sleep 1
   end
 
-  expect(current_url).to eq "#{PUBLIC_URL}/repositories/#{@repository_id}/digital_objects/#{@digital_object_id}"
+  expect(current_url).to eq "#{PUBLIC_URL}#{record_uri('digital_object', @digital_object_id)}"
   expect(page).to have_text "Digital Object Title #{@uuid}"
 end
 
