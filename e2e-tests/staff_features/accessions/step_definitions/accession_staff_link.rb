@@ -9,7 +9,7 @@ Given 'a viewer user is logged in' do
 end
 
 When 'the user visits the Accession on the Public Interface' do
-  visit "#{PUBLIC_URL}/repositories/#{@repository_id}/accessions/#{@accession_id}"
+  visit "#{PUBLIC_URL}#{record_uri('accession', @accession_id)}"
 
   wait_for_ajax
 end

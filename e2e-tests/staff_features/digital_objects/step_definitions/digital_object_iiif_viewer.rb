@@ -11,11 +11,7 @@ IIIF_MANIFEST_URL = "#{WIREMOCK_URL}/iiif/manifest/book".freeze
 IIIF_MANIFEST_LABEL = 'Simple Manifest - Book'
 
 Given 'the user has added an IIIF manifest File Version to the Digital Object' do
-  click_on 'Add File Version'
-
-  file_version = all('#digital_object_file_versions_ .subrecord-form-list li').last
-
-  within file_version do
+  within add_file_version('digital_object') do
     fill_in 'File URI', with: IIIF_MANIFEST_URL
     check 'Publish'
     select 'Text-JSON', from: 'Use Statement'
@@ -36,20 +32,12 @@ When 'the user expands the File Version' do
 end
 
 When 'the user is on the Digital Object page in the public interface' do
-  public_url = "#{PUBLIC_URL}/repositories/#{@repository_id}/digital_objects/#{@digital_object_id}"
+  public_url = "#{PUBLIC_URL}#{record_uri('digital_object', @digital_object_id)}"
 
   # The record only appears in the public interface once the PUI indexer has
-  # picked it up, so retry the visit until it is there.
-  tries = 0
-  loop do
-    visit public_url
-    break if page.has_text?("Digital Object Title #{@uuid}", wait: 5)
-
-    tries += 1
-    raise "Digital Object was not published to the public interface at #{public_url}" if tries == 12
-
-    sleep 3
-  end
+  # picked it up, so reload until it is there.
+  visit public_url
+  retry_with_reload(attempts: 12) { expect(page).to have_text("Digital Object Title #{@uuid}", wait: 5) }
 end
 
 Then 'the bundled Universal Viewer is embedded' do
