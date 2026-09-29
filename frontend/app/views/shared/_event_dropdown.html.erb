@@ -12,7 +12,7 @@
           <fieldset class="mt-3 mb-4 p-0 d-flex gap-x-2">
             <legend class="sr-only">Add event:</legend>
             <label class="mb-0 font-weight-bold" for="add_event_event_type"><%= t("actions.add_event_event_type") %></label>
-            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event", :class => "form-control" %>
+            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :class => "form-control" %>
           </fieldset>
           <section class="pl-0 d-flex justify-content-between form-actions">
             <button type="button" class="btn btn-primary add-event-button"><%= t("actions.add_event") %></button>
