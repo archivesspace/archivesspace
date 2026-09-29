@@ -842,6 +842,7 @@ de:
     login_please: Bitte melden Sie sich an
     login_expired_link: Bitte <a href ='%{link}'>melden Sie sich erneut an</a>.
     login_fail: Anmeldeversuch ist fehlgeschlagen
+    too_many_attempts: "Zu viele fehlgeschlagene Anmeldeversuche. Bitte versuchen Sie es später erneut."
     login_success: Anmeldung erfolgreich. Weiterleitung...
     username_placeholder: Benutzername
     password_placeholder: Passwort

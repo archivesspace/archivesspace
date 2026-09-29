@@ -604,3 +604,4 @@ es:
     required: Campos requeridos
     pui_permission_denied: "El usuario `%{username}` no tiene permiso para ver la PUI."
     login_failed: "Error al iniciar sesión. Compruebe su nombre de usuario y contraseña."
+    too_many_attempts: "Demasiados intentos fallidos de inicio de sesión. Inténtelo de nuevo más tarde."

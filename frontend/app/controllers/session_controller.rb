@@ -5,10 +5,18 @@ class SessionController < ApplicationController
 
 
   def login
-    backend_session = User.login(params[:username], params[:password])
+    if login_throttled?(params[:username])
+      return render :json => {:session => nil, :csrf_token => form_authenticity_token}, :status => :too_many_requests
+    end
+
+    backend_response = User.login_response(params[:username], params[:password])
+    backend_session = backend_response.code == '200' ? ASUtils.json_parse(backend_response.body) : nil
 
     if backend_session
+      reset_login_failures(params[:username])
       User.establish_session(self, backend_session, params[:username])
+    elsif backend_response.code == '403'
+      record_login_failure(params[:username])
     end
 
     load_repository_list
@@ -159,5 +167,43 @@ class SessionController < ApplicationController
     Rails.logger.error("check_session: could not reach the backend to request a PUI session (#{e.class}: #{e.message})")
     Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
     { view_pui: false }
+  end
+
+  # Failed login limits per username and per client IP.
+  # nil, false, 0 or text in a setting turns that limit off.
+  def login_throttle_period
+    AppConfig[:frontend_login_throttle_period].to_s.to_i
+  end
+
+  def login_username_key(username)
+    "staff_login:#{username.to_s.strip.downcase}"
+  end
+
+  # Each Fail2Ban key with its failure limit, for the limits that are on.
+  def login_failure_limits(username)
+    return {} unless login_throttle_period > 0
+
+    {
+      login_username_key(username) => AppConfig[:frontend_login_throttle_limit].to_s.to_i,
+      "staff_login_ip:#{request.remote_ip}" => AppConfig[:frontend_login_ip_throttle_limit].to_s.to_i
+    }.select { |_key, limit| limit > 0 }
+  end
+
+  def login_throttled?(username)
+    login_failure_limits(username).keys.any? { |key| Rack::Attack::Fail2Ban.banned?(key) }
+  end
+
+  def record_login_failure(username)
+    login_failure_limits(username).each do |key, limit|
+      Rack::Attack::Fail2Ban.filter(key, maxretry: limit, findtime: login_throttle_period, bantime: login_throttle_period) { true }
+    end
+  end
+
+  # Reset only the username count. If a successful login reset the IP count, an attacker
+  # with any valid account could log in to it between guesses and never reach the IP limit.
+  def reset_login_failures(username)
+    return unless login_failure_limits(username).key?(login_username_key(username))
+
+    Rack::Attack::Fail2Ban.reset(login_username_key(username), findtime: login_throttle_period)
   end
 end

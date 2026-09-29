@@ -862,6 +862,7 @@ uk:
     login_please: Будь ласка, увійдіть
     login_expired_link: Будь ласка, <a href ='%{link}'>увійдіть знову</a>.
     login_fail: Невдала спроба входу
+    too_many_attempts: "Забагато невдалих спроб входу. Спробуйте пізніше."
     login_success: Вхід успішний. Перенаправлення...
     username_placeholder: Ім'я користувача
     password_placeholder: Пароль

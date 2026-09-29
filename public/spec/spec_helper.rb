@@ -28,6 +28,9 @@ AppConfig[:db_url] = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:solr_url] = ENV['ASPACE_TEST_SOLR_URL'] || AppConfig[:solr_url]
 AppConfig[:pui_hide][:record_badge] = false
 AppConfig[:arks_enabled] = true
+# Specs log in many times from one IP; login_throttling_spec turns the limits on
+AppConfig[:pui_login_throttle_limit] = 0
+AppConfig[:pui_login_ip_throttle_limit] = 0
 app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "public_app_log.out")
 AppConfig[:pui_log] = app_logfile
 AppConfig[:public_url] = ENV['ASPACE_TEST_APP_SERVER_URL'] || AppConfig[:public_url]

@@ -732,6 +732,7 @@ fr:
     login_please: Veuillez vous connecter
     login_expired_link: Svp <a href ='%{link}'>veuillez vous reconnecter</a>.
     login_fail: Echec de la tentative de connexion
+    too_many_attempts: "Trop de tentatives de connexion échouées. Veuillez réessayer plus tard."
     login_success: Connexion réussie. Redirection...
 
     username_placeholder: Nom d'utilisateur

@@ -514,3 +514,4 @@ pl:
     required: wymagany
     pui_permission_denied: "Użytkownik `%{username}` nie ma uprawnień do przeglądania PUI."
     login_failed: "Logowanie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło."
+    too_many_attempts: "Zbyt wiele nieudanych prób logowania. Spróbuj ponownie później."

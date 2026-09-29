@@ -285,6 +285,19 @@ AppConfig[:authentication_sources] = []
 # When 'true' restrict authentication attempts to only the source already set for the user
 AppConfig[:authentication_restricted_by_source] = false # default: allow any source
 
+# Limit failed staff interface logins, to slow password guessing.
+# After frontend_login_throttle_limit failed logins for one username, or
+# frontend_login_ip_throttle_limit failed logins from one client IP, in
+# frontend_login_throttle_period seconds, block logins for that username or IP
+# for frontend_login_throttle_period seconds. Successful logins are not counted,
+# and a successful login resets the username count.
+# Set a limit (or the period) to 0 to turn it off.
+# Counts are kept in memory, per frontend process. The client IP comes from
+# X-Forwarded-For only when the proxy has a private or loopback address.
+AppConfig[:frontend_login_throttle_limit] = 5
+AppConfig[:frontend_login_ip_throttle_limit] = 20
+AppConfig[:frontend_login_throttle_period] = 60
+
 
 AppConfig[:realtime_index_backlog_ms] = 60000
 
@@ -401,6 +414,19 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 #
 # Place the PUI behind authentication.  Default is false.
 AppConfig[:pui_require_authentication] = false
+#
+# Limit failed PUI logins, to slow password guessing.
+# After pui_login_throttle_limit failed logins for one username, or
+# pui_login_ip_throttle_limit failed logins from one client IP, in
+# pui_login_throttle_period seconds, block logins for that username or IP
+# for pui_login_throttle_period seconds. Successful logins are not counted,
+# and a successful login resets the username count.
+# Set a limit (or the period) to 0 to turn it off.
+# Counts are kept in memory, per PUI process. The client IP comes from
+# X-Forwarded-For only when the proxy has a private or loopback address.
+AppConfig[:pui_login_throttle_limit] = 5
+AppConfig[:pui_login_ip_throttle_limit] = 20
+AppConfig[:pui_login_throttle_period] = 60
 #
 # PUI Inheritance
 # Define the fields for a record type that are inherited from ancestors

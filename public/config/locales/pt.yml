@@ -193,6 +193,7 @@ pt:
     required: obrigatório
     pui_permission_denied: "O usuário `%{username}` não tem permissão para visualizar a PUI."
     login_failed: "Falha no login. Verifique seu nome de usuário e senha."
+    too_many_attempts: "Muitas tentativas de login sem sucesso. Tente novamente mais tarde."
   archival_object:
     _public: {}
   agent:

@@ -17,11 +17,15 @@ describe SessionsController, type: :controller do
   end
 
   let(:forbidden_response) do
-    instance_double(Net::HTTPResponse, code: '403', body: '{"error": "forbidden"}')
+    instance_double(Net::HTTPResponse, code: '403', body: '{"error": "User does not have permission to view the PUI"}')
   end
 
   let(:failed_response) do
     instance_double(Net::HTTPResponse, code: '401', body: '{"error": "invalid credentials"}')
+  end
+
+  let(:login_failed_response) do
+    instance_double(Net::HTTPResponse, code: '403', body: '{"error": "Login failed"}')
   end
 
   def stub_post_form(response)
@@ -165,6 +169,16 @@ describe SessionsController, type: :controller do
         it 'sets a generic error flash message' do
           post :login, params: { user_name: username, password: password }
           expect(flash.now[:error]).to include('Login failed')
+        end
+      end
+
+      context 'when the backend rejects the password with 403 Login failed' do
+        before { stub_post_form(login_failed_response) }
+
+        it 'sets a generic error flash message, not the permission message' do
+          post :login, params: { user_name: username, password: password }
+          expect(flash.now[:error]).to include('Login failed')
+          expect(flash.now[:error]).not_to include('does not have permission to view the PUI')
         end
       end
 

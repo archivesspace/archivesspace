@@ -344,6 +344,24 @@ describe 'User controller' do
     end
   end
 
+  describe "failed login logging" do
+    it "logs a warning with the username when the password is wrong" do
+      allow(Log).to receive(:warn)
+      post "/users/test1/login", { password: 'wrong' }
+
+      expect(last_response.status).to eq(403)
+      expect(Log).to have_received(:warn).with("Login failed for user 'test1'")
+    end
+
+    it "does not log a login failure when the password is correct" do
+      allow(Log).to receive(:warn)
+      post "/users/test1/login", { password: 'password' }
+
+      expect(last_response.status).to eq(200)
+      expect(Log).not_to have_received(:warn).with(/Login failed/)
+    end
+  end
+
   describe "pui parameter" do
     context "when pui is false (default)" do
       it "allows login for a user without view_pui permission" do
