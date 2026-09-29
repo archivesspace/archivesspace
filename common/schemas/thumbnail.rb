@@ -7,6 +7,8 @@
       "caption" => {"type" => "string"},
       "image_url" => {"type" => "string"},
       "link_url" => {"type" => "string"},
+      "record_uri" => {"type" => "string"},
+      "digital_object_type" => {"type" => "string"},
     },
   },
 }

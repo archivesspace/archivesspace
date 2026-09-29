@@ -1263,7 +1263,7 @@ describe "Import Digital Objects" do
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
         digital_object_row['file_version_1_file_uri'] = "http://example.com/av1"
-        digital_object_row['file_version_1_is_representative'] = "true"
+        digital_object_row['file_version_1_is_display_thumbnail'] = "true"
         digital_object_row['file_version_1_use_statement'] = "image-service"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
@@ -1294,12 +1294,12 @@ describe "Import Digital Objects" do
         digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
 
         expect(digital_object.file_versions.length).to eq 1
-        expect(digital_object.file_versions[0]['is_representative']).to be true
+        expect(digital_object.file_versions[0]['is_display_thumbnail']).to be true
         expect(digital_object.file_versions[0]['file_uri']).to eq "http://example.com/av1"
         expect(digital_object.file_versions[0]['use_statement']).to eq 'image-service'
       end
 
-      it 'creates a digital object with two file versions, one representative' do
+      it 'creates a digital object with two file versions, a display thumbnail and a display link' do
         digital_object_count_before = ::DigitalObject.count
 
         csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
@@ -1312,9 +1312,10 @@ describe "Import Digital Objects" do
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
         digital_object_row['file_version_1_file_uri'] = "http://example.com/rep"
-        digital_object_row['file_version_1_is_representative'] = "true"
+        digital_object_row['file_version_1_is_display_thumbnail'] = "true"
         digital_object_row['file_version_1_use_statement'] = "image-service"
         digital_object_row['file_version_2_file_uri'] = "http://example.com/nonrep"
+        digital_object_row['file_version_2_is_display_link'] = "true"
         digital_object_row['file_version_2_use_statement'] = "image-thumbnail"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
@@ -1345,7 +1346,8 @@ describe "Import Digital Objects" do
         digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
 
         expect(digital_object.file_versions.length).to eq 2
-        expect(digital_object.file_versions.map { |fv| fv['is_representative'] }).to contain_exactly(true, false)
+        expect(digital_object.file_versions.map { |fv| fv['is_display_thumbnail'] }).to contain_exactly(true, false)
+        expect(digital_object.file_versions.map { |fv| fv['is_display_link'] }).to contain_exactly(false, true)
         expect(digital_object.file_versions.map { |fv| fv['file_uri'] }).to contain_exactly(
           "http://example.com/rep", "http://example.com/nonrep")
       end
@@ -1473,6 +1475,20 @@ describe "Import Digital Objects" do
       report = run_guard_import(csv_filename, csv_path)
 
       expect(report.terminal_error).to match(/rep_file_uri/)
+    end
+
+    it 'aborts the import when the removed is_representative file version column is present' do
+      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+      columns = csv_data[0] + ['file_version_1_is_representative']
+      column_explanations = csv_data[1] + ['File Version(1) Is Representative']
+      csv_filename, csv_path = build_do_csv(columns, column_explanations) do |row|
+        row['file_version_1_file_uri'] = "http://example.com/legacy"
+        row['file_version_1_is_representative'] = "true"
+      end
+
+      report = run_guard_import(csv_filename, csv_path)
+
+      expect(report.terminal_error).to match(/file_version_1_is_representative/)
     end
 
     it 'does not flag any column when the spreadsheet matches the current template' do
@@ -2324,7 +2340,7 @@ describe "Import Digital Objects" do
       restrictions
       note_9_publish
       file_version_2_publish
-      file_version_2_is_representative
+      file_version_2_is_display_thumbnail
       user_defined_boolean_1
       user_defined_boolean_2
       user_defined_boolean_3
@@ -2375,7 +2391,7 @@ describe "Import Digital Objects" do
       row = {
         "file_version_#{index}_file_uri" => "http://example.com/file-version-#{index}",
         "file_version_#{index}_publish" => (field == :publish ? token : false),
-        "file_version_#{index}_is_representative" => (field == :is_representative ? token : false),
+        "file_version_#{index}_is_display_thumbnail" => (field == :is_display_thumbnail ? token : false),
       }
       importer_for(row).file_versions.first[field]
     end
@@ -2407,8 +2423,8 @@ describe "Import Digital Objects" do
         note_publish(Regexp.last_match(1), token)
       when /\Afile_version_(\d+)_publish\z/
         file_version_boolean(Regexp.last_match(1), :publish, token)
-      when /\Afile_version_(\d+)_is_representative\z/
-        file_version_boolean(Regexp.last_match(1), :is_representative, token)
+      when /\Afile_version_(\d+)_is_display_thumbnail\z/
+        file_version_boolean(Regexp.last_match(1), :is_display_thumbnail, token)
       end
     end
 
@@ -2440,12 +2456,12 @@ describe "Import Digital Objects" do
         overrides["note_#{index}_type"] = "bibliography"
         overrides["note_#{index}_label"] = "Label"
         overrides["note_#{index}_content"] = "Content"
-      when /\Afile_version_(\d+)_(publish|is_representative)\z/
+      when /\Afile_version_(\d+)_(publish|is_display_thumbnail)\z/
         index = Regexp.last_match(1)
         leaf = Regexp.last_match(2)
         overrides["file_version_#{index}_file_uri"] = "http://example.com/invalid-#{index}"
         if leaf == "publish"
-          overrides["file_version_#{index}_is_representative"] = "NO"
+          overrides["file_version_#{index}_is_display_thumbnail"] = "NO"
         else
           overrides["file_version_#{index}_publish"] = "NO"
         end
@@ -2511,10 +2527,10 @@ describe "Import Digital Objects" do
         "note_9_content" => "Strict note content",
         "file_version_2_file_uri" => "http://example.com/publish",
         "file_version_2_publish" => "YES",
-        "file_version_2_is_representative" => "NO",
+        "file_version_2_is_display_thumbnail" => "NO",
         "file_version_9_file_uri" => "http://example.com/representative",
         "file_version_9_publish" => "NO",
-        "file_version_9_is_representative" => "YES",
+        "file_version_9_is_display_thumbnail" => "YES",
         "user_defined_boolean_1" => "YES",
         "user_defined_boolean_2" => "YES",
         "user_defined_boolean_3" => "YES",
@@ -2535,8 +2551,8 @@ describe "Import Digital Objects" do
         expect(digital_object["restrictions"]).to eq(true)
         expect(digital_object.notes.first["publish"]).to eq(true)
         expect(publish_version["publish"]).to eq(true)
-        expect(publish_version["is_representative"]).to eq(false)
-        expect(representative_version["is_representative"]).to eq(true)
+        expect(publish_version["is_display_thumbnail"]).to eq(false)
+        expect(representative_version["is_display_thumbnail"]).to eq(true)
         expect(representative_version["publish"]).to eq(true)
         expect(digital_object.user_defined["boolean_1"]).to eq(true)
         expect(digital_object.user_defined["boolean_2"]).to eq(true)

@@ -1,6 +1,9 @@
 require 'spec_helper'
 require_relative '../../common/db/migrations/utils'
 
+# Covers the migration helper that sets the display flags from existing file versions (migration 180).
+# The file versions here are database rows from before that migration, so they still have the old
+# `is_representative` column, which the migration reads and then drops.
 describe 'FileVersionDisplayFlags' do
   let(:enum_ids) {
     {

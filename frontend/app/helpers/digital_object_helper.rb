@@ -65,6 +65,30 @@ module DigitalObjectHelper
     return processed_fields
   end
 
+  # Icon for a thumbnail with no image, by the digital object type
+  def thumbnail_icon_class(digital_object_type)
+    icon =
+      case digital_object_type.to_s
+      when 'moving_image' then 'glyphicon-film'
+      when /^sound_recording/ then 'glyphicon-headphones'
+      when 'still_image' then 'glyphicon-picture'
+      when 'text' then 'glyphicon-book'
+      else 'glyphicon-file'
+      end
+
+    "glyphicon #{icon}"
+  end
+
+  # Where a thumbnail links to: the digital object record for an accession, resource or archival object,
+  # otherwise the display link file version
+  def thumbnail_link_url(thumbnail)
+    if thumbnail['record_uri']
+      url_for(:controller => :resolver, :action => :resolve_readonly, :uri => thumbnail['record_uri'])
+    else
+      thumbnail['link_url']
+    end
+  end
+
   private
 
   def cleanup!(data)

@@ -54,6 +54,7 @@ describe AccessionsController, type: :controller do
                                                :caption => @fv_thumbnail_caption,
                                                :use_statement => 'image-thumbnail',
                                                :is_display_thumbnail => true,
+                                               :file_format_name => 'jpeg',
                                                :xlink_show_attribute => 'embed',
                                              }),
                                              build(:file_version, {
@@ -61,7 +62,7 @@ describe AccessionsController, type: :controller do
                                                :file_uri => @fv_master_uri,
                                                :caption => @fv_master_caption,
                                                :use_statement => 'image-service',
-                                               :is_representative => true,
+                                               :is_display_link => true,
                                              }),
                                            ]
       )
@@ -83,7 +84,8 @@ describe AccessionsController, type: :controller do
       expect(response).to render_template("shared/_thumbnail")
       page = Capybara.string(response.body)
       expect(page).to have_css(".pui-thumbnail img[src='#{@fv_thumbnail_uri}']")
-      expect(page).to have_css(".pui-thumbnail a[href='#{@fv_master_uri}']")
+      # links to the digital object record, not to a file version
+      expect(page).to have_css(".pui-thumbnail a[href$='#{@digi_obj_with_rep_file_ver.uri}']")
       page.find(:css, '.pui-thumbnail .pui-thumbnail-caption') do |fc|
         expect(fc.text).to have_content(@fv_thumbnail_caption)
       end

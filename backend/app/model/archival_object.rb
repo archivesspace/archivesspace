@@ -28,7 +28,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include TouchRecords
   include Arks
   include MixedContentValidatable
-  include Thumbnails
+  include Thumbnails::FromRepresentativeInstance
 
   enable_suppression
 

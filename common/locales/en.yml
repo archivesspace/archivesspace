@@ -1303,8 +1303,8 @@ en:
         </ul>
     identifier: Identifier
     caption: Caption
-    is_representative: Representative
     is_display_thumbnail: Display Thumbnail
+    is_display_link: Display Link
 
   extent: &extent_attributes
     portion: Portion
@@ -2551,6 +2551,8 @@ en:
     ark_format_error: One of the ARKs provided was not a valid ARK.
     mixed_content_invalid_inline_ead: "Invalid EAD markup: use straight quotes (\" or ') for attribute values and ensure tags are well-formed."
     mixed_content_disallowed_tag: "Disallowed HTML tag detected. For security reasons, tags like &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt;, and form elements are not permitted in mixed content fields."
+    display_thumbnail_must_be_published: Must be published to be the display thumbnail
+    display_link_must_be_published: Must be published to be the display link
 
   job:
     _singular: Background Job

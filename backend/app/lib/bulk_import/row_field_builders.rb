@@ -96,7 +96,7 @@ module RowFieldBuilders
   def representative_file_version
     if @row_hash['rep_file_uri'].present?
       {
-        is_representative: true,
+        is_display_thumbnail: true,
         file_uri: @row_hash['rep_file_uri'],
         xlink_actuate_attribute: @row_hash['rep_xlink_actuate_attribute'],
         xlink_show_attribute: @row_hash['rep_xlink_show_attribute'],
@@ -114,8 +114,10 @@ module RowFieldBuilders
 
   def non_representative_file_version
     if @row_hash['nonrep_file_uri'].present?
+      normalize_boolean_column(@row_hash, 'nonrep_publish')
       {
-        is_representative: false,
+        # the non-representative file version is what the thumbnail links to
+        is_display_link: !!@row_hash['nonrep_publish'],
         file_uri: @row_hash['nonrep_file_uri'],
         xlink_actuate_attribute: @row_hash['nonrep_xlink_actuate_attribute'],
         xlink_show_attribute: @row_hash['nonrep_xlink_show_attribute'],

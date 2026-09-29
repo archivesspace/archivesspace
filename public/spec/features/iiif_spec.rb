@@ -238,6 +238,7 @@ describe "IIIF integration" do
                                            use_statement: 'image-service',
                                            xlink_show_attribute: 'embed',
                                            file_uri: @image_url,
+                                           is_display_thumbnail: true,
                                            publish: true)
                                    ])
 

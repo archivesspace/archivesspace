@@ -176,22 +176,22 @@ module ResultInfo
 
           if version.dig('xlink_show_attribute') == 'embed'
             dig_f['thumb'] = version['file_uri']
-            dig_f['represent'] = 'embed' if version['is_representative']
+            dig_f['represent'] = 'embed' if version['is_display_thumbnail']
             # For an embedded file version, if the caption is empty,
             # 1. set the embed_caption to the title
             # 2. set the rep_caption to the title if it is a representative version
             if version['caption'].blank?
               embed_caption = version['title']
-              rep_caption = version['title'] if version['is_representative']
+              rep_caption = version['title'] if version['is_display_thumbnail']
             else
               # For an embedded file version, if the caption is not empty,
               # 1. set the embed_caption to the caption
               # 2. set the rep_caption to the caption if it is a representative version
               embed_caption = version['caption']
-              rep_caption = version['caption'] if version['is_representative']
+              rep_caption = version['caption'] if version['is_display_thumbnail']
             end
           else
-            dig_f['represent'] = 'new' if version['is_representative']
+            dig_f['represent'] = 'new' if version['is_display_thumbnail']
             dig_f['out'] = version['file_uri'] if version['file_uri'] != (dig_f['out'] || '')
             # if the caption is empty set the rep_caption to the title
             if version['caption'].blank?
@@ -238,7 +238,7 @@ module ResultInfo
           it = instance['digital_object']['_resolved']
           unless !it['publish'] || it['file_versions'].blank?
             it['file_versions'].each do |ver|
-              if ver['is_representative'] && ver['xlink_show_attribute'] == 'embed' && ver['publish']
+              if ver['is_display_thumbnail'] && ver['xlink_show_attribute'] == 'embed' && ver['publish']
                 rep['title'] = strip_mixed_content(it['title'])
                 rep['uri'] = ver['file_uri']
               end
