@@ -213,9 +213,9 @@ class Resource < Record
           end
           if version.dig('xlink_show_attribute') == 'embed'
             dig_f['thumb'] = version['file_uri']
-            dig_f['represent'] = 'embed' if version['is_representative']
+            dig_f['represent'] = 'embed' if version['is_display_thumbnail']
           else
-            dig_f['represent'] = 'new' if version['is_representative']
+            dig_f['represent'] = 'new' if version['is_display_thumbnail']
             dig_f['out'] = version['file_uri'] if version['file_uri'] != (dig_f['out'] || '')
           end
         elsif !version['file_uri'].start_with?('http')

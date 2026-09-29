@@ -92,7 +92,7 @@ describe DigitalObjectsController, type: :controller do
       @do2 = create(:digital_object, publish: true, :file_versions => [
         build(:file_version, {
           :publish => true,
-          :is_representative => true,
+          :is_display_thumbnail => true,
           :file_uri => img_uri,
           :use_statement => 'image-service'
         })
@@ -101,7 +101,7 @@ describe DigitalObjectsController, type: :controller do
       run_indexers
     end
 
-    it 'should render the representative file version image when one is set' do
+    it 'should render the display thumbnail file version image when one is set' do
       get(:tree_root, params: { rid: @repo.id, id: @do2.id })
 
       expect(response.body).to match(img_uri)

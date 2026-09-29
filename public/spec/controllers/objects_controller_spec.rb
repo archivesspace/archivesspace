@@ -25,7 +25,8 @@ describe ObjectsController, type: :controller do
       @do1 = create(:digital_object, publish: true, :file_versions => [
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
+          :is_display_thumbnail => true,
+          :file_format_name => 'jpeg',
           :file_uri => img_uri1,
           :caption => caption1,
           :use_statement => 'image-thumbnail',
@@ -33,26 +34,23 @@ describe ObjectsController, type: :controller do
         }),
         build(:file_version, {
           :publish => true,
-          :is_representative => true,
+          :is_display_link => true,
           :file_uri => img_uri2,
           :use_statement => 'image-service'
         }),
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
           :file_uri => img_uri3,
           :use_statement => 'image-service'
         }),
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
           :file_uri => img_uri4,
           :use_statement => 'image-service',
           :caption => caption2,
         }),
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
           :file_uri => img_uri5,
           :use_statement => '',
         })
@@ -61,7 +59,6 @@ describe ObjectsController, type: :controller do
       @do3 = create(:digital_object, publish: true, :file_versions => [
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
           :file_uri => 'data:ABC123',
           :xlink_show_attribute => "new", # can't be 'embed'!
         })
@@ -70,7 +67,7 @@ describe ObjectsController, type: :controller do
       @do4 = create(:digital_object, publish: true, :file_versions => [
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
+          :is_display_link => true,
           :file_uri => 'http://testing',
           :xlink_show_attribute => "new", # can't be 'embed'!
         })
@@ -79,7 +76,6 @@ describe ObjectsController, type: :controller do
       @do5 = create(:digital_object, publish: true, :file_versions => [
         build(:file_version, {
           :publish => true,
-          :is_representative => false,
           :file_uri => 'not_http_or_data',
           :xlink_show_attribute => "new",  # can't be 'embed'!
         })
@@ -99,8 +95,13 @@ describe ObjectsController, type: :controller do
       expect(page).to have_css(link_css)
     end
 
-    it "shows a 'generic icon' if no thumbnail is set, the "\
-         "file version is published, and is not marked as embed and file_uri is a link" do
+    it "lists the file versions not used as the display thumbnail or display link" do
+      get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do1.id })
+      listed = Capybara.string(response.body).all(:css, "#{additional_file_version_css} a", visible: :all).map { |a| a[:href] }
+      expect(listed).to contain_exactly(img_uri3, img_uri4, img_uri5)
+    end
+
+    it "shows a 'generic icon' linked to the display link, and nothing if no file version is marked" do
 
       get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: @do3.id })
       thumbnail_css = '.pui-thumbnail'
@@ -136,20 +137,20 @@ describe ObjectsController, type: :controller do
         :file_versions => [
           build(:file_version, {
             :publish => true,
-            :is_representative => false,
+            :is_display_thumbnail => true,
+            :file_format_name => 'jpeg',
             :file_uri => img_uri1,
             :use_statement => 'image-thumbnail',
             :xlink_show_attribute => 'embed',
           }),
           build(:file_version, {
             :publish => true,
-            :is_representative => true,
+            :is_display_link => true,
             :file_uri => img_uri2,
             :use_statement => 'image-service'
           }),
           build(:file_version, {
             :publish => true,
-            :is_representative => false,
             :file_uri => img_uri3,
             :use_statement => 'image-service'
           })
@@ -190,12 +191,14 @@ describe ObjectsController, type: :controller do
                                                      :publish => true,
                                                      :file_uri => @fv_thumbnail_uri,
                                                      :use_statement => 'image-thumbnail',
+                                                     :is_display_thumbnail => true,
+                                                     :file_format_name => 'jpeg',
                                                      :xlink_show_attribute => 'embed',
                                                      :caption => @fv_caption,
                                                    }),
                                                    build(:file_version, {
                                                      :publish => true,
-                                                     :is_representative => true,
+                                                     :is_display_link => true,
                                                      :file_uri => @fv_master_uri,
                                                      :use_statement => 'image-service'
                                                    })]
@@ -219,7 +222,7 @@ describe ObjectsController, type: :controller do
         get(:show, params: { rid: @repo.id, obj_type: 'archival_objects', id: @arch_obj_with_thumbnail.id })
         thumbnail_css = '.pui-thumbnail'
         image_css = ".pui-thumbnail img[src='#{@fv_thumbnail_uri}']"
-        link_css = ".pui-thumbnail a[href='#{@fv_master_uri}']"
+        link_css = ".pui-thumbnail a[href$='#{@digital_object_with_rep_file_ver.uri}']"
         caption_css = ".pui-thumbnail .pui-thumbnail-caption"
         page = response.body
         expect(page).to have_css(thumbnail_css)
