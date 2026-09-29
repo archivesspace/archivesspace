@@ -92,6 +92,7 @@
 
    <% if @exceptions.has_key?(:errors) %>
       <div class="alert alert-danger" role="alert" tabindex="-1">
+        <p class="error-heading"><strong><%= t("errors.submission_failed") %></strong></p>
          <% @exceptions[:errors].each do |attr, messages| %>
             <div class="errors-for-attribute">
               <% messages.each do |msg| %>

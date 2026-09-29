@@ -778,6 +778,7 @@ en:
 
   errors:
     sidebar_label: Errors and Warnings
+    submission_failed: Submission failed. Please correct the errors below.
     error_403: Unable to Access Page
     error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
     error_404: Record Not Found
