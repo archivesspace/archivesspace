@@ -17,11 +17,6 @@ describe 'Dropdown menu accessibility', js: true do
   end
 
   context 'global header' do
-    before(:all) do
-      expect(AppConfig[:plugins]).to include('cat_in_a_box')
-      expect(Plugins.system_menu_items).to include('cat_in_a_box')
-    end
-
     let(:global_header_menu_toggles) do
       {
         'Select Repository' => '.select-a-repository button.dropdown-toggle',
@@ -33,6 +28,11 @@ describe 'Dropdown menu accessibility', js: true do
     end
 
     it 'exposes haspopup and toggles expanded state for each menu' do
+      aggregate_failures 'plugins system menu' do
+        expect(AppConfig[:plugins]).to include('cat_in_a_box')
+        expect(Plugins.system_menu_items).to include('cat_in_a_box')
+      end
+
       aggregate_failures 'global header menu toggles' do
         global_header_menu_toggles.each do |label, selector|
           aggregate_failures label do
