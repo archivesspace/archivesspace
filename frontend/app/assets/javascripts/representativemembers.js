@@ -18,7 +18,6 @@ $(function () {
     function (event, object_name, subform) {
       // TODO: generalize?
       if (
-        object_name === 'file_version' ||
         object_name === 'instance' ||
         object_name === 'agent_contact' ||
         object_name === 'linked_agent'
@@ -45,32 +44,6 @@ $(function () {
         const $repBtn = $subform.find('.is-representative-toggle');
         const eventName =
           'newrepresentative' + object_name.replace(/_/, '') + '.aspace';
-
-        if (object_name === 'file_version') {
-          const $pubBox = $subform.find('.js-file-version-publish');
-
-          if ($pubBox.prop('checked') == false) {
-            $repBtn.prop('disabled', true);
-          } else {
-            $repBtn.prop('disabled', false);
-          }
-
-          $pubBox.click(function () {
-            if (
-              $subform.hasClass('is-representative') &&
-              $(this).prop('checked', true)
-            ) {
-              handleRepresentativeChange($subform, false, rep_field_name);
-              $(this).prop('checked', false);
-            }
-
-            if ($(this).prop('checked') == false) {
-              $repBtn.prop('disabled', true);
-            } else {
-              $repBtn.prop('disabled', false);
-            }
-          });
-        }
 
         if (isRepresentative) {
           $subform.addClass('is-representative');
@@ -100,46 +73,83 @@ $(function () {
     }
   );
 
-  function toggleThumbnail($subform, toggleOnOrOff) {
-    if (toggleOnOrOff === 'off') {
-      $subform.removeClass('is-thumbnail');
-      $subform.find(':hidden[name$="[is_display_thumbnail]"]').val(0);
-    } else {
-      $subform.addClass('is-thumbnail');
-      $subform.find(':hidden[name$="[is_display_thumbnail]"]').val(1);
-    }
+  // File versions: Make Display Thumbnail and Make Display Link. Each flag is held by at most
+  // one file version of the record (one file version may hold both), and only a published
+  // file version can hold one.
+  const FILE_VERSION_FLAGS = [
+    {
+      field: 'is_display_thumbnail',
+      css: 'is-thumbnail',
+      toggle: '.is-thumbnail-toggle',
+      label: '.is-thumbnail-label',
+    },
+    {
+      field: 'is_display_link',
+      css: 'is-display-link',
+      toggle: '.is-display-link-toggle',
+      label: '.is-display-link-label',
+    },
+  ];
+
+  function setFileVersionFlag($subform, flag, on) {
+    $subform.toggleClass(flag.css, on);
+    $subform.find(':hidden[name$="[' + flag.field + ']"]').val(on ? 1 : 0);
+    $subform.trigger('formchanged.aspace');
   }
 
   $(document).bind(
     'subrecordcreated.aspace',
     function (event, object_name, subform) {
-      if (object_name === 'file_version') {
-        const $subform = $(subform);
-        const $section = $subform.closest('section.subrecord-form');
+      if (object_name !== 'file_version') return;
 
-        if (
-          $subform.find(':hidden[name$="[is_display_thumbnail]"]').val() === '1'
-        ) {
-          $subform.addClass('is-thumbnail');
-        }
+      const $subform = $(subform);
+      const $section = $subform.closest('section.subrecord-form');
+      const $pubBox = $subform.find('.js-file-version-publish');
 
-        $subform.find('.is-thumbnail-toggle').click(function (e) {
-          e.preventDefault();
-
-          $(this).parent().off('click');
-
-          toggleThumbnail($section.find('.is-thumbnail'), 'off');
-          toggleThumbnail($subform, 'on');
-        });
-
-        $subform.find('.is-thumbnail-label').click(function (e) {
-          e.preventDefault();
-
-          $(this).parent().off('click');
-
-          toggleThumbnail($subform, 'off');
+      function updateToggles() {
+        const published = $pubBox.prop('checked');
+        FILE_VERSION_FLAGS.forEach(function (flag) {
+          $subform.find(flag.toggle).prop('disabled', !published);
         });
       }
+
+      FILE_VERSION_FLAGS.forEach(function (flag) {
+        if (
+          $subform.find(':hidden[name$="[' + flag.field + ']"]').val() === '1'
+        ) {
+          $subform.addClass(flag.css);
+        }
+
+        $subform.on('click', flag.toggle, function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          $section.find('.' + flag.css).each(function () {
+            setFileVersionFlag($(this), flag, false);
+          });
+          setFileVersionFlag($subform, flag, true);
+          $('.tooltip').tooltip('hide');
+        });
+
+        $subform.on('click', flag.label, function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          setFileVersionFlag($subform, flag, false);
+          $('.tooltip').tooltip('hide');
+        });
+      });
+
+      $pubBox.on('change', function () {
+        if (!$pubBox.prop('checked')) {
+          FILE_VERSION_FLAGS.forEach(function (flag) {
+            setFileVersionFlag($subform, flag, false);
+          });
+        }
+        updateToggles();
+      });
+
+      updateToggles();
     }
   );
 });

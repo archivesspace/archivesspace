@@ -33,7 +33,8 @@ class Resource < Sequel::Model(:resource)
   include Assessments::LinkedRecord
   include Arks
   include MixedContentValidatable
-  include Thumbnails
+  include RepresentativeInstanceThumbnails
+  include ResourceTreeThumbnails
 
   enable_suppression
 

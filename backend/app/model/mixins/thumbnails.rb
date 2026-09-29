@@ -1,298 +1,87 @@
+# Calculates the read-only `thumbnail` property shown for a record in the staff and public interfaces.
+# The functions here are shared by the mixins that add the property to models:
+#
+#   * FileVersionThumbnails: Digital Objects and Digital Object Components
+#   * RepresentativeInstanceThumbnails: Accessions, Archival Objects and Resources
+#   * ResourceTreeThumbnails: the Archival Object fallback of Resources
+#
+# A Digital Object's thumbnail comes from its own published File Versions:
+#
+#   * the File Version marked `is_display_thumbnail` supplies the image, if it is a renderable image
+#     (otherwise a generic icon is shown)
+#   * the File Version marked `is_display_link` supplies the link; there is no fallback, so without
+#     one the thumbnail or generic icon has no link
+#   * with neither marked, there is no thumbnail
+#   * caption: the thumbnail File Version's caption, else the link File Version's caption,
+#     else the record's title (display string for a component)
 module Thumbnails
-  def self.included(base)
-    base.extend(ClassMethods)
+  def self.renderable_image?(file_version)
+    link?(file_version['file_uri']) &&
+      file_version['xlink_show_attribute'] != 'new' &&
+      AppConfig[:thumbnail_file_format_names].include?(file_version['file_format_name'])
   end
 
-  ThumbnailCandidate =
-    Struct.new(:instance_is_representative,
-               :digital_object_title,
-               :file_version_file_uri,
-               :file_version_use_statement,
-               :file_version_file_format_name,
-               :file_version_xlink_show_attribute,
-               :file_version_is_representative,
-               :file_version_is_display_thumbnail,
-               :file_version_caption) do
-    def self.from_hash(h)
-      new(*members.map {|m| h.fetch(m)})
+  def self.link?(file_uri)
+    ['http', 'https'].include?(URI(file_uri.to_s.strip).scheme)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  # file_versions: hashes with the file_version JSONModel property names
+  def self.thumbnail_for_file_versions(file_versions, title, digital_object_type)
+    published = file_versions.select { |fv| fv['publish'] }
+    thumbnail_fv = published.find { |fv| fv['is_display_thumbnail'] }
+    link_fv = published.find { |fv| fv['is_display_link'] }
+
+    return nil unless thumbnail_fv || link_fv
+
+    {
+      'image_url' => (thumbnail_fv['file_uri'] if thumbnail_fv && renderable_image?(thumbnail_fv)),
+      'link_url' => (link_fv['file_uri'] if link_fv),
+      'caption' => [thumbnail_fv, link_fv].compact.map { |fv| fv['caption'] }.find { |caption| caption && !caption.strip.empty? } || title,
+      'digital_object_type' => digital_object_type,
+    }.compact
+  end
+
+  # Thumbnails of the published, unsuppressed Digital Objects with the given ids, keyed by id,
+  # linking to the Digital Object record.
+  def self.digital_object_thumbnails(digital_object_ids)
+    return {} if digital_object_ids.empty?
+
+    digital_objects = DigitalObject.any_repo
+                        .filter(:id => digital_object_ids, :publish => 1, :suppressed => 0)
+                        .select(:id, :repo_id, :title, :digital_object_type_id)
+                        .all
+
+    file_versions = FileVersion
+                      .filter(:digital_object_id => digital_objects.map(&:id), :publish => 1)
+                      .order(:id)
+                      .all
+                      .group_by(&:digital_object_id)
+
+    digital_objects.each_with_object({}) do |digital_object, result|
+      thumbnail = thumbnail_for_file_versions(
+        file_versions.fetch(digital_object.id, []).map { |fv| file_version_hash(fv) },
+        digital_object.title,
+        BackendEnumSource.value_for_id('digital_object_digital_object_type', digital_object.digital_object_type_id)
+      )
+      next unless thumbnail
+
+      thumbnail.delete('link_url')
+      thumbnail['record_uri'] = JSONModel(:digital_object).uri_for(digital_object.id, :repo_id => digital_object.repo_id)
+      result[digital_object.id] = thumbnail
     end
   end
 
-  module ClassMethods
-    def fetch_thumbnail_candidates(objs)
-      candidates = {}
-
-      candidate_query =
-        if self.included_modules.include?(FileVersions)
-          # Digital Object and Digital Object Components
-          self
-            .join(:file_version, Sequel.qualify(:file_version, :"#{self.table_name}_id") => Sequel.qualify(self.table_name, :id))
-            .filter(Sequel.qualify(self.table_name, :id) => objs.map(&:id))
-            .filter(Sequel.qualify(:file_version, :publish) => 1)
-            .order(Sequel.qualify(:file_version, :id))
-            .select(
-              Sequel.as(Sequel.qualify(self.table_name, :id), :record_id),
-              Sequel.as(Sequel.qualify(self.table_name, :title), :digital_object_title),
-              Sequel.as(Sequel.qualify(:file_version, :file_uri), :file_version_file_uri),
-              Sequel.as(Sequel.qualify(:file_version, :use_statement_id), :file_version_use_statement_id),
-              Sequel.as(Sequel.qualify(:file_version, :file_format_name_id), :file_version_file_format_name_id),
-              Sequel.as(Sequel.qualify(:file_version, :is_representative), :file_version_is_representative),
-              Sequel.as(Sequel.qualify(:file_version, :is_display_thumbnail), :file_version_is_display_thumbnail),
-              Sequel.as(Sequel.qualify(:file_version, :caption), :file_version_caption),
-              Sequel.as(Sequel.qualify(:file_version, :xlink_show_attribute_id), :file_version_xlink_show_attribute_id))
-
-        elsif self.name == 'FileVersion'
-          FileVersion
-            .filter(Sequel.qualify(:file_version, :id) => objs.map(&:id))
-            .order(Sequel.qualify(:file_version, :id))
-            .select(
-              Sequel.as(Sequel.qualify(:file_version, :id), :record_id),
-              Sequel.as(Sequel.qualify(:file_version, :file_uri), :file_version_file_uri),
-              Sequel.as(Sequel.qualify(:file_version, :use_statement_id), :file_version_use_statement_id),
-              Sequel.as(Sequel.qualify(:file_version, :file_format_name_id), :file_version_file_format_name_id),
-              Sequel.as(Sequel.qualify(:file_version, :is_representative), :file_version_is_representative),
-              Sequel.as(Sequel.qualify(:file_version, :is_display_thumbnail), :file_version_is_display_thumbnail),
-              Sequel.as(Sequel.qualify(:file_version, :caption), :file_version_caption),
-              Sequel.as(Sequel.qualify(:file_version, :xlink_show_attribute_id), :file_version_xlink_show_attribute_id))
-
-        elsif self.included_modules.include?(Instances)
-          instance_fk_col = :"#{self.table_name}_id"
-
-          Instance
-            .join(:instance_do_link_rlshp, Sequel.qualify(:instance_do_link_rlshp, :instance_id) => Sequel.qualify(:instance, :id))
-            .join(:digital_object, Sequel.qualify(:digital_object, :id) => Sequel.qualify(:instance_do_link_rlshp, :digital_object_id))
-            .join(:file_version, Sequel.qualify(:file_version, :digital_object_id) => Sequel.qualify(:digital_object, :id))
-            .filter(Sequel.qualify(:instance, instance_fk_col) => objs.map(&:id))
-            .filter(Sequel.qualify(:digital_object, :publish) => 1)
-            .filter(Sequel.~(Sequel.qualify(:digital_object, :suppressed) => 1))
-            .filter(Sequel.qualify(:file_version, :publish) => 1)
-            .order(Sequel.qualify(:file_version, :id))
-            .select(
-              Sequel.as(Sequel.qualify(:instance, instance_fk_col), :record_id),
-              Sequel.as(Sequel.qualify(:instance, :is_representative), :instance_is_representative),
-              Sequel.as(Sequel.qualify(:digital_object, :title), :digital_object_title),
-              Sequel.as(Sequel.qualify(:file_version, :file_uri), :file_version_file_uri),
-              Sequel.as(Sequel.qualify(:file_version, :use_statement_id), :file_version_use_statement_id),
-              Sequel.as(Sequel.qualify(:file_version, :file_format_name_id), :file_version_file_format_name_id),
-              Sequel.as(Sequel.qualify(:file_version, :is_representative), :file_version_is_representative),
-              Sequel.as(Sequel.qualify(:file_version, :is_display_thumbnail), :file_version_is_display_thumbnail),
-              Sequel.as(Sequel.qualify(:file_version, :caption), :file_version_caption),
-              Sequel.as(Sequel.qualify(:file_version, :xlink_show_attribute_id), :file_version_xlink_show_attribute_id))
-
-        else
-          raise "Record type does not support thumbnails: #{self.name}"
-        end
-
-      candidate_query.each do |row|
-        candidates[row[:record_id]] ||= []
-        candidates[row[:record_id]] << ThumbnailCandidate.from_hash(
-          :instance_is_representative => row[:instance_is_representative] == 1,
-          :digital_object_title => row[:digital_object_title],
-          :file_version_file_uri => row[:file_version_file_uri],
-          :file_version_use_statement => BackendEnumSource.value_for_id('file_version_use_statement', row[:file_version_use_statement_id]),
-          :file_version_file_format_name => BackendEnumSource.value_for_id('file_version_file_format_name', row[:file_version_file_format_name_id]),
-          :file_version_xlink_show_attribute => BackendEnumSource.value_for_id('file_version_xlink_show_attribute', row[:file_version_xlink_show_attribute_id]),
-          :file_version_is_representative => row[:file_version_is_representative] == 1,
-          :file_version_is_display_thumbnail => row[:file_version_is_display_thumbnail] == 1,
-          :file_version_caption => row[:file_version_caption]
-        )
-      end
-
-      candidates
-    end
-
-    def find_preferred_thumbnail_candidate(thumbnail_candidates)
-      scored_candidates =
-        thumbnail_candidates
-          .filter { |candidate| is_candidate_a_link?(candidate) }
-          .filter { |candidate| is_candidate_embeddable?(candidate) }
-          .map { |candidate|
-            score =
-              if candidate.file_version_is_display_thumbnail
-                # If present, use `is_display_thumbnail` flag to explicitly designate a file version as the thumbnail.
-                1_000
-              elsif candidate.file_version_use_statement == 'image-thumbnail'
-                # If none, prefer a file with `use_statement=image-thumbnail`.
-                100
-              elsif is_candidate_an_image?(candidate)
-                # If none, prefer a representative file version if it is an allowed image type.
-                10
-              else
-                0
-              end
-
-            # If an instance is marked as representative, prefer its file versions; otherwise, pool all linked DOs.
-            if candidate.instance_is_representative && score > 0
-              score += 10_000
-            end
-
-            [candidate, score]
-          }.to_h
-
-      best_score = scored_candidates.values.max
-
-      scored_candidates
-        .keys
-        .filter { |candidate| scored_candidates[candidate] == best_score }
-        .filter { |candidate| scored_candidates[candidate] > 0 }
-        .first
-    end
-
-    def calculate_image_url(thumbnail_candidates)
-      preferred_candidate = find_preferred_thumbnail_candidate(thumbnail_candidates)
-
-      if preferred_candidate
-        preferred_candidate.file_version_file_uri
-      else
-        nil
-      end
-    end
-
-    def calculate_link_url(thumbnail_candidates)
-      scored_candidates =
-        thumbnail_candidates
-          .filter { |candidate| is_candidate_a_link?(candidate) }
-          .map { |candidate|
-            score =
-              if candidate.file_version_is_representative
-                # Prefer the representative file version
-                1_000
-              elsif candidate.file_version_use_statement != 'image-thumbnail' && candidate.file_version_xlink_show_attribute != 'embed'
-                # If none, prefer the first non-thumbnail/embed file version.
-                100
-              else
-                # If none, fall back to the first available.
-                10
-              end
-
-
-            # If an instance is marked as representative, prefer its file versions; otherwise, pool all linked DOs.
-            if candidate.instance_is_representative
-              score += 10_000
-            end
-
-            [candidate, score]
-          }.to_h
-
-      best_score = scored_candidates.values.max
-
-      best_match =
-        scored_candidates
-          .keys
-          .filter { |candidate| scored_candidates[candidate] == best_score }
-          .filter { |candidate| scored_candidates[candidate] > 0 }
-          .first
-
-      if best_match
-        best_match.file_version_file_uri
-      end
-    end
-
-    ScoredCaption = Struct.new(:candidate, :caption)
-    def calculate_caption(record_json, thumbnail_candidates)
-      scored_captions = {}
-
-      # Prefer the thumbnail caption.
-      preferred_thumbnail = find_preferred_thumbnail_candidate(thumbnail_candidates)
-      if preferred_thumbnail && preferred_thumbnail.file_version_caption
-        return preferred_thumbnail.file_version_caption
-      end
-
-      thumbnail_candidates.each do |candidate|
-        # If absent, use representative’s caption.
-        if candidate.file_version_is_representative && candidate.file_version_caption
-          scored_captions[ScoredCaption.new(candidate, candidate.file_version_caption)] = 10_000
-        end
-
-        # If absent, use the representative’s Digital Object title
-        if candidate.file_version_is_representative
-          scored_captions[ScoredCaption.new(candidate, candidate.digital_object_title)] ||= 1_000
-        end
-
-        # If absent, use the thumbnail’s Digital Object title.
-        if candidate == preferred_thumbnail
-          scored_captions[ScoredCaption.new(candidate, candidate.digital_object_title)] ||= 100
-        end
-
-        # If absent, use the first DO’s title.
-        scored_captions[ScoredCaption.new(candidate, candidate.digital_object_title)] ||= 10
-      end
-
-      # If an instance is marked as representative, prefer its file versions; otherwise, pool all linked DOs.
-      # Bump the score of any representative instance candidates
-      scored_captions.keys.each do |scored_caption|
-        if scored_caption.candidate.instance_is_representative
-          scored_captions[scored_caption] += 100_000
-        end
-      end
-
-      best_score = scored_captions.values.max
-
-      best_match =
-        scored_captions
-          .keys
-          .filter { |scored_caption| scored_captions[scored_caption] == best_score }
-          .filter { |scored_caption| scored_captions[scored_caption] > 0 }
-          .first
-
-      if best_match
-        return best_match.caption
-      end
-
-      # If absent, fall back to the record display string.
-      record_json['display_string'] || record_json['title']
-    end
-
-    def is_candidate_embeddable?(candidate)
-      candidate.file_version_xlink_show_attribute != 'new'
-    end
-
-    def is_candidate_a_link?(candidate)
-      begin
-        uri = URI(candidate.file_version_file_uri)
-        if ['http', 'https'].include?(uri.scheme)
-          true
-        else
-          false
-        end
-      rescue
-        false
-      end
-    end
-
-    def is_candidate_an_image?(candidate)
-      AppConfig[:thumbnail_file_format_names].include?(candidate.file_version_file_format_name) &&
-        is_candidate_a_link?(candidate)
-    end
-
-    def find_a_thumbnail(record_json, thumbnail_candidates)
-      if thumbnail_candidates.empty?
-        return nil
-      end
-
-      image_url = calculate_image_url(thumbnail_candidates)
-      link_url = calculate_link_url(thumbnail_candidates)
-
-      if image_url || link_url
-        {
-          'image_url' => image_url, # placeholder will show if image_url is null
-          'link_url' => link_url,
-          'caption' => calculate_caption(record_json, thumbnail_candidates),
-        }
-      else
-        nil
-      end
-    end
-
-    def sequel_to_jsonmodel(objs, opts = {})
-      jsons = super
-      thumbnail_candidates_map = fetch_thumbnail_candidates(objs)
-
-      jsons.zip(objs).each do |json, obj|
-        json['thumbnail'] = find_a_thumbnail(json, thumbnail_candidates_map.fetch(obj.id, []))
-      end
-
-      jsons
-    end
+  def self.file_version_hash(file_version)
+    {
+      'file_uri' => file_version.file_uri,
+      'publish' => file_version.publish == 1,
+      'caption' => file_version.caption,
+      'is_display_thumbnail' => file_version.is_display_thumbnail == 1,
+      'is_display_link' => file_version.is_display_link == 1,
+      'file_format_name' => BackendEnumSource.value_for_id('file_version_file_format_name', file_version.file_format_name_id),
+      'xlink_show_attribute' => BackendEnumSource.value_for_id('file_version_xlink_show_attribute', file_version.xlink_show_attribute_id),
+    }
   end
 end

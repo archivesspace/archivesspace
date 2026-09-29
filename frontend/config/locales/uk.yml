@@ -521,6 +521,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
+      thumbnail: Мініатюра зображення
     resource:
       score: Релевантність
       title: Релевантність
@@ -544,6 +545,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
+      thumbnail: Мініатюра зображення
     archival_object:
       score: Релевантність
       title: Назва
@@ -561,6 +563,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
+      thumbnail: Мініатюра зображення
     subject:
       score: Релевантність
       source: Джерело
@@ -591,6 +594,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
+      thumbnail: Мініатюра зображення
     digital_object_component:
       score: Релевантність
       title: Назва
@@ -605,6 +609,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
+      thumbnail: Мініатюра зображення
     agent:
       score: Релевантність
       title: Ім'я
@@ -816,6 +821,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
+      thumbnail: Мініатюра зображення
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Репозиторій
   become-user:

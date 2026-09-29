@@ -41,6 +41,20 @@ module ViewHelper
     record.primary_type == 'resource'
   end
 
+  # Icon for a thumbnail with no image, by the digital object type
+  def thumbnail_icon_class(digital_object_type)
+    icon =
+      case digital_object_type.to_s
+      when 'moving_image' then 'fa-file-video-o'
+      when /^sound_recording/ then 'fa-file-audio-o'
+      when 'still_image' then 'fa-file-image-o'
+      when 'text' then 'fa-file-text-o'
+      else 'fa-file-o'
+      end
+
+    "fa #{icon}"
+  end
+
   def nl2ws(text)
     text = text.join(' ') if text.respond_to? :each
     sanitize(text).gsub(/\n/, ' ').html_safe

@@ -114,4 +114,103 @@ describe SearchController, type: :controller do
                                     }, format: :json
     end
   end
+
+  context 'thumbnail column in search results' do
+
+    RECORD_TYPES = %w(digital_object digital_object_component resource accession archival_object)
+
+    def stub_search_results
+      allow(JSONModel::HTTP).to receive(:get_json) do |endpoint, criteria|
+        record_types = criteria.has_key?("type[]") ? criteria["type[]"] : RECORD_TYPES
+        {
+          "page_size"=>10,
+          "first_page"=>1,
+          "last_page"=>90,
+          "this_page"=>1,
+          "offset_first"=>1,
+          "offset_last"=>10,
+          "total_hits"=>10,
+          "results"=> record_types.map { |type| {
+                                           "id" => "abc",
+                                           "title" => "Example",
+                                           "types" => [type],
+                                           "json" => {
+                                             "uri" => "/repositories/999/#{type}s/1",
+                                             "thumbnail" => {
+                                               "image_url" => "http://foo.com/bar.jpg",
+                                               "caption" => "A caption",
+                                             }
+                                           }.to_json,
+                                           "resource" => "/repositories/999/resources/999",
+                                         }
+          },
+          "facets" => {
+            "facet_fields" => []
+          }
+        }
+      end
+    end
+
+    def stub_browse_column_preference(value)
+      preference_prefixes = RECORD_TYPES + ['multi']
+      allow(JSONModel::HTTP).to receive(:get_json)
+                                  .with("/repositories/999/current_preferences")
+                                  .and_return({
+                                                "defaults" => Hash[preference_prefixes.map { |record_type|
+                                                                     ["#{record_type}_browse_column_1", value]
+                                                                   }]})
+    end
+
+    before(:each) do
+      session = User.login('admin', 'admin')
+      User.establish_session(controller, session, 'admin')
+      controller.session[:repo_id] = 999
+
+      stub_search_results
+    end
+
+    context 'when chosen in the browse column preferences' do
+      before(:each) do
+        stub_browse_column_preference('thumbnail')
+      end
+
+      RECORD_TYPES.each do |record_type|
+        it "shows the thumbnail when searching for #{record_type}" do
+          get :do_search, format: :js, params: {
+                "type[]" => record_type
+              }, xhr: true
+
+          body = Nokogiri::HTML.parse(response.body)
+          expect(body.xpath("//th[contains(@class, 'thumbnail-column')]").size).to eq 1
+          expect(body.css("td.thumbnail-column img[src='http://foo.com/bar.jpg'][alt='A caption']").size).to eq 1
+        end
+      end
+
+      it "shows the thumbnail when searching across types" do
+        get :do_search, format: :js, params: {}, xhr: true
+
+        body = Nokogiri::HTML.parse(response.body)
+        expect(body.xpath("//th[contains(@class, 'thumbnail-column')]").size).to eq 1
+        expect(body.css("td.thumbnail-column img[src='http://foo.com/bar.jpg']").size).to eq RECORD_TYPES.length
+      end
+    end
+
+    it "is not shown when not chosen in the browse column preferences" do
+      stub_browse_column_preference('title')
+
+      get :do_search, format: :js, params: {}, xhr: true
+
+      body = Nokogiri::HTML.parse(response.body)
+      expect(body.xpath("//th[contains(@class, 'thumbnail-column')]").size).to eq 0
+    end
+
+    (RECORD_TYPES + ['multi']).each do |record_type|
+      it "is a browse column option but not a sort column option for #{record_type}" do
+        properties = JSONModel(:defaults).schema['properties']
+
+        expect(properties["#{record_type}_browse_column_1"]['enum']).to include('thumbnail')
+        expect(properties["#{record_type}_sort_column"]['enum']).not_to include('thumbnail')
+      end
+    end
+  end
 end

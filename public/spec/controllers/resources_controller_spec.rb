@@ -20,14 +20,15 @@ describe ResourcesController, type: :controller do
                                             :file_versions => [
                                               build(:file_version, {
                                                 :publish => true,
-                                                :is_representative => false,
+                                                :is_display_thumbnail => true,
+                                                :file_format_name => 'jpeg',
                                                 :file_uri => @fv_thumbnail_uri,
                                                 :use_statement => 'image-thumbnail',
                                                 :xlink_show_attribute => 'embed',
                                               }),
                                               build(:file_version, {
                                                 :publish => true,
-                                                :is_representative => true,
+                                                :is_display_link => true,
                                                 :file_uri => @fv_master_uri,
                                                 :caption => @fv_caption,
                                                 :use_statement => 'image-service'
@@ -163,7 +164,9 @@ describe ResourcesController, type: :controller do
       page = Capybara.string(response.body)
 
       expect(page).to have_css(".pui-thumbnail img[src='#{@fv_thumbnail_uri}']")
-      expect(page).to have_css(".pui-thumbnail a[href='#{@fv_master_uri}']")
+      # links to the digital object record, not to a file version
+      expect(page).to have_css(".pui-thumbnail a[href$='#{@digital_object_with_thumbnail.uri}']")
+      # the display link's caption, as the display thumbnail has none
       page.find(:css, '.pui-thumbnail .pui-thumbnail-caption') do |fc|
         expect(fc.text).to have_content(@fv_caption)
       end

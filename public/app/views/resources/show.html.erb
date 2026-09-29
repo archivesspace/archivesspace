@@ -39,7 +39,7 @@
     <% if @result.iiif_manifest %>
       <%= render partial: 'shared/iiif_embed', locals: {result: @result} %>
     <% end %>
-    <%= render partial: 'shared/thumbnail', locals: {result: @result} %>
+    <%= render partial: 'shared/thumbnail', locals: {result: @result, n_digital_objects: @n_digital_objects} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
 </div>
