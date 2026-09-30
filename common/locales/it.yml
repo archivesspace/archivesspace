@@ -9,7 +9,20 @@ it:
       agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"
       agent_missing_type: "L'agente %{num} richiede un tipo di agente"
       agent_unsupported_type: "L'agente %{num} ha un tipo di agente non supportato '%{agent_type}'"
+      event_validation: "Impossibile creare il gruppo evento %{group} (%{type}): %{err}"
+      invalid_event_type: "Il gruppo evento %{group}, campo %{field}, non è un tipo di evento esistente: '%{value}'"
+      invalid_event_outcome: "Il gruppo evento %{group}, campo %{field}, non è un esito di evento esistente: '%{value}'"
+      event_required_field: "Il gruppo evento %{group}, campo %{field}, è obbligatorio"
+      invalid_event_date: "Il gruppo evento %{group}, campo %{field}, non è una data evento valida: '%{value}'"
+      invalid_event_date_label: "Il gruppo evento %{group}, campo %{field}, non è un'etichetta di data esistente: '%{value}'"
+      event_date_label_without_date: "Il gruppo evento %{group}, campo %{field}, richiede una data: '%{value}'"
+      event_agent_type_with_uri: "Il gruppo evento %{group}, campo %{field}, deve essere vuoto quando %{record_field} è un URI: '%{value}'"
+      event_agent_unsupported_type: "Il gruppo evento %{group}, campo %{field}, non è un tipo di agente supportato: '%{value}'"
+      invalid_event_agent_role: "Il gruppo evento %{group}, campo %{field}, non è un ruolo di agente evento esistente: '%{value}'"
+      invalid_event_agent_record_id: "Il gruppo evento %{group}, campo %{field}, deve essere un ID numerico o un URI agente canonico: '%{value}'"
+      event_agent_not_found: "Il gruppo evento %{group}, campo %{field}, non corrisponde a un agente esistente: '%{value}'"
     agent: Agente
+    event_created: "Gruppo evento %{group} creato: %{type}"
   states:
     suppressed: Bloccato
     deleted: Eliminato

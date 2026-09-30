@@ -9,7 +9,20 @@ he:
       agent_missing_identity: "סוכן %{num} דורש מזהה רשומה או כותרת"
       agent_missing_type: "סוכן %{num} דורש סוג סוכן"
       agent_unsupported_type: "לסוכן %{num} יש סוג סוכן שאינו נתמך '%{agent_type}'"
+      event_validation: "לא ניתן ליצור את קבוצת האירוע %{group} (%{type}): %{err}"
+      invalid_event_type: "קבוצת אירוע %{group}, שדה %{field}, אינה סוג אירוע קיים: '%{value}'"
+      invalid_event_outcome: "קבוצת אירוע %{group}, שדה %{field}, אינה תוצאת אירוע קיימת: '%{value}'"
+      event_required_field: "קבוצת אירוע %{group}, שדה %{field}, הוא שדה חובה"
+      invalid_event_date: "קבוצת אירוע %{group}, שדה %{field}, אינה תאריך אירוע תקין: '%{value}'"
+      invalid_event_date_label: "קבוצת אירוע %{group}, שדה %{field}, אינה תווית תאריך קיימת: '%{value}'"
+      event_date_label_without_date: "קבוצת אירוע %{group}, שדה %{field}, דורש תאריך: '%{value}'"
+      event_agent_type_with_uri: "קבוצת אירוע %{group}, שדה %{field}, חייב להיות ריק כאשר %{record_field} הוא URI: '%{value}'"
+      event_agent_unsupported_type: "קבוצת אירוע %{group}, שדה %{field}, אינו סוג סוכן נתמך: '%{value}'"
+      invalid_event_agent_role: "קבוצת אירוע %{group}, שדה %{field}, אינו תפקיד סוכן אירוע קיים: '%{value}'"
+      invalid_event_agent_record_id: "קבוצת אירוע %{group}, שדה %{field}, חייב להיות מזהה מספרי או URI קנוני של סוכן: '%{value}'"
+      event_agent_not_found: "קבוצת אירוע %{group}, שדה %{field}, אינו תואם לסוכן קיים: '%{value}'"
     agent: סוכן
+    event_created: "קבוצת אירוע %{group} נוצרה: %{type}"
   reports:
     formats:
       json: JSON
