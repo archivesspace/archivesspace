@@ -1,4 +1,15 @@
 he:
+  bulk_import:
+    error:
+      unrecognized_boolean: "העמודה %{column} דורשת ערך בוליאני; התקבל '%{value}'"
+      invalid_user_defined_integer: "מספר שלם לא חוקי המוגדר על ידי המשתמש: %{value}"
+      invalid_file_version_size: "העמודה %{column} דורשת מספר שלם של בתים; התקבל '%{value}'"
+      invalid_user_defined_real: "מספר ממשי לא חוקי המוגדר על ידי המשתמש: %{value}"
+      subject_missing_identity: "נושא %{num} דורש מזהה רשומה או מונח"
+      agent_missing_identity: "סוכן %{num} דורש מזהה רשומה או כותרת"
+      agent_missing_type: "סוכן %{num} דורש סוג סוכן"
+      agent_unsupported_type: "לסוכן %{num} יש סוג סוכן שאינו נתמך '%{agent_type}'"
+    agent: סוכן
   reports:
     formats:
       json: JSON
@@ -23,6 +34,9 @@ he:
       וודא שהתגים מעוצבים כהלכה."
     mixed_content_disallowed_tag: "התגלה תג HTML לא מורשה. מטעמי אבטחה, תגים כגון &lt;script&gt;, &lt;style&gt;,
       &lt;iframe&gt; ואלמנטי טפסים אינם מורשים בשדות תוכן מעורב."
+  group:
+    default_group_names:
+      pui_viewers: צופי PUI
   importer:
     error:
       agent_mode_conflict: "קבוצת הסוכן %{index} אינה יכולה להכיל גם מזהה רשומה וגם ערכים ליצירת רשומה חדשה"

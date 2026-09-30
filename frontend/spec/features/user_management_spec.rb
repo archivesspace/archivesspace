@@ -411,4 +411,30 @@ describe 'User management', js: true do
 
     expect(page).to have_checked_field('user_is_active_user_')
   end
+
+  context 'when pui_require_authentication is disabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_require_authentication).and_return(false)
+    end
+
+    it "preserves a user's pui viewer access when editing other fields" do
+      user = create_user({}, true, true)
+      visit "/users/#{user.id}/edit"
+
+      expect(page).to have_no_field('user_is_pui_viewer_', visible: :visible)
+      expect(page).to have_field('user_is_pui_viewer_', type: 'hidden', with: '1')
+
+      fill_in 'Full name', with: "Updated Full Name"
+      find('button', text: 'Update Account', match: :first).click
+
+      expect(page).to have_text 'User Saved'
+
+      within 'tr', text: user.username do
+        click_on 'Edit'
+      end
+
+      expect(page).to have_field('user_is_pui_viewer_', type: 'hidden', with: '1')
+    end
+  end
 end

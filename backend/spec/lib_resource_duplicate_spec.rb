@@ -758,7 +758,7 @@ describe "Resource Duplicate" do
     result_hash = {}
 
     graph.models.each do |model|
-      result_hash[model] = graph.ids_for(model)
+      result_hash[model] = graph.ids_for(model).sort
     end
 
     result_hash

@@ -49,6 +49,26 @@ class User < JSONModel(:user)
   end
 
 
+  def self.request_pui_session
+    response = JSONModel::HTTP.post_form('/users/current-user/pui-session')
+
+    if response.code == '200'
+      ASUtils.json_parse(response.body)
+    else
+      nil
+    end
+  end
+
+
+  def self.logout
+    JSONModel::HTTP.post_form('/logout')
+  rescue ArchivesSpace::SessionGone, ArchivesSpace::SessionExpired
+  rescue StandardError => e
+    Rails.logger.error("User.logout: could not reach the backend to expire the session (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+  end
+
+
   def self.become_user(context, username)
     return false if username == "admin"
     uri = JSONModel(:user).uri_for("#{username}/become-user")

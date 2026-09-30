@@ -55,6 +55,12 @@ AppConfig[:docs_url] = "http://localhost:8888"
 AppConfig[:frontend_log] = "default"
 # Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:frontend_log_level] = "debug"
+
+# Maximum number of fields in a multipart form submitted to the staff interface
+# (Rack's default is 4096). Each linked record in an edit form adds two fields,
+# so this allows saving e.g. a resource with around 4000 related accessions.
+AppConfig[:frontend_multipart_total_part_limit] = 8192
+
 # Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:backend_log] = "default"
 AppConfig[:backend_log_level] = "debug"
@@ -398,6 +404,9 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 # AppConfig[:container_management_extent_calculator] = { :report_volume => true, :unit => :feet, :decimal_places => 3 }
 
 # Public User Interface (PUI) Settings
+#
+# Place the PUI behind authentication.  Default is false.
+AppConfig[:pui_require_authentication] = false
 #
 # PUI Inheritance
 # Define the fields for a record type that are inherited from ancestors

@@ -225,7 +225,7 @@ Then 'the Assessment is linked to the Digital Object in the {string} form' do |f
   expect(related_accessions_elements.length).to eq 1
   related_accession = related_accessions_elements[0].find('.digital_object')
 
-  expect(related_accession[:'data-content']).to include "digital_objects/#{@digital_object_id}"
+  expect(related_accession[:href]).to include "digital_objects/#{@digital_object_id}"
 end
 
 When 'the user searches and selects an Agent' do

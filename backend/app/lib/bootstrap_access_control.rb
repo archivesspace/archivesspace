@@ -80,6 +80,13 @@ class ArchivesSpaceService
                       :level => "global",
                       :system => true)
 
+    Permission.define("view_pui",
+                      "The ability to view the PUI",
+                      :level => "global")
+
+    # PUI viewers group depends on the view_pui permission just defined above.
+    self.create_group(Group.PUI_VIEWERS_GROUP_CODE, "PUI Viewers", [User.ADMIN_USERNAME], ['view_pui'])
+
     Permission.define("create_repository",
                       "The ability to create new repositories",
                       :level => "global")

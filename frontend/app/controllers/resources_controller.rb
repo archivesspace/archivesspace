@@ -34,8 +34,11 @@ class ResourcesController < ApplicationController
     flash.keep
 
     if params[:inline]
+      excludes = ['related_accessions']
+
       event_hits = fetch_linked_events_count(:resource, params[:id])
-      excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
+      excludes += ['linked_events', 'linked_events::linked_records'] if event_hits > AppConfig[:max_linked_events_to_resolve]
+
       @resource = fetch_resolved(:resource, params[:id], excludes: excludes)
 
       flash.now[:info] = t("resource._frontend.messages.suppressed_info") if @resource.suppressed
@@ -206,8 +209,18 @@ class ResourcesController < ApplicationController
 
 
   def update
+    # handle_crud replaces the record's data with the submitted params, so
+    # fetching it resolved here would be wasted work (costly for records with
+    # many links). Fetch it plain, and pass the resolved find_opts so the
+    # refetch after a successful save still returns a fully resolved record.
+    resolve_opts = find_opts.merge(
+      'resolve[]' => find_opts['resolve[]'] + ['top_container::container_locations'] -
+                     ['linked_events', 'linked_events::linked_records']
+    )
+
     handle_crud(:instance => :resource,
-                :obj => fetch_resolved(:resource, params[:id], excludes: ['linked_events', 'linked_events::linked_records']),
+                :obj => JSONModel(:resource).find(params[:id]),
+                :find_opts => resolve_opts,
                 :on_invalid => ->() {
                   render_aspace_partial :partial => "edit_inline"
                 },

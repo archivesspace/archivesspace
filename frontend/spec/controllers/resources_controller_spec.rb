@@ -84,6 +84,50 @@ describe ResourcesController, type: :controller do
     end
   end
 
+  describe 'resolving related accessions' do
+    let(:resource_with_related_accession) do
+      accession = create(:json_accession)
+      create(:json_resource, related_accessions: [{ 'ref' => accession.uri }])
+    end
+
+    def capture_resolve_opts
+      opts = nil
+      allow(JSONModel(:resource)).to receive(:find).and_wrap_original do |original, *args|
+        opts ||= args[1]
+        original.call(*args)
+      end
+      yield
+      opts
+    end
+
+    before(:each) do
+      apply_session_to_controller(controller, 'admin', 'admin')
+    end
+
+    it 'does not resolve related_accessions for the inline show page' do
+      id = resource_with_related_accession.id
+
+      opts = capture_resolve_opts do
+        get :show, params: { id: id, inline: true }
+      end
+
+      expect(response).to be_successful
+      expect(opts['resolve[]']).not_to be_empty
+      expect(opts['resolve[]']).not_to include('related_accessions')
+    end
+
+    it 'still resolves related_accessions for the inline edit form' do
+      id = resource_with_related_accession.id
+
+      opts = capture_resolve_opts do
+        get :edit, params: { id: id, inline: true }
+      end
+
+      expect(response).to be_successful
+      expect(opts['resolve[]']).to include('related_accessions')
+    end
+  end
+
   describe 'record title field' do
     before(:each) do
       session = User.login('admin', 'admin')

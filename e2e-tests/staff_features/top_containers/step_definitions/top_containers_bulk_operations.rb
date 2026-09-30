@@ -70,17 +70,8 @@ Given 'a Resource with two Top Containers has been created' do
   @resource_id = url_parts.pop
 
   top_containers = all('.top_container')
-  data_content = top_containers[0][:'data-content']
-  split = data_content.split('/')
-  split.pop
-  text_containing_id = split.pop
-  @top_container_first_id = text_containing_id.scan(/\d+/).first
-
-  data_content = top_containers[1][:'data-content']
-  split = data_content.split('/')
-  split.pop
-  text_containing_id = split.pop
-  @top_container_second_id = text_containing_id.scan(/\d+/).first
+  @top_container_first_id = top_containers[0][:href].split('/').last.scan(/\d+/).first
+  @top_container_second_id = top_containers[1][:href].split('/').last.scan(/\d+/).first
 end
 
 When 'the user fills in {string} with the Resource title' do |label|

@@ -2,6 +2,7 @@
 require 'exceptions'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'fileutils'
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
@@ -49,10 +50,16 @@ Capybara.register_driver :firefox do |app|
 
   options.profile = profile
 
+  ci_logs = File.join(ASUtils.find_base_directory, 'ci_logs')
+  FileUtils.mkdir_p(ci_logs)
+
+  service = Selenium::WebDriver::Service.firefox(log: File.join(ci_logs, 'geckodriver.log'))
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    options: options
+    options: options,
+    service: service
   )
 end
 

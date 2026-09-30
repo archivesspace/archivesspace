@@ -1,11 +1,12 @@
+<%# Plain subject labels for accordion headers; real tokens live in subjects/show_inline. %>
 <% subjects.each_with_index do | subject, index | %>
-  <button class="btn btn-sm btn-info token">
-    <span class="icon-token <%= get_subject_icon_class(subject) %>"></span>
+  <% if index > 0 %>, <% end %>
+  <span class="subject-inline-abbr">
+    <span class="icon-token <%= get_subject_icon_class(subject) %>" aria-hidden="true"></span>
     <% if subject['_resolved'] %>
       <%= subject['_resolved']['title'] %>
-     <% else %>
-      <p><%= subject.inspect %></p>
+    <% else %>
+      <%= subject.inspect %>
     <% end %>
-
-  </button>
+  </span>
 <% end %>

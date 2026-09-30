@@ -439,6 +439,41 @@ describe 'MARC Export' do
     end
   end
 
+  describe "datafield 65x subdivision subfield mapping" do
+    v_types = ['genre_form', 'style_period', 'technique']
+    x_types = ['topical', 'cultural_context', 'function', 'occupation']
+
+    before(:all) do
+      as_test_user('admin', true) do
+        primary_term = build(:json_term, :term_type => 'uniform_title')
+        subdivisions = (v_types + x_types).map {|term_type|
+          build(:json_term, :term_type => term_type, :term => term_type)
+        }
+
+        subject = create(:json_subject, :terms => [primary_term] + subdivisions)
+        resource = create(:json_resource, :subjects => [{:ref => subject.uri}])
+
+        @marc = get_marc(resource)
+
+        raise Sequel::Rollback
+      end
+    end
+
+    v_types.each do |term_type|
+      it "maps a subdivision term_type of #{term_type} to subfield v" do
+        subfields = @marc.df('630').sf('v').map {|sf| sf.inner_text}
+        expect(subfields).to include(term_type)
+      end
+    end
+
+    x_types.each do |term_type|
+      it "maps a subdivision term_type of #{term_type} to subfield x" do
+        subfields = @marc.df('630').sf('x').map {|sf| sf.inner_text}
+        expect(subfields).to include(term_type)
+      end
+    end
+  end
+
   describe "strips mixed content" do
     before(:each) do
       as_test_user('admin') do

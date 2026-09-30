@@ -25,6 +25,7 @@ pt:
     request: Solicitação
     print-generating: Gerando
     collection_overview: Visão Geral da Coleção
+    authenticating: Verificando o acesso
   pagination:
     controls: Controlos de paginação
     top_controls: Controlos de paginação superiores
@@ -181,6 +182,17 @@ pt:
     table_of_contents: Índice
     return_to_table_of_contents: Voltar ao índice
     publication_statement: Declaração de publicação
+  login:
+    login_please: Por favor, entre
+    login: Entrar
+    logout: Sair
+    username_placeholder: Nome de usuário
+    password_placeholder: Senha
+    username_aria_label: Nome de usuário
+    password_aria_label: Senha do usuário
+    required: obrigatório
+    pui_permission_denied: "O usuário `%{username}` não tem permissão para visualizar a PUI."
+    login_failed: "Falha no login. Verifique seu nome de usuário e senha."
   archival_object:
     _public: {}
   agent:
