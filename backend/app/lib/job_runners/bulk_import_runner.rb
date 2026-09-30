@@ -16,6 +16,7 @@ class BulkImportRunner < JobRunner
     ticker = Ticker.new(@job)
     ticker.log("Start new bulk_import for job: #{@job.id}")
     last_error = nil
+    terminal_error = nil
 
 
     input_file_path = @job.job_files[0].full_file_path
@@ -53,22 +54,31 @@ class BulkImportRunner < JobRunner
               output_file.rewind
               @job.write_output(I18n.t("bulk_import.log_results"))
 
+              terminal_error = report.terminal_error
+
               created_uris = importer.record_uris unless @validate_only
             end
           end
         rescue JSONModel::ValidationException, BulkImportException => e
           last_error = e
         end
+
+        if terminal_error
+          created_uris = []
+          raise Sequel::Rollback
+        end
       end
     rescue
       last_error = $!
     end
-    self.success!
-
     DB.open do
       @job.add_file(output_file) if output_file
       @job.record_created_uris(created_uris) unless Array(created_uris).empty?
     end
+
+    raise JobRunner::BackgroundJobError.new(terminal_error) if terminal_error
+
+    self.success!
 
     if last_error
       ticker.log("\n\n")
@@ -98,6 +108,7 @@ class BulkImportRunner < JobRunner
     CSV.open(file.path, "wb") do |csv|
       csv << Array.new(headrow)
       csv << []
+      csv << Array.new(5, "") + [report.terminal_error] if report.terminal_error
       report.rows.each do |row|
         csvrow = [row.row]
         if row.archival_object_id.nil?

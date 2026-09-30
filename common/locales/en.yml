@@ -3007,6 +3007,7 @@ en:
       initialize: "Processing is terminated [%{msg}]"
       stopped: "Processing stopped at row %{row} [%{msg}]"
       duplicates: "This spreadsheet has duplicate ArchivesSpace field codes: %{codes}"
+      unknown_columns: "These columns are not recognized (you may be using an outdated template): %{codes}"
       res_ead: This form's resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
       row_missing_ead_uri: This row is missing BOTH an EAD ID and URI
@@ -3055,7 +3056,15 @@ en:
       validated: "%{what} validated"
       lang_code: "Cannot validate language (%{lang})"
       script_code: "Cannot validate a language script (%{script})"
+      subject_missing_identity: "Subject %{num} requires a record ID or term"
+      agent_missing_identity: "Agent %{num} requires a record ID or header"
+      agent_missing_type: "Agent %{num} requires an agent type"
+      agent_unsupported_type: "Agent %{num} has unsupported agent type '%{agent_type}'"
       process_error: "Error processing %{type} %{num}: %{why}"
+      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}'"
+      invalid_user_defined_integer: "Invalid User Defined integer: %{value}"
+      invalid_file_version_size: "Column %{column} requires a whole number of bytes; received '%{value}'"
+      invalid_user_defined_real: "Invalid User Defined real: %{value}"
       bad_ao_uri: " with uri %{uri}"
       bad_accession_uri: "Accession not found with uri %{uri}"
       bad_ao_ref_id: " with Ref ID  %{ref_id}"

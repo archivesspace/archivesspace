@@ -2862,6 +2862,7 @@ fr:
       initialize: "Le traitement est mis fin à [%{msg}]"
       stopped: "Traitement arrêté à la ligne %{row} [%{msg}]"
       duplicates: "Cette feuille de calcul en double codes Espace d'archives sur le terrain: %{codes}"
+      unknown_columns: "Ces colonnes ne sont pas reconnues (vous utilisez peut-être un modèle obsolète) : %{codes}"
       res_ead: Ressources de cette forme il manque un numéro EAD
       row_ead: Cette ligne manque un ID EAD
       row_missing_ead_uri: Cette ligne est à la fois un manque EAD ID et URI
@@ -2914,7 +2915,15 @@ fr:
       validated: "%{what} validé"
       lang_code: "Impossible de valider la langue (%{lang})"
       script_code: "Impossible de valider un script de langue (%{script})"
+      subject_missing_identity: "La matière %{num} requiert un identifiant d'enregistrement ou un terme"
+      agent_missing_identity: "L'agent %{num} requiert un identifiant d'enregistrement ou un en-tête"
+      agent_missing_type: "L'agent %{num} requiert un type d'agent"
+      agent_unsupported_type: "L'agent %{num} a un type d'agent non pris en charge '%{agent_type}'"
       process_error: "Traitement d'erreur %{type} %{num}: %{why}"
+      unrecognized_boolean: "La colonne %{column} requiert une valeur booléenne ; valeur reçue : '%{value}'"
+      invalid_user_defined_integer: "Entier défini par l'utilisateur non valide : %{value}"
+      invalid_file_version_size: "La colonne %{column} requiert un nombre entier d'octets ; valeur reçue : '%{value}'"
+      invalid_user_defined_real: "Réel défini par l'utilisateur non valide : %{value}"
       bad_ao_uri: " Avec uri %{uri}"
       bad_accession_uri: "Entrée non trouvée avec uri %{uri}"
       bad_ao_ref_id: " Avec REF ID %{ref_id}"
