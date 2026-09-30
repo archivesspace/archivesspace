@@ -148,6 +148,7 @@ class BulkImportParser
     end
     begin
       check_for_code_dups
+      check_unknown_columns
     rescue Exception => e
       raise StopBulkImportException.new(e.message)
     end
@@ -182,6 +183,57 @@ class BulkImportParser
     end
     if !dups.empty?
       raise Exception.new(I18n.t("bulk_import.error.duplicates", :codes => dups))
+    end
+  end
+
+  def valid_column_codes
+    nil
+  end
+
+  def repeatable_column_prefixes
+    []
+  end
+
+  # Opt-in exact matcher: a sub-class returns rules that each capture an
+  # uploaded structural index as (?<index>...) and give the representative
+  # index printed in the maintained template. The base parser stays inert.
+  def structural_column_rules
+    []
+  end
+
+  # Single decision point for a dynamic repeat header: the broad prefix
+  # fallback, or an exact structural rule whose normalized form is a member
+  # of valid_column_codes.
+  def repeatable_column?(code, prefixes, rules, known)
+    return true if code.to_s.match?(/_\d+\z/) && prefixes.any? { |prefix| code.to_s.start_with?(prefix) }
+
+    rules.any? do |rule|
+      normalized = normalize_structural_column(code, rule)
+      normalized && known.include?(normalized)
+    end
+  end
+
+  # Replace only the substring occupied by the rule's (?<index>...) capture
+  # with the representative index; nil when the rule does not match.
+  def normalize_structural_column(code, rule)
+    match = rule[:pattern].match(code)
+    return nil unless match
+
+    code[0...match.begin(:index)] + rule[:representative] + code[match.end(:index)..-1]
+  end
+
+  def check_unknown_columns
+    valid = valid_column_codes
+    return if valid.nil?
+    known = valid.compact
+    prefixes = repeatable_column_prefixes
+    rules = structural_column_rules
+    unknown = @headers.compact.reject do |head|
+      head =~ self.class::START_MARKER || known.include?(head) ||
+        repeatable_column?(head, prefixes, rules, known)
+    end
+    unless unknown.empty?
+      raise Exception.new(I18n.t("bulk_import.error.unknown_columns", :codes => unknown.join(", ")))
     end
   end
 
