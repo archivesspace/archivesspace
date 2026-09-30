@@ -312,7 +312,10 @@ module JSONSchemaUtils
   end
 
   def self.blank?(obj)
-    obj.nil? || obj == '' || obj == {}
+    # Check the type before comparing: `obj == ''` and `obj == {}` are costly
+    # for Time values, whose ActiveSupport `<=>` coerces the argument through
+    # DateTime, and this runs on every value of every record being cleaned.
+    obj.nil? || ((obj.is_a?(String) || obj.is_a?(Hash)) && obj.empty?)
   end
 
   # Recursively walk a map and remove any empty strings, empty maps and nils.

@@ -437,6 +437,23 @@ class DB
     end
 
 
+    # Bulk version of increase_lock_version_or_fail for many records of one
+    # model: one UPDATE per distinct lock version instead of one per record.
+    def increase_lock_versions_or_fail(model, objs)
+      now = Time.now
+
+      objs.group_by(&:lock_version).each do |lock_version, group|
+        updated_rows = model.dataset.filter(:id => group.map(&:id), :lock_version => lock_version).
+                       update(:lock_version => lock_version + 1,
+                              :system_mtime => now)
+
+        if updated_rows != group.length
+          raise Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of: #{model} #{group.map(&:id)}")
+        end
+      end
+    end
+
+
     def ensure_tables_are_utf8(db)
       non_utf8_tables = db[:information_schema__tables].
                         join(:information_schema__collation_character_set_applicability, :collation_name => :table_collation).
