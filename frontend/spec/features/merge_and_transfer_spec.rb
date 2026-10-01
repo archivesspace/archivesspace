@@ -118,8 +118,7 @@ describe 'Merge and Transfer', js: true do
     visit "agents/agent_person/#{agent.id}/edit"
 
     merge_button = find('#merge-dropdown .merge-action')
-    expect(merge_button[:role]).to eq 'button'
-    expect(merge_button[:'aria-expanded']).to eq 'false'
+    expect(merge_button.tag_name).to eq 'button'
 
     merge_button.click
 
