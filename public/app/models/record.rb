@@ -392,6 +392,7 @@ class Record
   def parse_sub_container_display_string(sub_container, inst, opts = {})
     summary = opts.fetch(:summary, false)
     citation = opts.fetch(:citation, false)
+    show_barcodes = opts.fetch(:barcode, AppConfig[:pui_display_barcodes] && !citation)
     parts = []
 
     instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
@@ -416,6 +417,9 @@ class Record
           top_container_display_string << "#{I18n.t('enumerations.container_type.container')}: "
         end
         top_container_display_string << top_container_json.fetch('indicator')
+        if show_barcodes && top_container_json['barcode'].present?
+          top_container_display_string << " #{barcode_display_string(top_container_json['barcode'])}"
+        end
         parts << top_container_display_string
       end
     end
@@ -424,7 +428,11 @@ class Record
     # add the child type and indicator
     if sub_container['type_2'] && sub_container['indicator_2']
       type = I18n.t("enumerations.container_type.#{sub_container.fetch('type_2')}", :default => sub_container.fetch('type_2'))
-      parts << "#{type}: #{sub_container.fetch('indicator_2')}"
+      child_display_string = "#{type}: #{sub_container.fetch('indicator_2')}"
+      if show_barcodes && sub_container['barcode_2'].present?
+        child_display_string << " #{barcode_display_string(sub_container['barcode_2'])}"
+      end
+      parts << child_display_string
     end
 
     # add the grandchild type and indicator
@@ -434,6 +442,10 @@ class Record
     end
 
     (summary || citation) ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
+  end
+
+  def barcode_display_string(barcode)
+    "[#{I18n.t('instance_container.barcode')}: #{barcode}]"
   end
 
   def parse_digital_object_instances
@@ -483,7 +495,7 @@ class Record
         next if container_info.fetch(:top_container_url).include?(top_container_uri)
 
         hsh = {
-          :container => parse_sub_container_display_string(sub_container, instance),
+          :container => parse_sub_container_display_string(sub_container, instance, :barcode => false),
           :top_container_url => top_container_uri,
         }
 
