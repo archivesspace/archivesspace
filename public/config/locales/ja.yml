@@ -514,6 +514,10 @@ ja:
     xlink_arcrole_attribute: XlinkArcrole属性
     file_version_xlink_actuate_attribute: XlinkActuate属性
 
+  footer:
+    staff_interface_html: <a href="%{staff_url}">スタッフ用インターフェース</a>
+    archivesspace_home_html: <a href='http://archivesspace.org'>ArchivesSpace</a>で作成されています
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>ご意見・ご質問</a>
 
   languages:
     select: 言語を選択する
