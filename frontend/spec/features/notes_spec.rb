@@ -497,7 +497,7 @@ describe 'Notes', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to  have_text('Content - At least 1 item(s) is required')
+    expect(element.text).to have_text('Content - At least 1 item(s) is required')
   end
 
   describe 'handle mixed content appropriately in read only mode' do

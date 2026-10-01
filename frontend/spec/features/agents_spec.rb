@@ -136,7 +136,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Person', match: :first).click
         element = find('.alert.alert-danger.with-hide-alert')
-        expect(element.text).to  have_text('Sort Name - Property is required but was missing')
+        expect(element.text).to have_text('Sort Name - Property is required but was missing')
       end
 
       it 'allows setting of a custom sort name' do

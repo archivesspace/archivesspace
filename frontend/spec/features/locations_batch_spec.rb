@@ -29,7 +29,7 @@ describe 'Location batch', js: true do
     # Click on save
     find('button', text: 'Create Locations', match: :first).click
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to  have_text("Building - Property is required but was missing\nCoordinate Range 1 - Property is required but was missing")
+    expect(element.text).to have_text("Building - Property is required but was missing\nCoordinate Range 1 - Property is required but was missing")
 
     expect(page).not_to have_css('#location_batch_barcode_')
     expect(page).not_to have_css('#location_batch_classification_')
