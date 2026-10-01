@@ -76,7 +76,6 @@
   </div>
 </div>
 
-<%# spawning DOs from resources and AOs need some extra frontend help because LargeTree %>
 <% if user_prefs['digital_object_spawn'] && (@resource || @archival_object) %>
   <%= javascript_include_tag("digital_object_spawning") %>
 <% end %>
