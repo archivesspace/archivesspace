@@ -1,11 +1,87 @@
-// Since resources and archival objects use the front-end LargeTree for display, the active record
-// on display can change independently of what the backend was last aware. This means we need to
-// maniuplate the target attribute for the Create button so that the data from the correct record
-// is used for spawning, not whatever @resource/@archival_object was initally passed into the view.
+// Pre-fill metadata on a new DO by appending spawn_from_* to the instance linker Create
+// data-target from the tree's current node before linker.js loads the form.
 
-$(".linker-create-btn").click(function() {
-  const match = tree.large_tree.current_tree_id.match(/(\w+)_(\d+)$/);
-  var data_target = $(this).attr('data-target');
-  data_target += "&spawn_from_" + match[1] + "_id=" + match[2];
-  $(this).attr('data-target', data_target);
-});
+(function () {
+  // digital_objects/_linker.html.erb may emit javascript_include_tag more than once per page,
+  // so register the listener only once so we don't duplicate spawn_from_* query params on
+  // repeated Create clicks.
+  if (window.__digitalObjectSpawningInitialized) {
+    return;
+  }
+  window.__digitalObjectSpawningInitialized = true;
+
+  const SPAWN_TYPES = new Set(['resource', 'archival_object']);
+
+  /**
+   * @returns {{ type: string, id: string }|null}
+   */
+  function spawnPartsFromInfiniteTree() {
+    const container = document.querySelector('#infinite-tree-container');
+    const { InfiniteTreeIds } = window;
+    if (!container || !InfiniteTreeIds) {
+      return null;
+    }
+
+    const node = container.querySelector(
+      'li.node.current:not(.js-itree-synthetic-new)'
+    );
+    if (!node) {
+      return null;
+    }
+
+    const uri = node.getAttribute('data-uri');
+    let parts = uri ? InfiniteTreeIds.uriToParts(uri) : null;
+    if (!parts && node.id) {
+      parts = InfiniteTreeIds.parseTreeId(node.id);
+    }
+
+    if (!parts || !SPAWN_TYPES.has(parts.type)) {
+      return null;
+    }
+
+    return parts;
+  }
+
+  /**
+   * @param {string} target
+   * @param {{ type: string, id: string }} parts
+   * @returns {string}
+   */
+  function appendSpawnParam(target, parts) {
+    if (!target || target.includes('spawn_from_')) {
+      return target;
+    }
+
+    const separator = target.includes('?') ? '&' : '?';
+    return `${target}${separator}spawn_from_${parts.type}_id=${encodeURIComponent(parts.id)}`;
+  }
+
+  document.addEventListener(
+    'click',
+    event => {
+      const button = event.target.closest('.linker-create-btn');
+      if (!button) {
+        return;
+      }
+
+      const target = button.getAttribute('data-target');
+      if (!target?.includes('/digital_objects/new')) {
+        return;
+      }
+
+      const parts = spawnPartsFromInfiniteTree();
+      if (!parts) {
+        return;
+      }
+
+      const updated = appendSpawnParam(target, parts);
+      if (updated === target) {
+        return;
+      }
+
+      button.setAttribute('data-target', updated);
+      window.jQuery?.(button).data('target', updated);
+    },
+    true
+  );
+})();

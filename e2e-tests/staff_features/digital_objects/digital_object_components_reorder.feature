@@ -30,7 +30,7 @@ Feature: Digital Object Component Reorder
       And the user selects the second Digital Object Component
       And the user clicks on 'Enable Reorder Mode'
       And the user clicks on 'Move'
-      And the user clicks on 'Up a Level' in the dropdown menu
+      And the user clicks on 'Up' in the dropdown menu
      Then the second Digital Object Component moves one position up
   Scenario: Move Down Into a Digital Object Component
     Given a Digital Object with two Digital Object Components in the same level has been created

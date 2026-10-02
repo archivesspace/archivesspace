@@ -1,23 +1,10 @@
 # frozen_string_literal: true
 
 Given 'a Digital Object has been created' do
-  visit "#{STAFF_URL}/digital_objects/new"
-
-  fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{@uuid}"
-  fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
-
-  click_on 'Add Date'
-  select 'Single', from: 'digital_object_dates__0__date_type_'
-  fill_in 'digital_object_dates__0__begin_', with: '2000-01-01'
-  check 'Publish'
-
   @digital_object_number_of_agents = 0
   @digital_object_number_of_file_versions = 0
 
-  click_on 'Save'
-
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
-  @digital_object_id = current_url.split('::digital_object_').pop
+  create_digital_object(@uuid, publish: true)
 end
 
 Given 'a Digital Object with a Linked Agent has been created' do
@@ -43,7 +30,7 @@ Given 'a Digital Object with a Linked Agent has been created' do
   click_on 'Save'
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
-  @digital_object_id = current_url.split('::digital_object_').pop
+  @digital_object_id = current_url[%r{/digital_objects/(\d+)}, 1]
 end
 
 Given 'the user is on the Digital Objects page' do
@@ -91,7 +78,8 @@ end
 Then 'the Digital Object is opened in the edit mode' do
   wait_for_ajax
   expect(current_url).to include 'edit'
-  expect(@digital_object_id).to eq current_url.split('::digital_object_').pop
+  expect(@digital_object_id).to eq current_url[%r{/digital_objects/(\d+)}, 1]
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 Given 'the Digital Object is opened in the view mode' do
@@ -100,9 +88,8 @@ end
 
 Given 'the Digital Object is opened in edit mode' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
-  wait_for_ajax
-
   expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 Then 'the Digital Object Title field has the original value' do
@@ -138,13 +125,16 @@ Given 'the user has added a File Version to the Digital Object with the followin
     fill_in field, with: value
   end
 
-  click_on 'Save'
-  wait_for_ajax
+  find('button', text: 'Save Digital Object', match: :first).click
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  expect(page).to have_css('.alert.alert-success', text: /Digital Object.*updated/i)
+  expect(page).to have_css('#digital_object_file_versions_ .subrecord-form-remove', wait: 10)
 
   @digital_object_number_of_file_versions += 1
 end
 
 Then 'the File Version is removed from the Digital Object' do
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
   subrecords = all('#digital_object_file_versions_ .subrecord-form-list li')
 
   expect(subrecords.length).to eq @digital_object_number_of_file_versions - 1
@@ -172,47 +162,44 @@ Then 'the Digital Object opens on a new tab in the public interface' do
 end
 
 Then 'the Digital Object Component with Label {string} is saved as a child of the Digital Object' do |text|
-  records = all('#tree-container .table-row', text:)
+  wait_for_digital_object_component_create_settled
 
-  expect(records.length).to eq 1
-  expect(records[0][:class]).to include 'indent-level-1 current'
+  components = all('#infinite-tree-container .node:not(.root)')
 
-  expect(page).to have_css "#tree-container #digital_object_#{@digital_object_id} + .table-row-group #digital_object_component_#{@created_record_id}"
+  expect(components.length).to eq 1
+  expect(components[0][:class]).to include 'indent-level-1 current'
+  expect(page).to have_css '.node.current', text: text
+
+  within '#infinite-tree-container .root.node > .node-children' do
+    expect(page).to have_css ":scope > #digital_object_component_#{@created_record_id}.node.current"
+  end
 end
 
-Then 'the Digital Object Component with Title {string} is saved as a sibling of the selected Digital Object Component' do |title|
-  records = all('#tree-container .table-row', text: title)
+Then 'the Digital Object Component with Title {string} is saved as the next sibling of the previously selected Digital Object Component' do |title|
+  wait_for_digital_object_component_create_settled
 
-  expect(records.length).to eq 1
-  expect(records[0][:class]).to include 'indent-level-1 current'
-  expect(page).to have_css "#tree-container #digital_object_#{@digital_object_id} + .table-row-group #digital_object_component_#{@created_record_id}"
+  components = all('#infinite-tree-container .node:not(.root)')
+
+  expect(components.length).to eq 2
+  expect(components[0][:class]).to include 'indent-level-1'
+  expect(components[1][:class]).to include 'indent-level-1 current'
+  expect(page).to have_css '.node.current', text: title
+
+  within '#infinite-tree-container .root.node > .node-children' do
+    expect(page).to have_css ":scope > .node + #digital_object_component_#{@created_record_id}.node.current"
+  end
 end
 
 Given 'a Digital Object with a Digital Object Component has been created' do
-  visit "#{STAFF_URL}/digital_objects/new"
+  create_digital_object(@uuid)
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
 
-  fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{@uuid}"
-  fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
-
-  click_on 'Add Date'
-  select 'Single', from: 'digital_object_dates__0__date_type_'
-  fill_in 'digital_object_dates__0__begin_', with: '2000-01-01'
-
-  click_on 'Save'
-
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
-  @digital_object_id = current_url.split('::digital_object_').pop
-
-  click_on 'Add Child'
-  wait_for_ajax
-
-  fill_in 'Label', with: "Digital Object Component Label #{@uuid}"
-  click_on 'Save'
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Component created on Digital Object Digital Object Title #{@uuid}")
+  add_digital_object_component_via_toolbar("Digital Object Component Label #{@uuid}")
 end
 
 And 'the user selects the Digital Object Component' do
   click_on "Digital Object Component Label #{@uuid}"
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object_component')
 end
 
 Then 'the Assessment is linked to the Digital Object in the {string} form' do |form_title|

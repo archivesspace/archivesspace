@@ -10,7 +10,7 @@ Given 'two Digital Objects A & B have been created' do
   wait_for_ajax
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object A #{@uuid} created")
-  @digital_object_first_id = current_url.split('::digital_object_').pop
+  @digital_object_first_id = current_url[%r{/digital_objects/(\d+)}, 1]
 
   visit "#{STAFF_URL}/digital_objects/new"
 
@@ -41,7 +41,7 @@ Given 'two Digital Objects A & B have been created' do
   wait_for_ajax
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object B #{@uuid} created")
-  @digital_object_second_id = current_url.split('::digital_object_').pop
+  @digital_object_second_id = current_url[%r{/digital_objects/(\d+)}, 1]
 end
 
 Given 'the Digital Object A is opened in edit mode' do
