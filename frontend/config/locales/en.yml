@@ -235,7 +235,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     resource:
       score: Relevance
       title: Title
@@ -259,7 +259,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     archival_object:
       score: Relevance
       title: Title
@@ -277,7 +277,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     subject:
       score: Relevance
       source: Source
@@ -308,7 +308,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     digital_object_component:
       score: Relevance
       title: Title
@@ -323,7 +323,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     agent:
       score: Relevance
       title: Name
@@ -536,7 +536,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
 
@@ -1156,10 +1156,13 @@ en:
     _frontend:
       messages:
         no_iiif_viewer: "No IIIF viewer is available. Set AppConfig[:iiif_viewer] to 'universal_viewer', 'mirador', or the URL of an externally hosted IIIF viewer."
+      published: Published
       action:
         add: Add File Version
-        make_representative: Make Representative
-        make_representative_tooltip: Use to indicate that this image should be displayed when there are multiple file versions associated with the record.
+        make_display_thumbnail: Make Display Thumbnail
+        make_display_thumbnail_tooltip: Use to show the image at this file version's File URI as the thumbnail for the record. A file version that is not a renderable image shows a generic icon instead.
+        make_display_link: Make Display Link
+        make_display_link_tooltip: Use to link the record's thumbnail or generic icon to this file version's File URI.
 
   group:
     _frontend:

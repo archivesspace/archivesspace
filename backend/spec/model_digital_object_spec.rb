@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'file_version_display_flags_shared_examples'
 require_relative 'spec_slugs_helper'
 
 describe 'Digital object model' do
@@ -72,50 +73,7 @@ describe 'Digital object model' do
     expect(digital_object.linked_instances.count).to eq(3)
   end
 
-  it "won't allow more than one file_version flagged 'is_representative'" do
-    json = build(:json_digital_object, {
-                   :publish => true,
-                   :file_versions => [build(:json_file_version, {
-                                              :publish => true,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar1',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar2',
-                                              :use_statement => 'image-service'
-                                            })
-
-                                     ]})
-
-
-    expect {
-      DigitalObject.create_from_json(json)
-    }.to raise_error(Sequel::ValidationFailed)
-  end
-
-  it "doesn't allow an unpublished file_version to be representative" do
-    json = build(:json_digital_object, {
-                   :publish => true,
-                   :file_versions => [build(:json_file_version, {
-                                              :publish => false,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar1',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :file_uri => 'http://foo.com/bar2',
-                                              :use_statement => 'image-service'
-                                            })
-                                     ]})
-
-    expect {
-      DigitalObject.create_from_json(json)
-    }.to raise_error(Sequel::ValidationFailed)
-  end
+  it_behaves_like "a record with display file versions", DigitalObject, :json_digital_object
 
   it "supports optional captions for file versions" do
     obj = create(:json_digital_object, {

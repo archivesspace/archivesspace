@@ -1,0 +1,49 @@
+<%
+  show_spacer = true unless defined?(show_spacer)
+  n_digital_objects = nil unless defined?(n_digital_objects)
+%>
+<% if result.has_thumbnail? %>
+  <%
+    thumbnail = result.thumbnail
+    caption = thumbnail['caption']
+    icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
+
+    # An accession, resource or archival object links to the digital object record; a digital
+    # object (component) to its display link file version, if any
+    same_window = false
+    if defined?(thumbnail_link) && thumbnail_link
+      same_window = true
+    elsif thumbnail['record_uri']
+      thumbnail_link = app_prefix(thumbnail['record_uri'])
+      same_window = true
+    else
+      thumbnail_link = thumbnail['link_url']
+    end
+  %>
+  <div class="pui-thumbnail">
+    <% image = capture do %>
+      <% if thumbnail_link %>
+        <div class="pui-thumbnail-help-text"><%= I18n.t('thumbnails.access_help_text') %></div>
+      <% end %>
+      <% if (image_url = thumbnail['image_url']) %>
+        <%= image_tag image_url, :alt => strip_mixed_content(caption), 'onError' => 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block";' %>
+        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;'}) %>
+      <% else %>
+        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => icon_class}) %>
+      <% end %>
+    <% end %>
+    <%= link_to_if thumbnail_link, image, thumbnail_link, :target => same_window ? '_self' : '_blank' %>
+    <% if caption %>
+      <div class="pui-thumbnail-caption"><%== caption %></div>
+    <% end %>
+    <% if n_digital_objects && representative_link_to_digital_materials?(result) %>
+      <div class="pui-thumbnail-digital-materials">
+        <%= link_to t('digital_object._public.browse_number_digital_objects_in_collection', num: n_digital_objects, count: n_digital_objects),
+                    app_prefix("#{result.uri}/digitized"),
+                    data: { 'view-all-digital-objects' => true } %>
+      </div>
+    <% end %>
+  </div>
+<% elsif show_spacer %>
+  <div class="pui-thumbnail-spacer"></div>
+<% end %>

@@ -552,3 +552,5 @@ nl:
     required: vereist
     pui_permission_denied: "Gebruiker `%{username}` heeft geen toestemming om de PUI te bekijken."
     login_failed: "Inloggen mislukt. Controleer uw gebruikersnaam en wachtwoord."
+  thumbnails:
+    access_help_text: Klik hier voor online toegang

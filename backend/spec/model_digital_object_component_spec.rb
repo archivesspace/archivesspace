@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'file_version_display_flags_shared_examples'
 require 'securerandom'
 require_relative 'spec_slugs_helper'
 
@@ -28,49 +29,18 @@ describe 'DigitalObjectComponent model' do
     expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
-  it "won't allow more than one file_version flagged 'is_representative'" do
-    json = build(:json_digital_object_component, {
-                   :publish => true,
-                   :file_versions => [build(:json_file_version, {
-                                              :publish => true,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar1',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar2',
-                                              :use_statement => 'image-service'
-                                            })
+  it_behaves_like "a record with display file versions", DigitalObjectComponent, :json_digital_object_component
 
-                                     ]})
-
+  it "allows a display thumbnail on each of several components of a digital object" do
+    parent = create(:json_digital_object)
 
     expect {
-      DigitalObjectComponent.create_from_json(json)
-    }.to raise_error(Sequel::ValidationFailed)
-  end
-
-  it "doesn't allow an unpublished file_version to be representative" do
-    json = build(:json_digital_object_component, {
-                   :publish => true,
-                   :file_versions => [build(:json_file_version, {
-                                              :publish => false,
-                                              :is_representative => true,
-                                              :file_uri => 'http://foo.com/bar1',
-                                              :use_statement => 'image-service'
-                                            }),
-                                      build(:json_file_version, {
-                                              :publish => true,
-                                              :file_uri => 'http://foo.com/bar2',
-                                              :use_statement => 'image-service'
-                                            })
-                                     ]})
-
-    expect {
-      DigitalObjectComponent.create_from_json(json)
-    }.to raise_error(Sequel::ValidationFailed)
+      2.times do
+        create(:json_digital_object_component,
+               :digital_object => {'ref' => parent.uri},
+               :file_versions => [build(:json_file_version, :publish => true, :is_display_thumbnail => true)])
+      end
+    }.not_to raise_error
   end
 
 

@@ -1054,7 +1054,8 @@ it:
       <li>SHA-256</li>
       </ul>
     caption: Didascalia
-    is_representative: Rappresentante
+    is_display_thumbnail: Miniatura di visualizzazione
+    is_display_link: Link di visualizzazione
   agent:
     agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
       assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
@@ -1215,6 +1216,8 @@ it:
     mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
       &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
       a contenuto misto."
+    display_thumbnail_must_be_published: Deve essere pubblicato per essere la miniatura di visualizzazione
+    display_link_must_be_published: Deve essere pubblicato per essere il link di visualizzazione
   lang_material:
     _plural: Lingue
     _singular: Lingua

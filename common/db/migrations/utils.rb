@@ -42,6 +42,69 @@ module MigrationUtils
       did_something
     end
   end
+
+  # Chooses the display thumbnail and display link of one digital object or digital object
+  # component from what the earlier display rules showed (migration 180), so that existing
+  # images and links keep showing:
+  #
+  #   Display thumbnail: the first published file version that is, in order of preference,
+  #     1. marked is_representative
+  #     2. use statement image-thumbnail
+  #     3. an http(s) file URI with xlink show attribute embed that is not a IIIF manifest
+  #     4. file format jpeg or gif
+  #
+  #   Display link: the file version following the display thumbnail, if published; with no
+  #     display thumbnail, the last published http(s) or data: file version that is not embedded
+  #     and not a IIIF manifest.
+  module FileVersionDisplayFlags
+    ::FileVersionDisplayFlags = MigrationUtils::FileVersionDisplayFlags
+
+    # file_versions: the file_version rows of one record, in id order
+    # enum_ids: the enumeration value ids of :image_thumbnail and :text_json (use statement),
+    #   :embed (xlink show attribute), :iiif and :images (file format names, an array)
+    # Returns [thumbnail, link]: the rows to flag, each possibly nil
+    def self.choose(file_versions, enum_ids)
+      published = file_versions.select { |fv| fv[:publish] == 1 }
+
+      thumbnail = thumbnail_tiers(enum_ids).lazy.map { |tier| published.find(&tier) }.find(&:itself)
+
+      link =
+        if thumbnail
+          following = file_versions[file_versions.index(thumbnail) + 1]
+          following if following && following[:publish] == 1
+        else
+          published.select { |fv| legacy_link?(fv, enum_ids) }.last
+        end
+
+      [thumbnail, link]
+    end
+
+    def self.thumbnail_tiers(enum_ids)
+      [
+        ->(fv) { fv[:is_representative] == 1 },
+        ->(fv) { fv[:use_statement_id] == enum_ids[:image_thumbnail] },
+        ->(fv) {
+          file_uri(fv).start_with?('http') && fv[:xlink_show_attribute_id] == enum_ids[:embed] && !iiif_manifest?(fv, enum_ids)
+        },
+        ->(fv) { enum_ids[:images].include?(fv[:file_format_name_id]) },
+      ]
+    end
+
+    def self.legacy_link?(fv, enum_ids)
+      (file_uri(fv).start_with?('http') || file_uri(fv).start_with?('data:')) &&
+        fv[:xlink_show_attribute_id] != enum_ids[:embed] && !iiif_manifest?(fv, enum_ids)
+    end
+
+    def self.iiif_manifest?(fv, enum_ids)
+      fv[:file_format_name_id] == enum_ids[:iiif] &&
+        fv[:use_statement_id] == enum_ids[:text_json] &&
+        fv[:xlink_show_attribute_id] == enum_ids[:embed]
+    end
+
+    def self.file_uri(fv)
+      fv[:file_uri].to_s.strip
+    end
+  end
 end
 
 

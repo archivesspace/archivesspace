@@ -70,10 +70,11 @@
         :p_id => 'add_desc', :p_body => x } %>
   <% end %>
   <%
-    additional_published_fvs = []
-    if @result.json['file_versions'].present? && @result.json['representative_file_version'].present?
-      additional_published_fvs = @result.json['file_versions'].select { |fv| fv['publish'] && fv['file_uri'] != @result.json['representative_file_version']['file_uri'] }
-    end
+    # ANW-3011: published file versions not already shown as the display thumbnail
+    # or used as the display link
+    additional_published_fvs =
+      ASUtils.wrap(@result.json['file_versions'])
+        .select { |fv| fv['publish'] && !fv['is_display_thumbnail'] && !fv['is_display_link'] }
   %>
   <% unless additional_published_fvs.empty? %>
     <%

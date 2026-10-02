@@ -91,7 +91,7 @@ Then 'the Resource opens on a new tab in the public interface' do
     sleep 1
   end
 
-  expect(current_url).to eq "#{PUBLIC_URL}/repositories/#{@repository_id}/resources/#{@resource_id}"
+  expect(current_url).to eq "#{PUBLIC_URL}#{record_uri('resource', @resource_id)}"
   expect(page).to have_text "Resource #{@uuid}"
 end
 

@@ -442,6 +442,69 @@ def wait_for_ajax
   end
 end
 
+# The URI of a record in the current repository, e.g. record_uri('digital_object', 5) is
+# /repositories/<repository id>/digital_objects/5. Public interface pages are at the same path.
+def record_uri(type, id)
+  "/repositories/#{@repository_id}/#{type}s/#{id}"
+end
+
+# Types text into a token-input linker and picks the dropdown item that matches it. The linker
+# searches the index, which may not have a just-created record yet, so the search is retyped until
+# the record shows up. The dropdown is appended to the page body, outside the linker's form.
+def select_in_linker(token_input, text, attempts: 12)
+  tries = 0
+
+  loop do
+    token_input.fill_in with: text
+    break if page.has_css?('li.token-input-dropdown-item2', text:, wait: 5)
+
+    tries += 1
+    raise "'#{text}' was not found by the linker" if tries == attempts
+
+    token_input.fill_in with: ''
+    sleep 3
+  end
+
+  find('li.token-input-dropdown-item2', text:, match: :first).click
+end
+
+# Expects a link in the current scope whose decoded href matches, given as a string or a matcher
+# such as a_string_ending_with('/digital_objects/5').
+def expect_link_with_href(href_matcher)
+  hrefs = all('a', minimum: 1).map { |link| URI.decode_www_form_component(link[:href].to_s) }
+  expect(hrefs).to include(href_matcher)
+end
+
+# Adds an empty File Version to the open record form and returns its subform, e.g.
+# within(add_file_version('digital_object')) { fill_in 'File URI', with: uri }
+def add_file_version(form_prefix)
+  file_versions = "##{form_prefix}_file_versions_ .subrecord-form-list > li"
+  existing = all(file_versions).length
+
+  within("##{form_prefix}_file_versions_") { find('button', text: 'Add File Version', match: :first).click }
+
+  # wait for the new subform rather than taking the previous last one
+  all(file_versions, count: existing + 1).last
+end
+
+# Runs the block (typically expectations) until it passes, reloading the page between attempts.
+# For pages that only change on reload, e.g. public interface pages fed by the indexer, which may
+# lag behind the last save.
+def retry_with_reload(attempts: 20, interval: 3)
+  tries = 0
+
+  begin
+    yield
+  rescue RSpec::Expectations::ExpectationNotMetError, Capybara::ElementNotFound
+    tries += 1
+    raise if tries >= attempts
+
+    sleep interval
+    page.refresh
+    retry
+  end
+end
+
 # InfiniteTree loads/saves record-pane HTML with fetch (not jQuery.ajax), so wait_for_ajax is
 # not enough. These helpers wait for the pane to finish loading and become interactable.
 # form_prefix is the record type form id prefix (e.g. 'archival_object', 'digital_object_component').

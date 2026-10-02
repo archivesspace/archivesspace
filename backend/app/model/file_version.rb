@@ -6,7 +6,10 @@ class FileVersion < Sequel::Model(:file_version)
   corresponds_to JSONModel(:file_version)
 
   def representative_for_types
-    { is_representative: [:digital_object, :digital_object_component] }
+    {
+      is_display_thumbnail: [:digital_object, :digital_object_component],
+      is_display_link: [:digital_object, :digital_object_component],
+    }
   end
 
   def self.handle_publish_flag(ids, val)
@@ -26,18 +29,16 @@ class FileVersion < Sequel::Model(:file_version)
   end
 
   def validate
-    is_published = false
-    if self[:publish] == true || self[:publish] == 1
-      is_published = true
+    is_published = [true, 1].include?(self[:publish])
+    is_display_thumbnail = [true, 1].include?(self[:is_display_thumbnail])
+    is_display_link = [true, 1].include?(self[:is_display_link])
+
+    if !is_published && is_display_thumbnail
+      errors.add(:is_display_thumbnail, 'display_thumbnail_must_be_published')
     end
 
-    is_representative = false
-    if self[:is_representative] == true || self[:is_representative] == 1
-      is_representative = true
-    end
-
-    if !is_published && is_representative
-      errors.add(:is_representative, 'representative_file_version_must_be_published')
+    if !is_published && is_display_link
+      errors.add(:is_display_link, 'display_link_must_be_published')
     end
 
     super

@@ -1,0 +1,31 @@
+<%
+  image_alt_text = thumbnail.fetch('caption', t("thumbnail.fallback_caption", :default => "Thumbnail"))
+  image_link_url = defined?(override_link_url) ? override_link_url : thumbnail_link_url(thumbnail)
+  image_link_target = defined?(override_link_target) ? override_link_target : (thumbnail['record_uri'] ? '_self' : '_blank')
+  icon_class = "digital-object-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
+%>
+<div class="digital-object-thumbnail">
+  <% image = capture do %>
+    <% if thumbnail['image_url'] %>
+      <%= image_tag thumbnail.fetch('image_url'), :alt => image_alt_text, 'onError' => 'const parent = this.closest(".digital-object-thumbnail"); parent.querySelector("img").style.display = "none"; parent.querySelector(".digital-object-thumbnail-fallback").style.display = "block";' %>
+      <%= content_tag(:i, nil, {
+        :title => image_alt_text,
+        :class => "#{icon_class} digital-object-thumbnail-fallback",
+        :style => 'display: none;'
+      }) %>
+    <% else %>
+      <%= content_tag(:i, nil, {
+        :title => image_alt_text,
+        :class => icon_class
+      }) %>
+    <% end %>
+  <% end %>
+  <%= link_to_if image_link_url, image, image_link_url, :target => image_link_target %>
+  <% if (caption = thumbnail.fetch('caption', nil)) %>
+    <div class="digital-object-thumbnail-caption">
+      <%== caption %>
+    </div>
+  <% end %>
+</div>
+
+<div class="clearfix"></div>

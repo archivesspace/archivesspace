@@ -167,12 +167,15 @@ class ImportDigitalObjects < BulkImportParser
         fv[field.to_sym] = @row_hash[key]
       end
 
-      representative_column = "file_version_#{index}_is_representative"
       publish_column = "file_version_#{index}_publish"
-      fv[:is_representative] = digital_object_boolean(representative_column) if keys.include?(representative_column)
       fv[:publish] = digital_object_boolean(publish_column) if keys.include?(publish_column)
 
-      fv[:publish] = true if fv[:is_representative]
+      %w[is_display_thumbnail is_display_link].each do |flag|
+        column = "file_version_#{index}_#{flag}"
+        fv[flag.to_sym] = digital_object_boolean(column) if keys.include?(column)
+      end
+
+      fv[:publish] = true if fv[:is_display_thumbnail] || fv[:is_display_link]
       size_column = "file_version_#{index}_file_size_bytes"
       fv[:file_size_bytes] = file_version_file_size_bytes(size_column, fv[:file_size_bytes])
       fv

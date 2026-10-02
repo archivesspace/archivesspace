@@ -70,6 +70,8 @@ pl:
     mixed_content_disallowed_tag: "Wykryto niedozwolony znacznik HTML. Ze względów bezpieczeństwa znaczniki
       takie jak &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; i elementy formularzy nie są dozwolone w
       polach ze zmienną zawartością."
+    display_thumbnail_must_be_published: Musi być opublikowana, aby była miniaturą wyświetlania
+    display_link_must_be_published: Musi być opublikowana, aby była linkiem wyświetlania
   assessment:
     sensitive_material_true: Tak
     sensitive_material_false: Nie

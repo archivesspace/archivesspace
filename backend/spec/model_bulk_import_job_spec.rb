@@ -29,7 +29,7 @@ describe 'Bulk Import Jobs' do
 
 
       tmp = ASUtils.tempfile("bulk-import-digital-object-csv-#{Time.now.to_i}")
-      tmp.write("ArchivesSpace digital object import field codes (please don't edit this row),collection_id,ead,ref_id,res_uri,ao_ref_id,ao_uri,digital_object_id,digital_object_title,digital_object_publish,file_version_1_file_uri,file_version_1_is_representative,file_version_1_publish,file_version_2_file_uri,file_version_2_is_representative,file_version_2_publish\n")
+      tmp.write("ArchivesSpace digital object import field codes (please don't edit this row),collection_id,ead,ref_id,res_uri,ao_ref_id,ao_uri,digital_object_id,digital_object_title,digital_object_publish,file_version_1_file_uri,file_version_1_is_display_thumbnail,file_version_1_publish,file_version_2_file_uri,file_version_2_is_display_thumbnail,file_version_2_publish\n")
       tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR,blah blah,t,http://blahblah.com,t,,http://thumbnail.com,f,f\n")
       tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR_2,hide me,f,http://hideme.com,t,,http://thumbnail.com,f,t\n")
       tmp.rewind
@@ -57,6 +57,11 @@ describe 'Bulk Import Jobs' do
       expect(ao.instances[0]['digital_object']['_resolved']['file_versions'][1]['publish']).to be false
       expect(ao.instances[1]['digital_object']['_resolved']['file_versions'][0]['publish']).to be true
       expect(ao.instances[1]['digital_object']['_resolved']['file_versions'][1]['publish']).to be true
+      # the representative file version is the display thumbnail; nothing becomes the display link
+      # unless the spreadsheet marks it as one
+      expect(ao.instances[0]['digital_object']['_resolved']['file_versions'][0]['is_display_thumbnail']).to be true
+      expect(ao.instances[0]['digital_object']['_resolved']['file_versions'][1]['is_display_link']).to be false
+      expect(ao.instances[1]['digital_object']['_resolved']['file_versions'][1]['is_display_link']).to be false
     end
 
     [true, false].each do |validate_only|

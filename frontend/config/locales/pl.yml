@@ -384,7 +384,7 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
     resource:
       score: Znaczenie
       title: Tytuł
@@ -408,7 +408,7 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
     archival_object:
       score: Znaczenie
       title: Tytuł
@@ -421,7 +421,7 @@ pl:
       langcode: Język materiałów
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       dates: Daty
       extents: Zakres
       user_mtime: Zmodyfikowany
@@ -447,7 +447,7 @@ pl:
       digital_object_id: Cyfrowy identyfikator obiektu
       audit_info: Informacje dotyczące audytu
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       user_mtime: Zmodyfikowany
       dates: Daty
       desc: Zstępujący
@@ -462,7 +462,7 @@ pl:
       context: Znaleziono w
       dates: Daty
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       title: Tytuł
       create_time: Stworzony
       score: Znaczenie
@@ -675,7 +675,7 @@ pl:
       dates: Daty
       langcode: Język materiałów
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       desc: Zstępujący
       query: Tekst
       user_mtime: Zmodyfikowany
@@ -1132,14 +1132,15 @@ pl:
         add: Dodaj dokument zewnętrzny
   file_version:
     _frontend:
+      published: Opublikowano
       messages:
         no_iiif_viewer: "Brak dostępnej przeglądarki IIIF. Ustaw AppConfig[:iiif_viewer] na 'universal_viewer', 'mirador' lub adres URL przeglądarki IIIF hostowanej zewnętrznie."
       action:
         add: Dodaj wersję pliku
-        make_representative_tooltip: Służy do wskazania, że ten obraz powinien 
-          być wyświetlany, gdy z danym rekordem powiązanych jest wiele wersji 
-          pliku.
-        make_representative: Wyznacz przedstawiciela
+        make_display_thumbnail: Ustaw jako miniaturę wyświetlania
+        make_display_thumbnail_tooltip: Wyświetla obraz spod URI pliku tej wersji pliku jako miniaturę rekordu. Jeśli wersja pliku nie jest obrazem, który można wyświetlić, zamiast niego pokazywana jest ogólna ikona.
+        make_display_link: Ustaw jako link wyświetlania
+        make_display_link_tooltip: Łączy miniaturę lub ogólną ikonę rekordu z URI pliku tej wersji pliku.
   location_batch:
     _frontend:
       messages:

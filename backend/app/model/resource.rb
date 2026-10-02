@@ -30,10 +30,11 @@ class Resource < Sequel::Model(:resource)
   include RevisionStatements
   include ReindexTopContainers
   include RightsRestrictionNotes
-  include RepresentativeFileVersion
   include Assessments::LinkedRecord
   include Arks
   include MixedContentValidatable
+  include RepresentativeInstanceThumbnails
+  include ResourceTreeThumbnails
 
   enable_suppression
 
