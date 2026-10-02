@@ -108,12 +108,8 @@ module Notes
 
     def delete_subnote_metadata(ids_to_delete)
       association = self.association_reflection(:note)
-      begin
-        SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))
-          .filter( association[:key] => ids_to_delete ).delete
-      rescue Sequel::InvalidOperation # for derby
-        SubnoteMetadata.filter(:note_id => Note.filter(association[:key] => ids_to_delete).select(:id)).delete
-      end
+      SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))
+        .filter( association[:key] => ids_to_delete ).delete
     end
 
     def apply_notes(obj, json)

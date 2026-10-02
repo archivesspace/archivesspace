@@ -17,3 +17,5 @@ he:
       action:
         add: הוסף שפת חומרים
         add_note: הוסף הערת שפה
+  user:
+    is_pui_viewer: מציג PUI

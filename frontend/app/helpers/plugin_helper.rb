@@ -6,8 +6,8 @@ module PluginHelper
     Plugins.plugins_for(jsonmodel_type).each do |plugin|
       name = Plugins.parent_for(plugin, jsonmodel_type)['name']
       if not controller.action_name === "show" or Array(record.send(name)).length > 0
-        result << '<li>'
-        result << "<a href='##{jsonmodel_type}_#{name}_'>"
+        result << '<li role="tab" aria-selected="false">'
+        result << "<a class=\"nav-link\" href='##{jsonmodel_type}_#{name}_'>"
         result << I18n.t("plugins.#{plugin}._plural")
         result << '<span class="glyphicon glyphicon-chevron-right"></span></a></li>'
       end

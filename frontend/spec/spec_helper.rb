@@ -35,6 +35,9 @@ $backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = $backend
 
+# Demo plugin used to expose the global header's Plug-ins menu hook
+AppConfig[:plugins] = (Array(AppConfig[:plugins]) + ['cat_in_a_box']).uniq
+
 ENV['RAILS_ENV'] ||= 'test'
 
 $logger = ASpaceLogger.new(File.join(ASUtils.find_base_directory, "ci_logs", "frontend_test_log.out"))

@@ -23,7 +23,7 @@ Then 'the Resource is linked to the Accession in the Related Accessions form' do
   expect(related_accessions_elements.length).to eq 1
   related_accession = related_accessions_elements[0].find('.accession')
 
-  expect(related_accession[:'data-content']).to include "accessions/#{@accession_id}"
+  expect(related_accession[:href]).to include "accessions/#{@accession_id}"
 end
 
 Then 'the Resource has been spawned from Accession info message is displayed' do

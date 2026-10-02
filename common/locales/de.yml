@@ -1746,6 +1746,7 @@ de:
       advanced_data_entry: "Fortgeschrittene Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
       basic_data_entry: "Basis-Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
       repository_viewers: "Betrachter des Aufbewahrungsorts %{repo_code}"
+      pui_viewers: PUI-Zuschauer
     permission_types:
       manage_repository: Weisen Sie <b>Benutzer</b> Gruppen zu (in diesem Repository)<br/>Legen Sie 
         <b>Gruppen</b>-Berechtigungen fest (in diesem Repository)<br/>Legen Sie 
@@ -2198,6 +2199,7 @@ de:
       indicator: Indikator
       barcode: Strichcode
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Jedes Externe Dokument muss innerhalb dieser Aufzeichnung eine eindeutige Kombination aus Titel und Ort haben
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
     is_required_unless_an_expression_or_a_begin_date_is_given: ist erforderlich, es sei denn, es 
@@ -2243,8 +2245,6 @@ de:
     cant_be_empty: darf nicht leer sein
     password_did_not_match: Eingegebener Wert stimmt nicht mit dem Passwort überein
     authority_id_must_be_unique: Autoritäts-ID wird bereits verwendet
-    either_type_1_or_barcode_is_required: Ein Behältnis muss einen Behältnis 1 Typ oder Strichcode 
-      enthalten.
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Muss eine Zahl mit 
       höchstens neun Ziffern und fünf Dezimalstellen sein.
     container_3_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie 
@@ -2255,13 +2255,9 @@ de:
       Aufbewahrungsortes eindeutig sein
     must_be_unique_to_its_level_in_the_tree: Dieser Wert muss für diese Ebene der Hierarchie 
       eindeutig sein
-    repo_set_desc_required: Die Beschreibung der Aufbewahrungsort-Menge ist für die Erstellung eines
-      OAI-Repository-Sets erforderlich
-    repo_set_name_required: Der Name der Aufbewahrungsort-Menge ist für die Erstellung eines 
-      OAI-Repository-Sets erforderlich
+    oai_set_name_unique: OAI-Mengen-Namen müssen über Aufbewahrungsort-Mengen und Sponsoren-Mengen hinweg eindeutig sein
+    oai_set_name_matches_level: OAI-Mengen-Namen dürfen keine Beschreibungsebene wiederholen, da diese bereits eine eigene Menge hat
     is_not_present: Erforderliches Feld fehlt
-    sponsor_set_desc_required: Die Beschreibung der Geber-Menge ist für die Erstellung eines 
-      OAI-Sponsor-Sets erforderlich
     invalid_characters: Enthält ungültige Zeichen
     external_ark_collision: Externer ARK bereits im Einsatz
     location_cannot_be_deleted_if_linked: Die Standort-Aufzeichnung ist derzeit mit einer oder 
@@ -2295,8 +2291,6 @@ de:
     must_be_a_valid_email_address: Das Feld E-Mail-Adresse muss eine gültige Adresse enthalten
     ark_collision: Bei der Erstellung eines ARK für diese Aufzeichnung ist ein Problem aufgetreten. 
       Bitte wenden Sie sich an Ihren Systemadministrator.
-    sponsor_set_name_required: Der Name der Geber-Menge ist für die Erstellung eines 
-      OAI-Sponsor-Sets erforderlich
     must_specify_either_a_single_or_ranged_date: Die Daten müssen entweder als Einzel- oder als 
       Bereichsdatum angegeben werden
     requires_that_end_dates_are_after_begin_dates: Enddaten müssen nach den Anfangsdaten liegen
@@ -2692,6 +2686,28 @@ de:
       "Tape": Band
       "Heat-Sensitive Paper": Hitzeempfindliches Papier
       "Water Damage": Wasserschäden
+  importer:
+    error:
+      agent_mode_conflict: "Akteur-Gruppe %{index} darf nicht sowohl eine Datensatz-ID als auch Werte zum Neuanlegen enthalten"
+      subject_mode_conflict: "Thema-Gruppe %{index} darf nicht sowohl eine Datensatz-ID als auch Werte zum Neuanlegen enthalten"
+      top_container_mode_conflict: "Instanz-Gruppe %{index} darf nicht sowohl eine Haupt-Behältnis-URI als auch Werte zum Neuanlegen enthalten"
+      missing_agent_type: "Akteur-Gruppe %{index} muss einen Akteur-Typ enthalten; muss einer der folgenden sein: %{allowed}"
+      missing_agent_type_for_link: "Akteur-Gruppe %{index} muss beim Verknüpfen von Datensatz-ID %{record_id} einen Akteur-Typ enthalten; muss einer der folgenden sein: %{allowed}"
+      invalid_agent_type: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
+      invalid_agent_type_for_link: "Akteur-Gruppe %{index} erfordert einen unterstützten Akteur-Typ beim Verknüpfen von Datensatz-ID %{record_id}; erhalten '%{agent_type}', muss einer der folgenden sein: %{allowed}"
+      invalid_top_container_uri: "Ungültige Haupt-Behältnis-URI in Instanz-Gruppe %{index}: %{top_container_uri}"
+      invalid_container_profile_uri: "Ungültige Behältnisprofil-URI in Instanz-Gruppe %{index}: %{container_profile_uri}"
+      duplicate_top_container_barcode: "Instanz-Gruppe %{index} kann kein Haupt-Behältnis mit dem Strichcode %{barcode} erstellen; dieser Strichcode gehört bereits zu %{top_container_uri}. Entfernen Sie die übrigen Haupt-Behältnis-Felder, um es zu verknüpfen, oder korrigieren Sie den Strichcode."
+      unknown_top_container_barcode: "Instanz-Gruppe %{index} enthält kein Haupt-Behältnis mit dem Strichcode %{barcode} in diesem Repository; fügen Sie Haupt-Behältnis-Felder hinzu, um eines zu erstellen, oder korrigieren Sie den Strichcode."
+      invalid_date_type: "Ungültiger Datumstyp angegeben: %{date_type}; muss einer der folgenden sein: %{allowed}; Angegebenes Datum: %{date};"
+      invalid_record_id: "Die Datensatz-ID in Gruppe %{index} muss eine numerische ID oder eine vollständige Datensatz-URI sein; erhalten %{record_id}"
+      unrecognized_record_uri: "Unbekannte Datensatz-URI in Gruppe %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Akteur-Gruppe %{index} hat den Akteur-Typ %{agent_type}, der nicht zur Datensatz-URI %{record_id} passt"
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oder leer, um den Standardwert zu verwenden"
+      unconfigured_headers: "Unbekannte CSV-Spaltenüberschriften: %{columns}"
+      bad_headers: "Ungültige CSV-Spaltenüberschriften: %{columns}"
+      duplicate_file_version_headers: "Doppelte Dateiversions-Spalten: %{columns}"
+      csv_syntax_error: "CSV-Importfehler (%{type}): %{element}"
   bulk_import:
     processing_row: Verarbeite Zeile %{row}
     max_file_info: '%{size}K und %{rows} Zeilen'
@@ -2710,6 +2726,7 @@ de:
       enum: "UNGÜLTIG: %{which}: '%{label}'. Gültige Werte: %{valid_values}"
       error: 'FEHLER: Fehler erkannt: %{term}'
       duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
+      unknown_columns: 'Diese Spalten werden nicht erkannt (möglicherweise verwenden Sie eine veraltete Vorlage): %{codes}'
       uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile 
         [%{row_uri}] überein
       title: Fehlender Titel
@@ -2737,7 +2754,15 @@ de:
       validated: '%{what} validiert'
       lang_code: Sprache (%{lang}) kann nicht validiert werden
       script_code: Schrift (%{script}) kann nicht validiert werden
+      subject_missing_identity: "Thema %{num} erfordert eine Datensatz-ID oder einen Begriff"
+      agent_missing_identity: "Agent %{num} erfordert eine Datensatz-ID oder einen Header"
+      agent_missing_type: "Agent %{num} erfordert einen Agententyp"
+      agent_unsupported_type: "Agent %{num} hat den nicht unterstützten Agententyp '%{agent_type}'"
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}'"
+      invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
+      invalid_file_version_size: "Spalte %{column} erfordert eine ganze Zahl von Bytes; erhalten '%{value}'"
+      invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
       bad_ao_uri: ' mit URI %{uri}'
       bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'
       bad_ao_ref_id: ' mit Ref-ID %{ref_id}'
@@ -2863,15 +2888,20 @@ de:
       message: Das Verschieben wurde nicht durchgeführt, weil ein Elternteil nicht sein eigenes Kind
         werden kann.
   oai_config:
-    sponsor_set_description_tooltip: Sponsor Set Beschreibung Tooltip
-    repo_set_section_tooltip: Repo Set Abschnitt Tooltip
-    repo_set_description_tooltip: Repo Set Beschreibung Tooltip
-    sponsor_set_name_tooltip: Sponsor Set Name Tooltip
-    sponsor_set_names_tooltip: Sponsor Set Namen Tooltip
     oai_repository_name_tooltip: OAI-Repository-Name Tooltip
     oai_record_prefix_tooltip: OAI-Datensatz-Präfix-Tooltip
     oai_admin_email_tooltip: OAI-Admin-E-Mail-Tooltip
-    repo_set_name_tooltip: Repo Set Name Tooltip
+
+  oai_repository_set:
+    set_name_tooltip: Der setSpec, mit dem Harvester diese Menge anfordern. Muss über alle OAI-Mengen hinweg eindeutig sein, einschließlich der aus den Beschreibungsebenen erzeugten Mengen.
+    repo_codes_tooltip: Die Aufbewahrungsorte, deren Datensätze diese Menge bilden.
+    set_description_tooltip: Die Beschreibung, die Harvester für diese Menge erhalten.
+
+  oai_sponsor_set:
+    set_name_tooltip: Der setSpec, mit dem Harvester diese Menge anfordern. Muss über alle OAI-Mengen hinweg eindeutig sein, einschließlich der aus den Beschreibungsebenen erzeugten Mengen.
+    sponsor_names_tooltip: Die Findbuch-Sponsoren, deren Datensätze diese Menge bilden. Drücken Sie nach jedem Sponsorennamen die Eingabetaste.
+    set_description_tooltip: Die Beschreibung, die Harvester für diese Menge erhalten.
+
   top_container_linker:
     error:
       ref_id_miss: Ref-ID fehlt in der Tabelle in Zeile %{row_num} .

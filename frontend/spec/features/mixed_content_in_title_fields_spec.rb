@@ -435,7 +435,7 @@ describe 'Mixed Content in title fields', js: true do
           end
 
           it 'for Related Accessions' do
-            expect(page).to have_css '#resource_related_accessions_ .token span.emph.render-none', text: "Accession 2 #{@now}"
+            expect(page).to have_css '#resource_related_accessions_ .table-search-results span.emph.render-none', text: "Accession 2 #{@now}"
           end
 
           it 'for Linked Agents' do

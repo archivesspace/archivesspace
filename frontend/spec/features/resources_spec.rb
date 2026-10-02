@@ -143,6 +143,7 @@ describe 'Resources', js: true do
           expect(page).to have_xpath("//select[@id='add_event_event_type']")
           expect(page).not_to have_css("label.sr-only")
           expect(page).to have_xpath("//label[@for='add_event_event_type']")
+          expect(page).not_to have_css("select#add_event_event_type[aria-labelledby]")
         end
       end
 
@@ -345,7 +346,7 @@ describe 'Resources', js: true do
     expect(find('#resource_id_3_').value).to eq "#{resource.id_3}"
 
     # Archival Objects
-    elements = all('.largetree-node')
+    elements = all('.node:not(.root)')
     expect(elements.length).to eq 10
   end
 
@@ -599,7 +600,7 @@ describe 'Resources', js: true do
 
     expect(page).to have_text "Resource Resource Title #{now} created"
 
-    element = find('#tree-container')
+    element = find('#infinite-tree-container')
     expect(element).to have_text "Resource Title #{now}"
   end
 
@@ -915,6 +916,44 @@ describe 'Resources', js: true do
         "input[name='resource[related_accessions][0][ref]']",
         count: 1, visible: :all
       )
+    end
+
+    it 'keeps a newly created related accession when a save fails validation' do
+      now = Time.now.to_i
+      resource = create(:resource, title: "Resource Title #{now}")
+
+      visit "resources/#{resource.id}/edit"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+      click_on 'Add Related Accession'
+
+      find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
+      wait_for_ajax
+      find('#resource_related_accessions_ .linker-create-btn').click
+
+      within '#resource_related_accessions__0__ref__modal' do
+        fill_in 'Identifier', with: "ACC_#{now}"
+        fill_in 'Title', with: "Created Accession #{now}"
+        fill_in 'Accession Date', with: '2026-01-05'
+        click_on 'Create and Link'
+      end
+
+      expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
+
+      fill_in 'resource_title_', with: ''
+      find('button', text: 'Save Resource', match: :first).click
+
+      within '#form_messages' do
+        expect(page).to have_selector(
+          '.alert.alert-danger.with-hide-alert',
+          visible: true,
+          text: 'Title - Property is required but was missing'
+        )
+      end
+
+      within '#resource_related_accessions_' do
+        expect(page).to have_css('.token-input-token', text: "Created Accession #{now}")
+      end
     end
 
     it 'shows validation errors when creating related accession with invalid data' do

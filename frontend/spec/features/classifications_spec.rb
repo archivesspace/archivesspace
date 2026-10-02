@@ -36,7 +36,7 @@ describe 'Classifications', js: true do
     find('button', text: 'Save Classification', match: :first).click
     wait_for_ajax
     expect(page).to have_text "Classification Title #{now} created"
-    element = find('div.agent_person')
+    element = find('.agent_person')
     expect(element).to have_text agent_name
 
     # Create classification child
@@ -44,8 +44,8 @@ describe 'Classifications', js: true do
     expect(page).to have_text('Classification Term')
 
     within '#basic_information' do
-      fill_in 'Identifier', with: "Identifier child #{now}"
-      fill_in 'Title', with: "Title child #{now}"
+      fill_in 'classification_term_identifier_', with: "Identifier child #{now}"
+      fill_in 'classification_term_title_', with: "Title child #{now}"
       # Creator AJAX drodown
       element = find('#token-input-classification_term_creator__ref_')
       element.fill_in with: agent_name
@@ -56,7 +56,7 @@ describe 'Classifications', js: true do
     # Click on save
     find('button', text: 'Save Classification Term', match: :first).click
     expect(page).to have_text "Classification Term Title child #{now} created"
-    element = find('div.agent_person')
+    element = find('.agent_person')
     expect(element).to have_text agent_name
   end
 

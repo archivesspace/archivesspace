@@ -145,6 +145,40 @@ describe 'Merge and Transfer', js: true do
     expect(page).to have_css "#archival_object_#{archival_object.id}"
   end
 
+  it 'validates and toggles archival object record-toolbar transfer dropdown accessibility states' do
+    now = Time.now.to_i
+
+    set_repo @repository_source
+    select_repository(@repository_source)
+
+    resource = create(:resource, title: "Resource Title #{now}")
+    archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
+    run_index_round
+
+    visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
+    expect(page).to have_selector('h2', visible: true)
+
+    transfer_toggle = find('#ao-transfer-dropdown > .dropdown-toggle')
+    expect(transfer_toggle['aria-expanded']).to eq('false')
+    transfer_toggle.click
+
+    expect(page).to have_selector('#ao-transfer-dropdown > .dropdown-menu.transfer-form', visible: true)
+    expect(find('#ao-transfer-dropdown > .dropdown-toggle')['aria-expanded']).to eq('true')
+
+    within '#ao-transfer-dropdown .dropdown-menu.transfer-form' do
+      click_on 'Transfer'
+    end
+
+    expect(page).to have_css('.missing-ref-message', visible: true)
+
+    within '#ao-transfer-dropdown' do
+      click_on 'Cancel'
+    end
+
+    expect(page).to have_no_selector('#ao-transfer-dropdown .dropdown-menu.transfer-form', visible: true)
+    expect(find('#ao-transfer-dropdown > .dropdown-toggle')['aria-expanded']).to eq('false')
+  end
+
   it 'can merge a digital object into a digital objectb' do
     now = Time.now.to_i
 

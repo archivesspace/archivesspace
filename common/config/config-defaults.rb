@@ -10,10 +10,11 @@
 ## This section contains the most commonly changed ArchivesSpace settings
 ##
 
-# Set your database name and credentials here.  Example:
+# Set your database name and credentials here.  This option is required:
+# ArchivesSpace will not start until it is pointed at a MySQL database.  Example:
 # AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 #
-AppConfig[:db_url] = proc { AppConfig.demo_db_url }
+AppConfig[:db_url] = nil
 
 # Set the maximum number of database connections used by the application.
 # Default is derived from the number of indexer threads.
@@ -54,6 +55,12 @@ AppConfig[:docs_url] = "http://localhost:8888"
 AppConfig[:frontend_log] = "default"
 # Log level for the frontend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:frontend_log_level] = "debug"
+
+# Maximum number of fields in a multipart form submitted to the staff interface
+# (Rack's default is 4096). Each linked record in an edit form adds two fields,
+# so this allows saving e.g. a resource with around 4000 related accessions.
+AppConfig[:frontend_multipart_total_part_limit] = 8192
+
 # Log level for the backend, values: (everything) debug, info, warn, error, fatal (severe only)
 AppConfig[:backend_log] = "default"
 AppConfig[:backend_log_level] = "debug"
@@ -117,9 +124,6 @@ AppConfig[:default_admin_password] = "admin"
 # want ArchivesSpace to put its data files elsewhere.
 #
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
-
-# Directory to store automated backups when using the embedded demo database (Apache Derby instead of MySQL)
-AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 
 # The number of seconds between each run of the SUI indexer. The indexer will perform and indexing cycle every configured number of seconds.
 AppConfig[:solr_indexing_frequency_seconds] = 30
@@ -204,13 +208,7 @@ AppConfig[:allow_other_unmapped] = false
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
 
 
-# When using the embedded demo database (Apache Derby instead of MySQL) this is the schedule of the automated backups, in cron format. By default, it is at 4AM every day.
-AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
-
-# How many backups to keep available when using the embedded demo database
-AppConfig[:demo_db_backup_number_to_keep] = 7
-
-# Set this to true if you are determined to use a database other than MySQL or the embedded demo database based on Apache Derby (not recommended!).
+# Set this to true if you are determined to use a database other than MySQL (not recommended!).
 AppConfig[:allow_unsupported_database] = false
 
 # Set this to true to skip the standard validation of the character encoding of MySQL tables being set to UTF8 (not-recommended!)
@@ -301,8 +299,6 @@ AppConfig[:notifications_poll_frequency_ms] = 1000
 
 AppConfig[:max_usernames_per_source] = 50
 
-AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], "create_demodb_snapshot.txt") }
-
 # Report Configuration
 # :report_page_layout uses valid values for the  CSS3 @page directive's
 # size property: http://www.w3.org/TR/css3-page/#page-size-prop
@@ -352,8 +348,8 @@ AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ?
 AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
 
 
-# By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
-AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
+# Whether jobs can be cancelled once they have started running
+AppConfig[:jobs_cancelable] = "true"
 
 AppConfig[:max_location_range] = 1000
 
@@ -408,6 +404,9 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 # AppConfig[:container_management_extent_calculator] = { :report_volume => true, :unit => :feet, :decimal_places => 3 }
 
 # Public User Interface (PUI) Settings
+#
+# Place the PUI behind authentication.  Default is false.
+AppConfig[:pui_require_authentication] = false
 #
 # PUI Inheritance
 # Define the fields for a record type that are inherited from ancestors

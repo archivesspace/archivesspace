@@ -5,7 +5,6 @@ source 'https://rubygems.org'
 gem 'atomic'
 gem 'bcrypt'
 gem 'childprocess'
-gem 'jdbc-derby'
 gem 'jdbc-mysql', '>=8.0', group: :development
 gem 'jruby-jars', '= 9.4.9.0'
 gem 'json'

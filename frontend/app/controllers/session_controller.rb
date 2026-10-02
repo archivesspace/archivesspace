@@ -38,22 +38,33 @@ class SessionController < ApplicationController
 
 
   def logout
+    User.logout
+
     reset_session
     redirect_to :root
   end
 
 
-  # let a trusted app (i.e., public catalog) know if a user
-  # should see links back to this editing interface
+  # let a trusted app (i.e., public catalog) know whether a user should
+  # either 1. see links back to the SUI, or 2. (if PUI authentication is on)
+  # be handed off into a PUI session. Gated by the presence/absence of a
+  # record :uri.
   def check_session
-    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    set_pui_cors_headers
 
-    if session[:session] && params[:uri]
-      access_info = check_user_access(params)
-      render json: access_info
-    else
+    if session[:session].blank?
       render json: { can_access: false, mode: nil }
+      return
+    end
+
+    if params[:uri]
+      render json: check_user_access(params)
+    elsif !AppConfig[:pui_require_authentication]
+      render json: { can_access: false, mode: nil }
+    elsif user_can_view_pui?
+      render json: pui_handoff_response
+    else
+      render json: { view_pui: false }
     end
   end
 
@@ -121,5 +132,32 @@ class SessionController < ApplicationController
       can_access: can_edit || can_view,
       mode: mode
     }
+  end
+
+  def set_pui_cors_headers
+    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+  end
+
+  def user_can_view_pui?
+    user_can?('view_pui')
+  end
+
+  def pui_handoff_response
+    pui_session = User.request_pui_session
+
+    if pui_session
+      {
+        session: pui_session['session'],
+        username: pui_session['username'],
+        view_pui: true
+      }
+    else
+      { view_pui: false }
+    end
+  rescue StandardError => e
+    Rails.logger.error("check_session: could not reach the backend to request a PUI session (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    { view_pui: false }
   end
 end

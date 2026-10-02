@@ -178,11 +178,6 @@ class AppConfig
   end
 
 
-  def self.demo_db_url
-    "jdbc:derby:#{File.join(AppConfig[:data_directory], "archivesspace_demo_db")};create=true;aspacedemo=true"
-  end
-
-
   def self.read_defaults
     File.read(File.join(File.dirname(__FILE__), "config-defaults.rb"))
   end

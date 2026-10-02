@@ -9,12 +9,8 @@
       "oai_record_prefix" => {"type" => "string", "required" => true},
       "oai_admin_email" => {"type" => "string", "required" => true},
       "oai_repository_name" => {"type" => "string", "required" => true},
-      "repo_set_codes" => {"type" => "string"},
-      "sponsor_set_names" => {"type" => "string"},
-      "repo_set_description" => {"type" => "string"},
-      "sponsor_set_description" => {"type" => "string"},
-      "repo_set_name" => {"type" => "string"},
-      "sponsor_set_name" => {"type" => "string"}
+      "oai_repository_sets" => {"type" => "array", "items" => {"type" => "JSONModel(:oai_repository_set) object"}},
+      "oai_sponsor_sets" => {"type" => "array", "items" => {"type" => "JSONModel(:oai_sponsor_set) object"}}
     },
   },
 }

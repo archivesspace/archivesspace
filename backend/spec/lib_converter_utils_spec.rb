@@ -30,6 +30,81 @@ describe ASpaceImport::Utils do
 
   end
 
+  describe :normalize_boolean do
+
+    let(:normalize) { ASpaceImport::Utils.normalize_boolean }
+
+    it "recognizes affirmative tokens regardless of case, padding, or type" do
+      ['1', 'T', 'Y', 'YES', 'TRUE', 't', 'yes', 'True', ' y ', 1, true].each do |value|
+        expect(normalize.call(value)).to eq(true), "expected #{value.inspect} to normalize to true"
+      end
+    end
+
+    it "recognizes negative tokens regardless of case, padding, or type" do
+      ['0', 'F', 'N', 'NO', 'FALSE', 'f', 'no', 'False', ' n ', 0, false].each do |value|
+        expect(normalize.call(value)).to eq(false), "expected #{value.inspect} to normalize to false"
+      end
+    end
+
+    it "returns nil for blank values so the record falls back to its default" do
+      [nil, "", "   "].each do |value|
+        expect(normalize.call(value)).to be_nil, "expected #{value.inspect} to normalize to nil"
+      end
+    end
+
+    it "raises for values it cannot interpret" do
+      ["nil", "null", "NULL", "none", "empty", "NaN", "2", "yes please"].each do |value|
+        expect {
+          normalize.call(value)
+        }.to raise_error(ASpaceImport::Utils::UnrecognizedBooleanValue),
+             "expected #{value.inspect} to be rejected"
+      end
+    end
+
+  end
+
+  describe :record_uri do
+
+    it "builds a URI from a bare numeric ID" do
+      expect(ASpaceImport::Utils.record_uri(:subject, "197")).to eq("/subjects/197")
+      expect(ASpaceImport::Utils.record_uri(:agent_person, " 5 ")).to eq("/agents/people/5")
+    end
+
+    it "accepts a full URI of the expected type and returns it unchanged" do
+      expect(ASpaceImport::Utils.record_uri(:subject, "/subjects/197")).to eq("/subjects/197")
+      expect(ASpaceImport::Utils.record_uri(:agent_family, " /agents/families/5 ")).to eq("/agents/families/5")
+    end
+
+    it "rejects a bare value that is not a positive integer" do
+      ["abc", "1.5", "5a", "-1", "import_abc123"].each do |value|
+        expect {
+          ASpaceImport::Utils.record_uri(:subject, value)
+        }.to raise_error(ASpaceImport::Utils::InvalidRecordReference) {|error|
+          expect(error.reason).to eq(:invalid_id)
+        }
+      end
+    end
+
+    it "rejects a URI belonging to a different record type" do
+      expect {
+        ASpaceImport::Utils.record_uri(:subject, "/agents/people/5")
+      }.to raise_error(ASpaceImport::Utils::InvalidRecordReference) {|error|
+        expect(error.reason).to eq(:unrecognized_uri)
+      }
+    end
+
+    it "rejects a malformed URI rather than treating it as a bare ID" do
+      ["/subjects/abc", "/subjects/", "/"].each do |value|
+        expect {
+          ASpaceImport::Utils.record_uri(:subject, value)
+        }.to raise_error(ASpaceImport::Utils::InvalidRecordReference) {|error|
+          expect(error.reason).to eq(:unrecognized_uri)
+        }
+      end
+    end
+
+  end
+
   describe :update_record_references do
 
     it "updates the references in a json object by mapping them to the references provided in a source set" do

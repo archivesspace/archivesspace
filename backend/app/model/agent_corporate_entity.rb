@@ -31,11 +31,13 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
 
 
   def delete
-    begin
-      super
-    rescue Sequel::DatabaseError
-      raise ConflictException.new("This agent is linked to a repository and can't be removed")
+    if Repository.filter(:agent_representation_id => self.id).count > 0
+      raise ConflictException.new("cannot_delete_repository_agent")
     end
+
+    check_cross_repo_delete_conflict!
+
+    super
   end
 
 end

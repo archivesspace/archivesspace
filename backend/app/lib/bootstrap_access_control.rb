@@ -80,6 +80,13 @@ class ArchivesSpaceService
                       :level => "global",
                       :system => true)
 
+    Permission.define("view_pui",
+                      "The ability to view the PUI",
+                      :level => "global")
+
+    # PUI viewers group depends on the view_pui permission just defined above.
+    self.create_group(Group.PUI_VIEWERS_GROUP_CODE, "PUI Viewers", [User.ADMIN_USERNAME], ['view_pui'])
+
     Permission.define("create_repository",
                       "The ability to create new repositories",
                       :level => "global")
@@ -218,6 +225,10 @@ class ArchivesSpaceService
     Permission.define("delete_agent_record",
                       "The ability to delete agent records",
                       :implied_by => 'manage_agent_record',
+                      :level => "global")
+
+    Permission.define("delete_agent_record_linked_elsewhere",
+                      "The ability to delete an agent record that is linked to records in a repository other than the current one",
                       :level => "global")
 
     Permission.define("delete_subject_record",

@@ -6,12 +6,12 @@ def migrate_contact_notes(ac_notes)
   ac_notes.each do |ac|
     self[:note].insert(
       :notes_json_schema_version => 1,
-      :notes => blobify(self, JSON.generate({
-                                  'jsonmodel_type' => 'note_contact_note',
-                                  'date_of_contact' => "Before #{Time.now.strftime("%Y-%m-%d")}",
-                                  'contact_notes' => ac[:note],
-                                  'persistent_id' => SecureRandom.hex
-                                })),
+      :notes => JSON.generate({
+                    'jsonmodel_type' => 'note_contact_note',
+                    'date_of_contact' => "Before #{Time.now.strftime("%Y-%m-%d")}",
+                    'contact_notes' => ac[:note],
+                    'persistent_id' => SecureRandom.hex
+                  }),
       :last_modified_by => ac[:last_modified_by],
       :created_by => 'admin',
       :create_time => ac[:create_time],

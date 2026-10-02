@@ -373,7 +373,15 @@ $(function () {
             idMatches &&
             (onResource || onArchivalObject)
           ) {
+            // LargeTree loads the record form into #object_container; InfiniteTree uses
+            // #infinite-tree-record-pane. Fall back to the record pane when the legacy
+            // container is absent so that pre-population works for both tree types.
             let currentForm = $('#object_container').find('form').first();
+            if (!currentForm.length) {
+              currentForm = $('#infinite-tree-record-pane')
+                .find('form')
+                .first();
+            }
             if (onResource) {
               return [
                 {
@@ -511,10 +519,7 @@ $(function () {
                 config: config,
               })
             );
-            tokenEl
-              .children('div')
-              .children('.icon-token')
-              .addClass(config.span_class);
+            tokenEl.find('.icon-token').addClass(config.span_class);
             $('input[name*=resolved]', tokenEl).val(
               JSON.stringify(omitNestedRecords(item.json))
             );
@@ -548,17 +553,11 @@ $(function () {
             var added_node_id = '#' + item.id.replace(/\//g, '_');
 
             added_node = $(added_node_id);
-            added_node
-              .children('div')
-              .children('.icon-token')
-              .addClass(extra_class);
+            added_node.find('.icon-token').addClass(extra_class);
 
             if (config.sortable && config.allow_multiple) {
               enableSorting();
             }
-
-            //            $this.triggerHandler("change");
-            $(document).triggerHandler('init.popovers', [$this.parent()]);
           },
           formatQueryParam: function (q, ajax_params) {
             if (

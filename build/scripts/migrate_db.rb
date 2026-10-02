@@ -15,20 +15,6 @@ if AppConfig[:db_url] =~ /jdbc:mysql/
 end
 
 
-if ARGV.length > 0 and ARGV[0] == "nuke"
-  if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
-    dir = $1
-
-    if File.directory?(dir) and File.exist?(File.join(dir, "seg0"))
-      puts "Nuking demo database: #{dir}"
-      sleep(5)
-      FileUtils.rm_rf(dir)
-      exit
-    end
-  end
-end
-
-
 begin
   migration_logger = Logger.new($stderr)
 

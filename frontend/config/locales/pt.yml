@@ -17,3 +17,5 @@ pt:
       action:
         add: Adicionar idioma dos materiais
         add_note: Adicionar nota de idioma
+  user:
+    is_pui_viewer: Visualizador de PUI

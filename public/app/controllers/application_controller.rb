@@ -1,4 +1,11 @@
 class ApplicationController < ActionController::Base
+  class_attribute :json_auth_actions, default: []
+
+  # JSON-only actions (tree/waypoint data) get a 401, not the HTML login screen.
+  def self.json_response_for(*actions)
+    self.json_auth_actions = actions.map(&:to_sym)
+  end
+
   include ManipulateNode
   helper_method :process_mixed_content
   helper_method :process_mixed_content_title
@@ -26,7 +33,12 @@ class ApplicationController < ActionController::Base
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
 
+  # Session key marking that #redirect_back has already sent this client to its Referer once
+  REDIRECTED_BACK_KEY = 'pui_redirected_back'
+
+  before_action :authenticate_user!
   around_action :set_locale
+  after_action :clear_redirected_back
 
 
   # Allow overriding of templates via the local folder(s)
@@ -43,7 +55,76 @@ class ApplicationController < ActionController::Base
     ArchivesSpaceClient.instance
   end
 
+  # allow_other_host defaults to false so a Referer cannot redirect off-site.
+  # Rails 6.1 hard-codes it in the signature; on Rails 7 set
+  # config.action_controller.raise_on_open_redirects and drop the default here.
+  def redirect_back(fallback_location:, allow_other_host: false, **options)
+    fallback_location = keep_on_site(fallback_location)
+    referer = followable_referer(allow_other_host)
+    redirected_before = session[REDIRECTED_BACK_KEY]
+    session[REDIRECTED_BACK_KEY] = true
+
+    if referer.nil? || redirected_before
+      redirect_to(fallback_location, **options)
+    else
+      super(fallback_location: fallback_location, allow_other_host: allow_other_host, **options)
+    end
+  end
+
   private
+
+  def authenticate_user!
+    return unless AppConfig[:pui_require_authentication]
+
+    status = pui_auth_status
+    return if status == :ok
+
+    if status == :forbidden
+      flash.now[:error] = I18n.t('login.pui_permission_denied', username: session[:pui_username])
+    end
+
+    session[:session] = nil
+    session[:pui_username] = nil
+
+    if json_auth_actions.include?(action_name.to_sym)
+      render json: { error: 'authentication_required' }, status: :unauthorized
+    else
+      @skip_pui_autocheck = skip_pui_autocheck?
+      render 'shared/login', layout: 'login', status: :unauthorized
+    end
+  end
+
+  def skip_pui_autocheck?
+    session.delete(:skip_pui_autocheck).present?
+  end
+
+  def pui_auth_status
+    return :unauthenticated if session[:session].blank?
+
+    parsed_body = get_json_as_backend_session('/users/current-user', session[:session])
+    session[:pui_username] = parsed_body['username']
+    parsed_body['is_pui_viewer'] ? :ok : :forbidden
+  rescue StandardError => e
+    Rails.logger.error("pui_auth_status: could not verify the session with the backend (#{e.class}: #{e.message})")
+    Rails.logger.error("Stacktrace:\n%s" % [e.backtrace.join("\n")])
+    :unauthenticated
+  end
+
+  def get_json_as_backend_session(uri, token)
+    with_backend_session(token) { JSONModel::HTTP.get_json(uri) }
+  end
+
+  # Run the block authenticated as `token` rather than whatever session (if
+  # any) is already active on this thread, restoring the prior value
+  # afterwards so we don't leak `token` into unrelated requests on a
+  # threaded server.
+  def with_backend_session(token)
+    original_session = JSONModel::HTTP.current_backend_session
+    JSONModel::HTTP.current_backend_session = token
+    yield
+  ensure
+    JSONModel::HTTP.current_backend_session = original_session
+  end
 
   def render_backend_failure(exception)
     Rails.logger.error(exception)
@@ -53,11 +134,35 @@ class ApplicationController < ActionController::Base
   def render_no_results_found(exception)
     Rails.logger.error(exception)
     flash[:error] = I18n.t('search_results.no_results')
-    unless controller_name == 'repositories'
-      redirect_back(fallback_location: '/') and return
-    else
-      redirect_to('/')
-    end
+    redirect_back(fallback_location: root_path)
+  end
+
+  def repository_or_root_path(repo_id)
+    repo_id.present? ? PrefixHelper.app_prefix("/repositories/#{repo_id}") : root_path
+  end
+
+  def keep_on_site(location)
+    return location unless location.is_a?(String)
+    return location if location.start_with?('/') && !location.start_with?('//')
+
+    _url_host_allowed?(location) ? location : root_path
+  end
+
+  def followable_referer(allow_other_host)
+    referer = request.referer
+    return nil if referer.blank?
+    return nil if URI.join(request.original_url, referer).to_s == request.original_url
+    return nil if !allow_other_host && !_url_host_allowed?(referer)
+
+    referer
+  rescue URI::Error, ArgumentError
+    nil
+  end
+
+  def clear_redirected_back
+    return if response.redirect?
+
+    session.delete(REDIRECTED_BACK_KEY) if session.key?(REDIRECTED_BACK_KEY)
   end
 
   def process_slug_or_id(params)

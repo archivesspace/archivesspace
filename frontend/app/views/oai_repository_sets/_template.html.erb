@@ -1,0 +1,7 @@
+<% define_template "oai_repository_set", jsonmodel_definition(:oai_repository_set) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textfield "set_name" %>
+    <%= form.label_and_checkbox_list "repo_codes", @repositories.map {|repository| [repository['repo_code'], repository['repo_code']]} %>
+    <%= form.label_and_textarea "set_description" %>
+  </div>
+<% end %>

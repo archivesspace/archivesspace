@@ -39,6 +39,13 @@ ArchivesSpace build system. From the top level directory, type
 build/run bootstrap
 ```
 
+The test suites run against MySQL and Solr. If you do not have them running
+already, start the development services with Docker:
+
+```sh
+docker compose -f docker-compose-dev.yml up --detach
+```
+
 ArchivesSpace has several test suites that can be run individually or all at
 once. NOTE: running all test suites can take a while to run. The test suites that
 are most applicable are:
@@ -73,9 +80,20 @@ request.
 ### Running components locally
 
 After you have [bootstrapped the environment](#bootstrap), you can run a
-development instance of all ArchivesSpace components. Without any configuration,
-the devservers will spin up an Apache Derby database which will disappear once the
-devservers have been stopped.
+development instance of all ArchivesSpace components. The devservers need a
+MySQL database and a Solr instance to talk to; the quickest way to get both is
+to start the development services with Docker:
+
+```sh
+docker compose -f docker-compose-dev.yml up --detach
+```
+
+That provides the MySQL and Solr instances the devservers and the test suites
+expect by default. Once they are up, create the database schema with
+
+```sh
+build/run db:migrate
+```
 
 #### Database and API
 

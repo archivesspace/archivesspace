@@ -21,6 +21,10 @@
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
+.dropdown-submenu:hover:has(> [disabled]:first-child + .dropdown-menu),
+.dropdown-submenu:hover:has(> .disabled:first-child + .dropdown-menu) {
+  display: none;
+}
 .dropdown-submenu > .dropdown-menu > fieldset > label:last-of-type {
   // Used in record toolbar Export dropdown
   margin-bottom: 0;

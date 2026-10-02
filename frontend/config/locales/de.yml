@@ -54,6 +54,7 @@ de:
       Aufzeichnung(en) werden gelöscht.
     merge_n_records: '%{n} Aufzeichnungen zusammenführen'
     move: Verschieben
+    move_group: Knoten verschieben
     move_up_a_level: Eine Ebene hinauf
     move_up: Hinauf
     move_down: Hinunter
@@ -180,12 +181,21 @@ de:
     delete_repository_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie
       <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit 
       wird der <strong>Aufbewahrungsort</strong> und alle zugehörigen 
-      Aufzeichnungen inklusive aller Verweise zu anderen Aufzeichnungen aus der 
-      Datenbank entfernt.</p><p>Um fortzufahren geben Sie bitte '%{repository}' 
-      unten ein:</p><p><input id='deleteRepoConfim' 
+      Aufzeichnungen inklusive aller Verweise zu anderen Aufzeichnungen aus der
+      Datenbank entfernt.</p><p>Um fortzufahren geben Sie bitte '%{repository}'
+      unten ein:</p><p><input id='deleteRepoConfim'
       data-confirm-answer='%{repository}'></input></p>
-    delete_multiple_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie 
-      <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit 
+    delete_agent_cross_repo_confirm_message: <p>Bitte seien Sie sich bewusst,
+      dass Sie <strong>diese Aktion nicht rückgängig machen können</strong>.</p>
+      <p>Damit wird die Aufzeichnung inklusive aller Verweise zu anderen
+      Aufzeichnungen aus der Datenbank entfernt.</p><p><strong>Dieser Akteur
+      ist mit Aufzeichnungen in mindestens einem anderen Aufbewahrungsort
+      verknüpft.</strong> Durch das Löschen werden die Verknüpfungen zu
+      Aufzeichnungen in allen Aufbewahrungsorten aufgehoben.</p>
+    delete_agent_cross_repo_confirm_checkbox_label: Diesen Akteur aus allen
+      verknüpften Aufbewahrungsorten löschen
+    delete_multiple_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie
+      <strong>diese Aktion nicht rückgängig machen können</strong>.</p><p>Damit
       werden diese Aufzeichnungen inklusive aller Verweise zu anderen 
       Aufzeichnungen aus der Datenbank entfernt.</p>
     form_changes_message: <small><span class='muted'>Sie haben ungesicherte 
@@ -810,19 +820,19 @@ de:
   batch_delete:
     archival_records:
       success: Aufzeichnungen gelöscht
-      error: 'Konnte Aufzeichnungen nicht löschen:'
+      error: 'Keine der ausgewählten Aufzeichnungen wurde gelöscht, aufgrund der folgenden Probleme:'
     subjects:
       success: Themen gelöscht
-      error: 'Konnte Themen nicht löschen:'
+      error: 'Keines der ausgewählten Themen wurde gelöscht, aufgrund der folgenden Probleme:'
     agents:
       success: Akteure gelöscht
-      error: 'Konnte Akteure nicht löschen:'
+      error: 'Keiner der ausgewählten Akteure wurde gelöscht, aufgrund der folgenden Probleme:'
     locations:
       success: Standorte gelöscht
-      error: 'Konnte Standorte nicht löschen:'
+      error: 'Keiner der ausgewählten Standorte wurde gelöscht, aufgrund der folgenden Probleme:'
     assessments:
       success: Eingänge gelöscht
-      error: 'Konnte Eingänge nicht löschen:'
+      error: 'Keiner der ausgewählten Eingänge wurde gelöscht, aufgrund der folgenden Probleme:'
   welcome:
     heading: Willkommen bei ArchivesSpace
     message: Ihr freundliches Archiv-Verwaltungs-Werkzeug.
@@ -925,6 +935,7 @@ de:
     messages:
       required_fields_updated: Erforderliche Felder aktualisiert
   tree:
+    toolbar_aria_label: Baum-Werkzeugleiste
     drag_and_drop_actions:
       before: Elemente vorher hinzufügen
       after: Elemente nachher hinzufügen
@@ -933,6 +944,11 @@ de:
       versuchen Sie die Seite neu zu laden.
     resize: Ziehen, um die Baumhöhe zu ändern
     maximize: Baumhöhe maximieren/minimieren
+    drag_to_reorder: Ziehen zum Neuordnen
+    errors:
+      move_records: Datensätze können nicht verschoben werden
+      move_records_message: Die Datensätze konnten nicht verschoben werden. 
+        Bitte laden Sie die Seite neu und versuchen Sie es erneut.
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen
@@ -950,6 +966,13 @@ de:
       einem Benutzer verknüpft ist
     cannot_delete_repository_agent: Dieser Akteur ist mit einem Aufbewahrungsort
       verknüpft und kann nicht entfernt werden.
+    linked_to_other_repo: Dieser Akteur ist mit Datensätzen in mindestens einem
+      anderen Aufbewahrungsort verknüpft. Er kann nicht aus diesem Aufbewahrungsort
+      gelöscht werden. Wechseln Sie entweder zu dem Aufbewahrungsort, mit dem er
+      verknüpft ist (sofern Sie dort über Akteur-Verwalter-Rechte verfügen), oder
+      wenden Sie sich an eine:n Administrator:in.
+    cannot_delete_system_agent: Dies ist ein Systemakteur-Datensatz und kann
+      nicht gelöscht werden.
     error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder 
       Sie haben keine Rechte sie anzuzeigen.
     error_404: Aufzeichnung nicht gefunden
@@ -1020,6 +1043,10 @@ de:
       action:
         create: Akteur erstellen
         preview: Zusammenführungs-Vorschau
+      linked_in_other_repository:
+        label: Außerhalb dieses Aufbewahrungsorts verknüpft
+        tooltip: Dieser Akteur ist mit Datensätzen außerhalb dieses
+          Aufbewahrungsorts verknüpft.
   agent_contact:
     is_representative: Bevorzugt
     notes_tooltip: "<p>Weitere Anmerkungen oder andere Information über den Kontakt.</p>\n"
@@ -1643,6 +1670,7 @@ de:
           aktivieren möchten?
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
+    is_pui_viewer: PUI-Viewer
   use_date:
     _frontend:
       action:
@@ -2001,12 +2029,6 @@ de:
 
   agent_resource_merge_destination:
     <<: *agent_resource_attributes
-  database_warning:
-    message: "<p><strong>Datenbankwarnung:</strong> Sie verwenden derzeit die eingebettete
-      Datenbank (Apache Derby). Die eingebettete Datenbank ist nur für Test-/Demozwecke
-      vorgesehen und wird in der nächsten Hauptversion eingestellt. Sie sollten MySQL
-      für alle Daten verwenden, die für den Produktiveinsatz bestimmt sind, einschließlich
-      Daten in einer Testinstanz, die Sie in eine Produktionsinstanz übernehmen möchten.</p>"
   breadcrumb:
     home: Start
   structured_date_single:
@@ -2056,8 +2078,25 @@ de:
       Erstellung von Standort-Aufzeichnungen selbst ist und nicht zum Verknüpfen
       von Archivgut mit Standorten.
     aspace_accession_import_template_csv: Erzeugen Sie Eingangs-Aufzeichnungen 
-      und Aufzeichnungen, die mit Eingängen verknüpft werden, wie Akteuren, 
-      Themen und Ereignisse.
+      sowie Umfänge, Externe Dokumente, Themen, Akteure und Instanzen mit 
+      Haupt-Behältnissen. Der Download enthält je eine _1-Gruppe für jedes 
+      davon. Verknüpfen Sie ein bestehendes Thema mit subject_1_record_id und 
+      geben Sie dabei entweder eine numerische ID wie 197 oder eine vollständige
+      URI wie /subjects/197 an. Verknüpfen Sie einen bestehenden Akteur auf 
+      dieselbe Weise mit agent_1_record_id; agent_1_agent_type ist erforderlich,
+      wenn Sie eine numerische ID angeben, und optional, wenn Sie eine URI wie 
+      /agents/people/5 angeben. Füllen Sie Verknüpfungs- und Erstellungsfelder 
+      nicht in derselben Gruppe aus. Verknüpfen Sie ein bestehendes 
+      Haupt-Behältnis mit einer vollständigen URI wie 
+      /repositories/2/top_containers/5 oder allein mit seinem Strichcode. Ein 
+      Strichcode allein verknüpft das Haupt-Behältnis, dem er gehört, unabhängig
+      davon, ob dieses bereits bestand oder von einer früheren Zeile erstellt 
+      wurde; der Import schlägt fehl, wenn kein Haupt-Behältnis im Repository 
+      diesen Strichcode hat. Wird neben einem Strichcode ein weiteres 
+      Haupt-Behältnis-Feld ausgefüllt, wird stattdessen ein neues 
+      Haupt-Behältnis mit diesem Strichcode erstellt, wobei ein Indikator 
+      erforderlich ist; der Import schlägt fehl, wenn dieser Strichcode im 
+      Repository bereits verwendet wird.
     bulk_import_template_csv: Erstellen Sie Archiv-Objekte, die an eine bereits 
       bestehende Ressource angehängt werden. Enthält eine Option, um viele 
       verschiedene Teilaufzeichnungen und verknüpfte Aufzeichnungen wie Daten, 
@@ -2619,34 +2658,43 @@ de:
       action:
         create: OAI-PHM Einstellungen aktualisieren
         updated: OAI-PMH Einstellungen erfolgreich aktualisiert!
-    sponsor_set_description: Beschreibung der Sponsoren-Menge
     oai_repository_name: Name des OAI-Aufzeichnungsortes
     oai_admin_email: E-Mail des OAI-Administrators
     repo_set_desc: Zusätzlich zu Mengen basierend auf Beschreibungsebenen können
       Sie eine OAI-Menge basierend auf Aufbewahrungsarten festlegen.
     _sidebar:
-      sponsor_set_section:
-        _plural: Sponsoren-Mengen
-      repo_set_section:
-        _plural: Aufbewahrungsort-Mengen
       repo_settings:
         _plural: OAI-PHM Einstellungen pro Aufbewahrungsort
     title: OAI-PMH Einstellungen
     title_repo_section: OAI-PMH Einstellungen pro Aufbewahrungsort
     general_section: Allgemeine Einstellungen
-    repo_set_section: Aufbewahrungsort-Menge
-    sponsor_set_section: Sponsor-Menge
     sponsor_set_desc: Zusätzlich zu Mengen basierend auf Beschreibungsebenen 
       können Sie eine OAI-Menge basierend auf Sponsoren-Namen festlegen.
     oai_record_prefix: OAI-Aufzeichnungs-Präfix
-    repo_set_name: Name der Aufzeichnungsort-Menge
-    repo_set_codes: Aufzeichnungsorte in der Menge
-    repo_set_description: Beschreibung der Aufbewahrungsort-Menge
-    sponsor_set_name: Name der Sponsoren-Menge
-    sponsor_set_names: Namen der Sponsoren
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen 
       Aufbewahrungsort. Klicken Sie unten, um globale OAI-Optionen anzuzeigen 
       oder zu bearbeiten. Dies verlässt das aktuelle Formular ohne zu speichern.
+    oai_repository_sets: Aufbewahrungsort-Mengen
+    oai_sponsor_sets: Sponsoren-Mengen
+
+  oai_repository_set:
+    _plural: Aufbewahrungsort-Mengen
+    set_name: Name der Aufzeichnungsort-Menge
+    set_description: Beschreibung der Aufbewahrungsort-Menge
+    repo_codes: Aufzeichnungsorte in der Menge
+    _frontend:
+      action:
+        add: Aufbewahrungsort-Menge hinzufügen
+
+  oai_sponsor_set:
+    _plural: Sponsoren-Mengen
+    set_name: Name der Sponsoren-Menge
+    set_description: Beschreibung der Sponsoren-Menge
+    sponsor_names: Namen der Sponsoren
+    _frontend:
+      action:
+        add: Sponsoren-Menge hinzufügen
+
   agent_record_control: &agent_record_control_attributes
     language: Sprache
     cataloging_source: Aufzeichnungs-Steuerung Katalogisierungs-Quelle

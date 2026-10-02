@@ -298,7 +298,7 @@ describe 'Relationships' do
   it "will raise a exception if the optimistic locking fails" do
     # this is supposed to replicate when a relationship is attempted to be
     # made, but the Sequel throws an optimisitcLocking error
-    allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
+    allow(DB).to receive(:increase_lock_versions_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "IIe"))
 
     # by default we just try once and raise an error
@@ -317,7 +317,7 @@ describe 'Relationships' do
 
   it "will retry on optimistic locking failue if told to do so" do
     # in some situations ( like EAD imports ), we want to retry
-    allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
+    allow(DB).to receive(:increase_lock_versions_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "Lisa"))
 
     # we can tell the db to retry ( it will do 10 times by default )

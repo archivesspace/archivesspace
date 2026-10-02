@@ -1,6 +1,9 @@
 pt:
   archival_object: &archival_object_attributes
     lang_materials: Linguagens dos Materiais
+  group:
+    default_group_names:
+      pui_viewers: Visualizadores de PUI
   lang_description: &lang_description
     _plural: Linguagens de Descrição
     _singular: Linguagem de descrição

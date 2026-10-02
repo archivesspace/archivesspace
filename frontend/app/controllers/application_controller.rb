@@ -383,9 +383,16 @@ class ApplicationController < ActionController::Base
 
     return false if !context.session || !context.session[:user]
 
-    permissions_s = context.send(:cookies).signed[:archivesspace_permissions]
+    # Verifying and parsing the permissions cookie is costly, and one render can
+    # check permissions thousands of times (e.g. once per linked record in an
+    # edit form), so parse it once per request.
+    permissions = context.instance_variable_get(:@parsed_permissions_cookie)
 
-    if permissions_s
+    if permissions.nil?
+      permissions_s = context.send(:cookies).signed[:archivesspace_permissions]
+
+      return false if !permissions_s
+
       # Putting this check in for backwards compatibility with the uncompressed
       # cookies.  This can be removed at a future point once everyone's running
       # with compressed cookies.
@@ -396,8 +403,7 @@ class ApplicationController < ActionController::Base
              end
 
       permissions = ASUtils.json_parse(json)
-    else
-      return false
+      context.instance_variable_set(:@parsed_permissions_cookie, permissions)
     end
 
     (Permissions.user_can?(permissions, repository, permission) ||

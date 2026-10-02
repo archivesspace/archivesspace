@@ -23,7 +23,7 @@ end
 # Load shared examples
 Dir[File.expand_path('../shared/**/*.rb', __FILE__)].sort.each { |f| require f }
 
-# Use an in-memory Derby DB for the test suite
+# Share a single connection pool across the test suite
 class DB
 
   def self.get_default_pool
@@ -41,7 +41,7 @@ class DB
                               )
         self
       else
-        # For the sake of our tests, have all pools share the same Derby.
+        # For the sake of our tests, have all pools share the same database.
         DB.get_default_pool
       end
     end

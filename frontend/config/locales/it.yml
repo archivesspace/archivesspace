@@ -1,4 +1,35 @@
 it:
+  bulk_import_templates:
+    overview: |
+      <p>Questi modelli servono per caricare dati da fogli di calcolo in ArchivesSpace utilizzando le diverse opzioni di importazione disponibili nell'area "Background Jobs" (Attività in background). I dati necessari per un'importazione corretta variano in base al tipo di record da creare. Non è necessario compilare ogni riga e colonna.</p><p>Ogni modello CSV contiene una riga di dati di esempio. A meno che non si intenda creare un record utilizzando tali dati, si prega di eliminarli prima di caricare il foglio di calcolo. <b>Non eliminare la riga di intestazione, non aggiungere colonne né modificare l'ordine delle colonne esistenti.</b></p><p>I modelli Excel includono istruzioni aggiuntive per il loro utilizzo e regole di convalida per alcune celle. Non eliminare le istruzioni o le convalide.</p>
+    aspace_accession_import_template_csv: Crea record di adesione e record 
+      collegati ad adesioni come agenti, soggetti ed eventi.
+    aspace_digital_object_import_template_csv: Crea record di oggetti digitali e
+      record collegati a oggetti digitali come agenti, soggetti ed eventi.
+    bulk_import_template_csv: Consente di creare oggetti archivistici collegati 
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato CSV è destinato a chi non 
+      dispone di Microsoft Excel.
+    bulk_import_template_xlsx: Consente di creare oggetti archivistici collegati
+      a una risorsa esistente. Include l'opzione per creare numerosi e diversi 
+      sottoregistri e record collegati, tra cui date, estensioni, note, 
+      contenitori e oggetti digitali. Il formato XLSX è destinato a chi dispone 
+      di Microsoft Excel.
+    bulk_import_DO_template_csv: Crea oggetti digitali e collegali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato CSV è 
+      destinato a chi non dispone di Microsoft Excel.
+    bulk_import_DO_template_xlsx: Crea e collega oggetti digitali a oggetti 
+      archivistici esistenti all'interno di una risorsa. Il formato XLSX è 
+      destinato a chi dispone di Microsoft Excel.
+    aspace_location_import_template_csv: Crea nuovi record di collocazione. Si 
+      prega di notare che questo modello serve a creare i record di collocazione
+      stessi, non ad associare i materiali alle collocazioni.
+    aspace_assessment_import_template_csv: Crea e collega valutazioni ad 
+      acquisizioni, risorse, oggetti archivistici o oggetti digitali esistenti.
+    aspace_subject_import_template_csv: Crea nuovi record Soggetto. Si prega di 
+      notare che questo modello serve a creare i record Soggetto stessi, non a 
+      collegarli ad altri record.
   actions:
     add_event_event_type: Tipo
     add: Aggiungi
@@ -41,6 +72,7 @@ it:
       questo record e ogni informazione per gli altri record(s) sarà eliminata.
     merge_n_records: Unisci %{n} records
     move: Muovi
+    move_group: Sposta nodo
     move_down: Sotto
     paste: Incolla
     remove: Rimuovi
@@ -149,8 +181,16 @@ it:
       annullare questa azione</strong>.</p><p>Questa azione rimuoverà la 
       <strong>repository</strong> e tutti i records associati dal database, 
       incluso ogni riferimento della stessa presente in altri records.</p><p>Per
-      continuare per favore inserisci '%{repository}' sotto:</p><p><input 
+      continuare per favore inserisci '%{repository}' sotto:</p><p><input
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
+    delete_agent_cross_repo_confirm_message: <p>Attenzione! <strong>Non potrai
+      annullare questa azione</strong>.</p><p>Questa azione rimuoverà il record
+      dal database, incluso ogni riferimento dello stesso presente in altri
+      records.</p><p><strong>Questo agente è collegato a record in almeno
+      un altro repository.</strong> Eliminandolo verrà scollegato dai record
+      in tutti i repository.</p>
+    delete_agent_cross_repo_confirm_checkbox_label: Elimina questo agente da
+      tutti i repository collegati
     publish_archival_object_confirm_title: Pubblicare?
     publish_archival_object_confirm_message: <p>Effettuando questa operazione 
       pubblicherai il record, ogni sub-records (documenti esterni, note, etc) e 
@@ -670,8 +710,15 @@ it:
     merge_denied_for_system_user: Uno o più agents è un utente del sistema.
     merge_denied_relationship: Questi agents hanno una relazione. Rimuovi la 
       relazione prima di procedere con l'unione.
-    cannot_delete_repository_agent: Questo agent è linkato a una repository e 
+    cannot_delete_repository_agent: Questo agent è linkato a una repository e
       non può essere rimosso.
+    linked_to_other_repo: Questo agente è collegato a record in almeno un
+      altro repository. Non può essere eliminato da questo repository.
+      Passa al repository a cui è collegato (se disponi delle autorizzazioni
+      di gestione agenti in quel repository), oppure chiedi a un
+      amministratore di eliminarlo.
+    cannot_delete_system_agent: Questo è un record di agente di sistema e
+      non può essere eliminato.
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
     merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
       questa unione.
@@ -721,6 +768,10 @@ it:
       action:
         preview: Preview unione
         create: Crea agente
+      linked_in_other_repository:
+        label: Collegato al di fuori di questo repository
+        tooltip: Questo agente è collegato a record al di fuori di questo
+          repository.
   agent_contact:
     is_representative: Preferito
     notes_tooltip: "<p>Ulteriori note o altre informazioni riguardo il contatto.</p>\n"
@@ -740,17 +791,57 @@ it:
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
+    _frontend:
+      action:
+        add: Aggiungi lingua
+    language: Lingua
+    script: Sceneggiatura
   agent_occupation:
     _singular: Occupazione
     _plural: Occupazioni
+    _frontend:
+      action:
+        add: Aggiungi occupazione
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Professioni
+    places: Luoghi
+    publish: Pubblicato
   agent_record_identifier:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
     record_identifier: Identificatore del record
+    _plural: ID dei record
+    _singular: ID dei record
+    _frontend:
+      action:
+        add: Aggiungi ID record
+    identifier_type: Tipo di identificatore di controllo del record
+    primary: Primario
   agent_resource:
     file_uri: File URI
     _singular: Risorsa esterna correlata
     _plural: Risorse esterne correlate
+    _frontend:
+      action:
+        add: Aggiungi risorsa esterna correlata
+    section:
+      dates: Dati
+      places: Luoghi
+    dates: Dati
+    places: Luoghi
+    publish: Pubblicata
+    linked_agent_role: Tipo di relazione della risorsa
+    linked_resource: Risorsa esterna correlata
+    linked_resource_description: Descrizione
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Ultima data verificata
   metadata_rights_declaration:
     license: Licenza
     file_uri: File URI
@@ -759,6 +850,13 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione sui diritti dei metadati
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   job:
     _frontend:
       audit_data: Dati dell'audit
@@ -768,8 +866,8 @@ it:
         following_log: Registro seguente
         create: Crea lavoro
         save: Inizia il lavoro
-        new: Нова фонова робота
-        cancel: Скасувати завдання
+        new: Nuovo lavoro in background
+        cancel: Annulla lavoro
       section:
         basic_information: Informazioni di base
         status: Stato occupazionale
@@ -846,24 +944,106 @@ it:
       open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
+    _plural: ID entità
+    _singular: Identificativo
+    _frontend:
+      action:
+        add: Aggiungi ID entità
+    entity_identifier: ID entità
   agent_gender:
     _singular: Genere
     _plural: Generi
+    _frontend:
+      action:
+        add: Aggiungi il genere
+    gender: Genere
+    note: Nota
+    dates: Dati
   agent_function:
     _singular: Funzione
     _plural: Funzioni
+    _frontend:
+      action:
+        add: Aggiungi funzione
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Funzioni
+    places: Luoghi
+    publish: Pubblicato
   agent_place:
     _singular: Luogo
     _plural: Luoghi
+    _frontend:
+      action:
+        add: Aggiungi luogo
+    section:
+      dates: Dati
+    place_role: Ruolo dell'agente
+    text_note: Nota
+    dates: Dati
+    subjects: Luoghi
+    publish: Pubblicata
   agent_topic:
     _singular: Argomento
     _plural: Argomenti
+    _frontend:
+      action:
+        add: Aggiungi argomento
+    section:
+      dates: Dati
+    text_note: Nota
+    dates: Dati
+    subjects: Argomenti
+    places: Luoghi
+    publish: Pubblicato
   agent_alternate_set:
     file_uri: File URI
+    _plural: Insiemi alternativi
+    _singular: Set alternativo
+    _frontend:
+      action:
+        add: Aggiungi set alternativo
+    set_component: Imposta componente
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo Titolo Xlink
+    xlink_role_attribute: Attributo ruolo Xlink
+    xlink_arcrole_attribute: Attributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attributo Xlink Actuate
+    file_version_xlink_show_attribute: Xlink Mostra attributo
+    last_verified_date: Data dell'ultima verifica
   agent_conventions_declaration:
     file_uri: File URI
+    _plural: Dichiarazioni della Convenzione
+    _singular: Dichiarazione della Convenzione
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione della convenzione
+    name_rule: Convenzione
+    citation: Citazione
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole Xlink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   agent_source:
     file_uri: File URI
+    _plural: Fonti
+    _singular: Origine dell'agente
+    _frontend:
+      action:
+        add: Aggiungi sorgente
+    source_entry: Voce di origine
+    descriptive_note: Nota descrittiva
+    xlink_title_attribute: Attributo title XLink
+    xlink_role_attribute: Attributo di ruolo XLink
+    xlink_arcrole_attribute: Attributo Arcrole di XLink
+    file_version_xlink_actuate_attribute: Attributo XLink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Data dell'ultima verifica
   advanced_search:
     operator:
       NOT: Non
@@ -903,20 +1083,20 @@ it:
     add_row: Aggiungi riga
   batch_delete:
     agents:
-      error: 'Impossibile eliminare gli agents:'
+      error: 'Nessuno degli agenti selezionati è stato eliminato, a causa dei seguenti problemi:'
       success: Agents eliminati
     archival_records:
       success: Record eliminati
-      error: 'Impossibile eliminare i record:'
+      error: 'Nessuno dei record selezionati è stato eliminato, a causa dei seguenti problemi:'
     subjects:
       success: Soggetti cancellati
-      error: 'Impossibile eliminare gli argomenti:'
+      error: 'Nessuno degli argomenti selezionati è stato eliminato, a causa dei seguenti problemi:'
     locations:
       success: Posizioni eliminate
-      error: 'Impossibile eliminare le posizioni:'
+      error: 'Nessuna delle posizioni selezionate è stata eliminata, a causa dei seguenti problemi:'
     assessments:
       success: Valutazioni cancellate
-      error: 'Impossibile eliminare le valutazioni:'
+      error: 'Nessuna delle valutazioni selezionate è stata eliminata, a causa dei seguenti problemi:'
   related_agent:
     _frontend:
       messages:
@@ -983,13 +1163,6 @@ it:
     heading: Benvenuto in ArchivesSpace
   skipnav:
     main_content: Passa al contenuto principale
-  database_warning:
-    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando
-      il database integrato (Apache Derby). Il database integrato è destinato esclusivamente
-      a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale.
-      Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi
-      i dati presenti in un'istanza di test che intendi trasferire in un'istanza di
-      produzione.</p>"
   become-user:
     become-user: Diventa utente
     failed: Impossibile passare all'utente specificato
@@ -1081,6 +1254,7 @@ it:
     messages:
       required_fields_updated: Campi obbligatori aggiornati
   tree:
+    toolbar_aria_label: Barra degli strumenti dell'albero
     drag_and_drop_actions:
       before: Aggiungi elementi prima
       after: Aggiungi elementi dopo
@@ -1089,6 +1263,11 @@ it:
       albero. Per favore, prova ad aggiornare la pagina.
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
+    drag_to_reorder: Trascina per riordinare
+    errors:
+      move_records: Impossibile spostare i record
+      move_records_message: I record non possono essere spostati. Aggiorna la 
+        pagina e riprova.
   component_link:
     _plural: Collegamenti dei componenti
     _singular: Collegamento dei componenti
@@ -1644,6 +1823,7 @@ it:
     active: vera
     inactive: falsa
     source: Autenticazione
+    is_pui_viewer: Visualizzatore PUI
     _frontend:
       messages:
         access_denied: Accesso negato. Accedi come utente amministratore per 
@@ -1806,26 +1986,26 @@ it:
       <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
     top_container: Contenitore superiore
     type_2_tooltip: |
-      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    indicator_2: Індикатор дитини
+      <p>Il tipo di contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    indicator_2: Indicatore figlio
     indicator_2_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
-    barcode_2: Штрих-код дочірнього контейнера
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di secondo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di secondo livello, ad esempio Cartelle 1-16.</p>
+    barcode_2: Codice a barre del contenitore figlio
     barcode_2_tooltip: |
-      <p>Штрих-код для ідентифікації контейнера другого рівня, в якому зберігається описаний матеріал.</p>
-    type_3: Тип онука
+      <p>Un codice a barre per identificare il contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+    type_3: Tipo nipote
     type_3_tooltip: |
-      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    indicator_3: Індикатор онуків
+      <p>Il tipo di contenitore di terzo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    indicator_3: Indicatore nipote
     indicator_3_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
-    _singular: Підконтейнер
-    _plural: Підконтейнери
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di terzo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di terzo livello, ad esempio Cartelle 1-16.</p>
+    _singular: Sotto-contenitore
+    _plural: Sotto-contenitori
     _frontend:
       action:
-        add: Додати екземпляр контейнера
+        add: Aggiungi istanza di contenitore
   update_monitor:
     save_failed: Impossibile salvare le modifiche.
     stale_record: Questo record è stato aggiornato da un altro utente. Aggiorna 
@@ -1857,107 +2037,107 @@ it:
         add: Aggiungi la lingua dei materiali
         add_note: Aggiungi nota linguistica
   top_container:
-    container_profile: Профіль контейнера
+    container_profile: Profilo del contenitore
     container_profile_tooltip: |
-      <p>Опис різних характеристик певного типу контейнера, включаючи розміри.</p>
-    indicator: Індикатор
+      <p>Una descrizione delle varie caratteristiche di un particolare tipo di contenitore, comprese le dimensioni.</p>
+    indicator: Indicatore
     indicator_tooltip: |
-      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Буквено-цифровий вираз для позначення місця контейнера найвищого рівня, яке також може бути позицією контейнера в послідовності контейнерів.</p>
-    barcode: Штрих-код
+      <p>CAMPO OBBLIGATORIO. Un'espressione alfanumerica per indicare la collocazione del contenitore di livello più alto, che può anche essere la posizione del contenitore all'interno di una sequenza di contenitori.</p>
+    barcode: Codice a barre
     barcode_tooltip: |
-      <p>Використовується для запису штрих-коду, який однозначно ідентифікує контейнер найвищого рівня.</p>
-    type: Тип контейнера
+      <p>Utilizzato per registrare il codice a barre che identifica in modo univoco il contenitore di livello più alto.</p>
+    type: Tipo di contenitore
     type_tooltip: |
-      <p>Тип контейнера найвищого рівня.</p>
-      <p>Значення в цьому списку контрольованих значень можна змінювати.</p>
-    ils_holding_id: Ідентифікатор холдингу ILS
+      <p>Il tipo di contenitore di livello più alto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    ils_holding_id: ID holding ILS
     ils_holding_id_tooltip: |
-      <p>Ідентифікатор пов'язаного запису про фонд у бібліотечній ILS</p>
-    ils_item_id: Ідентифікатор товару ILS
+      <p>Identificatore del record di holding associato nell'ILS della biblioteca</p>
+    ils_item_id: ID elemento ILS
     ils_item_id_tooltip: |
-      <p>Ідентифікатор, що надається API, для пов’язаного запису елемента в бібліотечній ILS (системне поле; не можна редагувати вручну)</p>
-    internal_note: Внутрішня примітка
+      <p>Identificatore, fornito dall'API, per un record di elemento associato nell'ILS della biblioteca (campo di sistema; non può essere modificato manualmente)</p>
+    internal_note: Nota interna
     internal_note_tooltip: |
-      <p>Нотатки для внутрішнього використання. Відображаються лише в інтерфейсі персоналу.</p>
-    exported_to_ils: Експортовано до ILS
-    not_exported: Не експортовано
-    restricted: Обмежено?
-    parent: Батьківський контейнер
-    has_location: Має місцезнаходження
-    managed_container_2_type: Тип дочірнього контейнера
+      <p>Note per uso interno. Visibili solo nell'interfaccia del personale.</p>
+    exported_to_ils: Esportato in ILS
+    not_exported: Non esportato
+    restricted: Soggetto a restrizioni?
+    parent: Contenitore principale
+    has_location: Ha una collocazione
+    managed_container_2_type: Tipo di contenitore figlio
     managed_container_2_type_tooltip: |
-      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    managed_container_2_indicator: Індикатор дочірнього контейнера
+      <p>Il tipo di contenitore di secondo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    managed_container_2_indicator: Indicatore del contenitore figlio
     managed_container_2_indicator_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
-    managed_container_3_type: Тип контейнера для онуків
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di secondo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di secondo livello, ad esempio Cartelle 1-16.</p>
+    managed_container_3_type: Tipo di contenitore nipote
     managed_container_3_type_tooltip: |
-      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
-      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
-    managed_container_3_indicator: Індикатор контейнера для онуків
+      <p>Il tipo di contenitore di terzo livello in cui è alloggiato il materiale descritto.</p>
+      <p>I valori di questo Elenco di valori controllati possono essere modificati.</p>
+    managed_container_3_indicator: Indicatore del contenitore nipote
     managed_container_3_indicator_tooltip: |
-      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
-    barcode_length_for_this_repository: 'Довжина штрих-коду для цього репозиторію:'
-    characters: персонажі
+      <p>Un'espressione alfanumerica per indicare l'ID del contenitore di terzo livello, che può anche indicare la posizione del contenitore di secondo livello all'interno di una sequenza di tali contenitori. Sono ammessi anche intervalli di contenitori di terzo livello, ad esempio Cartelle 1-16.</p>
+    barcode_length_for_this_repository: 'Lunghezza del codice a barre per questo repository:'
+    characters: caratteri
     batch_delete:
-      success: Найпопулярніші контейнери успішно видалено
-      error: Виникла проблема з видаленням найпопулярніших контейнерів
-    _singular: Верхній контейнер
-    _plural: Верхні контейнери
+      success: Contenitori superiori eliminati con successo
+      error: Si è verificato un problema durante l'eliminazione dei contenitori 
+        superiori
+    _singular: Contenitore superiore
+    _plural: Contenitori superiori
     _frontend:
       section:
-        active_restrictions: Активні обмеження
-        linked_records: Пов'язані записи
-        basic_information: Інформація про контейнер
+        active_restrictions: Restrizioni attive
+        linked_records: Record collegati
+        basic_information: Informazioni sul contenitore
       action:
-        add: Додати верхній контейнер
-        create: Створення верхнього контейнера
-        save: Зберегти верхній контейнер
+        add: Aggiungi contenitore superiore
+        create: Crea un contenitore superiore
+        save: Salva contenitore superiore
       messages:
-        created: Створено верхній контейнер
-        updated: Верхній контейнер оновлено
-        filter_required: Будь ласка, надайте фільтр
-        max_results_limit_reached: Не всі результати перелічені. Будь ласка, 
-          уточніть пошук.
-        max_results_limit_details: Показано <strong>%{visible</strong> з 
-          <strong>%{num_found</strong> відповідних результатів
-        results_summary: 'Відповідні результати: <strong>%{num_found</strong>'
-        bulk_selection_sort_help: Клацніть стовпець, щоб встановити порядок 
-          сортування. Утримуйте клавішу Shift, щоб сортувати за кількома 
-          стовпцями.
-        merged: Верхні контейнери об'єднано
-        bulk_action_success: Найпопулярніші контейнери успішно оновлено
-        bulk_action_success_info: Зверніть увагу, що може знадобитися певний 
-          час, перш ніж зміни відобразяться в результатах пошуку або таблицях 
-          перегляду.
-        no_active_restrictions: Немає активних обмежень
+        created: Contenitore superiore creato
+        updated: Contenitore superiore aggiornato
+        filter_required: Fornisci un filtro
+        max_results_limit_reached: Non tutti i risultati sono stati elencati. 
+          Perfeziona la ricerca.
+        max_results_limit_details: Visualizzati <strong>%{visible}</strong> di 
+          <strong>%{num_found}</strong> risultati corrispondenti
+        results_summary: 'Risultati corrispondenti: <strong>%{num_found}</strong>'
+        bulk_selection_sort_help: Fai clic su una colonna per impostare 
+          l'ordinamento. Tieni premuto Shift per ordinare in base a più colonne.
+        merged: Contenitore/i superiore/i unito/i
+        bulk_action_success: Contenitori superiori aggiornati con successo
+        bulk_action_success_info: Tieni presente che potrebbe essere necessario 
+          qualche istante prima che le modifiche vengano riflesse nei risultati 
+          di ricerca o nelle tabelle di sfoglia.
+        no_active_restrictions: Nessuna restrizione attiva
       bulk_operations:
-        title: Масові операції
-        collection_singular: Ресурс/Приєднання
-        collection_plural: Ресурси/Доступні матеріали
-        collection_resource_singular: Ресурс
-        collection_resource_plural: Ресурси
-        collection_accession_singular: Приєднання
-        collection_accession_plural: Приєднання
+        title: Operazioni in blocco
+        collection_singular: Risorsa/Accessione
+        collection_plural: Risorse/Accessioni
+        collection_resource_singular: Risorsa
+        collection_resource_plural: Risorse
+        collection_accession_singular: Accessione
+        collection_accession_plural: Accessioni
         collection_resource_linker:
-          browse: Переглянути ресурси
-          create: Створити ресурс
-          link_title: Посилання на ресурс
+          browse: Sfoglia risorse
+          create: Crea risorsa
+          link_title: Collegamento alla risorsa
         collection_accession_linker:
-          browse: Переглянути приєднання
-          create: Створити приєднання
-          link_title: Посилання на приєднання
-        series: Серія
-        current_location: Поточне місцезнаходження
-        keyword_criteria: Ключове слово
-        barcodes_criteria: Штрих-код(и)
-        exported_to_ils_true: Так
-        exported_to_ils_false: Ні
-        empty: Непов'язані контейнери
-        empty_true: Так
-        empty_false: Ні
-        search: Пошук
+          browse: Sfoglia accessioni
+          create: Crea accessione
+          link_title: Collegamento all'accessione
+        series: Serie
+        current_location: Collocazione corrente
+        keyword_criteria: Parola chiave
+        barcodes_criteria: Codice/i a barre
+        exported_to_ils_true: Sì
+        exported_to_ils_false: 'No'
+        empty: Contenitori non associati
+        empty_true: Sì
+        empty_false: 'No'
+        search: Cerca
         update_ils_holding_ids: Aggiorna gli ID delle holding ILS
         update_ils_holding_ids_help: Inserisci un valore per l'ID di 
           contenimento ILS per tutti i contenitori selezionati. Lascia vuoto 
@@ -2251,3 +2431,256 @@ it:
     _frontend:
       form_header: Valutazione %{display_string}
       formats: Tipologie/Formati dei materiali
+      ratings: Valutazioni
+      conservation_issues: Questioni di conservazione
+      record_types: Tipi di record
+      action:
+        create: Crea valutazione
+        save: Salva valutazione
+        add_rating_note: Aggiungi nota
+        remove_rating_note: Rimuovi nota
+        create_for_record: Crea valutazione
+      section:
+        basic_information: Informazioni di base
+        existing_description: Descrizione esistente
+        rating_attributes: Informazioni sulla valutazione
+        rating_attributes_empty: Nessuna informazione di valutazione inserita
+        rating_attributes_additional: Valutazioni aggiuntive
+        format_attributes: Elenco dei tipi/formati di materiale
+        format_attributes_empty: Nessun tipo/formato di materiale inserito
+        format_attributes_additional: Tipologie/formati di materiale aggiuntivi
+        conservation_issue_attributes: Questioni di conservazione
+        conservation_issue_attributes_empty: Non sono stati inseriti problemi di
+          conservazione
+        conservation_issue_attributes_additional: Ulteriori problematiche di 
+          conservazione
+      messages:
+        created: Valutazione creata
+        updated: Valutazione aggiornata
+        deleted: Valutazione eliminata
+        attributes_hint: Contatta il tuo amministratore per aggiungere ulteriori
+          %{attribute_type}
+        manage_attributes_hint: Gestisci l'attributo aggiuntivo 
+          %{attribute_type} per questo repository
+      assessment_review_required:
+        true_value: Si
+        false_value: No
+      assessment_sensitive_material:
+        true_value: Si
+        false_value: No
+      assessment_inactive:
+        true_value: Si
+        false_value: No
+      assessment_completed:
+        true_value: Si
+        false_value: No
+      browse_reviewers: Recensori
+      linked_records:
+        heading: Record collegati
+        loading: Caricamento...
+        linked_via_assessment_records: Valutazioni
+        linked_via_assessment_surveyed_by: Valutazioni - Sondaggio effettuato da
+        linked_via_assessment_reviewer: Valutazioni - Revisore
+        record_type: Tipo di record
+        title: Titolo
+        identifier: Identificativo
+      ratings_list:
+        rating: Valutazione
+        score: Punto
+        note: Nota
+  assessment_attribute_definitions:
+    _frontend:
+      title: Attributi di valutazione
+      section:
+        formats: Tipologie/Formati dei materiali
+        ratings: Valutazioni
+        conservation_issues: Questioni di conservazione
+      global: Globale %{type}
+      repository: Repository %{type}
+      action:
+        save: Salva attributi di valutazione
+        add_type: Aggiungi %{type}
+        find_rating: Trova i record con una valutazione %{rating_type}
+        find_format: Trova i record con un tipo/formato materiale %{format_type}
+        find_issue: Trova i record con un problema di conservazione di tipo 
+          %{issue_type}
+        remove_rating: Rimuovi la valutazione %{rating_type}
+        remove_format: Rimuovi il tipo/formato materiale %{format_type}
+        remove_issue: Rimuovi il problema di conservazione %{issue_type}
+      messages:
+        updated: Attributi di valutazione aggiornati
+        error: Errore durante l'aggiornamento degli attributi di valutazione
+        conflict: "Errore durante l'aggiornamento degli attributi di valutazione.
+          Le seguenti etichette sono in conflitto con le voci esistenti: %{conflicts}"
+        attribute_in_use: Impossibile eliminare un attributo attualmente in uso 
+          da una valutazione
+      database_value: Valore del database
+      translation: Traduzione
+  custom_report_template:
+    new_title: Nuovo modello di report personalizzato
+    _frontend:
+      section:
+        template_information: Informazioni sul modello
+        basic_information_fields: Campi informativi di base
+        linked_records: Record collegati
+        sort_by: Ordina il report per
+      action:
+        create: Crea modello
+        save: Salva modello
+        search_usernames: Ricerca nomi utente
+      messages:
+        copied: Modello di report personalizzato copiato
+        created: Modello di report personalizzato creato
+        updated: Modello di report personalizzato aggiornato
+  oai_config:
+    title: Modello di report personalizzato aggiornato
+    title_repo_section: Impostazioni OAI-PMH per repository
+    general_section: Impostazioni generali
+    repo_set_desc: Oltre ai set basati sul livello di descrizione, è possibile 
+      definire un set OAI basato sui repository.
+    sponsor_set_desc: Oltre ai set basati sul livello di descrizione, è 
+      possibile definire un set OAI basato sui nomi degli sponsor.
+    oai_record_prefix: Prefisso del record OAI
+    oai_admin_email: Indirizzo email dell'amministratore OAI
+    oai_repository_name: Nome del repository OAI
+    oai_leave_repo_form: Queste opzioni influiscono su OAI-PMH solo per questo 
+      repository. Fare clic qui sotto per visualizzare/modificare le opzioni OAI
+      globali. In questo modo si uscirà dalla schermata corrente senza salvare 
+      le modifiche.
+    _frontend:
+      section:
+        basic_information: Impostazioni generali
+      action:
+        create: Aggiorna le impostazioni di OAI-PMH
+        updated: Impostazioni OAI-PMH aggiornate con successo!
+    _sidebar:
+      repo_settings:
+        _plural: Impostazioni OAI-PMH per repository
+    oai_repository_sets: Set di repository
+    oai_sponsor_sets: Set di sponsor
+
+  oai_repository_set:
+    _plural: Set di repository
+    set_name: Nome del set di repository
+    set_description: Descrizione del set di repository
+    repo_codes: Repository in Set
+    _frontend:
+      action:
+        add: Aggiungi set di repository
+
+  oai_sponsor_set:
+    _plural: Set di sponsor
+    set_name: Nome del set dello sponsor
+    set_description: Descrizione del set di sponsor
+    sponsor_names: Nomi degli sponsor
+    _frontend:
+      action:
+        add: Aggiungi set di sponsor
+
+  agent_record_control:
+    _plural: Informazioni sul record
+    _singular: Informazioni sul record
+    _frontend:
+      action:
+        add: Aggiungi informazioni sul record
+    maintenance_status: Stato di manutenzione del controllo dei record
+    publication_status: Stato di pubblicazione del controllo dei record
+    romanization: romanizzazione
+    government_agency_type: Controllo dei documenti - Tipo di agenzia 
+      governativa
+    reference_evaluation: Valutazione di riferimento per il controllo dei record
+    name_type: Nome del controllo record Tipo
+    level_of_detail: Livello di dettaglio del controllo dei record
+    modified_record: Controllo dei record di tipo modificato
+    cataloging_source: Fonte di catalogazione per il controllo dei record
+    maintenance_agency: Agenzia di manutenzione
+    agency_name: Nome dell'agenzia
+    maintenance_agency_note: Nota dell'agenzia di manutenzione
+    language: Lingua
+    script: Sceneggiatura
+    language_note: Nota linguistica
+  place:
+    _plural: Luoghi
+    _frontend:
+      action:
+        add: Aggiungi luogo
+  agent_other_agency_code:
+    _plural: Altri codici dell'agenzia
+    _singular: Codice di altro ente
+    _frontend:
+      action:
+        add: Aggiungi codice agenzia
+    agency_code_type: Tipo di codice dell'ente di controllo dei record
+    maintenance_agency: Agenzia di manutenzione
+  agent_maintenance_history:
+    _plural: Cronologia della manutenzione
+    _singular: Cronologia manutenzione dell'agente
+    _frontend:
+      action:
+        add: Aggiungi evento
+    maintenance_event_type: Tipo di evento di manutenzione del controllo dei 
+      record
+    maintenance_agent_type: Tipo di agente di manutenzione del controllo dei 
+      record
+    agent: Agente
+    descriptive_note: Nota descrittiva
+    event_date: Data dell'evento
+  agent_parallel_name:
+    _plural: Nomi paralleli
+    use_dates: Utilizza le date
+  agent_name:
+    use_dates: Utilizza le date
+  subsections:
+    notes: Note
+    dates: Dati
+  section_headings:
+    basic_information_tooltip: |
+      <p>Questa sezione indica il tipo di agente e se l'agente è pubblicato o meno.</p>
+    record_control_information_tooltip: |
+      <p>Questa sezione contiene informazioni relative al record stesso, presupponendo che esso abbia avuto origine al di fuori di ArchivesSpace o che debba essere condiviso con un sistema diverso da ArchivesSpace.</p>
+    identity_information_tooltip: |
+      <p>Questa sezione contiene le informazioni fondamentali sull'agente. Il modulo relativo al nome è l'unico sottorecord obbligatorio all'interno di un record agente.</p>
+    description_information_tooltip: |
+      <p>Questa sezione contiene le informazioni fondamentali sull'agente. Il modulo relativo al nome è l'unico sottorecord obbligatorio all'interno di un record agente.</p>
+    relation_information_tooltip: |
+      <p>Questa sezione viene utilizzata per indicare relazioni con altri agenti o materiali, all'interno o all'esterno di ArchivesSpace.</p>
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Seleziona file
+        add_archival_objects: Importa oggetti d'archivio
+        add_digital_objects: Aggiungi oggetti digitali a oggetti archivistici
+        import: Importa da foglio di calcolo
+        drag_drop: Trascina e rilascia il file qui
+        clip_btn: Copia negli appunti
+        only_validate: Solo convalida
+        link_top_containers: Collega i contenitori superiori
+      messages:
+        missing_file: Non hai aggiunto alcun file
+        not_excel: Il file che hai scelto non è un foglio di calcolo Excel
+        not_excel_csv: Il controllo fileRecord selezionato non è né un foglio di
+          calcolo Excel né un file CSV
+        processed: Il file è stato elaborato
+        error: 'ERRORE: Rilevato/i errore/i: '
+        copied: Copiato!
+        uncopied: Impossibile copiare
+        submitted: <p>Il job è stato inviato ai job in background. <br/> Fai 
+          clic su "Chiudi" per aggiornare questa schermata.</p>
+  bulk_import_job:
+    active: "È in corso un'operazione di importazione massiva per questo record; riprova
+      a modificarlo più tardi: <a href ='%{url}'>%{uri}</a>"
+    resource_id: ID risorsa
+    format: Formato del file di download
+    filename: Nome del file del foglio di calcolo
+    not_direct: Al momento, questo job può essere creato solo a partire dal 
+      record della risorsa
+  bulk_archival_object_updater_job:
+    _singular: Job di aggiornamento massivo degli oggetti di archiviazione 
+      tramite foglio di calcolo
+    create_missing_top_containers: Crea i contenitori di livello superiore 
+      mancanti
+  note_contact_note:
+    contact_notes_tooltip: |
+      <p>Dettagli sull'interazione con il contatto</p>
+    date_of_contact_tooltip: |
+      <p>Utilizzato per registrare la data specifica o l'arco temporale di un'interazione</p>

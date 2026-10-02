@@ -45,7 +45,7 @@ describe 'Tree toolbar import help link', js: true do
   end
 
   it 'should be visible on edit archival object page load' do
-    within("#tree-container .table-row-group") do
+    within("#infinite-tree-container .root.node > .node-children") do
       find("a.record-title").click
     end
     expect(page).to have_css($help_link_id, visible: true)
@@ -58,7 +58,7 @@ describe 'Tree toolbar import help link', js: true do
   end
 
   it 'should be hidden when archival object tree is in reorder mode' do
-    within("#tree-container .table-row-group") do
+    within("#infinite-tree-container .root.node > .node-children") do
       find("a.record-title").click
     end
 

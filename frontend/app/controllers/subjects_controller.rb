@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_subject_record" => [:new, :edit, :create, :update, :merge],
+                      "update_subject_record" => [:new, :edit, :create, :update, :merge, :terms_complete],
                       "delete_subject_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
 

@@ -69,7 +69,7 @@ jobs:
           CURRENT_SHARD=${{ matrix.shard }}
 
           # Get all feature files
-          ALL_FILES=(staff_features/**/*.feature)
+          ALL_FILES=(staff_features/**/*.feature pui_features/**/*.feature)
           TOTAL_FILES=${#ALL_FILES[@]}
 
           # Calculate files per shard
@@ -93,7 +93,7 @@ jobs:
             --format pretty \
             --format json --out reports/cucumber_shard_${{ matrix.shard }}.json \
             --format html --out reports/cucumber_shard_${{ matrix.shard }}.html \
-            --tags "not @wip and not @mlc_enabled" \
+            --tags "not @wip and not @mlc_enabled and not @pui_auth_enabled" \
             ${{ steps.shard-files.outputs.files }}
 
       - name: Upload test results
@@ -150,10 +150,48 @@ jobs:
           name: e2e-mlc-failure-screenshots
           path: /tmp/screenshots/
 
+  e2e-tests-pui-auth:
+    name: E2E Tests (PUI auth enabled)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./e2e-tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-e2e
+        with:
+          image_tag: ${{ inputs.image_tag }}
+          pui_require_authentication: "true"
+
+      - name: Run PUI auth Cucumber tests
+        run: |
+          mkdir -p reports
+          bundle exec cucumber -p pui_auth \
+            --publish-quiet \
+            --format pretty \
+            --format json --out reports/cucumber_pui_auth.json \
+            --format html --out reports/cucumber_pui_auth.html
+      - name: Upload PUI auth test results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-pui-auth-results
+          path: e2e-tests/reports/
+          retention-days: 7
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: e2e-pui-auth-failure-screenshots
+          path: /tmp/screenshots/
+
   # Summary job to check overall status
   test-summary:
     name: Test Summary
-    needs: [e2e-tests, e2e-tests-mlc]
+    needs: [e2e-tests, e2e-tests-mlc, e2e-tests-pui-auth]
     runs-on: ubuntu-latest
     if: always()
 
@@ -165,7 +203,7 @@ jobs:
           echo "All shards completed. Check individual shard results above." >> $GITHUB_STEP_SUMMARY
 
           # This job will fail if any shard failed
-          if [ "${{ needs.e2e-tests.result }}" != "success" ] || [ "${{ needs.e2e-tests-mlc.result }}" != "success" ]; then
+          if [ "${{ needs.e2e-tests.result }}" != "success" ] || [ "${{ needs.e2e-tests-mlc.result }}" != "success" ] || [ "${{ needs.e2e-tests-pui-auth.result }}" != "success" ]; then
             echo "❌ Some tests failed" >> $GITHUB_STEP_SUMMARY
             exit 1
           else

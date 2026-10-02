@@ -195,22 +195,6 @@ class ArchivesSpaceService < Sinatra::Base
           Session.expire_old_sessions
           Log.info("Done")
         end
-
-
-        if AppConfig[:db_url] == AppConfig.demo_db_url &&
-            settings.scheduler.jobs(tag: 'demo_db_backup').empty?
-
-          Log.info("Enabling backups for the embedded demo database " +
-                   "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
-
-
-          settings.scheduler.cron(AppConfig[:demo_db_backup_schedule],
-                                  :tags => 'demo_db_backup') do
-            Log.info("Starting backup of embedded demo database")
-            DB.demo_db_backup
-            Log.info("Backup of embedded demo database completed!")
-          end
-        end
       end
 
       ANONYMOUS_USER = AnonymousUser.new
@@ -295,6 +279,11 @@ class ArchivesSpaceService < Sinatra::Base
 
     Session.init
 
+    PUI_ONLY_ALLOWED_REQUESTS = [
+      ['GET', '/users/current-user'],
+      ['POST', '/logout'],
+    ].freeze
+
     def initialize(app)
       @app = app
     end
@@ -331,6 +320,33 @@ class ArchivesSpaceService < Sinatra::Base
                    }.to_json]]
         else
           session.touch
+        end
+
+        if session && session[:pui_only]
+          parent = session[:parent_session]
+
+          # The staff session this one was handed off from has gone -- a logout
+          # from it, a logout from a sibling PUI session, or expiry -- so this
+          # one goes with it.
+          if parent && !Session.exists_by_digest?(parent)
+            Session.expire(session_token)
+
+            return [412,
+                    {"Content-Type" => "application/json"},
+                    [{
+                       :code => "SESSION_GONE",
+                       :error => "No session found for #{session_token}"
+                     }.to_json]]
+          end
+
+          unless PUI_ONLY_ALLOWED_REQUESTS.include?([env['REQUEST_METHOD'], env['PATH_INFO']])
+            return [403,
+                    {"Content-Type" => "application/json"},
+                    [{
+                       :code => "PUI_SESSION_FORBIDDEN",
+                       :error => "This session may only be used for #{PUI_ONLY_ALLOWED_REQUESTS.map { |m, p| "#{m} #{p}" }.join(', ')}"
+                     }.to_json]]
+          end
         end
       end
 

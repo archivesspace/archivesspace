@@ -392,7 +392,7 @@ describe 'Assessments', js: true do
     let(:linker_token_selector) { '.linker-wrapper:has(#token-input-assessment_records_) .token-input-token' }
     let(:linked_record) { resource }
 
-    it_behaves_like 'having a popover to view the linked record'
+    it_behaves_like 'a token that opens its linked record in a new tab'
   end
 
   context 'index view' do

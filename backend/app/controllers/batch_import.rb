@@ -48,9 +48,8 @@ class ArchivesSpaceService < Sinatra::Base
       batch = nil
       success = false
 
-      # Wrap the import in a transaction if the DB supports MVCC
       begin
-        DB.open(DB.supports_mvcc?,
+        DB.open(true,
                 :retry_on_optimistic_locking_fail => true,
                 :isolation_level => :committed) do
           last_error = nil
@@ -74,9 +73,8 @@ class ArchivesSpaceService < Sinatra::Base
       rescue
         last_error = $!
       ensure
-        # If we were running in a transaction, the whole batch will have been
-        # rolled back.
-        batch = nil if !success && DB.supports_mvcc?
+        # The whole batch will have been rolled back.
+        batch = nil if !success
       end
 
 

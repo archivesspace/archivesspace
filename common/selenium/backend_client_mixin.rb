@@ -77,13 +77,13 @@ module BackendClientMethods
   end
 
 
-  def create_user(roles = {}, active = true)
+  def create_user(roles = {}, active = true, pui_viewer = true)
     user = "test_user_#{SecureRandom.hex}"
     pass = "pass_#{SecureRandom.hex}"
 
     req = Net::HTTP::Post.new("/users?password=#{pass}")
     req['Content-Type'] = 'text/json'
-    req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\", \"is_active_user\": #{active}}"
+    req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\", \"is_active_user\": #{active}, \"is_pui_viewer\": #{pui_viewer}}"
 
     res = admin_backend_request(req)
     roles.each do |repo, repo_roles|

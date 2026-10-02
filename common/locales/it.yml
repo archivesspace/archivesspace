@@ -1,4 +1,15 @@
 it:
+  bulk_import:
+    error:
+      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}'"
+      invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
+      invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
+      invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
+      subject_missing_identity: "Il soggetto %{num} richiede un ID record o un termine"
+      agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"
+      agent_missing_type: "L'agente %{num} richiede un tipo di agente"
+      agent_unsupported_type: "L'agente %{num} ha un tipo di agente non supportato '%{agent_type}'"
+    agent: Agente
   states:
     suppressed: Bloccato
     deleted: Eliminato
@@ -270,6 +281,43 @@ it:
       d'America, questo include codici dalla lista MARC Organization Code. Vedi ISDIAH 5.1.1</p>\n<p>Esempi:</p>\n\
       <ul>\n <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar
       <em>(for University of Illinois Archives)</em></li>\n</ul>\n"
+    repo_code: Nome breve del repository
+    repo_code_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Un'abbreviazione o un acronimo del nome del repository, più adatto a essere visualizzato nell'interfaccia utente.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>YNHSCL <em>(per Your Name Here Special Collections Library)</em></li>
+      <li>MSCL <em>(per Mandeville Special Collections Library)</em></li>
+      <li>Tamwag <em>(per Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+      </ul>
+    name: Nome del repository
+    name_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il nome dell'istituto di conservazione che detiene la responsabilità amministrativa e la custodia dei materiali descritti nei moduli dell'applicazione relativi ad acquisizione, risorsa e oggetto digitale.</p>
+      <p>Vedi DACS 2.2</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Your Name Here Special Collections Library</li>
+      <li>Mandeville Special Collections Library</li>
+      <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
+      </ul>
+    ark_shoulder: ARK Shoulder (spazio dei nomi locale)
+    ark_shoulder_tooltip: Stringa specifica per repository da includere negli ARK generati
+    org_code: Codice dell'organizzazione / dell'agenzia
+    parent_institution_name: Nome dell'ente di appartenenza
+    parent_institution_name_tooltip: |
+      <p>Il nome dell'istituzione di appartenenza di cui il repository fa parte.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>University of Illinois <em>(per University of Illinois Archives)</em></li>
+      <li>New York University <em>(per Tamiment Library e Robert F. Wagner Labor Archives)</em></li>
+      </ul>
+    address_1: Indirizzo 1
+    address_1_tooltip: |
+      <p>L'indirizzo postale o l'indirizzo stradale del repository.</p>
+    address_2: Indirizzo 2
+    address_2_tooltip: |
+      <p>L'indirizzo postale o l'indirizzo stradale del repository.</p>
+    city: Città
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
@@ -901,6 +949,51 @@ it:
       <li>Documenti della famiglia Rooney</li>
       <li>Documenti del Partito Comunista degli Stati Uniti</li>
       </ul>
+    finding_aid_date: Data dello strumento di ricerca
+    finding_aid_date_tooltip: |
+      <p>L'indicazione della data in cui lo strumento di ricerca corrente è stato generato a partire dalla descrizione della risorsa.</p>
+    finding_aid_author: Autore dello strumento di ricerca
+    finding_aid_author_tooltip: |
+      <p>Il/i nome/i dei soggetti responsabili della creazione del contenuto dello strumento di ricerca o della sua codifica.</p>
+    finding_aid_description_rules: Descrizione e regole
+    finding_aid_description_rules_tooltip: |
+      <p>Indica le regole descrittive utilizzate per guidare la descrizione della Risorsa.</p>
+      <p>I valori presenti in questo elenco di valori controllati possono essere modificati.</p>
+    finding_aid_language: Lingua della descrizione
+    finding_aid_language_tooltip: |
+      <p>Indica tutte le lingue presenti nello strumento di ricerca generato a partire dalla descrizione della risorsa.</p>
+    finding_aid_langusage_label: 'La descrizione è scritta in: '
+    finding_aid_script: Testo descrittivo
+    finding_aid_script_tooltip: |
+      <p>Indica tutti i sistemi di scrittura presenti nello strumento di ricerca generato a partire dalla descrizione della risorsa.</p>
+    finding_aid_language_note: Nota sulla lingua della descrizione
+    finding_aid_language_note_tooltip: |
+      <p>Note sulle lingue presenti negli aiuti alla ricerca generati dalla descrizione della risorsa.</p>
+    finding_aid_sponsor: garante
+    finding_aid_sponsor_tooltip: |
+      <p>Indica gli eventuali sponsor che hanno contribuito alla descrizione dello strumento di ricerca.</p>
+    finding_aid_edition_statement: Indicazione dell'edizione
+    finding_aid_edition_statement_tooltip: |
+      <p>Per registrare informazioni sull'edizione dello strumento di ricerca.</p>
+    finding_aid_series_statement: Indicazione della serie
+    finding_aid_series_statement_tooltip: |
+      <p>Indica l'eventuale collana bibliografica a cui appartiene lo strumento di ricerca.</p>
+    finding_aid_status: Stato dello strumento di ricerca
+    finding_aid_status_tooltip: |
+      <p>Indica lo stato dello strumento di ricerca.</p>
+    is_finding_aid_status_published: 'Stato dello strumento di ricerca: pubblicato?'
+    is_finding_aid_status_published_tooltip: |
+      <p>Determina se lo stato dello strumento di ricerca viene reso pubblico.</p>
+    finding_aid_note: Nota sullo strumento di ricerca
+    finding_aid_note_tooltip: |
+      <p>Per registrare qualsiasi informazione aggiuntiva sull'aiuto alla ricerca (non la risorsa descritta) non coperta dagli altri elementi dei dati dell'aiuto alla ricerca.</p>
+    created_by: Creato da
+    last_modified_by: Ultima modifica da
+    create_time: Creata
+    user_mtime: Modificato
+    _singular: Risorsa
+    _plural: Risorse
+    new_title: Nuova risorsa
   classification_term:
     identifier: Identificatore
   file_version:
@@ -1115,6 +1208,8 @@ it:
       indicator: Indicatore
       barcode: Codice a Barre
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: Ogni Documento esterno deve avere 
+      una combinazione univoca di titolo e posizione all'interno di questo record
     mixed_content_invalid_inline_ead: "Markup EAD non valido: usa virgolette dritte (\" o ') per i valori
       degli attributi e assicurati che i tag siano ben formati."
     mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
@@ -1538,7 +1633,7 @@ it:
     contact_notes_tooltip: |
       <p>Dettagli sull'interazione con il contatto</p>
     date_of_contact_tooltip: |
-      <p>Utilizzato per registrare la data o l'intervallo di tempo specifici di un'interazione</p>
+      <p>Utilizzato per registrare la data specifica o l'arco temporale di un'interazione</p>
   note_legal_status:
     subnotes: Note secondarie
   note_structure_or_genealogy:
@@ -1707,6 +1802,45 @@ it:
     related_agents: Agenti correlati
   related_agents_agent_corporate_entity:
     related_agents: Agenti correlati
+  importer:
+    error:
+      agent_mode_conflict: "Il gruppo Agente %{index} non può contenere sia un ID record sia valori per
+        crearne uno nuovo"
+      subject_mode_conflict: "Il gruppo Soggetto %{index} non può contenere sia un ID record sia valori
+        per crearne uno nuovo"
+      top_container_mode_conflict: "Il gruppo Istanza %{index} non può contenere sia un URI di contenitore
+        principale sia valori per crearne uno nuovo"
+      missing_agent_type: "Il gruppo Agente %{index} deve includere un tipo di Agente; deve essere uno
+        tra: %{allowed}"
+      missing_agent_type_for_link: "Il gruppo Agente %{index} deve includere un tipo di Agente quando
+        si collega l'ID record %{record_id}; deve essere uno tra: %{allowed}"
+      invalid_agent_type: "Il gruppo Agente %{index} richiede un tipo di Agente supportato; ricevuto '%{agent_type}',
+        deve essere uno tra: %{allowed}"
+      invalid_agent_type_for_link: "Il gruppo Agente %{index} richiede un tipo di Agente supportato quando
+        si collega l'ID record %{record_id}; ricevuto '%{agent_type}', deve essere uno tra: %{allowed}"
+      invalid_top_container_uri: "URI di contenitore principale non valido nel gruppo Istanza %{index}:
+        %{top_container_uri}"
+      invalid_container_profile_uri: "URI di profilo contenitore non valido nel gruppo Istanza %{index}:
+        %{container_profile_uri}"
+      duplicate_top_container_barcode: "Il gruppo Istanza %{index} non può creare un contenitore principale
+        con il codice a barre %{barcode}; quel codice a barre appartiene già a %{top_container_uri}. Rimuovi
+        gli altri campi del contenitore principale per collegarlo, oppure correggi il codice a barre."
+      unknown_top_container_barcode: "Il gruppo Istanza %{index} non ha alcun contenitore principale con
+        il codice a barre %{barcode} in questo repository; aggiungi i campi del contenitore principale
+        per crearne uno, oppure correggi il codice a barre."
+      invalid_date_type: "Tipo di data non valido: %{date_type}; deve essere uno tra: %{allowed}; Data
+        fornita: %{date};"
+      invalid_record_id: "L’ID record nel gruppo %{index} deve essere un ID numerico o un URI di record
+        completo; ricevuto %{record_id}"
+      unrecognized_record_uri: "URI di record non riconosciuto nel gruppo %{index}: %{record_id}"
+      agent_type_uri_mismatch: "Il gruppo Agente %{index} ha un tipo di Agente %{agent_type} che non corrisponde
+        all’URI del record %{record_id}"
+      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve
+        essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vuoto per usare il valore predefinito"
+      unconfigured_headers: "Intestazioni CSV non riconosciute: %{columns}"
+      bad_headers: "Intestazioni CSV non valide: %{columns}"
+      duplicate_file_version_headers: "Colonne di Versione File duplicate: %{columns}"
+      csv_syntax_error: "Errore di importazione CSV (%{type}): %{element}"
   group:
     group_code: Codice di gruppo
     group_code_tooltip: |
@@ -1724,6 +1858,7 @@ it:
       <p>I membri che fanno parte di questo gruppo.</p>
     permissions: 'I membri possono:'
     default_group_names:
+      pui_viewers: Visualizzatori PUI
       repository_managers: Responsabili del repository %{repo_code}
       repository_archivists: Archivisti del repository %{repo_code}
       project_managers: Responsabili del progetto del repository %{repo_code}
@@ -1795,3 +1930,43 @@ it:
         personalizzati</b> (in questo repository)
     _singular: Gruppo
     _plural: Gruppi
+  event_linked_agent:
+    role: Ruolo
+    role_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Indicazione della funzione svolta dall'Agente in relazione all'azione descritta dall'evento.</p>
+    relator: Agente immobiliare
+    relator_tooltip: |
+      <p>Un'indicazione del ruolo svolto dall'Agente in relazione alla sua funzione, desunta dalle modalità del suo collegamento (ad es. creatore, fonte o soggetto) a un determinato record descrittivo. Ad esempio, un Agente può essere collegato a un record in qualità di creatore, ma con il ruolo più specifico di "illustratore".</p>
+      <p>Si vedano DACS 14.3, ISAAR (CPF) 6.3 e la MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
+    ref: Agente
+    ref_tooltip: |
+      <p>CAMPO OBBLIGATORIO. La persona, la famiglia, l'ente o il software che ha partecipato all'azione descritta dall'evento.</p>
+    terms: Termini
+    title: Titolo
+    title_tooltip: |
+      <p>Campo facoltativo: registrare qui il titolo autorevole di un'opera per creare un'intestazione Nome/Titolo per un agente collegato come creatore o soggetto:</p>
+      <p>Ad esempio,</p>
+      <ul><li>Shakespeare, Guglielmo, 1564-1616. Re Lear</li><li> Pound, Esdra, 1885-1972. Canti</li><li> Lincoln, Abraham, 1809-1865. Proclamazione di emancipazione</li></ul>
+    _singular: Link per agenti
+    _plural: Link per gli agenti
+  resource_and_archival_object:
+    _singular: Risorsa e/o oggetto archivistico
+    _plural: Risorse e/o oggetti d'archivio
+  related_accession:
+    _singular: Acquisizione correlata
+    _plural: Acquisizioni correlate
+  revision_statement:
+    _singular: Dichiarazione di revisione
+    _plural: Dichiarazioni di revisione
+    date: Data di revisione
+    date_tooltip: |
+      <p>Specifica la data dell'ultima revisione dello strumento di ricerca.</p>
+    description: Descrizione della revisione
+    description_tooltip: |
+      <p>Una descrizione delle ultime revisioni apportate all'aiuto per la ricerca.</p>
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questa dichiarazione di revisione viene pubblicata sulle interfacce pubbliche (per gli utenti).</p>
+  related_resource:
+    _singular: Risorsa correlata
+    _plural: Risorse correlate

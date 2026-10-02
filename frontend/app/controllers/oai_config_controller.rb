@@ -28,30 +28,24 @@ class OaiConfigController < ApplicationController
 
   private
 
-
-    # Because of the form structure, our params for OAI settings are coming into params in separate hashes.
-    # This method updates the params hash to pull the data from the right places and serializes them for the DB update.
-    # The params hash is a complicated data structure, sorry about the confusing hash references!
-
-    # params["repo_set_codes"] ==> contains the results of the repository OAI set of checkboxes
-    # params["oai_config"] ==> contains the rest of the OAI config hash
   def handle_oai_config_params(params)
-    repo_set_codes_hash = params["repo_set_codes"]
     oai_config_hash = params["oai_config"]
 
-    if repo_set_codes_hash
-      oai_config_hash['repo_set_codes'] = params["repo_set_codes"].keys.to_json
-    else
-      oai_config_hash['repo_set_codes'] = "[]"
-    end
+    return if oai_config_hash.nil?
 
-    # The sponsor set name param looks like:
-    # "Sponsor 1,Sponsor 2"
-    # Turn into a serialized array for DB
-    if oai_config_hash['sponsor_set_names']
-      oai_config_hash['sponsor_set_names'] = oai_config_hash['sponsor_set_names'].split("|").to_json
-    else
-      oai_config_hash['sponsor_set_names'] = "[]"
+    oai_config_hash["oai_repository_sets"] ||= []
+    oai_config_hash["oai_sponsor_sets"] ||= []
+
+    each_subrecord(oai_config_hash["oai_sponsor_sets"]) do |sponsor_set|
+      names = sponsor_set["sponsor_names"]
+      next unless names.is_a?(String)
+
+      sponsor_set["sponsor_names"] = names.split("|").map(&:strip).reject(&:empty?)
     end
+  end
+
+  # Indexed subrecord params arrive keyed by position, not as an array.
+  def each_subrecord(subrecords, &block)
+    (subrecords.respond_to?(:values) ? subrecords.values : subrecords).each(&block)
   end
 end

@@ -15,6 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     check_admin_access
+    check_pui_viewer_access
     params[:user].username = Username.value(params[:user].username)
 
     params[:user].is_active_user = true if params[:user]["is_active_user"].nil?
@@ -64,6 +65,7 @@ class ArchivesSpaceService < Sinatra::Base
     else
       json = User.to_jsonmodel(current_user)
       json.permissions = current_user.permissions
+      json.is_pui_viewer = json.permissions[Repository.GLOBAL].include?('view_pui')
       json_response(json)
     end
   end
@@ -165,15 +167,19 @@ class ArchivesSpaceService < Sinatra::Base
     if params[:user].username == User.to_jsonmodel(current_user).username
       user = User.get_or_die(params[:id])
 
-      # overwrite whatever is the params with the current admin and groups status
-      # to prevent a user from adding themselves to groups or giving themselves admin access
-      current_admin_setting  = user[:is_admin]
-      current_groups_setting = user[:groups]
+      # overwrite whatever is the params with the current admin, groups, and pui
+      # viewer status to prevent a user from adding themselves to groups or
+      # giving themselves admin or PUI viewer access
+      current_admin_setting       = user[:is_admin]
+      current_groups_setting      = user[:groups]
+      current_pui_viewer_setting  = user.can?(:view_pui)
 
-      params[:user][:is_admin] = current_admin_setting
-      params[:user][:groups]   = current_groups_setting
+      params[:user][:is_admin]      = current_admin_setting
+      params[:user][:groups]        = current_groups_setting
+      params[:user][:is_pui_viewer] = current_pui_viewer_setting
     else
       check_admin_access
+      check_pui_viewer_access
       user = User.get_or_die(params[:id])
 
       # High security: update the user themselves.
@@ -227,7 +233,8 @@ class ArchivesSpaceService < Sinatra::Base
              "NOTE: Previously this parameter would cause the created session" +
              " to last forever, but this generally isn't what you want.  The parameter" +
              " name is unfortunate, but we're keeping it for backward-compatibility.",
-             :default => true])
+             :default => true],
+             ["pui", BooleanParam, "If true, check PUI access permissions", :default => false])
     .permissions([])
     .no_data(true)
     .returns([200, "Login accepted"],
@@ -238,7 +245,11 @@ class ArchivesSpaceService < Sinatra::Base
     user = AuthenticationManager.authenticate(username, params[:password])
 
     if user
-      session = create_session_for(username, params[:expiring])
+      if params[:pui] && !user.can?(:view_pui)
+        halt 403, {"Content-Type" => "application/json"}, [{"error" => "User does not have permission to view the PUI"}.to_json]
+      end
+
+      session = create_session_for(username, params[:expiring], pui_only: params[:pui])
       json_user = User.to_jsonmodel(user)
       json_user.permissions = user.permissions
       if params[:expiring] == false
@@ -309,18 +320,41 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/logout')
-    .description("Log out the current session")
+    .description("Log out the current session, and any paired staff/PUI session(s)")
     .permissions([])
     .no_data(true)
     .returns([200, "Session logged out"]) \
   do
     if session
+      # A PUI session is paired to the staff session it was handed off from:
+      # ending either ends both.  Any sibling PUI sessions handed off from that
+      # same staff session are invalidated by the parent check in the request
+      # middleware, so there is no list to walk here.
+      Session.expire_digest(session[:parent_session]) if session[:parent_session]
       Session.expire(session.id)
       json_response('status' => 'session_logged_out')
     else
       json_response('status' => 'no_active_session')
     end
   end
+
+
+  Endpoint.post('/users/current-user/pui-session')
+    .description("Exchange the current session for a new, PUI-scoped session, paired to the original")
+    .permissions([])
+    .no_data(true)
+    .returns([200, "PUI session created"],
+             [403, "Forbidden"]) \
+  do
+    raise AccessDeniedException.new unless current_user.can?(:view_pui)
+
+    pui_session = create_session_for(current_user.username, true,
+                                     pui_only: true,
+                                     parent_session: session.id)
+
+    json_response(:session => pui_session.id, :username => current_user.username)
+  end
+
 
   Endpoint.get('/users/:id/activate')
       .description("Set a user to be activated")
@@ -393,6 +427,18 @@ class ArchivesSpaceService < Sinatra::Base
 
     RequestContext.put(:apply_admin_access,
                        current_user.can?(:administer_system) && !about_to_remove_own_permission)
+  end
+
+  def check_pui_viewer_access
+    if params[:user].is_pui_viewer && !current_user.can?(:manage_users)
+      raise AccessDeniedException.new("Only users with manage_users permission can grant PUI viewer access")
+    end
+
+    # Saving people from themselves :)
+    about_to_remove_own_permission = (params[:user].username == current_user.username)
+
+    RequestContext.put(:apply_pui_viewer_access,
+                       current_user.can?(:manage_users) && !about_to_remove_own_permission)
   end
 
 end

@@ -1163,7 +1163,8 @@ ja:
       manage_custom_report_templates: <b>カスタム レポート テンプレート</b>の作成/更新/削除 (このリポジトリ内)
     _singular: グループ
     _plural: グループ
-
+    default_group_names:
+      pui_viewers: PUI ビューア
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
@@ -1513,6 +1514,7 @@ ja:
       barcode: バーコード
 
   validation_errors:
+    location_and_title_must_have_unique_values_within_a_record: 各外部文書は、このレコード内でタイトルと場所の組み合わせが一意である必要があります
     or_date_expression_is_required: 日付には、少なくとも1つの日付式を指定する必要があります
     must_specify_either_a_single_or_ranged_date: 日付は、単一または範囲のいずれかとして指定する必要があります
     must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: 
@@ -1560,7 +1562,6 @@ ja:
       ロケーションレコードは現在、1つ以上のインスタンスレコードにリンクされており、削除することはできません。ロケーションレコードを削除する前に、これらのインスタンスを新しいロケーションにリンクしてください。
     cannot_be_previous_if_location_is_not_temporary: その場所が一時的でない場合、前へ転送できません。
     authority_id_must_be_unique: 権限IDは既に使用されています
-    either_type_1_or_barcode_is_required: コンテナにはコンテナ1タイプまたはバーコードが含まれている必要があります。
     must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: 9桁以上5桁以下の数字である必要があります。
     container_2_requires_both_a_type_and_indicator: タイプを提供する場合は、インジケーターを提示する必要があります
     container_3_requires_both_a_type_and_indicator: タイプを提供する場合は、インジケーターを提示する必要があります
@@ -1577,12 +1578,10 @@ ja:
     custom_report_template_name_not_unique: カスタムレポートテンプレートの名前は一意である必要があります。
     custom_report_must_include_field_or_subreport: 
       カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
-    repo_set_desc_required: OAIリポジトリセットを作成するには、リポジトリセットの説明が必要です。
-    repo_set_name_required: OAIリポジトリセットを作成するにはリポジトリセット名が必要です
+    oai_set_name_unique: OAIセット名は、リポジトリセットとスポンサーセットの間で一意である必要があります
+    oai_set_name_matches_level: OAIセット名に記述レベルと同じ名前は使用できません。記述レベルには専用のセットがすでに存在します
     is_not_present: 必須フィールドがありません
     must_be_a_valid_email_address: 有効な住所を含める必要があります
-    sponsor_set_desc_required: OAIスポンサーセットを作成するにはスポンサーセットの説明が必要です
-    sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
     invalid_characters: 無効な文字が含まれています
     subrecord_not_allowed_for_agent_software: ソフトウェアエージェントは、レコード制御または関係サブレコードを持つことはできません
     mixed_content_invalid_inline_ead: "無効な EAD マークアップです。属性値には直線の引用符（\" または '）を使用し、タグが正しく構成されていることを確認してください。"
@@ -1932,13 +1931,39 @@ ja:
     oai_record_prefix_tooltip: OAIレコードプレフィックスツールチップ
     oai_admin_email_tooltip: OAI管理者メールツールチップ
     oai_repository_name_tooltip: OAIリポジトリ名ツールチップ
-    repo_set_name_tooltip: リポジトリセット名のツールチップ
-    repo_set_section_tooltip: リポジトリセットセクションのツールチップ
-    repo_set_description_tooltip: リポジトリセット記述ツールチップ
-    sponsor_set_name_tooltip: スポンサーセット名ツールチップ
-    sponsor_set_names_tooltip: スポンサーセット名のツールチップ
-    sponsor_set_description_tooltip: スポンサーセットの説明のツールチップ
 
+  oai_repository_set:
+    set_name_tooltip: ハーベスターがこのセットを要求するために使用するsetSpecです。記述レベルから生成されるセットを含め、すべてのOAIセットの中で一意である必要があります。
+    repo_codes_tooltip: このセットを構成するレコードが属するリポジトリです。
+    set_description_tooltip: このセットについてハーベスターに提供される説明です。
+
+  oai_sponsor_set:
+    set_name_tooltip: ハーベスターがこのセットを要求するために使用するsetSpecです。記述レベルから生成されるセットを含め、すべてのOAIセットの中で一意である必要があります。
+    sponsor_names_tooltip: このセットを構成するレコードの検索手段スポンサーです。各スポンサー名の入力後にEnterキーを押してください。
+    set_description_tooltip: このセットについてハーベスターに提供される説明です。
+
+  importer:
+    error:
+      agent_mode_conflict: "エージェントグループ %{index} にレコードIDと新規作成用の値の両方を含めることはできません"
+      subject_mode_conflict: "主題グループ %{index} にレコードIDと新規作成用の値の両方を含めることはできません"
+      top_container_mode_conflict: "インスタンスグループ %{index} にトップコンテナのURIと新規作成用の値の両方を含めることはできません"
+      missing_agent_type: "エージェントグループ %{index} にはエージェントタイプが必要です。次のいずれかである必要があります: %{allowed}"
+      missing_agent_type_for_link: "エージェントグループ %{index} でレコードID %{record_id} をリンクするには、エージェントタイプが必要です。次のいずれかである必要があります: %{allowed}"
+      invalid_agent_type: "エージェントグループ %{index} にはサポートされているエージェントタイプが必要です。受け取った値: '%{agent_type}'、次のいずれかである必要があります: %{allowed}"
+      invalid_agent_type_for_link: "エージェントグループ %{index} でレコードID %{record_id} をリンクするには、サポートされているエージェントタイプが必要です。受け取った値: '%{agent_type}'、次のいずれかである必要があります: %{allowed}"
+      invalid_top_container_uri: "インスタンスグループ %{index} のトップコンテナURIが無効です: %{top_container_uri}"
+      invalid_container_profile_uri: "インスタンスグループ %{index} のコンテナプロファイルURIが無効です: %{container_profile_uri}"
+      duplicate_top_container_barcode: "インスタンスグループ %{index} はバーコード %{barcode} のトップコンテナを作成できません。このバーコードは既に %{top_container_uri} に割り当てられています。リンクする場合は他のトップコンテナ項目を削除するか、バーコードを修正してください。"
+      unknown_top_container_barcode: "インスタンスグループ %{index} には、このリポジトリ内にバーコード %{barcode} のトップコンテナが存在しません。作成する場合はトップコンテナ項目を追加するか、バーコードを修正してください。"
+      invalid_date_type: "無効な日付タイプが指定されました: %{date_type}; 次のいずれかである必要があります: %{allowed}; 指定された日付: %{date};"
+      invalid_record_id: "グループ %{index} のレコード ID は数値 ID または完全なレコード URI である必要があります。受け取った値: %{record_id}"
+      unrecognized_record_uri: "グループ %{index} に認識されないレコード URI があります: %{record_id}"
+      agent_type_uri_mismatch: "エージェントグループ %{index} のエージェントタイプ %{agent_type} は、レコード URI %{record_id} と一致しません"
+      unrecognized_boolean: "列 %{column} にはブール値が必要です。受け取った値: '%{value}'、次のいずれかである必要があります: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE、または既定値を使用する場合は空欄"
+      unconfigured_headers: "認識されない CSV ヘッダー: %{columns}"
+      bad_headers: "無効な CSV ヘッダー: %{columns}"
+      duplicate_file_version_headers: "重複するファイルバージョンの列: %{columns}"
+      csv_syntax_error: "CSV インポートエラー (%{type}): %{element}"
   bulk_import:
     row: "行%{row}"
     processing_row: "%{row}行の処理"
@@ -1998,6 +2023,7 @@ ja:
       initialize: "処理が終了し、[%{msg}]は"
       stopped: "処理は、[%{row}] %{msg}行で停止しました"
       duplicates: "：%{codes}このスプレッドシートは、アーカイブ領域フィールドコードを重複しています"
+      unknown_columns: "これらの列は認識されません（古いテンプレートを使用している可能性があります）：%{codes}"
       res_ead: この形式のリソースは、EAD IDが欠落しています
       row_ead: この行は、EAD IDが欠落しています
       row_missing_ead_uri: この行は、EAD IDとURIの両方が欠落しています
@@ -2045,7 +2071,15 @@ ja:
       validated: "%{what}検証"
       lang_code: "言語（%{lang}）を検証できません"
       script_code: "（%{script}）言語のスクリプトを検証できません"
+      subject_missing_identity: "主題 %{num} にはレコード ID または用語が必要です"
+      agent_missing_identity: "エージェント %{num} にはレコード ID またはヘッダーが必要です"
+      agent_missing_type: "エージェント %{num} にはエージェントタイプが必要です"
+      agent_unsupported_type: "エージェント %{num} には未対応のエージェントタイプ '%{agent_type}' があります"
       process_error: "エラー処理%{type} %{num}：%{why}"
+      unrecognized_boolean: "列 %{column} には真偽値が必要です。受け取った値: '%{value}'"
+      invalid_user_defined_integer: "無効なユーザー定義の整数: %{value}"
+      invalid_file_version_size: "列 %{column} にはバイト単位の整数が必要です。受け取った値: '%{value}'"
+      invalid_user_defined_real: "無効なユーザー定義の実数: %{value}"
       bad_ao_uri: "URIを持つ%{uri}"
       bad_accession_uri: "URI %{uri} のアクセッションが見つかりません"
       bad_ao_ref_id: "REF IDを持つ%{ref_id}"

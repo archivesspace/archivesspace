@@ -1,6 +1,16 @@
 # NOTE: Many of the translations in this file have been generated using
 # Google translate
 ja:
+  bulk_import_templates:
+    aspace_accession_import_template_csv: 
+      アクセッションレコードに加えて、数量、外部文書、主題、エージェント、およびトップコンテナ付きのインスタンスを作成します。ダウンロードには、それぞれについて
+      _1 グループが 1 つ含まれます。既存の主題をリンクするには、subject_1_record_id に 197 のような数値 ID、または 
+      /subjects/197 のような完全な URI を指定します。既存のエージェントも同じ方法で agent_1_record_id 
+      を使ってリンクします。agent_1_agent_type は、数値 ID を指定する場合は必須で、/agents/people/5 のような 
+      URI 
+      を指定する場合は任意です。同じグループ内でリンク用の項目と作成用の項目の両方を入力しないでください。既存のトップコンテナをリンクするには、/repositories/2/top_containers/5
+      のような完全な URI 
+      を指定するか、バーコードのみを指定します。バーコードのみを指定した場合は、そのバーコードを持つトップコンテナ（既存のものでも、前の行で作成されたものでも）がリンクされ、リポジトリ内にそのバーコードを持つトップコンテナが存在しない場合、インポートは失敗します。バーコードとともに他のトップコンテナ項目を入力した場合は、代わりにそのバーコードを持つ新しいトップコンテナが作成され、インジケーターが必須となります。そのバーコードがリポジトリ内ですでに使用されている場合、インポートは失敗します。
   actions:
     lightmode_toggle: ライトモード
     export_marc_auth: MARCXMLAuthorityをダウンロードする
@@ -65,6 +75,7 @@ ja:
       for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: 移動
+    move_group: ノードを移動
     move_up_a_level: レベルアップ
     move_up: アップ
     move_down: ダウン
@@ -107,6 +118,10 @@ ja:
       </p><p>このアクションは、 <strong>リポジトリ</strong>および関連するすべてのレコードをデータベースから削除し<strong>ます</strong>
       。これには、他のレコードへの参照も含まれます。 </p><p>続行するには、下記の '%{repository}'を入力してください： </p><p><input
       id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_agent_cross_repo_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。 </p><p>このアクションは、レコードをデータベースから削除します。これには、他のレコードに対する参照も含まれます。
+      </p><p><strong>このエージェントは、少なくとも1つの他のリポジトリのレコードにリンクされています。</strong>
+      削除すると、すべてのリポジトリのレコードとのリンクが解除されます。</p>"
+    delete_agent_cross_repo_confirm_checkbox_label: リンクされているすべてのリポジトリからこのエージェントを削除する
     delete_multiple: レコードの削除
     delete_multiple_confirm_title: レコードを削除しますか？
     delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
@@ -157,6 +172,9 @@ ja:
     rapid_data_entry: 迅速なデータ入力
     enable_reorder: 並べ替えモードを有効にする
     reorder_active: リオーダーモードを無効にする
+    expand_tree_mode_on: すべてを自動展開
+    expand_tree_mode_off: 自動展開を無効にする
+    collapse_tree: ツリーを折りたたむ
     copy: コピー
 
     transfer_failed_barcodes_in_use: 
@@ -170,10 +188,6 @@ ja:
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します
     download: ダウンロード
-  database_warning:
-    message: "<p><strong>データベース警告:</strong> 現在、組み込みデータベース（Apache Derby）を使用しています。組み込みデータベースはテスト/デモ目的専用であり、次のメジャーリリースで非推奨になります。本番環境向けのあらゆるデータ（本番環境へ移行する予定のテストインスタンス内のデータを含む）には、MySQL
-      を使用してください。</p>"
-
   states:
     auto_generated: 保存時にシステムが生成される
 
@@ -606,19 +620,19 @@ ja:
   batch_delete:
     archival_records:
       success: レコードが削除された
-      error: レコードを削除できません：
+      error: 選択したレコードは、以下の問題のため、いずれも削除されませんでした：
     subjects:
       success: 削除された科目
-      error: 件名を削除できません：
+      error: 選択した件名は、以下の問題のため、いずれも削除されませんでした：
     agents:
       success: エージェントが削除されました
-      error: エージェントを削除できません：
+      error: 選択したエージェントは、以下の問題のため、いずれも削除されませんでした：
     locations:
       success: 場所が削除されました
-      error: 場所を削除できません：
+      error: 選択した場所は、以下の問題のため、いずれも削除されませんでした：
     assessments:
       success: 評価が削除されました
-      error: 評価を削除できません：
+      error: 選択した評価は、以下の問題のため、いずれも削除されませんでした：
 
   welcome:
     heading: ArchivesSpaceへようこそ
@@ -703,6 +717,7 @@ ja:
       required_fields_updated: 更新された必須フィールド
 
   tree:
+    toolbar_aria_label: ツリーツールバー
     drag_and_drop_actions:
       before: 項目を前に追加する
       after: 後に項目を追加
@@ -710,6 +725,10 @@ ja:
     unexpected_failure: おっとっと！このツリーを取得する際に問題が発生しています。ページをリフレッシュしてみてください。
     resize: ツリーの高さをドラッグして調整
     maximize: ツリーの高さを最大化/最小化
+    drag_to_reorder: ドラッグして並べ替え
+    errors:
+      move_records: レコードを移動できません
+      move_records_message: レコードを移動できませんでした。ページを更新してもう一度お試しください。
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。
@@ -727,6 +746,8 @@ ja:
     linked_to_assessment: レコードは評価にリンクされているため削除できません
     linked_to_user: レコードはユーザーにリンクされているため削除できません
     cannot_delete_repository_agent: このエージェントはリポジトリにリンクされているため、削除できません。
+    linked_to_other_repo: このエージェントは他のリポジトリのレコードにリンクされています。このリポジトリからは削除できません。リンク先のリポジトリに切り替える（そのリポジトリでエージェント管理権限がある場合）か、管理者に削除を依頼してください。
+    cannot_delete_system_agent: これはシステムエージェントのレコードであり、削除できません。
     merge_denied_relationship: これらのエージェントには関係があります。マージを続行する前に、関係を削除してください。
   accession:
     _frontend:
@@ -780,6 +801,9 @@ ja:
       action:
         create: エージェントを作成する
         preview: マージプレビュー
+      linked_in_other_repository:
+        label: このリポジトリ外にリンク
+        tooltip: このエージェントはこのリポジトリ外のレコードにリンクされています。
 
   agent_contact:
     is_representative: 優先
@@ -1038,7 +1062,8 @@ ja:
   file_version:
     _frontend:
       messages:
-        no_iiif_viewer: "利用可能な IIIF ビューアがありません。AppConfig[:iiif_viewer] に 'universal_viewer'、'mirador'、または外部でホストされている IIIF ビューアの URL を設定してください。"
+        no_iiif_viewer: "利用可能な IIIF ビューアがありません。AppConfig[:iiif_viewer] に 'universal_viewer'、'mirador'、または外部でホストされている
+          IIIF ビューアの URL を設定してください。"
       action:
         add: ファイルバージョンを追加
         make_representative: 代表者にする
@@ -1335,6 +1360,7 @@ ja:
         show_active: アクティブユーザーを表示
     inactive: 偽
     active: 'true'
+    is_pui_viewer: PUI ビューア
   user_defined:
     _frontend:
       action:
@@ -1911,19 +1937,11 @@ ja:
     title: OAI-PMH設定
     title_repo_section: リポジトリごとのOAI-PMH設定
     general_section: 一般設定
-    repo_set_section: リポジトリセット
-    sponsor_set_section: スポンサーセット
     repo_set_desc: 記述レベルに基づくセットに加えて、リポジトリに基づいてOAIセットを定義できます。
     sponsor_set_desc: 説明レベルに基づくセットに加えて、スポンサー名に基づいてOAIセットを定義できます。
     oai_record_prefix: OAIレコードプレフィックス
     oai_admin_email: OAI管理者メールアドレス
     oai_repository_name: OOAIリポジトリ名
-    repo_set_name: リポジトリセット名
-    repo_set_codes: セット内のリポジトリ
-    repo_set_description: リポジトリセットの説明
-    sponsor_set_name: スポンサーセット名
-    sponsor_set_names: スポンサー名
-    sponsor_set_description: スポンサーセットの説明
     oai_leave_repo_form: これらのオプションは、このリポジトリに対してのみOAI-PMHに影響します。 
       グローバルOAIオプションを表示/編集するには、下をクリックしてください。 変更を保存せずに現在のフォームをそのままにします。
     _frontend:
@@ -1933,12 +1951,29 @@ ja:
         create: OAI-PMH設定を更新する
         updated: OAI-PMH設定が更新されました。
     _sidebar:
-      repo_set_section:
-        _plural: リポジトリセット
-      sponsor_set_section:
-        _plural: スポンサーセット
       repo_settings:
         _plural: リポジトリごとのOAI-PMH設定
+    oai_repository_sets: リポジトリセット
+    oai_sponsor_sets: スポンサーセット
+
+  oai_repository_set:
+    _plural: リポジトリセット
+    set_name: リポジトリセット名
+    set_description: リポジトリセットの説明
+    repo_codes: セット内のリポジトリ
+    _frontend:
+      action:
+        add: リポジトリセットを追加
+
+  oai_sponsor_set:
+    _plural: スポンサーセット
+    set_name: スポンサーセット名
+    set_description: スポンサーセットの説明
+    sponsor_names: スポンサー名
+    _frontend:
+      action:
+        add: スポンサーセットを追加
+
   bulk_import:
     _frontend:
       actions:
