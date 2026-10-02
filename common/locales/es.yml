@@ -975,7 +975,8 @@ es:
       </ul>
     identifier: Identificador
     caption: Subtítulo
-    is_representative: Representativo
+    is_display_thumbnail: Miniatura de visualización
+    is_display_link: Enlace de visualización
   extent:
     portion: Parte del fondo
     portion_tooltip: |
@@ -2200,6 +2201,8 @@ es:
     mixed_content_disallowed_tag: "Se detectó una etiqueta HTML no permitida. Por razones de seguridad,
       etiquetas como &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; y elementos de formulario no están
       permitidos en campos de contenido mixto."
+    display_thumbnail_must_be_published: Debe estar publicado para ser la miniatura de visualización
+    display_link_must_be_published: Debe estar publicado para ser el enlace de visualización
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background

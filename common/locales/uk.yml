@@ -1073,7 +1073,8 @@ uk:
       <li>CRC-32</li>\n<li>SHA-1</li>\n<li>SHA-256</li>\n</ul>\n"
     identifier: Ідентифікатор
     caption: Підпис
-    is_representative: Представник
+    is_display_thumbnail: Мініатюра для показу
+    is_display_link: Посилання для показу
   extent:
     portion: Порція
     portion_tooltip: "<p>ОБОВ'ЯЗКОВЕ ПОЛЕ: Використовується для визначення того, чи стосується оператор
@@ -1981,6 +1982,8 @@ uk:
       для значень атрибутів і переконайтеся, що теги правильно сформовані."
     mixed_content_disallowed_tag: "Виявлено заборонений HTML-тег. З міркувань безпеки теги, такі як &lt;script&gt;,
       &lt;style&gt;, &lt;iframe&gt; та елементи форми, не дозволені в полях зі змішаним вмістом."
+    display_thumbnail_must_be_published: Має бути опублікованим, щоб бути мініатюрою для показу
+    display_link_must_be_published: Має бути опублікованим, щоб бути посиланням для показу
   job:
     _singular: Фонова робота
     _plural: Фонові завдання

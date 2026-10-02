@@ -1446,7 +1446,8 @@ de:
       <li>CRC-32</li>\n<li>SHA-1</li>\n<li>SHA-256</li>\n</ul>\n"
     identifier: Signatur
     caption: Beschriftung
-    is_representative: Repräsentativ
+    is_display_thumbnail: Anzeige-Vorschaubild
+    is_display_link: Anzeige-Link
     checksum_tooltip: "<p>Eine digitale Signatur zur Überwachung der Integrität und Authentizität einer
       digitalen Datei.</p>\n"
     _plural: Dateiversionen
@@ -2307,6 +2308,8 @@ de:
     mixed_content_disallowed_tag: "Nicht erlaubtes HTML-Tag erkannt. Aus Sicherheitsgründen sind Tags
       wie &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; und Formularelemente in Feldern mit gemischtem
       Inhalt nicht zulässig."
+    display_thumbnail_must_be_published: Muss veröffentlicht sein, um das Anzeige-Vorschaubild zu sein
+    display_link_must_be_published: Muss veröffentlicht sein, um der Anzeige-Link zu sein
   import_job:
     bulk_import_csv: Massenimport von AO-CSV
     bulk_import_DO_xlsx: Massenimport von DO-XLSX
