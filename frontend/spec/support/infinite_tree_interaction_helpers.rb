@@ -739,7 +739,7 @@ module InfiniteTreeInteractionHelpers
   end
 
   def cancel_infinite_tree_record_pane_form
-    within('#infinite-tree-record-pane') { find('.btn-cancel').click }
+    within('#infinite-tree-record-pane') { find('.form-actions .btn-cancel').click }
     wait_for_infinite_tree_pane_ready
   end
 

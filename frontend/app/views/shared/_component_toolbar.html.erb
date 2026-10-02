@@ -1,5 +1,5 @@
 <% if local_assigns[:view_only] %>
-<section class="d-flex flex-column">
+<section class="d-flex flex-column sticky-record-toolbar">
   <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <div class="btn-group ml-auto" data-allow-disabled>
       <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
@@ -16,7 +16,7 @@
    suppressible = true if suppressible.nil?
    supports_events = true if supports_events.nil?
 %>
-<section class="d-flex flex-column">
+<section class="d-flex flex-column sticky-record-toolbar">
   <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <% if (suppressible && !record.suppressed) || !suppressible %>
       <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
@@ -32,6 +32,9 @@
       <% if ['edit', 'update'].include?(controller.action_name) %>
         <div class="align-items-center revert-changes">
           <%= link_to t("actions.revert"), parent_link, :class => "btn btn-sm btn-default flex-shrink-0" %>
+        </div>
+        <div>
+          <%= link_to t("actions.cancel"), :back, :class => "btn btn-sm btn-default btn-cancel" %>
         </div>
       <% end %>
     <% end %>

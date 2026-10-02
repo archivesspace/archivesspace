@@ -833,6 +833,7 @@
           result = new DOMParser().parseFromString(html, 'text/html');
         } else {
           this.#renderNewForm(html);
+          this.#revealRecordPane();
         }
 
         const hasError = result.querySelector('.error') !== null;
@@ -901,6 +902,24 @@
           submitButton.removeAttribute('disabled');
         }
       }
+    }
+
+    /**
+     * Scrolls the pane's top back into view after a save, when the user saved from
+     * further down the page. Does nothing if the pane top is already visible.
+     */
+    #revealRecordPane() {
+      const pane = this.container.querySelector('.record-pane');
+
+      if (!pane) return;
+
+      const toolbar = this.container.querySelector('.sticky-record-toolbar');
+      const toolbarBottom = toolbar
+        ? toolbar.getBoundingClientRect().bottom
+        : 0;
+      const offset = pane.getBoundingClientRect().top - toolbarBottom;
+
+      if (offset < 0) window.scrollBy(0, offset);
     }
 
     #setDirty(value) {
