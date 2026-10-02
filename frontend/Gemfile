@@ -74,6 +74,9 @@ gem 'multi_json'
 gem 'multipart-post'
 gem 'net-http-persistent', '>= 4.0.1'
 
+# Throttle staff login attempts
+gem 'rack-attack', '~> 6.7'
+
 gem 'nokogiri', '~> 1.13.10' # keep compatible with saxon-rb used in exports
 
 require 'asutils'
