@@ -556,7 +556,17 @@
 
       if (!this.isReadOnly) recordPath += '/edit';
 
-      const url = recordPath + '?inline=true';
+      const urlObj = new URL(recordPath, window.location.origin);
+      urlObj.searchParams.set('inline', 'true');
+
+      const lang = new URLSearchParams(window.location.search).get(
+        'language_of_description'
+      );
+      if (lang) {
+        urlObj.searchParams.set('language_of_description', lang);
+      }
+
+      const url = urlObj.pathname + urlObj.search;
 
       this.#blockUI();
 

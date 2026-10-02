@@ -6,8 +6,9 @@ class AccessionResourcesSubreport < AbstractSubreport
   end
 
   def query_string
-    "select identifier, title
-    from resource, spawned_rlshp
+    "select identifier, resource_mlc.title as title
+    from (resource, spawned_rlshp)
+      #{mlc_join('resource')}
     where spawned_rlshp.accession_id = #{db.literal(@accession_id)}
       and spawned_rlshp.resource_id = resource.id
       #{suppressed_filter('resource')}"

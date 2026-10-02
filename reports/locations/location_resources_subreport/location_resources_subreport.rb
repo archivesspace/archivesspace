@@ -12,27 +12,29 @@ class LocationResourcesSubreport < AbstractSubreport
     "select distinct
       resource.id,
       resource.identifier as identifier,
-      resource.title as title
+      resource_mlc.title as title
 
     from top_container_housed_at_rlshp
 
       join top_container on top_container.id
         = top_container_housed_at_rlshp.top_container_id
 
-      join top_container_link_rlshp 
+      join top_container_link_rlshp
         on top_container_link_rlshp.top_container_id
         = top_container.id
 
       join sub_container on sub_container.id
         = top_container_link_rlshp.sub_container_id
-      
+
       join instance on instance.id = sub_container.instance_id
-      
+
       left outer join archival_object on archival_object.id
         = instance.archival_object_id#{suppressed_filter('archival_object')}
 
       join resource on resource.id = archival_object.root_record_id
         or resource.id = instance.resource_id
+
+      #{mlc_join('resource')}
 
     where top_container_housed_at_rlshp.location_id = #{db.literal(@location_id)}
       and resource.repo_id = #{db.literal(@repo_id)}

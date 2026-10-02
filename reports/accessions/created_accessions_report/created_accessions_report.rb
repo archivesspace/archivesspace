@@ -26,9 +26,10 @@ class CreatedAccessionsReport < AbstractReport
   def query_string
     "select
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date
     from accession
+      #{mlc_join('accession')}
     where accession_date > #{db.literal(@from.split(' ')[0].gsub('-', ''))}
       and accession_date < #{db.literal(@to.split(' ')[0].gsub('-', ''))}
       and repo_id = #{db.literal(@repo_id)}#{suppressed_filter('accession')}

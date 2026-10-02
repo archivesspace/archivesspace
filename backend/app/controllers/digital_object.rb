@@ -168,7 +168,7 @@ class ArchivesSpaceService < Sinatra::Base
     digital_object = DigitalObject.get_or_die(params[:id])
 
     large_tree = LargeTree.new(digital_object, {:published_only => params[:published_only]}.merge(largetree_opts))
-    large_tree.add_decorator(LargeTreeDigitalObject.new)
+    large_tree.add_decorator(LargeTreeDigitalObject.new(digital_object))
 
     large_tree
   end

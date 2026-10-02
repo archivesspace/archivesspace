@@ -8,7 +8,7 @@ Feature: Resource Related Accession Create and Link
      When the user fills in 'Title'
       And the user fills in 'Identifier'
       And the user selects 'Collection' from 'Level of Description'
-      And the user fills in 'Language' with 'English' and selects 'English' in the 'Languages' form
+      And the user fills in 'Language' with 'English' and selects 'English' in the 'Languages of Materials' form
       And the user selects 'Single' from 'Type' in the 'Dates' form
       And the user fills in 'Begin' with '2026-01-01' in the 'Dates' form
       And the user fills in 'Number' with '1' in the 'Extents' form
@@ -32,7 +32,7 @@ Feature: Resource Related Accession Create and Link
      When the user fills in 'Title'
       And the user fills in 'Identifier'
       And the user selects 'Collection' from 'Level of Description'
-      And the user fills in 'Language' with 'English' and selects 'English' in the 'Languages' form
+      And the user fills in 'Language' with 'English' and selects 'English' in the 'Languages of Materials' form
       And the user selects 'Single' from 'Type' in the 'Dates' form
       And the user fills in 'Begin' with '2026-01-01' in the 'Dates' form
       And the user fills in 'Number' with '1' in the 'Extents' form
@@ -56,7 +56,7 @@ Feature: Resource Related Accession Create and Link
      When the user fills in 'Title'
       And the user fills in 'Identifier'
       And the user selects 'Collection' from 'Level of Description'
-      And the user fills in 'Language' with 'English' and selects 'English' in the 'Languages' form
+      And the user fills in 'Language' with 'English' and selects 'English' in the 'Languages of Materials' form
       And the user selects 'Single' from 'Type' in the 'Dates' form
       And the user fills in 'Begin' with '2026-01-01' in the 'Dates' form
       And the user fills in 'Number' with '1' in the 'Extents' form

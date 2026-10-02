@@ -314,7 +314,16 @@ $(function () {
         var openedViaClick = false;
         var showTimeout, hideTimeout;
 
-        var onMouseEnter = function () {
+        var onMouseEnter = function (e) {
+          var fromMarkerTarget =
+            $(e.target).closest('.lang-marker').length ||
+            $(
+              e.originalEvent && e.originalEvent.target
+                ? e.originalEvent.target
+                : []
+            ).closest('.lang-marker').length ||
+            $this.find('.lang-marker:hover').length;
+          if (fromMarkerTarget) return;
           if (openedViaClick) return;
 
           clearTimeout(hideTimeout);

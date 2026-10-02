@@ -16,14 +16,14 @@ class AccessionReport < AbstractReport
 
   def query_string
     "select
-      id as accession_id,
+      accession.id as accession_id,
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date as accession_date,
-      provenance as provenance,
+      accession_mlc.provenance as provenance,
       extent_number,
       extent_type,
-      general_note,
+      accession_mlc.general_note as general_note,
       container_summary,
       date_expression,
       begin_date,
@@ -32,65 +32,66 @@ class AccessionReport < AbstractReport
       bulk_end_date,
       acquisition_type_id as acquisition_type,
       retention_rule,
-      content_description as description_note,
-      condition_description as condition_note,
-      inventory,
-      disposition as disposition_note,
+      accession_mlc.content_description as description_note,
+      accession_mlc.condition_description as condition_note,
+      accession_mlc.inventory as inventory,
+      accession_mlc.disposition as disposition_note,
       restrictions_apply,
       access_restrictions,
-      access_restrictions_note,
+      accession_mlc.access_restrictions_note as access_restrictions_note,
       use_restrictions,
-      use_restrictions_note,
+      accession_mlc.use_restrictions_note as use_restrictions_note,
       ifnull(rights_transferred, false) as rights_transferred,
       rights_transferred_note,
       ifnull(acknowledgement_sent, false) as acknowledgement_sent
-    from accession natural left outer join
+    from accession
+      #{mlc_join('accession')}
+      left outer join
+        (select
+          accession_id as id,
+          sum(number) as extent_number,
+          GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
+          GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
+        from extent
+        group by accession_id) as extent_cnt on extent_cnt.id = accession.id
 
-      (select
-        accession_id as id,
-        sum(number) as extent_number,
-        GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
-        GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
-      from extent
-      group by accession_id) as extent_cnt
-
-      natural left outer join
-      (select
-        accession_id as id,
-        group_concat(distinct expression separator ', ') as date_expression,
-        group_concat(distinct begin separator ', ') as begin_date,
-        group_concat(distinct end separator ', ') as end_date
-      from date, enumeration_value
-      where date.date_type_id = enumeration_value.id and enumeration_value.value = 'inclusive'
-      group by accession_id) as inclusive_date
-
-      natural left outer join
-      (select
-        accession_id as id,
-        group_concat(distinct begin separator ', ') as bulk_begin_date,
-        group_concat(distinct end separator ', ') as bulk_end_date
+      left outer join
+        (select
+          accession_id as id,
+          group_concat(distinct expression separator ', ') as date_expression,
+          group_concat(distinct begin separator ', ') as begin_date,
+          group_concat(distinct end separator ', ') as end_date
         from date, enumeration_value
-        where date.date_type_id = enumeration_value.id and enumeration_value.value = 'bulk'
-        group by accession_id) as bulk_date
+        where date.date_type_id = enumeration_value.id and enumeration_value.value = 'inclusive'
+        group by accession_id) as inclusive_date on inclusive_date.id = accession.id
 
-      natural left outer join
-      (select
-        accession_id as id,
-        count(*) != 0 as rights_transferred,
-        group_concat(outcome_note separator ', ') as rights_transferred_note
-      from event_link_rlshp, event, enumeration_value
-      where event_link_rlshp.event_id = event.id
-        and event.event_type_id = enumeration_value.id and enumeration_value.value = 'copyright_transfer'
-      group by event_link_rlshp.accession_id) as rights_transferred
+      left outer join
+        (select
+          accession_id as id,
+          group_concat(distinct begin separator ', ') as bulk_begin_date,
+          group_concat(distinct end separator ', ') as bulk_end_date
+          from date, enumeration_value
+          where date.date_type_id = enumeration_value.id and enumeration_value.value = 'bulk'
+          group by accession_id) as bulk_date on bulk_date.id = accession.id
 
-      natural left outer join
-      (select
-        accession_id as id,
-        count(*) != 0 as acknowledgement_sent
-      from event_link_rlshp, event, enumeration_value
-      where event_link_rlshp.event_id = event.id
-        and event.event_type_id = enumeration_value.id and enumeration_value.value = 'acknowledgement_sent'
-      group by event_link_rlshp.accession_id) as acknowledgement_sent
+      left outer join
+        (select
+          accession_id as id,
+          count(*) != 0 as rights_transferred,
+          group_concat(outcome_note separator ', ') as rights_transferred_note
+        from event_link_rlshp, event, enumeration_value
+        where event_link_rlshp.event_id = event.id
+          and event.event_type_id = enumeration_value.id and enumeration_value.value = 'copyright_transfer'
+        group by event_link_rlshp.accession_id) as rights_transferred on rights_transferred.id = accession.id
+
+      left outer join
+        (select
+          accession_id as id,
+          count(*) != 0 as acknowledgement_sent
+        from event_link_rlshp, event, enumeration_value
+        where event_link_rlshp.event_id = event.id
+          and event.event_type_id = enumeration_value.id and enumeration_value.value = 'acknowledgement_sent'
+        group by event_link_rlshp.accession_id) as acknowledgement_sent on acknowledgement_sent.id = accession.id
 
     where accession.repo_id = #{db.literal(@repo_id)}#{suppressed_filter('accession')}"
   end

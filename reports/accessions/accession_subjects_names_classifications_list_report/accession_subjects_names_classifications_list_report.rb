@@ -6,15 +6,15 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
 
   def query_string
     "select
-      id,
+      accession.id as id,
       identifier as accession_number,
-      title as record_title,
+      accession_mlc.title as record_title,
       accession_date,
       restrictions_apply,
       access_restrictions,
-      access_restrictions_note,
+      accession_mlc.access_restrictions_note as access_restrictions_note,
       use_restrictions,
-      use_restrictions_note,
+      accession_mlc.use_restrictions_note as use_restrictions_note,
       container_summary,
       ifnull(accession_processed, false) as accession_processed,
       accession_processed_date,
@@ -24,6 +24,8 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
       ifnull(rights_transferred, false) as rights_transferred,
       rights_transferred_note
     from accession
+
+      #{mlc_join('accession')}
 
       natural left outer join
 
@@ -45,9 +47,9 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
         GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
       from extent
       group by accession_id) as extent_cnt
-      
+
       natural left outer join
-     
+
       (select
         id,
         accession_processed,
@@ -62,16 +64,16 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
         where event_link_rlshp.event_id = event.id
           and event.event_type_id = enumeration_value.id and enumeration_value.value = 'processed'
           and not event_link_rlshp.accession_id is null) as processed
-       
+
         natural left outer join
-       
-        (select 
+
+        (select
           event_id,
           ifnull(date.expression, if(date.end is null, date.begin, concat(date.begin, ' - ', date.end)))
             as accession_processed_date
         from date
           where not event_id is null) as dates
-     
+
       group by id) as processed_info
 
       natural left outer join

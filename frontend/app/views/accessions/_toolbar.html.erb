@@ -19,6 +19,8 @@
         </div>
       <% end %>
       <div class="btn-group ml-auto" data-allow-disabled>
+        <%= render_aspace_partial :partial => "shared/language_of_description_dropdown",
+            :locals => { :lang_descriptions => @accession['lang_descriptions'].to_a, :resource_id => @accession.id } %>
         <% if AppConfig[:enable_public] %>
           <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
         <% end %>

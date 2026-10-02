@@ -339,7 +339,7 @@ describe "Resource Duplicate" do
 
     # Make archival object invalid, by directly updating it on the database to bypass model validation.
     DB.open do |db|
-      db.execute("UPDATE archival_object SET title=NULL WHERE id = #{archival_object_parent_1.id}")
+      db.execute("UPDATE archival_object_mlc SET title=NULL WHERE archival_object_id = #{archival_object_parent_1.id}")
     end
 
     expect(subject.duplicate).to eq false

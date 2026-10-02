@@ -1,8 +1,8 @@
 <div class="d-flex">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-10">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |readonly, digital_object_component| %>

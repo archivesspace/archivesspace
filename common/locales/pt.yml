@@ -1,4 +1,17 @@
 pt:
+  archival_object: &archival_object_attributes
+    lang_materials: Linguagens dos Materiais
   group:
     default_group_names:
       pui_viewers: Visualizadores de PUI
+  lang_description: &lang_description
+    _plural: Linguagens de Descrição
+    _singular: Linguagem de descrição
+    is_primary: Idioma principal
+    language: Linguagem
+    script: Roteiro
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: Linguagens dos Materiais
+    _singular: Idioma do material

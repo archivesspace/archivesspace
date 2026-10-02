@@ -12,8 +12,8 @@ class LocationAccessionsSubreport < AbstractSubreport
     "select
       accession.id,
       accession.identifier as identifier,
-        accession.title as title
-    from 
+        accession_mlc.title as title
+    from
       (select
         top_container_id as id
       from top_container_housed_at_rlshp
@@ -29,6 +29,8 @@ class LocationAccessionsSubreport < AbstractSubreport
 
       join instance on instance.id = sub_container.instance_id
         join accession on accession.id = instance.accession_id
+
+      #{mlc_join('accession')}
 
     where accession.repo_id = #{db.literal(@repo_id)}
       #{suppressed_filter('accession')}"

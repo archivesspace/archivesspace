@@ -10,6 +10,8 @@ he:
       agent_missing_type: "סוכן %{num} דורש סוג סוכן"
       agent_unsupported_type: "לסוכן %{num} יש סוג סוכן שאינו נתמך '%{agent_type}'"
     agent: סוכן
+  archival_object: &archival_object_attributes
+    lang_materials: שפות של חומרים
   reports:
     formats:
       json: JSON
@@ -59,3 +61,14 @@ he:
       bad_headers: "כותרות CSV לא חוקיות: %{columns}"
       duplicate_file_version_headers: "עמודות כפולות של גרסת קובץ: %{columns}"
       csv_syntax_error: "שגיאת ייבוא CSV (%{type}): %{element}"
+  lang_description: &lang_description
+    _plural: שפות תיאור
+    _singular: שפת התיאור
+    is_primary: שפה ראשית
+    language: שָׂפָה
+    script: תַסרִיט
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: שפות של חומרים
+    _singular: שפת החומר

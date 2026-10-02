@@ -10,12 +10,14 @@ class DigitalObjectFileVersionsListSubreport < AbstractSubreport
   def query_string
     "select
       file_uri as 'file_uri',
-      digital_object.title as 'digital_object_title',
-      digital_object_component.title as 'digital_object_component_title'
-    from file_version 
+      digital_object_mlc.title as 'digital_object_title',
+      digital_object_component_mlc.title as 'digital_object_component_title'
+    from file_version
     left outer join digital_object
       on file_version.digital_object_id = digital_object.id
     left outer join digital_object_component on file_version.digital_object_component_id = digital_object_component.id
+    #{mlc_join('digital_object')}
+    #{mlc_join('digital_object_component')}
     where (digital_object.id = #{db.literal(@digital_object_id)}
     or root_record_id = #{db.literal(@digital_object_id)})
     #{suppressed_filter('digital_object')}

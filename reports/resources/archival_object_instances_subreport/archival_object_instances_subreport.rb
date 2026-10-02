@@ -55,18 +55,19 @@ class ArchivalObjectInstancesSubreport < AbstractSubreport
       where archival_object_id = #{db.literal(@archival_object_id)}) as instances
 
       left outer join sub_container on instances.id = sub_container.instance_id
-      
+
       left outer join top_container_link_rlshp
         on sub_container.id = top_container_link_rlshp.sub_container_id
-      
+
       left outer join top_container
         on top_container.id = top_container_link_rlshp.top_container_id
 
       left outer join
         (select
           instance_do_link_rlshp.instance_id,
-          group_concat(digital_object.title separator '; ') as digital_object
+          group_concat(digital_object_mlc.title separator '; ') as digital_object
         from instance_do_link_rlshp, digital_object
+          #{mlc_join('digital_object')}
         where instance_do_link_rlshp.digital_object_id = digital_object.id
           #{suppressed_filter('digital_object')}
         group by instance_do_link_rlshp.instance_id) as digital_objects

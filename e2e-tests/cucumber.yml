@@ -8,7 +8,17 @@ default: |
   --require helpers
   --require staff_features
   --require pui_features
-  --tags "not @skip and not @pui_auth_enabled"
+  --tags "not @skip and not @mlc_enabled and not @pui_auth_enabled"
+
+mlc: |
+  staff_features
+  --publish-quiet
+  --format pretty
+  --color
+  --require env.rb
+  --require helpers
+  --require staff_features
+  --tags "@mlc_enabled"
 
 pui_auth: |
   pui_features

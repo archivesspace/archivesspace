@@ -14,14 +14,16 @@ class ResourceLocationsListReport < AbstractReport
 
   def query_string
     "select
-      id,
-      title as record_title,
+      resource.id as id,
+      resource_mlc.title as record_title,
       identifier,
       level_id as level,
       dates,
       extent_number
-        
+
     from resource
+
+      #{mlc_join('resource')}
 
       natural left outer join
       (select
@@ -30,14 +32,14 @@ class ResourceLocationsListReport < AbstractReport
           concat(begin, ' - ', end))) separator ', ') as dates
       from date
       group by resource_id) as record_date
-      
+
       natural left outer join
       (select
         resource_id as id,
         sum(number) as extent_number
       from extent
       group by resource_id) as extent_cnt
-        
+
     where repo_id = #{db.literal(@repo_id)}#{suppressed_filter('resource')}"
   end
 

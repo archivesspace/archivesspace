@@ -66,4 +66,31 @@ describe 'Is Representative Toggle', js: true do
       )
     end
   end
+
+  context 'when multilingual content is enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    ['accession', 'digital_object', 'resource'].each do |record_type|
+      it "can be toggled on and off for #{record_type} languages of descriptions" do
+        subform = "##{record_type}_lang_descriptions_ .subrecord-form-list > li[data-index='0']"
+
+        visit "/#{record_type}s/new"
+
+        within subform do
+          toggle_expectations(
+            @is_rep_css,
+            'Primary Language',
+            @make_rep_css,
+            'Make Primary Language'
+          )
+        end
+      end
+    end
+  end
 end

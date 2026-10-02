@@ -8,6 +8,8 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Subjects
   include Extents
   include LangMaterials
+  include MultilingualContent
+  set_multilingual_fields :title, :label, :display_string
   include Dates
   include ExternalDocuments
   include Agents

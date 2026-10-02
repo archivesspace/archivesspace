@@ -11,6 +11,8 @@ nl:
       agent_missing_type: "Agent %{num} vereist een agenttype"
       agent_unsupported_type: "Agent %{num} heeft een niet-ondersteund agenttype '%{agent_type}'"
     agent: Agent
+  archival_object: &archival_object_attributes
+    lang_materials: Talen van materialen
   reports:
     formats:
       json: JSON
@@ -99,3 +101,14 @@ nl:
       bad_headers: "Ongeldige CSV-kopteksten: %{columns}"
       duplicate_file_version_headers: "Dubbele Bestandsversie-kolommen: %{columns}"
       csv_syntax_error: "CSV-importfout (%{type}): %{element}"
+  lang_description: &lang_description
+    _plural: Talen van beschrijving
+    _singular: Taal van beschrijving
+    is_primary: Hoofdtaal
+    language: Taal
+    script: Script
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: Talen van materialen
+    _singular: Taal van het materiaal

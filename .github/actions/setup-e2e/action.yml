@@ -5,6 +5,10 @@ inputs:
   image_tag:
     description: Docker image tag for ArchivesSpace
     required: true
+  multilingual_content:
+    description: Value for APPCONFIG_MULTILINGUAL_CONTENT
+    required: false
+    default: "false"
   pui_require_authentication:
     description: Value for APPCONFIG_PUI_REQUIRE_AUTHENTICATION
     required: false
@@ -42,6 +46,7 @@ runs:
       working-directory: e2e-tests
       env:
         IMAGE_TAG: ${{ inputs.image_tag }}
+        APPCONFIG_MULTILINGUAL_CONTENT: ${{ inputs.multilingual_content }}
         APPCONFIG_PUI_REQUIRE_AUTHENTICATION: ${{ inputs.pui_require_authentication }}
       run: docker compose -f docker-compose.yml up --quiet-pull --detach
     - name: Wait until the web server is ready

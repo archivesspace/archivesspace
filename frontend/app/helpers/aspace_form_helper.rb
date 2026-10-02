@@ -506,13 +506,13 @@ module AspaceFormHelper
       @active_template = old
     end
 
-    def label_and_fourpartid
+    def label_and_fourpartid(opts = {})
       field_html =  textfield("id_0", obj["id_0"], :class => "id_0 form-control", :size => 10)
       field_html << textfield("id_1", obj["id_1"], :class => "id_1 form-control", :size => 10, :disabled => obj["id_0"].blank? && obj["id_1"].blank?, :'aria-label' => "id_1")
       field_html << textfield("id_2", obj["id_2"], :class => "id_2 form-control", :size => 10, :disabled => obj["id_1"].blank? && obj["id_2"].blank?, :'aria-label' => "id_2")
       field_html << textfield("id_3", obj["id_3"], :class => "id_3 form-control", :size => 10, :disabled => obj["id_2"].blank? && obj["id_3"].blank?, :'aria-label' => "id_3")
       @forms.content_tag(:div, (I18n.t(i18n_for("id_0")) + field_html).html_safe, :class=> "identifier-fields")
-      label_with_field("id_0", field_html, :control_class => "identifier-fields")
+      label_with_field("id_0", field_html, {:control_class => "identifier-fields"}.merge(opts))
     end
 
 
@@ -533,7 +533,8 @@ module AspaceFormHelper
                       .map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
                                                 CGI::escapeHTML(v.to_s)]}
                       .join(' ')
-      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name, opts[:ignore_form_context])))
+      label_text = CGI::escapeHTML(I18n.t(prefix + i18n_for(name, opts[:ignore_form_context])))
+      content = "#{opts[:prefix_html]}#{label_text}"
       "<label #{attr_string}>#{content}</label>".html_safe
     end
 
