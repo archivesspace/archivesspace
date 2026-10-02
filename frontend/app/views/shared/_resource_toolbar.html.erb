@@ -1,7 +1,7 @@
 <% if local_assigns[:view_only] %>
   <%= render_aspace_partial :partial => "shared/view_only_toolbar", :locals => {:record => record} %>
 <% else %>
-<section class="d-flex flex-column">
+<section class="d-flex flex-column sticky-record-toolbar">
   <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <% if !record.suppressed %>
       <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
@@ -18,6 +18,9 @@
     <% if ['edit', 'update'].include?(controller.action_name) %>
       <div class="align-items-center revert-changes">
         <%= link_to t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
+      </div>
+      <div>
+        <%= link_to t("actions.cancel"), :back, :class => "btn btn-sm btn-default btn-cancel" %>
       </div>
     <% end %>
     <div class="btn-group ml-auto" data-allow-disabled>

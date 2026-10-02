@@ -4,7 +4,8 @@ body {
   position: relative;
 }
 
-h2 > .label {
+h2 > .label,
+.sticky-record-toolbar__title > .label {
   margin-top: $baseLineHeight / 2;
   vertical-align: top;
   font-size: 40%;

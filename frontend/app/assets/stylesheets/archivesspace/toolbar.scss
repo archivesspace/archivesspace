@@ -45,6 +45,38 @@
   }
 }
 
+@media (min-width: 768px) {
+  .sticky-record-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: $zindex-sticky;
+  }
+
+  .sticky-record-toolbar__title {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: -15px; // match .record-toolbar
+    margin: 0;
+    padding: 4px 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: $white;
+    border-top: 1px solid $grayLighter;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .sticky-record-toolbar.is-stuck .sticky-record-toolbar__title {
+    display: block;
+  }
+
+  html:has(.sticky-record-toolbar) {
+    scroll-padding-top: 7rem; // toolbar + sticky record title
+  }
+}
+
 #record-toolbar-alert {
   margin-right: -15px; // because Bootstrap
   display: none;

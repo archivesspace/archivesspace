@@ -211,7 +211,7 @@ $(function () {
         return true;
       });
 
-      $('.form-actions .btn-cancel', $this).click(function () {
+      $('.form-actions .btn-cancel, .record-toolbar .btn-cancel', $this).click(function () {
         $this.data('form_changed', false);
         return true;
       });
