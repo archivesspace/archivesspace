@@ -17,7 +17,11 @@ describe 'Users and Authentication', js: true do
       click_button "Sign In"
     end
 
-    expect(page).to have_text 'Login attempt failed'
+    login_failure_alert = find('form.login p.alert.alert-danger', visible: true)
+    expect(login_failure_alert[:role]).to eq('alert')
+    expect(login_failure_alert[:tabindex]).to eq('-1')
+    expect(login_failure_alert).to have_text('Login attempt failed')
+    expect_focus_on(login_failure_alert)
   end
 
   it 'fails login when user is inactive' do
@@ -33,7 +37,11 @@ describe 'Users and Authentication', js: true do
       click_button "Sign In"
     end
 
-    expect(page).to have_text 'Login attempt failed'
+    login_failure_alert = find('form.login p.alert.alert-danger', visible: true)
+    expect(login_failure_alert[:role]).to eq('alert')
+    expect(login_failure_alert[:tabindex]).to eq('-1')
+    expect(login_failure_alert).to have_text('Login attempt failed')
+    expect_focus_on(login_failure_alert)
   end
 
   it 'can register a new user and check that user has no repositories' do

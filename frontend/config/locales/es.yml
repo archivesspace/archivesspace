@@ -784,6 +784,7 @@ es:
       o más de los agentes tiene detalles de contacto a los que no tiene permiso
       para acceder.
     sidebar_label: Errores y advertencias
+    submission_failed: Error al enviar. Corrija los errores que aparecen a continuación.
     error_403: Incapaz de acceder la página
     error_403_message: "Has intentado acceder a la página ya no existan o que no tenga
       permiso para verlo."
