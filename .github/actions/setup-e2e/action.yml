@@ -54,5 +54,3 @@ runs:
       run: |
         echo "Waiting for ArchivesSpace to start..."
         timeout 120 bash -c 'until curl -sf http://localhost:8080 > /dev/null; do sleep 2; done' || echo "Timeout waiting for ArchivesSpace"
-name: Set up E2E environment
-description: Ruby, gems, geckodriver, and a running ArchivesSpace stack
