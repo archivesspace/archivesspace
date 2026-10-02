@@ -548,3 +548,5 @@ de:
     required: Erforderliche Felder
     pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die PUI anzuzeigen."
     login_failed: "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort."
+  thumbnails:
+    access_help_text: Hier klicken für den Online-Zugang

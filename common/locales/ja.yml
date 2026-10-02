@@ -745,7 +745,8 @@ ja:
       MD5 </li><li> CRC-32 </li><li> SHA-1 </li><li> SHA-256 </li></ul>"
     identifier: 識別
     caption: キャプション
-    is_representative: 代表
+    is_display_thumbnail: 表示サムネイル
+    is_display_link: 表示リンク
 
   extent:
     portion: 部分
@@ -1587,6 +1588,8 @@ ja:
     mixed_content_invalid_inline_ead: "無効な EAD マークアップです。属性値には直線の引用符（\" または '）を使用し、タグが正しく構成されていることを確認してください。"
     mixed_content_disallowed_tag: "許可されていない HTML タグが検出されました。セキュリティ上の理由から、&lt;script&gt;、&lt;style&gt;、&lt;iframe&gt;
       などのタグやフォーム要素は、混合コンテンツフィールドでは使用できません。"
+    display_thumbnail_must_be_published: 表示サムネイルにするには公開されている必要があります
+    display_link_must_be_published: 表示リンクにするには公開されている必要があります
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ

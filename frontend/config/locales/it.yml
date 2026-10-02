@@ -1598,16 +1598,17 @@ it:
         add: Aggiungi documento esterno
   file_version:
     _frontend:
+      published: Pubblicato
       messages:
         no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer]
           su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato
           esternamente."
       action:
         add: Aggiungi versione del file
-        make_representative: Rendere rappresentante
-        make_representative_tooltip: Utilizzare questa opzione per indicare che 
-          questa immagine deve essere visualizzata quando sono presenti più 
-          versioni del file associate al record.
+        make_display_thumbnail: Usa come miniatura di visualizzazione
+        make_display_thumbnail_tooltip: Mostra l'immagine all'URI del file di questa versione del file come miniatura del record. Se la versione del file non è un'immagine visualizzabile, viene mostrata un'icona generica.
+        make_display_link: Usa come link di visualizzazione
+        make_display_link_tooltip: Collega la miniatura o l'icona generica del record all'URI del file di questa versione del file.
   group:
     _frontend:
       action:

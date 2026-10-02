@@ -1001,7 +1001,8 @@ fr:
       </ul>
     identifier: Identifiant
     caption: Légende
-    is_representative: Représentatif
+    is_display_thumbnail: Miniature d'affichage
+    is_display_link: Lien d'affichage
 
   extent:
     portion: Portion
@@ -2311,6 +2312,8 @@ fr:
     mixed_content_disallowed_tag: "Balise HTML non autorisée détectée. Pour des raisons de sécurité, les
       balises telles que &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; et les éléments de formulaire ne
       sont pas autorisés dans les champs à contenu mixte."
+    display_thumbnail_must_be_published: Doit être publié pour être la miniature d'affichage
+    display_link_must_be_published: Doit être publié pour être le lien d'affichage
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
