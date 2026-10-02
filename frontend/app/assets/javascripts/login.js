@@ -5,6 +5,7 @@ AS.LoginHelper = {
 
       var handleSuccess = function (json) {
         $('.form-group', $form).removeClass('has-error');
+        AS.hideAlert($('.alert-danger', $form));
         $('.alert-success', $form).show();
 
         $form.trigger('loginsuccess.aspace', [json]);
@@ -12,7 +13,8 @@ AS.LoginHelper = {
 
       var handleError = function () {
         $('.form-group', $form).addClass('has-error');
-        $('.alert-danger', $form).show();
+        AS.hideAlert($('.alert-success', $form));
+        AS.showAndFocusAlert($('.alert-danger', $form));
         $('#login', $form).attr('disabled', null);
 
         $form.trigger('loginerror.aspace');
@@ -21,6 +23,8 @@ AS.LoginHelper = {
       $form.ajaxForm({
         dataType: 'json',
         beforeSubmit: function () {
+          AS.hideAlert($('.alert-danger', $form));
+          AS.hideAlert($('.alert-success', $form));
           $('#login', $form).attr('disabled', 'disabled');
         },
         success: function (json, status, xhr) {

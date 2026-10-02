@@ -438,7 +438,8 @@ describe 'Resources', js: true do
       element = find('.alert.alert-danger.with-hide-alert')
       expect(element[:role]).to eq('alert')
       expect(element[:tabindex]).to eq('-1')
-      expect(page.evaluate_script("document.activeElement === document.querySelector('#form_messages .alert-danger')")).to be true
+      expect(element).to have_text(I18n.t('errors.submission_failed'))
+      expect_focus_on(element)
       messages.each do |message|
         expect(element).to have_text message
       end

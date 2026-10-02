@@ -83,9 +83,15 @@ describe 'Merge and Transfer', js: true do
     find('#merge-dropdown button').click
 
     expect(page).to have_selector('#form_merge', visible: true)
+
     within '#form_merge' do
-      expect(find('.missing-ref-message', visible: false)[:role]).to eq 'alert'
+      click_on 'Merge'
     end
+
+    missing_ref = find('#form_merge .missing-ref-message', visible: true)
+    expect(missing_ref[:role]).to eq('alert')
+    expect(missing_ref[:tabindex]).to eq('-1')
+    expect_focus_on(missing_ref)
 
     within '#form_merge' do
       fill_in 'token-input-merge_ref_', with: resource_source.title
@@ -124,7 +130,21 @@ describe 'Merge and Transfer', js: true do
 
     expect(find('#merge-dropdown .merge-action')[:'aria-expanded']).to eq 'true'
     expect(page).to have_selector('#form_merge', visible: true)
-    expect(find('.missing-ref-message', visible: false)[:role]).to eq 'alert'
+
+    within '#form_merge' do
+      click_on 'Merge'
+    end
+
+    missing_ref = find('#form_merge .missing-ref-message', visible: true)
+    expect(missing_ref[:role]).to eq('alert')
+    expect(missing_ref[:tabindex]).to eq('-1')
+    expect_focus_on(missing_ref)
+
+    within '#form_merge' do
+      click_on 'Cancel'
+    end
+
+    expect(page).to have_no_selector('#form_merge .missing-ref-message', visible: true)
   end
 
   it 'can transfer an archival object to another resource' do
@@ -187,11 +207,16 @@ describe 'Merge and Transfer', js: true do
       click_on 'Transfer'
     end
 
-    expect(page).to have_css('.missing-ref-message', visible: true)
+    missing_ref = find('#ao-transfer-dropdown .missing-ref-message', visible: true)
+    expect(missing_ref[:role]).to eq('alert')
+    expect(missing_ref[:tabindex]).to eq('-1')
+    expect_focus_on(missing_ref)
 
     within '#ao-transfer-dropdown' do
       click_on 'Cancel'
     end
+
+    expect(page).to have_no_selector('#ao-transfer-dropdown .missing-ref-message', visible: true)
 
     expect(page).to have_no_selector('#ao-transfer-dropdown .dropdown-menu.transfer-form', visible: true)
     expect(find('#ao-transfer-dropdown > .dropdown-toggle')['aria-expanded']).to eq('false')
