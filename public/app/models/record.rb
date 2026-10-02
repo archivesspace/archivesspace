@@ -399,10 +399,16 @@ class Record
     # add the top container type and indicator
     if sub_container.has_key?('top_container')
       top_container_solr = top_container_for_uri(sub_container['top_container']['ref'])
-      if top_container_solr
-        # We have a top container from Solr
+      top_container_json = if top_container_solr
+                             # We have a top container from Solr
+                             ASUtils.json_parse(top_container_solr.fetch('json'))
+                           else
+                             # Fall back to the resolved top container, but not its display_string,
+                             # which includes the barcode and series label
+                             sub_container['top_container']['_resolved']
+                           end
+      if top_container_json
         top_container_display_string = ""
-        top_container_json = ASUtils.json_parse(top_container_solr.fetch('json'))
         if top_container_json['type']
           top_container_type = I18n.t("enumerations.container_type.#{top_container_json.fetch('type')}", :default => top_container_json.fetch('type'))
           top_container_display_string << "#{top_container_type}: "
@@ -411,9 +417,6 @@ class Record
         end
         top_container_display_string << top_container_json.fetch('indicator')
         parts << top_container_display_string
-      elsif sub_container['top_container']['_resolved'] && sub_container['top_container']['_resolved']['display_string']
-        # We have a resolved top container with a display string
-        parts << sub_container['top_container']['_resolved']['display_string']
       end
     end
 
