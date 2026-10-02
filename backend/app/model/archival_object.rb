@@ -24,11 +24,11 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Publishable
   include ReindexTopContainers
   include RightsRestrictionNotes
-  include RepresentativeFileVersion
   include Assessments::LinkedRecord
   include TouchRecords
   include Arks
   include MixedContentValidatable
+  include Thumbnails
 
   enable_suppression
 
