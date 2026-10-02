@@ -1352,15 +1352,16 @@ de:
         add: Externes Dokument hinzufügen
   file_version:
     _frontend:
+      published: Veröffentlicht
       messages:
         no_iiif_viewer: "Es ist kein IIIF-Viewer verfügbar. Setzen Sie AppConfig[:iiif_viewer]
           auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
       action:
         add: Dateiversion hinzufügen
-        make_representative: Repräsentativ machen
-        make_representative_tooltip: Verwenden Sie diese Option, um dieses Bild 
-          anzuzeigen, wenn der Aufzeichnung mehrere Dateiversionen zugeordnet 
-          sind.
+        make_display_thumbnail: Als Anzeige-Vorschaubild festlegen
+        make_display_thumbnail_tooltip: Zeigt das Bild unter der Datei URI dieser Dateiversion als Vorschaubild des Datensatzes an. Ist die Dateiversion kein darstellbares Bild, wird stattdessen ein allgemeines Symbol angezeigt.
+        make_display_link: Als Anzeige-Link festlegen
+        make_display_link_tooltip: Verlinkt das Vorschaubild oder das allgemeine Symbol des Datensatzes mit der Datei URI dieser Dateiversion.
   group:
     _frontend:
       action:
