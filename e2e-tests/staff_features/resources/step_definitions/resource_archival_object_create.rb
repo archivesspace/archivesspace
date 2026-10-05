@@ -5,12 +5,16 @@ Given 'a Resource with an Archival Object has been created' do
   create_resource_archival_object(@uuid)
 end
 
-When 'the user selects the Archival Object' do
+When(/^the user selects the Archival Object in (edit|view) mode$/) do |mode|
   within '#infinite-tree-container' do
     click_link "Archival Object #{@uuid}"
   end
 
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+  if mode == 'edit'
+    wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+  else
+    wait_for_infinite_tree_pane_ready
+  end
 end
 
 Then 'the Archival Object with Title {string} is saved as a child of the Resource' do |title|

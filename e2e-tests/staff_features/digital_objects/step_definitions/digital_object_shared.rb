@@ -197,9 +197,16 @@ Given 'a Digital Object with a Digital Object Component has been created' do
   add_digital_object_component_via_toolbar("Digital Object Component Label #{@uuid}")
 end
 
-And 'the user selects the Digital Object Component' do
-  click_on "Digital Object Component Label #{@uuid}"
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object_component')
+And(/^the user selects the Digital Object Component in (edit|view) mode$/) do |mode|
+  within '#infinite-tree-container' do
+    click_link "Digital Object Component Label #{@uuid}"
+  end
+
+  if mode == 'edit'
+    wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object_component')
+  else
+    wait_for_infinite_tree_pane_ready
+  end
 end
 
 Then 'the Assessment is linked to the Digital Object in the {string} form' do |form_title|
