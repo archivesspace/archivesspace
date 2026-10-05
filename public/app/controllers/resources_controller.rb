@@ -161,7 +161,6 @@ class ResourcesController < ApplicationController
       ]
 
       fill_request_info
-      @dig = process_digital_instance(@result['json']['instances'])
       process_extents(@result['json'])
 
       @n_digital_objects = get_digital_object_count

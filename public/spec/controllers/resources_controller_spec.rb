@@ -151,12 +151,6 @@ describe ResourcesController, type: :controller do
   end
 
   describe "show action" do
-    it "passes digital object instance data to the view" do
-      get(:show, params: { rid: @repo.id, id: @resource.id })
-      instance_data = controller.instance_variable_get(:@dig)
-      expect(instance_data[0]['caption']).to eq(@digital_object.title)
-    end
-
     it 'displays a thumbnail' do
       get(:show, params: {rid: @repo.id, id: @resource_with_rep_instance.id})
 
