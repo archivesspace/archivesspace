@@ -25,17 +25,17 @@ THUMBNAIL_SELECTORS = {
 
 # Generic icon classes by Digital Object Type
 THUMBNAIL_TYPE_ICONS = {
-  'Moving Image' => { staff: 'glyphicon-film', public: 'fa-file-video-o' },
-  'Sound Recording' => { staff: 'glyphicon-headphones', public: 'fa-file-audio-o' },
-  'Sound Recording (Musical)' => { staff: 'glyphicon-headphones', public: 'fa-file-audio-o' },
-  'Sound Recording (Non-musical)' => { staff: 'glyphicon-headphones', public: 'fa-file-audio-o' },
-  'Still Image' => { staff: 'glyphicon-picture', public: 'fa-file-image-o' },
-  'Text' => { staff: 'glyphicon-book', public: 'fa-file-text-o' },
+  'Moving Image' => { staff: 'fa-file-video', public: 'fa-file-video-o' },
+  'Sound Recording' => { staff: 'fa-file-audio', public: 'fa-file-audio-o' },
+  'Sound Recording (Musical)' => { staff: 'fa-file-audio', public: 'fa-file-audio-o' },
+  'Sound Recording (Non-musical)' => { staff: 'fa-file-audio', public: 'fa-file-audio-o' },
+  'Still Image' => { staff: 'fa-file-image', public: 'fa-file-image-o' },
+  'Text' => { staff: 'fa-file-lines', public: 'fa-file-text-o' },
   # every other type shows the plain file icon
-  'Cartographic' => { staff: 'glyphicon-file', public: 'fa-file-o' },
-  'Mixed Materials' => { staff: 'glyphicon-file', public: 'fa-file-o' },
-  'Notated Music' => { staff: 'glyphicon-file', public: 'fa-file-o' },
-  'Software, Multimedia' => { staff: 'glyphicon-file', public: 'fa-file-o' }
+  'Cartographic' => { staff: 'fa-file', public: 'fa-file-o' },
+  'Mixed Materials' => { staff: 'fa-file', public: 'fa-file-o' },
+  'Notated Music' => { staff: 'fa-file', public: 'fa-file-o' },
+  'Software, Multimedia' => { staff: 'fa-file', public: 'fa-file-o' }
 }.freeze
 
 THUMBNAIL_BROWSE_COLUMN_TYPES = {
