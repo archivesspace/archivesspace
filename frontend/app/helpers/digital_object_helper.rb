@@ -65,18 +65,19 @@ module DigitalObjectHelper
     return processed_fields
   end
 
-  # Icon for a thumbnail with no image, by the digital object type
+  # Icon for a thumbnail with no image, by the digital object type. The Font Awesome 6 names of the
+  # Font Awesome 4 icons the public interface uses (see public ViewHelper#thumbnail_icon_class).
   def thumbnail_icon_class(digital_object_type)
     icon =
       case digital_object_type.to_s
-      when 'moving_image' then 'glyphicon-film'
-      when /^sound_recording/ then 'glyphicon-headphones'
-      when 'still_image' then 'glyphicon-picture'
-      when 'text' then 'glyphicon-book'
-      else 'glyphicon-file'
+      when 'moving_image' then 'fa-file-video'
+      when /^sound_recording/ then 'fa-file-audio'
+      when 'still_image' then 'fa-file-image'
+      when 'text' then 'fa-file-lines'
+      else 'fa-file'
       end
 
-    "glyphicon #{icon}"
+    "fa-regular #{icon}"
   end
 
   # Where a thumbnail links to: the digital object record for an accession, resource or archival object,
