@@ -36,6 +36,7 @@ nl:
       AND: En
       OR: Of
       NOT: Niet
+    add_row: Regel toevoegen
   agent_function:
     _singular: Functie
     _plural: Functies
@@ -85,3 +86,6 @@ nl:
       target='_blank'>Feedback of vragen</a>
   user:
     is_pui_viewer: PUI-viewer
+  rde:
+    actions:
+      add_row: Regel toevoegen
