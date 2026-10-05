@@ -15,7 +15,7 @@ Feature: Digital Object Component Create
   Scenario: Create a Sibling Digital Object
     Given a Digital Object with a Digital Object Component has been created
       And the Digital Object is opened in edit mode
-     When the user selects the Digital Object Component
+     When the user selects the Digital Object Component in edit mode
       And the user clicks on 'Add Sibling'
       And the user fills in 'Label' with 'Digital Object Component Label Sibling'
       And the user clicks on 'Save'
