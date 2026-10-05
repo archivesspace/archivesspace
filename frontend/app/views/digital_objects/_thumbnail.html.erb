@@ -1,5 +1,5 @@
 <%
-  image_alt_text = thumbnail.fetch('caption', t("thumbnail.fallback_caption", :default => "Thumbnail"))
+  image_alt_text = thumbnail['caption']
   image_link_url = defined?(override_link_url) ? override_link_url : thumbnail_link_url(thumbnail)
   image_link_target = defined?(override_link_target) ? override_link_target : (thumbnail['record_uri'] ? '_self' : '_blank')
   icon_class = "digital-object-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
