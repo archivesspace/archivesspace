@@ -849,6 +849,9 @@ fr:
       move_records_message: Les notices n'ont pas pu être déplacées. Veuillez 
         rafraîchir la page et réessayer.
 
+  sidebar:
+    aria_label: Sections de la notice
+
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 
       système.

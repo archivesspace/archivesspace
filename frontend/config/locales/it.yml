@@ -701,6 +701,9 @@ it:
       missing_file: Seleziona un file EAD da caricare
       error_prefix: Errore durante l'importazione del file
       complete: R Complete
+  sidebar:
+    aria_label: Sezioni del record
+
   errors:
     merge_restricted_contact_details: Questa unione non può essere completata 
       perché uno o più degli agents ha dettagli di contatto a cui non hai il 

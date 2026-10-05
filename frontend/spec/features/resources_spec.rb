@@ -26,22 +26,22 @@ describe 'Resources', js: true do
 
     let(:resource) { create(:resource, title: "Resource Title #{Time.now.to_i}") }
 
-    it 'sets the selected state on sidebar elements' do
+    it 'exposes the sidebar as page navigation without tab semantics' do
       visit "resources/#{resource.id}"
       wait_for_ajax
 
-      within "div#archivesSpaceSidebar" do
-        tablist = find "ul.as-nav-list"
+      within "nav#archivesSpaceSidebar[aria-label='#{I18n.t('sidebar.aria_label')}']" do
+        nav_list = find "ul.as-nav-list"
 
-        expect(tablist).to have_xpath "self::ul[@role='tablist']"
-        expect(tablist).not_to have_xpath "li[@role='tab'][@aria-selected='true']"
+        expect(nav_list).to have_no_xpath "self::ul[@role='tablist']"
+        expect(nav_list).to have_no_xpath "li[@role='tab']"
+        expect(nav_list).to have_no_xpath "li[@aria-selected]"
 
         find("li.sidebar-entry-resource_extents_ a").click
-        expect(tablist).to have_xpath("li[@role='tab'][@aria-selected='true']/a[@href='#resource_extents_']")
+        expect(nav_list).to have_css("a.nav-link[href='#resource_extents_']")
 
         find("li.sidebar-entry-resource_dates_ a").click
-        expect(tablist).to have_xpath("li[@role='tab'][@aria-selected='true']/a[@href='#resource_dates_']")
-        expect(tablist).to have_no_xpath("li[@role='tab'][@aria-selected='true']/a[@href='#resource_extents_']")
+        expect(nav_list).to have_css("a.nav-link[href='#resource_dates_']")
       end
     end
 

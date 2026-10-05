@@ -5,19 +5,19 @@
   end
 %>
 
-<div id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem flex-column">
-  <ul role="tablist" class="nav as-nav-list d-flex flex-column">
+<nav id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem flex-column" aria-label="<%= t('sidebar.aria_label') %>">
+  <ul class="nav as-nav-list d-flex flex-column">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors) %>alert-danger<% end %>">
-        <a class="nav-link" href="#form_messages"><%= t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="nav-link" href="#form_messages"><%= t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
       </li>
     <% end %>
 
     <% unless defined?(suppress_basic_information) && suppress_basic_information %>
-      <li role="tab" aria-selected="false">
+      <li>
         <a class="nav-link" href="#basic_information">
           <%= t("#{record_type}._frontend.section.basic_information") %>
-          <span class="glyphicon glyphicon-chevron-right"></span>
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         </a>
       </li>
     <% end %>
@@ -48,4 +48,4 @@
                          :record_type => record_type)
   %>
 
-</div>
+</nav>

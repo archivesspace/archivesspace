@@ -730,6 +730,9 @@ ja:
       move_records: レコードを移動できません
       move_records_message: レコードを移動できませんでした。ページを更新してもう一度お試しください。
 
+  sidebar:
+    aria_label: レコードのセクション
+
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。
     merge_restricted_contact_details: 

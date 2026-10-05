@@ -1019,6 +1019,9 @@ pl:
     errors:
       move_records: Nie można przenieść rekordów
       move_records_message: Nie można przenieść rekordów. Odśwież stronę i spróbuj ponownie.
+  sidebar:
+    aria_label: Sekcje rekordu
+
   errors:
     sidebar_label: Błędy i ostrzeżenia
     error_403: Nie można uzyskać dostępu do strony.
