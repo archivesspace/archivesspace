@@ -8,7 +8,8 @@ describe 'Staff login throttling', js: true do
 
   before do
     allow(AppConfig).to receive(:[]).and_call_original
-    allow(AppConfig).to receive(:[]).with(:frontend_login_throttle_limit).and_return(1)
+    # The browser connects from loopback with no proxy, so only the username backstop applies
+    allow(AppConfig).to receive(:[]).with(:frontend_login_username_backstop_limit).and_return(1)
     Rack::Attack.reset!
   end
 

@@ -10,6 +10,7 @@ require 'asutils'
 require_relative 'initializers/plugins'
 
 require 'aspace_logger'
+require 'login_throttle'
 
 require 'iiif'
 
@@ -36,6 +37,10 @@ module ArchivesSpacePublic
     config.paths["app/models"].concat(ASUtils.find_local_directories("public/models"))
 
     config.action_controller.relative_url_root = AppConfig[:public_proxy_prefix].sub(/\/$/, '')
+
+    # Only these proxies may set X-Forwarded-For (nil keeps the Rails default)
+    trusted_proxies = LoginThrottle.trusted_proxies
+    config.action_dispatch.trusted_proxies = trusted_proxies if trusted_proxies
 
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map {|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
