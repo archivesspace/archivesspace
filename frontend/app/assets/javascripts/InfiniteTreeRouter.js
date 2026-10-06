@@ -49,7 +49,7 @@
           // plusOne is set by InfiniteTreeRecordPane when the user clicked Save +1 on an
           // inline tree form (type="button" plus-one controls; see that module). Plain
           // Save and dirty-guard submits leave it false. Mirrors AjaxTree createPlusOne →
-          // redisplayAndShow → add_new_after, but defers sibling form load until here.
+          // rebuildAndShow → add_new_after, but defers sibling form load until here.
           this._pendingTransaction = {
             target: target,
             savedUri: savedUri,
@@ -79,7 +79,7 @@
               this.#setHashSilently(pendingHash);
 
               this.treeContainer.dispatchEvent(
-                new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
+                new CustomEvent('infiniteTreeRouter:rebuildAndShow', {
                   detail: {
                     targetHash: pendingHash,
                     plusOne: !!plusOne,
@@ -91,7 +91,7 @@
               this.#setHashSilently(newRecordHash);
 
               this.treeContainer.dispatchEvent(
-                new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
+                new CustomEvent('infiniteTreeRouter:rebuildAndShow', {
                   detail: {
                     targetHash: newRecordHash,
                     plusOne: !!plusOne,
@@ -121,13 +121,13 @@
       );
 
       this.treeContainer.addEventListener(
-        'infiniteTree:redisplayAndShowComplete',
+        'infiniteTree:rebuildAndShowComplete',
         () => {
           if (this._pendingTransaction) {
             const { savedUri, created, plusOne } = this._pendingTransaction;
 
             // Inline Save +1: open sibling new form after tree refresh (AjaxTree:
-            // add_new_after in redisplayAndShow callback). plusOneAfterCreate runs before
+            // add_new_after in rebuildAndShow callback). plusOneAfterCreate runs before
             // completeTransaction so the record pane still has transaction context.
             if (created && plusOne && savedUri) {
               this.recordPaneEl.dispatchEvent(

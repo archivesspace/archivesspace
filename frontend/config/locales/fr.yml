@@ -1033,7 +1033,7 @@ fr:
         spawn_menu_before: Insérer le composant généré avant
         transfer_description: Sélectionnez une ressource dans laquelle 
           transférer cette entrée
-        spawn_placeholder: <em>Le composant généré sera inséré ici</em>
+        spawn_placeholder: Le composant généré sera inséré ici
         spawn_menu_after: Insérer le composant généré aprés
       section:
         basic_information: Informations de base
