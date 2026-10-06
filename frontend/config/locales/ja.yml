@@ -732,6 +732,7 @@ ja:
 
   sidebar:
     aria_label: レコードのセクション
+    system_info_aria_label: システムインフォメーションのセクション
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。

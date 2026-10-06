@@ -778,6 +778,7 @@ en:
 
   sidebar:
     aria_label: Record sections
+    system_info_aria_label: System Information sections
 
   errors:
     sidebar_label: Errors and Warnings

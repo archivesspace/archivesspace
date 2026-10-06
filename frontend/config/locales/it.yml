@@ -703,6 +703,7 @@ it:
       complete: R Complete
   sidebar:
     aria_label: Sezioni del record
+    system_info_aria_label: Sezioni delle informazioni di sistema
 
   errors:
     merge_restricted_contact_details: Questa unione non può essere completata 

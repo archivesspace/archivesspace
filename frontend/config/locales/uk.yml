@@ -972,6 +972,7 @@ uk:
         спробуйте ще раз.
   sidebar:
     aria_label: Розділи запису
+    system_info_aria_label: Розділи інформації про систему
 
   errors:
     sidebar_label: Помилки та попередження

@@ -851,6 +851,7 @@ fr:
 
   sidebar:
     aria_label: Sections de la notice
+    system_info_aria_label: Sections des infos système
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 
