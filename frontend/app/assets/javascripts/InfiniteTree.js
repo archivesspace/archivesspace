@@ -23,18 +23,44 @@
     /** @type {ReturnType<typeof setTimeout>|null} */
     #autoExpandScrollTimer = null;
 
+    #destroyed = false;
+
+    /**
+     * Listeners to be removed by destroy().
+     * @type {Array<[EventTarget, string, EventListener, (boolean|AddEventListenerOptions|undefined)]>}
+     */
+    #listeners = [];
+
     /**
      * @param {Object} i18n - Translation helpers for markup (sep, bulk, enumerations)
      * @param {string} i18n.sep - The identifier separator
      * @param {string} i18n.bulk - The date type bulk label
      * @param {Object} i18n.enumerations - The enumeration translations object
+     * @param {Object} [host] - Host elements for compositions other than the
+     * full-page `shared/_infinite_tree` partial, such as a modal picker
+     * @param {HTMLElement} [host.componentEl] - Component boundary and configuration
+     * host; defaults to `#infinite-tree-component`
+     * @param {HTMLElement} [host.containerEl] - Scrollable tree container; defaults
+     * to `#infinite-tree-container` within the component
+     * @param {HTMLElement} [host.recordPaneEl] - Record pane; defaults to
+     * `#infinite-tree-record-pane` within the component and may be absent
+     * @param {boolean} [host.resizable=true] - Whether to construct InfiniteTreeResizer
      *
-     * Reads `rootUri` and `batchSize` from `#infinite-tree-component` dataset.
+     * Reads `rootUri` and `batchSize` from the component's dataset.
      */
-    constructor(i18n) {
-      const { rootUri, batchSize } = document.querySelector(
-        '#infinite-tree-component'
-      ).dataset;
+    constructor(
+      i18n,
+      {
+        componentEl = null,
+        containerEl = null,
+        recordPaneEl = null,
+        resizable = true,
+      } = {}
+    ) {
+      this.componentEl =
+        componentEl || document.querySelector('#infinite-tree-component');
+
+      const { rootUri, batchSize } = this.componentEl.dataset;
 
       this.BATCH_SIZE = Number(batchSize);
       this.rootMeta = {
@@ -42,14 +68,18 @@
         ...InfiniteTreeIds.uriToParts(rootUri),
       };
 
-      this.container = document.querySelector('#infinite-tree-container');
-      this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
+      this.container =
+        containerEl ||
+        this.componentEl.querySelector('#infinite-tree-container');
+      this.recordPaneEl =
+        recordPaneEl ||
+        this.componentEl.querySelector('#infinite-tree-record-pane');
 
       this.fetch = new InfiniteTreeFetch(rootUri);
 
       this.markup = new InfiniteTreeMarkup(rootUri, batchSize, i18n);
 
-      new InfiniteTreeResizer(this.container);
+      if (resizable) new InfiniteTreeResizer(this.container);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -62,16 +92,19 @@
         }
       );
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTreeToolbar:expandModeChanged',
         this.#onToolbarExpandModeChanged.bind(this)
       );
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTreeToolbar:collapseTreeRequested',
         this.#onToolbarCollapseTreeRequested.bind(this)
       );
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'scroll',
         () => {
           this.#onTreeContainerScroll();
@@ -79,7 +112,7 @@
         { passive: true }
       );
 
-      this.container.addEventListener('click', e => {
+      this.#listen(this.container, 'click', e => {
         if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
         else if (e.target.closest('.record-title')) {
           // Intercept navigation; dispatch titleClick for InfiniteTreeRouter.
@@ -90,7 +123,8 @@
         }
       });
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTreeRouter:setCurrentNode',
         async e => {
           const { targetHash } = e.detail;
@@ -124,20 +158,20 @@
         }
       );
 
-      // Rebuild the tree and show a target node (full redisplay)
-      this.container.addEventListener(
-        'infiniteTreeRouter:redisplayAndShow',
+      this.#listen(
+        this.container,
+        'infiniteTreeRouter:rebuildAndShow',
         async e => {
           const { targetHash, plusOne, notifyPane = true } = e.detail;
 
           try {
-            await this.redisplayAndShow(targetHash, {
+            await this.rebuildAndShow(targetHash, {
               plusOne: !!plusOne,
               notifyPane,
             });
           } finally {
             this.container.dispatchEvent(
-              new CustomEvent('infiniteTree:redisplayAndShowComplete', {
+              new CustomEvent('infiniteTree:rebuildAndShowComplete', {
                 detail: {},
               })
             );
@@ -146,26 +180,27 @@
       );
 
       // Rebuild the tree, restore current-record context, and reveal a separate target.
-      this.container.addEventListener(
-        'infiniteTreeRouter:redisplayAndReopen',
+      this.#listen(
+        this.container,
+        'infiniteTreeRouter:rebuildAndReopen',
         async e => {
           const detail = e.detail || {};
           let succeeded = true;
 
           try {
-            await this.redisplayAndReopen(detail);
+            await this.rebuildAndReopen(detail);
           } catch (error) {
             succeeded = false;
-            console.error('Error in redisplayAndReopen:', error);
+            console.error('Error in rebuildAndReopen:', error);
 
             if (detail.revealUri) {
-              await this.redisplayAndShow(
+              await this.rebuildAndShow(
                 InfiniteTreeIds.treeLinkUrl(detail.revealUri)
               );
             }
           } finally {
             this.container.dispatchEvent(
-              new CustomEvent('infiniteTree:redisplayAndReopenComplete', {
+              new CustomEvent('infiniteTree:rebuildAndReopenComplete', {
                 detail: {
                   currentUri: detail.currentUri || null,
                   revealUri: detail.revealUri || null,
@@ -178,7 +213,8 @@
       );
 
       // Refresh a node’s visible data after a save
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTreeRouter:refreshNode',
         async e => {
           const { uri } = e.detail || {};
@@ -196,7 +232,8 @@
         await this.#showSyntheticNewChild(parentNode);
       };
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTree:showSyntheticNewChild',
         onShowSyntheticNewChild
       );
@@ -205,7 +242,8 @@
         this.#removeSyntheticNewChild();
       };
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTree:removeSyntheticNewChild',
         onRemoveSyntheticNewChild
       );
@@ -222,12 +260,14 @@
         await this.#showSyntheticNewSibling(anchorNode, placeholderTitle);
       };
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         'infiniteTree:showSyntheticNewSibling',
         onShowSyntheticNewSibling
       );
 
-      this.container.addEventListener(
+      this.#listen(
+        this.container,
         InfiniteTree.EVENT_TYPE_SYNC_CURRENT_NODE,
         e => {
           const n = e.detail && e.detail.node;
@@ -235,7 +275,7 @@
 
           this.setCurrentNode(n, { notifyPane: false });
 
-          this.recordPaneEl.dispatchEvent(
+          this.recordPaneEl?.dispatchEvent(
             new CustomEvent(InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED, {
               detail: { node: n, suppressPaneReload: true },
             })
@@ -245,8 +285,73 @@
     }
 
     /**
+     * Expands a collapsed parent node, realizing its first batch of children if
+     * the node has not been expanded before, and resolves once those children
+     * are in the DOM. The root, nodes without children, and expanded nodes are
+     * left as they are.
+     * @param {HTMLElement} node - A realized `li.node` in this tree
+     * @returns {Promise<void>}
+     */
+    async expandNode(node) {
+      if (!node || !this.container.contains(node)) return;
+      if (node.classList.contains('root')) return;
+      if (Number(node.dataset.childCount || 0) === 0) return;
+      if (node.getAttribute('aria-expanded') === 'true') return;
+
+      await this.#expandNode(node);
+    }
+
+    /**
+     * Disconnects the batch observer, stops auto-expand work, and removes this
+     * tree's listeners. Hosts whose tree DOM is discarded, such as a modal, call
+     * this when they close; the full-page tree lives as long as its page. The
+     * tree must not be used after it is destroyed.
+     */
+    destroy() {
+      if (this.#destroyed) return;
+
+      this.#destroyed = true;
+      this.#autoExpandEnabled = false;
+
+      if (this.#autoExpandScrollTimer !== null) {
+        clearTimeout(this.#autoExpandScrollTimer);
+        this.#autoExpandScrollTimer = null;
+      }
+
+      this.batchObserver.disconnect();
+
+      this.#listeners.forEach(([target, type, handler, options]) => {
+        target.removeEventListener(type, handler, options);
+      });
+      this.#listeners = [];
+    }
+
+    /**
+     * Adds an event listener that destroy() removes.
+     * @param {EventTarget} target
+     * @param {string} type
+     * @param {EventListener} handler
+     * @param {boolean|AddEventListenerOptions} [options]
+     */
+    #listen(target, type, handler, options) {
+      target.addEventListener(type, handler, options);
+      this.#listeners.push([target, type, handler, options]);
+    }
+
+    /**
+     * Observes a batch marker node unless the tree has been destroyed, so an
+     * in-flight fetch cannot re-arm a disconnected observer.
+     * @param {HTMLElement} node
+     */
+    #observe(node) {
+      if (this.#destroyed) return;
+
+      this.batchObserver.observe(node);
+    }
+
+    /**
      * Renders the root node and its first batch of children
-     * @returns {HTMLElement} The live root node element
+     * @returns {Promise<HTMLElement>} The live root node element
      */
     async renderRoot() {
       this._syntheticNewNode = null;
@@ -293,14 +398,14 @@
             return;
           }
 
-          this.#renderAncestors(data, nodeElementId);
+          this.#renderAncestorsAndShow(data, nodeElementId);
         })
         .catch(async error => {
           console.error('Error in #fetchAncestorBatches:', error);
 
           await this.renderRoot();
 
-          this.recordPaneEl.dispatchEvent(
+          this.recordPaneEl?.dispatchEvent(
             new CustomEvent('infiniteTree:showRecordNotFound')
           );
         });
@@ -390,7 +495,7 @@
         const observerNode = list.querySelector('[data-observe-next-batch]');
 
         if (observerNode) {
-          this.batchObserver.observe(observerNode);
+          this.#observe(observerNode);
         }
       }
 
@@ -604,7 +709,7 @@
     }
 
     /**
-     * Rebuilds the entire tree and makes the node pointed to by locationHash current
+     * Rebuilds the entire tree and shows the current node
      * @param {string} locationHash - The location hash representing the node to render
      * @param {{ plusOne?: boolean, notifyPane?: boolean }} [options]
      * @param {boolean} [options.plusOne=false] - Save +1 post-create: defers pane load to
@@ -613,7 +718,7 @@
      * after the tree rebuilds. Defaults to !plusOne. Pass false after a normal inline create
      * to keep the create-response HTML in the pane after a successful record create
      */
-    async redisplayAndShow(
+    async rebuildAndShow(
       locationHash,
       { plusOne = false, notifyPane = !plusOne } = {}
     ) {
@@ -625,7 +730,6 @@
           ? locationHash
           : `#${locationHash}`;
 
-      // Clear the container completely
       this.#replaceContainerChildren();
 
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
@@ -644,17 +748,17 @@
 
       try {
         const data = await this.#fetchAncestorBatches(nodeId);
-        await this.#renderAncestors(data, nodeElementId, {
+        await this.#renderAncestorsAndShow(data, nodeElementId, {
           replace: false,
           notifyPane,
         });
       } catch (error) {
-        console.error('Error in redisplayAndShow:', error);
+        console.error('Error in rebuildAndShow:', error);
       }
     }
 
     /**
-     * Rebuilds the tree from server data while separating current record from revealed row.
+     * Rebuilds the tree showing the current record and the revealed row.
      * @param {Object} options
      * @param {string[]} [options.reopenUris] - Expanded/source/destination context to reopen
      * @param {string|null} [options.currentUri] - URI that should remain current
@@ -662,7 +766,7 @@
      * @param {number|null} [options.scrollTop] - Previous container scroll position
      * @param {string} [options.revealStrategy] - Scroll behavior after rebuild
      */
-    async redisplayAndReopen({
+    async rebuildAndReopen({
       reopenUris = [],
       currentUri = null,
       revealUri,
@@ -695,7 +799,7 @@
             ? InfiniteTreeIds.uriToTreeId(revealUri)
             : contextBatches[0].ancestorHtmlId;
 
-          await this.#renderAncestors(contextBatches, revealNodeId, {
+          await this.#renderAncestorsAndShow(contextBatches, revealNodeId, {
             replace: false,
             setCurrent: false,
             center: false,
@@ -756,7 +860,7 @@
     }
 
     /**
-     * Builds the ancestor tree list
+     * Renders the ancestor tree and shows the target node
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
      * @param {Object} [options] - Options for rendering
@@ -765,7 +869,7 @@
      * @param {boolean} [options.center=true] - Whether to scroll the target into view
      * @param {boolean} [options.notifyPane=true] - Whether setCurrentNode should notify the record pane
      */
-    async #renderAncestors(
+    async #renderAncestorsAndShow(
       ancestorBatches,
       nodeElementId,
       {
@@ -779,8 +883,9 @@
         const numBatches = batch.waypoints;
         const ancestorHtmlId = batch.ancestorHtmlId;
         const treeLevel = Number.isFinite(batch._level) ? batch._level : i;
+        const isRoot = i === 0;
 
-        if (i === 0) {
+        if (isRoot) {
           const treeListFrag = this.markup.rootList();
           const treeListElement = treeListFrag.querySelector('ol');
 
@@ -883,7 +988,7 @@
       }
 
       nodesToObserve.forEach(node => {
-        this.batchObserver.observe(node);
+        this.#observe(node);
       });
     }
 
@@ -956,9 +1061,10 @@
 
     /**
      * Replace container children and notify listeners that prior node DOM is gone.
-     * Covers renderRoot, loadNodeWithAncestors (#renderAncestors replace:true),
-     * redisplayAndShow, and redisplayAndReopen.
-     * @param {...Node} nodes - Nodes passed through to replaceChildren
+     * Covers renderRoot, loadNodeWithAncestors (#renderAncestorsAndShow replace:true),
+     * rebuildAndShow, and rebuildAndReopen.
+     * @param {...Node} [nodes] - Optional nodes passed through to replaceChildren;
+     *   when omitted the container is cleared.
      */
     #replaceContainerChildren(...nodes) {
       this.container.replaceChildren(...nodes);
@@ -975,7 +1081,7 @@
     }
 
     /**
-     * Refresh a single node’s DOM using server data
+     * Refresh a single node’s DOM
      * @param {string} uri - Backend URI of the node (e.g., "/repositories/1/archival_objects/2")
      */
     async refreshNodeByUri(uri) {
@@ -1001,7 +1107,7 @@
 
         if (!el) {
           try {
-            await this.redisplayAndShow(InfiniteTreeIds.treeLinkUrl(uri));
+            await this.rebuildAndShow(InfiniteTreeIds.treeLinkUrl(uri));
             this.#dispatchRefreshComplete(uri, true);
           } catch (err) {
             console.error('refreshNodeByUri redisplay fallback error:', err);
@@ -1039,6 +1145,8 @@
       if (node.dataset.hasExpanded === 'false') {
         const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
         const nodeData = await this.fetch.node(Number(nodeRecordId));
+
+        if (this.#destroyed) return;
 
         await this.#renderInitialBatchForNode(node, nodeData);
         node.setAttribute('data-has-expanded', 'true');
@@ -1086,6 +1194,8 @@
           );
           const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
+          if (this.#destroyed) return;
+
           if (!batchData) {
             console.error('#batchObserverHandler failed to fetch batch');
             return;
@@ -1116,7 +1226,7 @@
             );
 
             if (nextNode) {
-              observer.observe(nextNode);
+              this.#observe(nextNode);
             } else {
               console.error(
                 `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
@@ -1223,6 +1333,8 @@
         return;
       }
 
+      if (!this.recordPaneEl) return;
+
       const target = this.recordPaneEl;
       const type = InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED;
 
@@ -1257,9 +1369,7 @@
       );
       if (!tmpl) return;
 
-      const component = document.querySelector('#infinite-tree-component');
-      const titleText =
-        (component && component.dataset.newChildPlaceholderTitle) || '';
+      const titleText = this.componentEl.dataset.newChildPlaceholderTitle || '';
 
       if (!parentNode.querySelector(':scope > ol.node-children')) {
         await this.#expandNode(parentNode);
@@ -1318,11 +1428,10 @@
       );
       if (!tmpl) return;
 
-      const component = document.querySelector('#infinite-tree-component');
       const titleText =
         placeholderTitle != null && placeholderTitle !== ''
           ? placeholderTitle
-          : (component && component.dataset.newChildPlaceholderTitle) || '';
+          : this.componentEl.dataset.newChildPlaceholderTitle || '';
 
       const frag = tmpl.content.cloneNode(true);
       const synthetic = frag.querySelector('li');

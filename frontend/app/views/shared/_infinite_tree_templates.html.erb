@@ -1,0 +1,44 @@
+<%#
+  Locals:
+    root_type        - 'resource', 'digital_object', or 'classification'
+    show_identifiers - whether Resource rows include the identifier column
+%>
+
+<template id="infinite-tree-root-list-template">
+  <ol
+    class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>"
+    data-record-type="<%= root_type %>"
+    role="tree"
+  ></ol>
+</template>
+
+<template id="infinite-tree-node-list-template">
+  <ol
+    class="node-children"
+    role="group"
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  ></ol>
+</template>
+
+<template id="infinite-tree-expand-button-template">
+  <button class="node-expand" type="button">
+    <i class="node-expand-icon glyphicon glyphicon-chevron-right"></i>
+    <span class="sr-only"></span>
+  </button>
+</template>
+
+<template id="infinite-tree-batch-placeholder-template">
+  <li data-batch-placeholder style="display:none"></li>
+</template>
+
+<template id="infinite-tree-suppressed-template">
+  <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
+</template>
+
+<% if root_type == 'resource' %>
+  <%= render_aspace_partial partial: 'resources/infinite_tree_templates', locals: { show_identifiers: show_identifiers } %>
+<% else %>
+  <%= render_aspace_partial partial: "#{root_type}s/infinite_tree_templates" %>
+<% end %>

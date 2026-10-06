@@ -1393,7 +1393,7 @@ it:
           stato salvato. È necessario fare clic su Salva affinché il record 
           venga creato nel sistema.
         delete_conflict: "Impossibile eliminare l'oggetto di archivio: <pre>%{error}</pre>"
-        spawn_placeholder: <em>Il componente generato verrà inserito qui</em>
+        spawn_placeholder: Il componente generato verrà inserito qui
         spawn_menu_before: Inserire il componente generato prima
         spawn_menu_child: Inserisci il componente generato come figlio
         spawn_menu_after: Inserisci il componente generato dopo
