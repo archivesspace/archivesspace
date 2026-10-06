@@ -205,7 +205,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
         expect_infinite_tree_toolbar_paste_enabled(true)
 
         # child_ao has never been expanded into view, so this hash goes through
-        # loadNodeWithAncestors -> #renderAncestors(replace: true), which calls
+        # loadNodeWithAncestors -> #renderAncestorsAndShow(replace: true), which calls
         # container.replaceChildren().
         navigate_tree_hash(tree_hash_for(child_ao.uri))
         expect(page).to have_css("li.node.current[data-uri='#{child_ao.uri}']")

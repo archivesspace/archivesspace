@@ -742,9 +742,9 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       end
     end
 
-  # A successful reorder calls redisplayAndReopen, which runs
+  # A successful reorder calls rebuildAndReopen, which runs
   # container.replaceChildren(). InfiniteTreeMultiSelection binds no listener for
-  # infiniteTree:redisplayAndReopenComplete, so every element left in `selected`
+  # infiniteTree:rebuildAndReopenComplete, so every element left in `selected`
   # is detached from the document while the array itself survives.
     context 'after a successful reorder rebuilds the tree' do
       before do

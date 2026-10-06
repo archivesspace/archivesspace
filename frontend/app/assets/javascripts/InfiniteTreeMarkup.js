@@ -54,6 +54,10 @@
         .querySelector('#infinite-tree-root-list-template')
         .content.cloneNode(true);
 
+      listTemplate
+        .querySelector('ol')
+        .setAttribute('data-root-uri', this.rootUri);
+
       listFrag.appendChild(listTemplate);
 
       return listFrag;

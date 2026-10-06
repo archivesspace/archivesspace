@@ -942,7 +942,7 @@ en:
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
         spawned: "This Archival Object has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
-        spawn_placeholder: "<em>Spawned component will be inserted here</em>"
+        spawn_placeholder: "Spawned component will be inserted here"
         spawn_menu_before: Insert spawned component before
         spawn_menu_child: Insert spawned component as child
         spawn_menu_after: Insert spawned component after
