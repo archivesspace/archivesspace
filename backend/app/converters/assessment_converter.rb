@@ -156,15 +156,13 @@ class AssessmentConverter < Converter
         }
 
       elsif section == 'rating'
+        norm_section_field = section_field.delete_suffix('_note').intern
+        norm_field = field.delete_suffix('_note')
 
-        if field.end_with?('_note')
-          data_path = section_field.sub(/_note$/, '') + '.note'
-        else
-          defn = match_definition('rating', field)
+        unless config.key?(norm_section_field)
+          defn = match_definition('rating', norm_field)
 
-          data_path = "#{section_field}.value"
-
-          config[section_field.intern] = {
+          config[norm_section_field] = {
             :record_type => 'assessment_attribute',
             :on_row_complete => Proc.new { |cache, attr|
               assessment = cache.find {|obj| obj && obj.class.record_type == 'assessment' }
@@ -175,7 +173,12 @@ class AssessmentConverter < Converter
               }
             }
           }
+        end
 
+        if field.end_with?('_note')
+          data_path = section_field.sub(/_note$/, '') + '.note'
+        else
+          data_path = "#{section_field}.value"
         end
 
       elsif section == 'conservation'
@@ -203,10 +206,10 @@ class AssessmentConverter < Converter
 
   def self.import_types(show_hidden = false)
     [
-     {
-       :name => "assessment_csv",
-       :description => "Import Assessment records from a CSV file"
-     }
+      {
+        :name => "assessment_csv",
+        :description => "Import Assessment records from a CSV file"
+      }
     ]
   end
 

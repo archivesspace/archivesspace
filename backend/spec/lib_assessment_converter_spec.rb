@@ -64,4 +64,29 @@ describe 'Assessment converter' do
       end
     end
   end
+
+  def with_ratingless_attribute_note_csv_file
+    rows = [
+      "basic,basic,basic,rating\n",
+      "record,surveyed_by,survey_begin,Reformatting Readiness_note\n",
+      "accession_#{test_record.id},#{test_user},2017-07-04,not ready\n"
+    ]
+
+    Tempfile.open('ratingless_attribute_note_csv') do |tempfile|
+      rows.each { |row| tempfile << row }
+      tempfile.flush
+
+      yield tempfile.path
+    end
+  end
+
+
+  it "loads ratingless attribute note CSV successfully" do
+    with_ratingless_attribute_note_csv_file do |csv_path|
+      records = convert(csv_path)
+
+      # Successfully creates single assessment record
+      expect(records.length).to eq(1)
+    end
+  end
 end
