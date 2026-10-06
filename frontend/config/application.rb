@@ -14,6 +14,7 @@ require 'asutils'
 require 'aspace_i18n'
 
 require 'aspace_logger'
+require 'login_throttle'
 require 'ostruct'
 
 require 'iiif'
@@ -46,6 +47,10 @@ module ArchivesSpace
 
     # Tell rails if the application is being deployed under a prefix
     config.action_controller.relative_url_root = AppConfig[:frontend_proxy_prefix].sub(/\/$/, '')
+
+    # Only these proxies may set X-Forwarded-For (nil keeps the Rails default)
+    trusted_proxies = LoginThrottle.trusted_proxies
+    config.action_dispatch.trusted_proxies = trusted_proxies if trusted_proxies
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

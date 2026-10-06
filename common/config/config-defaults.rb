@@ -286,17 +286,34 @@ AppConfig[:authentication_sources] = []
 AppConfig[:authentication_restricted_by_source] = false # default: allow any source
 
 # Limit failed staff interface logins, to slow password guessing.
-# After frontend_login_throttle_limit failed logins for one username, or
-# frontend_login_ip_throttle_limit failed logins from one client IP, in
-# frontend_login_throttle_period seconds, block logins for that username or IP
-# for frontend_login_throttle_period seconds. Successful logins are not counted,
-# and a successful login resets the username count.
-# Set a limit (or the period) to 0 to turn it off.
-# Counts are kept in memory, per frontend process. The client IP comes from
-# X-Forwarded-For only when the proxy has a private or loopback address.
+# Each of these limits blocks logins for frontend_login_throttle_period seconds, once reached
+# within that many seconds:
+#  - frontend_login_throttle_limit failed logins for one username from one client IP
+#    (blocks that username from that IP only, so an attacker can't lock the real user out), or
+#  - frontend_login_ip_throttle_limit failed logins from one client IP, for any username
+#    (blocks that IP).
+# As a backstop against guessing one password from many IPs, logins for a username are
+# blocked from every IP for frontend_login_username_backstop_period seconds after
+# frontend_login_username_backstop_limit failed logins in that period. This means an attacker
+# who can send that many failed logins can still lock a username out.
+# Successful logins are not counted, and a successful login resets the username counts.
+# Set a limit (or a period) to 0 to turn it off.
+# Counts are kept in memory, per frontend process. See AppConfig[:trusted_proxies] for how
+# the client IP is found. If the proxy doesn't send X-Forwarded-For, the per IP limits
+# are skipped and only the username backstop applies.
 AppConfig[:frontend_login_throttle_limit] = 5
 AppConfig[:frontend_login_ip_throttle_limit] = 20
 AppConfig[:frontend_login_throttle_period] = 60
+AppConfig[:frontend_login_username_backstop_limit] = 100
+AppConfig[:frontend_login_username_backstop_period] = 3600
+
+# The addresses of the reverse proxies in front of the staff interface and the PUI, as an
+# array or a comma separated string of IPs or ranges (for example ['127.0.0.1', '10.0.0.5']).
+# Only these may set X-Forwarded-For, which gives the client IP used for login throttling
+# and in the logs. List every proxy, including 127.0.0.1 if one runs on the same host.
+# nil trusts any loopback or private address, so a client on a private network can
+# send a false X-Forwarded-For and avoid the per IP login limits.
+AppConfig[:trusted_proxies] = nil
 
 
 AppConfig[:realtime_index_backlog_ms] = 60000
@@ -416,17 +433,26 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 AppConfig[:pui_require_authentication] = false
 #
 # Limit failed PUI logins, to slow password guessing.
-# After pui_login_throttle_limit failed logins for one username, or
-# pui_login_ip_throttle_limit failed logins from one client IP, in
-# pui_login_throttle_period seconds, block logins for that username or IP
-# for pui_login_throttle_period seconds. Successful logins are not counted,
-# and a successful login resets the username count.
-# Set a limit (or the period) to 0 to turn it off.
-# Counts are kept in memory, per PUI process. The client IP comes from
-# X-Forwarded-For only when the proxy has a private or loopback address.
+# Each of these limits blocks logins for pui_login_throttle_period seconds, once reached
+# within that many seconds:
+#  - pui_login_throttle_limit failed logins for one username from one client IP
+#    (blocks that username from that IP only, so an attacker can't lock the real user out), or
+#  - pui_login_ip_throttle_limit failed logins from one client IP, for any username
+#    (blocks that IP).
+# As a backstop against guessing one password from many IPs, logins for a username are
+# blocked from every IP for pui_login_username_backstop_period seconds after
+# pui_login_username_backstop_limit failed logins in that period. This means an attacker
+# who can send that many failed logins can still lock a username out.
+# Successful logins are not counted, and a successful login resets the username counts.
+# Set a limit (or a period) to 0 to turn it off.
+# Counts are kept in memory, per PUI process. See AppConfig[:trusted_proxies] for how
+# the client IP is found. If the proxy doesn't send X-Forwarded-For, the per IP limits
+# are skipped and only the username backstop applies.
 AppConfig[:pui_login_throttle_limit] = 5
 AppConfig[:pui_login_ip_throttle_limit] = 20
 AppConfig[:pui_login_throttle_period] = 60
+AppConfig[:pui_login_username_backstop_limit] = 100
+AppConfig[:pui_login_username_backstop_period] = 3600
 #
 # PUI Inheritance
 # Define the fields for a record type that are inherited from ancestors
