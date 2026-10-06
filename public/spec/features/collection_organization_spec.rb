@@ -666,5 +666,68 @@ describe 'Collection Organization', js: true do
         expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
       end
     end
+
+    context 'when waypoint requests from the background thread keep failing' do
+      it 'stops retrying and shows an error message' do
+        visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
+
+        wait_for_jquery
+
+        num_empty_waypoints = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
+
+        # Fail every waypoint request from now on, as a rate limit or bot challenge
+        # in front of the app would
+        lock = Mutex.new
+        waypoint_requests = 0
+        allow_any_instance_of(ResourcesController).to receive(:waypoints) do |controller|
+          lock.synchronize { waypoint_requests += 1 }
+          controller.render plain: 'Forbidden', status: 403
+        end
+
+        page.find('.load-all__label-toggle').click
+
+        expect(page).to have_css('#load-all-error', visible: true, wait: 30)
+        expect(page.evaluate_script("document.querySelector('#records-loading-dialog').open")).to eq false
+
+        requests_at_error = lock.synchronize { waypoint_requests }
+        sleep 5
+        expect(lock.synchronize { waypoint_requests }).to eq requests_at_error
+        expect(requests_at_error).to be <= num_empty_waypoints * 3
+      end
+    end
+
+    context 'when a waypoint request from the background thread fails once' do
+      it 'retries and loads all records' do
+        visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
+
+        wait_for_jquery
+
+        total_records = page.find('#infinite-records-container')['data-total-records']
+
+        # Fail the first request for each waypoint, as a brief network error would
+        lock = Mutex.new
+        failed_waypoints = []
+        allow_any_instance_of(ResourcesController).to receive(:waypoints).and_wrap_original do |original, *args|
+          controller = original.receiver
+          first_request = lock.synchronize do
+            next false if failed_waypoints.include?(controller.params[:urls])
+
+            failed_waypoints << controller.params[:urls]
+            true
+          end
+
+          if first_request
+            controller.render plain: 'Service Unavailable', status: 503
+          else
+            original.call(*args)
+          end
+        end
+
+        page.find('.load-all__label-toggle').click
+
+        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i, wait: 30)
+        expect(page).not_to have_css('#load-all-error', visible: true)
+      end
+    end
   end
 end
