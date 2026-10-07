@@ -41,7 +41,7 @@
 
         <% readonly.emit_template("classification", @classification) %>
 
-        <%= render_aspace_partial :partial => "search/embedded", :locals => {:section_id => "classifications", :filter_term => {"classification_uris" => @classification.uri}.to_json, :heading_text => t("classification._frontend.section.search_embedded")} %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => {:section_id => "classifications", :filter_term => {"classification_uris" => @classification.uri}.to_json, :heading_text => t("classification._frontend.section.search_embedded"), :heading_sr_only_text => t("classification._frontend.section.search_embedded_related_text")} %>
 
       <% end %>
     </div>

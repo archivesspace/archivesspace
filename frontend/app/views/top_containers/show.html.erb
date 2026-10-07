@@ -98,7 +98,7 @@
             <% end %>
           </section>
 
-          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :section_id => "container_contents", :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => t("location._frontend.section.search_embedded")} %>
+          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :section_id => "container_contents", :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => t("location._frontend.section.search_embedded"), :heading_sr_only_text => t("top_container._frontend.section.linked_records_related_text")} %>
 
           <%= show_plugins_for(@top_container, readonly) %>
 
