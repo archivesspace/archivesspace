@@ -7,8 +7,8 @@
 #
 # A Digital Object's thumbnail comes from its own published File Versions:
 #
-#   * the File Version marked `is_display_thumbnail` supplies the image, if it is a renderable image
-#     (otherwise a generic icon is shown)
+#   * the File Version marked `is_display_thumbnail` supplies the image, whatever its file format; if
+#     the browser cannot render it, the interfaces show a generic icon in its place
 #   * the File Version marked `is_display_link` supplies the link; there is no fallback, so without
 #     one the thumbnail or generic icon has no link
 #   * with neither marked, there is no thumbnail
@@ -16,18 +16,6 @@
 #     else the record's title (display string for a component)
 module Thumbnails
   module Rules
-    def self.renderable_image?(file_version)
-      link?(file_version['file_uri']) &&
-        file_version['xlink_show_attribute'] != 'new' &&
-        AppConfig[:thumbnail_file_format_names].include?(file_version['file_format_name'])
-    end
-
-    def self.link?(file_uri)
-      ['http', 'https'].include?(URI(file_uri.to_s.strip).scheme)
-    rescue URI::InvalidURIError
-      false
-    end
-
     # file_versions: hashes with the file_version JSONModel property names
     def self.thumbnail_for_file_versions(file_versions, title, digital_object_type)
       published = file_versions.select { |fv| fv['publish'] }
@@ -37,7 +25,7 @@ module Thumbnails
       return nil unless thumbnail_fv || link_fv
 
       {
-        'image_url' => (thumbnail_fv['file_uri'] if thumbnail_fv && renderable_image?(thumbnail_fv)),
+        'image_url' => (thumbnail_fv['file_uri'] if thumbnail_fv),
         'link_url' => (link_fv['file_uri'] if link_fv),
         'caption' => [thumbnail_fv, link_fv].compact.map { |fv| fv['caption'] }.find { |caption| caption && !caption.strip.empty? } || title,
         'digital_object_type' => digital_object_type,
@@ -81,8 +69,6 @@ module Thumbnails
         'caption' => file_version.caption,
         'is_display_thumbnail' => file_version.is_display_thumbnail == 1,
         'is_display_link' => file_version.is_display_link == 1,
-        'file_format_name' => BackendEnumSource.value_for_id('file_version_file_format_name', file_version.file_format_name_id),
-        'xlink_show_attribute' => BackendEnumSource.value_for_id('file_version_xlink_show_attribute', file_version.xlink_show_attribute_id),
       }
     end
   end
