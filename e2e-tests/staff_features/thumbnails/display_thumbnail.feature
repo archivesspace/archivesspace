@@ -35,8 +35,8 @@ Feature: Display thumbnail for Digital Objects and Digital Object Components (AN
 
   Scenario Outline: The generic icon reflects the Digital Object Type
     Given a Digital Object 'Digital Material' of type '<Type>' has been created with the following File Versions
-      | File       | Published | Marked as         | Caption |
-      | a document | yes       | Display Thumbnail |         |
+      | File       | Published | Marked as    | Caption |
+      | a document | yes       | Display Link |         |
      When the user views the 'Digital Material' in the staff interface
      Then the thumbnail shows the generic icon for a '<Type>' Digital Object
      When the user views the 'Digital Material' in the public interface

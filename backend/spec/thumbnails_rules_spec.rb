@@ -29,20 +29,14 @@ describe 'Thumbnails::Rules' do
       expect(result).not_to have_key('link_url')
     end
 
-    it 'shows a generic icon when the display thumbnail is not a renderable image (ANW-3001)' do
-      result = thumbnail([link_file_version(:is_display_thumbnail => true)])
-      expect(result).not_to be_nil
-      expect(result).not_to have_key('image_url')
-    end
-
-    it 'shows a generic icon when the display thumbnail file URI cannot be parsed' do
-      result = thumbnail([image_file_version(:is_display_thumbnail => true, :file_uri => 'http://example.com/not a uri.jpg')])
-      expect(result).not_to be_nil
-      expect(result).not_to have_key('image_url')
-    end
-
-    it 'only treats configured file formats as renderable images' do
-      expect(thumbnail([image_file_version(:is_display_thumbnail => true, :file_format_name => 'tiff')])).not_to have_key('image_url')
+    it 'uses the display thumbnail file URI as the image whatever its file format (ANW-3001)' do
+      [
+        link_file_version(:is_display_thumbnail => true),
+        image_file_version(:is_display_thumbnail => true, :file_format_name => 'tiff'),
+        image_file_version(:is_display_thumbnail => true, :file_format_name => nil),
+      ].each do |thumbnail_fv|
+        expect(thumbnail([thumbnail_fv])['image_url']).to eq(thumbnail_fv['file_uri'])
+      end
     end
 
     it 'shows a generic icon linked to the display link when there is no display thumbnail (ANW-3003)' do
@@ -51,12 +45,6 @@ describe 'Thumbnails::Rules' do
       result = thumbnail([image_file_version, link_fv])
       expect(result).not_to have_key('image_url')
       expect(result['link_url']).to eq(link_fv['file_uri'])
-    end
-
-    it 'shows a generic icon without a link when no file version is marked as the display link' do
-      result = thumbnail([link_file_version(:is_display_thumbnail => true), link_file_version, link_file_version])
-      expect(result).not_to have_key('image_url')
-      expect(result).not_to have_key('link_url')
     end
 
     it 'shows nothing when no file version is marked display thumbnail or display link (ANW-3003)' do
