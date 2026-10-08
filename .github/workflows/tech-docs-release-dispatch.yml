@@ -15,7 +15,7 @@ jobs:
     if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.ASPACE_CI_BOT_TOKEN }}
           script: |
