@@ -3,6 +3,8 @@
 *.log
 *.md
 common/config/config.rb
+# stale release zips from local builds would break `unzip /*.zip` in the Dockerfile
+*.zip
 
 # DIRS
 contributing/
