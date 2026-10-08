@@ -267,6 +267,7 @@ es:
 
   search:
     accession:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -290,6 +291,7 @@ es:
       asc: Ascendente
       desc: Descendente
     resource:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -312,6 +314,7 @@ es:
       asc: Ascendente
       desc: Descendente
     archival_object:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -339,6 +342,7 @@ es:
       asc: Ascendente
       desc: Descendente
     digital_object:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -356,6 +360,7 @@ es:
       asc: Ascendente
       desc: Descendente
     digital_object_component:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -527,6 +532,7 @@ es:
       asc: Ascendente
       desc: Descendente
     multi:
+      thumbnail: Miniatura
       score: Relevancia
       primary_type: Tipo de registro
       creators: Creadores

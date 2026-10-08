@@ -244,6 +244,7 @@ ja:
 
   search:
     accession:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -267,6 +268,7 @@ ja:
       asc: 上昇
       desc: 降順
     resource:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -289,6 +291,7 @@ ja:
       asc: 上昇
       desc: 降順
     archival_object:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -316,6 +319,7 @@ ja:
       asc: 上昇
       desc: 降順
     digital_object:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -333,6 +337,7 @@ ja:
       asc: 上昇
       desc: 降順
     digital_object_component:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -501,6 +506,7 @@ ja:
       asc: 上昇
       desc: 降順
     multi:
+      thumbnail: サムネイル
       score: 関連性
       primary_type: レコードタイプ
       creators: クリエイター
