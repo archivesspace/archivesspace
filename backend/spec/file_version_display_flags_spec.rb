@@ -118,4 +118,39 @@ describe 'FileVersionDisplayFlags' do
       expect(choose(file_version(1, :file_uri => '  http://example.com/1  '))).to eq([nil, 1])
     end
   end
+
+  describe 'enum_ids' do
+    def enum_value_id(enum_name, value)
+      BackendEnumSource.id_for_value(enum_name, value)
+    end
+
+    it 'looks up the enumeration value ids' do
+      DB.open do |db|
+        expect(FileVersionDisplayFlags.enum_ids(db)).to eq(
+          :image_thumbnail => enum_value_id('file_version_use_statement', 'image-thumbnail'),
+          :text_json => enum_value_id('file_version_use_statement', 'text-json'),
+          :embed => enum_value_id('file_version_xlink_show_attribute', 'embed'),
+          :iiif => enum_value_id('file_version_file_format_name', 'iiif'),
+          :images => [enum_value_id('file_version_file_format_name', 'jpeg'),
+                      enum_value_id('file_version_file_format_name', 'gif')]
+        )
+      end
+    end
+
+    it 'gives -1 for editable enumeration values that have been deleted' do
+      DB.open do |db|
+        # Renaming the values stands in for deleting them; the spec's transaction rolls it back
+        enumeration_ids = db[:enumeration].filter(:name => ['file_version_use_statement', 'file_version_file_format_name']).select(:id)
+        db[:enumeration_value]
+          .filter(:enumeration_id => enumeration_ids, :value => ['image-thumbnail', 'jpeg', 'gif'])
+          .update(:value => Sequel.function(:concat, :value, '-deleted'))
+
+        ids = FileVersionDisplayFlags.enum_ids(db)
+
+        expect(ids[:image_thumbnail]).to eq(-1)
+        expect(ids[:images]).to eq([-1, -1])
+        expect(ids[:text_json]).to eq(enum_value_id('file_version_use_statement', 'text-json'))
+      end
+    end
+  end
 end

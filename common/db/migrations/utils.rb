@@ -59,6 +59,26 @@ module MigrationUtils
   module FileVersionDisplayFlags
     ::FileVersionDisplayFlags = MigrationUtils::FileVersionDisplayFlags
 
+    # The enumeration value ids that choose needs. The use statement and file format name values are
+    # editable, so they may have been deleted: a missing value gets -1, which no file version refers to
+    # (get_enum_value_id raises instead).
+    def self.enum_ids(db)
+      enum_value_id = ->(enum_name, value) {
+        db[:enumeration_value]
+          .join(:enumeration, :id => :enumeration_id)
+          .filter(Sequel.qualify(:enumeration, :name) => enum_name, Sequel.qualify(:enumeration_value, :value) => value)
+          .get(Sequel.qualify(:enumeration_value, :id)) || -1
+      }
+
+      {
+        :image_thumbnail => enum_value_id.call('file_version_use_statement', 'image-thumbnail'),
+        :text_json => enum_value_id.call('file_version_use_statement', 'text-json'),
+        :embed => enum_value_id.call('file_version_xlink_show_attribute', 'embed'),
+        :iiif => enum_value_id.call('file_version_file_format_name', 'iiif'),
+        :images => ['jpeg', 'gif'].map { |format| enum_value_id.call('file_version_file_format_name', format) },
+      }
+    end
+
     # file_versions: the file_version rows of one record, in id order
     # enum_ids: the enumeration value ids of :image_thumbnail and :text_json (use statement),
     #   :embed (xlink show attribute), :iiif and :images (file format names, an array)
