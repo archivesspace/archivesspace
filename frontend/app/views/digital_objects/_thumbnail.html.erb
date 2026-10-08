@@ -23,7 +23,7 @@
   <%= link_to_if image_link_url, image, image_link_url, :target => image_link_target %>
   <% if (caption = thumbnail.fetch('caption', nil)) %>
     <div class="digital-object-thumbnail-caption">
-      <%== caption %>
+      <%= strip_tags(caption) %>
     </div>
   <% end %>
 </div>
