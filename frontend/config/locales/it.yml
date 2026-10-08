@@ -1605,6 +1605,7 @@ it:
           esternamente."
       action:
         add: Aggiungi versione del file
+        make_representative: Rendere rappresentante
         make_display_thumbnail: Usa come miniatura di visualizzazione
         make_display_thumbnail_tooltip: Mostra l'immagine all'URI del file di questa versione del file come miniatura del record. Se la versione del file non è un'immagine visualizzabile, viene mostrata un'icona generica.
         make_display_link: Usa come link di visualizzazione

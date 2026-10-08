@@ -1245,6 +1245,7 @@ fr:
           en externe."
       action:
         add: Ajouter version de fichier
+        make_representative: Rendre représentatif
         make_display_thumbnail: Utiliser comme miniature d'affichage
         make_display_thumbnail_tooltip: Affiche l'image située à l'URI du fichier de cette version du fichier comme miniature de la notice. Une version du fichier qui n'est pas une image affichable montre une icône générique à la place.
         make_display_link: Utiliser comme lien d'affichage

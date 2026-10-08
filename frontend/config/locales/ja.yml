@@ -1067,6 +1067,7 @@ ja:
           IIIF ビューアの URL を設定してください。"
       action:
         add: ファイルバージョンを追加
+        make_representative: 代表者にする
         make_display_thumbnail: 表示サムネイルに設定
         make_display_thumbnail_tooltip: このファイルのバージョンのファイルURIにある画像を、レコードのサムネイルとして表示します。表示可能な画像でない場合は、代わりに汎用アイコンが表示されます。
         make_display_link: 表示リンクに設定

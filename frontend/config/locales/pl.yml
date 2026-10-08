@@ -1137,6 +1137,7 @@ pl:
         no_iiif_viewer: "Brak dostępnej przeglądarki IIIF. Ustaw AppConfig[:iiif_viewer] na 'universal_viewer', 'mirador' lub adres URL przeglądarki IIIF hostowanej zewnętrznie."
       action:
         add: Dodaj wersję pliku
+        make_representative: Wyznacz przedstawiciela
         make_display_thumbnail: Ustaw jako miniaturę wyświetlania
         make_display_thumbnail_tooltip: Wyświetla obraz spod URI pliku tej wersji pliku jako miniaturę rekordu. Jeśli wersja pliku nie jest obrazem, który można wyświetlić, zamiast niego pokazywana jest ogólna ikona.
         make_display_link: Ustaw jako link wyświetlania

@@ -1358,6 +1358,7 @@ de:
           auf 'universal_viewer', 'mirador' oder die URL eines extern gehosteten IIIF-Viewers."
       action:
         add: Dateiversion hinzufügen
+        make_representative: Repräsentativ machen
         make_display_thumbnail: Als Anzeige-Vorschaubild festlegen
         make_display_thumbnail_tooltip: Zeigt das Bild unter der Datei URI dieser Dateiversion als Vorschaubild des Datensatzes an. Ist die Dateiversion kein darstellbares Bild, wird stattdessen ein allgemeines Symbol angezeigt.
         make_display_link: Als Anzeige-Link festlegen

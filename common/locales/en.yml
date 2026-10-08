@@ -1303,6 +1303,7 @@ en:
         </ul>
     identifier: Identifier
     caption: Caption
+    is_representative: Representative
     is_display_thumbnail: Display Thumbnail
     is_display_link: Display Link
 

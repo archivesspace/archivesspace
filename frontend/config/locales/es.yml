@@ -1156,6 +1156,7 @@ es:
           en 'universal_viewer', 'mirador' o la URL de un visor IIIF alojado externamente."
       action:
         add: Añadir la versión del archivo
+        make_representative: Hacer representante
         make_display_thumbnail: Usar como miniatura de visualización
         make_display_thumbnail_tooltip: Muestra la imagen del URI Archivo de esta versión de archivo como miniatura del registro. Si la versión de archivo no es una imagen que se pueda mostrar, se muestra un icono genérico en su lugar.
         make_display_link: Usar como enlace de visualización

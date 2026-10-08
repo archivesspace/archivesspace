@@ -1073,6 +1073,7 @@ uk:
       <li>CRC-32</li>\n<li>SHA-1</li>\n<li>SHA-256</li>\n</ul>\n"
     identifier: Ідентифікатор
     caption: Підпис
+    is_representative: Представник
     is_display_thumbnail: Мініатюра для показу
     is_display_link: Посилання для показу
   extent:

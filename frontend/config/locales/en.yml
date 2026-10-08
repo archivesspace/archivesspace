@@ -1159,6 +1159,7 @@ en:
       published: Published
       action:
         add: Add File Version
+        make_representative: Make Representative
         make_display_thumbnail: Make Display Thumbnail
         make_display_thumbnail_tooltip: Use to show the image at this file version's File URI as the thumbnail for the record. A file version that is not a renderable image shows a generic icon instead.
         make_display_link: Make Display Link
