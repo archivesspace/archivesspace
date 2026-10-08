@@ -6,7 +6,7 @@ gem 'atomic'
 gem 'bcrypt'
 gem 'childprocess'
 gem 'jdbc-mysql', '>=8.0', group: :development
-gem 'jruby-jars', '= 9.4.9.0'
+gem 'jruby-jars', '= 9.4.15.0'
 gem 'json'
 gem 'json-schema', '~> 1.0.10'
 gem 'net-ldap'
