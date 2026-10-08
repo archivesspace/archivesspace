@@ -34,7 +34,7 @@
     <% end %>
     <%= link_to_if thumbnail_link, image, thumbnail_link, :target => same_window ? '_self' : '_blank' %>
     <% if caption %>
-      <div class="pui-thumbnail-caption"><%== caption %></div>
+      <div class="pui-thumbnail-caption"><%= strip_mixed_content(caption) %></div>
     <% end %>
     <% if n_digital_objects && representative_link_to_digital_materials?(result) %>
       <div class="pui-thumbnail-digital-materials">

@@ -233,6 +233,22 @@ describe ObjectsController, type: :controller do
           expect(fc.text).to have_content(@fv_caption)
         end
       end
+
+      it "shows only the text of a caption containing markup" do
+        digital_object = create(:digital_object,
+                                publish: true,
+                                file_versions: [build(:file_version,
+                                                      publish: true,
+                                                      is_display_thumbnail: true,
+                                                      file_uri: @fv_thumbnail_uri,
+                                                      caption: '<img src="x" class="caption-markup"/>Markup caption')])
+        run_indexers
+
+        get(:show, params: { rid: @repo.id, obj_type: 'digital_objects', id: digital_object.id })
+        page = Capybara.string(response.body)
+        expect(page).to have_css('.pui-thumbnail-caption', text: 'Markup caption')
+        expect(page).not_to have_css('.pui-thumbnail-caption *', visible: :all)
+      end
     end
   end
 end
