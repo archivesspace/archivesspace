@@ -207,7 +207,7 @@ describe "IIIF integration" do
     end
   end
 
-  describe "a manifest is never displayed as a representative file version image" do
+  describe "a manifest is never displayed as a thumbnail image" do
     before(:all) do
       @image_url = 'http://example.com/a-real-image.jpg'
 
@@ -244,7 +244,7 @@ describe "IIIF integration" do
 
       @resource_with_manifest_only = create(:resource,
                                             publish: true,
-                                            title: 'IIIF resource whose representative is a manifest only digital object',
+                                            title: 'IIIF resource whose representative instance is a manifest only digital object',
                                             instances: [build(:instance_digital,
                                                               digital_object: { ref: @manifest_only.uri },
                                                               is_representative: true)])
@@ -269,7 +269,7 @@ describe "IIIF integration" do
       it "shows no image" do
         expect(page).to_not have_css("img[src='#{@manifest_url}']", visible: :all)
         expect(page).to_not have_css('.objectimage')
-        expect(page).to_not have_css('figure[data-rep-file-version-wrapper]', visible: :all)
+        expect(page).to_not have_css('.pui-thumbnail', visible: :all)
       end
 
       it "still embeds the viewer" do
@@ -296,7 +296,7 @@ describe "IIIF integration" do
       it "shows no image" do
         expect(page).to_not have_css("img[src='#{@manifest_url}']", visible: :all)
         expect(page).to_not have_css('.objectimage')
-        expect(page).to_not have_css('figure[data-rep-file-version-wrapper]', visible: :all)
+        expect(page).to_not have_css('.pui-thumbnail', visible: :all)
       end
     end
   end
