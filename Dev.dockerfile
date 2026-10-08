@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/java:11
 
-ARG GECKODRIVER_VERSION=0.30.0
-ARG MYSQL_CONNECTOR_VERSION=9.1.0
+ARG GECKODRIVER_VERSION=0.37.1
+ARG MYSQL_CONNECTOR_VERSION=9.7.0
 
 COPY . /archivesspace
 WORKDIR /archivesspace

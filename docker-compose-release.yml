@@ -16,7 +16,7 @@ services:
       - .env.docker.release
   db:
     container_name: as_release_db
-    image: mysql:8
+    image: mysql:8.4
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3308:3306"
@@ -36,7 +36,7 @@ services:
       args:
         DEFAULT_CFG: default.conf.release
       context: ./proxy
-    image: archivesspace/proxy-release:1.21
+    image: archivesspace/proxy-release:1.30-alpine
     ports:
       - "80:80"
     depends_on:
