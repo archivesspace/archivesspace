@@ -912,8 +912,8 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['file_version_1_file_uri'] = "rep-file-uri"
-        digital_object_row['file_version_1_use_statement'] = "INVALID_REP_USE_STATEMENT"
+        digital_object_row['file_version_1_file_uri'] = "file-uri"
+        digital_object_row['file_version_1_use_statement'] = "INVALID_USE_STATEMENT"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
           csv << columns
@@ -937,8 +937,8 @@ describe "Import Digital Objects" do
 
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
-        rep_use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_REP_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
-        expect(report.rows[0].errors).to include(rep_use_statement_error)
+        use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
+        expect(report.rows[0].errors).to include(use_statement_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -977,7 +977,7 @@ describe "Import Digital Objects" do
         sheet[5][find_index].change_contents('file-uri')
 
         find_index = column_names.find_index('file_version_1_use_statement')
-        sheet[5][find_index].change_contents('INVALID_REP_USE_STATEMENT')
+        sheet[5][find_index].change_contents('INVALID_USE_STATEMENT')
 
         xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
         xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
@@ -994,8 +994,8 @@ describe "Import Digital Objects" do
 
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
-        rep_use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_REP_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
-        expect(report.rows[0].errors).to include(rep_use_statement_error)
+        use_statement_error = "Cannot create the digital object INVALID: file_version_use_statement: 'INVALID_USE_STATEMENT'. Must be one of: application, application-pdf, audio-clip, audio-master, audio-master-edited, audio-service, image-master, image-master-edited, image-service, image-service-edited, image-thumbnail, test-data, text-codebook, text-data_definition, text-georeference, text-ocr-edited, text-ocr-unedited, text-tei-transcripted, text-tei-translated, video-clip, video-master, video-master-edited, video-service, video-streaming, text-json"
+        expect(report.rows[0].errors).to include(use_statement_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -1153,8 +1153,8 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['file_version_1_file_uri'] = "rep-file-uri"
-        digital_object_row['file_version_1_file_format_name'] = "INVALID_REP_FILE_FORMAT"
+        digital_object_row['file_version_1_file_uri'] = "file-uri"
+        digital_object_row['file_version_1_file_format_name'] = "INVALID_FILE_FORMAT"
 
         csv_string = CSV.generate(col_sep: ',') do |csv|
           csv << columns
@@ -1178,8 +1178,8 @@ describe "Import Digital Objects" do
 
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
-        rep_file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_REP_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
-        expect(report.rows[0].errors).to include(rep_file_format_error)
+        file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
+        expect(report.rows[0].errors).to include(file_format_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -1215,10 +1215,10 @@ describe "Import Digital Objects" do
         sheet[5][find_index].change_contents("Digital Object Title #{@now}")
 
         find_index = column_names.find_index('file_version_1_file_uri')
-        sheet[5][find_index].change_contents('rep-file-uri')
+        sheet[5][find_index].change_contents('file-uri')
 
         find_index = column_names.find_index('file_version_1_file_format_name')
-        sheet[5][find_index].change_contents('INVALID_REP_FILE_FORMAT')
+        sheet[5][find_index].change_contents('INVALID_FILE_FORMAT')
 
         xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
         xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
@@ -1235,8 +1235,8 @@ describe "Import Digital Objects" do
 
         expect(report.terminal_error).to eq(nil)
         expect(report.row_count).to eq(1)
-        rep_file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_REP_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
-        expect(report.rows[0].errors).to include(rep_file_format_error)
+        file_format_error = "Cannot create the digital object INVALID: file_version_file_format_name: 'INVALID_FILE_FORMAT'. Must be one of: aiff, avi, gif, jpeg, mp3, pdf, tiff, txt, iiif"
+        expect(report.rows[0].errors).to include(file_format_error)
         expect(report.rows[0].archival_object_id).to eq @archival_object.uri
         expect(report.rows[0].archival_object_display).to include @archival_object.title
 
@@ -1248,7 +1248,7 @@ describe "Import Digital Objects" do
 
   context 'create and assign digital object to an archival object with a repeatable file version' do
     context 'when provided file is CSV' do
-      it 'creates a digital object with a single representative file version' do
+      it 'creates a digital object with a single display thumbnail file version' do
         digital_object_count_before = ::DigitalObject.count
 
         csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
@@ -1311,10 +1311,10 @@ describe "Import Digital Objects" do
         digital_object_row['res_uri'] = @resource.uri
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
-        digital_object_row['file_version_1_file_uri'] = "http://example.com/rep"
+        digital_object_row['file_version_1_file_uri'] = "http://example.com/display-thumbnail"
         digital_object_row['file_version_1_is_display_thumbnail'] = "true"
         digital_object_row['file_version_1_use_statement'] = "image-service"
-        digital_object_row['file_version_2_file_uri'] = "http://example.com/nonrep"
+        digital_object_row['file_version_2_file_uri'] = "http://example.com/display-link"
         digital_object_row['file_version_2_is_display_link'] = "true"
         digital_object_row['file_version_2_use_statement'] = "image-thumbnail"
 
@@ -1349,7 +1349,7 @@ describe "Import Digital Objects" do
         expect(digital_object.file_versions.map { |fv| fv['is_display_thumbnail'] }).to contain_exactly(true, false)
         expect(digital_object.file_versions.map { |fv| fv['is_display_link'] }).to contain_exactly(false, true)
         expect(digital_object.file_versions.map { |fv| fv['file_uri'] }).to contain_exactly(
-          "http://example.com/rep", "http://example.com/nonrep")
+          "http://example.com/display-thumbnail", "http://example.com/display-link")
       end
 
       it 'reports an error for each invalid file version and creates no records' do
@@ -2528,7 +2528,7 @@ describe "Import Digital Objects" do
         "file_version_2_file_uri" => "http://example.com/publish",
         "file_version_2_publish" => "YES",
         "file_version_2_is_display_thumbnail" => "NO",
-        "file_version_9_file_uri" => "http://example.com/representative",
+        "file_version_9_file_uri" => "http://example.com/display-thumbnail",
         "file_version_9_publish" => "NO",
         "file_version_9_is_display_thumbnail" => "YES",
         "user_defined_boolean_1" => "YES",
@@ -2544,7 +2544,7 @@ describe "Import Digital Objects" do
       expect(created.count).to eq(1)
       digital_object = ::DigitalObject.to_jsonmodel(created.first.id)
       publish_version = digital_object.file_versions.find { |fv| fv["file_uri"] == "http://example.com/publish" }
-      representative_version = digital_object.file_versions.find { |fv| fv["file_uri"] == "http://example.com/representative" }
+      display_thumbnail_version = digital_object.file_versions.find { |fv| fv["file_uri"] == "http://example.com/display-thumbnail" }
 
       aggregate_failures do
         expect(digital_object["publish"]).to eq(true)
@@ -2552,8 +2552,8 @@ describe "Import Digital Objects" do
         expect(digital_object.notes.first["publish"]).to eq(true)
         expect(publish_version["publish"]).to eq(true)
         expect(publish_version["is_display_thumbnail"]).to eq(false)
-        expect(representative_version["is_display_thumbnail"]).to eq(true)
-        expect(representative_version["publish"]).to eq(true)
+        expect(display_thumbnail_version["is_display_thumbnail"]).to eq(true)
+        expect(display_thumbnail_version["publish"]).to eq(true)
         expect(digital_object.user_defined["boolean_1"]).to eq(true)
         expect(digital_object.user_defined["boolean_2"]).to eq(true)
         expect(digital_object.user_defined["boolean_3"]).to eq(true)
