@@ -1001,6 +1001,7 @@ fr:
       </ul>
     identifier: Identifiant
     caption: Légende
+    is_representative: Représentatif
     is_display_thumbnail: Miniature d'affichage
     is_display_link: Lien d'affichage
 

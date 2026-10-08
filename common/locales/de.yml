@@ -1446,6 +1446,7 @@ de:
       <li>CRC-32</li>\n<li>SHA-1</li>\n<li>SHA-256</li>\n</ul>\n"
     identifier: Signatur
     caption: Beschriftung
+    is_representative: Repräsentativ
     is_display_thumbnail: Anzeige-Vorschaubild
     is_display_link: Anzeige-Link
     checksum_tooltip: "<p>Eine digitale Signatur zur Überwachung der Integrität und Authentizität einer

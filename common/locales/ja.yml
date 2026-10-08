@@ -745,6 +745,7 @@ ja:
       MD5 </li><li> CRC-32 </li><li> SHA-1 </li><li> SHA-256 </li></ul>"
     identifier: 識別
     caption: キャプション
+    is_representative: 代表
     is_display_thumbnail: 表示サムネイル
     is_display_link: 表示リンク
 

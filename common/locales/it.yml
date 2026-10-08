@@ -1054,6 +1054,7 @@ it:
       <li>SHA-256</li>
       </ul>
     caption: Didascalia
+    is_representative: Rappresentante
     is_display_thumbnail: Miniatura di visualizzazione
     is_display_link: Link di visualizzazione
   agent:
