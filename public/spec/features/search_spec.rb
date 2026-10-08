@@ -429,6 +429,45 @@ describe 'Search', js: true do
     end
   end
 
+  describe 'container summary on results' do
+    let(:now) { Time.now.to_i }
+    let(:repository) { create(:repo, :repo_code => "container_search_test_#{now}", publish: true) }
+    let(:top_container) { create(:json_top_container, indicator: "#{now}", type: 'box', barcode: "barcode_#{now}") }
+    let(:ao) do
+      create(:archival_object,
+             title: "Container Summary AO #{now}",
+             publish: true,
+             resource: { 'ref' => create(:resource, publish: true).uri },
+             instances: [build(:json_instance, {
+               instance_type: 'text',
+               sub_container: build(:json_sub_container, {
+                 top_container: { ref: top_container.uri },
+                 type_2: 'folder',
+                 indicator_2: '3'
+               })
+             })])
+    end
+
+    before :each do
+      set_repo repository
+      ao
+      run_indexers
+    end
+
+    it 'shows the top container type and indicator but not the barcode' do
+      visit('/search')
+      find('#q0').fill_in with: ao.title
+      click_on 'Search'
+
+      badge = find(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{ao.title}')]]//div[contains(@class, 'record-type-badge')]")
+      expect(badge).to have_text("Box: #{now}, Folder: 3")
+      expect(badge).not_to have_text("barcode_#{now}")
+
+      visit(ao.uri)
+      expect(page).not_to have_text("barcode_#{now}")
+    end
+  end
+
   describe 'add/remove search rows' do
     it 'maintains correct button states when adding and removing rows' do
       visit('/search')
