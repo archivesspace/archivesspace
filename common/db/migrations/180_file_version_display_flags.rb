@@ -19,13 +19,7 @@ Sequel.migration do
       add_unique_constraint([:is_display_link, :digital_object_component_id], :name => 'doc_one_display_link')
     end
 
-    enum_ids = {
-      :image_thumbnail => get_enum_value_id('file_version_use_statement', 'image-thumbnail'),
-      :text_json => get_enum_value_id('file_version_use_statement', 'text-json'),
-      :embed => get_enum_value_id('file_version_xlink_show_attribute', 'embed'),
-      :iiif => get_enum_value_id('file_version_file_format_name', 'iiif'),
-      :images => ['jpeg', 'gif'].map { |format| get_enum_value_id('file_version_file_format_name', format) },
-    }
+    enum_ids = FileVersionDisplayFlags.enum_ids(self)
 
     thumbnail_ids = []
     link_ids = []
