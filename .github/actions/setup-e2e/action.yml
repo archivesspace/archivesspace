@@ -15,9 +15,9 @@ runs:
   steps:
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2.0'
+        ruby-version: '3.4.11'
         working-directory: e2e-tests
-    - uses: actions/cache@v4
+    - uses: actions/cache@v6
       with:
         path: e2e-tests/vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('e2e-tests/Gemfile.lock') }}
