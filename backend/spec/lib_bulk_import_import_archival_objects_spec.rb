@@ -1766,6 +1766,42 @@ describe "Import Archival Objects" do
       expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'file_version_is_display_thumbnail_1', :value => 'maybe'))
     end
 
+    describe 'digital_object_is_representative' do
+      def imported_archival_object(report)
+        ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+      end
+
+      let(:published_thumbnail) {
+        { 'digital_object_publish' => 'TRUE',
+          'file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+          'file_version_is_display_thumbnail_1' => 'TRUE' }
+      }
+
+      it 'makes the digital object instance representative, so the archival object shows its thumbnail' do
+        report = import_row(published_thumbnail.merge('digital_object_is_representative' => 'TRUE'))
+
+        expect(report.rows[0].errors).to eq([])
+        archival_object = imported_archival_object(report)
+        expect(archival_object['instances'][0]['is_representative']).to be true
+        expect(archival_object['thumbnail']['image_url']).to eq('http://example.com/thumbnail.jpg')
+      end
+
+      it 'leaves the instance not representative when blank' do
+        report = import_row(published_thumbnail)
+
+        expect(report.rows[0].errors).to eq([])
+        archival_object = imported_archival_object(report)
+        expect(archival_object['instances'][0]['is_representative']).to be false
+        expect(archival_object['thumbnail']).to be_nil
+      end
+
+      it 'reports a value that is not a boolean' do
+        report = import_row(published_thumbnail.merge('digital_object_is_representative' => 'maybe'))
+
+        expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'digital_object_is_representative', :value => 'maybe'))
+      end
+    end
+
     it 'aborts the import when the removed rep and nonrep columns are present' do
       report = import_row({ 'rep_file_uri' => 'http://example.com/1' }, ['rep_file_uri', 'nonrep_publish'])
 

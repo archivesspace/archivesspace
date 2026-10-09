@@ -250,6 +250,7 @@ class ImportArchivalObjects < BulkImportParser
 
       begin
         normalize_boolean_column(@row_hash, 'digital_object_publish')
+        is_representative = digital_object_boolean('digital_object_is_representative')
         dig_instance = @doh.create(
           title: @row_hash["digital_object_title"],
           id: @row_hash["digital_object_id"],
@@ -265,6 +266,7 @@ class ImportArchivalObjects < BulkImportParser
           archival_object: ao,
           report: @report,
           file_versions: file_versions)
+        dig_instance.is_representative = true if dig_instance && is_representative
       rescue Exception => e
         @report.add_errors(e.message)
       end
