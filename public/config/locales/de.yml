@@ -546,5 +546,5 @@ de:
     username_aria_label: Benutzername des Benutzers
     password_aria_label: Passwort des Benutzers
     required: Erforderliche Felder
-    pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die PUI anzuzeigen."
+    pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die öffentliche Besucher-Oberfläche anzuzeigen."
     login_failed: "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort."
