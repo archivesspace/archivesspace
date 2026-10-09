@@ -29,5 +29,6 @@ class EventHandler < Handler
     report.add_info(I18n.t("bulk_import.event_created",
                            :group => group,
                            :type => event_data["event_type"]))
+    saved.uri
   end
 end

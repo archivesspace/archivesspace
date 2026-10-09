@@ -1869,4 +1869,72 @@ describe "Import Digital Objects" do
       end
     end
   end
+
+  context "Event URIs in the job's created records" do
+    def run_importer(columns, column_explanations, row, validate_only: false)
+      csv_string = CSV.generate(col_sep: ',') do |csv|
+        csv << columns
+        csv << column_explanations
+        csv << row.values
+      end
+      csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+      csv_path = File.join(Dir.tmpdir, csv_filename)
+      File.write(csv_path, csv_string)
+      opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource",
+               :filename => csv_filename, :filepath => csv_path, :load_type => "digital_object",
+               :validate => validate_only }
+
+      importer = ImportDigitalObjects.new(csv_path, "csv", @current_user, opts)
+      importer.run
+      importer
+    end
+
+    def linked_event_uris(title)
+      digital_object = JSONModel(:digital_object).find(DigitalObject.where(:title => title).first.id)
+      digital_object["linked_events"].map { |link| link["ref"] }
+    end
+
+    def two_event_sheet
+      csv_data = CSV.read(File.join(TEMPLATES_DIR, "bulk_import_DO_template.csv"))
+      group_3_headers = family_headers_at(csv_data[0], "event", 3)
+      columns = csv_data[0] + group_3_headers
+      explanations = csv_data[1] + group_3_headers.map { "Event(3)" }
+      title = "Digital Object Title #{@now} event uris"
+      row = columns.to_h { |column| [column, nil] }
+      row.merge!("res_uri" => @resource.uri, "ao_uri" => @archival_object.uri,
+                 "digital_object_title" => title,
+                 "event_1_type" => "cataloged", "event_1_date" => "1999-03-03",
+                 "event_3_type" => "processed", "event_3_date" => "2001-04-05")
+      { :columns => columns, :explanations => explanations, :row => row, :title => title }
+    end
+
+    it "records the URI of each created Event alongside the archival object and digital object URIs" do
+      sheet = two_event_sheet
+      importer = run_importer(sheet[:columns], sheet[:explanations], sheet[:row])
+
+      event_uris = linked_event_uris(sheet[:title])
+      expect(event_uris.length).to eq(2)
+      expect(importer.record_uris).to include(*event_uris, @archival_object.uri)
+      expect(importer.record_uris.length).to eq(4)
+    end
+
+    it "records no URIs during validate-only" do
+      sheet = two_event_sheet
+      importer = run_importer(sheet[:columns], sheet[:explanations], sheet[:row], validate_only: true)
+
+      expect(importer.record_uris).to eq([])
+    end
+
+    it "records only the Events that were created when a later Event group is invalid" do
+      sheet = unknown_event_type_sheet
+      importer = RequestContext.open(:create_enums => true) do
+        run_importer(sheet[:columns], sheet[:column_explanations], sheet[:row])
+      end
+
+      event_uris = linked_event_uris(sheet[:title])
+      expect(event_uris.length).to eq(1)
+      expect(importer.record_uris).to include(*event_uris)
+      expect(importer.record_uris.length).to eq(3)
+    end
+  end
 end
