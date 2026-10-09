@@ -1,11 +1,22 @@
 # frozen_string_literal: true
 
+# A IIIF Presentation API manifest served by the e2e WireMock stub (see
+# wiremock/mappings/iiif-manifest-book.json). The viewer fetches this from the
+# browser, so the URL is the WireMock host port and the stubbed response sends
+# an Access-Control-Allow-Origin header to permit the cross-origin fetch.
+IIIF_MANIFEST_URL = "#{WIREMOCK_URL}/iiif/manifest/book".freeze
+
+# The label declared by the manifest above, rendered by the viewer once it has
+# fetched and parsed it.
+IIIF_MANIFEST_LABEL = 'Simple Manifest - Book'
+
 THUMBNAIL_FILES = {
   'an image' => { uri: "#{WIREMOCK_URL}/thumbnails/image.jpg", format: 'JPEG File Interchange Format' },
   'a broken image' => { uri: "#{WIREMOCK_URL}/thumbnails/missing.jpg", format: 'JPEG File Interchange Format' },
   'a document' => { uri: 'http://example.com/thumbnails/document.pdf', format: 'Portable Document Format' },
   'another document' => { uri: 'http://example.com/thumbnails/another-document.pdf', format: 'Portable Document Format' },
-  'a third document' => { uri: 'http://example.com/thumbnails/third-document.pdf', format: 'Portable Document Format' }
+  'a third document' => { uri: 'http://example.com/thumbnails/third-document.pdf', format: 'Portable Document Format' },
+  'a IIIF manifest' => { uri: IIIF_MANIFEST_URL, format: 'IIIF Manifest', use_statement: 'Text-JSON', xlink_show: 'embed' }
 }.freeze
 
 THUMBNAIL_SELECTORS = {
@@ -102,6 +113,8 @@ def thumbnail_add_file_versions(form_prefix, file_versions)
 
       fill_in 'File URI', with: file[:uri]
       select file[:format], from: 'File Format Name'
+      select file[:use_statement], from: 'Use Statement' if file[:use_statement]
+      select file[:xlink_show], from: 'XLink Show Attribute' if file[:xlink_show]
       row.fetch('Published') == 'yes' ? check('Publish?') : uncheck('Publish?')
       fill_in 'Caption', with: row['Caption'] unless row['Caption'].to_s.empty?
       click_on "Make #{row['Marked as']}" unless row['Marked as'].to_s.empty?
