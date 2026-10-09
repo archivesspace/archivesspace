@@ -8,7 +8,6 @@ ignore: |
   /plugins/
   /reports/
   .rubocop.yml
-  .travis.yml
 
 locale: en_US.UTF-8
 
