@@ -644,6 +644,7 @@ ja:
     login_please: サインインしてください
     login_expired_link: "サインインしてください。"
     login_fail: ログイン試行に失敗しました
+    too_many_attempts: "ログインの失敗が多すぎます。しばらくしてからもう一度お試しください。"
     login_success: ログイン成功。リダイレクト中...
 
   breadcrumb:

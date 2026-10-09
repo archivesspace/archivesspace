@@ -240,6 +240,7 @@ en:
     required: required
     pui_permission_denied: "User `%{username}` does not have permission to view the PUI."
     login_failed: "Login failed. Please check your username and password."
+    too_many_attempts: "Too many failed login attempts. Please try again later."
 
   navbar:
     search_placeholder: Enter your search terms
