@@ -825,8 +825,8 @@ pl:
           <strong>%{accession_display_string}</strong>. Ten rekord nie został 
           jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
           przycisk Zapisz.
-        spawn_placeholder: <em>Wygenerowany komponent zostanie wstawiony w tym 
-          miejscu</em>
+        spawn_placeholder: Wygenerowany komponent zostanie wstawiony w tym
+          miejscu
         spawn_menu_before: Wstaw wygenerowany komponent przed
         spawn_menu_child: Wstaw wygenerowany komponent jako element podrzędny.
         spawn_menu_after: Wstaw wygenerowany komponent po

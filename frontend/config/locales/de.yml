@@ -1126,8 +1126,8 @@ de:
           <strong>%{accession_display_string}</strong> abgeleitet. Diese 
           Aufzeichnung wurde noch nicht gespeichert. Sie müssen auf Speichern 
           klicken, damit die Aufzeichnung im System erstellt wird.
-        spawn_placeholder: <em>Abgeleitete Komponente wird hier eingefügt 
-          werden</em>
+        spawn_placeholder: Abgeleitete Komponente wird hier eingefügt 
+          werden
         spawn_menu_before: Abgeleitete Komponente davor einfügen
         spawn_menu_child: Abgeleitete Komponente als Kind einfügen
         spawn_menu_after: Abgeleitete Komponente danach einfügen

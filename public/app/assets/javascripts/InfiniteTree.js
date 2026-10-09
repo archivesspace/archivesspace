@@ -59,7 +59,7 @@
         } else {
           this.allAncestorBatches(nodeRecordId)
             .then(data => {
-              this.renderAncestors(data, nodeElementId);
+              this.renderAncestorsAndShow(data, nodeElementId);
             })
             .catch(error => {
               console.error('Error fetching ancestors:', error);
@@ -221,7 +221,7 @@
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
      */
-    async renderAncestors(ancestorBatches, nodeElementId) {
+    async renderAncestorsAndShow(ancestorBatches, nodeElementId) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
         const nodeTitle = this.markup.title(batch);

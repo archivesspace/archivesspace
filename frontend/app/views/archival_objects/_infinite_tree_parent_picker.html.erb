@@ -1,0 +1,69 @@
+<%#
+  Browse-only InfiniteTree for the TreeLinkingModal parent picker on the standalone
+  new Archival Object page, ie: /archival_objects/new?accession_id=5&resource_id=6.
+  The InfiniteTreeRouter, RecordPane, Resizer, and Toolbar are absent.
+%>
+<%
+  show_identifiers = AppConfig[:display_identifiers_in_largetree_container]
+
+  enumeration_translations = {}
+
+  ['instance_instance_type', 'container_type', 'resource_resource_type',
+   'archival_record_level', 'digital_object_digital_object_type'
+  ].each do |enumeration_name|
+    enumeration_translations[enumeration_name] = {}
+
+    JSONModel.enum_values(enumeration_name).each do |enumeration_value|
+      enumeration_translations[enumeration_name][enumeration_value] = t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+    end
+  end
+%>
+
+<template id="infinite-tree-parent-picker-template">
+  <div
+    id="infinite-tree-component"
+    class="infinite-tree-parent-picker"
+    data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
+    data-is-read-only="true"
+    data-record-type="resource"
+    data-child-type="<%= InfiniteTreeHierarchy.child_type_for('resource') %>"
+  >
+    <div id="infinite-tree-container" data-read-only="true"></div>
+  </div>
+</template>
+
+<template id="infinite-tree-spawn-placeholder-template">
+  <li class="node spawn-placeholder" role="treeitem" aria-disabled="true">
+    <div class="node-row">
+      <div class="node-body">
+        <div class="node-column" data-column="drag-handle"></div>
+        <div class="node-indentation"></div>
+        <div class="node-column" data-column="title">
+          <span class="record-title"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> </span>
+        </div>
+        <div class="node-column" data-column="level"></div>
+        <div class="node-column" data-column="type"></div>
+        <div class="node-column" data-column="container"></div>
+        <% if show_identifiers %>
+          <div class="node-column" data-column="identifier"></div>
+        <% end %>
+      </div>
+    </div>
+  </li>
+</template>
+
+<%= render_aspace_partial partial: 'shared/infinite_tree_templates', locals: { root_type: 'resource', show_identifiers: show_identifiers } %>
+
+<script>
+  window.InfiniteTreeHierarchyConfig = <%== InfiniteTreeHierarchy.to_json %>;
+
+  window.InfiniteTreeParentPickerI18n = {
+    sep: <%== I18n.t('resource.identifier_separator').to_json %>,
+    bulk: <%== I18n.t('date_type_bulk.bulk').to_json %>,
+    enumerations: {
+      ENUMERATION_TRANSLATIONS: <%== enumeration_translations.to_json %>,
+    },
+  };
+</script>
+
+<%= javascript_include_tag "InfiniteTreeParentPicker.js" %>
