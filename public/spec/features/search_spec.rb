@@ -459,7 +459,7 @@ describe 'Search', js: true do
       find('#q0').fill_in with: ao.title
       click_on 'Search'
 
-      badge = find(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{ao.title}')]]//div[contains(@class, 'record-type-badge')]")
+      badge = find(:xpath, "//div[contains(@class, 'recordrow')][.//h2[contains(., '#{ao.title}')]]//div[contains(@class, 'record-type-badge')]")
       expect(badge).to have_text("Box: #{now}, Folder: 3")
       expect(badge).not_to have_text("barcode_#{now}")
 
