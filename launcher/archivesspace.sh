@@ -62,8 +62,16 @@ java_version_output="`java -version 2>&1`"
 
 if [ "$?" != "0" ]; then
     echo "Could not run your 'java' executable."
-    echo "Please ensure that Java 1.7 or 1.8 is installed and on your PATH"
+    echo "Please ensure that Java 21 or later is installed and on your PATH"
     exit
+fi
+
+JAVA_MAJOR="`echo "$java_version_output" | sed -n 's/.* version "\([0-9]*\).*/\1/p' | head -1`"
+
+if [ "${JAVA_MAJOR:-0}" -lt 21 ]; then
+    echo "ArchivesSpace requires Java 21 or later, but your 'java' executable is:"
+    echo "$java_version_output"
+    exit 1
 fi
 
 if [ ! -e "scripts/find-base.sh" ]; then
@@ -97,13 +105,9 @@ if [ "$ARCHIVESSPACE_APPEND_LOGS" = "" ]; then
 fi
 
 # JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; silence the JDK 24+ warnings about it.
-# Each option is only accepted from the Java version shown, so only pass it when the JVM knows it.
-JAVA_MAJOR="`echo "$java_version_output" | sed -n 's/.* version "\([0-9]*\).*/\1/p' | head -1`"
-ASPACE_JAVA_MODULE_OPTS=
-if [ "${JAVA_MAJOR:-0}" -ge 21 ]; then
-    ASPACE_JAVA_MODULE_OPTS="--enable-native-access=ALL-UNNAMED"
-fi
-if [ "${JAVA_MAJOR:-0}" -ge 23 ]; then
+# --sun-misc-unsafe-memory-access only exists from Java 23, so only pass it when the JVM knows it.
+ASPACE_JAVA_MODULE_OPTS="--enable-native-access=ALL-UNNAMED"
+if [ "$JAVA_MAJOR" -ge 23 ]; then
     ASPACE_JAVA_MODULE_OPTS="$ASPACE_JAVA_MODULE_OPTS --sun-misc-unsafe-memory-access=allow"
 fi
 

@@ -57,14 +57,16 @@
   <property name="env.ASPACE_TEST_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
   <property name="env.APPCONFIG_BACKEND_LOG" value="default" />
 
-  <condition property="java_version_compatibility"  value="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" else="">
-    <javaversion atleast="17"/>
-  </condition>
+  <fail message="ArchivesSpace requires Java 21 or later (found ${java.version})">
+    <condition>
+      <not><javaversion atleast="21"/></not>
+    </condition>
+  </fail>
+
+  <property name="java_version_compatibility" value="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" />
 
   <!-- JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; these flags silence the JDK 24+ warnings about it -->
-  <condition property="java_native_access" value="--enable-native-access=ALL-UNNAMED" else="">
-    <javaversion atleast="21"/>
-  </condition>
+  <property name="java_native_access" value="--enable-native-access=ALL-UNNAMED" />
   <condition property="java_unsafe_memory_access" value="--sun-misc-unsafe-memory-access=allow" else="">
     <javaversion atleast="23"/>
   </condition>
