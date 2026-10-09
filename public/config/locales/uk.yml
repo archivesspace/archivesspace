@@ -547,3 +547,5 @@ uk:
     required: потрібно
     pui_permission_denied: "Користувач `%{username}` не має дозволу переглядати PUI."
     login_failed: "Помилка входу. Перевірте своє ім'я користувача та пароль."
+  thumbnails:
+    access_help_text: Натисніть тут, щоб отримати доступ онлайн

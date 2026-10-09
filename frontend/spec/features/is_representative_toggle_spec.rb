@@ -39,18 +39,6 @@ describe 'Is Representative Toggle', js: true do
     end
   end
 
-  it 'can be toggled on and off for digital object file versions' do
-    subform = '#digital_object_file_versions_ .subrecord-form-list > li[data-index="0"]'
-
-    visit '/digital_objects/new'
-    click_on 'Add File Version'
-
-    within subform do
-      check 'Publish?'
-      toggle_expectations(@make_rep_css, @make_rep_text, @is_rep_css, @is_rep_text)
-    end
-  end
-
   it 'can be toggled on and off for agent contact details' do
     subform = '#agent_person_contact_details .subrecord-form-list > li[data-index="0"]'
 

@@ -321,7 +321,7 @@ it:
       processors: Processori
       user_mtime: Modificato
       uri: URI
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
       access_restrictions: Restrizioni di accesso
       accession_date_year: Data di accesso
@@ -335,7 +335,7 @@ it:
       dates: Date
       processors: Processori
       desc: Discendente
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       uri: URI
       level: Livello
       identifier: Identificatore
@@ -364,7 +364,7 @@ it:
       desc: Discendente
       uri: URI
       title: Titolo
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       context: Risorsa per i genitori
       extents: Estensione
     subject:
@@ -396,7 +396,7 @@ it:
       asc: Ascendente
       subjects: Soggetto
       uri: URI
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       extents: Estensione
     digital_object_component:
       publish: Pubblicato
@@ -411,7 +411,7 @@ it:
       user_mtime: Modificato
       create_time: Creato
       asc: Ascendente
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       extents: Estensione
     agent:
       score: Rilevanza
@@ -609,7 +609,7 @@ it:
     multi:
       score: Rilevanza
       relevance: Rilevanza
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente
@@ -1602,6 +1602,7 @@ it:
         add: Aggiungi documento esterno
   file_version:
     _frontend:
+      published: Pubblicato
       messages:
         no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer]
           su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato
@@ -1609,9 +1610,10 @@ it:
       action:
         add: Aggiungi versione del file
         make_representative: Rendere rappresentante
-        make_representative_tooltip: Utilizzare questa opzione per indicare che 
-          questa immagine deve essere visualizzata quando sono presenti più 
-          versioni del file associate al record.
+        make_display_thumbnail: Usa come miniatura di visualizzazione
+        make_display_thumbnail_tooltip: Mostra l'immagine all'URI del file di questa versione del file come miniatura del record. Se la versione del file non è un'immagine visualizzabile, viene mostrata un'icona generica.
+        make_display_link: Usa come link di visualizzazione
+        make_display_link_tooltip: Collega la miniatura o l'icona generica del record all'URI del file di questa versione del file.
   group:
     _frontend:
       action:

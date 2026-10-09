@@ -342,7 +342,7 @@ class DigitalObjectConverter < Converter
 
     cell_handlers, bad_headers = super
     bad_headers.reject! do |header|
-      header.match(/^file_version_[a-z_]+(_\d+)?$/) ||
+      file_version_header?(header) ||
         %w[
           agent_name_description_type
           digital_object_rights_transferred
@@ -356,6 +356,14 @@ class DigitalObjectConverter < Converter
 
   def self.headers
     @headers
+  end
+
+
+  def self.file_version_header?(header)
+    match = header.match(/\Afile_version_([a-z_]+?)(_\d+)?\z/)
+    return false unless match
+
+    ASpaceImport::JSONModel(:file_version).schema['properties'].reject { |_name, defn| defn['readonly'] }.key?(match[1])
   end
 
 

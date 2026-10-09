@@ -21,8 +21,8 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Events
   include Publishable
   include TouchRecords
-  include RepresentativeFileVersion
   include MixedContentValidatable
+  include Thumbnails::FromFileVersions
 
   enable_suppression
 

@@ -107,9 +107,11 @@ describe 'Digital Objects', js: true do
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} created")
 
     within '#digital_object_file_versions__0_' do
-      expect(page).to have_button('Make Representative', disabled: true)
+      expect(page).to have_button('Make Display Thumbnail', disabled: true)
+      expect(page).to have_button('Make Display Link', disabled: true)
       find('#digital_object_file_versions__0__publish_').click
-      expect(page).to have_button('Make Representative', disabled: false)
+      expect(page).to have_button('Make Display Thumbnail', disabled: false)
+      expect(page).to have_button('Make Display Link', disabled: false)
     end
   end
 

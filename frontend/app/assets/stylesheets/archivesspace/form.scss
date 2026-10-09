@@ -907,6 +907,8 @@ label {
 .is-authorized-label,
 .is-display-name-label,
 .is-primary-label,
+.is-thumbnail-label,
+.is-display-link-label,
 .is-representative-label {
   display: none;
 }
@@ -947,6 +949,26 @@ label {
     cursor: pointer;
   }
   .is-representative-toggle {
+    display: none;
+  }
+}
+
+.is-thumbnail {
+  .is-thumbnail-label {
+    display: inline;
+    vertical-align: middle;
+  }
+  .is-thumbnail-toggle {
+    display: none;
+  }
+}
+
+.is-display-link {
+  .is-display-link-label {
+    display: inline;
+    vertical-align: middle;
+  }
+  .is-display-link-toggle {
     display: none;
   }
 }

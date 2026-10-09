@@ -10,8 +10,13 @@
         <div class="panel-heading card-header">
           <%= render :layout => "shared/accordion_header_toggle",
                 :locals => { :panel_id => "#{section_id}_file_version_#{index}", :accordion_parent_id => "#{section_id}_accordion" } do %>
-            <span class="accordion-header-toggle__title accordion-header-toggle__cell--md-11">
+            <span class="accordion-header-toggle__title accordion-header-toggle__cell accordion-header-toggle__cell--md-7">
               <%= file_version['file_uri'] %>
+            </span>
+            <span class="accordion-header-toggle__badges">
+              <% if file_version['publish'] %><span class="badge badge-success pull-right" style="margin-left: 5px;"><%= t("file_version._frontend.published") %></span><% end %>
+              <% if file_version['is_display_thumbnail'] %><span class="badge badge-info pull-right" style="margin-left: 5px;"><%= t("file_version.is_display_thumbnail") %></span><% end %>
+              <% if file_version['is_display_link'] %><span class="badge badge-primary pull-right" style="margin-left: 5px;"><%= t("file_version.is_display_link") %></span><% end %>
             </span>
           <% end %>
         </div>

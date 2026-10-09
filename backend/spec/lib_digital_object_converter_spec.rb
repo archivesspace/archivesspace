@@ -72,7 +72,7 @@ describe 'Digital Object converter' do
       fv = @multi_dos[0]['file_versions'][0]
       expect(fv['file_uri']).to eq('http://example.com/file1.jpg')
       expect(fv['publish']).to be true
-      expect(fv['is_representative']).to be true
+      expect(fv['is_display_thumbnail']).to be true
       expect(fv['caption']).to eq('First file')
     end
 
@@ -80,7 +80,8 @@ describe 'Digital Object converter' do
       fv = @multi_dos[0]['file_versions'][1]
       expect(fv['file_uri']).to eq('http://example.com/file2.pdf')
       expect(fv['publish']).to be false
-      expect(fv['is_representative']).to be false
+      expect(fv['is_display_thumbnail']).to be_falsey
+      expect(fv['is_display_link']).to be false
       expect(fv['caption']).to eq('Second file')
     end
 
@@ -103,6 +104,18 @@ describe 'Digital Object converter' do
       fv = @multi_dos[4]['file_versions'][0]
       expect(fv['file_uri']).to eq('http://example.com/nullfield.jpg')
       expect(fv['caption']).to be_nil
+    end
+  end
+
+
+  describe "file version headers" do
+    it "rejects a file_version header that does not name a file version property" do
+      _handlers, bad_headers = DigitalObjectConverter.configure_cell_handlers(
+        ['digital_object_id', 'digital_object_title',
+         'file_version_file_uri_1', 'file_version_is_display_thumbnail_1', 'file_version_is_representative_1'],
+      )
+
+      expect(bad_headers).to eq(['file_version_is_representative_1'])
     end
   end
 

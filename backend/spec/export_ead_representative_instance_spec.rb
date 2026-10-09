@@ -3,7 +3,7 @@ require 'spec_helper'
 require_relative 'export_spec_helper'
 
 # See https://archivesspace.atlassian.net/browse/ANW-1209
-describe "Representative File Version EAD Export Rules" do
+describe "Representative Instance EAD Export Rules" do
 
   let(:digital_object_for_resource) {
     create(:json_digital_object,
@@ -11,7 +11,7 @@ describe "Representative File Version EAD Export Rules" do
            publish: true,
            file_versions: [
              build(:json_file_version,
-                   is_representative: true,
+                   is_display_thumbnail: true,
                    use_statement: "image-service")
            ]
           )
@@ -23,7 +23,7 @@ describe "Representative File Version EAD Export Rules" do
            publish: true,
            file_versions: [
              build(:json_file_version,
-                   is_representative: true,
+                   is_display_thumbnail: true,
                    use_statement: "image-service")
            ]
           )

@@ -96,7 +96,7 @@ describe 'Pagination landmarks', js: true do
                               publish: true,
                               file_versions: [build(:file_version, {
                                 publish: true,
-                                is_representative: true,
+                                is_display_thumbnail: true,
                                 use_statement: 'image-service'
                               })])
 

@@ -65,6 +65,31 @@ module DigitalObjectHelper
     return processed_fields
   end
 
+  # Icon for a thumbnail with no image, by the digital object type. The Font Awesome 6 names of the
+  # Font Awesome 4 icons the public interface uses (see public ViewHelper#thumbnail_icon_class).
+  def thumbnail_icon_class(digital_object_type)
+    icon =
+      case digital_object_type.to_s
+      when 'moving_image' then 'fa-file-video'
+      when /^sound_recording/ then 'fa-file-audio'
+      when 'still_image' then 'fa-file-image'
+      when 'text' then 'fa-file-lines'
+      else 'fa-file'
+      end
+
+    "fa-regular #{icon}"
+  end
+
+  # Where a thumbnail links to: the digital object record for an accession, resource or archival object,
+  # otherwise the display link file version
+  def thumbnail_link_url(thumbnail)
+    if thumbnail['record_uri']
+      url_for(:controller => :resolver, :action => :resolve_readonly, :uri => thumbnail['record_uri'])
+    else
+      thumbnail['link_url']
+    end
+  end
+
   private
 
   def cleanup!(data)

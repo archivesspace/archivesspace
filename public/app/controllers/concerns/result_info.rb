@@ -103,23 +103,6 @@ module ResultInfo
     agents_h
   end
 
-# digital object processing
-  def process_digital(json)
-    dig_obj = {}
-    unless json['digital_object_id'].blank? || !json['digital_object_id'].start_with?('http')
-      dig_obj['out'] = json['digital_object_id']
-    end
-    dig_obj = process_file_versions(json)
-    unless dig_obj.blank?
-      dig_obj['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
-      caption = json.fetch(json['display_string'], json['title'])
-      caption = '' if caption.blank?
-      dig_obj['caption'] = CGI::escapeHTML(strip_mixed_content(caption)) if dig_obj['caption'].blank? && !dig_obj['thumb'].blank?
-    end
-    dig_obj.blank? ? [] : [dig_obj]
-  end
-
-
 # process extents for display; format per Mark Custer
   def process_extents(json)
     unless json['extents'].blank?
@@ -139,85 +122,6 @@ module ResultInfo
     end
   end
 
-# representative digital object for an archival object
-  def process_digital_instance(instances)
-    dig_objs = []
-    if instances && instances.is_a?(Array)
-      instances.each do |instance|
-        unless !instance.dig('digital_object', '_resolved')
-          dig_f = {}
-          it =  instance['digital_object']['_resolved']
-          unless !it['publish'] || it['file_versions'].blank?
-            title = strip_mixed_content(it['title'])
-            dig_f = process_file_versions(it)
-            dig_f['caption'] = CGI::escapeHTML(title) if dig_f['caption'].blank? && !title.blank?
-          end
-          dig_f['material'] = it['digital_object_type'].blank? ? '' : '(' << it['digital_object_type'] << ')'
-        end
-        dig_objs.push(dig_f) unless dig_f.blank?
-      end
-    end
-    dig_objs
-  end
-
-  # get links (including thumbnail, caption) for *one* digital object
-  def process_file_versions(json)
-    dig_f = {}
-    unless json['file_versions'].blank?
-      embed_caption = ''
-      rep_caption = ''
-      json['file_versions'].each do |version|
-        version['file_uri'].strip!
-
-        next if IIIF.manifest?(version) # A IIIF manifest is not an image
-
-        if version.dig('publish') != false && (version['file_uri'].start_with?('http') ||
-          version['file_uri'].start_with?('data:'))
-
-          if version.dig('xlink_show_attribute') == 'embed'
-            dig_f['thumb'] = version['file_uri']
-            dig_f['represent'] = 'embed' if version['is_representative']
-            # For an embedded file version, if the caption is empty,
-            # 1. set the embed_caption to the title
-            # 2. set the rep_caption to the title if it is a representative version
-            if version['caption'].blank?
-              embed_caption = version['title']
-              rep_caption = version['title'] if version['is_representative']
-            else
-              # For an embedded file version, if the caption is not empty,
-              # 1. set the embed_caption to the caption
-              # 2. set the rep_caption to the caption if it is a representative version
-              embed_caption = version['caption']
-              rep_caption = version['caption'] if version['is_representative']
-            end
-          else
-            dig_f['represent'] = 'new' if version['is_representative']
-            dig_f['out'] = version['file_uri'] if version['file_uri'] != (dig_f['out'] || '')
-            # if the caption is empty set the rep_caption to the title
-            if version['caption'].blank?
-              rep_caption = version['title']
-            else
-              # if the caption is not empty set the rep_caption to the caption
-              rep_caption = version['caption']
-            end
-          end
-        elsif !version['file_uri'].start_with?('http')
-          Rails.logger.debug("****BAD URI? #{version['file_uri']}")
-        end
-      end
-    end
-    # Use the representative caption for the caption in the PUI if there is a
-    # representative caption
-    if !rep_caption.blank?
-      dig_f['caption'] = rep_caption
-    elsif !embed_caption.blank?
-      # Use the embed caption for the caption in the PUI if there is isn't a
-      # representative caption but there is an embedded caption
-      dig_f['caption'] = rep_caption
-    end
-    dig_f
-  end
-
 # create a usable subjects array
   def process_subjects(subjects_arr)
     return_arr = []
@@ -227,27 +131,6 @@ module ResultInfo
       end
     end
     return_arr
-  end
-
-# look for a representative instance
-  def get_rep_image(instances)
-    rep = {}
-    if instances && instances.is_a?(Array)
-      instances.each do |instance|
-        unless instance['digital_object'].blank? || instance['digital_object']['_resolved'].blank?
-          it = instance['digital_object']['_resolved']
-          unless !it['publish'] || it['file_versions'].blank?
-            it['file_versions'].each do |ver|
-              if ver['is_representative'] && ver['xlink_show_attribute'] == 'embed' && ver['publish']
-                rep['title'] = strip_mixed_content(it['title'])
-                rep['uri'] = ver['file_uri']
-              end
-            end
-          end
-        end
-      end
-    end
-    rep
   end
 
 end

@@ -60,20 +60,15 @@ end
 When 'the user opens the top container management panel' do
   button = '.access-top-containers-btn'
 
-  10.times do
+  # The button can only enable after a reload re-runs the indexed count query,
+  # so check the current page immediately (wait: 0) rather than blocking here.
+  retry_with_reload(attempts: 10, interval: 4) do
     expect(page).to have_selector('h2', visible: true, wait: 15)
     expect(page).to have_css("#{button}[data-tc-initialized]", visible: :all, wait: 10)
     wait_for_ajax
 
-    # The button can only enable after a reload re-runs the indexed count query,
-    # so check the current page immediately (wait: 0) rather than blocking here.
-    break unless page.has_css?("#{button}:disabled", visible: :all)
-
-    sleep 4
-    page.refresh
+    expect(page).not_to have_css("#{button}:disabled", visible: :all, wait: 0)
   end
-
-  raise 'Top containers button never became enabled after multiple attempts' if page.has_css?("#{button}:disabled", visible: :all)
 
   within '#other-dropdown' do
     find('.dropdown-toggle').click
