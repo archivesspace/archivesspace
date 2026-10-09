@@ -198,7 +198,7 @@ class ResourcesController < ApplicationController
       fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
-      record_not_found(uri, 'resource')
+      record_not_found(@root_uri, 'resource')
     end
   end
 
