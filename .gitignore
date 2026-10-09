@@ -26,6 +26,7 @@ build/solr_index
 build/indexer_state
 build/indexer_pui_state
 build/*.tmp
+build/frontend_feature_timings*.jsonl
 build/.gem
 build/shared
 build/dev

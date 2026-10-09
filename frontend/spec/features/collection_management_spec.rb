@@ -250,6 +250,7 @@ describe 'Collection Management', js: true do
           ]
         end
 
+        it_behaves_like 'results table initial sort'
         it_behaves_like 'results table sorting'
       end
     end

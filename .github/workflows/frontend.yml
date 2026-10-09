@@ -20,13 +20,7 @@ on:
         type: choice
         options:
           - 'all'
-          - 'aa-af'
-          - 'ag-az'
-          - 'b-h'
-          - 'i'
-          - 'j-q'
-          - 'r'
-          - 's-z'
+          - 'features'
           - 'models-controllers'
           - 'helpers'
         default: 'all'
@@ -55,88 +49,96 @@ on:
         required: true
         type: string
         default: 'firefox'
+      coverage:
+        description: Whether to post coverage to Coveralls
+        required: false
+        type: boolean
+        default: true
 
 jobs:
-  frontend_features_aa-af:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'aa-af' || inputs.group-choice == '' }}
-    name: aa-af
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/a[a-f]*_spec.rb"
-      name: aa-af
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_ag-az:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'ag-az' || inputs.group-choice == '' }}
-    name: ag-az
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/a[g-z]*_spec.rb"
-      name: ag-az
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_b-h:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-h' || inputs.group-choice == '' }}
-    name: b-h
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[b-h]*_spec.rb"
-      name: b-h
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_i:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'i' || inputs.group-choice == '' }}
-    name: i
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/i*_spec.rb"
-      name: i
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
+  setup:
+    name: Setup Feature Shards
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'features' || inputs.group-choice == '' }}
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.set-matrix.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            build/scripts
+            frontend/spec
+      # Timings of each spec file from previous runs, see the update_feature_timings job
+      - uses: actions/cache/restore@v5
+        with:
+          path: feature_timings.json
+          key: frontend-feature-timings-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: frontend-feature-timings-
+      - id: set-matrix
+        # Balances the spec files by run time, see build/scripts/frontend_feature_shards.rb.
+        # The baseline frontend/spec/feature_shards.yml sets the number of shards and the timings
+        # of spec files that have not been timed by a previous run yet.
+        run: |
+          shards=$(ruby build/scripts/frontend_feature_shards.rb matrix --timings feature_timings.json)
+          echo "shards=$shards" >> "$GITHUB_OUTPUT"
+          echo "$shards" | jq -r '.[] | "Shard \(.shard): \(.pattern)"'
 
-  frontend_features_j-q:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'j-q' || inputs.group-choice == '' }}
-    name: j-q
+  frontend_features:
+    needs: setup
+    name: features (Shard ${{ matrix.shard }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.setup.outputs.shards) }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[j-q]*_spec.rb"
-      name: j-q
+        ./build/run frontend:test -Dpattern="${{ matrix.pattern }}"
+      name: features-shard-${{ matrix.shard }}
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
+      coverage: ${{ inputs.coverage != false }}
+      timings-artifact: feature-spec-timings-shard-${{ matrix.shard }}
 
-  frontend_features_r:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'r' || inputs.group-choice == '' }}
-    name: r
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/r*_spec.rb"
-      name: r
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-
-  frontend_features_s-z:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 's-z' || inputs.group-choice == '' }}
-    name: s-z
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
-      name: s-z
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
+  # Merges the spec file timings of this run into those of previous runs, for the next run to balance its shards
+  update_feature_timings:
+    name: Update Feature Spec Timings
+    needs: frontend_features
+    if: ${{ always() && (needs.frontend_features.result == 'success' || needs.frontend_features.result == 'failure') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            build/scripts
+            frontend/spec
+      - uses: actions/cache/restore@v5
+        with:
+          path: feature_timings.json
+          key: frontend-feature-timings-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: frontend-feature-timings-
+      - uses: actions/download-artifact@v7
+        # Shards that failed before running any spec have no timings
+        continue-on-error: true
+        with:
+          pattern: feature-spec-timings-shard-*
+          path: shard-timings
+      - name: Merge timings
+        run: |
+          shopt -s nullglob
+          ruby build/scripts/frontend_feature_shards.rb merge-timings --out feature_timings.json \
+            feature_timings.json shard-timings/*/feature_timings.jsonl
+      - uses: actions/cache/save@v5
+        with:
+          path: feature_timings.json
+          key: frontend-feature-timings-${{ github.run_id }}-${{ github.run_attempt }}
+      # For re-balancing the baseline: ruby build/scripts/frontend_feature_shards.rb generate feature_timings.json
+      - uses: actions/upload-artifact@v6
+        with:
+          name: feature-spec-timings
+          path: feature_timings.json
+          retention-days: 30
 
   frontend_models_and_controllers:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'models-controllers' || inputs.group-choice == '' }}
@@ -149,6 +151,7 @@ jobs:
       name: models_and_controllers
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
+      coverage: ${{ inputs.coverage != false }}
 
   # ANW-2997: Temporarily moving to own group (and out of models/controllers) until resolved.
   frontend_helpers:
@@ -162,3 +165,4 @@ jobs:
       name: helpers
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
+      coverage: ${{ inputs.coverage != false }}
