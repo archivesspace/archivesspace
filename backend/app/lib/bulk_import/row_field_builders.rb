@@ -96,46 +96,6 @@ module RowFieldBuilders
     hash[column].nil? ? default_publish : hash[column]
   end
 
-  def representative_file_version
-    if @row_hash['rep_file_uri'].present?
-      {
-        is_display_thumbnail: true,
-        file_uri: @row_hash['rep_file_uri'],
-        xlink_actuate_attribute: @row_hash['rep_xlink_actuate_attribute'],
-        xlink_show_attribute: @row_hash['rep_xlink_show_attribute'],
-        publish: true,
-        use_statement: @row_hash['rep_use_statement'],
-        file_format_name: @row_hash['rep_file_format'],
-        file_format_version: @row_hash['rep_file_format_version'],
-        file_size_bytes: @row_hash['rep_file_size'].to_i,
-        checksum: @row_hash['rep_checksum'],
-        checksum_method: @row_hash['rep_checksum_method'],
-        caption: @row_hash['rep_caption']
-      }
-    end
-  end
-
-  def non_representative_file_version
-    if @row_hash['nonrep_file_uri'].present?
-      normalize_boolean_column(@row_hash, 'nonrep_publish')
-      {
-        # the non-representative file version is what the thumbnail links to
-        is_display_link: !!@row_hash['nonrep_publish'],
-        file_uri: @row_hash['nonrep_file_uri'],
-        xlink_actuate_attribute: @row_hash['nonrep_xlink_actuate_attribute'],
-        xlink_show_attribute: @row_hash['nonrep_xlink_show_attribute'],
-        publish: @row_hash['nonrep_publish'],
-        use_statement: @row_hash['nonrep_use_statement'],
-        file_format_name: @row_hash['nonrep_file_format'],
-        file_format_version: @row_hash['nonrep_file_format_version'],
-        file_size_bytes: @row_hash['nonrep_file_size'].to_i,
-        checksum: @row_hash['nonrep_checksum'],
-        checksum_method: @row_hash['nonrep_checksum_method'],
-        caption: @row_hash['nonrep_caption']
-      }
-    end
-  end
-
   # columns: { file_version field => column code } for one file version. Returns nil when every
   # cell is blank. A display flag makes the file version published, as it must be.
   def build_file_version(columns)
