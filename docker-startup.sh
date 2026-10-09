@@ -2,9 +2,9 @@
 
 DATA_TMP_DIR="${APPCONFIG_DATA_DIR:-"/archivesspace/data"}/tmp"
 
-# JRuby 9.4 uses sun.misc.Unsafe; allow it quietly on JDK 23+ (the option does not exist before that)
-JAVA_MAJOR=$(java -XshowSettings:properties -version 2>&1 | sed -n 's/^ *java.specification.version = //p')
-if [ "${JAVA_MAJOR:-0}" -ge 23 ]; then
+# JRuby 9.4 uses sun.misc.Unsafe; allow it quietly on JDK 23+ (the option does not exist before that).
+# ASPACE_JAVA_VERSION is the image's JAVA_VERSION build arg, so no JVM has to be started to find it.
+if [ "${ASPACE_JAVA_VERSION:-0}" -ge 23 ]; then
   export JDK_JAVA_OPTIONS="$JDK_JAVA_OPTIONS --sun-misc-unsafe-memory-access=allow"
 fi
 
