@@ -185,10 +185,10 @@ module Plugins
     end
 
     def render_sidebar(view_context, record, mode)
-      "<li role=\"tab\" aria-selected=\"false\">" +
+      "<li>" +
         "  <a class=\"nav-link\" href='##{build_section_id(record['jsonmodel_type'])}'>" +
         "    #{@sidebar_label}" +
-        "    <span class='glyphicon glyphicon-chevron-right'></span>" +
+        "    <span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>" +
         "  </a>" +
         "</li>".html_safe
     end

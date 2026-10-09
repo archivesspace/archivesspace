@@ -778,6 +778,10 @@ es:
       move_records_message: No se pudieron mover los registros. Actualice la 
         página e inténtelo de nuevo.
 
+  sidebar:
+    aria_label: Secciones del registro
+    system_info_aria_label: Secciones de información del sistema
+
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
     merge_restricted_contact_details: La fusión no se puede completar porque uno
