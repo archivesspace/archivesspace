@@ -52,6 +52,7 @@ LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
   ASPACE_GC_OPTS="-XX:+UseG1GC -XX:NewRatio=1" \
+  ASPACE_JAVA_VERSION=${JAVA_VERSION} \
   DEBIAN_FRONTEND=noninteractive \
   JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --enable-native-access=ALL-UNNAMED" \
   LANG=C.UTF-8 \
