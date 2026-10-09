@@ -512,5 +512,5 @@ pl:
     username_aria_label: Nazwa użytkownika
     password_aria_label: Hasło użytkownika
     required: wymagany
-    pui_permission_denied: "Użytkownik `%{username}` nie ma uprawnień do przeglądania PUI."
+    pui_permission_denied: "Użytkownik `%{username}` nie ma uprawnień do przeglądania interfejsu publicznego."
     login_failed: "Logowanie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło."
