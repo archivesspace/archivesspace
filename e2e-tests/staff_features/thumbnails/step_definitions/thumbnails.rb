@@ -6,8 +6,6 @@
 # an Access-Control-Allow-Origin header to permit the cross-origin fetch.
 IIIF_MANIFEST_URL = "#{WIREMOCK_URL}/iiif/manifest/book".freeze
 
-# The label declared by the manifest above, rendered by the viewer once it has
-# fetched and parsed it.
 IIIF_MANIFEST_LABEL = 'Simple Manifest - Book'
 
 THUMBNAIL_FILES = {
@@ -160,13 +158,10 @@ def thumbnail_visit(record)
     wait_for_ajax
     expect(page).to have_css('.record-pane h2', text: record[:title])
   else
-    # The record only appears in the public interface once the indexer has picked it up
     visit "#{PUBLIC_URL}#{record_uri(record[:type], record[:id])}"
     retry_with_reload { expect(page).to have_text(record[:title], wait: 5) }
   end
 end
-
-# Records
 
 Given 'a Digital Object {string} has been created with the following File Versions' do |name, file_versions|
   thumbnail_create_digital_object(name, file_versions.hashes)
@@ -194,7 +189,7 @@ def thumbnail_create_digital_object_component(parent_name, name, file_versions, 
 
   visit "#{STAFF_URL}/digital_objects/#{parent[:id]}/edit"
   wait_for_ajax
-  # Add Child is a no-op until the tree has loaded its current node
+
   wait_for_infinite_tree_ready_for_rde
 
   within('#infinite-tree-toolbar') { click_on 'Add Child' }
@@ -282,7 +277,7 @@ Given 'the Resource {string} has an Archival Object {string} with the Digital Ob
 
   visit "#{STAFF_URL}/resources/#{resource[:id]}/edit"
   wait_for_ajax
-  # Add Child is a no-op until the tree has loaded its current node
+
   wait_for_infinite_tree_ready_for_rde
 
   within('#infinite-tree-toolbar') { click_on 'Add Child' }

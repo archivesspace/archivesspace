@@ -491,14 +491,12 @@ def expect_link_with_href(href_matcher)
   expect(hrefs).to include(href_matcher)
 end
 
-# Returns the new File Version subform
 def add_file_version(form_prefix)
   file_versions = "##{form_prefix}_file_versions_ .subrecord-form-list > li"
   existing = all(file_versions).length
 
   within("##{form_prefix}_file_versions_") { find('button', text: 'Add File Version', match: :first).click }
 
-  # wait for the new subform rather than taking the previous last one
   all(file_versions, count: existing + 1).last
 end
 
