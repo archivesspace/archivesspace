@@ -41,7 +41,7 @@ services:
     build:
       context: ./solr
     image: archivesspace/solr:latest
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    command: solr-create -c archivesspace -d archivesspace
     ports:
       - "8985:8983"
 #  web:
@@ -67,6 +67,6 @@ services:
     build:
       context: ./solr
     image: archivesspace/solr:latest
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    command: solr-create -c archivesspace -d archivesspace
     ports:
       - "8984:8983"
