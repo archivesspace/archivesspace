@@ -26,8 +26,18 @@ REM
 REM Check for Java.
 REM
 
-java -version
-if %ERRORLEVEL% NEQ 0 goto nojava
+REM Running "java -version" both checks that Java is installed and gives us its major version
+set JAVA_VERSION_STRING=
+for /f "tokens=3" %%v in ('java -version 2^>^&1 ^| findstr /i "version"') do set JAVA_VERSION_STRING=%%~v
+if "!JAVA_VERSION_STRING!"=="" goto nojava
+set JAVA_MAJOR=0
+for /f "delims=.-" %%m in ("!JAVA_VERSION_STRING!") do set JAVA_MAJOR=%%m
+
+REM JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; silence the JDK 24+ warnings about it.
+REM Each option is only accepted from the Java version shown, so only pass it when the JVM knows it.
+set ASPACE_JVM_MODULE_OPTS=
+if !JAVA_MAJOR! GEQ 21 set ASPACE_JVM_MODULE_OPTS=++JvmOptions=--enable-native-access=ALL-UNNAMED
+if !JAVA_MAJOR! GEQ 23 set ASPACE_JVM_MODULE_OPTS=!ASPACE_JVM_MODULE_OPTS! ++JvmOptions=--sun-misc-unsafe-memory-access=allow
 goto checkJavaHome
 
 :nojava
@@ -85,7 +95,7 @@ FOR /D %%c IN ("!GEM_HOME!\gems\jruby-*") DO (
 goto :doInstall
 
 :doInstall
-%INSTALL_PROCESS% //IS//ArchivesSpaceService --LogPath=%LOG_DIR% --LogPrefix=%LOG_PREFIX% --StdOutput=%AS_LOG% --StdError=%AS_ERROR_LOG%  --DisplayName="ArchivesSpaceService" --Startup=auto ++JvmOptions=-Darchivesspace-daemon=yes ++JvmOptions=%JAVA_OPTS% --JvmOptions=-Xss2m --JvmOptions=-Xmx1024m ++JvmOptions=-Dfile.encoding=UTF-8  --Install=%INSTALL_PROCESS% --StartMode=java --StopMode=java --Classpath="!AS_JARS!;!LAUNCHER_JARS!;!JRUBY!" ++StartParams="'%LAUNCHER_SCRIPT%'" --StartClass=org.jruby.Main ++StopParams="'%LAUNCHER_SCRIPT%'; stop" --StopTimeout=5  --StopClass=org.jruby.Main ++Environment='ASPACE_LAUNCHER_BASE=%ASPACE_LAUNCHER_BASE%'
+%INSTALL_PROCESS% //IS//ArchivesSpaceService --LogPath=%LOG_DIR% --LogPrefix=%LOG_PREFIX% --StdOutput=%AS_LOG% --StdError=%AS_ERROR_LOG%  --DisplayName="ArchivesSpaceService" --Startup=auto ++JvmOptions=-Darchivesspace-daemon=yes ++JvmOptions=%JAVA_OPTS% --JvmOptions=-Xss2m --JvmOptions=-Xmx1024m !ASPACE_JVM_MODULE_OPTS! ++JvmOptions=-Dfile.encoding=UTF-8  --Install=%INSTALL_PROCESS% --StartMode=java --StopMode=java --Classpath="!AS_JARS!;!LAUNCHER_JARS!;!JRUBY!" ++StartParams="'%LAUNCHER_SCRIPT%'" --StartClass=org.jruby.Main ++StopParams="'%LAUNCHER_SCRIPT%'; stop" --StopTimeout=5  --StopClass=org.jruby.Main ++Environment='ASPACE_LAUNCHER_BASE=%ASPACE_LAUNCHER_BASE%'
 if not errorlevel 1 goto installed
 echo "There was a problem installing the service...please check the settings."
 goto end

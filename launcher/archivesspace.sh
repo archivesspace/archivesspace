@@ -58,7 +58,7 @@ function readlink_dash_f {
 cd "`dirname $0`"
 
 # Check for Java
-java -version &>/dev/null
+java_version_output="`java -version 2>&1`"
 
 if [ "$?" != "0" ]; then
     echo "Could not run your 'java' executable."
@@ -96,6 +96,17 @@ if [ "$ARCHIVESSPACE_APPEND_LOGS" = "" ]; then
     ARCHIVESSPACE_APPEND_LOGS=
 fi
 
+# JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; silence the JDK 24+ warnings about it.
+# Each option is only accepted from the Java version shown, so only pass it when the JVM knows it.
+JAVA_MAJOR="`echo "$java_version_output" | sed -n 's/.* version "\([0-9]*\).*/\1/p' | head -1`"
+ASPACE_JAVA_MODULE_OPTS=
+if [ "${JAVA_MAJOR:-0}" -ge 21 ]; then
+    ASPACE_JAVA_MODULE_OPTS="--enable-native-access=ALL-UNNAMED"
+fi
+if [ "${JAVA_MAJOR:-0}" -ge 23 ]; then
+    ASPACE_JAVA_MODULE_OPTS="$ASPACE_JAVA_MODULE_OPTS --sun-misc-unsafe-memory-access=allow"
+fi
+
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
 # Wow.  Not proud of this!
@@ -121,7 +132,7 @@ done
 
 
 startup_cmd="java "$JAVA_OPTS"  \
-        $ASPACE_GC_OPTS $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS -Dfile.encoding=UTF-8 \
+        $ASPACE_GC_OPTS $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MODULE_OPTS -Dfile.encoding=UTF-8 \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
         org.jruby.Main --disable-gems \"launcher/launcher.rb\""
 
