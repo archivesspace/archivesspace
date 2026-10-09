@@ -4,6 +4,9 @@ $(function () {
     $('.transfer-form .linker:not(.initialised)').linker();
 
     $('.transfer-form .btn-cancel').off('click.transferDropdown').on('click.transferDropdown', function () {
+      const $transferForm = $(this).closest('.transfer-form');
+
+      AS.hideAlert($('.missing-ref-message', $transferForm));
       $(this).closest('.btn-group').find('.transfer-action').trigger('click');
     });
 
@@ -48,7 +51,7 @@ $(function () {
       const transferValues = getTransferValues($transferForm);
 
       if (!transferValues.ref) {
-        $(".missing-ref-message", $transferForm).show();
+        AS.showAndFocusAlert($('.missing-ref-message', $transferForm));
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -66,7 +69,7 @@ $(function () {
           $(this).data('message', message);
         }
 
-        $(".missing-ref-message", $transferForm).hide();
+        AS.hideAlert($('.missing-ref-message', $transferForm));
         $(this).data('form-data', buildTransferPayload(transferValues));
       }
     });
