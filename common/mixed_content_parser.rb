@@ -32,7 +32,7 @@ module MixedContentParser
     content = content.split("\n\n").inject("") { |c, n| c << "<p>#{n}</p>" } if opts[:wrap_blocks]
 
     safelist = org.jsoup.safety.Safelist.relaxed
-                                        .addTags("emph", "lb", "title", "unitdate")
+                                        .addTags("emph", "title", "unitdate")
                                         .addAttributes("emph", "render")
                                         .addAttributes("title", "render")
                                         .addAttributes("unitdate", "render")
@@ -42,9 +42,6 @@ module MixedContentParser
     document = org.jsoup.Jsoup.parse(cleaned_content, base_uri, org.jsoup.parser.Parser.xmlParser())
     document.outputSettings.escapeMode(Java::OrgJsoupNodes::Entities::EscapeMode.xhtml)
     document.outputSettings.prettyPrint(opts[:pretty_print])
-
-    # replace lb with br
-    document.select("lb").tagName("br")
 
     # tweak the emph tags
     [ "emph", "title", "unitdate"  ].each do |tag|
