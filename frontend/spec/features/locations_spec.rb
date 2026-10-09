@@ -228,6 +228,7 @@ describe 'Locations', js: true do
 
     element = find('h2')
     expect(element.text).to eq "Location Building #{now}, 1, 1 [Label 1 #{now}: Indicator 1 #{now}] Location"
+    expect(page).to have_css('#location_containers h3 .sr-only', text: 'related to this location', visible: :all)
   end
 
   it 'allows creation of a location with plus one stickies' do

@@ -273,6 +273,7 @@ module Plugins
           :record => record,
           :filter_term => @filter_term_proc.call(record),
           :heading_text => @heading_text,
+          :heading_sr_only_text => @heading_sr_only_text,
           :section_id => @section_id ? @section_id : build_section_id(form_context.obj['jsonmodel_type']),
         }
       )
@@ -286,6 +287,7 @@ module Plugins
       @show_on_edit = false
       @filter_term_proc = opts.fetch(:filter_term_proc)
       @heading_text = opts.fetch(:heading_text)
+      @heading_sr_only_text = opts.fetch(:heading_sr_only_text, nil)
       @erb_template = opts.fetch(:erb_template, "search/embedded")
       @only_show_if_results = opts.fetch(:only_show_if_results, false)
     end
