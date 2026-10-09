@@ -1,5 +1,5 @@
 require_relative "handler"
-require_relative "../event_builder"
+require_relative "event_builder"
 require_relative "../../model/event"
 require_relative "../../model/agent_software"
 

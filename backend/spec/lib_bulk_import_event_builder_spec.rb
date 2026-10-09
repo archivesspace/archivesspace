@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/lib/event_builder"
+require_relative "../app/lib/bulk_import/event_builder"
 
 describe EventBuilder do
   CONTROLLED_LISTS = [
@@ -246,6 +246,27 @@ describe EventBuilder do
         { :code => :invalid, :attribute => :agent_record_id, :value => "#{agent_uri}/" },
       ])
       expect(inexact.explicit_agent_ref).to be_nil
+    end
+  end
+
+  it "trims surrounding whitespace on a numeric Agent ID or a canonical Agent URI" do
+    agent_uri = JSONModel(:agent_person).uri_for(27)
+    numeric = builder_for(
+      :agent_record_id => " 27 ",
+      :agent_type => "agent_person",
+      :agent_role => "implementer"
+    )
+    uri = builder_for(
+      :agent_record_id => " #{agent_uri} ",
+      :agent_type => nil,
+      :agent_role => "implementer"
+    )
+
+    aggregate_failures do
+      expect(numeric.errors).to eq([])
+      expect(numeric.explicit_agent_ref).to eq(agent_uri)
+      expect(uri.errors).to eq([])
+      expect(uri.explicit_agent_ref).to eq(agent_uri)
     end
   end
 

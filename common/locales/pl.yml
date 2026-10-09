@@ -1453,6 +1453,18 @@ pl:
       agent_missing_identity: "Agent %{num} wymaga identyfikatora rekordu lub nagłówka"
       agent_missing_type: "Agent %{num} wymaga typu agenta"
       agent_unsupported_type: "Agent %{num} ma nieobsługiwany typ agenta '%{agent_type}'"
+      agent_required_field: "Agent %{num}, pole %{field}, jest wymagane"
+      agent_invalid_value: "Agent %{num}, pole %{field}, nie jest istniejącą wartością: '%{value}'"
+      agent_unrecognized_boolean: "Agent %{num}, pole %{field}, wymaga wartości logicznej; otrzymano '%{value}', dozwolone wartości: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE lub puste, aby użyć wartości domyślnej"
+      agent_incompatible_field: "Agent %{num}, pole %{field}, jest nieprawidłowe dla typu agenta '%{agent_type}'. Nie utworzono ani nie powiązano żadnego agenta"
+      agent_mode_conflict: "Agent %{num}, pole %{field}, nie może być łączone z polami tworzenia agenta. Nie utworzono ani nie połączono żadnego agenta"
+      agent_invalid_record_id: "Agent %{num}, pole %{field}, wymaga dodatniego identyfikatora liczbowego lub kanonicznego URI agenta; otrzymano: '%{value}'"
+      agent_type_with_uri: "Agent %{num}, pole %{field}, musi być puste, gdy identyfikator rekordu jest URI; otrzymano: '%{value}'"
+      agent_unsupported_uri: "Agent %{num}, pole %{field}, jest URI nieobsługiwanego typu agenta: '%{value}'"
+      agent_not_found: "Agent %{num}, pole %{field}, nie pasuje do żadnego istniejącego agenta: '%{value}'"
+      agent_uri_header_conflict: "Agent %{num}, pola %{record_field} i %{header_field}, nie mogą być używane razem, gdy identyfikator rekordu jest URI. Nie połączono żadnego agenta"
+      agent_fingerprint_collision: "Agent %{num} nie został utworzony: istniejący agent ma te same dane identyfikacyjne. Aby użyć tego agenta, połącz go przez identyfikator rekordu lub URI"
+      agent_authority_id_collision: "Agent %{num} nie został utworzony: istniejący agent używa już tego identyfikatora autorytatywnego. Aby użyć tego agenta, połącz go przez identyfikator rekordu lub URI"
       validated: '%{what} zostało zweryfikowane'
       validation_error: 'Nie można zweryfikować %{what}: %{err}'
       ao_validation: 'Wystąpił błąd walidacji podczas próby zapisania obiektu archiwalnego: %{err}'
