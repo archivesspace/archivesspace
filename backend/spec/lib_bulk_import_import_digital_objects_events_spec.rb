@@ -81,6 +81,25 @@ describe "Import Digital Objects" do
     }
   end
 
+  def expect_digital_object_kept(report, title, events_before, validate_only:, events_created: 0)
+    row_report = report.rows.first
+    info = row_report ? row_report.info : []
+    errors = row_report ? row_report.errors.map(&:to_s) : []
+
+    expect(errors).not_to include(
+      I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig"))
+    )
+    if validate_only
+      expect(info).to include(I18n.t("bulk_import.could_be", :what => I18n.t("bulk_import.dig")))
+      expect(DigitalObject.where(:title => title).count).to eq(0)
+      expect(Event.count).to eq(events_before)
+    else
+      expect(info).to include(I18n.t("bulk_import.dig_assoc"))
+      expect(DigitalObject.where(:title => title).count).to eq(1)
+      expect(Event.count).to eq(events_before + events_created)
+    end
+  end
+
   it 'creates cataloged and processed events for noncontiguous groups on the linked digital object' do
     csv_data = CSV.read(File.join(TEMPLATES_DIR, 'bulk_import_DO_template.csv'))
     expect(csv_data.count).to eq(2)
@@ -288,7 +307,7 @@ describe "Import Digital Objects" do
     expect(event_types).to contain_exactly('cataloged', 'processed')
   end
 
-  it 'rejects a later Event group that has optional values but no type before the digital object or any Event is saved' do
+  it 'skips a later Event group that has optional values but no type and saves the digital object and valid Event' do
     csv_data = CSV.read(File.join(TEMPLATES_DIR, 'bulk_import_DO_template.csv'))
     columns = csv_data[0].dup
     column_explanations = csv_data[1].dup
@@ -324,14 +343,13 @@ describe "Import Digital Objects" do
       expect(missing_type_error).to include('event_3_type'), missing_type_error.inspect
       expect(missing_type_error).to match(/\bgroup 3\b/), missing_type_error.inspect
       expect(missing_type_error).not_to include('translation missing'), missing_type_error.inspect
-      expect(info).not_to include(
+      expect(info).to include(
         I18n.t('bulk_import.event_created', :group => 1, :type => 'cataloged')
       )
       expect(info).not_to include(
         I18n.t('bulk_import.event_created', :group => 3, :type => nil)
       )
-      expect(DigitalObject.where(:title => title).count).to eq(0)
-      expect(Event.count).to eq(events_before)
+      expect_digital_object_kept(report, title, events_before, :validate_only => false, :events_created => 1)
     end
   end
 
@@ -371,11 +389,10 @@ describe "Import Digital Objects" do
       expect(missing_type_error).to include('event_3_type'), missing_type_error.inspect
       expect(missing_type_error).to match(/\bgroup 3\b/), missing_type_error.inspect
       expect(missing_type_error).not_to include('translation missing'), missing_type_error.inspect
-      expect(info).not_to include(
+      expect(info).to include(
         I18n.t('bulk_import.event_created', :group => 1, :type => 'cataloged')
       )
-      expect(DigitalObject.where(:title => title).count).to eq(0)
-      expect(Event.count).to eq(events_before)
+      expect_digital_object_kept(report, title, events_before, :validate_only => false, :events_created => 1)
     end
   end
 
@@ -472,6 +489,7 @@ describe "Import Digital Objects" do
         :enumeration_values_before => values_before,
         :events_before => events_before,
         :report => report,
+        :validate_only => validate_only,
       }
     end
 
@@ -497,19 +515,19 @@ describe "Import Digital Objects" do
         expect(event_type_error).to include(sheet[:unknown_type]), event_type_error.inspect
         expect(event_type_error).not_to include("translation missing")
         expect(info).not_to include(
-          I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
-        )
-        expect(info).not_to include(
           I18n.t("bulk_import.event_created", :group => sheet[:group], :type => sheet[:unknown_type])
         )
-        expect(DigitalObject.where(:title => sheet[:title]).count).to eq(0)
-        expect(Event.count).to eq(events_before)
+        expect_digital_object_kept(report, sheet[:title], events_before,
+                                   :validate_only => result[:validate_only], :events_created => 1)
+        unless result[:validate_only]
+          expect(info).to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
+        end
         expect(values_after).to eq(values_before)
         expect(values_after).not_to include(sheet[:unknown_type])
       end
     end
 
-    it "rejects an unknown later Event type before saving the digital object or changing event types" do
+    it "skips an unknown later Event type, saves the digital object and valid Event, and changes no event types" do
       expect_unknown_event_type_rejected(import_unknown_event_type(validate_only: false))
     end
 
@@ -540,6 +558,7 @@ describe "Import Digital Objects" do
         :enumeration_values_before => values_before,
         :events_before => events_before,
         :report => report,
+        :validate_only => validate_only,
       }
     end
 
@@ -565,19 +584,19 @@ describe "Import Digital Objects" do
         expect(outcome_error).to include(sheet[:unknown_outcome]), outcome_error.inspect
         expect(outcome_error).not_to include("translation missing")
         expect(info).not_to include(
-          I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
-        )
-        expect(info).not_to include(
           I18n.t("bulk_import.event_created", :group => sheet[:group], :type => "processed")
         )
-        expect(DigitalObject.where(:title => sheet[:title]).count).to eq(0)
-        expect(Event.count).to eq(events_before)
+        expect_digital_object_kept(report, sheet[:title], events_before,
+                                   :validate_only => result[:validate_only], :events_created => 1)
+        unless result[:validate_only]
+          expect(info).to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
+        end
         expect(values_after).to eq(values_before)
         expect(values_after).not_to include(sheet[:unknown_outcome])
       end
     end
 
-    it "rejects an unknown later Event outcome before saving the digital object or changing outcomes" do
+    it "skips an Event with an unknown outcome, saves the digital object and valid Event, and changes no outcomes" do
       expect_unknown_event_outcome_rejected(import_unknown_event_outcome(validate_only: false))
     end
 
@@ -743,21 +762,8 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
-        if validate_only
-          expect(messages[:info]).not_to include(
-            I18n.t("bulk_import.could_be", :what => I18n.t("bulk_import.dig"))
-          )
-          expect(unrelated_errors.map(&:to_s)).to eq([
-            I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")),
-          ]), messages[:errors].inspect
-        else
-          expect(messages[:info].join("\n")).not_to include(
-            I18n.t("bulk_import.created", :what => I18n.t("bulk_import.dig"), :id => "").rstrip
-          )
-          expect(unrelated_errors).to eq([]), messages[:errors].inspect
-        end
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => validate_only)
+        expect(unrelated_errors).to eq([]), messages[:errors].inspect
       end
     end
 
@@ -891,7 +897,7 @@ describe "Import Digital Objects" do
       end
     end
 
-    it "saves the digital object when an Event type has no date, reports that Event validation failure, and imports the next row" do
+    it "saves the digital object when an Event type has no date, reports the missing date column, and imports the next row" do
       undated_title = "Digital Object Title #{@now} undated event row"
       dated_title = "Digital Object Title #{@now} dated event row"
       result = import_event_rows([
@@ -916,15 +922,10 @@ describe "Import Digital Objects" do
       undated_info = undated_row ? undated_row.info : []
       dated_errors = dated_row ? dated_row.errors : []
       dated_info = dated_row ? dated_row.info : []
-      missing_date = {
-        "date" => ["Must specify either a date or a timestamp"],
-        "timestamp" => ["Must specify either a date or a timestamp"],
-      }
       expected_error = I18n.t(
-        "bulk_import.error.event_validation",
+        "bulk_import.error.event_required_field",
         :group => 1,
-        :type => "cataloged",
-        :err => missing_date
+        :field => "event_1_date"
       )
       failed_created = I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
       dated_created = I18n.t("bulk_import.event_created", :group => 1, :type => "processed")
@@ -941,9 +942,6 @@ describe "Import Digital Objects" do
         expect(report.terminal_error).to be_nil
         expect(report.row_count).to eq(2)
         expect(undated_errors).to eq([expected_error])
-        expect(expected_error).to include("group 1")
-        expect(expected_error).to include("cataloged")
-        expect(expected_error).to include("Must specify either a date or a timestamp")
         expect(expected_error).not_to include("translation missing")
         expect(undated_info).to include(I18n.t("bulk_import.dig_assoc"))
         expect(undated_info).not_to include(failed_created)
@@ -959,7 +957,74 @@ describe "Import Digital Objects" do
       end
     end
 
-    it "rejects a malformed Event date before saving the digital object or an Event" do
+    it "reports a missing Event date during validate-only without saving records" do
+      title = "Digital Object Title #{@now} validate-only undated event"
+      digital_objects_before = DigitalObject.count
+      instances_before = JSONModel(:archival_object).find(@archival_object.id).instances
+      result = import_event_sheet(
+        {
+          "event_1_type" => "cataloged",
+        },
+        :title => title,
+        :validate_only => true
+      )
+      messages = row_messages(result[:report])
+      expected_error = I18n.t(
+        "bulk_import.error.event_required_field",
+        :group => 1,
+        :field => "event_1_date"
+      )
+      created = I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
+      instances_after = JSONModel(:archival_object).find(@archival_object.id).instances
+
+      aggregate_failures do
+        expect(result[:report].terminal_error).to be_nil
+        expect(result[:report].row_count).to eq(1)
+        expect(messages[:errors].map(&:to_s)).to eq([expected_error])
+        expect(expected_error).not_to include("translation missing")
+        expect(messages[:info]).to include(
+          I18n.t("bulk_import.could_be", :what => I18n.t("bulk_import.dig"))
+        )
+        expect(messages[:info]).not_to include(created)
+        expect(DigitalObject.count).to eq(digital_objects_before)
+        expect(DigitalObject.where(:title => title).count).to eq(0)
+        expect(Event.count).to eq(result[:events_before])
+        expect(instances_after).to eq(instances_before)
+      end
+    end
+
+    it "validates a properly dated Event during validate-only without saving records" do
+      title = "Digital Object Title #{@now} validate-only dated event"
+      digital_objects_before = DigitalObject.count
+      instances_before = JSONModel(:archival_object).find(@archival_object.id).instances
+      result = import_event_sheet(
+        {
+          "event_1_type" => "cataloged",
+          "event_1_date" => "1999-03-03",
+        },
+        :title => title,
+        :validate_only => true
+      )
+      messages = row_messages(result[:report])
+      created = I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
+      instances_after = JSONModel(:archival_object).find(@archival_object.id).instances
+
+      aggregate_failures do
+        expect(result[:report].terminal_error).to be_nil
+        expect(result[:report].row_count).to eq(1)
+        expect(messages[:errors]).to eq([])
+        expect(messages[:info]).to include(
+          I18n.t("bulk_import.could_be", :what => I18n.t("bulk_import.dig"))
+        )
+        expect(messages[:info]).not_to include(created)
+        expect(DigitalObject.count).to eq(digital_objects_before)
+        expect(DigitalObject.where(:title => title).count).to eq(0)
+        expect(Event.count).to eq(result[:events_before])
+        expect(instances_after).to eq(instances_before)
+      end
+    end
+
+    it "skips an Event with a malformed date and saves the digital object" do
       expect_invalid_event_date("1999/03/03", :validate_only => false)
     end
 
@@ -967,7 +1032,7 @@ describe "Import Digital Objects" do
       expect_invalid_event_date("1999/03/03", :validate_only => true)
     end
 
-    it "rejects an impossible Event calendar date before saving the digital object or an Event" do
+    it "skips an Event with an impossible calendar date and saves the digital object" do
       expect_invalid_event_date("1999-02-31", :validate_only => false)
     end
 
@@ -980,12 +1045,12 @@ describe "Import Digital Objects" do
       ["1999-03-3", "an unpadded day"],
       ["1999-03-03T00:00:00", "a timestamp"],
     ].each do |supplied_date, shape|
-      it "rejects Event date #{supplied_date}, #{shape}, before saving the digital object or an Event" do
+      it "skips an Event with date #{supplied_date}, #{shape}, and saves the digital object" do
         expect_invalid_event_date(supplied_date, :validate_only => false)
       end
     end
 
-    it "continues to the next CSV row after an Event date error and persists only the valid row" do
+    it "saves both digital objects after an Event date error and persists only the valid Event" do
       rejected_date = "1999/03/03"
       rejected_title = "Digital Object Title #{@now} rejected event date row"
       accepted_title = "Digital Object Title #{@now} accepted event date row"
@@ -1031,7 +1096,8 @@ describe "Import Digital Objects" do
         expect(rejected_info).not_to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
         )
-        expect(DigitalObject.where(:title => rejected_title).count).to eq(0)
+        expect(DigitalObject.where(:title => rejected_title).count).to eq(1)
+        expect(events_for(digital_object_for(rejected_title))).to eq([])
         expect(accepted_errors).to eq([])
         expect(accepted_info).to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => "processed")
@@ -1075,12 +1141,11 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => validate_only)
       end
     end
 
-    it "rejects a Date Label without a date before saving the digital object or an Event" do
+    it "skips an Event with a Date Label but no date and saves the digital object" do
       expect_label_without_date(:validate_only => false)
     end
 
@@ -1134,8 +1199,7 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => nil)
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => false)
         expect(date_label_values).to eq(labels_before)
         expect(date_label_record_count).to eq(label_count_before)
       end
@@ -1177,15 +1241,14 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => validate_only)
         expect(values_after).to eq(values_before)
         expect(values_after).not_to include(unknown_label)
         expect(date_label_record_count).to eq(count_before)
       end
     end
 
-    it "rejects an unknown Date Label before saving the digital object or creating a controlled value" do
+    it "skips an Event with an unknown Date Label, saves the digital object, and creates no controlled value" do
       expect_unknown_date_label_rejected(:validate_only => false)
     end
 
@@ -1234,8 +1297,7 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged")
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => validate_only)
         expect(captured[:after]).to eq(captured[:during])
         expect(captured[:after]).not_to include("deaccession")
         expect(captured[:count_after]).to eq(captured[:count])
@@ -1243,7 +1305,7 @@ describe "Import Digital Objects" do
       end
     end
 
-    it "rejects a suppressed Date Label before saving the digital object or changing controlled values" do
+    it "skips an Event with a suppressed Date Label, saves the digital object, and changes no controlled values" do
       expect_suppressed_date_label_rejected(:validate_only => false)
     end
 
@@ -1327,23 +1389,16 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 4, :type => "processed")
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => validate_only)
         expect(event_event_type_values).to eq(types_before)
         expect(event_event_type_values).not_to include(bad_type)
         expect(event_outcome_values).to eq(outcomes_before)
         expect(event_outcome_values).not_to include(bad_outcome)
-        if validate_only
-          expect(unrelated_errors.map(&:to_s)).to eq([
-            I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")),
-          ]), errors.inspect
-        else
-          expect(unrelated_errors).to eq([]), errors.inspect
-        end
+        expect(unrelated_errors).to eq([]), errors.inspect
       end
     end
 
-    it "reports every independent invalid Type, Date, and Outcome across Event groups before saving" do
+    it "reports every independent invalid Type, Date, and Outcome across Event groups and saves the digital object" do
       expect_independent_event_input_errors(:validate_only => false)
     end
 
@@ -1420,8 +1475,7 @@ describe "Import Digital Objects" do
         expect(messages[:info]).not_to include(
           I18n.t("bulk_import.event_created", :group => 6, :type => bad_type)
         )
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(result[:events_before])
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => false)
         expect(date_label_values).to eq(labels_before)
         expect(date_label_values).not_to include(unknown_label)
         expect(date_label_record_count).to eq(label_count_before)
@@ -1641,7 +1695,7 @@ describe "Import Digital Objects" do
       expect_saved_event_agent(result, :role => "authorizer", :ref => agent.uri)
     end
 
-    it "rejects a URI with an Agent Type and a numeric ID without an Agent Type before saving" do
+    it "skips Events with a URI plus Agent Type or a numeric ID without Agent Type and saves the digital object" do
       person = create(:json_agent_person)
       family = create(:json_agent_family)
       title = "Digital Object Title #{@now} event agent identifier modes"
@@ -1676,12 +1730,11 @@ describe "Import Digital Objects" do
         expect(errors.join(" ")).not_to include("translation missing")
         expect(info).not_to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
         expect(info).not_to include(I18n.t("bulk_import.event_created", :group => 2, :type => "processed"))
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(events_before)
+        expect_digital_object_kept(result[:report], title, events_before, :validate_only => false)
       end
     end
 
-    it "reports a nonexistent Agent and a missing role, then imports the next row" do
+    it "reports a nonexistent Agent and a missing role, saves that digital object, then imports the next row" do
       agent = create(:json_agent_person)
       missing_uri = JSONModel(:agent_person).uri_for(2_000_000_001)
       rejected_title = "Digital Object Title #{@now} missing event agent"
@@ -1727,7 +1780,8 @@ describe "Import Digital Objects" do
         expect(role_errors.length).to eq(1), rejected_errors.inspect
         expect(rejected_errors.join(" ")).not_to include("translation missing")
         expect(rejected_info).not_to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
-        expect(DigitalObject.where(:title => rejected_title).count).to eq(0)
+        expect(DigitalObject.where(:title => rejected_title).count).to eq(1)
+        expect(persisted_event_for(rejected_title)[1]).to be_nil
         expect(agent_record_count).to eq(agents_before)
         expect(accepted_errors).to eq([])
         expect(digital_object).not_to be_nil
@@ -1737,7 +1791,7 @@ describe "Import Digital Objects" do
       end
     end
 
-    it "rejects a non-Agent record URI before saving the digital object or creating an Agent" do
+    it "skips an Event with a non-Agent record URI, saves the digital object, and creates no Agent" do
       title = "Digital Object Title #{@now} unsupported event agent uri"
       agents_before = agent_record_count
       events_before = Event.count
@@ -1762,8 +1816,7 @@ describe "Import Digital Objects" do
         expect(identifier_errors.length).to eq(1), errors.inspect
         expect(errors.join(" ")).not_to include("translation missing")
         expect(info).not_to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(events_before)
+        expect_digital_object_kept(result[:report], title, events_before, :validate_only => false)
         expect(agent_record_count).to eq(agents_before)
       end
     end
@@ -1808,8 +1861,7 @@ describe "Import Digital Objects" do
         expect(role_errors.length).to eq(1), errors.inspect
         expect(errors.join(" ")).not_to include("translation missing")
         expect(info).not_to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
-        expect(DigitalObject.where(:title => title).count).to eq(0)
-        expect(Event.count).to eq(captured[:events_before])
+        expect_digital_object_kept(result[:report], title, captured[:events_before], :validate_only => true)
         expect(agent_record_count).to eq(captured[:agents_before])
         expect(captured[:after]).to eq(captured[:during])
         expect(captured[:count_after]).to eq(captured[:count])

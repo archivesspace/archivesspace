@@ -5,7 +5,7 @@ require_relative "../../model/agent_software"
 
 class EventHandler < Handler
   def create(event_builder:, group:, digital_object_uri:, report:)
-    return if @validate_only || event_builder.nil?
+    return if event_builder.nil?
 
     begin
       event_data = event_builder.to_h(
@@ -13,6 +13,8 @@ class EventHandler < Handler
         :system_agent_ref => AgentSoftware.archivesspace_record.uri
       )
       event = JSONModel(:event).from_hash(event_data)
+      return if @validate_only
+
       saved = save(event, Event)
     rescue JSONModel::ValidationException => validation_error
       report.add_errors(I18n.t("bulk_import.error.event_validation",

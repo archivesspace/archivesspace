@@ -122,16 +122,12 @@ describe EventBuilder do
     expect(materialize(builder)["outcome_note"]).to eq(outcome_note)
   end
 
-  it "accepts a typed Event without a date" do
+  it "requires a date for a typed Event" do
     builder = builder_for(:date => nil)
-    event = materialize(builder)
 
-    aggregate_failures do
-      expect(builder.errors).to eq([])
-      expect(event["event_type"]).to eq("cataloged")
-      expect(event).not_to have_key("date")
-      expect(event).not_to have_key("timestamp")
-    end
+    expect(builder.errors).to eq([
+      { :code => :required, :attribute => :date, :value => nil },
+    ])
   end
 
   it "accumulates independent failures without derivative errors" do

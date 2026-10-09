@@ -77,6 +77,8 @@ class EventBuilder
       end
     elsif label_present
       add_error(:requires_date, :date_label, date_label)
+    else
+      add_error(:required, :date)
     end
 
     if label_present

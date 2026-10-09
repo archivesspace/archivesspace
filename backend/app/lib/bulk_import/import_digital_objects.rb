@@ -26,7 +26,6 @@ class ImportDigitalObjects < BulkImportParser
   def create_instance(ao)
     dig_instance = nil
     prepared_events = prepare_event_builders
-    return nil if prepared_events.nil?
 
     @notes_handler = NotesHandler.new
     @agent_handler = AgentHandler.new(@current_user, @validate_only)
@@ -62,6 +61,16 @@ class ImportDigitalObjects < BulkImportParser
         collection_management: create_collection_management)
     rescue Exception => e
       @report.add_errors(e.message)
+    end
+    if dig_instance && @validate_only
+      validation_uri = JSONModel(:digital_object).uri_for(1, :repo_id => @repo_id)
+      prepared_events.each do |prepared|
+        @event_handler.create(
+          event_builder: prepared[:event_builder],
+          group: prepared[:group],
+          digital_object_uri: validation_uri,
+          report: @report)
+      end
     end
     if dig_instance && !@validate_only # only try to save if not validate only
       ao.instances ||= []
@@ -221,7 +230,6 @@ class ImportDigitalObjects < BulkImportParser
 
   def prepare_event_builders
     prepared_events = []
-    invalid = false
 
     canonical_group_indices("event").each do |index|
       projection = event_projection(index)
@@ -238,7 +246,6 @@ class ImportDigitalObjects < BulkImportParser
         group_invalid = true
       end
 
-      invalid = true if group_invalid
       next if group_invalid
 
       prepared_events << {
@@ -247,7 +254,7 @@ class ImportDigitalObjects < BulkImportParser
       }
     end
 
-    invalid ? nil : prepared_events
+    prepared_events
   end
 
   def event_projection(index)
