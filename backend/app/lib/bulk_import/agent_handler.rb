@@ -69,7 +69,7 @@ class AgentHandler < Handler
     agent_obj
   end
 
-  def get_or_create(type, id, header, relator, role, report)
+  def get_or_create(type, id, header, relator, role, report, created_refs: nil)
     errs = []
     role = role || "creator"
     agent = build(type, id, header)
@@ -96,6 +96,7 @@ class AgentHandler < Handler
         end
         if !agent_obj
           agent_obj = create_agent(agent)
+          created_refs << agent_obj.uri if created_refs && agent_obj.uri
           report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.agent")}[#{agent[:name]}]", :id => agent_obj.uri))
         end
       rescue Exception => e
@@ -126,6 +127,22 @@ class AgentHandler < Handler
       raise Exception.new(I18n.t("bulk_import.error.no_create", :why => e.message))
     end
     ret_agent
+  end
+
+  def create_linked(agent, link, report, num)
+    return report_collision(report, num, "agent_authority_id_collision") if authority_id_taken?(agent)
+
+    type = agent["jsonmodel_type"]
+    saved = save(JSONModel(type.to_sym).new(agent), get_model(type.delete_prefix("agent_")))
+    link["ref"] = saved.uri
+    name = agent["names"][0]
+    report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.agent")}[#{name["primary_name"] || name["family_name"]}]", :id => saved.uri))
+    link
+  rescue JSONModel::ValidationException => e
+    report_process_error(report, num, e.message)
+  rescue Sequel::ValidationFailed => e
+    key = collision_key(e)
+    key ? report_collision(report, num, key) : report_process_error(report, num, e.message)
   end
 
   def get_db_agent(agent, report)
@@ -181,5 +198,30 @@ class AgentHandler < Handler
       link = nil
     end
     link
+  end
+
+  private
+
+  def authority_id_taken?(agent)
+    authority_id = agent["names"].map { |name| name["authority_id"] }.compact.first
+    !authority_id.nil? && !NameAuthorityId.find(:authority_id => authority_id).nil?
+  end
+
+  def collision_key(error)
+    if error.message.include?(AgentManager::AGENT_MUST_BE_UNIQUE)
+      "agent_fingerprint_collision"
+    elsif error.message.include?("Authority ID must be unique")
+      "agent_authority_id_collision"
+    end
+  end
+
+  def report_collision(report, num, key)
+    report.add_errors(I18n.t("bulk_import.error.#{key}", :num => num))
+    nil
+  end
+
+  def report_process_error(report, num, why)
+    report.add_errors(I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => num, :why => why))
+    nil
   end
 end # agent

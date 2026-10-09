@@ -1,6 +1,9 @@
 require_relative "bulk_import_parser"
 require_relative "row_field_builders"
+require_relative "repeatable_field_classifier"
 require_relative "../event_builder"
+require_relative "agent_reference_resolver"
+require_relative "agent_linker"
 require_relative "../../converters/lib/utils"
 require "bigdecimal"
 
@@ -39,7 +42,7 @@ class ImportDigitalObjects < BulkImportParser
       notes = create_notes
       extents = process_extents
       subjects = process_subjects
-      linked_agents = process_agents
+      linked_agents = agent_linker.link_agents(@row_hash)
 
       dig_instance = @digital_object_handler.create(
         title: @row_hash["digital_object_title"],
@@ -150,9 +153,6 @@ class ImportDigitalObjects < BulkImportParser
         err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
       end
     end
-    normalize_boolean_column(@row_hash, 'publish')
-    normalize_boolean_column(@row_hash, 'digital_object_link_publish')
-    normalize_boolean_column(@row_hash, 'thumbnail_publish')
     err_arr.join("; ")
   end
 
@@ -201,7 +201,7 @@ class ImportDigitalObjects < BulkImportParser
 
       builder = EventBuilder.new(
         :attributes => attributes,
-        :controlled_value_resolver => method(:resolve_event_controlled_value)
+        :controlled_value_resolver => method(:resolve_controlled_value)
       )
       field_codes = projection[:field_codes]
       group_invalid = report_event_builder_errors(builder, index, field_codes)
@@ -254,13 +254,10 @@ class ImportDigitalObjects < BulkImportParser
     agent_field.to_sym
   end
 
-  def resolve_event_controlled_value(list_name, submitted_value)
-    event_controlled_value_list(list_name).lookup(submitted_value)
-  end
-
-  def event_controlled_value_list(list_name)
-    @event_controlled_value_lists ||= {}
-    @event_controlled_value_lists[list_name] ||= CvList.new(list_name, @current_user)
+  def resolve_controlled_value(list_name, submitted_value)
+    @controlled_value_lists ||= {}
+    @controlled_value_lists[list_name] ||= CvList.new(list_name, @current_user)
+    @controlled_value_lists[list_name].lookup(submitted_value)
   end
 
   def report_event_builder_errors(builder, index, field_codes)
@@ -303,12 +300,8 @@ class ImportDigitalObjects < BulkImportParser
 
   def missing_explicit_event_agent?(builder, index, submitted_record_id, field_codes)
     return false unless builder.explicit_agent_ref
-
-    reference = JSONModel.parse_reference(builder.explicit_agent_ref)
-    type = reference && reference[:type].to_s.delete_prefix("agent_")
-    model = type && @agent_handler.get_model(type)
-    record = model && model[reference[:id]]
-    return false if record && record.uri
+    resolver = AgentReferenceResolver.new(:allowed_types => EventBuilder.agent_types, :agent_handler => @agent_handler)
+    return false unless resolver.resolve(builder.explicit_agent_ref, nil)[:errors]
 
     add_event_field_error(
       "event_agent_not_found",
@@ -329,6 +322,16 @@ class ImportDigitalObjects < BulkImportParser
   # fixed language_and_script segment. The Agent pattern captures only the
   # outer agent_N_ index.
   def structural_column_rules
+    repeatable_families.map do |family|
+      infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
+      {
+        :pattern => /\A#{Regexp.escape(family[:namespace])}_(?<index>[1-9]\d*)#{infix}.+\z/,
+        :representative => "1",
+      }
+    end
+  end
+
+  def repeatable_families
     [
       { :namespace => "file_version" },
       { :namespace => "lang_material", :fixed_segment => "language_and_script" },
@@ -338,13 +341,22 @@ class ImportDigitalObjects < BulkImportParser
       { :namespace => "agent" },
       { :namespace => "extent" },
       { :namespace => "event" },
-    ].map do |family|
-      infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
-      {
-        :pattern => /\A#{Regexp.escape(family[:namespace])}_(?<index>[1-9]\d*)#{infix}.+\z/,
-        :representative => "1",
-      }
-    end
+    ]
+  end
+
+  def field_classifier
+    @field_classifier ||= RepeatableFieldClassifier.new(
+      :vocabulary => valid_column_codes,
+      :families => repeatable_families,
+      :headers => @headers.compact.reject { |head| head =~ START_MARKER }
+    )
+  end
+
+  def check_unknown_columns
+    unknown = field_classifier.unknown_headers
+    return if unknown.empty?
+
+    raise Exception.new(I18n.t("bulk_import.error.unknown_columns", :codes => unknown.join(", ")))
   end
 
   def canonical_group_indices(namespace)
@@ -456,50 +468,15 @@ class ImportDigitalObjects < BulkImportParser
     notes
   end
 
-  def process_agents
-    agent_links = []
-
-    canonical_group_indices("agent").each do |num|
-      agent_type = @row_hash["agent_#{num}_agent_type"]
-      record_id = @row_hash["agent_#{num}_record_id"]
-      header = @row_hash["agent_#{num}_header"]
-      role = @row_hash["agent_#{num}_role"]
-      relator = @row_hash["agent_#{num}_relator"]
-      next if [agent_type, record_id, header, role, relator].all?(&:nil?)
-
-      if record_id.nil? && header.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_missing_identity", :num => num))
-        next
-      end
-
-      if agent_type.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_missing_type", :num => num))
-        next
-      end
-
-      type = AgentHandler.import_agent_type(agent_type)
-      if type.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_unsupported_type", :num => num, :accepted => AgentHandler.import_agent_types.join(", ")))
-        next
-      end
-
-      begin
-        link = @agent_handler.get_or_create(
-          type,
-          record_id,
-          header,
-          relator,
-          role, @report
-        )
-
-        agent_links.push link if link && !@validate_only
-
-      rescue BulkImportException => e
-        @report.add_errors(I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => num, :why => e.message))
-      end
-    end
-
-    agent_links
+  def agent_linker
+    AgentLinker.new(
+      :report => @report,
+      :field_classifier => field_classifier,
+      :agent_handler => @agent_handler,
+      :created_refs => @created_refs,
+      :validate_only => @validate_only,
+      :controlled_value_resolver => method(:resolve_controlled_value)
+    )
   end
 
   def process_subjects

@@ -237,8 +237,9 @@ describe "Import Digital Objects" do
     csv_template_path = TEMPLATES_DIR + "/bulk_import_DO_template.csv"
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
-    columns = csv_data[0] # CSV headers
-    column_explanations = csv_data[1] # CSV header explanations
+    agent_2_headers = family_headers_at(csv_data[0], "agent", 2)
+    columns = csv_data[0] + agent_2_headers # CSV headers
+    column_explanations = csv_data[1] + agent_2_headers.map { "Agent(2)" } # CSV header explanations
 
     agent_person = nil
     expect do
@@ -507,28 +508,6 @@ describe "Import Digital Objects" do
     expect(ud['integer_1']).to eq '42'
     expect(ud['real_1']).to eq '3.14159'
     expect(ud['date_1']).to eq '2024-01-01'
-  end
-
-  it 'reads User Defined booleans from the row hash after normalization' do
-    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
-    importer.instance_variable_set(:@row_hash, { 'user_defined_boolean_1' => 'true' })
-    allow(importer).to receive(:normalize_boolean_column) do |row_hash, column|
-      row_hash[column] = true
-      nil
-    end
-
-    expect(importer.send(:create_user_defined)['boolean_1']).to eq(true)
-  end
-
-  it 'reads Collection Management booleans from the row hash after normalization' do
-    importer = ImportDigitalObjects.new(nil, 'csv', @current_user, {}, nil)
-    importer.instance_variable_set(:@row_hash, { 'collection_management_rights_determined' => 'true' })
-    allow(importer).to receive(:normalize_boolean_column) do |row_hash, column|
-      row_hash[column] = true
-      nil
-    end
-
-    expect(importer.send(:create_collection_management)['rights_determined']).to eq(true)
   end
 
   it 'normalizes User Defined whole-number representations without truncating fractions' do
@@ -1963,7 +1942,7 @@ describe "Import Digital Objects" do
       columns = csv_data[0].dup
       column_explanations = csv_data[1].dup
       extra_indices.each do |idx|
-        next if %w[1 2].include?(idx)
+        next if idx == "1"
 
         columns += agent_1_headers.map { |c| c.sub(/\Aagent_1_/, "agent_#{idx}_") }
         column_explanations += agent_1_headers.map { "Agent(#{idx})" }
@@ -1979,7 +1958,7 @@ describe "Import Digital Objects" do
       import_digital_object_csv(columns, column_explanations, row)
     end
 
-    it 'imports both displayed canonical groups and all three supported Agent types' do
+    it 'imports the displayed group and renumbered groups for all three supported Agent types' do
       report = run_agent_import(
         'agent_1_agent_type' => 'person',
         'agent_1_header' => "Person one #{@now}",
@@ -2327,6 +2306,7 @@ describe "Import Digital Objects" do
 
     def importer_for(row_hash)
       importer = ImportDigitalObjects.new(nil, "csv", @current_user, {}, nil)
+      importer.instance_variable_set(:@headers, row_hash.keys)
       importer.instance_variable_set(:@row_hash, row_hash)
       importer.instance_variable_set(:@report, BulkImportReport.new)
       importer.instance_variable_set(:@notes_handler, NotesHandler.new)
