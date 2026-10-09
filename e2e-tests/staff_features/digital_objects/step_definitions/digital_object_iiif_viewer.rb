@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# IIIF_MANIFEST_URL and IIIF_MANIFEST_LABEL are defined with the other test files in
-# staff_features/thumbnails/step_definitions/thumbnails.rb ('a IIIF manifest').
-
 When 'the user expands the File Version' do
   find('.accordion-toggle[data-target*="_file_version_"]', match: :first).click
 end
