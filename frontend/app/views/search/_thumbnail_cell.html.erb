@@ -1,0 +1,11 @@
+<%
+  json = ASUtils.json_parse(record["json"])
+%>
+
+<% if (thumbnail = json['thumbnail']) %>
+  <%= render_aspace_partial :partial => "digital_objects/thumbnail", :locals => {
+    :thumbnail => thumbnail,
+    :override_link_url => url_for(:controller => :resolver, :action => :resolve_readonly, :uri => json['uri']),
+    :override_link_target => '_self',
+  } %>
+<% end %>
