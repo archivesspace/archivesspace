@@ -6,25 +6,20 @@
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
 
   <!-- This needs to match version installed by bundler 2.x: `./build/run bootstrap` -->
-  <property name="jruby_version" value="9.4.9.0" />
+  <property name="jruby_version" value="9.4.15.0" />
   <!-- Then find version at: build/gems/jruby/$version -->
   <property name="jruby_build_version" value="3.1.0" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
-  <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
-  <!-- The versions need to match the gem versions in: build/gems/jruby/$version  -->
-  <property name="jruby_rack_version" value="1.2.7" />
-  <property name="rack_version" value="2.2.21" />
+  <!-- jruby-rack (and the rack it vendors) come from the jruby-rack gem locked in the Gemfiles -->
   <property name="bundler_version" value="2.6.9" />
   <property name="jetty_version" value="10.0.26" />
-  <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
 
-  <property name="jruby_rack_url" value="https://repo1.maven.org/maven2/org/jruby/rack/jruby-rack/${jruby_rack_version}/jruby-rack-${jruby_rack_version}.jar" />
   <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/${jruby_version}/jruby-complete-${jruby_version}.jar" />
   <property name="jruby_file" value="jruby-complete-${jruby_version}.jar" />
 
   <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/${jetty_version}/jetty-runner-${jetty_version}.jar" />
-  <property name="jettyrunner_file" value="jetty-runner-${jettry_version}.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-${jetty_version}.jar" />
   <property name="jettywebapp_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-webapp/${jetty_version}/jetty-webapp-${jetty_version}.jar" />
   <property name="jettywebapp_file" value="jetty-webapp-${jetty_version}.jar" />
 
@@ -62,11 +57,21 @@
   <property name="env.ASPACE_TEST_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
   <property name="env.APPCONFIG_BACKEND_LOG" value="default" />
 
-  <condition property="java_version_compatibility"  value="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" else="">
-    <javaversion atleast="17"/>
+  <fail message="ArchivesSpace requires Java 21 or later (found ${java.version})">
+    <condition>
+      <not><javaversion atleast="21"/></not>
+    </condition>
+  </fail>
+
+  <property name="java_version_compatibility" value="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" />
+
+  <!-- JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; these flags silence the JDK 24+ warnings about it -->
+  <property name="java_native_access" value="--enable-native-access=ALL-UNNAMED" />
+  <condition property="java_unsafe_memory_access" value="--sun-misc-unsafe-memory-access=allow" else="">
+    <javaversion atleast="23"/>
   </condition>
 
-  <property name="default_java_options" value="-Djruby.rack.response.swallow_client_abort=false -Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver ${java_version_compatibility}" />
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver ${java_version_compatibility} ${java_native_access} ${java_unsafe_memory_access}" />
 
   <!-- TASKS -->
   <!-- Build tasks invoked using `./build/run [$task]` from the aspace directory -->
@@ -301,10 +306,9 @@
     </delete>
     <mkdir dir="../launcher/lib" />
     <delete>
-      <fileset dir="../launcher/lib" includes="*.jar" excludes="${jettyrunner_file},#{jettywebapp_file}" />
+      <fileset dir="../launcher/lib" includes="*.jar" excludes="${jettyrunner_file},${jettywebapp_file}" />
     </delete>
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
-    <get src="${jruby_rack_url}" dest="${jruby_rack_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jettyrunner_url}" dest="../launcher/lib/${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jettywebapp_url}" dest="../launcher/lib/${jettywebapp_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
@@ -465,12 +469,6 @@
         <exclude name="**/warbler-*/**" />
       </fileset>
     </copy>
-    <!-- jruby rack -->
-    <!-- The ArchivesSpace build of the JRuby Rack jar replaces the rubygems bundled version -->
-    <copy file="${jruby_rack_file}"
-      todir="target/archivesspace/gems/gems/jruby-rack-${jruby_rack_version}/lib/"
-      overwrite="true"
-    />
     <copy todir="target/archivesspace/launcher">
       <fileset dir="../launcher" excludes="backup/*" />
     </copy>

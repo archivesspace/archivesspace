@@ -41,4 +41,20 @@ describe 'MixedContentParser' do
     expect(converted).to eq("<span class=\"emph render-italic\">title text</span>");
   end
 
+  it "converts lb elements to br without swallowing the following text", :skip_db_open do
+    ["one<lb/>two", "one<lb />two", "one<lb></lb>two", "one<LB>two", "one<lb>two</lb>"].each do |text|
+      converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
+
+      expect(converted).to eq("one<br />two"), "for #{text.inspect}"
+    end
+  end
+
+
+  it "does not treat elements whose names start with lb as lb", :skip_db_open do
+    converted = MixedContentParser.parse("one<lb-foo>two</lb-foo>", "http://example.com", {:wrap_blocks => false})
+
+    expect(converted).not_to include("<br")
+    expect(converted).to include("two")
+  end
+
 end

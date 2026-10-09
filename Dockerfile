@@ -1,9 +1,16 @@
-FROM ubuntu:24.04 as build_release
+# Java runtime used for both stages. Build a Java 21 image with: --build-arg JAVA_VERSION=21
+ARG JAVA_VERSION=25
+ARG MYSQL_CONNECTOR_VERSION=9.7.0
+
+FROM ubuntu:resolute-20260927 AS build_release
+
+ARG JAVA_VERSION
+ARG MYSQL_CONNECTOR_VERSION
 
 # Please note: Docker is supported as an installation method starting with ArchivesSpace v4.0.0, see: https://docs.archivesspace.org/administration/docker/
 
 ENV DEBIAN_FRONTEND=noninteractive \
-  JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" \
+  JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --enable-native-access=ALL-UNNAMED" \
   TZ=UTC
 
 RUN apt-get update && \
@@ -11,7 +18,7 @@ RUN apt-get update && \
   build-essential \
   git \
   nodejs \
-  openjdk-21-jre-headless \
+  openjdk-${JAVA_VERSION}-jre-headless \
   shared-mime-info \
   wget \
   unzip
@@ -31,20 +38,23 @@ RUN cd /source && \
   mv ./*.zip / && \
   cd / && \
   unzip /*.zip -d / && \
-  wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.1.0/mysql-connector-j-9.1.0.jar && \
-  cp /mysql-connector-j-9.1.0.jar /archivesspace/lib/
+  wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/${MYSQL_CONNECTOR_VERSION}/mysql-connector-j-${MYSQL_CONNECTOR_VERSION}.jar && \
+  cp /mysql-connector-j-${MYSQL_CONNECTOR_VERSION}.jar /archivesspace/lib/
 
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:24.04
+FROM ubuntu:resolute-20260927
+
+ARG JAVA_VERSION
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
   ASPACE_GC_OPTS="-XX:+UseG1GC -XX:NewRatio=1" \
+  ASPACE_JAVA_VERSION=${JAVA_VERSION} \
   DEBIAN_FRONTEND=noninteractive \
-  JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" \
+  JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --enable-native-access=ALL-UNNAMED" \
   LANG=C.UTF-8 \
   LD_PRELOAD="/usr/local/lib/libjemalloc.so" \
   TZ=UTC
@@ -61,7 +71,7 @@ RUN apt-get update && \
   git \
   libharfbuzz0b \
   libjemalloc2 \
-  openjdk-17-jre-headless \
+  openjdk-${JAVA_VERSION}-jre-headless \
   netbase \
   shared-mime-info \
   wget \

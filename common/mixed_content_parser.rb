@@ -16,27 +16,32 @@ module MixedContentParser
     # (seems like the API falls down when we do this directly...)
     d = org.jsoup.Jsoup.parse("")
     d.outputSettings.prettyPrint(opts[:pretty_print])
+    # self-close void elements (<br />, <img />) so the XML re-parse below keeps them empty
+    d.outputSettings.syntax(Java::OrgJsoupNodes::Document::OutputSettings::Syntax.xml)
 
     # archon does things differently.....
     content.gsub!("\n\t", "\n\n")
 
+    # turn <lb/> into the void <br/> up front: the HTML parser ignores the self-closing slash on
+    # non-void elements, so <lb/> would otherwise swallow the text that follows it. <lb> is always
+    # empty in EAD, so any closing </lb> is dropped. The lookahead keeps <lb-foo> or <lb:x> intact.
+    content.gsub!(%r{<lb(?=[\s/>])[^<>]*>}i, '<br/>')
+    content.gsub!(%r{</lb\s*>}i, '')
+
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
     content = content.split("\n\n").inject("") { |c, n| c << "<p>#{n}</p>" } if opts[:wrap_blocks]
 
-    whitelist = org.jsoup.safety.Whitelist.relaxed
-                                          .addTags("emph", "lb", "title", "unitdate")
-                                          .addAttributes("emph", "render")
-                                          .addAttributes("title", "render")
-                                          .addAttributes("unitdate", "render")
+    safelist = org.jsoup.safety.Safelist.relaxed
+                                        .addTags("emph", "title", "unitdate")
+                                        .addAttributes("emph", "render")
+                                        .addAttributes("title", "render")
+                                        .addAttributes("unitdate", "render")
 
-    cleaned_content = org.jsoup.Jsoup.clean(content, base_uri, whitelist, d.outputSettings())
+    cleaned_content = org.jsoup.Jsoup.clean(content, base_uri, safelist, d.outputSettings())
 
     document = org.jsoup.Jsoup.parse(cleaned_content, base_uri, org.jsoup.parser.Parser.xmlParser())
     document.outputSettings.escapeMode(Java::OrgJsoupNodes::Entities::EscapeMode.xhtml)
     document.outputSettings.prettyPrint(opts[:pretty_print])
-
-    # replace lb with br
-    document.select("lb").tagName("br")
 
     # tweak the emph tags
     [ "emph", "title", "unitdate"  ].each do |tag|

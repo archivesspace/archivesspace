@@ -45,7 +45,7 @@ describe 'AS_fop' do
       pdf_file = generate_pdf(resource)
 
       expect(pdf_file).to include "%PDF-1.4"
-      expect(pdf_file).to include "Creator (Apache FOP Version 2.5)"
+      expect(pdf_file).to include "Creator (Apache FOP Version 2.11)"
     end
   end
 

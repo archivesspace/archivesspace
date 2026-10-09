@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - uses: ./.github/actions/setup-e2e
         with:
           image_tag: ${{ inputs.image_tag }}
@@ -98,7 +98,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-results-shard-${{ matrix.shard }}
           path: |
@@ -107,7 +107,7 @@ jobs:
 
       - name: Upload screenshots on failure
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-failure-screenshots-shard-${{ matrix.shard }}
           path: /tmp/screenshots/
@@ -122,7 +122,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - uses: ./.github/actions/setup-e2e
         with:
           image_tag: ${{ inputs.image_tag }}
@@ -138,14 +138,14 @@ jobs:
             --format html --out reports/cucumber_pui_auth.html
       - name: Upload PUI auth test results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-pui-auth-results
           path: e2e-tests/reports/
           retention-days: 7
       - name: Upload screenshots on failure
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-pui-auth-failure-screenshots
           path: /tmp/screenshots/
