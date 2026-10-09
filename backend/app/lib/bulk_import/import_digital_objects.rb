@@ -1,5 +1,6 @@
 require_relative "bulk_import_parser"
 require_relative "row_field_builders"
+require_relative "../event_builder"
 require_relative "../../converters/lib/utils"
 require "bigdecimal"
 
@@ -24,6 +25,7 @@ class ImportDigitalObjects < BulkImportParser
 
   def create_instance(ao)
     dig_instance = nil
+    prepared_events = prepare_event_builders
 
     @notes_handler = NotesHandler.new
     @agent_handler = AgentHandler.new(@current_user, @validate_only)
@@ -60,12 +62,30 @@ class ImportDigitalObjects < BulkImportParser
     rescue Exception => e
       @report.add_errors(e.message)
     end
+    if dig_instance && @validate_only
+      validation_uri = JSONModel(:digital_object).uri_for(1, :repo_id => @repo_id)
+      prepared_events.each do |prepared|
+        @event_handler.create(
+          event_builder: prepared[:event_builder],
+          group: prepared[:group],
+          digital_object_uri: validation_uri,
+          report: @report)
+      end
+    end
     if dig_instance && !@validate_only # only try to save if not validate only
       ao.instances ||= []
       ao.instances << dig_instance
       begin
         ao = ao_save(ao)
         @report.add_info(I18n.t("bulk_import.dig_assoc"))
+        prepared_events.each do |prepared|
+          event_uri = @event_handler.create(
+            event_builder: prepared[:event_builder],
+            group: prepared[:group],
+            digital_object_uri: dig_instance.digital_object["ref"],
+            report: @report)
+          @created_refs << event_uri if event_uri
+        end
       rescue BulkImportException => ee
         @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
       end
@@ -138,6 +158,7 @@ class ImportDigitalObjects < BulkImportParser
 
   def initialize_handler_enums
     @digital_object_handler = DigitalObjectHandler.new(@current_user, @validate_only)
+    @event_handler = EventHandler.new(@current_user, @validate_only)
   end
 
   # any problem here would result in the digital object not being created
@@ -208,6 +229,139 @@ class ImportDigitalObjects < BulkImportParser
     ).first
   end
 
+  def prepare_event_builders
+    prepared_events = []
+
+    canonical_group_indices("event").each do |index|
+      projection = event_projection(index)
+      attributes = projection[:attributes]
+      next if attributes.values.all? { |value| value.nil? || value.empty? }
+
+      builder = EventBuilder.new(
+        :attributes => attributes,
+        :controlled_value_resolver => method(:resolve_event_controlled_value)
+      )
+      field_codes = projection[:field_codes]
+      group_invalid = report_event_builder_errors(builder, index, field_codes)
+      if missing_explicit_event_agent?(builder, index, attributes[:agent_record_id], field_codes)
+        group_invalid = true
+      end
+
+      next if group_invalid
+
+      prepared_events << {
+        :event_builder => builder,
+        :group => index.to_i,
+      }
+    end
+
+    prepared_events
+  end
+
+  def event_projection(index)
+    attributes = {}
+    field_codes = {}
+
+    canonical_event_classification.each do |attribute, representative_code|
+      field_code = representative_code.sub(/\Aevent_1_/, "event_#{index}_")
+      attributes[attribute] = @row_hash[field_code]
+      field_codes[attribute] = field_code
+    end
+
+    {
+      :attributes => attributes,
+      :field_codes => field_codes,
+    }
+  end
+
+  def canonical_event_classification
+    @canonical_event_classification ||= valid_column_codes.each_with_object({}) do |code, classified|
+      match = code.to_s.match(/\Aevent_1_(?<leaf>.+)\z/)
+      next unless match
+
+      classified[event_attribute(match[:leaf])] = code
+    end
+  end
+
+  def event_attribute(field)
+    return :event_type if field == "type"
+    return field.to_sym unless field.start_with?("agent_1_")
+
+    agent_field = field.delete_prefix("agent_1_")
+    agent_field = "agent_#{agent_field}" unless agent_field.start_with?("agent_")
+    agent_field.to_sym
+  end
+
+  def resolve_event_controlled_value(list_name, submitted_value)
+    value_check(event_controlled_value_list(list_name), submitted_value, [])
+  end
+
+  def event_controlled_value_list(list_name)
+    @event_controlled_value_lists ||= {}
+    @event_controlled_value_lists[list_name] ||= CvList.new(list_name, @current_user)
+  end
+
+  def report_event_builder_errors(builder, index, field_codes)
+    group = index.to_i
+    builder.errors.each do |error|
+      report_event_builder_error(error, group, field_codes)
+    end
+    !builder.errors.empty?
+  end
+
+  def report_event_builder_error(error, group, field_codes)
+    field = field_codes.fetch(error[:attribute])
+
+    case error[:code]
+    when :required
+      add_event_field_error("event_required_field", group, field)
+    when :requires_date
+      add_event_field_error("event_date_label_without_date", group, field, :value => error[:value])
+    when :forbidden
+      add_event_field_error(
+        "event_agent_type_with_uri",
+        group,
+        field,
+        :record_field => field_codes.fetch(:agent_record_id),
+        :value => error[:value]
+      )
+    when :unsupported
+      add_event_field_error("event_agent_unsupported_type", group, field, :value => error[:value])
+    when :invalid
+      add_event_field_error(invalid_event_error_key(error[:attribute]), group, field, :value => error[:value])
+    else
+      raise KeyError, "Unhandled EventBuilder error code: #{error[:code]}"
+    end
+  end
+
+  def invalid_event_error_key(attribute)
+    name = attribute == :event_type ? "type" : attribute
+    "invalid_event_#{name}"
+  end
+
+  def missing_explicit_event_agent?(builder, index, submitted_record_id, field_codes)
+    return false unless builder.explicit_agent_ref
+
+    reference = JSONModel.parse_reference(builder.explicit_agent_ref)
+    type = reference && reference[:type].to_s
+    model = type && AgentManager.known_agent_type?(type) && AgentManager.model_for(type)
+    record = model && model[reference[:id]]
+    return false if record && record.uri
+
+    add_event_field_error(
+      "event_agent_not_found",
+      index.to_i,
+      field_codes.fetch(:agent_record_id),
+      :value => submitted_record_id
+    )
+    true
+  end
+
+  def add_event_field_error(key, group, field, extra = {})
+    @report.add_errors(I18n.t("bulk_import.error.#{key}",
+                              **{ :group => group, :field => field }.merge(extra)))
+  end
+
   # This importer's repeatable root namespaces. Exact accepted leaves remain
   # the maintained CSV via valid_column_codes; Language Material keeps its
   # fixed language_and_script segment. The Agent pattern captures only the
@@ -221,6 +375,7 @@ class ImportDigitalObjects < BulkImportParser
       { :namespace => "note" },
       { :namespace => "agent" },
       { :namespace => "extent" },
+      { :namespace => "event" },
     ].map do |family|
       infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
       {

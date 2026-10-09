@@ -1968,6 +1968,7 @@ ja:
     row: "行%{row}"
     processing_row: "%{row}行の処理"
     dig_assoc: デジタルオブジェクトはアーカイブオブジェクトに追加します
+    event_created: "イベントグループ %{group} を作成しました: %{type}"
     row_error: "行%{row}エラーのため処理されません。%{errs}"
     created: "%{what} 作成した： %{id}"
     could_be: "%{what}作成されるだろう"
@@ -2064,6 +2065,18 @@ ja:
       ref_id_miss: ノー参考id指定します
       dig_info_miss: どちらもデジタルオブジェクトURNまたはサムネイルURNが指定されていません
       dig_validation: "%{err}デジタルオブジェクトを作成できません"
+      event_validation: "イベントグループ %{group}（%{type}）を作成できません: %{err}"
+      invalid_event_type: "イベントグループ %{group} のフィールド %{field} は既存のイベント種別ではありません: '%{value}'"
+      invalid_event_outcome: "イベントグループ %{group} のフィールド %{field} は既存のイベント結果ではありません: '%{value}'"
+      event_required_field: "イベントグループ %{group} のフィールド %{field} は必須です"
+      invalid_event_date: "イベントグループ %{group} のフィールド %{field} は有効なイベント日付ではありません: '%{value}'"
+      invalid_event_date_label: "イベントグループ %{group} のフィールド %{field} は既存の日付ラベルではありません: '%{value}'"
+      event_date_label_without_date: "イベントグループ %{group} のフィールド %{field} には日付が必要です: '%{value}'"
+      event_agent_type_with_uri: "イベントグループ %{group} のフィールド %{field} は、%{record_field} が URI の場合は空である必要があります: '%{value}'"
+      event_agent_unsupported_type: "イベントグループ %{group} のフィールド %{field} はサポートされているエージェント種別ではありません: '%{value}'"
+      invalid_event_agent_role: "イベントグループ %{group} のフィールド %{field} は既存のイベントエージェント役割ではありません: '%{value}'"
+      invalid_event_agent_record_id: "イベントグループ %{group} のフィールド %{field} は数値 ID または正規のエージェント URI である必要があります: '%{value}'"
+      event_agent_not_found: "イベントグループ %{group} のフィールド %{field} は既存のエージェントと一致しません: '%{value}'"
       initial_save_error: "の保存最初の通報%{title}  -  %{msg}"
       second_save_error: "エラーが 『インスタンス』と再保存アーカイブオブジェクトへの試みで%{title}位置：。%{pos}この手段アーカイブオブジェクトが作成されていることが、可能性など、その関連インスタンス（デジタルオブジェクト、トップコンテナ、対象にリンクされていません）[%{what}]"
       ao_validation: "アーカイブオブジェクトを保存しようとする検証エラー：%{err}"

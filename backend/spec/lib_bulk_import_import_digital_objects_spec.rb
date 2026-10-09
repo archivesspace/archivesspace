@@ -1,10 +1,13 @@
 # test ingest
 require "spec_helper"
 require_relative "../app/lib/bulk_import/import_digital_objects.rb"
+require_relative "lib_bulk_import_import_digital_objects_shared_context"
 
 require 'rubyXL/convenience_methods/cell'
 
 describe "Import Digital Objects" do
+  include_context "digital object importer harness"
+
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
   # Templates are canonical in frontend/public/bulk_import_templates/; pointing there directly so specs always use the current version
   TEMPLATES_DIR = File.join(File.dirname(__FILE__), "../", "../", "frontend", "public", "bulk_import_templates")
@@ -15,16 +18,6 @@ describe "Import Digital Objects" do
     cols = columns.dup.insert(at, *fv1.map { |i| columns[i].sub(/\Afile_version_1_/, "file_version_2_") })
     expl = explanations.dup.insert(at, *fv1.map { |i| explanations[i].to_s.sub("(1)", "(2)") })
     [cols, expl]
-  end
-
-  # Rewrite a family's maintained index-1 headers to another structural index.
-  # Grouping tests and the header-guard table derive synthetic groups from the
-  # CSV instead of keeping a second canonical-leaf inventory in the spec.
-  def family_headers_at(columns, namespace, index)
-    index_1 = columns.select { |column| column.to_s.start_with?("#{namespace}_1_") }
-    return index_1 if index.to_s == "1"
-
-    index_1.map { |column| column.sub(/\A#{Regexp.escape(namespace)}_1_/, "#{namespace}_#{index}_") }
   end
 
   def linked_agent_summaries(digital_object)
@@ -51,60 +44,6 @@ describe "Import Digital Objects" do
     cols = columns.dup.insert(at, *lm1.map { |i| columns[i].sub(/\Alang_material_1_/, "lang_material_2_") })
     expl = explanations.dup.insert(at, *lm1.map { |i| explanations[i].to_s.sub("(1)", "(2)") })
     [cols, expl]
-  end
-
-  def import_digital_object_csv(columns, column_explanations, row, validate_only: false)
-    csv_string = CSV.generate(col_sep: ',') do |csv|
-      csv << columns
-      csv << column_explanations
-      csv << row.values
-    end
-    csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
-    csv_path = File.join(Dir.tmpdir, csv_filename)
-    File.write(csv_path, csv_string)
-    opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource",
-             :filename => csv_filename, :filepath => csv_path, :load_type => "digital_object",
-             :validate => validate_only }
-
-    ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts).run
-  end
-
-  before(:each) do
-    @now = Time.now.to_i
-
-    @current_user = User.find(:username => "admin")
-
-    resource = JSONModel(:resource).from_hash("id" => 12,
-                                              "title" => "Resource Title #{@now}",
-                                              "dates" => [{
-                                                "date_type" => "single",
-                                                "label" => "creation",
-                                                "expression" => "1901",
-                                              }],
-                                              "id_0" => "abc123",
-                                              "level" => "collection",
-                                              "lang_materials" => [{
-                                                "language_and_script" => {
-                                                  "language" => "eng",
-                                                  "script" => "Latn",
-                                                },
-                                              }],
-                                              "finding_aid_language" => "eng",
-                                              "finding_aid_script" => "Latn",
-                                              "ead_id" => "VFIRST01",
-                                              "extents" => [{
-                                                "portion" => "whole",
-                                                "number" => "5 or so",
-                                                "extent_type" => "reels",
-                                              }])
-
-    id = resource.save
-    @resource = Resource.get_or_die(id)
-    @archival_object = create(
-      :json_archival_object,
-      title: "Archival Object Title #{@now}",
-      :resource => { :ref => @resource.uri }
-    )
   end
 
   it 'successfully creates and assigns a digital object to an existing archival object with extents' do
@@ -1475,6 +1414,19 @@ describe "Import Digital Objects" do
       expect(report.terminal_error).to match(/rep_file_uri/)
     end
 
+    it 'aborts the whole import with a terminal error when an Event field code is duplicated' do
+      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+      columns = csv_data[0] + ['event_1_type']
+      column_explanations = csv_data[1] + ['Duplicate Event type']
+      csv_filename, csv_path = build_do_csv(columns, column_explanations)
+
+      report = run_guard_import(csv_filename, csv_path)
+
+      duplicate_message = I18n.t('bulk_import.error.duplicates', :codes => ' event_1_type,')
+      expect(duplicate_message).not_to include('translation missing')
+      expect(report.terminal_error).to include(duplicate_message)
+    end
+
     it 'does not flag any column when the spreadsheet matches the current template' do
       csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
       csv_filename, csv_path = build_do_csv(csv_data[0], csv_data[1])
@@ -1540,6 +1492,10 @@ describe "Import Digital Objects" do
           :namespace => "extent",
           :invented => "extent_1_bogus",
           :malformed_extra => %w[extent__portion extent_x_portion],
+        },
+        {
+          :namespace => "event",
+          :invented => "event_1_bogus",
         },
       ]
 

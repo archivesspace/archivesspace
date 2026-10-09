@@ -1426,6 +1426,7 @@ pl:
       csv_syntax_error: "Błąd importu CSV (%{type}): %{element}"
   bulk_import:
     agent: Agent
+    event_created: "Grupa zdarzenia %{group} utworzona: %{type}"
     error:
       utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 
         przetworzyć.
@@ -1461,6 +1462,18 @@ pl:
         [%{what}]"
       initial_save_error: Wystąpił problem podczas początkowego zapisywania pliku %{title} — %{msg}
       dig_validation: Nie można utworzyć obiektu cyfrowego %{err}
+      event_validation: "Nie można utworzyć grupy zdarzenia %{group} (%{type}): %{err}"
+      invalid_event_type: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącym typem zdarzenia: '%{value}'"
+      invalid_event_outcome: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącym wynikiem zdarzenia: '%{value}'"
+      event_required_field: "Grupa zdarzenia %{group}, pole %{field}, jest wymagane"
+      invalid_event_date: "Grupa zdarzenia %{group}, pole %{field}, nie jest prawidłową datą zdarzenia: '%{value}'"
+      invalid_event_date_label: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącą etykietą daty: '%{value}'"
+      event_date_label_without_date: "Grupa zdarzenia %{group}, pole %{field}, wymaga daty: '%{value}'"
+      event_agent_type_with_uri: "Grupa zdarzenia %{group}, pole %{field}, musi być puste, gdy %{record_field} jest identyfikatorem URI: '%{value}'"
+      event_agent_unsupported_type: "Grupa zdarzenia %{group}, pole %{field}, nie jest obsługiwanym typem agenta: '%{value}'"
+      invalid_event_agent_role: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącą rolą agenta zdarzenia: '%{value}'"
+      invalid_event_agent_record_id: "Grupa zdarzenia %{group}, pole %{field}, musi być numerycznym identyfikatorem lub kanonicznym identyfikatorem URI agenta: '%{value}'"
+      event_agent_not_found: "Grupa zdarzenia %{group}, pole %{field}, nie odpowiada istniejącemu agentowi: '%{value}'"
       dig_info_miss: Nie określono ani identyfikatora URI obiektu cyfrowego, ani identyfikatora URI 
         miniatury.
       ref_id_miss: Nie podano identyfikatora referencyjnego.

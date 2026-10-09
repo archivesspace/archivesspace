@@ -10,7 +10,20 @@ nl:
       agent_missing_identity: "Agent %{num} vereist een record-ID of koptekst"
       agent_missing_type: "Agent %{num} vereist een agenttype"
       agent_unsupported_type: "Agent %{num} heeft een niet-ondersteund agenttype '%{agent_type}'"
+      event_validation: "Kan gebeurtenisgroep %{group} (%{type}) niet aanmaken: %{err}"
+      invalid_event_type: "Gebeurtenisgroep %{group}, veld %{field}, is geen bestaand gebeurtenistype: '%{value}'"
+      invalid_event_outcome: "Gebeurtenisgroep %{group}, veld %{field}, is geen bestaand gebeurtenisresultaat: '%{value}'"
+      event_required_field: "Gebeurtenisgroep %{group}, veld %{field}, is verplicht"
+      invalid_event_date: "Gebeurtenisgroep %{group}, veld %{field}, is geen geldige gebeurtenisdatum: '%{value}'"
+      invalid_event_date_label: "Gebeurtenisgroep %{group}, veld %{field}, is geen bestaand datumlabel: '%{value}'"
+      event_date_label_without_date: "Gebeurtenisgroep %{group}, veld %{field}, vereist een datum: '%{value}'"
+      event_agent_type_with_uri: "Gebeurtenisgroep %{group}, veld %{field}, moet leeg zijn wanneer %{record_field} een URI is: '%{value}'"
+      event_agent_unsupported_type: "Gebeurtenisgroep %{group}, veld %{field}, is geen ondersteund agenttype: '%{value}'"
+      invalid_event_agent_role: "Gebeurtenisgroep %{group}, veld %{field}, is geen bestaande gebeurtenisagentrol: '%{value}'"
+      invalid_event_agent_record_id: "Gebeurtenisgroep %{group}, veld %{field}, moet een numerieke ID of een canonieke agent-URI zijn: '%{value}'"
+      event_agent_not_found: "Gebeurtenisgroep %{group}, veld %{field}, komt niet overeen met een bestaande agent: '%{value}'"
     agent: Agent
+    event_created: "Gebeurtenisgroep %{group} aangemaakt: %{type}"
   reports:
     formats:
       json: JSON

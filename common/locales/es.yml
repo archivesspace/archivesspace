@@ -2703,6 +2703,7 @@ es:
     row: "Fila %{row}"
     processing_row: "El procesamiento de fila %{row}"
     dig_assoc: Objeto digital añade a objetos Archivo
+    event_created: "Grupo de evento %{group} creado: %{type}"
     row_error: "Fila %{row} no serán objeto de tratamiento debido a errores: %{errs}"
     created: "%{what} creado: %{id}"
     could_be: "%{what} se crearía"
@@ -2804,6 +2805,18 @@ es:
       ref_id_miss: No Ref ID especificado
       dig_info_miss: Ni el objeto URN Digital o la miniatura URN se especifica
       dig_validation: "No se puede crear el objeto digital %{err}"
+      event_validation: "No se puede crear el grupo de evento %{group} (%{type}): %{err}"
+      invalid_event_type: "El grupo de evento %{group}, campo %{field}, no es un tipo de evento existente: '%{value}'"
+      invalid_event_outcome: "El grupo de evento %{group}, campo %{field}, no es un resultado de evento existente: '%{value}'"
+      event_required_field: "El grupo de evento %{group}, campo %{field}, es obligatorio"
+      invalid_event_date: "El grupo de evento %{group}, campo %{field}, no es una fecha de evento válida: '%{value}'"
+      invalid_event_date_label: "El grupo de evento %{group}, campo %{field}, no es una etiqueta de fecha existente: '%{value}'"
+      event_date_label_without_date: "El grupo de evento %{group}, campo %{field}, requiere una fecha: '%{value}'"
+      event_agent_type_with_uri: "El grupo de evento %{group}, campo %{field}, debe estar vacío cuando %{record_field} es un URI: '%{value}'"
+      event_agent_unsupported_type: "El grupo de evento %{group}, campo %{field}, no es un tipo de agente admitido: '%{value}'"
+      invalid_event_agent_role: "El grupo de evento %{group}, campo %{field}, no es un rol de agente de evento existente: '%{value}'"
+      invalid_event_agent_record_id: "El grupo de evento %{group}, campo %{field}, debe ser un ID numérico o un URI canónico de agente: '%{value}'"
+      event_agent_not_found: "El grupo de evento %{group}, campo %{field}, no corresponde a un agente existente: '%{value}'"
       initial_save_error: "Problema con el primer salvamento de %{title} - %{msg}"
       second_save_error: "Error en intento de volver a guardar objeto de archivo con 'casos' %{title}.
         Posición: %{pos} Esto significa que el objeto de archivo ha sido creado, pero posiblemente no
