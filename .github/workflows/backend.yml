@@ -66,20 +66,10 @@ jobs:
       run: |
         mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
 
-    - name: Copy solr config from workspace to solr service
-      env:
-        SOLR_ID: ${{ job.services.solr.id }}
-      run: |
-        # solr create_core (9.7+) expects the config files under a conf/ subdirectory
-        mkdir -p "$RUNNER_TEMP/solr_configset"
-        cp -r solr "$RUNNER_TEMP/solr_configset/conf"
-        docker cp "$RUNNER_TEMP/solr_configset" $SOLR_ID:/solr_conf_from_repo
-
     - name: Create ArchivesSpace Solr core
-      env:
-        SOLR_ID: ${{ job.services.solr.id }}
-      run: |
-        docker exec --tty $SOLR_ID solr create_core --solr-url http://localhost:8983 -c archivesspace -d /solr_conf_from_repo
+      uses: ./.github/actions/create-solr-core
+      with:
+        solr_container_id: ${{ job.services.solr.id }}
 
     - name: Run Backend tests
       run: |
