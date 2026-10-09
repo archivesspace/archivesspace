@@ -23,8 +23,10 @@ module MixedContentParser
     content.gsub!("\n\t", "\n\n")
 
     # turn <lb/> into the void <br/> up front: the HTML parser ignores the self-closing slash on
-    # non-void elements, so <lb/> would otherwise swallow the text that follows it
-    content.gsub!(%r{<lb\b[^<>]*>(\s*</lb>)?}i, '<br/>')
+    # non-void elements, so <lb/> would otherwise swallow the text that follows it. <lb> is always
+    # empty in EAD, so any closing </lb> is dropped. The lookahead keeps <lb-foo> or <lb:x> intact.
+    content.gsub!(%r{<lb(?=[\s/>])[^<>]*>}i, '<br/>')
+    content.gsub!(%r{</lb\s*>}i, '')
 
     # transform blocks of text seperated by line breaks into <p> wrapped blocks
     content = content.split("\n\n").inject("") { |c, n| c << "<p>#{n}</p>" } if opts[:wrap_blocks]
