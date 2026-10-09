@@ -150,7 +150,7 @@ git push --set-upstream origin ANW-123-descriptive-short-title
 
 Finally, go to GitHub and [make a Pull Request][] :D
 
-TravisCI will run all test suites against the pushed branch. We care about
+GitHub Actions will run all test suites against the pushed branch. We care about
 quality, so your Pull Request won't be merged until all test suites pass.
 
 ### What happens after you submit a Pull request?
