@@ -10,7 +10,7 @@ class EventHandler < Handler
     begin
       event_data = event_builder.to_h(
         :source_uri => digital_object_uri,
-        :system_agent_ref => AgentSoftware.archivesspace_record.uri
+        :system_agent_ref => system_agent_ref
       )
       event = JSONModel(:event).from_hash(event_data)
       return if @validate_only
@@ -30,5 +30,11 @@ class EventHandler < Handler
                            :group => group,
                            :type => event_data["event_type"]))
     saved.uri
+  end
+
+  private
+
+  def system_agent_ref
+    @system_agent_ref ||= AgentSoftware.archivesspace_record.uri
   end
 end
