@@ -28,6 +28,17 @@ module ThumbnailSpecHelper
     }.merge(opts))
   end
 
+  # Appended to the end of its level of the tree, so that creation order is tree order
+  def component_of(digital_object, file_versions, opts = {})
+    create(:json_digital_object_component, {
+      :publish => true,
+      :digital_object => {'ref' => digital_object.uri},
+      :component_id => SecureRandom.hex,
+      :position => nil,
+      :file_versions => file_versions,
+    }.merge(opts))
+  end
+
   def thumbnail_for(model, record)
     model.to_jsonmodel(record.id)['thumbnail']
   end
