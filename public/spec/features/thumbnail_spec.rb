@@ -39,6 +39,17 @@ describe 'Thumbnails', js: true do
         { publish: true, is_display_link: true, file_uri: @link_1, caption: @caption_2 },
       ]
     )
+    @caption_with_markup = 'Letter to <emph render="italic">The Times</emph>'
+    @link_with_apostrophe = "https://www.example.com/O'Brien_letter.pdf"
+    @dobj_with_awkward_file_versions = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with markup and an apostrophe in its file versions',
+      file_versions: [
+        { publish: true, file_uri: @link_2, caption: @caption_with_markup },
+        { publish: true, file_uri: @link_with_apostrophe },
+      ]
+    )
     @dobjc_with_thumbnail = create(
       :digital_object_component,
       publish: true,
@@ -80,6 +91,8 @@ describe 'Thumbnails', js: true do
                                   instances: [build(:instance_digital,
                                                     digital_object: { ref: @dobj_with_icon.uri },
                                                     is_representative: true)])
+
+    @resource_without_thumbnail = create(:resource, publish: true, title: 'Resource without thumbnail')
 
     # a resource with no representative instance of its own shows the image of an archival object's
     @resource_from_tree = create(:resource, publish: true, title: 'Resource with thumbnail from its tree')
@@ -137,6 +150,25 @@ describe 'Thumbnails', js: true do
         expect(page).to have_css "a[href='#{@link_2}']", visible: :all
         expect(page).not_to have_css "a[href='#{@img_1}']", visible: :all
         expect(page).not_to have_css "a[href='#{@link_1}']", visible: :all
+      end
+    end
+
+    it 'shows the caption of a listed file version without its markup' do
+      visit @dobj_with_awkward_file_versions.uri
+
+      within '#additional_file_versions_list', visible: :all do
+        aggregate_failures do
+          expect(page).to have_css "a[href='#{@link_2}']", text: 'Letter to The Times', visible: :all
+          expect(page).not_to have_css 'emph', visible: :all
+        end
+      end
+    end
+
+    it 'links to the whole file URI of a listed file version, even with an apostrophe in it' do
+      visit @dobj_with_awkward_file_versions.uri
+
+      within '#additional_file_versions_list', visible: :all do
+        expect(page).to have_css %(a[href="#{@link_with_apostrophe}"]), text: @link_with_apostrophe, visible: :all
       end
     end
   end
@@ -242,6 +274,26 @@ describe 'Thumbnails', js: true do
           expect(page.find('.pui-thumbnail img', visible: :all)[:src]).to eq @img_1
           expect(page.find('.pui-thumbnail img')[:alt]).to eq @caption_1
         end
+      end
+    end
+
+    it 'leaves a space for it on results without one to align with those that do' do
+      search_for @resource_without_thumbnail.title
+
+      within ".recordrow[data-uri='#{@resource_without_thumbnail.uri}']" do
+        aggregate_failures do
+          expect(page).not_to have_css '.pui-thumbnail'
+          expect(page).to have_css '.pui-thumbnail-spacer', visible: :all
+        end
+      end
+    end
+
+    it 'leaves no space for it on results of a type that never has one' do
+      visit('/agents')
+
+      aggregate_failures do
+        expect(page).to have_css '.recordrow'
+        expect(page).not_to have_css '.recordrow .pui-thumbnail-spacer', visible: :all
       end
     end
   end
