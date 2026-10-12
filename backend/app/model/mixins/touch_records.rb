@@ -40,6 +40,16 @@ module TouchRecords
     result
   end
 
+  # Suppression can change what related records show, e.g. the thumbnail a Digital Object
+  # Component supplies to the records linking its Digital Object (ANW-3057)
+  def set_suppressed(val)
+    result = super
+    RequestContext.open(:enforce_suppression => false) do
+      self.class.touch(self)
+    end
+    result
+  end
+
   module ClassMethods
 
     def create_from_json(json, opts = {})
