@@ -368,18 +368,26 @@ Then 'the thumbnail links to {string}' do |file_name|
   end
 end
 
-Then 'the thumbnail links to the Digital Object {string}' do |digital_object_name|
-  digital_object = thumbnail_record(digital_object_name)
-  digital_object_uri = record_uri(digital_object[:type], digital_object[:id])
+def thumbnail_expect_record_link(name)
+  record = thumbnail_record(name)
+  uri = record_uri(record[:type], record[:id])
 
   within_first_thumbnail do
     if @thumbnail_interface == :staff
       # staff interface links go through the resolver: /resolve/readonly?uri=<record uri>
-      expect_link_with_href(a_string_ending_with("uri=#{digital_object_uri}"))
+      expect_link_with_href(a_string_ending_with("uri=#{uri}"))
     else
-      expect_link_with_href(a_string_ending_with(digital_object_uri))
+      expect_link_with_href(a_string_ending_with(uri))
     end
   end
+end
+
+Then 'the thumbnail links to the Digital Object {string}' do |digital_object_name|
+  thumbnail_expect_record_link(digital_object_name)
+end
+
+Then 'the thumbnail links to the Digital Object Component {string}' do |component_name|
+  thumbnail_expect_record_link(component_name)
 end
 
 Then 'the thumbnail has no link' do
