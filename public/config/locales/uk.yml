@@ -545,5 +545,5 @@ uk:
     username_aria_label: Ім'я користувача
     password_aria_label: Пароль користувача
     required: потрібно
-    pui_permission_denied: "Користувач `%{username}` не має дозволу переглядати PUI."
+    pui_permission_denied: "Користувач `%{username}` не має дозволу переглядати публічний інтерфейс."
     login_failed: "Помилка входу. Перевірте своє ім'я користувача та пароль."

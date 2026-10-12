@@ -654,5 +654,5 @@ fr:
     username_aria_label: Nom d'utilisateur
     password_aria_label: Mot de passe
     required: Champs obligatoires
-    pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter la PUI."
+    pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter l'interface publique."
     login_failed: "Échec de la connexion. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."

@@ -149,7 +149,7 @@ describe SessionsController, type: :controller do
 
         it 'sets a permission error flash message' do
           post :login, params: { user_name: username, password: password }
-          expect(flash.now[:error]).to include('does not have permission to view the PUI')
+          expect(flash.now[:error]).to include(I18n.t('login.pui_permission_denied', username: username))
           expect(flash.now[:error]).to include(username)
         end
       end

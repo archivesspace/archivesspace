@@ -530,5 +530,5 @@ ja:
     username_aria_label: ユーザー名
     password_aria_label: ユーザーパスワード
     required: 必須
-    pui_permission_denied: "ユーザー「%{username}」にはPUIを表示する権限がありません。"
+    pui_permission_denied: "ユーザー「%{username}」にはパブリックインターフェイスを表示する権限がありません。"
     login_failed: "ログインに失敗しました。ユーザー名とパスワードを確認してください。"

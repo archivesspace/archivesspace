@@ -602,5 +602,5 @@ es:
     username_aria_label: Nombre de usuario
     password_aria_label: Contraseña de usuario
     required: Campos requeridos
-    pui_permission_denied: "El usuario `%{username}` no tiene permiso para ver la PUI."
+    pui_permission_denied: "El usuario `%{username}` no tiene permiso para ver la interfaz pública."
     login_failed: "Error al iniciar sesión. Compruebe su nombre de usuario y contraseña."

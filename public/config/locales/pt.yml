@@ -191,7 +191,7 @@ pt:
     username_aria_label: Nome de usuário
     password_aria_label: Senha do usuário
     required: obrigatório
-    pui_permission_denied: "O usuário `%{username}` não tem permissão para visualizar a PUI."
+    pui_permission_denied: "O usuário `%{username}` não tem permissão para visualizar a interface pública."
     login_failed: "Falha no login. Verifique seu nome de usuário e senha."
   archival_object:
     _public: {}
