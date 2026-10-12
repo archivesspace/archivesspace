@@ -158,6 +158,13 @@ describe ResourcesController, type: :controller do
     end
   end
 
+  describe 'infinite action' do
+    it 'should return a 404 when it cannot find the resource' do
+      get(:infinite, params: { rid: @repo.id, id: 'notaId' })
+      expect(response.status).to eq(404)
+    end
+  end
+
   describe 'index action for a repository with no published resources' do
     before(:all) do
       @empty_repo = create(:repo, repo_code: "resources_empty_test_#{Time.now.to_i}",
