@@ -35,7 +35,7 @@ Feature: Representative image on Accessions, Resources and Archival Objects (ANW
       And the thumbnail has the caption 'Photograph image'
       And the bundled Universal Viewer is embedded
 
-  Scenario: A Resource shows the image of its representative Digital Object instance and the number of its Digital Objects
+  Scenario: A Resource shows the image of its representative Digital Object instance and lists its Digital Objects
     Given a Resource 'Collection' has been created with the Digital Object 'Photograph' as its representative instance
      When the user views the 'Collection' in the staff interface
      Then the thumbnail shows 'an image'
@@ -99,7 +99,7 @@ Feature: Representative image on Accessions, Resources and Archival Objects (ANW
       And the thumbnail links to the Digital Object Component 'Page'
       And the thumbnail caption is the title of 'Page'
 
-  Scenario: A Resource shows the image of a Digital Object Component and the number of its Digital Objects
+  Scenario: A Resource shows the image of a Digital Object Component and lists its Digital Objects
     Given a Digital Object 'Album' has been created without File Versions
       And the Digital Object 'Album' has a Digital Object Component 'Page' with the following File Versions
       | File     | Published | Marked as         | Caption    |
