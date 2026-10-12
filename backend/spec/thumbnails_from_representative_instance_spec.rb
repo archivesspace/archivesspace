@@ -49,6 +49,84 @@ describe 'Thumbnails::FromRepresentativeInstance' do
 
       expect(thumbnail_for(model, record)).to be_nil
     end
+
+    context 'when the representative digital object a digital object component with a dislpay thumbnail file version (ANW-3057)' do
+      it 'shows the image of its first digital object component in tree order with a diplay thumbnail file version, linked to that component' do
+        digital_object = digital_object_with([])
+        first = component_of(digital_object, [])
+        nested = component_of(digital_object, [image_file_version(:is_display_thumbnail => true, :caption => 'Page caption')],
+                              :parent => {'ref' => first.uri})
+        component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+        record = create(factory, :instances => [representative_instance(digital_object)])
+
+        thumbnail = thumbnail_for(model, record)
+        expect(thumbnail['image_url']).to eq(DigitalObjectComponent.to_jsonmodel(nested.id)['thumbnail']['image_url'])
+        expect(thumbnail['record_uri']).to eq(nested.uri)
+        expect(thumbnail['caption']).to eq('Page caption')
+        expect(thumbnail['digital_object_type']).to eq('still_image')
+        expect(thumbnail).not_to have_key('link_url')
+      end
+
+      it 'captions the component image with the display string of the component, without captions' do
+        digital_object = digital_object_with([])
+        component = component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+        record = create(factory, :instances => [representative_instance(digital_object)])
+
+        expect(thumbnail_for(model, record)['caption']).to eq(DigitalObjectComponent.to_jsonmodel(component.id)['display_string'])
+      end
+
+      it 'prefers the component image over the generic icon of the digital object' do
+        digital_object = digital_object_with([link_file_version(:is_display_link => true)])
+        component = component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+        record = create(factory, :instances => [representative_instance(digital_object)])
+
+        thumbnail = thumbnail_for(model, record)
+        expect(thumbnail).to have_key('image_url')
+        expect(thumbnail['record_uri']).to eq(component.uri)
+      end
+
+      it 'ignores unpublished and suppressed components and component file versions' do
+        digital_object = digital_object_with([link_file_version(:is_display_link => true)])
+        component_of(digital_object, [image_file_version(:is_display_thumbnail => true)], :publish => false)
+        suppressed = component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+        component_of(digital_object, [image_file_version(:is_display_thumbnail => true, :publish => false)])
+        DigitalObjectComponent[suppressed.id].set_suppressed(true)
+        record = create(factory, :instances => [representative_instance(digital_object)])
+
+        thumbnail = thumbnail_for(model, record)
+        expect(thumbnail).not_to have_key('image_url')
+        expect(thumbnail['record_uri']).to eq(digital_object.uri)
+      end
+
+      it 'shows nothing when no component has an image either' do
+        digital_object = digital_object_with([])
+        component_of(digital_object, [link_file_version(:is_display_link => true)])
+        record = create(factory, :instances => [representative_instance(digital_object)])
+
+        expect(thumbnail_for(model, record)).to be_nil
+      end
+    end
+
+    it 'prefers to show the display thumbnail of the digital object over the display thumbnail of its components, linked to the digital object' do
+      digital_object = digital_object_with([image_file_version(:is_display_thumbnail => true)])
+      component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+      record = create(factory, :instances => [representative_instance(digital_object)])
+
+      thumbnail = thumbnail_for(model, record)
+      expect(thumbnail['image_url']).to eq(DigitalObject.to_jsonmodel(digital_object.id)['thumbnail']['image_url'])
+      expect(thumbnail['record_uri']).to eq(digital_object.uri)
+    end
+
+    it 'is reindexed when a component of its representative digital object changes (ANW-3057)' do
+      digital_object = digital_object_with([])
+      record = create(factory, :instances => [representative_instance(digital_object)])
+      mtime = model[record.id].system_mtime
+
+      ArchivesSpaceService.wait(:long)
+      component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+
+      expect(model[record.id].system_mtime).to be > mtime
+    end
   end
 
   describe 'accessions' do

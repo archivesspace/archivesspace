@@ -122,6 +122,18 @@ class DigitalObject < Sequel::Model(:digital_object)
     resource_ids
   end
 
+  # { accession_id: [...], archival_object_id: [...], resource_id: [...] }: records linked to this Digital Object
+  def instance_owner_ids
+    relationships = self.class.find_relationship(:instance_do_link).find_by_participant(self)
+    instances = Instance.filter(:id => relationships.map { |relationship| relationship[:instance_id] })
+                  .select(:accession_id, :archival_object_id, :resource_id)
+                  .all
+
+    [:accession_id, :archival_object_id, :resource_id].to_h { |column|
+      [column, instances.map { |instance| instance[column] }.compact.uniq]
+    }
+  end
+
   def self.touch_records(obj)
     [
       { type: Resource, ids: DigitalObject.instance_owners_root_records(obj.id) }

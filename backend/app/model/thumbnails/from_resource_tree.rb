@@ -43,33 +43,11 @@ module Thumbnails
                          Sequel.qualify(:instance_do_link_rlshp, :digital_object_id))
                  .all
 
-        paths = tree_paths(rows.map { |row| row[:id] })
+        paths = Rules.tree_paths(ArchivalObject, rows.map { |row| row[:id] })
 
         rows
           .sort_by { |row| paths.fetch(row[:id]) }
           .each_with_object({}) { |row, result| (result[row[:root_record_id]] ||= []) << row[:digital_object_id] }
-      end
-
-      # { archival object id => [position of the top-level ancestor, ..., own position] }, so that sorting
-      # by the path gives tree (depth-first) order. Walks up one level per query.
-      def tree_paths(archival_object_ids)
-        paths = archival_object_ids.to_h { |id| [id, []] }
-        current = archival_object_ids.to_h { |id| [id, id] }
-
-        until current.empty?
-          nodes = ArchivalObject.any_repo
-                    .filter(:id => current.values.uniq)
-                    .select(:id, :parent_id, :position)
-                    .to_h { |row| [row[:id], row] }
-
-          current = current.each_with_object({}) do |(id, node_id), next_level|
-            node = nodes.fetch(node_id)
-            paths[id].unshift(node[:position])
-            next_level[id] = node[:parent_id] if node[:parent_id]
-          end
-        end
-
-        paths
       end
     end
   end

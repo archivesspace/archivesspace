@@ -38,6 +38,25 @@ describe 'Thumbnails::FromResourceTree' do
     expect(thumbnail).to have_key('image_url')
   end
 
+  it 'counts the component image of its own representative digital object as its image (ANW-3057)' do
+    own = digital_object_with([])
+    component = component_of(own, [image_file_version(:is_display_thumbnail => true)])
+    resource = create(:json_resource, :instances => [representative_instance(own)])
+    archival_object_in(resource, image_do)
+
+    expect(thumbnail_for(Resource, resource)['record_uri']).to eq(component.uri)
+  end
+
+  it 'takes the first archival object in tree order, even when its image comes from a component (ANW-3057)' do
+    resource = create(:json_resource)
+    from_component = digital_object_with([])
+    component = component_of(from_component, [image_file_version(:is_display_thumbnail => true)])
+    archival_object_in(resource, from_component)
+    archival_object_in(resource, image_do)
+
+    expect(thumbnail_for(Resource, resource)['record_uri']).to eq(component.uri)
+  end
+
   it 'shows the first generic icon when no representative instance has an image (ANW-3009)' do
     resource = create(:json_resource)
     archival_object_in(resource, icon_do)

@@ -87,10 +87,15 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
     super
   end
 
+  # A component can supply the thumbnail of the records linking its Digital Object (ANW-3057), so
+  # those are reindexed too
   def self.touch_records(obj)
+    owners = DigitalObject[obj.root_record_id].instance_owner_ids
     [
       { type: DigitalObject, ids: [obj.root_record_id] },
-      { type: Resource, ids: DigitalObject.instance_owners_root_records(obj.root_record_id) }
+      { type: Resource, ids: (DigitalObject.instance_owners_root_records(obj.root_record_id) + owners[:resource_id]).uniq },
+      { type: Accession, ids: owners[:accession_id] },
+      { type: ArchivalObject, ids: owners[:archival_object_id] }
     ]
   end
 end
