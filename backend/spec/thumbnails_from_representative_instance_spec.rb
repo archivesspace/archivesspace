@@ -85,11 +85,10 @@ describe 'Thumbnails::FromRepresentativeInstance' do
         expect(thumbnail['record_uri']).to eq(component.uri)
       end
 
-      it 'ignores unpublished and suppressed components and component file versions' do
+      it 'ignores unpublished and suppressed components' do
         digital_object = digital_object_with([link_file_version(:is_display_link => true)])
         component_of(digital_object, [image_file_version(:is_display_thumbnail => true)], :publish => false)
         suppressed = component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
-        component_of(digital_object, [image_file_version(:is_display_thumbnail => true, :publish => false)])
         DigitalObjectComponent[suppressed.id].set_suppressed(true)
         record = create(factory, :instances => [representative_instance(digital_object)])
 
@@ -126,6 +125,20 @@ describe 'Thumbnails::FromRepresentativeInstance' do
       component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
 
       expect(model[record.id].system_mtime).to be > mtime
+    end
+
+    it 'is reindexed when a component of its representative digital object is suppressed or unsuppressed (ANW-3057)' do
+      digital_object = digital_object_with([])
+      component = component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+      record = create(factory, :instances => [representative_instance(digital_object)])
+
+      [true, false].each do |suppressed|
+        mtime = model[record.id].system_mtime
+        ArchivesSpaceService.wait(:long)
+        DigitalObjectComponent[component.id].set_suppressed(suppressed)
+
+        expect(model[record.id].system_mtime).to be > mtime
+      end
     end
   end
 
