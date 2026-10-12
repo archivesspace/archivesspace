@@ -142,23 +142,37 @@ begin
   # dependency graph selected and where the WAR lockfiles agree. If WARs pin
   # multiple versions, leave the plugin's selected version alone; another WAR may
   # need that version available from the plugin gem home.
-  constraints = plugin_gem_names.filter_map do |name|
+  core_pins = plugin_gem_names.sort.filter_map do |name|
     versions = war_versions_by_name[name]
     next unless versions
     next unless versions.length == 1
 
-    %(gem "#{name}", "= #{gem_requirement_version(versions.first)}", require: false)
-  end.sort
+    [name, gem_requirement_version(versions.first)]
+  end.to_h
 
   if ENV["ASPACE_PLUGIN_DEBUG"] == "true"
     puts "Plugin dependency graph includes #{plugin_gem_names.length} gems"
-    puts "Applying #{constraints.length} ArchivesSpace core constraints"
-    constraints.each { |constraint| puts "\t#{constraint}" }
+    puts "Applying #{core_pins.length} ArchivesSpace core constraints"
+    core_pins.each { |name, version| puts "\tgem \"#{name}\", \"= #{version}\"" }
   end
 
+  # A gem the plugin Gemfile declares itself can't get a second `gem` line with
+  # another requirement (Bundler refuses the duplicate), so the core pin is added
+  # to the plugin's own declaration instead. Pins for the plugin's other
+  # dependencies are declared after it.
   File.open(install_gemfile, "w") do |file|
+    file.puts "core_pins = #{core_pins.inspect}"
+    file.puts <<~'GEMFILE'
+      define_singleton_method(:gem) do |name, *args|
+        pin = core_pins.delete(name)
+        return super(name, *args) unless pin
+
+        options = args.last.is_a?(Hash) ? args.pop : {}
+        super(name, *args, "= #{pin}", options)
+      end
+    GEMFILE
     file.puts %(eval_gemfile "#{plugin_gemfile}")
-    constraints.each { |constraint| file.puts constraint }
+    file.puts 'core_pins.each { |name, version| gem name, "= #{version}", require: false }'
   end
 
   run_jruby(base, File.join(core_gem_home, "bin", "bundle"), "install", "--gemfile=#{install_gemfile}")
