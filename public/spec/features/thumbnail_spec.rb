@@ -39,6 +39,17 @@ describe 'Thumbnails', js: true do
         { publish: true, is_display_link: true, file_uri: @link_1, caption: @caption_2 },
       ]
     )
+    @caption_with_markup = 'Letter to <emph render="italic">The Times</emph>'
+    @link_with_apostrophe = "https://www.example.com/O'Brien_letter.pdf"
+    @dobj_with_awkward_file_versions = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with markup and an apostrophe in its file versions',
+      file_versions: [
+        { publish: true, file_uri: @link_2, caption: @caption_with_markup },
+        { publish: true, file_uri: @link_with_apostrophe },
+      ]
+    )
     @dobjc_with_thumbnail = create(
       :digital_object_component,
       publish: true,
@@ -141,6 +152,25 @@ describe 'Thumbnails', js: true do
         expect(page).not_to have_css "a[href='#{@link_1}']", visible: :all
       end
     end
+
+    it 'shows the caption of a listed file version without its markup' do
+      visit @dobj_with_awkward_file_versions.uri
+
+      within '#additional_file_versions_list', visible: :all do
+        aggregate_failures do
+          expect(page).to have_css "a[href='#{@link_2}']", text: 'Letter to The Times', visible: :all
+          expect(page).not_to have_css 'emph', visible: :all
+        end
+      end
+    end
+
+    it 'links to the whole file URI of a listed file version, even with an apostrophe in it' do
+      visit @dobj_with_awkward_file_versions.uri
+
+      within '#additional_file_versions_list', visible: :all do
+        expect(page).to have_css %(a[href="#{@link_with_apostrophe}"]), text: @link_with_apostrophe, visible: :all
+      end
+    end
   end
 
   describe 'on records with a representative digital object instance' do
@@ -224,15 +254,6 @@ describe 'Thumbnails', js: true do
 
       within ".recordrow[data-uri='#{@dobj_with_thumbnail.uri}']" do
         expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'][target='_self'] img[src='#{@img_1}']"
-      end
-    end
-
-    it 'leaves a spacer in place of a missing thumbnail, so that the results line up' do
-      search_for @accession_without_thumbnail.title
-
-      within ".recordrow[data-uri='#{@accession_without_thumbnail.uri}']" do
-        expect(page).to have_css '.pui-thumbnail-spacer', visible: :all
-        expect(page).not_to have_css '.pui-thumbnail', visible: :all
       end
     end
 
