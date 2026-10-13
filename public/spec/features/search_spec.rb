@@ -443,7 +443,8 @@ describe 'Search', js: true do
                sub_container: build(:json_sub_container, {
                  top_container: { ref: top_container.uri },
                  type_2: 'folder',
-                 indicator_2: '3'
+                 indicator_2: '3',
+                 barcode_2: "child_barcode_#{now}"
                })
              })])
     end
@@ -455,6 +456,9 @@ describe 'Search', js: true do
     end
 
     it 'shows the top container type and indicator but not the barcode' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_barcodes) { false }
+
       visit('/search')
       find('#q0').fill_in with: ao.title
       click_on 'Search'
@@ -465,6 +469,26 @@ describe 'Search', js: true do
 
       visit(ao.uri)
       expect(page).not_to have_text("barcode_#{now}")
+    end
+
+    it 'shows the barcode when AppConfig[:pui_display_barcodes] is true' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_barcodes) { true }
+
+      visit('/search')
+      find('#q0').fill_in with: ao.title
+      click_on 'Search'
+
+      badge = find(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{ao.title}')]]//div[contains(@class, 'record-type-badge')]")
+      expect(badge).to have_text("Box: #{now} [Barcode: barcode_#{now}], Folder: 3 [Barcode: child_barcode_#{now}]")
+    end
+
+    it 'shows the barcode on the record page when AppConfig[:pui_display_barcodes] is true' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_barcodes) { true }
+
+      visit(ao.uri)
+      expect(page).to have_css('ul.top_containers li', text: "Box: #{now} [Barcode: barcode_#{now}], Folder: 3 [Barcode: child_barcode_#{now}]", visible: :all)
     end
   end
 

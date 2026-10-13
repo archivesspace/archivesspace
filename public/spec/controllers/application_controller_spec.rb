@@ -389,14 +389,15 @@ describe WelcomeController, type: :controller do
     end
 
     it 'renders the login screen with a permission-denied flash for a valid session without pui access' do
-      stub_current_user_response(instance_double(Net::HTTPResponse, code: '200', body: { 'username' => 'someuser', 'is_pui_viewer' => false }.to_json))
+      username = 'someuser'
+      stub_current_user_response(instance_double(Net::HTTPResponse, code: '200', body: { 'username' => username, 'is_pui_viewer' => false }.to_json))
       session[:session] = 'abc123'
-      session[:pui_username] = 'someuser'
+      session[:pui_username] = username
 
       get :show
 
       expect(response).to render_template('shared/login')
-      expect(flash.now[:error]).to include('does not have permission to view the PUI')
+      expect(flash.now[:error]).to include(I18n.t('login.pui_permission_denied', username: username))
     end
 
     it 'shows the current session user in the permission-denied flash, not a stale one' do

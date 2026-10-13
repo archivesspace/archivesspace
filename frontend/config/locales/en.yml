@@ -776,6 +776,10 @@ en:
       move_records: Unable to move records
       move_records_message: The records could not be moved. Please refresh the page and try again.
 
+  sidebar:
+    aria_label: Record sections
+    system_info_aria_label: System Information sections
+
   errors:
     sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
