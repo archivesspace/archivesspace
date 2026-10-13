@@ -15,7 +15,11 @@
         end
     %>
     <li data-additional-file-version>
-      <%= link_to link_text, fv['file_uri'], target: 'new', title: t('digital_object._public.link') %>
+      <% if FileURI.allowed_scheme?(fv['file_uri']) %>
+        <%= link_to link_text, fv['file_uri'], target: 'new', title: t('digital_object._public.link') %>
+      <% else %>
+        <%= link_text %>
+      <% end %>
     </li>
   <% end %>
 </ul>
