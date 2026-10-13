@@ -44,7 +44,7 @@ module Thumbnails
                          Sequel.qualify(:instance_do_link_rlshp, :digital_object_id))
                  .all
 
-        hidden = with_hidden_ancestor(rows.to_h { |row| [row[:id], row[:parent_id]] })
+        hidden = Rules.with_hidden_ancestor(ArchivalObject, rows.to_h { |row| [row[:id], row[:parent_id]] })
         rows = rows.reject { |row| hidden.include?(row[:id]) }
 
         paths = Rules.tree_paths(ArchivalObject, rows.map { |row| row[:id] })
@@ -52,33 +52,6 @@ module Thumbnails
         rows
           .sort_by { |row| paths.fetch(row[:id]) }
           .each_with_object({}) { |row, result| (result[row[:root_record_id]] ||= []) << row[:digital_object_id] }
-      end
-
-      # The ids of the Archival Objects with an unpublished or suppressed ancestor, from
-      # { archival object id => parent id }. Walks up one level per query.
-      def with_hidden_ancestor(parent_ids)
-        hidden = []
-        current = parent_ids.compact
-
-        until current.empty?
-          ancestors = ArchivalObject.any_repo
-                        .filter(:id => current.values.uniq)
-                        .select(:id, :parent_id, :publish, :suppressed)
-                        .to_h { |row| [row[:id], row] }
-
-          current = current.each_with_object({}) do |(id, ancestor_id), next_level|
-            # A suppressed ancestor is missing when the request enforces suppression
-            ancestor = ancestors[ancestor_id]
-
-            if ancestor.nil? || ancestor[:publish] != 1 || ancestor[:suppressed] == 1
-              hidden << id
-            elsif ancestor[:parent_id]
-              next_level[id] = ancestor[:parent_id]
-            end
-          end
-        end
-
-        hidden
       end
     end
   end
