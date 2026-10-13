@@ -1,5 +1,4 @@
 <%
-  show_spacer = true unless defined?(show_spacer)
   n_digital_objects = nil unless defined?(n_digital_objects)
 %>
 <% if result.has_thumbnail? %>
@@ -44,6 +43,4 @@
       </div>
     <% end %>
   </div>
-<% elsif show_spacer %>
-  <div class="pui-thumbnail-spacer"></div>
 <% end %>
