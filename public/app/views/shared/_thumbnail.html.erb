@@ -17,9 +17,13 @@
     elsif thumbnail['record_uri']
       link_url = app_prefix(thumbnail['record_uri'])
       link_options = {:target => '_self'}
-    else
+    elsif FileURI.allowed_scheme?(thumbnail['link_url'])
+      # The backend already drops a link_url whose scheme is not allowed; checking again here covers
+      # records indexed before it did
       link_url = thumbnail['link_url']
       link_options = {:target => '_blank'}
+    else
+      link_url = nil
     end
 
     icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"

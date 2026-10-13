@@ -85,7 +85,7 @@ module DigitalObjectHelper
   def thumbnail_link_url(thumbnail)
     if thumbnail['record_uri']
       url_for(:controller => :resolver, :action => :resolve_readonly, :uri => thumbnail['record_uri'])
-    else
+    elsif FileURI.allowed_scheme?(thumbnail['link_url'])
       thumbnail['link_url']
     end
   end
