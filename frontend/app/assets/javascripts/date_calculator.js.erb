@@ -1,8 +1,15 @@
 $(function () {
 
-  function DateCalculatorForm(record_type, record_id) {
+  function DateCalculatorForm(record_type, record_id, button) {
       var dialog_content = AS.renderTemplate("template_date_calculator_form_" + record_type + "_" + record_id);
-      this.$modal = AS.openCustomModal("dateCalculationModal", "<%= I18n.t('date_calculator.modal_title') %>", dialog_content, 'large');
+      this.$modal = AS.openCustomModal(
+        "dateCalculationModal",
+        "<%= I18n.t('date_calculator.modal_title') %>",
+        dialog_content,
+        'large',
+        {},
+        button
+      );
       this.setup_calculator_form();
   };
 
@@ -65,7 +72,11 @@ $(function () {
 
   $(document).bind("loadedrecordform.aspace", function(event, $container) {
       $('.date-calculator-btn').on('click', function (event) {
-          new DateCalculatorForm($(this).data('record-type'), $(this).data('record-id'));
+          new DateCalculatorForm(
+            $(this).data('record-type'),
+            $(this).data('record-id'),
+            AS.deriveModalOwner(this)
+          );
       });
   });
 });
