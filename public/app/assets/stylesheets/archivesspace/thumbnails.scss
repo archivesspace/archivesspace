@@ -1,5 +1,4 @@
 .pui-thumbnail {
-  float: right;
   border: 1px solid #ccc;
   padding: 4px;
   min-width: 120px;
@@ -35,20 +34,23 @@
   }
 }
 
-.search-results {
-  .recordrow {
-    display: flex;
+.result-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+
+  > .recordrow-summary {
+    flex: 1 1 auto;
+    min-width: 0; // keep long titles and identifiers from pushing the thumbnail out of the row
   }
-  .pui-thumbnail {
-    flex: 0 0 84px;
-  }
-  .pui-thumbnail-spacer {
+
+  > .pui-thumbnail {
     flex: 0 0 84px;
   }
 }
 
 .infinite-item,
-.search-results {
+.result-row {
   .pui-thumbnail {
     float: none;
     border: none;
