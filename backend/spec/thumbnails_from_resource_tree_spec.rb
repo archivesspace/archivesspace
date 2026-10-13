@@ -82,6 +82,28 @@ describe 'Thumbnails::FromResourceTree' do
     expect(thumbnail_for(Resource, resource)).to be_nil
   end
 
+  it 'ignores archival objects with an unpublished ancestor' do
+    resource = create(:json_resource)
+    unpublished = archival_object_in(resource, nil, :publish => false)
+    child = archival_object_in(resource, nil, :parent => {'ref' => unpublished.uri})
+    archival_object_in(resource, image_do, :parent => {'ref' => child.uri})
+    later = image_do
+    archival_object_in(resource, later)
+
+    expect(thumbnail_for(Resource, resource)['record_uri']).to eq(later.uri)
+  end
+
+  it 'ignores archival objects with a suppressed ancestor' do
+    resource = create(:json_resource)
+    suppressed = archival_object_in(resource, nil)
+    archival_object_in(resource, image_do, :parent => {'ref' => suppressed.uri})
+    later = image_do
+    archival_object_in(resource, later)
+    ArchivalObject[suppressed.id].set_suppressed(true)
+
+    expect(thumbnail_for(Resource, resource)['record_uri']).to eq(later.uri)
+  end
+
   it 'gives each resource its own thumbnail when several are loaded at once' do
     own = image_do
     from_tree = image_do
