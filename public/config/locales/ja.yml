@@ -331,10 +331,8 @@ ja:
     _singular: デジタルレコード
     _plural: デジタル素材
     _public:
-      thumbnail: サムネイル
       link: デジタルオブジェクトへのリンク
       badge_label: デジタル%{level}
-      go: ファイルに移動
       section: {}
       messages: {}
       browse_number_digital_objects_in_collection:
@@ -533,4 +531,5 @@ ja:
     pui_permission_denied: "ユーザー「%{username}」にはパブリックインターフェイスを表示する権限がありません。"
     login_failed: "ログインに失敗しました。ユーザー名とパスワードを確認してください。"
   thumbnails:
-    access_help_text: オンラインでアクセスするにはここをクリックしてください
+    view_digital_object: デジタルオブジェクトを見る
+    view_digital_material: デジタル資料を見る

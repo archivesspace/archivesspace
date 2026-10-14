@@ -156,7 +156,7 @@ describe 'Thumbnails', js: true do
 
       aggregate_failures do
         expect(page).to have_css ".pui-thumbnail a[href='#{@link_1}'][target='_blank']"
-        expect(page).to have_css '.pui-thumbnail a .pui-thumbnail-help-text', text: 'Click here to access online', visible: :all
+        expect(page).to have_css '.pui-thumbnail a .pui-thumbnail-help-text', text: 'View Digital Material', visible: :all
         expect(page).not_to have_css '.pui-thumbnail a[aria-hidden]'
       end
     end
@@ -220,9 +220,13 @@ describe 'Thumbnails', js: true do
       expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'] img[src='#{@img_1}']"
     end
 
-    it 'opens the digital object in the same window' do
+    it 'opens the digital object in the same window, with help text' do
       visit @accession_with_thumbnail.uri
-      expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'][target='_self']"
+
+      aggregate_failures do
+        expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'][target='_self']"
+        expect(page).to have_css '.pui-thumbnail a .pui-thumbnail-help-text', text: 'View Digital Object', visible: :all
+      end
     end
 
     it 'links the generic icon of the digital object to the digital object' do
@@ -311,6 +315,7 @@ describe 'Thumbnails', js: true do
 
       within ".recordrow[data-uri='#{@dobj_with_thumbnail.uri}']" do
         expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'][target='_self'] img[src='#{@img_1}']"
+        expect(page).not_to have_css '.pui-thumbnail-help-text', visible: :all
       end
     end
 
