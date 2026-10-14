@@ -69,6 +69,11 @@ describe 'Thumbnails', js: true do
                                        instances: [build(:instance_digital,
                                                          digital_object: { ref: @dobj_with_thumbnail.uri },
                                                          is_representative: true)])
+    @aobj_without_thumbnail = create(:archival_object,
+                                     publish: true,
+                                     title: 'Archival Object without thumbnail',
+                                     resource: { 'ref' => @resource_with_thumbnail.uri })
+    @accession_without_thumbnail = create(:accession, publish: true, title: 'Accession without thumbnail')
     @accession_with_icon = create(:accession,
                                   publish: true,
                                   title: 'Accession with generic icon',
@@ -101,6 +106,17 @@ describe 'Thumbnails', js: true do
       visit @dobj_thumbnail_without_link.uri
       expect(page).to have_css ".pui-thumbnail img[src='#{@img_1}']"
       expect(page).not_to have_css '.pui-thumbnail a'
+      expect(page).not_to have_css '.pui-thumbnail-help-text', visible: :all
+    end
+
+    it 'opens the display link file version in a new window, with help text' do
+      visit @dobj_with_thumbnail.uri
+
+      aggregate_failures do
+        expect(page).to have_css ".pui-thumbnail a[href='#{@link_1}'][target='_blank']"
+        expect(page).to have_css '.pui-thumbnail a .pui-thumbnail-help-text', text: 'Click here to access online', visible: :all
+        expect(page).not_to have_css '.pui-thumbnail a[aria-hidden]'
+      end
     end
 
     it 'shows a format-specific generic icon linked to the display link file version' do
@@ -141,6 +157,11 @@ describe 'Thumbnails', js: true do
     it 'links the accession thumbnail to the digital object' do
       visit @accession_with_thumbnail.uri
       expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'] img[src='#{@img_1}']"
+    end
+
+    it 'opens the digital object in the same window' do
+      visit @accession_with_thumbnail.uri
+      expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'][target='_self']"
     end
 
     it 'links the generic icon of the digital object to the digital object' do
@@ -196,6 +217,23 @@ describe 'Thumbnails', js: true do
       end
     end
 
+    it 'links to the result record in the same window, like the title' do
+      search_for @dobj_with_thumbnail.title
+
+      within ".recordrow[data-uri='#{@dobj_with_thumbnail.uri}']" do
+        expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'][target='_self'] img[src='#{@img_1}']"
+      end
+    end
+
+    it 'leaves a spacer in place of a missing thumbnail, so that the results line up' do
+      search_for @accession_without_thumbnail.title
+
+      within ".recordrow[data-uri='#{@accession_without_thumbnail.uri}']" do
+        expect(page).to have_css '.pui-thumbnail-spacer', visible: :all
+        expect(page).not_to have_css '.pui-thumbnail', visible: :all
+      end
+    end
+
     it 'is shown for resources, archival objects and accessions' do
       [@resource_with_thumbnail, @aobj_with_thumbnail, @accession_with_thumbnail].each do |record|
         search_for record.title
@@ -204,6 +242,25 @@ describe 'Thumbnails', js: true do
           expect(page.find('.pui-thumbnail img', visible: :all)[:src]).to eq @img_1
           expect(page.find('.pui-thumbnail img')[:alt]).to eq @caption_1
         end
+      end
+    end
+  end
+
+  describe 'collection tree thumbnail' do
+    before(:each) do
+      visit "#{@resource_with_thumbnail.uri}/collection_organization"
+    end
+
+    it 'links to the archival object, hidden from screen readers and the keyboard, since it duplicates the title link' do
+      within '.infinite-item', text: @aobj_with_thumbnail.title do
+        expect(page).to have_css ".pui-thumbnail a[href$='#{@aobj_with_thumbnail.uri}'][target='_self'][aria-hidden='true'][tabindex='-1'] img[src='#{@img_1}']"
+      end
+    end
+
+    it 'leaves no spacer for an archival object without a thumbnail' do
+      within '.infinite-item', text: @aobj_without_thumbnail.title do
+        expect(page).not_to have_css '.pui-thumbnail', visible: :all
+        expect(page).not_to have_css '.pui-thumbnail-spacer', visible: :all
       end
     end
   end
@@ -248,6 +305,11 @@ describe 'Thumbnails', js: true do
 
     it 'shows the fallback icon if the thumbnail URL cannot be reached' do
       expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
+    end
+
+    it 'gives the fallback icon an accessible name' do
+      expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
+      expect(page).to have_css ".pui-thumbnail-fallback[role='img'][aria-label='#{@dobj_with_unreachable_thumbnail.title}']"
     end
 
     it 'shows the fallback icon, still linked to the digital object, if the thumbnail is in a format the browser cannot display' do
