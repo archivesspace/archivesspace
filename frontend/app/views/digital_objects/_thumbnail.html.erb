@@ -3,6 +3,10 @@
   image_link_url = defined?(override_link_url) ? override_link_url : thumbnail_link_url(thumbnail)
   image_link_target = defined?(override_link_target) ? override_link_target : (thumbnail['record_uri'] ? '_self' : '_blank')
   icon_class = "digital-object-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
+  icon_label = strip_tags(image_alt_text.to_s)
+  # In a search or browse table the thumbnail links to the row's own record, like the row's View
+  # button, so it is hidden from screen readers and the keyboard to avoid a duplicate link
+  duplicates_row_link = defined?(override_link_url) && override_link_url.present?
 %>
 <div class="digital-object-thumbnail">
   <% image = capture do %>
@@ -11,16 +15,22 @@
       <%= content_tag(:i, nil, {
         :title => image_alt_text,
         :class => "#{icon_class} digital-object-thumbnail-fallback",
-        :style => 'display: none;'
+        :style => 'display: none;',
+        :role => 'img',
+        'aria-label' => icon_label
       }) %>
     <% else %>
       <%= content_tag(:i, nil, {
         :title => image_alt_text,
-        :class => icon_class
+        :class => icon_class,
+        :role => 'img',
+        'aria-label' => icon_label
       }) %>
     <% end %>
   <% end %>
-  <%= link_to_if image_link_url, image, image_link_url, :target => image_link_target %>
+  <% link_options = {:target => image_link_target} %>
+  <% link_options.merge!('aria-hidden' => 'true', :tabindex => '-1') if duplicates_row_link %>
+  <%= link_to_if image_link_url, image, image_link_url, link_options %>
   <% if (caption = thumbnail.fetch('caption', nil)) %>
     <div class="digital-object-thumbnail-caption">
       <%= strip_tags(caption) %>
