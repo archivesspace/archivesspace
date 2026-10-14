@@ -2,7 +2,7 @@ require 'spec_helper'
 
 # Covers migration 182, which bumps the system_mtime of the records whose thumbnail the new display
 # rules may change, so that the indexer picks them up.
-describe 'Migration 182: reindex published records with digital objects' do
+describe 'Migration 182: reindex records with digital objects' do
   let(:migration) {
     migration_file = File.join(File.dirname(__FILE__), '../../common/db/migrations/182_reindex_published_records_with_digital.rb')
     eval(File.read(migration_file), TOPLEVEL_BINDING, migration_file)
@@ -44,7 +44,7 @@ describe 'Migration 182: reindex published records with digital objects' do
   end
 
   describe 'records with their own instance' do
-    it 'touches published accessions, resources and archival objects linked to a published digital object' do
+    it 'touches accessions, resources and archival objects linked to a published digital object' do
       accession = create(:json_accession, publish: true, instances: [digital_instance(published_digital_object)])
       linked_resource = resource(instances: [digital_instance(published_digital_object)])
       linked_archival_object = archival_object(resource(publish: false), instances: [digital_instance(published_digital_object)])
@@ -52,10 +52,11 @@ describe 'Migration 182: reindex published records with digital objects' do
       expect(touched([accession, linked_resource, linked_archival_object])).to eq([true, true, true])
     end
 
-    it 'does not touch unpublished records' do
+    it 'touches unpublished records too, since the SUI Thumbnail column lists them' do
+      unpublished_accession = create(:json_accession, publish: false, instances: [digital_instance(published_digital_object)])
       unpublished_resource = resource(publish: false, instances: [digital_instance(published_digital_object)])
 
-      expect(touched([unpublished_resource])).to eq([false])
+      expect(touched([unpublished_accession, unpublished_resource])).to eq([true, true])
     end
 
     it 'does not touch records linked only to an unpublished digital object' do
@@ -102,23 +103,23 @@ describe 'Migration 182: reindex published records with digital objects' do
       expect(touched([tree_resource])).to eq([false])
     end
 
-    it 'does not touch an unpublished resource' do
+    it 'touches an unpublished resource too' do
       tree_resource = resource(publish: false)
       archival_object(tree_resource, instances: [digital_instance(published_digital_object)])
 
-      expect(touched([tree_resource])).to eq([false])
+      expect(touched([tree_resource])).to eq([true])
     end
   end
 
   describe 'digital records' do
-    it 'touches published digital objects and digital object components, and no unpublished ones' do
+    it 'touches published and unpublished digital objects and digital object components' do
       published_component = create(:json_digital_object_component, publish: true, file_versions: [],
                                                                     digital_object: { ref: published_digital_object.uri })
       unpublished_component = create(:json_digital_object_component, publish: false, file_versions: [],
                                                                       digital_object: { ref: published_digital_object.uri })
 
       expect(touched([published_digital_object, published_component, unpublished_digital_object, unpublished_component]))
-        .to eq([true, true, false, false])
+        .to eq([true, true, true, true])
     end
   end
 end
