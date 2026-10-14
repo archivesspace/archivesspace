@@ -7,10 +7,12 @@
     caption = thumbnail['caption']
     icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
 
+    duplicates_title_link = defined?(thumbnail_link) && thumbnail_link.present?
+
     # An accession, resource or archival object links to the digital object record; a digital
     # object (component) to its display link file version, if any
     same_window = false
-    if defined?(thumbnail_link) && thumbnail_link
+    if duplicates_title_link
       same_window = true
     elsif thumbnail['record_uri']
       thumbnail_link = app_prefix(thumbnail['record_uri'])
@@ -26,12 +28,14 @@
       <% end %>
       <% if (image_url = thumbnail['image_url']) %>
         <%= image_tag image_url, :alt => strip_mixed_content(caption), 'onError' => 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block";' %>
-        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;'}) %>
+        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;', :role => 'img', 'aria-label' => strip_mixed_content(caption)}) %>
       <% else %>
-        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => icon_class}) %>
+        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => icon_class, :role => 'img', 'aria-label' => strip_mixed_content(caption)}) %>
       <% end %>
     <% end %>
-    <%= link_to_if thumbnail_link, image, thumbnail_link, :target => same_window ? '_self' : '_blank' %>
+    <% link_options = {:target => same_window ? '_self' : '_blank'} %>
+    <% link_options.merge!('aria-hidden' => 'true', :tabindex => '-1') if duplicates_title_link %>
+    <%= link_to_if thumbnail_link, image, thumbnail_link, link_options %>
     <% if caption %>
       <div class="pui-thumbnail-caption"><%= strip_mixed_content(caption) %></div>
     <% end %>

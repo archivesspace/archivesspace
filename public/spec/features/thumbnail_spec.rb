@@ -150,6 +150,15 @@ describe 'Thumbnails', js: true do
       expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_icon.uri}'] i.fa-file-video-o"
     end
 
+    it 'gives the generic icon an accessible name, so that its link is not empty' do
+      visit @accession_with_icon.uri
+
+      aggregate_failures do
+        expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_icon.uri}'] i.fa-file-video-o[role='img'][aria-label='#{@caption_2}']"
+        expect(page).not_to have_css '.pui-thumbnail a[aria-hidden]'
+      end
+    end
+
     it 'shows the first image among the representative instances of the archival objects of a resource' do
       visit @resource_from_tree.uri
       expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'] img[src='#{@img_1}']"
@@ -178,6 +187,14 @@ describe 'Thumbnails', js: true do
       within ".recordrow[data-uri='#{@dobjc_with_thumbnail.uri}']" do
         expect(page.find('.pui-thumbnail img', visible: :all)[:src]).to eq @img_2
         expect(page.find('.pui-thumbnail img')[:alt]).to eq @caption_2
+      end
+    end
+
+    it 'hides its link from screen readers and the keyboard, since it duplicates the title link' do
+      search_for @accession_with_icon.title
+
+      within ".recordrow[data-uri='#{@accession_with_icon.uri}']" do
+        expect(page).to have_css ".pui-thumbnail a[aria-hidden='true'][tabindex='-1'] i.fa-file-video-o"
       end
     end
 
