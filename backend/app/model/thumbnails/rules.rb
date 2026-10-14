@@ -1,3 +1,5 @@
+require 'file_uri'
+
 # Calculates the read-only `thumbnail` property shown for a record in the staff and public interfaces.
 # The functions here are shared by the mixins that add the property to models:
 #
@@ -10,7 +12,7 @@
 #   * the File Version marked `is_display_thumbnail` supplies the image, whatever its file format; if
 #     the browser cannot render it, the interfaces show a generic icon in its place
 #   * the File Version marked `is_display_link` supplies the link; there is no fallback, so without
-#     one the thumbnail or generic icon has no link
+#     one the thumbnail or generic icon has no link. A file URI with an invalid scheme gets no link either.
 #   * with neither marked, there is no thumbnail
 #   * caption: the thumbnail File Version's caption, else the link File Version's caption,
 #     else the record's title (display string for a component)
@@ -30,7 +32,7 @@ module Thumbnails
 
       {
         'image_url' => (thumbnail_fv['file_uri'] if thumbnail_fv),
-        'link_url' => (link_fv['file_uri'] if link_fv),
+        'link_url' => (link_fv['file_uri'] if link_fv && FileURI.allowed_scheme?(link_fv['file_uri'])),
         'caption' => [thumbnail_fv, link_fv].compact.map { |fv| fv['caption'] }.find { |caption| caption && !caption.strip.empty? } || title,
         'digital_object_type' => digital_object_type,
       }.compact
