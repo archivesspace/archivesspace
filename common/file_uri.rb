@@ -1,7 +1,6 @@
-# The file URI of a file version is free text, so it can hold any scheme, including ones such as
-# javascript: that run script when followed. Every place that turns a file URI into a link asks here
-# first: the backend thumbnail rules, the thumbnails in both interfaces, and the public File
-# Versions list.
+# The file URI of a file version is free text, so it can hold a scheme such as javascript: that runs
+# a script when followed. Ask here before linking to one, e.g. thumbnail links, file version lists.
+
 module FileURI
   # data: is allowed (ANW-1719)
   ALLOWED_SCHEMES = %w[http https data].freeze
