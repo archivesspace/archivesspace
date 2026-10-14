@@ -1,3 +1,5 @@
+require 'file_uri'
+
 # Calculates the read-only `thumbnail` property shown for a record in the staff and public interfaces.
 # The functions here are shared by the mixins that add the property to models:
 #
@@ -10,13 +12,14 @@
 #   * the File Version marked `is_display_thumbnail` supplies the image, whatever its file format; if
 #     the browser cannot render it, the interfaces show a generic icon in its place
 #   * the File Version marked `is_display_link` supplies the link; there is no fallback, so without
-#     one the thumbnail or generic icon has no link
+#     one the thumbnail or generic icon has no link. A file URI with an invalid scheme gets no link either.
 #   * with neither marked, there is no thumbnail
 #   * caption: the thumbnail File Version's caption, else the link File Version's caption,
 #     else the record's title (display string for a component)
 #
 # On an Accession, Resource or Archival Object, a Digital Object without an image of its own shows the
-# display thumbnail of its first published, unsuppressed Digital Object Component (in tree order) (ANW-3057).
+# display thumbnail of its first published, unsuppressed Digital Object Component (in tree order), skipping
+# components with an unpublished or suppressed ancestor (ANW-3057).
 module Thumbnails
   module Rules
     # file_versions: hashes with the file_version JSONModel property names
@@ -29,7 +32,7 @@ module Thumbnails
 
       {
         'image_url' => (thumbnail_fv['file_uri'] if thumbnail_fv),
-        'link_url' => (link_fv['file_uri'] if link_fv),
+        'link_url' => (link_fv['file_uri'] if link_fv && FileURI.allowed_scheme?(link_fv['file_uri'])),
         'caption' => [thumbnail_fv, link_fv].compact.map { |fv| fv['caption'] }.find { |caption| caption && !caption.strip.empty? } || title,
         'digital_object_type' => digital_object_type,
       }.compact
@@ -73,15 +76,18 @@ module Thumbnails
     end
 
     # { digital object id => thumbnail } of the first published, unsuppressed Digital Object Component
-    # (in tree order) of each Digital Object that has a published Display Thumbnail File Version,
-    # linking to that component. types: { digital object id => digital object type }
+    # without an unpublished or suppressed ancestor (in tree order) of each Digital Object that has a
+    # published Display Thumbnail File Version, linking to that component. types: { digital object id => digital object type }
     def self.component_image_thumbnails(digital_object_ids, types)
       return {} if digital_object_ids.empty?
 
       components = DigitalObjectComponent.any_repo
                      .filter(:root_record_id => digital_object_ids, :publish => 1, :suppressed => 0)
-                     .select(:id, :repo_id, :root_record_id, :display_string)
+                     .select(:id, :repo_id, :root_record_id, :parent_id, :display_string)
                      .all
+
+      hidden = with_hidden_ancestor(DigitalObjectComponent, components.to_h { |component| [component.id, component.parent_id] })
+      components = components.reject { |component| hidden.include?(component.id) }
 
       file_versions = FileVersion
                         .filter(:digital_object_component_id => components.map(&:id), :publish => 1)
@@ -128,6 +134,33 @@ module Thumbnails
       end
 
       paths
+    end
+
+    # The ids of the nodes of a tree model (Archival Objects, Digital Object Components) with an
+    # unpublished or suppressed ancestor, from { node id => parent id }. Walks up one level per query.
+    def self.with_hidden_ancestor(model, parent_ids)
+      hidden = []
+      current = parent_ids.compact
+
+      until current.empty?
+        ancestors = model.any_repo
+                      .filter(:id => current.values.uniq)
+                      .select(:id, :parent_id, :publish, :suppressed)
+                      .to_h { |row| [row[:id], row] }
+
+        current = current.each_with_object({}) do |(id, ancestor_id), next_level|
+          # A suppressed ancestor is missing when the request enforces suppression
+          ancestor = ancestors[ancestor_id]
+
+          if ancestor.nil? || ancestor[:publish] != 1 || ancestor[:suppressed] == 1
+            hidden << id
+          elsif ancestor[:parent_id]
+            next_level[id] = ancestor[:parent_id]
+          end
+        end
+      end
+
+      hidden
     end
 
     def self.file_version_hash(file_version)

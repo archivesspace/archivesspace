@@ -97,6 +97,17 @@ describe 'Thumbnails::FromRepresentativeInstance' do
         expect(thumbnail['record_uri']).to eq(digital_object.uri)
       end
 
+      it 'ignores components with an unpublished ancestor' do
+        digital_object = digital_object_with([])
+        unpublished = component_of(digital_object, [], :publish => false)
+        child = component_of(digital_object, [], :parent => {'ref' => unpublished.uri})
+        component_of(digital_object, [image_file_version(:is_display_thumbnail => true)], :parent => {'ref' => child.uri})
+        later = component_of(digital_object, [image_file_version(:is_display_thumbnail => true)])
+        record = create(factory, :instances => [representative_instance(digital_object)])
+
+        expect(thumbnail_for(model, record)['record_uri']).to eq(later.uri)
+      end
+
       it 'shows nothing when no component has an image either' do
         digital_object = digital_object_with([])
         component_of(digital_object, [link_file_version(:is_display_link => true)])

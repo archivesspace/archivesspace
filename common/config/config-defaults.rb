@@ -595,6 +595,10 @@ AppConfig[:pui_collection_org_sidebar_position] = 'left'
 # Whether to display archival record identifiers in the PUI collection organization tree
 AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
+# Whether to display top container and child container barcodes in PUI container information.
+# Citations never include barcodes. Staff request emails list top container barcodes separately, whatever this setting is.
+AppConfig[:pui_display_barcodes] = false
+
 # The number of characters to truncate before showing the 'Read More' link on notes on the collection overview page on the PUI
 # If your Scope & Contents notes are very long you can increase this to show more
 # Reference the configuration option AppConfig[:abstract_note_length] to control note truncation on the collection browse/search pages

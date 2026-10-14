@@ -238,7 +238,7 @@ en:
     username_aria_label: User Name
     password_aria_label: User Password
     required: required
-    pui_permission_denied: "User `%{username}` does not have permission to view the PUI."
+    pui_permission_denied: "User `%{username}` does not have permission to view the public user interface."
     login_failed: "Login failed. Please check your username and password."
 
   navbar:

@@ -1,39 +1,51 @@
 <%
   n_digital_objects = nil unless defined?(n_digital_objects)
+  # Lists (search results, the collection tree) pass the link of the result title
+  title_link = thumbnail_link if defined?(thumbnail_link)
 %>
 <% if result.has_thumbnail? %>
   <%
     thumbnail = result.thumbnail
-    caption = thumbnail['caption']
-    icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
+    caption = strip_mixed_content(thumbnail['caption'])
 
-    # An accession, resource or archival object links to the digital object record; a digital
-    # object (component) to its display link file version, if any
-    same_window = false
-    if defined?(thumbnail_link) && thumbnail_link
-      same_window = true
+    # In a list, the thumbnail repeats the title link, so screen readers and the keyboard skip it.
+    # Otherwise an accession, resource or archival object links to the digital object record, and a
+    # digital object (component) opens its display link file version, if any, in a new window.
+    if title_link.present?
+      link_url = title_link
+      link_options = {:target => '_self', 'aria-hidden' => 'true', :tabindex => '-1'}
     elsif thumbnail['record_uri']
-      thumbnail_link = app_prefix(thumbnail['record_uri'])
-      same_window = true
+      link_url = app_prefix(thumbnail['record_uri'])
+      link_options = {:target => '_self'}
+    elsif FileURI.allowed_scheme?(thumbnail['link_url'])
+      # The backend already drops a link_url whose scheme is not allowed; checking again here covers
+      # records indexed before it did
+      link_url = thumbnail['link_url']
+      link_options = {:target => '_blank'}
     else
-      thumbnail_link = thumbnail['link_url']
+      link_url = nil
     end
+
+    icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
+    icon_options = {:title => caption, :role => 'img', 'aria-label' => caption}
+    show_fallback_icon = 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block";'
   %>
   <div class="pui-thumbnail">
     <% image = capture do %>
-      <% if thumbnail_link %>
+      <% if link_url %>
         <div class="pui-thumbnail-help-text"><%= I18n.t('thumbnails.access_help_text') %></div>
       <% end %>
       <% if (image_url = thumbnail['image_url']) %>
-        <%= image_tag image_url, :alt => strip_mixed_content(caption), 'onError' => 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block";' %>
-        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;'}) %>
+        <%= image_tag image_url, :alt => caption, 'onError' => show_fallback_icon %>
+        <%# Shown in place of an image the browser cannot load or display %>
+        <%= content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
       <% else %>
-        <%= content_tag(:i, nil, {:title => strip_mixed_content(caption), :class => icon_class}) %>
+        <%= content_tag(:i, nil, icon_options.merge(:class => icon_class)) %>
       <% end %>
     <% end %>
-    <%= link_to_if thumbnail_link, image, thumbnail_link, :target => same_window ? '_self' : '_blank' %>
-    <% if caption %>
-      <div class="pui-thumbnail-caption"><%= strip_mixed_content(caption) %></div>
+    <%= link_to_if link_url, image, link_url, link_options %>
+    <% if caption.present? %>
+      <div class="pui-thumbnail-caption"><%= caption %></div>
     <% end %>
     <% if n_digital_objects && representative_link_to_digital_materials?(result) %>
       <div class="pui-thumbnail-digital-materials">

@@ -22,5 +22,5 @@ he:
     username_aria_label: שם משתמש
     password_aria_label: סיסמת משתמש
     required: דָרוּשׁ
-    pui_permission_denied: "למשתמש `%{username}` אין הרשאה לצפות בממשק הציבורי (PUI)."
+    pui_permission_denied: "למשתמש `%{username}` אין הרשאה לצפות בממשק הציבורי."
     login_failed: "ההתחברות נכשלה. אנא בדוק את שם המשתמש והסיסמה שלך."

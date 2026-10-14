@@ -27,7 +27,7 @@ module Thumbnails
       end
 
       # { resource id => [digital object id, ...] } for the representative instances of published,
-      # unsuppressed Archival Objects, in tree order
+      # unsuppressed Archival Objects without an unpublished or suppressed ancestor, in tree order
       def tree_representative_digital_object_ids(resource_ids)
         return {} if resource_ids.empty?
 
@@ -39,9 +39,13 @@ module Thumbnails
                  .filter(Sequel.qualify(:archival_object, :suppressed) => 0)
                  .filter(Sequel.qualify(:instance, :is_representative) => 1)
                  .select(Sequel.qualify(:archival_object, :id),
+                         Sequel.qualify(:archival_object, :parent_id),
                          Sequel.qualify(:archival_object, :root_record_id),
                          Sequel.qualify(:instance_do_link_rlshp, :digital_object_id))
                  .all
+
+        hidden = Rules.with_hidden_ancestor(ArchivalObject, rows.to_h { |row| [row[:id], row[:parent_id]] })
+        rows = rows.reject { |row| hidden.include?(row[:id]) }
 
         paths = Rules.tree_paths(ArchivalObject, rows.map { |row| row[:id] })
 

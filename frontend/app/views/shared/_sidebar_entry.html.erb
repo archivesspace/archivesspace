@@ -11,11 +11,11 @@
    lightmode_toggle = local_assigns.fetch(:lightmode_toggle, false)
 %>
 
-<li role="tab" aria-selected="false" class="sidebar-entry-<%= anchor %><%= " sidebar-heading" if sidebar_heading %><%= " lightmode_toggle" if lightmode_toggle %>">
+<li class="sidebar-entry-<%= anchor %><%= " sidebar-heading" if sidebar_heading %><%= " lightmode_toggle" if lightmode_toggle %>">
   <a class="nav-link" href="#<%= anchor %>" style="<%= "padding-left: 25px !important;" if !subentry.nil? %>">
     <%= title %>
     <% if !sidebar_heading %>
-      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     <% end %>
   </a>
 </li>

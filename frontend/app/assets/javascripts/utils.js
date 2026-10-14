@@ -115,21 +115,8 @@ $(function () {
     );
   };
 
-  var clearSelected = function () {
-    $('#archivesSpaceSidebar .as-nav-list > li:not(.sidebar-heading)').each(
-      function () {
-        $(this).attr('aria-selected', 'false');
-      }
-    );
-  };
-
   var initSidebar = function () {
     $('#archivesSpaceSidebar:not(.initialised)').each(function () {
-      $('a', $(this)).click(function (e) {
-        clearSelected();
-        $(this).parent().attr('aria-selected', 'true');
-      });
-
       $(this).addClass('initialised');
     });
     refreshSidebarSubMenus();

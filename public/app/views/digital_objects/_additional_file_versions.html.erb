@@ -2,17 +2,24 @@
   <% fvs.each do |fv| %>
     <%
       # ANW-1722 additional file version display rules
-      data_url_text = t('digital_object._public.url_encoded_data')
-      uri_text = fv['file_uri'].starts_with?('data:') ? data_url_text : fv['file_uri']
-      fv_markup = "<a href='#{fv['file_uri']}' target='new' title='Link to digital object'>#{uri_text}</a>"
-      if fv['caption'] && !fv['caption'].empty?
-        fv_markup = "<a href='#{fv['file_uri']}' target='new' title='Link to digital object'>#{fv['caption']}</a>"
-      elsif fv['use_statement'] && !fv['use_statement'].empty?
-        fv_markup = "<a href='#{fv['file_uri']}' target='new' title='Link to digital object'>#{fv['use_statement']}</a>"
-      end
+      caption = strip_mixed_content(fv['caption']) if fv['caption'].present?
+      link_text =
+        if caption.present?
+          caption
+        elsif fv['use_statement'].present?
+          fv['use_statement']
+        elsif fv['file_uri'].start_with?('data:')
+          t('digital_object._public.url_encoded_data')
+        else
+          fv['file_uri']
+        end
     %>
     <li data-additional-file-version>
-      <%= fv_markup.html_safe %>
+      <% if FileURI.allowed_scheme?(fv['file_uri']) %>
+        <%= link_to link_text, fv['file_uri'], target: 'new', title: t('digital_object._public.link') %>
+      <% else %>
+        <%= link_text %>
+      <% end %>
     </li>
   <% end %>
 </ul>

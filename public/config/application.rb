@@ -12,6 +12,7 @@ require_relative 'initializers/plugins'
 require 'aspace_logger'
 
 require 'iiif'
+require 'file_uri'
 
 # Maybe we won't need these?
 
