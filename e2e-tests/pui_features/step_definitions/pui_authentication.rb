@@ -62,5 +62,5 @@ Then 'the user is signed in to the PUI as {string}' do |username|
 end
 
 Then 'the PUI permission denied message is displayed' do
-  expect(page).to have_text 'does not have permission to view the PUI'
+  expect(page).to have_text 'does not have permission to view the public user interface'
 end
