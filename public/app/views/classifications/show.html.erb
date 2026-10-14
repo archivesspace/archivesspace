@@ -21,7 +21,21 @@
       <% end %>
     </div>
   </div>
-  <div class="row">
+  <% sidebar_position = AppConfig[:pui_collection_org_sidebar_position] %>
+  <div class="row align-items-start">
+    <% if @has_children %>
+      <div
+        id="sidebar"
+        class="sidebar sidebar-container col-sm-3 resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+        data-sidebar-position="<%= sidebar_position %>"
+      >
+        <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
+
+        <% unless @results.blank? || @results['total_hits'] == 0 %>
+          <%= render partial: 'shared/facets' %>
+        <% end %>
+      </div>
+    <% end %>
     <div class="col-sm-9<%= (@has_children ? ' resizable-content-pane' : '') %>">
       <% unless @results.blank? || @results['total_hits'] == 0 %>
         <h2><%= t('found', :count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')) %>:</h2>
@@ -32,14 +46,5 @@
 
       <% end %>
     </div>
-    <% if @has_children %>
-      <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
-        <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
-
-        <% unless @results.blank? || @results['total_hits'] == 0 %>
-          <%= render partial: 'shared/facets' %>
-        <% end %>
-      </div>
-    <% end %>
   </div>
 </div>

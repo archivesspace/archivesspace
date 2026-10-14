@@ -75,7 +75,12 @@
         <i aria-hidden="true" class="fa fa-plus"></i>
         <%= t('classification._public.actions.show_subgroups') %>
       </button>
-      <div class="classification-subgroups-tree largetree-container" style="display: none;"></div>
+      <%= render partial: 'shared/infinite_tree_record_container', locals: {
+        root_uri: result.uri,
+        css_class: 'classification-subgroups-tree infinite-tree-compact',
+        style: 'display: none;'
+      } %>
+      <%= infinite_tree_templates %>
     </div>
   <% end %>
 </div>

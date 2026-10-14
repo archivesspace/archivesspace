@@ -1,40 +1,86 @@
+//= require InfiniteTreeIds
 //= require InfiniteTreeFetch
 //= require InfiniteTreeMarkup
 
 (function (exports) {
+  /**
+   * Public (PUI) InfiniteTree. One core used by three consumers:
+   * - Collection organization: `#tree::` hash links, title clicks handled by
+   *   InfiniteRecords, current node synced through an InfiniteCoordinator,
+   *   initial node from the URI fragment
+   * - Record show-page sidebars: record links, normal navigation, current
+   *   node from the page's record URI (ancestors and the current node expanded)
+   * - Classification search subgroups: record links, no current node,
+   *   several independent instances per page
+   */
   class InfiniteTree {
     /**
-     * @param {number} batchSize - The number of nodes per batch of children
-     * @param {string} appUrlPrefix - The proper app prefix
-     * @param {string} resourceUri - The URI of the collection resource
-     * @param {string} identifier_separator - The i18n identifier separator
-     * @param {string} date_type_bulk - The i18n date type bulk
-     * @param {string} uriFragment - The document's URI fragment
-     * @param {InfiniteCoordinator} coordinator - The coordinator instance
-     * @returns {InfiniteTree} - InfiniteTree instance
+     * @param {Object} options
+     * @param {HTMLElement} options.container - Element the tree renders into;
+     * it must be the scroll container (fixed height, `overflow-y: auto`)
+     * @param {string} options.rootUri - URI of the tree root (resource,
+     * digital object, or classification)
+     * @param {number|string} options.batchSize - Number of nodes per batch of children
+     * @param {string} options.fetchPrefix - Prefix for tree endpoint requests
+     * @param {Object} options.i18n - {sep, classificationSep, bulk}
+     * @param {string} [options.titleRules] - 'collection-organization' (default) or 'record'
+     * @param {function(Object): string} [options.linkFor] - Node data => title href;
+     * defaults to the collection-organization `#tree::` hash
+     * @param {function(Event): void} [options.onTitleClick] - Called for clicks
+     * on node titles; when absent the link navigates normally
+     * @param {InfiniteCoordinator} [options.coordinator] - Collection organization only
+     * @param {string} [options.uriFragment=''] - Collection organization only;
+     * the document's URI fragment used to choose the initial node
+     * @param {string} [options.currentUri] - URI of the current record; takes
+     * precedence over `uriFragment`
+     * @param {boolean} [options.expandCurrent=false] - Expand the current node
+     * once it is rendered
+     * @param {string} [options.scroll='center'] - How to bring the initial
+     * node into view: 'center' (scrollIntoView, may scroll the page) or
+     * 'container' (scroll only the tree container)
      */
-    constructor(
+    constructor({
+      container,
+      rootUri,
       batchSize,
-      appUrlPrefix,
-      resourceUri,
-      identifier_separator,
-      date_type_bulk,
-      uriFragment,
-      coordinator
-    ) {
-      this.uriFragment = uriFragment;
+      fetchPrefix,
+      i18n,
+      titleRules,
+      linkFor,
+      onTitleClick = null,
+      coordinator = null,
+      uriFragment = '',
+      currentUri = null,
+      expandCurrent = false,
+      scroll = 'center',
+    }) {
+      const root = InfiniteTreeIds.parseUri(rootUri);
+
+      this.container = container;
+      this.rootUri = rootUri;
+      this.rootType = root.type;
+      this.repoId = root.repoId;
+      this.BATCH_SIZE = Number(batchSize);
+      this.i18n = i18n;
+      this.onTitleClick = onTitleClick;
       this.coordinator = coordinator;
-      this.BATCH_SIZE = batchSize;
-      this.resourceUri = resourceUri; // TODO generalize away from resource
-      this.repoId = resourceUri.split('/')[2];
-      this.resourceId = resourceUri.split('/')[4]; // TODO generalize away from resource
-      this.i18n = { sep: identifier_separator, bulk: date_type_bulk };
+      this.uriFragment = uriFragment || '';
+      this.pageCurrentUri = currentUri;
+      this.expandCurrent = expandCurrent;
+      this.scroll = scroll;
 
-      this.container = document.querySelector('#infinite-tree-container');
+      /** @type {HTMLElement|null} The treeitem holding tabindex="0" */
+      this.activeItem = null;
 
-      this.fetch = new InfiniteTreeFetch(appUrlPrefix, resourceUri);
+      this.fetch = new InfiniteTreeFetch(fetchPrefix, rootUri);
 
-      this.markup = new InfiniteTreeMarkup(resourceUri, batchSize, this.i18n);
+      this.markup = new InfiniteTreeMarkup({
+        rootUri,
+        batchSize: this.BATCH_SIZE,
+        i18n,
+        titleRules,
+        linkFor,
+      });
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -47,25 +93,122 @@
         }
       );
 
-      if (this.uriFragment === '') {
-        this.renderRoot();
-      } else {
-        const nodeRecordId =
-          this.uriFragment.split('_')[this.uriFragment.split('_').length - 1];
-        const nodeElementId = this.uriFragment.replace('#tree::', '');
+      this.container.addEventListener('click', e => this.clickHandler(e));
+      this.container.addEventListener('keydown', e => this.keydownHandler(e));
+      this.container.addEventListener('focusin', e => this.focusinHandler(e));
 
-        if (nodeElementId.includes('resource')) {
-          this.renderRoot();
-        } else {
-          this.allAncestorBatches(nodeRecordId)
-            .then(data => {
-              this.renderAncestorsAndShow(data, nodeElementId);
-            })
-            .catch(error => {
-              console.error('Error fetching ancestors:', error);
-            });
+      if (this.coordinator && this.coordinator.registerTree) {
+        this.coordinator.registerTree(this);
+      }
+
+      /** @type {Promise<void>} Resolves once the initial render completes */
+      this.ready = this.load();
+    }
+
+    /**
+     * Href for a node on record-linked trees: the slugged URL when human
+     * readable URLs are enabled, otherwise the prefixed record URI
+     * @param {Object} data - Node data from the server
+     * @returns {string} - The href
+     */
+    static recordLink(data) {
+      return data.slugged_url && data.slugged_url.length > 0
+        ? data.slugged_url
+        : AS.app_prefix(data.uri);
+    }
+
+    /**
+     * Boots a record-linked tree (show-page sidebar or search subgroups) from
+     * a container rendered by `shared/_infinite_tree_record_container`
+     * @param {HTMLElement} container - The container with its data attributes
+     * @returns {InfiniteTree|null} - The tree, or null without a container
+     */
+    static fromRecordContainer(container) {
+      if (!container) return null;
+
+      const data = container.dataset;
+      const currentUri = data.currentUri || null;
+
+      return new InfiniteTree({
+        container,
+        rootUri: data.rootUri,
+        currentUri,
+        batchSize: data.batchSize,
+        fetchPrefix: APP_PATH,
+        i18n: {
+          sep: data.identifierSeparator,
+          classificationSep: data.classificationIdentifierSeparator,
+          bulk: data.dateTypeBulk,
+        },
+        titleRules: 'record',
+        linkFor: InfiniteTree.recordLink,
+        expandCurrent: currentUri !== null,
+        scroll: 'container',
+      });
+    }
+
+    /**
+     * The URI of the current record: the coordinator's when there is one,
+     * otherwise the page's record
+     * @returns {string|null}
+     */
+    get currentUri() {
+      return this.coordinator
+        ? this.coordinator.currentRecord
+        : this.pageCurrentUri;
+    }
+
+    /**
+     * Determines the record whose path should be rendered on load
+     * @returns {string|null} - A record URI, or null to render the root
+     */
+    initialTargetUri() {
+      if (this.pageCurrentUri) return this.pageCurrentUri;
+
+      const hash = InfiniteTreeIds.parseLocationHash(this.uriFragment);
+
+      if (!hash) return null;
+
+      if (InfiniteTreeIds.isRootType(hash.type)) return this.rootUri;
+
+      return InfiniteTreeIds.childUri(this.rootUri, hash.id);
+    }
+
+    /**
+     * Renders the initial tree: either the root and its first batch, or the
+     * path of ancestors down to the target record. Falls back to the root if
+     * the ancestor path cannot be fetched.
+     */
+    async load() {
+      const targetUri = this.initialTargetUri();
+
+      if (targetUri && targetUri !== this.rootUri) {
+        const targetId = InfiniteTreeIds.parseUri(targetUri).id;
+        let ancestorBatches = null;
+
+        try {
+          ancestorBatches = await this.allAncestorBatches(targetId);
+        } catch (error) {
+          console.error('Error fetching ancestors:', error);
+        }
+
+        if (ancestorBatches) {
+          await this.renderAncestorsAndShow(
+            ancestorBatches,
+            InfiniteTreeIds.uriToElementId(targetUri)
+          );
+          this.initRovingTabindex();
+          return;
         }
       }
+
+      await this.renderRoot();
+
+      if (this.pageCurrentUri === this.rootUri) {
+        this.markCurrent(this.rootUri);
+      }
+
+      this.initRovingTabindex();
     }
 
     /**
@@ -73,14 +216,18 @@
      */
     async renderRoot() {
       const rootData = await this.getNodeData();
+
+      if (!rootData) {
+        console.error('InfiniteTree could not fetch the tree root');
+        return;
+      }
+
       const rootListFrag = this.markup.rootList();
       const rootListElement = rootListFrag.querySelector('ol');
-      const rootNodeFrag = this.markup.rootNode(this.markup.title(rootData));
+      const rootNodeFrag = this.markup.rootNode(rootData);
       const rootNodeElement = rootNodeFrag.querySelector('li');
 
       if (rootData.child_count > 0) {
-        rootNodeElement.setAttribute('aria-expanded', 'true');
-
         await this.renderInitialBatchForNode(rootNodeElement, rootData);
       }
 
@@ -130,16 +277,14 @@
       const placeholder = list.querySelector(
         `li[data-batch-placeholder="${batchNumber}"]`
       );
+      const currentUri = this.currentUri;
 
-      if (
-        this.coordinator.currentRecord &&
-        !this.container.querySelector('.node.current')
-      ) {
+      if (currentUri && !this.container.querySelector('.node.current')) {
         const currentNode = batchFragment.querySelector(
-          `[data-uri="${this.coordinator.currentRecord}"]`
+          `[data-uri="${currentUri}"]`
         );
 
-        if (currentNode) currentNode.classList.add('current');
+        if (currentNode) this.setCurrentState(currentNode, true);
       }
 
       placeholder.replaceWith(batchFragment);
@@ -184,12 +329,12 @@
 
     /**
      * Gets node data from either root() or node() fetch methods
-     * @param {number|null} nodeId - The node ID to fetch, null for root
-     * @returns {Promise<Object>} Node data from the server
+     * @param {string|null} nodeUri - The node URI to fetch, null for root
+     * @returns {Promise<Object|null>} Node data from the server
      */
-    async getNodeData(nodeId = null) {
-      return nodeId !== null
-        ? await this.fetch.node(nodeId)
+    async getNodeData(nodeUri = null) {
+      return nodeUri !== null
+        ? await this.fetch.node(nodeUri)
         : await this.fetch.root();
     }
 
@@ -217,91 +362,67 @@
     }
 
     /**
-     * Builds the ancestor tree list
+     * Renders batches of the given ancestor batch list into a node list
+     * @param {Object} batch - An ancestor batch object
+     * @param {number} level - The tree level of the batch's nodes
+     * @returns {DocumentFragment} The populated node list
+     */
+    buildAncestorList(batch, level) {
+      const ancestorHtmlId = batch.ancestorHtmlId;
+      const nodeListFrag = this.markup.nodeList(
+        ancestorHtmlId,
+        level,
+        batch.waypoints
+      );
+      const nodeListElement = nodeListFrag.querySelector('ol');
+
+      Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+        const batchFragment = this.buildBatchFragment(
+          batchData.nodes,
+          level,
+          ancestorHtmlId,
+          Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
+            ? Number(batchData.observeForBatch)
+            : null
+        );
+
+        nodeListElement
+          .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+          .replaceWith(batchFragment);
+      });
+
+      return nodeListFrag;
+    }
+
+    /**
+     * Builds the ancestor tree list, then marks and reveals the node of interest
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
-     * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     * @param {string} nodeElementId - The HTML ID of the node element to show
      */
     async renderAncestorsAndShow(ancestorBatches, nodeElementId) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
-        const numBatches = batch.waypoints;
-        const nodeTitle = this.markup.title(batch);
-        const ancestorHtmlId = batch.ancestorHtmlId;
+        const nodeListFrag = this.buildAncestorList(batch, i + 1);
 
         if (i === 0) {
           const treeListFrag = this.markup.rootList();
           const treeListElement = treeListFrag.querySelector('ol');
-
-          const rootNodeFrag = this.markup.rootNode(nodeTitle);
+          const rootNodeFrag = this.markup.rootNode(batch);
           const rootNodeElement = rootNodeFrag.querySelector('li');
 
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.buildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
-                ? Number(batchData.observeForBatch)
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
           rootNodeElement.appendChild(nodeListFrag);
-
           treeListElement.appendChild(rootNodeFrag);
-
           acc.appendChild(treeListFrag);
-
-          return acc;
         } else {
-          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
-          const expandButton = nodeElement.querySelector(
-            '.node-body:first-child .node-expand'
-          );
-          const icon = nodeElement.querySelector('.node-expand-icon');
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.buildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
-                ? Number(batchData.observeForBatch)
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
+          const nodeElement = acc.querySelector(`li#${batch.ancestorHtmlId}`);
 
           nodeElement.appendChild(nodeListFrag);
-
-          nodeElement.setAttribute('data-is-expanded', 'true');
-          expandButton.setAttribute('data-has-expanded', 'true');
-          expandButton.setAttribute('aria-expanded', 'true');
-          icon.classList.add('expanded');
-
-          return acc;
+          nodeElement
+            .querySelector(':scope > .node-row .node-expand')
+            .setAttribute('data-has-expanded', 'true');
+          this.syncExpandedState(nodeElement, true);
         }
+
+        return acc;
       }, new DocumentFragment());
 
       this.container.appendChild(ancestorsFrag);
@@ -311,8 +432,15 @@
         '[data-observe-next-batch]'
       );
 
-      nodeOfInterest.classList.add('current');
-      nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+      if (nodeOfInterest) {
+        this.markCurrentElement(nodeOfInterest);
+
+        if (this.expandCurrent) {
+          await this.setExpanded(nodeOfInterest, true);
+        }
+
+        this.scrollToNode(nodeOfInterest);
+      }
 
       nodesToObserve.forEach(node => {
         this.batchObserver.observe(node);
@@ -320,12 +448,36 @@
     }
 
     /**
+     * Brings a node into view according to `this.scroll`
+     * @param {HTMLElement} node - The node to reveal
+     */
+    scrollToNode(node) {
+      if (this.scroll === 'container') {
+        const row = node.querySelector(':scope > .node-row') || node;
+        const offset =
+          row.getBoundingClientRect().top -
+          this.container.getBoundingClientRect().top;
+
+        // Mirror LargeTree: put the node near the top of the tree, never
+        // scrolling the page itself
+        this.container.scrollTop += offset - 50;
+      } else {
+        node.scrollIntoView({ behavior: 'instant', block: 'center' });
+      }
+    }
+
+    /**
      * Returns all ancestor batches for a given record ID
-     * @param {number} id - The record ID of the node to fetch ancestor batches for
+     * @param {number|string} id - The record ID of the node to fetch ancestor batches for
      * @returns {Promise<Array>} An array of ancestor batch data
+     * @throws {Error} If the ancestors cannot be fetched
      */
     async allAncestorBatches(id) {
       const ancestors = await this.fetch.ancestors(id);
+
+      if (!ancestors || !Array.isArray(ancestors[id])) {
+        throw new Error(`No ancestors returned for node ${id}`);
+      }
 
       return Promise.all(
         ancestors[id].map(ancestor => this.ancestorBatchAndNeighbors(ancestor))
@@ -341,12 +493,14 @@
     async ancestorBatchAndNeighbors(ancestorMetaObj) {
       // TODO: Provide `result` data from the server
       const isRoot = ancestorMetaObj.node === null;
-      const recordId = isRoot
-        ? this.resourceId
-        : ancestorMetaObj.node.split('/')[4];
-      const nodeId = isRoot ? null : recordId;
+      const nodeUri = isRoot ? null : ancestorMetaObj.node;
       const batchTarget = ancestorMetaObj.offset;
-      const baseData = await this.getNodeData(nodeId);
+      const baseData = await this.getNodeData(nodeUri);
+
+      if (!baseData) {
+        throw new Error(`Could not fetch tree node ${nodeUri || 'root'}`);
+      }
+
       const numBatches = baseData.waypoints;
 
       const result = {
@@ -357,7 +511,9 @@
           )
         ),
         batches: {},
-        ancestorHtmlId: `${baseData.jsonmodel_type}_${recordId}`,
+        ancestorHtmlId: InfiniteTreeIds.uriToElementId(
+          isRoot ? this.rootUri : nodeUri
+        ),
       };
 
       /**
@@ -379,6 +535,10 @@
             isRoot ? '' : ancestorMetaObj.node,
             batchNum
           );
+        }
+
+        if (!nodes) {
+          throw new Error(`Could not fetch batch ${batchNum}`);
         }
 
         const result = {
@@ -502,6 +662,9 @@
           const batchOffsetPlaceholderEl = siblingList.querySelector(
             `li[data-batch-placeholder="${batchOffset}"]`
           );
+
+          if (!batchOffsetPlaceholderEl) return;
+
           const observeForBatch =
             batchOffsetPlaceholderEl.nextElementSibling?.matches(
               'li[data-batch-placeholder]'
@@ -551,6 +714,18 @@
     }
 
     /**
+     * Delegates click events within the tree container
+     * @param {MouseEvent} e - Click event
+     */
+    clickHandler(e) {
+      if (e.target.closest('.node-expand')) {
+        this.expandHandler(e);
+      } else if (this.onTitleClick && e.target.closest('.node-title')) {
+        this.onTitleClick(e);
+      }
+    }
+
+    /**
      * Handles click events on expand buttons
      * @param {Event} e - Click event
      */
@@ -558,23 +733,310 @@
       const button = e.target.closest('.node-expand');
       const node = button.closest('.node');
       const isExpanding = button.getAttribute('aria-expanded') === 'false';
-      const hasExpanded = button.getAttribute('data-has-expanded') === 'true';
-      const icon =
-        e.target.closest('.node-expand-icon') ||
-        e.target.querySelector('.node-expand-icon');
 
-      if (isExpanding && !hasExpanded) {
-        const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
-        const nodeData = await this.getNodeData(Number(nodeRecordId));
+      await this.setExpanded(node, isExpanding);
+    }
+
+    /**
+     * Expands or collapses a node, fetching its first batch of children the
+     * first time it is expanded
+     * @param {HTMLElement} node - The `li.node` to expand or collapse
+     * @param {boolean} expand - True to expand, false to collapse
+     */
+    async setExpanded(node, expand) {
+      const button = node.querySelector(':scope > .node-row .node-expand');
+
+      if (!button) return;
+
+      const hasExpanded = button.getAttribute('data-has-expanded') === 'true';
+
+      // The latest request wins if the user toggles while children load
+      node.setAttribute('data-expand-intent', expand ? 'true' : 'false');
+
+      if (expand && !hasExpanded) {
+        if (node.hasAttribute('data-loading-children')) return;
+
+        node.setAttribute('data-loading-children', 'true');
+
+        const nodeData = await this.getNodeData(node.getAttribute('data-uri'));
+
+        node.removeAttribute('data-loading-children');
+
+        if (!nodeData) return;
 
         await this.renderInitialBatchForNode(node, nodeData);
 
         button.setAttribute('data-has-expanded', 'true');
       }
 
-      button.setAttribute('aria-expanded', isExpanding ? 'true' : 'false');
-      node.setAttribute('data-is-expanded', isExpanding ? 'true' : 'false');
-      icon.classList.toggle('expanded');
+      const expanded = node.getAttribute('data-expand-intent') === 'true';
+
+      this.syncExpandedState(node, expanded);
+
+      // Never leave the tab stop inside a collapsed subtree
+      if (
+        !expanded &&
+        this.activeItem &&
+        node.querySelector(':scope > .node-children')?.contains(this.activeItem)
+      ) {
+        this.setActiveItem(this.treeitemOf(node));
+      }
+    }
+
+    /**
+     * Sets every expanded-state indicator on a node with children
+     * @param {HTMLElement} node - The `li.node`
+     * @param {boolean} expanded - The new state
+     */
+    syncExpandedState(node, expanded) {
+      const value = expanded ? 'true' : 'false';
+      const button = node.querySelector(':scope > .node-row .node-expand');
+      const icon = button && button.querySelector('.node-expand-icon');
+      const item = this.treeitemOf(node);
+
+      node.setAttribute('data-is-expanded', value);
+
+      if (button) button.setAttribute('aria-expanded', value);
+      if (icon) icon.classList.toggle('expanded', expanded);
+      if (item) item.setAttribute('aria-expanded', value);
+    }
+
+    /**
+     * Marks the node for the given URI as current, clearing any other
+     * @param {string|null} uri - Record URI
+     */
+    markCurrent(uri) {
+      const node = uri
+        ? this.container.querySelector(`.node[data-uri="${uri}"]`)
+        : null;
+
+      if (node) {
+        this.markCurrentElement(node);
+      } else {
+        this.clearCurrent();
+      }
+    }
+
+    /**
+     * Marks a node element as current, clearing any other
+     * @param {HTMLElement} node - The `li.node`
+     */
+    markCurrentElement(node) {
+      this.clearCurrent();
+      this.setCurrentState(node, true);
+
+      // Tabbing into the tree lands on the current node (or its nearest
+      // visible ancestor), unless the user is already navigating inside it
+      if (!this.container.contains(document.activeElement)) {
+        this.setActiveItem(this.nearestVisibleItem(node));
+      }
+    }
+
+    /**
+     * Removes the current state from all nodes
+     */
+    clearCurrent() {
+      this.container
+        .querySelectorAll('.node.current')
+        .forEach(n => this.setCurrentState(n, false));
+    }
+
+    /**
+     * Toggles the current class, and `aria-current="page"` when the current
+     * node is the page's own record
+     * @param {HTMLElement} node - The `li.node`
+     * @param {boolean} isCurrent - The new state
+     */
+    setCurrentState(node, isCurrent) {
+      const item = this.treeitemOf(node);
+
+      node.classList.toggle('current', isCurrent);
+
+      if (!item) return;
+
+      if (isCurrent && this.pageCurrentUri) {
+        item.setAttribute('aria-current', 'page');
+      } else {
+        item.removeAttribute('aria-current');
+      }
+    }
+
+    /**
+     * @param {HTMLElement} node - A `li.node`
+     * @returns {HTMLElement|null} - The node's own treeitem (title link)
+     */
+    treeitemOf(node) {
+      return node
+        ? node.querySelector(':scope > .node-row [role="treeitem"]')
+        : null;
+    }
+
+    /**
+     * @param {HTMLElement} item - A treeitem
+     * @returns {HTMLElement} - The treeitem's `li.node`
+     */
+    nodeOf(item) {
+      return item.closest('.node');
+    }
+
+    /**
+     * Gives the current node, or the root, the tree's single tab stop
+     */
+    initRovingTabindex() {
+      const current = this.container.querySelector('.node.current');
+
+      this.setActiveItem(
+        current
+          ? this.nearestVisibleItem(current)
+          : this.treeitemOf(this.container.querySelector('.root.node'))
+      );
+    }
+
+    /**
+     * Moves the roving tab stop to the given treeitem
+     * @param {HTMLElement|null} item - The treeitem to make tabbable
+     * @param {boolean} [focus=false] - Also move focus to it
+     */
+    setActiveItem(item, focus = false) {
+      if (!item) return;
+
+      if (this.activeItem && this.activeItem !== item) {
+        this.activeItem.setAttribute('tabindex', '-1');
+      }
+
+      item.setAttribute('tabindex', '0');
+      this.activeItem = item;
+
+      if (focus) item.focus();
+    }
+
+    /**
+     * Keeps the roving tab stop on whatever node last received focus,
+     * including by pointer
+     * @param {FocusEvent} e - Focusin event
+     */
+    focusinHandler(e) {
+      const node = e.target.closest('.node');
+
+      if (node && this.container.contains(node)) {
+        this.setActiveItem(this.treeitemOf(node));
+      }
+    }
+
+    /**
+     * @param {HTMLElement} item - A treeitem
+     * @returns {boolean} - True unless it is inside a collapsed node
+     */
+    isItemVisible(item) {
+      return !item.closest('.node[data-is-expanded="false"] .node-children');
+    }
+
+    /**
+     * @param {HTMLElement} node - A `li.node`
+     * @returns {HTMLElement|null} - The node's treeitem, or that of its
+     * nearest ancestor that is not hidden inside a collapsed node
+     */
+    nearestVisibleItem(node) {
+      let current = node;
+
+      while (current) {
+        const item = this.treeitemOf(current);
+
+        if (item && this.isItemVisible(item)) return item;
+
+        current =
+          current.parentElement && current.parentElement.closest('.node');
+      }
+
+      return null;
+    }
+
+    /**
+     * Treeitems not hidden inside a collapsed node, in document order
+     * @returns {HTMLElement[]}
+     */
+    visibleItems() {
+      return Array.from(
+        this.container.querySelectorAll('[role="treeitem"]')
+      ).filter(item => this.isItemVisible(item));
+    }
+
+    /**
+     * WAI-ARIA APG tree keyboard interaction
+     * - Down/Up: next/previous visible node
+     * - Right: expand a collapsed node, or move to the first child of an
+     *   expanded node
+     * - Left: collapse an expanded node, or move to the parent
+     * - Home/End: first/last visible node
+     * - Enter: follows the link (native)
+     * @param {KeyboardEvent} e - Keydown event
+     */
+    async keydownHandler(e) {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
+      const node = e.target.closest('.node');
+
+      if (!node || !this.container.contains(node)) return;
+
+      const item = this.treeitemOf(node);
+      const items = () => this.visibleItems();
+      const isRoot = node.classList.contains('root');
+      const expanded = item.getAttribute('aria-expanded');
+
+      switch (e.key) {
+        case 'ArrowDown': {
+          e.preventDefault();
+          const list = items();
+          const next = list[list.indexOf(item) + 1];
+          if (next) this.setActiveItem(next, true);
+          break;
+        }
+        case 'ArrowUp': {
+          e.preventDefault();
+          const list = items();
+          const prev = list[list.indexOf(item) - 1];
+          if (prev) this.setActiveItem(prev, true);
+          break;
+        }
+        case 'ArrowRight': {
+          e.preventDefault();
+          if (expanded === 'false') {
+            await this.setExpanded(node, true);
+          } else if (expanded === 'true') {
+            const firstChild = node.querySelector(
+              ':scope > .node-children > li.node'
+            );
+            if (firstChild) {
+              this.setActiveItem(this.treeitemOf(firstChild), true);
+            }
+          }
+          break;
+        }
+        case 'ArrowLeft': {
+          e.preventDefault();
+          if (expanded === 'true' && !isRoot) {
+            await this.setExpanded(node, false);
+            this.setActiveItem(item, true);
+          } else if (!isRoot) {
+            const parent = node.parentElement.closest('.node');
+            if (parent) this.setActiveItem(this.treeitemOf(parent), true);
+          }
+          break;
+        }
+        case 'Home': {
+          e.preventDefault();
+          this.setActiveItem(items()[0], true);
+          break;
+        }
+        case 'End': {
+          e.preventDefault();
+          const list = items();
+          this.setActiveItem(list[list.length - 1], true);
+          break;
+        }
+        default:
+          break;
+      }
     }
   }
 

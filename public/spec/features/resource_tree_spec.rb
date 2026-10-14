@@ -31,14 +31,17 @@ describe 'Resource Tree', js: true do
     allow(AppConfig).to receive(:[]).with(:pui_display_identifiers_in_resource_tree) { true }
     visit @resource.uri
 
-    aggregate_failures "marks visual lists as such" do
-      page.has_css? "div#tree-container"
-      within "div#tree-container" do
-        expect(page).to have_xpath("div[@role='list']")
-        expect(page).to have_xpath("div[@role='list']/div[@role='listitem'][@id='resource_#{@resource.id}']")
-        first(".expandme-icon").click
-        expect(page).to have_xpath("div[@role='list']/div[@role='list']/div[@role='list']/div[@role='listitem'][@id='archival_object_#{@item.id}']")
+    within "#record-tree-container" do
+      aggregate_failures "marks the tree up as a tree" do
+        expect(page).to have_css("ol.infinite-tree[role='tree']")
+        expect(page).to have_css("li.root#resource_#{@resource.id} > .node-row [role='treeitem'][aria-level='1']")
       end
+
+      find("#archival_object_#{@series.id} > .node-row .node-expand").click
+
+      expect(page).to have_css(
+        "#archival_object_#{@series.id} > ol.node-children[role='group'] > li#archival_object_#{@item.id}"
+      )
     end
 
     expect(page).to have_text('1-2-3-4:')
@@ -48,6 +51,10 @@ describe 'Resource Tree', js: true do
   it "does not show the record id in the tree if not configured to do so" do
     allow(AppConfig).to receive(:[]).with(:pui_display_identifiers_in_resource_tree) { false }
     visit @resource.uri
+
+    within "#record-tree-container" do
+      expect(page).to have_css("li#archival_object_#{@ao.id} .node-title", text: 'Component')
+    end
 
     expect(page).not_to have_text('1-2-3-4:')
     expect(page).not_to have_text('abc:')
