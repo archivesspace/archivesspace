@@ -103,6 +103,37 @@ describe 'Thumbnails', js: true do
            resource: { 'ref' => @resource_from_tree.uri },
            instances: [build(:instance_digital, digital_object: { ref: @dobj_with_thumbnail.uri }, is_representative: true)])
 
+    # 4.2.1 showed every digital instance with an embed or new file version on an archival object or
+    # resource without a representative instance (ANW-3061)
+    @dobj_embed = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with an embedded image',
+      file_versions: [
+        { publish: true, is_display_thumbnail: true, file_uri: @img_2, file_format_name: 'jpeg', xlink_show_attribute: 'embed' },
+      ]
+    )
+    @dobj_new = create(
+      :digital_object,
+      publish: true,
+      title: 'Digital object with a file opening in a new window',
+      file_versions: [
+        { publish: true, is_display_link: true, file_uri: @link_2, xlink_show_attribute: 'new' },
+      ]
+    )
+    non_representative_instances = [@dobj_embed, @dobj_new].map do |digital_object|
+      build(:instance_digital, digital_object: { ref: digital_object.uri }, is_representative: false)
+    end
+    @resource_without_representative = create(:resource,
+                                              publish: true,
+                                              title: 'Resource without a representative instance',
+                                              instances: non_representative_instances)
+    @aobj_without_representative = create(:archival_object,
+                                          publish: true,
+                                          title: 'Archival Object without a representative instance',
+                                          resource: { 'ref' => @resource_without_representative.uri },
+                                          instances: non_representative_instances)
+
     run_indexers
   end
 
@@ -211,6 +242,34 @@ describe 'Thumbnails', js: true do
     it 'shows the first image among the representative instances of the archival objects of a resource' do
       visit @resource_from_tree.uri
       expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'] img[src='#{@img_1}']"
+    end
+  end
+
+  describe 'on records with digital object instances, none of them representative (ANW-3061)' do
+    shared_examples 'no thumbnail from its digital object instances' do
+      it 'shows no thumbnail, image or file version of its digital object instances' do
+        visit record.uri
+
+        expect(page).to have_css 'h1', text: record.title
+        aggregate_failures do
+          expect(page).not_to have_css '.pui-thumbnail'
+          expect(page).not_to have_css '.available-digital-objects, .objectimage', visible: :all
+          expect(page).not_to have_css "img[src='#{@img_2}']", visible: :all
+          expect(page).not_to have_css "a[href='#{@link_2}']", visible: :all
+        end
+      end
+    end
+
+    context 'on a resource' do
+      let(:record) { @resource_without_representative }
+
+      include_examples 'no thumbnail from its digital object instances'
+    end
+
+    context 'on an archival object' do
+      let(:record) { @aobj_without_representative }
+
+      include_examples 'no thumbnail from its digital object instances'
     end
   end
 
