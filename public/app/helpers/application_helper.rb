@@ -22,4 +22,14 @@ module ApplicationHelper
   def render_pagination(pager, position: nil, nav_class: nil)
     render partial: 'shared/pagination', locals: { pager: pager, position: position, nav_class: nav_class }
   end
+
+  # Renders the InfiniteTree <template>s at most once per page, so pages with
+  # several trees (eg classification search subgroups) don't duplicate ids.
+  # @return [String, nil] the templates markup, or nil if already rendered
+  def infinite_tree_templates
+    return if @infinite_tree_templates_rendered
+
+    @infinite_tree_templates_rendered = true
+    render partial: 'shared/infinite_tree_templates'
+  end
 end

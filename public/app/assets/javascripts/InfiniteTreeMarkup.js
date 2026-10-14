@@ -12,25 +12,113 @@
    *     - `div.node-indentation` for tree level visualization via a repeating
    *       gradient and padding, and expand/collapse button if children
    *     - `div.node-title-container` for the node's data
-   *     - an `::after` pseudo-element to indicate the currently selected node
-   *       via the "current" InfiniteRecords record
+   *     - an `::after` pseudo-element to indicate the current node
    * All nodes with children have a nested ordered list, `ol.node-children`, as the
    * next sibling of `.node-row`, containing each child as `li.node`.
+   *
+   * Accessibility follows the WAI-ARIA APG navigation treeview pattern: the
+   * `<li>` is presentational, each node's `a.node-title` is the `treeitem`
+   * (one roving `tabindex="0"`), and a treeitem with children owns its
+   * `ol.node-children[role=group]` via `aria-owns`. The expand button is a
+   * pointer affordance only; keyboard users expand and collapse with the
+   * arrow keys (see `InfiniteTree#keydownHandler`).
    */
+
+  /**
+   * Title rule sets. Each page keeps the titles it showed before the
+   * LargeTree → InfiniteTree migration.
+   * - 'collection-organization': the original InfiniteTree rules, applied to
+   *   every node including the root
+   * - 'record': the legacy LargeTree `SimpleRenderer` rules used by record
+   *   show-page sidebars and classification search subgroups
+   */
+  const TITLE_RULES = ['collection-organization', 'record'];
 
   class InfiniteTreeMarkup {
     /**
      * @constructor
-     * @param {string} resourceUri - The URI of the collection resource
-     * @param {number} batchSize - The number of child nodes per batch
-     * @param {Object} i18n - Internationalization strings
+     * @param {Object} options
+     * @param {string} options.rootUri - The URI of the tree root
+     * @param {number} options.batchSize - The number of child nodes per batch
+     * @param {Object} options.i18n - Internationalization strings
+     * @param {string} options.i18n.sep - Resource identifier separator
+     * @param {string} [options.i18n.classificationSep] - Classification identifier separator
+     * @param {string} options.i18n.bulk - Bulk date label
+     * @param {string} [options.titleRules='collection-organization'] - See TITLE_RULES
+     * @param {function(Object): string} [options.linkFor] - Returns the href
+     * for a node's title link given its data; defaults to a `#tree::` hash
      */
-    constructor(resourceUri, batchSize, i18n) {
-      this.resourceUri = resourceUri;
-      this.repoId = resourceUri.split('/')[2];
-      this.resourceId = resourceUri.split('/')[4];
+    constructor({ rootUri, batchSize, i18n, titleRules, linkFor }) {
+      const root = InfiniteTreeIds.parseUri(rootUri);
+
+      this.rootUri = rootUri;
+      this.repoId = root.repoId;
+      this.rootElementId = InfiniteTreeIds.uriToElementId(rootUri);
       this.BATCH_SIZE = batchSize;
       this.i18n = i18n;
+      this.titleRules = TITLE_RULES.includes(titleRules)
+        ? titleRules
+        : 'collection-organization';
+      this.linkFor =
+        linkFor || (data => InfiniteTreeIds.uriToLocationHash(data.uri));
+    }
+
+    /**
+     * Clones the content of a template by id
+     * @param {string} id - The template's HTML id
+     * @returns {DocumentFragment} - The cloned template content
+     */
+    #template(id) {
+      return document.querySelector(`#${id}`).content.cloneNode(true);
+    }
+
+    /**
+     * Applies treeitem semantics to a node's title link
+     * @param {HTMLAnchorElement} link - The node's `a.node-title`
+     * @param {number} ariaLevel - 1-based tree level (root is 1)
+     * @param {string|null} childListId - Id of the node's child list, if any
+     * @param {boolean} isExpanded - Initial expanded state if it has children
+     */
+    #treeitem(link, ariaLevel, childListId, isExpanded) {
+      link.setAttribute('role', 'treeitem');
+      link.setAttribute('tabindex', '-1');
+      link.setAttribute('aria-level', ariaLevel);
+
+      if (childListId) {
+        link.setAttribute('aria-owns', childListId);
+        link.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      }
+    }
+
+    /**
+     * Sets a title link's href and text, and the row's tooltip.
+     *
+     * `parsed_title` arrives HTML-escaped and sanitized by the backend's
+     * MixedContentParser. Record trees insert it as HTML, as LargeTree's
+     * SimpleRenderer did, so entities like `&amp;` render correctly.
+     * Collection organization keeps its original behavior: HTML only when the
+     * title contains mixed-content markup.
+     * @param {HTMLAnchorElement} link - The link
+     * @param {HTMLElement} contentWrapper - The node's `.node-body`
+     * @param {Object} data - Node data from the server
+     * @param {MixedContentHelper} title - The processed title
+     */
+    #fillLink(link, contentWrapper, data, title) {
+      link.setAttribute('href', this.linkFor(data));
+
+      if (this.titleRules === 'record') {
+        link.innerHTML = title.input;
+        contentWrapper.setAttribute('title', link.textContent);
+        return;
+      }
+
+      if (title.isMixed) {
+        link.innerHTML = title.input;
+      } else {
+        link.textContent = title.cleaned;
+      }
+
+      contentWrapper.setAttribute('title', title.cleaned);
     }
 
     /**
@@ -39,40 +127,38 @@
      */
     rootList() {
       const listFrag = new DocumentFragment();
-      const listTemplate = document
-        .querySelector('#infinite-tree-root-list-template')
-        .content.cloneNode(true);
 
-      listFrag.appendChild(listTemplate);
+      listFrag.appendChild(this.#template('infinite-tree-root-list-template'));
+      listFrag.querySelector('ol').setAttribute('role', 'tree');
 
       return listFrag;
     }
 
     /**
      * Creates a root node element
-     * @param {string} title - Display text for the root node
+     * @param {Object} data - Root data object from the server
      * @returns {DocumentFragment} - The root <li> element
      */
-    rootNode(title) {
-      const _title = new MixedContentHelper(title);
+    rootNode(data) {
+      const title = new MixedContentHelper(this.title(data, true));
       const rootFrag = new DocumentFragment();
-      const rootTemplate = document
-        .querySelector('#infinite-tree-root-node-template')
-        .content.cloneNode(true);
+      const rootTemplate = this.#template('infinite-tree-root-node-template');
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
       const link = rootTemplate.querySelector('.node-title');
+      const hasChildren = data.child_count > 0;
 
-      rootElement.id = `resource_${this.resourceId}`;
-      rootElement.setAttribute('data-uri', this.resourceUri);
-      contentWrapper.setAttribute('title', _title.cleaned);
-      link.href = `#tree::resource_${this.resourceId}`;
+      rootElement.id = this.rootElementId;
+      rootElement.setAttribute('role', 'none');
+      rootElement.setAttribute('data-uri', this.rootUri);
 
-      if (_title.isMixed) {
-        link.innerHTML = _title.input;
-      } else {
-        link.textContent = _title.cleaned;
-      }
+      this.#treeitem(
+        link,
+        1,
+        hasChildren ? `${this.rootElementId}-children` : null,
+        true
+      );
+      this.#fillLink(link, contentWrapper, data, title);
 
       rootFrag.appendChild(rootTemplate);
 
@@ -88,24 +174,24 @@
      */
     nodeList(parentElementId, level, numBatches) {
       const listFrag = new DocumentFragment();
-      const listTemplate = document
-        .querySelector('#infinite-tree-node-list-template')
-        .content.cloneNode(true);
+      const listTemplate = this.#template('infinite-tree-node-list-template');
       const listElement = listTemplate.querySelector('ol');
       const listElementId = `${parentElementId}-children`;
 
       listElement.id = listElementId;
+      listElement.setAttribute('role', 'group');
       listElement.setAttribute('data-parent-id', parentElementId);
       listElement.setAttribute('data-tree-level', level);
       listElement.setAttribute('data-total-child-batches', numBatches);
 
       for (let i = 0; i < numBatches; i++) {
-        const itemTemplate = document
-          .querySelector('#infinite-tree-batch-placeholder-template')
-          .content.cloneNode(true);
+        const itemTemplate = this.#template(
+          'infinite-tree-batch-placeholder-template'
+        );
         const itemElement = itemTemplate.querySelector('li');
 
         itemElement.setAttribute('data-batch-placeholder', i);
+        itemElement.setAttribute('role', 'none');
 
         listElement.appendChild(itemElement);
       }
@@ -121,33 +207,31 @@
      * @param {number} level - Tree level of the node (0 for root)
      * @param {boolean} shouldObserve - Whether or not to observe the node
      * in order to populate a next empty batch
-     * @param {number} [parentId=null] - Optional ID of the node's parent; if null
-     * then parent is assumed to be the root resource
+     * @param {string} [parentId=null] - Optional HTML id of the node's parent;
+     * required if `shouldObserve` is true
      * @param {number} [offset=null] - Optional offset of the next batch to
      * populate; required if `shouldObserve` is true
      * @returns {DocumentFragment} - A <li>
      */
     node(data, level, shouldObserve, parentId = null, offset = null) {
-      const nodeRecordId = data.uri.split('/')[4];
-      const nodeElementId = `archival_object_${nodeRecordId}`;
+      const nodeElementId = InfiniteTreeIds.uriToElementId(data.uri);
       const title = new MixedContentHelper(this.title(data));
-      const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
-      const nodeTemplate = document
-        .querySelector('#infinite-tree-node-template')
-        .content.cloneNode(true);
+      const nodeTemplate = this.#template('infinite-tree-node-template');
       const nodeElement = nodeTemplate.querySelector('li');
       const contentWrapper = nodeTemplate.querySelector('.node-body');
       const indentation = nodeTemplate.querySelector('.node-indentation');
       const link = nodeTemplate.querySelector('.node-title');
+      const hasChildren = data.child_count > 0;
+      const childListId = hasChildren ? `${nodeElementId}-children` : null;
 
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
+      nodeElement.setAttribute('role', 'none');
       nodeElement.setAttribute('data-uri', data.uri);
 
-      if (data.child_count > 0) {
+      if (hasChildren) {
         const totalBatches = Math.ceil(data.child_count / this.BATCH_SIZE);
-        const childListId = `${nodeElementId}-children`;
 
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
         nodeElement.setAttribute('data-is-expanded', 'false');
@@ -156,39 +240,23 @@
       }
 
       if (shouldObserve) {
-        let parentUri;
-
-        if (parentId) {
-          if (parentId.startsWith('resource')) {
-            parentUri = '';
-          } else if (parentId.startsWith('archival_object')) {
-            const parentNodeId = parentId.split('_')[2];
-            parentUri = `/repositories/${this.repoId}/archival_objects/${parentNodeId}`;
-          }
-        }
+        const parentUri = parentId
+          ? InfiniteTreeIds.elementIdToParentRef(parentId, this.repoId)
+          : '';
 
         nodeElement.setAttribute('data-observe-next-batch', 'true');
         nodeElement.setAttribute('data-parent-uri', parentUri);
         nodeElement.setAttribute('data-observe-offset', offset);
       }
 
-      contentWrapper.setAttribute('title', title.cleaned);
-
       if (data.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
 
-        nodeTemplate
-          .querySelector('.node-title')
-          .insertAdjacentHTML('beforebegin', iconHtml);
+        link.insertAdjacentHTML('beforebegin', iconHtml);
       }
 
-      link.setAttribute('href', aHref);
-
-      if (title.isMixed) {
-        link.innerHTML = title.input;
-      } else {
-        link.textContent = title.cleaned;
-      }
+      this.#treeitem(link, level + 1, childListId, false);
+      this.#fillLink(link, contentWrapper, data, title);
 
       nodeFrag.appendChild(nodeTemplate);
 
@@ -196,19 +264,24 @@
     }
 
     /**
-     * Creates an expand button to show and hide a node's children
+     * Creates an expand button to show and hide a node's children. The button
+     * is for pointer users; it is hidden from assistive technology and kept
+     * out of the tab order because the treeitem carries `aria-expanded` and
+     * the arrow keys expand and collapse.
      * @param {string} title - The node title
      * @param {string} childListId - The HTML id of the children container this button controls
      * @returns {DocumentFragment} - A <button>
      */
     expandButton(title, childListId) {
       const btnFrag = new DocumentFragment();
-      const btnTemplate = document
-        .querySelector('#infinite-tree-expand-button-template')
-        .content.cloneNode(true);
+      const btnTemplate = this.#template(
+        'infinite-tree-expand-button-template'
+      );
       const btn = btnTemplate.querySelector('.node-expand');
 
       btn.setAttribute('aria-controls', childListId);
+      btn.setAttribute('tabindex', '-1');
+      btn.setAttribute('aria-hidden', 'true');
       btn.querySelector('.visually-hidden').textContent = title;
 
       btnFrag.appendChild(btnTemplate);
@@ -217,13 +290,83 @@
     }
 
     /**
-     * Builds the title of a node
+     * Builds the title of a node according to `this.titleRules`
      * @param {Object} node - Node data
+     * @param {boolean} [isRoot=false] - Whether the node is the tree root
      * @returns {string} - Title of the node
      *
      * @todo Migrate this logic to the server if possible
      */
-    title(node) {
+    title(node, isRoot = false) {
+      if (this.titleRules === 'record') {
+        return isRoot
+          ? this.#recordRootTitle(node)
+          : this.#recordNodeTitle(node);
+      }
+
+      return this.#fullTitle(node);
+    }
+
+    /**
+     * Prefixes a title with an identifier and separator
+     * @param {string|undefined} identifier - The identifier
+     * @param {string} sep - The separator
+     * @param {string} title - The title
+     * @returns {string} - eg 'ID: Title'
+     */
+    #withIdentifier(identifier, sep, title) {
+      return identifier ? `${identifier}${sep} ${title}` : title;
+    }
+
+    /**
+     * Legacy LargeTree (`SimpleRenderer`) root title: identifier prefix for
+     * classifications always, for resources when configured; no label/dates
+     * @param {Object} node - Root data
+     * @returns {string} - Title
+     */
+    #recordRootTitle(node) {
+      const title = node.parsed_title || '';
+
+      if (node.jsonmodel_type === 'classification') {
+        return this.#withIdentifier(
+          node.identifier,
+          this.i18n.classificationSep,
+          title
+        );
+      }
+
+      if (node.jsonmodel_type === 'resource' && SHOW_IDENTIFIERS_IN_TREE) {
+        return this.#withIdentifier(node.identifier, this.i18n.sep, title);
+      }
+
+      return title;
+    }
+
+    /**
+     * Legacy LargeTree (`SimpleRenderer`) node title: classification terms
+     * always get their identifier and no label/dates; everything else uses
+     * the full title rules
+     * @param {Object} node - Node data
+     * @returns {string} - Title
+     */
+    #recordNodeTitle(node) {
+      if (node.jsonmodel_type === 'classification_term') {
+        return this.#withIdentifier(
+          node.identifier,
+          this.i18n.classificationSep,
+          node.parsed_title || ''
+        );
+      }
+
+      return this.#fullTitle(node);
+    }
+
+    /**
+     * Identifier (when configured), title, label, and dates
+     * @param {Object} node - Node data
+     * @returns {string} - Title
+     */
+    #fullTitle(node) {
       const title = [];
 
       if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {

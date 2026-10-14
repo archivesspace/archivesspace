@@ -65,34 +65,17 @@ const infiniteRecords = new InfiniteRecords(
   uriFragment,
   coordinator
 );
-const infiniteTree = new InfiniteTree(
-  treeWaypointSize,
-  appUrlPrefix,
-  resourceUri,
-  identifier_separator,
-  date_type_bulk,
+const infiniteTree = new InfiniteTree({
+  container: document.querySelector('#infinite-tree-container'),
+  rootUri: resourceUri,
+  batchSize: treeWaypointSize,
+  fetchPrefix: appUrlPrefix,
+  i18n: { sep: identifier_separator, bulk: date_type_bulk },
+  titleRules: 'collection-organization',
+  onTitleClick: event => infiniteRecords.treeLinkHandler(event),
+  coordinator,
   uriFragment,
-  coordinator
-);
-
-infiniteTree.container.addEventListener('click', (e) => {
-  treeClickDelegator(e, infiniteTree, infiniteRecords);
 });
-
-/**
- * treeClickDelegator
- * @description - Delegate click events on the InfiniteTree container
- * @param {Event} event - Click event
- * @param {InfiniteTree} tree - InfiniteTree instance
- * @param {InfiniteRecords} records - InfiniteRecords instance
- */
-function treeClickDelegator(event, tree, records) {
-  if (event.target.closest('.node-expand')) {
-    tree.expandHandler(event);
-  } else if (event.target.closest('.node-title')) {
-    records.treeLinkHandler(event);
-  }
-}
 </script>
 
 <%= render partial: 'shared/modal_actions' %>
