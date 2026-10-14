@@ -1,5 +1,4 @@
 <%
-  show_spacer = true unless defined?(show_spacer)
   n_digital_objects = nil unless defined?(n_digital_objects)
   # Lists (search results, the collection tree) pass the link of the result title
   title_link = thumbnail_link if defined?(thumbnail_link)
@@ -56,6 +55,4 @@
       </div>
     <% end %>
   </div>
-<% elsif show_spacer %>
-  <div class="pui-thumbnail-spacer"></div>
 <% end %>

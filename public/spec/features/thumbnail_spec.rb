@@ -92,8 +92,6 @@ describe 'Thumbnails', js: true do
                                                     digital_object: { ref: @dobj_with_icon.uri },
                                                     is_representative: true)])
 
-    @resource_without_thumbnail = create(:resource, publish: true, title: 'Resource without thumbnail')
-
     # a resource with no representative instance of its own shows the image of an archival object's
     @resource_from_tree = create(:resource, publish: true, title: 'Resource with thumbnail from its tree')
     create(:archival_object,
@@ -257,14 +255,6 @@ describe 'Thumbnails', js: true do
       end
     end
 
-    it 'leaves a spacer in place of a missing thumbnail, so that the results line up' do
-      search_for @accession_without_thumbnail.title
-
-      within ".recordrow[data-uri='#{@accession_without_thumbnail.uri}']" do
-        expect(page).to have_css '.pui-thumbnail-spacer', visible: :all
-        expect(page).not_to have_css '.pui-thumbnail', visible: :all
-      end
-    end
 
     it 'is shown for resources, archival objects and accessions' do
       [@resource_with_thumbnail, @aobj_with_thumbnail, @accession_with_thumbnail].each do |record|
@@ -277,23 +267,25 @@ describe 'Thumbnails', js: true do
       end
     end
 
-    it 'leaves a space for it on results without one to align with those that do' do
-      search_for @resource_without_thumbnail.title
+    it 'is right aligned, after the record summary' do
+      search_for @accession_with_thumbnail.title
 
-      within ".recordrow[data-uri='#{@resource_without_thumbnail.uri}']" do
-        aggregate_failures do
-          expect(page).not_to have_css '.pui-thumbnail'
-          expect(page).to have_css '.pui-thumbnail-spacer', visible: :all
-        end
+      within ".recordrow[data-uri='#{@accession_with_thumbnail.uri}']" do
+        expect(page).to have_css(':scope > .recordrow-summary + .pui-thumbnail:last-child')
+
+        title_right = page.evaluate_script("document.querySelector(\".recordrow[data-uri='#{@accession_with_thumbnail.uri}'] .record-title\").getBoundingClientRect().right")
+        thumbnail_left = page.evaluate_script("document.querySelector(\".recordrow[data-uri='#{@accession_with_thumbnail.uri}'] .pui-thumbnail\").getBoundingClientRect().left")
+        expect(thumbnail_left).to be > title_right
       end
     end
 
-    it 'leaves no space for it on results of a type that never has one' do
-      visit('/agents')
+    it 'leaves no space for a thumbnail when the record has none' do
+      search_for @accession_without_thumbnail.title
 
-      aggregate_failures do
-        expect(page).to have_css '.recordrow'
-        expect(page).not_to have_css '.recordrow .pui-thumbnail-spacer', visible: :all
+      within ".recordrow[data-uri='#{@accession_without_thumbnail.uri}']" do
+        expect(page).to have_css('.record-title', text: @accession_without_thumbnail.title)
+        expect(page).not_to have_css('.pui-thumbnail', visible: :all)
+        expect(page).not_to have_css('.pui-thumbnail-spacer', visible: :all)
       end
     end
   end
