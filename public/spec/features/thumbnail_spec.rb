@@ -362,6 +362,7 @@ describe 'Thumbnails', js: true do
     it 'links to the archival object, hidden from screen readers and the keyboard, since it duplicates the title link' do
       within '.infinite-item', text: @aobj_with_thumbnail.title do
         expect(page).to have_css ".pui-thumbnail a[href$='#{@aobj_with_thumbnail.uri}'][target='_self'][aria-hidden='true'][tabindex='-1'] img[src='#{@img_1}']"
+        expect(page).not_to have_css '.pui-thumbnail-help-text', visible: :all
       end
     end
 
