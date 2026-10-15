@@ -315,8 +315,6 @@ it:
     _public:
       link: Link all'oggetto digitale
       badge_label: Digitale %{level}
-      go: Vai al file
-      thumbnail: thumbnail
       additional: Ulteriori Versioni del File
       browse_number_digital_objects_in_collection:
         one: Sfoglia %{num} l'oggetto digitale nella collezione
@@ -554,3 +552,6 @@ it:
     required: Campi obbligatori
     pui_permission_denied: "L'utente `%{username}` non ha il permesso di visualizzare l'interfaccia pubblica."
     login_failed: "Accesso non riuscito. Controlla il tuo nome utente e la password."
+  thumbnails:
+    view_digital_object: Visualizza l'oggetto digitale
+    view_digital_material: Visualizza il materiale digitale

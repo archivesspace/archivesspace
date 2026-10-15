@@ -1,10 +1,10 @@
 <div class="form-group d-flex">
   <div class="control-label col-sm-2 text-md-right"><%= t("file_version.file_uri") %></div>
   <div class="controls label-only col-sm-8">
-    <% if file_uri.respond_to?(:scheme) && FileEmbedHelper.supported_scheme?(file_uri.scheme) %>
-    <%= link_to file_uri.to_s, file_uri.to_s %>
+    <% if FileURI.allowed_scheme?(file_uri) %>
+      <%= link_to file_uri, file_uri %>
     <% else %>
-    <%= file_uri.to_s %>
+      <%= file_uri %>
     <% end %>
   </div>
 </div>

@@ -393,10 +393,8 @@ fr:
     _singular: Document numérique
     _plural: Matériaux numériques
     _public:
-      thumbnail: miniature
       link: Lien vers objet numérique
       badge_label: Numérique %{level}
-      go: Aller au dossier
       section: {}
       messages: {}
       additional: Versions de fichiers supplémentaires
@@ -656,3 +654,6 @@ fr:
     required: Champs obligatoires
     pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter l'interface publique."
     login_failed: "Échec de la connexion. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."
+  thumbnails:
+    view_digital_object: Voir l'objet numérique
+    view_digital_material: Voir le matériel numérique

@@ -267,6 +267,7 @@ es:
 
   search:
     accession:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -290,6 +291,7 @@ es:
       asc: Ascendente
       desc: Descendente
     resource:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -312,6 +314,7 @@ es:
       asc: Ascendente
       desc: Descendente
     archival_object:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -339,6 +342,7 @@ es:
       asc: Ascendente
       desc: Descendente
     digital_object:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -356,6 +360,7 @@ es:
       asc: Ascendente
       desc: Descendente
     digital_object_component:
+      thumbnail: Miniatura
       score: Relevancia
       title: Título
       publish: Publicado
@@ -527,6 +532,7 @@ es:
       asc: Ascendente
       desc: Descendente
     multi:
+      thumbnail: Miniatura
       score: Relevancia
       primary_type: Tipo de registro
       creators: Creadores
@@ -1154,12 +1160,17 @@ es:
 
   file_version:
     _frontend:
+      published: Publicado
       messages:
         no_iiif_viewer: "No hay ningún visor IIIF disponible. Establezca AppConfig[:iiif_viewer]
           en 'universal_viewer', 'mirador' o la URL de un visor IIIF alojado externamente."
       action:
         add: Añadir la versión del archivo
         make_representative: Hacer representante
+        make_display_thumbnail: Usar como miniatura de visualización
+        make_display_thumbnail_tooltip: Muestra la imagen del URI Archivo de esta versión de archivo como miniatura del registro. Si la versión de archivo no es una imagen que se pueda mostrar, se muestra un icono genérico en su lugar.
+        make_display_link: Usar como enlace de visualización
+        make_display_link_tooltip: Enlaza la miniatura o el icono genérico del registro con el URI Archivo de esta versión de archivo.
 
   group:
     _frontend:

@@ -341,9 +341,7 @@ pl:
     _public:
       additional: Dodatkowe wersje plików
       url_encoded_data: Dane zakodowane w formacie URL
-      thumbnail: Obraz miniatury
       badge_label: Poziom cyfrowy %{level}
-      go: Przejdź do pliku
       link: Link do obiektu cyfrowego
       browse_number_digital_objects_in_collection:
         one: Przeglądaj %{num} obiektów cyfrowych w kolekcji
@@ -514,3 +512,6 @@ pl:
     required: wymagany
     pui_permission_denied: "Użytkownik `%{username}` nie ma uprawnień do przeglądania interfejsu publicznego."
     login_failed: "Logowanie nie powiodło się. Sprawdź swoją nazwę użytkownika i hasło."
+  thumbnails:
+    view_digital_object: Zobacz obiekt cyfrowy
+    view_digital_material: Zobacz Materiały Cyfrowe

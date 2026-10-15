@@ -299,7 +299,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     resource:
       score: Pertinence
       title: Intitulé
@@ -323,7 +323,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     archival_object:
       score: Pertinence
       title: Intitulé
@@ -341,7 +341,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     subject:
       score: Pertinence
       source: Source
@@ -372,7 +372,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     digital_object_component:
       score: Pertinence
       title: Intitulé
@@ -387,7 +387,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     agent:
       score: Pertinence
       title: Nom
@@ -581,7 +581,7 @@ fr:
       langcode: Langue des matériaux
       asc: Ascendant
       desc: Descendant
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
       uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Service
@@ -1242,6 +1242,7 @@ fr:
 
   file_version:
     _frontend:
+      published: Publié
       messages:
         no_iiif_viewer: "Aucune visionneuse IIIF n'est disponible. Définissez AppConfig[:iiif_viewer]
           sur 'universal_viewer', 'mirador' ou l'URL d'une visionneuse IIIF hébergée
@@ -1249,10 +1250,11 @@ fr:
       action:
         add: Ajouter version de fichier
         make_representative: Rendre représentatif
+        make_display_thumbnail: Utiliser comme miniature d'affichage
+        make_display_thumbnail_tooltip: Affiche l'image située à l'URI du fichier de cette version du fichier comme miniature de la notice. Une version du fichier qui n'est pas une image affichable montre une icône générique à la place.
+        make_display_link: Utiliser comme lien d'affichage
+        make_display_link_tooltip: Lie la miniature ou l'icône générique de la notice à l'URI du fichier de cette version du fichier.
 
-        make_representative_tooltip: Utilisez-le pour indiquer que cette image 
-          doit être affichée lorsqu'il existe plusieurs versions de fichier 
-          associées à l'enregistrement.
   group:
     _frontend:
       action:

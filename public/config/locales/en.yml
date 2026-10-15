@@ -398,10 +398,8 @@ en:
     _singular: Digital Record
     _plural: Digital Materials
     _public:
-      thumbnail: thumbnail
       link: Link to digital object
       badge_label: Digital %{level}
-      go: Go to file
       additional: Additional File Versions
       url_encoded_data: URL-encoded data
       browse_number_digital_objects_in_collection:
@@ -626,3 +624,7 @@ en:
       location_footer: "The error occurred while generating the footer."
     additional_info:
       invalid_markup: "This error can result from invalid markup present in a note or subrecord."
+
+  thumbnails:
+    view_digital_object: View Digital Object
+    view_digital_material: View Digital Material

@@ -368,10 +368,8 @@ es:
     _singular: Registro digital
     _plural: materiales digitales
     _public:
-      thumbnail: Miniatura
       link: Enlace al objeto digital
       badge_label: Digital %{level}
-      go: Ir al archivo
       section: {}
       messages: {}
       browse_number_digital_objects_in_collection:
@@ -604,3 +602,6 @@ es:
     required: Campos requeridos
     pui_permission_denied: "El usuario `%{username}` no tiene permiso para ver la interfaz pública."
     login_failed: "Error al iniciar sesión. Compruebe su nombre de usuario y contraseña."
+  thumbnails:
+    view_digital_object: Ver objeto digital
+    view_digital_material: Ver material digital

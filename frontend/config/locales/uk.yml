@@ -521,7 +521,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
-      representative_file_version: Мініатюра зображення
+      thumbnail: Мініатюра зображення
     resource:
       score: Релевантність
       title: Релевантність
@@ -545,7 +545,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
-      representative_file_version: Мініатюра зображення
+      thumbnail: Мініатюра зображення
     archival_object:
       score: Релевантність
       title: Назва
@@ -563,7 +563,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
-      representative_file_version: Мініатюра зображення
+      thumbnail: Мініатюра зображення
     subject:
       score: Релевантність
       source: Джерело
@@ -594,7 +594,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
-      representative_file_version: Мініатюра зображення
+      thumbnail: Мініатюра зображення
     digital_object_component:
       score: Релевантність
       title: Назва
@@ -609,7 +609,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
-      representative_file_version: Мініатюра зображення
+      thumbnail: Мініатюра зображення
     agent:
       score: Релевантність
       title: Ім'я
@@ -821,7 +821,7 @@ uk:
       asc: Зростаючий
       desc: Спадання
       uri: URI
-      representative_file_version: Мініатюра зображення
+      thumbnail: Мініатюра зображення
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Репозиторій
   become-user:
@@ -2582,16 +2582,18 @@ uk:
         new_record_title: Новий компонент цифрового об'єкта
   file_version:
     _frontend:
+      published: Опубліковано
       messages:
         no_iiif_viewer: "Переглядач IIIF недоступний. Встановіть для AppConfig[:iiif_viewer]
           значення 'universal_viewer', 'mirador' або URL-адресу переглядача IIIF,
           розміщеного на зовнішньому сервері."
       action:
-        make_representative_tooltip: Використовується для позначення того, що це
-          зображення має відображатися, коли із записом пов’язано кілька версій 
-          файлу.
-        make_representative: Зробити представником
         add: Додати версію файлу
+        make_representative: Зробити представником
+        make_display_thumbnail: Зробити мініатюрою для показу
+        make_display_thumbnail_tooltip: Показує зображення за URI файлу цієї версії файлу як мініатюру запису. Якщо версія файлу не є зображенням, яке можна показати, натомість показується загальна піктограма.
+        make_display_link: Зробити посиланням для показу
+        make_display_link_tooltip: Пов’язує мініатюру або загальну піктограму запису з URI файлу цієї версії файлу.
   group:
     _frontend:
       action:

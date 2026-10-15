@@ -328,10 +328,8 @@ uk:
     _singular: Цифровий запис
     _plural: Цифрові матеріали
     _public:
-      thumbnail: ніготь великого пальця
       link: Посилання на цифровий об'єкт
       badge_label: Цифровий %{level}
-      go: Перейти до файлу
       additional: Додаткові версії файлів
       url_encoded_data: Дані, закодовані за допомогою URL-адреси
       browse_number_digital_objects_in_collection:
@@ -547,3 +545,6 @@ uk:
     required: потрібно
     pui_permission_denied: "Користувач `%{username}` не має дозволу переглядати публічний інтерфейс."
     login_failed: "Помилка входу. Перевірте своє ім'я користувача та пароль."
+  thumbnails:
+    view_digital_object: Переглянути цифровий об'єкт
+    view_digital_material: Переглянути цифровий матеріал

@@ -3,8 +3,6 @@ class ObjectsController < ApplicationController
   helper_method :process_repo_info
   helper_method :process_subjects
   helper_method :process_agents
-  helper_method :process_digital
-  helper_method :process_digital_instance
 
   skip_before_action  :verify_authenticity_token
 
@@ -102,10 +100,7 @@ class ObjectsController < ApplicationController
         {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
       ].concat(@result.breadcrumb)
       fill_request_info
-      if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
-        @dig = process_digital(@result['json'])
-      else
-        @dig = process_digital_instance(@result['json']['instances'])
+      unless @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
         process_extents(@result['json'])
       end
 

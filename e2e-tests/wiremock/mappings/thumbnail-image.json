@@ -1,0 +1,15 @@
+{
+  "name": "Thumbnails - renderable image",
+  "request": {
+    "method": "GET",
+    "urlPath": "/thumbnails/image.jpg"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "image/png",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "bodyFileName": "iiif-image-book.png"
+  }
+}
