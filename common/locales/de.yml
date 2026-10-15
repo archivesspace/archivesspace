@@ -2882,11 +2882,6 @@ de:
     only_validate: Nur validieren
   resource_component:
     _singular: Ressourcenkomponente
-  largetree:
-    reparent_error:
-      title: Verschieben kann nicht durchgeführt werden
-      message: Das Verschieben wurde nicht durchgeführt, weil ein Elternteil nicht sein eigenes Kind
-        werden kann.
   oai_config:
     oai_repository_name_tooltip: OAI-Repository-Name Tooltip
     oai_record_prefix_tooltip: OAI-Datensatz-Präfix-Tooltip

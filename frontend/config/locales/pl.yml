@@ -25,7 +25,6 @@ pl:
     date_picker: Otwórz selektor daty
     date_picker_toggle: Włącz/wyłącz selektor daty.
     defaults: Wartości domyślne
-    drop_before: Upuść przed
     duplicate_resource: Zduplikowany zasób
     duplicate_resource_confirm_message: Zostanie utworzone zadanie polegające na
       skopiowaniu tego zasobu wraz ze wszystkimi zawartymi w nim obiektami 
@@ -183,8 +182,6 @@ pl:
     unpublish_archival_object: Cofnij publikację wszystkich elementów.
     unpublish_archival_object_confirm_title: Cofnąć publikację?
     view_search_results: Przejdź do wyników wyszukiwania.
-    drop_after: Spadek po
-    drop_into: Upuść jako dziecko
     move_ordering_problem_message: Problem z kolejnością sortowania rekordów
     reset_confirm_title: Przywrócić domyślne ustawienia aplikacji dla 
       %{preftype}?
@@ -1011,8 +1008,6 @@ pl:
       after: Dodaj elementy po
       before: Dodaj elementy przed
       as_child: Dodaj elementy jako dzieci
-    unexpected_failure: Ups! Wystąpił problem z wczytywaniem tego drzewa. 
-      Spróbuj odświeżyć stronę.
     resize: Przeciągnij, aby zmienić wysokość drzewa.
     maximize: Maksymalizacja/minimalizacja wysokości drzewa.
     drag_to_reorder: Przeciągnij, aby zmienić kolejność

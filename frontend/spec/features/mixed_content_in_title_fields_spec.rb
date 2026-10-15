@@ -315,7 +315,7 @@ describe 'Mixed Content in title fields', js: true do
       end
     end
 
-    context 'in the largetree' do
+    context 'in the tree' do
       it 'for resources and archival objects' do
         visit "/resources/#{@resource.id}"
         expect(page).to have_css "#infinite-tree-container a.record-title span#{@title_selector}", text: "Mixed Content #{@now}"

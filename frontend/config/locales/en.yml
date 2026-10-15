@@ -23,9 +23,6 @@ en:
     date_picker: Open Date Picker
     date_picker_toggle: Toggle the Date Picker
     defaults: Default Values
-    drop_before: Drop Before
-    drop_into: Drop as Child
-    drop_after: Drop After
     duplicate_resource: Duplicate Resource
     duplicate_resource_confirm_message: A job is going to be created to duplicate this resource with all its archival objects. This may take a while according to the amount of records.
     edit: Edit
@@ -768,7 +765,6 @@ en:
       before: Add Items Before
       after: Add Items After
       as_child: Add Items as Children
-    unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
     resize: Drag to resize the tree height
     maximize: Maximize/minimize the tree height
     drag_to_reorder: Drag to reorder

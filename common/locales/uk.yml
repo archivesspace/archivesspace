@@ -2132,10 +2132,6 @@ uk:
     backend_log: Журнал серверної частини
   resource_component:
     _singular: Компонент ресурсу
-  largetree:
-    reparent_error:
-      title: Не вдалося виконати переміщення
-      message: Переміщення було заборонено, оскільки батько не може стати власною дитиною.
   rights_statement_act:
     _singular: Закон
     _plural: Дії
