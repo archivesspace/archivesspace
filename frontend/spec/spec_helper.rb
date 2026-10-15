@@ -27,6 +27,9 @@ require_relative '../../indexer/app/lib/periodic_indexer'
 
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 AppConfig[:enable_custom_reports] = true
+# Specs log in many times from one IP; login_throttling_spec turns the limits on
+AppConfig[:frontend_login_throttle_limit] = 0
+AppConfig[:frontend_login_ip_throttle_limit] = 0
 app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "frontend_app_log.out")
 AppConfig[:frontend_log] = app_logfile
 

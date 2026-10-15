@@ -1183,6 +1183,7 @@ it:
     login_please: Effettua il login
     login_expired_link: Per favore <a href ='%{link}'>accedi di nuovo</a>.
     login_fail: Tentativo di accesso non riuscito
+    too_many_attempts: "Troppi tentativi di accesso non riusciti. Riprova più tardi."
     login_success: Accesso effettuato con successo. Reindirizzamento in corso...
     username_placeholder: Nome utente
     password_placeholder: Password

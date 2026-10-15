@@ -10,9 +10,14 @@ AS.LoginHelper = {
         $form.trigger('loginsuccess.aspace', [json]);
       };
 
-      var handleError = function () {
+      var handleError = function (xhr) {
         $('.form-group', $form).addClass('has-error');
-        $('.alert-danger', $form).show();
+        $('.alert-danger, .alert-warning', $form).hide();
+        if (xhr && xhr.status === 429) {
+          $('.alert-warning', $form).show();
+        } else {
+          $('.alert-danger', $form).show();
+        }
         $('#login', $form).attr('disabled', null);
 
         $form.trigger('loginerror.aspace');
@@ -31,7 +36,7 @@ AS.LoginHelper = {
           }
         },
         error: function (obj, errorText, errorDesc) {
-          handleError();
+          handleError(obj);
         },
       });
     });

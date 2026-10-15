@@ -680,6 +680,7 @@ es:
     login_expired_link: Por favor, <a href ='%{link}'>inicie sesión de 
       nuevo</a>.
     login_fail: Fallo de inicio de sesión
+    too_many_attempts: "Demasiados intentos fallidos de inicio de sesión. Inténtelo de nuevo más tarde."
     login_success: Inicio de sesión correcto. Redireccionando...
 
     username_placeholder: Nombre de usuario

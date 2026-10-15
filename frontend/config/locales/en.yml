@@ -674,6 +674,7 @@ en:
     login_please: Please Sign In
     login_expired_link: Please <a href ='%{link}'>sign in again</a>.
     login_fail: Login attempt failed
+    too_many_attempts: "Too many failed login attempts. Please try again later."
     login_success: Login Successful. Redirecting...
     username_placeholder: Username
     password_placeholder: Password

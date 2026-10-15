@@ -37,15 +37,21 @@ class User < JSONModel(:user)
 
 
   def self.login(username, password)
-    uri = JSONModel(:user).uri_for("#{username}/login")
-
-    response = JSONModel::HTTP.post_form(uri, :password => password)
+    response = login_response(username, password)
 
     if response.code == '200'
       ASUtils.json_parse(response.body)
     else
       nil
     end
+  end
+
+
+  # The backend's response to a login: 200 on success, 403 for a wrong password.
+  def self.login_response(username, password)
+    uri = JSONModel(:user).uri_for("#{username}/login")
+
+    JSONModel::HTTP.post_form(uri, :password => password)
   end
 
 

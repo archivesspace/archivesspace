@@ -34,6 +34,9 @@ gem 'json-schema', '~> 1.0.10'
 gem 'multipart-post'
 gem 'net-http-persistent', '>= 4.0.1'
 
+# Throttle PUI login attempts
+gem 'rack-attack', '~> 6.7'
+
 # support clipboard
 gem 'clipboard-rails'
 

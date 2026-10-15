@@ -258,6 +258,7 @@ class ArchivesSpaceService < Sinatra::Base
         json_response({:session => session.id, :user => json_user})
       end
     else
+      Log.warn("Login failed for user '#{username}'")
       json_response({:error => "Login failed"}, 403)
     end
   end

@@ -719,6 +719,7 @@ pl:
     login_please: Proszę się zalogować.
     login_expired_link: Proszę <a href ='%{link}'>zalogować się ponownie</a>.
     login_fail: Próba logowania nie powiodła się.
+    too_many_attempts: "Zbyt wiele nieudanych prób logowania. Spróbuj ponownie później."
     login_success: Logowanie zakończone sukcesem. Przekierowywanie...
     password_placeholder: Hasło
     confirm_password: Potwierdź hasło
