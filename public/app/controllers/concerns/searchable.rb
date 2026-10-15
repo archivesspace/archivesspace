@@ -210,7 +210,7 @@ module Searchable
 #    q = params.require(:q)
     @page_search = "#{base}#{@facet_filter.get_filter_url_params}#{@search.get_filter_q_params}"
 
-    @page_search += "&sort=#{@sort}" if defined?(@sort) && @sort
+    @page_search += "&sort=#{CGI.escape(@sort).gsub('+', '%20')}" if defined?(@sort) && @sort
 
     @filters = @facet_filter.get_filter_hash(@page_search)
 

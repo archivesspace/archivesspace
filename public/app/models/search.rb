@@ -25,6 +25,18 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     @@SortOpts.dup
   end
 
+  # Solr sort specs are "field asc" or "field desc". Public links used to
+  # embed that value with a raw space, and clients that drop the space
+  # resubmit "title_sortasc", which Solr rejects.
+  def self.normalize_sort(sort)
+    return sort unless sort.is_a?(String)
+
+    sort = sort.tr('+', ' ')
+    return sort if sort.match?(/\s/)
+
+    sort.sub(/\A(\S+?)(asc|desc)\z/, '\1 \2')
+  end
+
 
   # We take params either as a Hash or ActionController::Parameters object
   def initialize(params = {})
@@ -46,7 +58,7 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
     self[:q].each_with_index do |q, i|
       self[:q][i] = '*' if q.blank?
     end
-    self[:sort] = params.fetch('sort', nil)
+    self[:sort] = self.class.normalize_sort(params.fetch('sort', nil))
     self[:dates_searched] = have_contents?(from_year) || have_contents?(to_year)
     self[:dates_within] = self[:text_within] = false
   end
