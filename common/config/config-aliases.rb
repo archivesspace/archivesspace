@@ -29,3 +29,7 @@ AppConfig.add_alias(option: :pui_email_raise_delivery_errors, maps_to: :email_ra
 AppConfig.add_alias(option: :pui_email_smtp_settings, maps_to: :email_smtp_settings, deprecated: true)
 
 AppConfig.set_options(:email_delivery_method, [:smtp, :sendmail])
+
+AppConfig.add_alias(option: :display_identifiers_in_largetree_container,
+                    maps_to: :display_identifiers_in_tree_container,
+                    deprecated: true)
