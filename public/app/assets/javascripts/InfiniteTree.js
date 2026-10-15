@@ -22,8 +22,8 @@
      * digital object, or classification)
      * @param {number|string} options.batchSize - Number of nodes per batch of children
      * @param {string} options.fetchPrefix - Prefix for tree endpoint requests
-     * @param {Object} options.i18n - {sep, classificationSep, bulk}
-     * @param {string} [options.titleRules] - 'collection-organization' (default) or 'record'
+     * @param {Object} options.i18n - {sep, classificationSep, bulk, expand, collapse}
+     * @param {string} options.titleRules - 'collection-organization' or 'record'
      * @param {function(Object): string} [options.linkFor] - Node data => title href;
      * defaults to the collection-organization `#tree::` hash
      * @param {function(Event): void} [options.onTitleClick] - Called for clicks
@@ -64,13 +64,10 @@
       this.i18n = i18n;
       this.onTitleClick = onTitleClick;
       this.coordinator = coordinator;
-      this.uriFragment = uriFragment || '';
+      this.uriFragment = uriFragment;
       this.pageCurrentUri = currentUri;
       this.expandCurrent = expandCurrent;
       this.scroll = scroll;
-
-      /** @type {HTMLElement|null} The treeitem holding tabindex="0" */
-      this.activeItem = null;
 
       this.fetch = new InfiniteTreeFetch(fetchPrefix, rootUri);
 
@@ -94,8 +91,6 @@
       );
 
       this.container.addEventListener('click', e => this.clickHandler(e));
-      this.container.addEventListener('keydown', e => this.keydownHandler(e));
-      this.container.addEventListener('focusin', e => this.focusinHandler(e));
 
       if (this.coordinator && this.coordinator.registerTree) {
         this.coordinator.registerTree(this);
@@ -121,11 +116,9 @@
      * Boots a record-linked tree (show-page sidebar or search subgroups) from
      * a container rendered by `shared/_infinite_tree_record_container`
      * @param {HTMLElement} container - The container with its data attributes
-     * @returns {InfiniteTree|null} - The tree, or null without a container
+     * @returns {InfiniteTree} - The tree
      */
     static fromRecordContainer(container) {
-      if (!container) return null;
-
       const data = container.dataset;
       const currentUri = data.currentUri || null;
 
@@ -139,6 +132,8 @@
           sep: data.identifierSeparator,
           classificationSep: data.classificationIdentifierSeparator,
           bulk: data.dateTypeBulk,
+          expand: data.expandLabel,
+          collapse: data.collapseLabel,
         },
         titleRules: 'record',
         linkFor: InfiniteTree.recordLink,
@@ -197,7 +192,6 @@
             ancestorBatches,
             InfiniteTreeIds.uriToElementId(targetUri)
           );
-          this.initRovingTabindex();
           return;
         }
       }
@@ -207,8 +201,6 @@
       if (this.pageCurrentUri === this.rootUri) {
         this.markCurrent(this.rootUri);
       }
-
-      this.initRovingTabindex();
     }
 
     /**
@@ -772,15 +764,6 @@
       const expanded = node.getAttribute('data-expand-intent') === 'true';
 
       this.syncExpandedState(node, expanded);
-
-      // Never leave the tab stop inside a collapsed subtree
-      if (
-        !expanded &&
-        this.activeItem &&
-        node.querySelector(':scope > .node-children')?.contains(this.activeItem)
-      ) {
-        this.setActiveItem(this.treeitemOf(node));
-      }
     }
 
     /**
@@ -792,13 +775,11 @@
       const value = expanded ? 'true' : 'false';
       const button = node.querySelector(':scope > .node-row .node-expand');
       const icon = button && button.querySelector('.node-expand-icon');
-      const item = this.treeitemOf(node);
 
       node.setAttribute('data-is-expanded', value);
 
       if (button) button.setAttribute('aria-expanded', value);
       if (icon) icon.classList.toggle('expanded', expanded);
-      if (item) item.setAttribute('aria-expanded', value);
     }
 
     /**
@@ -824,12 +805,6 @@
     markCurrentElement(node) {
       this.clearCurrent();
       this.setCurrentState(node, true);
-
-      // Tabbing into the tree lands on the current node (or its nearest
-      // visible ancestor), unless the user is already navigating inside it
-      if (!this.container.contains(document.activeElement)) {
-        this.setActiveItem(this.nearestVisibleItem(node));
-      }
     }
 
     /**
@@ -848,195 +823,25 @@
      * @param {boolean} isCurrent - The new state
      */
     setCurrentState(node, isCurrent) {
-      const item = this.treeitemOf(node);
+      const link = this.titleOf(node);
 
       node.classList.toggle('current', isCurrent);
 
-      if (!item) return;
+      if (!link) return;
 
       if (isCurrent && this.pageCurrentUri) {
-        item.setAttribute('aria-current', 'page');
+        link.setAttribute('aria-current', 'page');
       } else {
-        item.removeAttribute('aria-current');
+        link.removeAttribute('aria-current');
       }
     }
 
     /**
      * @param {HTMLElement} node - A `li.node`
-     * @returns {HTMLElement|null} - The node's own treeitem (title link)
+     * @returns {HTMLElement|null} - The node's own title link
      */
-    treeitemOf(node) {
-      return node
-        ? node.querySelector(':scope > .node-row [role="treeitem"]')
-        : null;
-    }
-
-    /**
-     * @param {HTMLElement} item - A treeitem
-     * @returns {HTMLElement} - The treeitem's `li.node`
-     */
-    nodeOf(item) {
-      return item.closest('.node');
-    }
-
-    /**
-     * Gives the current node, or the root, the tree's single tab stop
-     */
-    initRovingTabindex() {
-      const current = this.container.querySelector('.node.current');
-
-      this.setActiveItem(
-        current
-          ? this.nearestVisibleItem(current)
-          : this.treeitemOf(this.container.querySelector('.root.node'))
-      );
-    }
-
-    /**
-     * Moves the roving tab stop to the given treeitem
-     * @param {HTMLElement|null} item - The treeitem to make tabbable
-     * @param {boolean} [focus=false] - Also move focus to it
-     */
-    setActiveItem(item, focus = false) {
-      if (!item) return;
-
-      if (this.activeItem && this.activeItem !== item) {
-        this.activeItem.setAttribute('tabindex', '-1');
-      }
-
-      item.setAttribute('tabindex', '0');
-      this.activeItem = item;
-
-      if (focus) item.focus();
-    }
-
-    /**
-     * Keeps the roving tab stop on whatever node last received focus,
-     * including by pointer
-     * @param {FocusEvent} e - Focusin event
-     */
-    focusinHandler(e) {
-      const node = e.target.closest('.node');
-
-      if (node && this.container.contains(node)) {
-        this.setActiveItem(this.treeitemOf(node));
-      }
-    }
-
-    /**
-     * @param {HTMLElement} item - A treeitem
-     * @returns {boolean} - True unless it is inside a collapsed node
-     */
-    isItemVisible(item) {
-      return !item.closest('.node[data-is-expanded="false"] .node-children');
-    }
-
-    /**
-     * @param {HTMLElement} node - A `li.node`
-     * @returns {HTMLElement|null} - The node's treeitem, or that of its
-     * nearest ancestor that is not hidden inside a collapsed node
-     */
-    nearestVisibleItem(node) {
-      let current = node;
-
-      while (current) {
-        const item = this.treeitemOf(current);
-
-        if (item && this.isItemVisible(item)) return item;
-
-        current =
-          current.parentElement && current.parentElement.closest('.node');
-      }
-
-      return null;
-    }
-
-    /**
-     * Treeitems not hidden inside a collapsed node, in document order
-     * @returns {HTMLElement[]}
-     */
-    visibleItems() {
-      return Array.from(
-        this.container.querySelectorAll('[role="treeitem"]')
-      ).filter(item => this.isItemVisible(item));
-    }
-
-    /**
-     * WAI-ARIA APG tree keyboard interaction
-     * - Down/Up: next/previous visible node
-     * - Right: expand a collapsed node, or move to the first child of an
-     *   expanded node
-     * - Left: collapse an expanded node, or move to the parent
-     * - Home/End: first/last visible node
-     * - Enter: follows the link (native)
-     * @param {KeyboardEvent} e - Keydown event
-     */
-    async keydownHandler(e) {
-      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-
-      const node = e.target.closest('.node');
-
-      if (!node || !this.container.contains(node)) return;
-
-      const item = this.treeitemOf(node);
-      const items = () => this.visibleItems();
-      const isRoot = node.classList.contains('root');
-      const expanded = item.getAttribute('aria-expanded');
-
-      switch (e.key) {
-        case 'ArrowDown': {
-          e.preventDefault();
-          const list = items();
-          const next = list[list.indexOf(item) + 1];
-          if (next) this.setActiveItem(next, true);
-          break;
-        }
-        case 'ArrowUp': {
-          e.preventDefault();
-          const list = items();
-          const prev = list[list.indexOf(item) - 1];
-          if (prev) this.setActiveItem(prev, true);
-          break;
-        }
-        case 'ArrowRight': {
-          e.preventDefault();
-          if (expanded === 'false') {
-            await this.setExpanded(node, true);
-          } else if (expanded === 'true') {
-            const firstChild = node.querySelector(
-              ':scope > .node-children > li.node'
-            );
-            if (firstChild) {
-              this.setActiveItem(this.treeitemOf(firstChild), true);
-            }
-          }
-          break;
-        }
-        case 'ArrowLeft': {
-          e.preventDefault();
-          if (expanded === 'true' && !isRoot) {
-            await this.setExpanded(node, false);
-            this.setActiveItem(item, true);
-          } else if (!isRoot) {
-            const parent = node.parentElement.closest('.node');
-            if (parent) this.setActiveItem(this.treeitemOf(parent), true);
-          }
-          break;
-        }
-        case 'Home': {
-          e.preventDefault();
-          this.setActiveItem(items()[0], true);
-          break;
-        }
-        case 'End': {
-          e.preventDefault();
-          const list = items();
-          this.setActiveItem(list[list.length - 1], true);
-          break;
-        }
-        default:
-          break;
-      }
+    titleOf(node) {
+      return node ? node.querySelector(':scope > .node-row .node-title') : null;
     }
   }
 

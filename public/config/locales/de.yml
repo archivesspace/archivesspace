@@ -6,6 +6,8 @@ de:
     welcome_message: "<p>Suchen Sie in unseren Sammlungen, digitalem Archivgut und mehr.</p>\n"
     welcome_page_title: ArchivesSpace Öffentliche Besucher-Oberfläche
   actions:
+    collapse_node: "%{title} einklappen"
+    expand_node: "%{title} ausklappen"
     search: Suchen
     search_header: In den Archiven suchen
     search_within: In Ergebnissen suchen

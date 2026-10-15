@@ -9,7 +9,7 @@
      * digital object, or classification
      */
     constructor(fetchPrefix, rootUri) {
-      const baseUri = `${(fetchPrefix || '').replace(/\/$/, '')}${rootUri}/tree`;
+      const baseUri = `${fetchPrefix.replace(/\/$/, '')}${rootUri}/tree`;
 
       this.rootUri = baseUri + '/root';
       this.nodeUri = baseUri + '/node';

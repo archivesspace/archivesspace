@@ -55,6 +55,8 @@ const resourceUri = '<%= @result["uri"] %>';
 const treeWaypointSize = '<%= tree_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
 const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
+const expand_label = <%== I18n.t('actions.expand_node').to_json %>;
+const collapse_label = <%== I18n.t('actions.collapse_node').to_json %>;
 const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
 const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
 const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
@@ -76,7 +78,12 @@ const infiniteTree = new InfiniteTree({
   rootUri: resourceUri,
   batchSize: treeWaypointSize,
   fetchPrefix: appUrlPrefix,
-  i18n: { sep: identifier_separator, bulk: date_type_bulk },
+  i18n: {
+    sep: identifier_separator,
+    bulk: date_type_bulk,
+    expand: expand_label,
+    collapse: collapse_label,
+  },
   titleRules: 'collection-organization',
   onTitleClick: event => infiniteRecords.treeLinkHandler(event),
   coordinator,

@@ -6,6 +6,8 @@ pl:
     welcome_message: "<p>Przeszukaj nasze zbiory, materiały cyfrowe i wiele więcej.</p>\n"
     welcome_page_title: Interfejs Publiczny ArchivesSpace
   actions:
+    collapse_node: "Zwiń %{title}"
+    expand_node: "Rozwiń %{title}"
     search_in: Szukaj %{type}
     new_search: Nowe Wyszukiwanie
     refine_search: Sprecyzuj Wyszukiwanie

@@ -8,6 +8,8 @@ ja:
     welcome_message: "<p>コレクション、デジタル資料などを検索します。 </p>"
     welcome_page_title: ArchivesSpaceパブリックインターフェイス
   actions:
+    collapse_node: "%{title} を折りたたむ"
+    expand_node: "%{title} を展開"
     search: サーチ
     search_header: アーカイブを検索
     search_within: 結果内で検索する

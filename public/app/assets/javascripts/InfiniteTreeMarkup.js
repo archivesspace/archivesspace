@@ -15,13 +15,7 @@
    *     - an `::after` pseudo-element to indicate the current node
    * All nodes with children have a nested ordered list, `ol.node-children`, as the
    * next sibling of `.node-row`, containing each child as `li.node`.
-   *
-   * Accessibility follows the WAI-ARIA APG navigation treeview pattern: the
-   * `<li>` is presentational, each node's `a.node-title` is the `treeitem`
-   * (one roving `tabindex="0"`), and a treeitem with children owns its
-   * `ol.node-children[role=group]` via `aria-owns`. The expand button is a
-   * pointer affordance only; keyboard users expand and collapse with the
-   * arrow keys (see `InfiniteTree#keydownHandler`).
+   * Accessibility follows the normal Tab order/disclosure pattern.
    */
 
   /**
@@ -44,7 +38,9 @@
      * @param {string} options.i18n.sep - Resource identifier separator
      * @param {string} [options.i18n.classificationSep] - Classification identifier separator
      * @param {string} options.i18n.bulk - Bulk date label
-     * @param {string} [options.titleRules='collection-organization'] - See TITLE_RULES
+     * @param {string} [options.i18n.expand] - Expand button label
+     * @param {string} [options.i18n.collapse] - Collapse button label
+     * @param {string} options.titleRules - One of TITLE_RULES
      * @param {function(Object): string} [options.linkFor] - Returns the href
      * for a node's title link given its data; defaults to a `#tree::` hash
      */
@@ -56,9 +52,11 @@
       this.rootElementId = InfiniteTreeIds.uriToElementId(rootUri);
       this.BATCH_SIZE = batchSize;
       this.i18n = i18n;
-      this.titleRules = TITLE_RULES.includes(titleRules)
-        ? titleRules
-        : 'collection-organization';
+      if (!TITLE_RULES.includes(titleRules)) {
+        throw new Error(`Unknown InfiniteTree titleRules: ${titleRules}`);
+      }
+
+      this.titleRules = titleRules;
       this.linkFor =
         linkFor || (data => InfiniteTreeIds.uriToLocationHash(data.uri));
     }
@@ -70,24 +68,6 @@
      */
     #template(id) {
       return document.querySelector(`#${id}`).content.cloneNode(true);
-    }
-
-    /**
-     * Applies treeitem semantics to a node's title link
-     * @param {HTMLAnchorElement} link - The node's `a.node-title`
-     * @param {number} ariaLevel - 1-based tree level (root is 1)
-     * @param {string|null} childListId - Id of the node's child list, if any
-     * @param {boolean} isExpanded - Initial expanded state if it has children
-     */
-    #treeitem(link, ariaLevel, childListId, isExpanded) {
-      link.setAttribute('role', 'treeitem');
-      link.setAttribute('tabindex', '-1');
-      link.setAttribute('aria-level', ariaLevel);
-
-      if (childListId) {
-        link.setAttribute('aria-owns', childListId);
-        link.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-      }
     }
 
     /**
@@ -129,7 +109,6 @@
       const listFrag = new DocumentFragment();
 
       listFrag.appendChild(this.#template('infinite-tree-root-list-template'));
-      listFrag.querySelector('ol').setAttribute('role', 'tree');
 
       return listFrag;
     }
@@ -146,18 +125,10 @@
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
       const link = rootTemplate.querySelector('.node-title');
-      const hasChildren = data.child_count > 0;
 
       rootElement.id = this.rootElementId;
-      rootElement.setAttribute('role', 'none');
       rootElement.setAttribute('data-uri', this.rootUri);
 
-      this.#treeitem(
-        link,
-        1,
-        hasChildren ? `${this.rootElementId}-children` : null,
-        true
-      );
       this.#fillLink(link, contentWrapper, data, title);
 
       rootFrag.appendChild(rootTemplate);
@@ -179,7 +150,6 @@
       const listElementId = `${parentElementId}-children`;
 
       listElement.id = listElementId;
-      listElement.setAttribute('role', 'group');
       listElement.setAttribute('data-parent-id', parentElementId);
       listElement.setAttribute('data-tree-level', level);
       listElement.setAttribute('data-total-child-batches', numBatches);
@@ -191,7 +161,6 @@
         const itemElement = itemTemplate.querySelector('li');
 
         itemElement.setAttribute('data-batch-placeholder', i);
-        itemElement.setAttribute('role', 'none');
 
         listElement.appendChild(itemElement);
       }
@@ -227,7 +196,6 @@
 
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
-      nodeElement.setAttribute('role', 'none');
       nodeElement.setAttribute('data-uri', data.uri);
 
       if (hasChildren) {
@@ -235,8 +203,6 @@
 
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
         nodeElement.setAttribute('data-is-expanded', 'false');
-
-        indentation.appendChild(this.expandButton(title.cleaned, childListId));
       }
 
       if (shouldObserve) {
@@ -255,8 +221,14 @@
         link.insertAdjacentHTML('beforebegin', iconHtml);
       }
 
-      this.#treeitem(link, level + 1, childListId, false);
       this.#fillLink(link, contentWrapper, data, title);
+
+      if (hasChildren) {
+        // Label from the rendered link text so entities are decoded
+        indentation.appendChild(
+          this.expandButton(link.textContent, childListId)
+        );
+      }
 
       nodeFrag.appendChild(nodeTemplate);
 
@@ -264,11 +236,10 @@
     }
 
     /**
-     * Creates an expand button to show and hide a node's children. The button
-     * is for pointer users; it is hidden from assistive technology and kept
-     * out of the tab order because the treeitem carries `aria-expanded` and
-     * the arrow keys expand and collapse.
-     * @param {string} title - The node title
+     * Creates a native disclosure button that shows/hides a node's children.
+     * It holds two visually hidden labels, "Expand {title}" and "Collapse {title}",
+     * managed by CSS. Its state is also exposed as `aria-expanded`.
+     * @param {string} title - The node title as plain text
      * @param {string} childListId - The HTML id of the children container this button controls
      * @returns {DocumentFragment} - A <button>
      */
@@ -278,11 +249,23 @@
         'infinite-tree-expand-button-template'
       );
       const btn = btnTemplate.querySelector('.node-expand');
+      const expandLabel = btn.querySelector(
+        '.node-expand-label[data-when="collapsed"]'
+      );
+      const collapseLabel = btn.querySelector(
+        '.node-expand-label[data-when="expanded"]'
+      );
+
+      expandLabel.textContent = this.i18n.expand.replace(
+        '%{title}',
+        () => title
+      );
+      collapseLabel.textContent = this.i18n.collapse.replace(
+        '%{title}',
+        () => title
+      );
 
       btn.setAttribute('aria-controls', childListId);
-      btn.setAttribute('tabindex', '-1');
-      btn.setAttribute('aria-hidden', 'true');
-      btn.querySelector('.visually-hidden').textContent = title;
 
       btnFrag.appendChild(btnTemplate);
 

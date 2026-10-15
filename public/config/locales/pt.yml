@@ -1,5 +1,7 @@
 pt:
   actions:
+    collapse_node: "Recolher %{title}"
+    expand_node: "Expandir %{title}"
     backup_abbr: Voltar
     numeric: Inventário de Contentores
     clipboard: Copiar para área de transferência

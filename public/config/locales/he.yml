@@ -12,6 +12,8 @@ he:
     load_records:
       loading: טְעִינָה
   actions:
+    collapse_node: "כווץ את %{title}"
+    expand_node: "הרחב את %{title}"
     authenticating: מאמת גישה
   login:
     login_please: אנא היכנס

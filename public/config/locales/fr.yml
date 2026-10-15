@@ -30,6 +30,8 @@ fr:
     welcome_page_title: Interface publique d'ArchivesSpace
 
   actions:
+    collapse_node: "Réduire %{title}"
+    expand_node: "Développer %{title}"
     search: Chercher
     search_header: Rechercher dans les archives
     search_within: Chercher dans les résultats

@@ -143,6 +143,22 @@
   &:hover {
     color: $darkest;
   }
+
+  &:focus-visible {
+    outline: 2px solid $midblue;
+    outline-offset: -2px;
+  }
+}
+
+/* The expand button carries "Expand {title}" and "Collapse {title}" labels;
+   show only the one for the action the button will take */
+.node[data-is-expanded='true']
+  > .node-row
+  .node-expand-label[data-when='collapsed'],
+.node[data-is-expanded='false']
+  > .node-row
+  .node-expand-label[data-when='expanded'] {
+  display: none;
 }
 
 .node-expand-icon {

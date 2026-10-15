@@ -7,6 +7,8 @@ nl:
       <p>Zoek in onze collecties, digitaal materiaal en meer.</p>
     welcome_page_title: ArchivesSpace Publieksinterface
   actions:
+    collapse_node: "%{title} samenvouwen"
+    expand_node: "%{title} uitvouwen"
     search: Zoeken
     search_header: Zoek in de archieven en collecties
     search_within: Zoek binnen resultaten

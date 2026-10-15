@@ -29,6 +29,8 @@ en:
     welcome_page_title: ArchivesSpace Public Interface
 
   actions:
+    collapse_node: "Collapse %{title}"
+    expand_node: "Expand %{title}"
     authenticating: Verifying access
     search: Search
     search_header: Search The Archives

@@ -32,15 +32,15 @@ describe 'Resource Tree', js: true do
     visit @resource.uri
 
     within "#record-tree-container" do
-      aggregate_failures "marks the tree up as a tree" do
-        expect(page).to have_css("ol.infinite-tree[role='tree']")
-        expect(page).to have_css("li.root#resource_#{@resource.id} > .node-row [role='treeitem'][aria-level='1']")
+      aggregate_failures "marks the tree up as nested lists" do
+        expect(page).to have_css("ol.infinite-tree > li.root#resource_#{@resource.id} > .node-row .node-title")
+        expect(page).not_to have_css('[role]')
       end
 
       find("#archival_object_#{@series.id} > .node-row .node-expand").click
 
       expect(page).to have_css(
-        "#archival_object_#{@series.id} > ol.node-children[role='group'] > li#archival_object_#{@item.id}"
+        "#archival_object_#{@series.id} > ol.node-children > li#archival_object_#{@item.id}"
       )
     end
 
