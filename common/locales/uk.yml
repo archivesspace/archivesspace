@@ -2469,6 +2469,7 @@ uk:
     row: Рядок %{row}
     processing_row: Обробка рядка %{row}
     dig_assoc: Цифровий об'єкт додано до архівного об'єкта
+    event_created: "Групу події %{group} створено: %{type}"
     row_error: 'Рядок %{row} не буде оброблено через помилки: %{errs}'
     created: '%{what} створив: %{id}'
     could_be: '%{what} буде створено'
@@ -2571,6 +2572,18 @@ uk:
       ref_id_miss: Не вказано ідентифікатор посилання
       dig_info_miss: Не вказано ні URI цифрового об'єкта, ні URI мініатюри
       dig_validation: Не вдається створити цифровий об'єкт %{err}
+      event_validation: "Не вдається створити групу події %{group} (%{type}): %{err}"
+      invalid_event_type: "Група події %{group}, поле %{field}, не є наявним типом події: '%{value}'"
+      invalid_event_outcome: "Група події %{group}, поле %{field}, не є наявним результатом події: '%{value}'"
+      event_required_field: "Група події %{group}, поле %{field}, є обов'язковим"
+      invalid_event_date: "Група події %{group}, поле %{field}, не є дійсною датою події: '%{value}'"
+      invalid_event_date_label: "Група події %{group}, поле %{field}, не є наявною міткою дати: '%{value}'"
+      event_date_label_without_date: "Група події %{group}, поле %{field}, потребує дати: '%{value}'"
+      event_agent_type_with_uri: "Група події %{group}, поле %{field}, має бути порожнім, коли %{record_field} є URI: '%{value}'"
+      event_agent_unsupported_type: "Група події %{group}, поле %{field}, не є підтримуваним типом агента: '%{value}'"
+      invalid_event_agent_role: "Група події %{group}, поле %{field}, не є наявною роллю агента події: '%{value}'"
+      invalid_event_agent_record_id: "Група події %{group}, поле %{field}, має бути числовим ідентифікатором або канонічним URI агента: '%{value}'"
+      event_agent_not_found: "Група події %{group}, поле %{field}, не відповідає наявному агенту: '%{value}'"
       initial_save_error: Проблема з початковим збереженням %{title} -- %{msg}
       second_save_error: "Помилка під час спроби повторного збереження архівного об'єкта з позицією 'instances'
         %{title}: %{pos}. Це означає, що архівний об'єкт створено, але, можливо, не пов'язано з пов'язаними

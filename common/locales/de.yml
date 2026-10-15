@@ -2750,6 +2750,18 @@ de:
       bad_role: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist keine gültige Rolle"
       dig_unassoc: 'Archiv-Objekt mit zugehörigem digitalen Objekt kann nicht gespeichert werden: %{msg}'
       dig_validation: Das digitale Objekt kann nicht erstellt werden %{err}
+      event_validation: "Ereignisgruppe %{group} (%{type}) kann nicht erstellt werden: %{err}"
+      invalid_event_type: "Ereignisgruppe %{group}, Feld %{field}, ist kein vorhandener Ereignistyp: '%{value}'"
+      invalid_event_outcome: "Ereignisgruppe %{group}, Feld %{field}, ist kein vorhandenes Ergebnis des Ereignisses: '%{value}'"
+      event_required_field: "Ereignisgruppe %{group}, Feld %{field}, ist erforderlich"
+      invalid_event_date: "Ereignisgruppe %{group}, Feld %{field}, ist kein gültiges Ereignisdatum: '%{value}'"
+      invalid_event_date_label: "Ereignisgruppe %{group}, Feld %{field}, ist keine vorhandene Datumsbezeichnung: '%{value}'"
+      event_date_label_without_date: "Ereignisgruppe %{group}, Feld %{field}, erfordert ein Datum: '%{value}'"
+      event_agent_type_with_uri: "Ereignisgruppe %{group}, Feld %{field}, muss leer sein, wenn %{record_field} eine URI ist: '%{value}'"
+      event_agent_unsupported_type: "Ereignisgruppe %{group}, Feld %{field}, ist kein unterstützter Agententyp: '%{value}'"
+      invalid_event_agent_role: "Ereignisgruppe %{group}, Feld %{field}, ist keine vorhandene Ereignis-Agentenrolle: '%{value}'"
+      invalid_event_agent_record_id: "Ereignisgruppe %{group}, Feld %{field}, muss eine numerische ID oder eine kanonische Agenten-URI sein: '%{value}'"
+      event_agent_not_found: "Ereignisgruppe %{group}, Feld %{field}, entspricht keinem vorhandenen Agenten: '%{value}'"
       validation_error: 'Kann %{what} nicht validieren: %{err}'
       validated: '%{what} validiert'
       lang_code: Sprache (%{lang}) kann nicht validiert werden
@@ -2816,6 +2828,7 @@ de:
     templates: Vorlagen für den Massenimport
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
+    event_created: "Ereignisgruppe %{group} erstellt: %{type}"
     row_error: 'Zeile %{row} wird aufgrund von Fehlern nicht verarbeitet: %{errs}'
     created: '%{what} erstellt: %{id}'
     could_be: '%{what} würde erstellt werden'

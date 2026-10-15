@@ -2805,6 +2805,7 @@ fr:
     row: "Rangée %{row}"
     processing_row: "Traitement ligne %{row}"
     dig_assoc: Objet numérique ajouté à archives Objet
+    event_created: "Groupe d'événement %{group} créé : %{type}"
     row_error: "Row %{row} ne seront pas traitées en raison d'erreurs: %{errs}"
     created: "%{what} établi: %{id}"
     could_be: "%{what} serait créé"
@@ -2906,6 +2907,18 @@ fr:
       ref_id_miss: Non Ref Id spécifié
       dig_info_miss: Ni le URN Object numérique ou sur la vignette URN est spécifié
       dig_validation: "Impossible de créer l'objet numérique %{err}"
+      event_validation: "Impossible de créer le groupe d'événement %{group} (%{type}) : %{err}"
+      invalid_event_type: "Le groupe d'événement %{group}, champ %{field}, n'est pas un type d'événement existant : '%{value}'"
+      invalid_event_outcome: "Le groupe d'événement %{group}, champ %{field}, n'est pas un résultat d'événement existant : '%{value}'"
+      event_required_field: "Le groupe d'événement %{group}, champ %{field}, est obligatoire"
+      invalid_event_date: "Le groupe d'événement %{group}, champ %{field}, n'est pas une date d'événement valide : '%{value}'"
+      invalid_event_date_label: "Le groupe d'événement %{group}, champ %{field}, n'est pas une étiquette de date existante : '%{value}'"
+      event_date_label_without_date: "Le groupe d'événement %{group}, champ %{field}, requiert une date : '%{value}'"
+      event_agent_type_with_uri: "Le groupe d'événement %{group}, champ %{field}, doit être vide lorsque %{record_field} est un URI : '%{value}'"
+      event_agent_unsupported_type: "Le groupe d'événement %{group}, champ %{field}, n'est pas un type d'agent pris en charge : '%{value}'"
+      invalid_event_agent_role: "Le groupe d'événement %{group}, champ %{field}, n'est pas un rôle d'agent d'événement existant : '%{value}'"
+      invalid_event_agent_record_id: "Le groupe d'événement %{group}, champ %{field}, doit être un identifiant numérique ou un URI d'agent canonique : '%{value}'"
+      event_agent_not_found: "Le groupe d'événement %{group}, champ %{field}, ne correspond à aucun agent existant : '%{value}'"
       initial_save_error: "Problème initial de sauvegarde %{title} - %{msg}"
       second_save_error: "Erreur lors de la tentative de re-sauvegarde l'objet d'archivage avec la position
         'instances' %{title}: %{pos}. Cela signifie que l'objet d'archivage a été créé, mais peut-être

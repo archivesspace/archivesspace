@@ -2950,6 +2950,7 @@ en:
     row: "Row %{row}"
     processing_row: "Processing row %{row}"
     dig_assoc: Digital object added to archival object
+    event_created: "Event group %{group} created: %{type}"
     row_error: "Row %{row} will not be processed due to errors: %{errs}"
     created: "%{what} created: %{id}"
     could_be: "%{what} would be created"
@@ -3049,6 +3050,18 @@ en:
       ref_id_miss: No Ref Id specified
       dig_info_miss: Neither the Digital Object URI or the Thumbnail URI is specified
       dig_validation: "Cannot create the digital object %{err}"
+      event_validation: "Cannot create event group %{group} (%{type}): %{err}"
+      invalid_event_type: "Event group %{group} field %{field} is not an existing event type: '%{value}'"
+      invalid_event_outcome: "Event group %{group} field %{field} is not an existing event outcome: '%{value}'"
+      event_required_field: "Event group %{group} field %{field} is required"
+      invalid_event_date: "Event group %{group} field %{field} is not a valid event date: '%{value}'"
+      invalid_event_date_label: "Event group %{group} field %{field} is not an existing date label: '%{value}'"
+      event_date_label_without_date: "Event group %{group} field %{field} requires a date: '%{value}'"
+      event_agent_type_with_uri: "Event group %{group} field %{field} must be blank when %{record_field} is a URI: '%{value}'"
+      event_agent_unsupported_type: "Event group %{group} field %{field} is not a supported agent type: '%{value}'"
+      invalid_event_agent_role: "Event group %{group} field %{field} is not an existing event agent role: '%{value}'"
+      invalid_event_agent_record_id: "Event group %{group} field %{field} must be a numeric ID or a canonical agent URI: '%{value}'"
+      event_agent_not_found: "Event group %{group} field %{field} does not match an existing agent: '%{value}'"
       initial_save_error: "Problem with initial save of %{title} -- %{msg}"
       second_save_error: "Error on attempt to re-save archival object with 'instances' %{title} position: %{pos}.This means that the archival object has been created, but possibly not linked to its associated instances (digital object, top container, subject, etc.) [%{what}]"
       ao_validation: "Validation error when attempting to save archival object: %{err}"
