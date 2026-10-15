@@ -55,7 +55,7 @@ module InfiniteTreeHierarchyConfigs
       show_path: ->(id) { "/resources/#{id}" },
       columns: {
         base: %w[title level type container],
-        conditional: { identifier: 'display_identifiers_in_largetree_container' }
+        conditional: { identifier: 'display_identifiers_in_tree_container' }
       },
       additional_root_attrs: {},
       additional_child_attrs: {}

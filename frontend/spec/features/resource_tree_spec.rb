@@ -22,7 +22,7 @@ describe 'Resource Tree', js: true do
 
   context 'when configured to display identifiers in largetree container' do
     before :each do
-      allow(AppConfig).to receive(:[]).with(:display_identifiers_in_largetree_container) { true }
+      allow(AppConfig).to receive(:[]).with(:display_identifiers_in_tree_container) { true }
     end
 
     it "shows the record id in the tree if configured to do so" do
@@ -35,7 +35,7 @@ describe 'Resource Tree', js: true do
 
   context 'when configured not to display identifiers in largetree container' do
     before :each do
-      allow(AppConfig).to receive(:[]).with(:display_identifiers_in_largetree_container) { false }
+      allow(AppConfig).to receive(:[]).with(:display_identifiers_in_tree_container) { false }
     end
 
     it "does not show the record id in the tree if not configured to do so" do
