@@ -71,34 +71,19 @@
     }
 
     /**
-     * Sets a title link's href and text, and the row's tooltip.
-     *
-     * `parsed_title` arrives HTML-escaped and sanitized by the backend's
-     * MixedContentParser. Record trees insert it as HTML, as LargeTree's
-     * SimpleRenderer did, so entities like `&amp;` render correctly.
-     * Collection organization keeps its original behavior: HTML only when the
-     * title contains mixed-content markup.
+     * Sets a title link's href and HTML, and the row's tooltip from the
+     * rendered text. The title is HTML: `parsed_title` is sanitized by the
+     * backend's MixedContentParser and every other part is escaped by
+     * `#text`, so mixed content renders and entities like `&amp;` decode.
      * @param {HTMLAnchorElement} link - The link
      * @param {HTMLElement} contentWrapper - The node's `.node-body`
      * @param {Object} data - Node data from the server
-     * @param {MixedContentHelper} title - The processed title
+     * @param {string} titleHtml - The built title
      */
-    #fillLink(link, contentWrapper, data, title) {
+    #fillLink(link, contentWrapper, data, titleHtml) {
       link.setAttribute('href', this.linkFor(data));
-
-      if (this.titleRules === 'record') {
-        link.innerHTML = title.input;
-        contentWrapper.setAttribute('title', link.textContent);
-        return;
-      }
-
-      if (title.isMixed) {
-        link.innerHTML = title.input;
-      } else {
-        link.textContent = title.cleaned;
-      }
-
-      contentWrapper.setAttribute('title', title.cleaned);
+      link.innerHTML = titleHtml;
+      contentWrapper.setAttribute('title', link.textContent);
     }
 
     /**
@@ -119,7 +104,7 @@
      * @returns {DocumentFragment} - The root <li> element
      */
     rootNode(data) {
-      const title = new MixedContentHelper(this.title(data, true));
+      const title = this.title(data, true);
       const rootFrag = new DocumentFragment();
       const rootTemplate = this.#template('infinite-tree-root-node-template');
       const rootElement = rootTemplate.querySelector('li');
@@ -184,7 +169,7 @@
      */
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeElementId = InfiniteTreeIds.uriToElementId(data.uri);
-      const title = new MixedContentHelper(this.title(data));
+      const title = this.title(data);
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = this.#template('infinite-tree-node-template');
       const nodeElement = nodeTemplate.querySelector('li');
@@ -298,7 +283,22 @@
      * @returns {string} - eg 'ID: Title'
      */
     #withIdentifier(identifier, sep, title) {
-      return identifier ? `${identifier}${sep} ${title}` : title;
+      return identifier ? `${this.#text(identifier)}${sep} ${title}` : title;
+    }
+
+    /**
+     * Escapes a raw value from the tree payload for insertion as HTML. Only
+     * `parsed_title` is sanitized by the backend; identifiers, labels and
+     * dates arrive raw.
+     * @param {string} str - A raw value
+     * @returns {string} - The HTML-escaped value
+     */
+    #text(str) {
+      const div = document.createElement('div');
+
+      div.textContent = str;
+
+      return div.innerHTML;
     }
 
     /**
@@ -353,34 +353,40 @@
       const title = [];
 
       if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
-        title.push(`${node.identifier}${this.i18n.sep} ${node.parsed_title}`);
+        title.push(
+          `${this.#text(node.identifier)}${this.i18n.sep} ${node.parsed_title}`
+        );
       } else if (node.parsed_title) {
         title.push(node.parsed_title);
       }
 
       if (node.label) {
-        title.push(node.label);
+        title.push(this.#text(node.label));
       }
 
       if (node.dates && node.dates.length > 0) {
         node.dates.forEach(date => {
-          if (date.expression) {
+          const expression = date.expression && this.#text(date.expression);
+          const begin = date.begin && this.#text(date.begin);
+          const end = date.end && this.#text(date.end);
+
+          if (expression) {
             if (date.type === 'bulk') {
-              title.push(`${this.i18n.bulk}: ${date.expression}`);
+              title.push(`${this.i18n.bulk}: ${expression}`);
             } else {
-              title.push(date.expression);
+              title.push(expression);
             }
-          } else if (date.begin && date.end) {
+          } else if (begin && end) {
             if (date.type === 'bulk') {
-              title.push(`${this.i18n.bulk}: ${date.begin}-${date.end}`);
+              title.push(`${this.i18n.bulk}: ${begin}-${end}`);
             } else {
-              title.push(`${date.begin}-${date.end}`);
+              title.push(`${begin}-${end}`);
             }
-          } else if (date.begin) {
+          } else if (begin) {
             if (date.type === 'bulk') {
-              title.push(`${this.i18n.bulk}: ${date.begin}`);
+              title.push(`${this.i18n.bulk}: ${begin}`);
             } else {
-              title.push(date.begin);
+              title.push(begin);
             }
           }
         });

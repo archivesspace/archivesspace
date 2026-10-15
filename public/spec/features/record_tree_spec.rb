@@ -38,6 +38,18 @@ describe 'Record show page tree', js: true do
       parent: { ref: @file.uri },
       publish: true
     )
+    @markup_date_ao = create(:archival_object,
+      title: 'Record Tree Markup Date',
+      level: 'file',
+      resource: { ref: @resource.uri },
+      dates: [{
+        'jsonmodel_type' => 'date',
+        'date_type' => 'single',
+        'label' => 'creation',
+        'expression' => '<b class="injected">Probe</b>'
+      }],
+      publish: true
+    )
 
     @do = create(:digital_object, title: 'Record Tree DO', publish: true)
     @doc = create(:digital_object_component,
@@ -90,6 +102,13 @@ describe 'Record show page tree', js: true do
     it 'marks the root as the current node' do
       expect(tree).to have_css("li.root.current#resource_#{@resource.id}")
       expect(tree).to have_css("#{title_css(@resource)}[aria-current='page']")
+    end
+
+    it 'renders raw title parts such as dates as text, not HTML' do
+      node = tree.find(title_css(@markup_date_ao))
+
+      expect(node).to have_text('<b class="injected">Probe</b>')
+      expect(tree).not_to have_css('.injected')
     end
 
     it 'links nodes to their record pages' do
