@@ -2455,11 +2455,6 @@ fr:
   resource_component:
     _singular: Composant ressource
 
-  largetree:
-    reparent_error:
-      title: Impossible d'effectuer le déplacement
-      message: Le déplacement a été refusé car un parent ne peut devenir son propre fils.
-
   rights_statement_act: &rights_statement_act_attributes
     _singular: Convention
     _plural: Conventions

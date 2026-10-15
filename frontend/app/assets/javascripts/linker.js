@@ -373,15 +373,10 @@ $(function () {
             idMatches &&
             (onResource || onArchivalObject)
           ) {
-            // LargeTree loads the record form into #object_container; InfiniteTree uses
-            // #infinite-tree-record-pane. Fall back to the record pane when the legacy
-            // container is absent so that pre-population works for both tree types.
-            let currentForm = $('#object_container').find('form').first();
-            if (!currentForm.length) {
-              currentForm = $('#infinite-tree-record-pane')
-                .find('form')
-                .first();
-            }
+            // On resources/:id/edit the record form lives in the InfiniteTree record pane.
+            const currentForm = $('#infinite-tree-record-pane')
+              .find('form')
+              .first();
             if (onResource) {
               return [
                 {
@@ -699,8 +694,6 @@ $(document).ready(function () {
       '.linker-wrapper:visible > .linker:not(.initialised)',
       $container
     ).linker();
-    // we can go ahead and init dropdowns ( such as those in the toolbars )
-    $('#archives_tree_toolbar .linker:not(.initialised)').linker();
   });
 
   $(document).bind(

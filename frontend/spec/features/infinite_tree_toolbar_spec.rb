@@ -887,11 +887,6 @@ describe 'Infinite Tree Toolbar', js: true do
     end
   end
 
-  # InfiniteTreeToolbar#translate only performs a lookup when window.AS.I18n.t
-  # exists. Nothing in the app defines it, so every JS-rendered label falls back
-  # to its hard-coded English string while the server-rendered labels around it
-  # are localized. tree_toolbar.js.erb, which this replaces, interpolated I18n.t
-  # at asset-compile time and did not have this gap.
   describe 'localization of JS-rendered labels' do
     before do
       set_admin_locale_preference(:fr)

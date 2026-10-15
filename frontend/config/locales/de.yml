@@ -224,9 +224,6 @@ de:
     collapse_tree: Baum einklappen
     expand_tree_mode_on: Alle automatisch Ausklappen
     expand_tree_mode_off: Automatisches Ausklappen deaktivieren
-    drop_before: Davor einfügen
-    drop_into: Als Kind-Element einfügen
-    drop_after: Danach einfügen
   search_results:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
@@ -940,8 +937,6 @@ de:
       before: Elemente vorher hinzufügen
       after: Elemente nachher hinzufügen
       as_child: Elemente als Kinder hinzufügen
-    unexpected_failure: Oje! Wir haben Probleme diesen Baum zu laden. Bitte 
-      versuchen Sie die Seite neu zu laden.
     resize: Ziehen, um die Baumhöhe zu ändern
     maximize: Baumhöhe maximieren/minimieren
     drag_to_reorder: Ziehen zum Neuordnen

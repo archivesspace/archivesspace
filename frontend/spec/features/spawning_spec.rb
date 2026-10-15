@@ -98,7 +98,6 @@ describe 'Spawning an Archival Object from an Accession', js: true do
               text: @first.title
             )
             expect(page).to have_no_css('#infinite-tree-record-pane, #infinite-tree-toolbar, [data-resize-handle]')
-            expect(page).to have_no_css('.largetree-node, .table-row')
             expect(page).to have_no_css('li.node.spawn-anchor, li.spawn-placeholder', visible: :all)
             expect(page).to have_button(confirm_label, disabled: true)
           end

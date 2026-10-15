@@ -48,8 +48,8 @@
 
           // plusOne is set by InfiniteTreeRecordPane when the user clicked Save +1 on an
           // inline tree form (type="button" plus-one controls; see that module). Plain
-          // Save and dirty-guard submits leave it false. Mirrors AjaxTree createPlusOne →
-          // rebuildAndShow → add_new_after, but defers sibling form load until here.
+          // Save and dirty-guard submits leave it false. The sibling form load is deferred
+          // until after rebuildAndShow completes.
           this._pendingTransaction = {
             target: target,
             savedUri: savedUri,
@@ -126,8 +126,8 @@
           if (this._pendingTransaction) {
             const { savedUri, created, plusOne } = this._pendingTransaction;
 
-            // Inline Save +1: open sibling new form after tree refresh (AjaxTree:
-            // add_new_after in rebuildAndShow callback). plusOneAfterCreate runs before
+            // Inline Save +1: open the sibling new form after tree refresh.
+            // plusOneAfterCreate runs before
             // completeTransaction so the record pane still has transaction context.
             if (created && plusOne && savedUri) {
               this.recordPaneEl.dispatchEvent(

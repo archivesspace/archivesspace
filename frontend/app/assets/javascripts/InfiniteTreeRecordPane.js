@@ -16,7 +16,7 @@
       /**
        * Set when the user clicks a Save +1 (.btn-plus-one) control; cleared after each
        * submit attempt. Inline tree partials (_new_inline, _sidebar) keep plus-one as
-       * type="button" for the shared AjaxTree contract (click → flag → manual submit);
+       * type="button" for the shared inline-form contract (click → flag → manual submit);
        * InfiniteTree mirrors that with this flag rather than SubmitEvent.submitter.
        * @type {boolean}
        */
@@ -65,8 +65,8 @@
         true
       );
 
-      // After inline Save +1 create: tree is rebuilt; load sibling new form (AjaxTree:
-      // add_new_after). Record pane must not loadRecord for the created node first —
+      // After inline Save +1 create, rebuild the tree and load a sibling new form.
+      // Record pane must not loadRecord for the created node first —
       // InfiniteTree.js suppresses that via notifyPane: false on plus-one redisplay.
       this.container.addEventListener(
         'infiniteTreeRouter:plusOneAfterCreate',
@@ -190,7 +190,7 @@
     }
 
     /**
-     * Shared placement query for sibling and duplicate (legacy AjaxTree sibling branch).
+     * Shared placement query for sibling and duplicate.
      * @param {string} rootUri
      * @param {HTMLElement} anchorNode - Current child-record li
      * @returns {URLSearchParams|null}
@@ -697,10 +697,8 @@
       }
 
       // Save +1 (.btn-plus-one) in inline tree forms is type="button", not type="submit".
-      // Those controls live in partials shared with AjaxTree (see ajaxtree.js.erb
-      // setup_ajax_form), which sets a jQuery data flag and triggerHandler("submit").
-      // Standalone "new record" pages use type="submit" name="plus_one" instead; do not
-      // assume that pattern here without updating AjaxTree and the shared templates together.
+      // Standalone "new record" pages use type="submit" name="plus_one" instead, so do not
+      // assume that pattern for the shared inline-form templates.
       // Because plus-one does not fire the form submit event, InfiniteTree binds clicks
       // explicitly. Capture runs before legacy form.js listeners on .createPlusOneBtn.
       this.form.addEventListener(
