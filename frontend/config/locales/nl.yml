@@ -37,6 +37,7 @@ nl:
       OR: Of
       NOT: Niet
     add_row: Regel toevoegen
+    remove_row: ''
   agent_function:
     _singular: Functie
     _plural: Functies
