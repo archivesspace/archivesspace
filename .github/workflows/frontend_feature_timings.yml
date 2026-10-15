@@ -1,0 +1,45 @@
+name: Frontend Feature Spec Timings
+# Runs the frontend feature specs on the default branch when frontend files change, so that the
+# timings of new and changed spec files reach the default branch's cache, which pull request runs
+# balance their shards with (see the update_feature_timings job in frontend.yml)
+permissions:
+  contents: read
+  pull-requests: write
+
+# Branch filters cannot use expressions, so pushes to any branch trigger this and the jobs only
+# run for the default branch
+on:
+  push:
+
+# Per branch, so that pushes to other branches do not cancel a run on the default branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    if: ${{ github.ref_name == github.event.repository.default_branch }}
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        sparse-checkout: .github
+    # Same filter as all_specs_dispatch.yml uses to decide whether to run the frontend specs
+    - uses: dorny/paths-filter@v4
+      id: filter
+      with:
+        filters: .github/path-filters.yml
+
+  frontend:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    uses: ./.github/workflows/frontend.yml
+    secrets: inherit
+    with:
+      java-version: '17'
+      group-choice: 'features'
+      browser: 'firefox'
+      # Coverage of the feature specs alone would skew the default branch's coverage that pull requests compare with
+      coverage: false

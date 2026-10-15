@@ -45,6 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     # Required permissions
     permissions:
+      contents: read
       pull-requests: read
     # Set job outputs to values from filter step
     outputs:
@@ -54,33 +55,14 @@ jobs:
       public: ${{ steps.filter.outputs.public }}
       common: ${{ steps.filter.outputs.common }}
     steps:
+    # The filters file is read from the checkout
+    - uses: actions/checkout@v6
+      with:
+        sparse-checkout: .github
     - uses: dorny/paths-filter@v4
       id: filter
       with:
-        filters: |
-          frontend:
-            - '.github/workflows/frontend.yml'
-            - '.github/workflows/common-frontend.yml'
-            - 'frontend/**'
-            - 'common/**'
-            - 'solr/**'
-          backend:
-            - '.github/workflows/backend.yml'
-            - 'backend/**'
-            - 'common/**'
-            - 'oai/**'
-          indexer:
-            - '.github/workflows/indexer.yml'
-            - 'indexer/**'
-          public:
-            - '.github/workflows/public.yml'
-            - 'public/**'
-            - 'common/**'
-            - 'solr/**'
-            - 'indexer/**'
-          common:
-            - '.github/workflows/common.yml'
-            - 'common/**'
+        filters: .github/path-filters.yml
 
   frontend:
     needs: changes
@@ -135,9 +117,22 @@ jobs:
     ]
     if: ${{ always() && !cancelled() }}
     steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            build/scripts
+            frontend/spec
+
+      - name: Build carryforward flag list
+        id: flags
+        run: |
+          # Frontend feature shard flags follow frontend/spec/feature_shards.yml (see frontend.yml)
+          SHARD_FLAGS=$(ruby build/scripts/frontend_feature_shards.rb matrix | jq -r 'map("features-shard-\(.shard)") | join(",")')
+          echo "carryforward=backend,indexer,public,$SHARD_FLAGS,models_and_controllers,helpers" >> "$GITHUB_OUTPUT"
+
       - name: Post end of parallel tests to Coveralls
         uses: coverallsapp/github-action@v2
         with:
           debug: false
           parallel-finished: true
-          carryforward: "backend,indexer,public,aa-af,ag-az,b-c,d-l,m-q,r,s-z,models_and_controllers"
+          carryforward: ${{ steps.flags.outputs.carryforward }}

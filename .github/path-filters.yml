@@ -1,0 +1,27 @@
+# Paths that decide which test suites run, used by dorny/paths-filter in
+# all_specs_dispatch.yml and frontend_feature_timings.yml
+frontend:
+  - '.github/workflows/frontend.yml'
+  - '.github/workflows/common-frontend.yml'
+  - 'build/scripts/frontend_feature_shards*'
+  - 'build/scripts/frontend_feature_shards/**'
+  - 'frontend/**'
+  - 'common/**'
+  - 'solr/**'
+backend:
+  - '.github/workflows/backend.yml'
+  - 'backend/**'
+  - 'common/**'
+  - 'oai/**'
+indexer:
+  - '.github/workflows/indexer.yml'
+  - 'indexer/**'
+public:
+  - '.github/workflows/public.yml'
+  - 'public/**'
+  - 'common/**'
+  - 'solr/**'
+  - 'indexer/**'
+common:
+  - '.github/workflows/common.yml'
+  - 'common/**'
