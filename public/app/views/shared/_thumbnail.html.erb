@@ -14,14 +14,17 @@
     if title_link.present?
       link_url = title_link
       link_options = {:target => '_self', 'aria-hidden' => 'true', :tabindex => '-1'}
+      link_text = nil
     elsif thumbnail['record_uri']
       link_url = app_prefix(thumbnail['record_uri'])
       link_options = {:target => '_self'}
+      link_text = t('thumbnails.view_digital_object')
     elsif FileURI.allowed_scheme?(thumbnail['link_url'])
       # The backend already drops a link_url whose scheme is not allowed; checking again here covers
       # records indexed before it did
       link_url = thumbnail['link_url']
       link_options = {:target => '_blank'}
+      link_text = t('thumbnails.view_digital_material')
     else
       link_url = nil
     end
@@ -32,8 +35,8 @@
   %>
   <div class="pui-thumbnail">
     <% image = capture do %>
-      <% if link_url %>
-        <div class="pui-thumbnail-help-text"><%= I18n.t('thumbnails.access_help_text') %></div>
+      <% if link_text %>
+        <div class="pui-thumbnail-help-text"><%= link_text %></div>
       <% end %>
       <% if (image_url = thumbnail['image_url']) %>
         <%= image_tag image_url, :alt => caption, 'onError' => show_fallback_icon %>

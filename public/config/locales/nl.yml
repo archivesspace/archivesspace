@@ -340,10 +340,8 @@ nl:
     _singular: Digitaal record
     _plural: Digitaal materiaal
     _public:
-      thumbnail: miniatuurafbeelding
       link: Link naar digitaal object
       badge_label: Digitaal %{level}
-      go: Ga naar bestand
       additional: Aanvullende bestandsversies
       url_encoded_data: URL-gecodeerde gegevens
       browse_number_digital_objects_in_collection:
@@ -552,4 +550,5 @@ nl:
     pui_permission_denied: "Gebruiker `%{username}` heeft geen toestemming om de openbare interface te bekijken."
     login_failed: "Inloggen mislukt. Controleer uw gebruikersnaam en wachtwoord."
   thumbnails:
-    access_help_text: Klik hier voor online toegang
+    view_digital_object: Digitaal object bekijken
+    view_digital_material: Digitaal materiaal bekijken

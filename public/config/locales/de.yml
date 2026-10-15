@@ -337,10 +337,8 @@ de:
   digital_object:
     _singular: Digitale Aufzeichnung
     _public:
-      thumbnail: Vorschau
       link: Verweis zu digitalem Objekt
       badge_label: Digital %{level}
-      go: Gehen Sie zur Datei
       additional: Weitere Dateiversionen
       browse_number_digital_objects_in_collection:
         one: Durchsuchen Sie %{num} digitale Objekt in der Sammlung
@@ -549,4 +547,5 @@ de:
     pui_permission_denied: "Der Benutzer `%{username}` hat keine Berechtigung, die öffentliche Besucher-Oberfläche anzuzeigen."
     login_failed: "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort."
   thumbnails:
-    access_help_text: Hier klicken für den Online-Zugang
+    view_digital_object: Digitales Objekt ansehen
+    view_digital_material: Digitale Inhalte ansehen
