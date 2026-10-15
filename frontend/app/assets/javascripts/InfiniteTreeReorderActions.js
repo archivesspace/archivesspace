@@ -46,8 +46,8 @@ class InfiniteTreeReorderActions {
     );
 
     this.containerEl.addEventListener(
-      'infiniteTree:redisplayAndReopenComplete',
-      this.#onRedisplayAndReopenComplete.bind(this)
+      'infiniteTree:rebuildAndReopenComplete',
+      this.#onRebuildAndReopenComplete.bind(this)
     );
   }
 
@@ -89,7 +89,7 @@ class InfiniteTreeReorderActions {
         response,
       });
 
-      this.#redisplayAndReopen(recovery);
+      this.#rebuildAndReopen(recovery);
     } catch (error) {
       console.error('InfiniteTree reorder move failed:', error);
       this.#removeSnapshotOverlay();
@@ -204,7 +204,7 @@ class InfiniteTreeReorderActions {
     };
   }
 
-  #redisplayAndReopen(recovery) {
+  #rebuildAndReopen(recovery) {
     if (!recovery.revealUri) {
       this.#clearInFlight();
       return;
@@ -222,13 +222,13 @@ class InfiniteTreeReorderActions {
     );
 
     this.containerEl.dispatchEvent(
-      new CustomEvent('infiniteTreeRouter:redisplayAndReopen', {
+      new CustomEvent('infiniteTreeRouter:rebuildAndReopen', {
         detail: recovery,
       })
     );
   }
 
-  #onRedisplayAndReopenComplete(event) {
+  #onRebuildAndReopenComplete(event) {
     const succeeded = event.detail ? event.detail.succeeded !== false : true;
 
     if (this.pendingHighlightUris.length > 0) {

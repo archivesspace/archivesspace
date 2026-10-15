@@ -784,7 +784,7 @@
           if (uriInput && uriInput.value) savedUri = uriInput.value;
 
           // Unblock UI before firing success events to prevent race condition
-          // with redisplayAndShow triggering loadRecord while pane is still blocked
+          // with rebuildAndShow triggering loadRecord while pane is still blocked
           this.#unblockUI();
 
           if (submitButton) submitButton.removeAttribute('disabled');
