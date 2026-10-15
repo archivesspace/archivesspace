@@ -1,5 +1,9 @@
 require_relative "bulk_import_parser"
 require_relative "row_field_builders"
+require_relative "repeatable_field_classifier"
+require_relative "event_builder"
+require_relative "agent_reference_resolver"
+require_relative "agent_linker"
 require_relative "../../converters/lib/utils"
 require "bigdecimal"
 
@@ -24,6 +28,7 @@ class ImportDigitalObjects < BulkImportParser
 
   def create_instance(ao)
     dig_instance = nil
+    prepared_events = prepare_event_builders
 
     @notes_handler = NotesHandler.new
     @agent_handler = AgentHandler.new(@current_user, @validate_only)
@@ -37,7 +42,7 @@ class ImportDigitalObjects < BulkImportParser
       notes = create_notes
       extents = process_extents
       subjects = process_subjects
-      linked_agents = process_agents
+      linked_agents = agent_linker.link_agents(@row_hash)
 
       dig_instance = @digital_object_handler.create(
         title: @row_hash["digital_object_title"],
@@ -60,12 +65,30 @@ class ImportDigitalObjects < BulkImportParser
     rescue Exception => e
       @report.add_errors(e.message)
     end
+    if dig_instance && @validate_only
+      validation_uri = JSONModel(:digital_object).uri_for(1, :repo_id => @repo_id)
+      prepared_events.each do |prepared|
+        @event_handler.create(
+          event_builder: prepared[:event_builder],
+          group: prepared[:group],
+          digital_object_uri: validation_uri,
+          report: @report)
+      end
+    end
     if dig_instance && !@validate_only # only try to save if not validate only
       ao.instances ||= []
       ao.instances << dig_instance
       begin
         ao = ao_save(ao)
         @report.add_info(I18n.t("bulk_import.dig_assoc"))
+        prepared_events.each do |prepared|
+          event_uri = @event_handler.create(
+            event_builder: prepared[:event_builder],
+            group: prepared[:group],
+            digital_object_uri: dig_instance.digital_object["ref"],
+            report: @report)
+          @created_refs << event_uri if event_uri
+        end
       rescue BulkImportException => ee
         @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
       end
@@ -130,14 +153,12 @@ class ImportDigitalObjects < BulkImportParser
         err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
       end
     end
-    normalize_boolean_column(@row_hash, 'publish')
-    normalize_boolean_column(@row_hash, 'digital_object_link_publish')
-    normalize_boolean_column(@row_hash, 'thumbnail_publish')
     err_arr.join("; ")
   end
 
   def initialize_handler_enums
     @digital_object_handler = DigitalObjectHandler.new(@current_user, @validate_only)
+    @event_handler = EventHandler.new(@current_user, @validate_only)
   end
 
   # any problem here would result in the digital object not being created
@@ -208,11 +229,146 @@ class ImportDigitalObjects < BulkImportParser
     ).first
   end
 
+  def prepare_event_builders
+    prepared_events = []
+
+    canonical_group_indices("event").each do |index|
+      projection = event_projection(index)
+      attributes = projection[:attributes]
+      next if attributes.values.all? { |value| value.nil? || value.empty? }
+
+      builder = EventBuilder.new(
+        :attributes => attributes,
+        :controlled_value_resolver => method(:resolve_controlled_value)
+      )
+      field_codes = projection[:field_codes]
+      group_invalid = report_event_builder_errors(builder, index, field_codes)
+      if missing_explicit_event_agent?(builder, index, attributes[:agent_record_id], field_codes)
+        group_invalid = true
+      end
+
+      next if group_invalid
+
+      prepared_events << {
+        :event_builder => builder,
+        :group => index.to_i,
+      }
+    end
+
+    prepared_events
+  end
+
+  def event_projection(index)
+    attributes = {}
+    field_codes = {}
+
+    canonical_event_classification.each do |attribute, representative_code|
+      field_code = representative_code.sub(/\Aevent_1_/, "event_#{index}_")
+      attributes[attribute] = @row_hash[field_code]
+      field_codes[attribute] = field_code
+    end
+
+    {
+      :attributes => attributes,
+      :field_codes => field_codes,
+    }
+  end
+
+  def canonical_event_classification
+    @canonical_event_classification ||= valid_column_codes.each_with_object({}) do |code, classified|
+      match = code.to_s.match(/\Aevent_1_(?<leaf>.+)\z/)
+      next unless match
+
+      classified[event_attribute(match[:leaf])] = code
+    end
+  end
+
+  def event_attribute(field)
+    return :event_type if field == "type"
+    return field.to_sym unless field.start_with?("agent_1_")
+
+    agent_field = field.delete_prefix("agent_1_")
+    agent_field = "agent_#{agent_field}" unless agent_field.start_with?("agent_")
+    agent_field.to_sym
+  end
+
+  def resolve_controlled_value(list_name, submitted_value)
+    @controlled_value_lists ||= {}
+    @controlled_value_lists[list_name] ||= CvList.new(list_name, @current_user)
+    value_check(@controlled_value_lists[list_name], submitted_value, [])
+  end
+
+  def report_event_builder_errors(builder, index, field_codes)
+    group = index.to_i
+    builder.errors.each do |error|
+      report_event_builder_error(error, group, field_codes)
+    end
+    !builder.errors.empty?
+  end
+
+  def report_event_builder_error(error, group, field_codes)
+    field = field_codes.fetch(error[:attribute])
+
+    case error[:code]
+    when :required
+      add_event_field_error("event_required_field", group, field)
+    when :requires_date
+      add_event_field_error("event_date_label_without_date", group, field, :value => error[:value])
+    when :forbidden
+      add_event_field_error(
+        "event_agent_type_with_uri",
+        group,
+        field,
+        :record_field => field_codes.fetch(:agent_record_id),
+        :value => error[:value]
+      )
+    when :unsupported
+      add_event_field_error("event_agent_unsupported_type", group, field, :value => error[:value])
+    when :invalid
+      add_event_field_error(invalid_event_error_key(error[:attribute]), group, field, :value => error[:value])
+    else
+      raise KeyError, "Unhandled EventBuilder error code: #{error[:code]}"
+    end
+  end
+
+  def invalid_event_error_key(attribute)
+    name = attribute == :event_type ? "type" : attribute
+    "invalid_event_#{name}"
+  end
+
+  def missing_explicit_event_agent?(builder, index, submitted_record_id, field_codes)
+    return false unless builder.explicit_agent_ref
+    return false unless AgentReferenceResolver.new.resolve(builder.explicit_agent_ref, nil)[:errors]
+
+    add_event_field_error(
+      "event_agent_not_found",
+      index.to_i,
+      field_codes.fetch(:agent_record_id),
+      :value => submitted_record_id
+    )
+    true
+  end
+
+  def add_event_field_error(key, group, field, extra = {})
+    @report.add_errors(I18n.t("bulk_import.error.#{key}",
+                              **{ :group => group, :field => field }.merge(extra)))
+  end
+
   # This importer's repeatable root namespaces. Exact accepted leaves remain
   # the maintained CSV via valid_column_codes; Language Material keeps its
   # fixed language_and_script segment. The Agent pattern captures only the
   # outer agent_N_ index.
   def structural_column_rules
+    repeatable_families.map do |family|
+      infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
+      {
+        :pattern => /\A#{Regexp.escape(family[:namespace])}_(?<index>[1-9]\d*)#{infix}.+\z/,
+        :representative => "1",
+      }
+    end
+  end
+
+  def repeatable_families
     [
       { :namespace => "file_version" },
       { :namespace => "lang_material", :fixed_segment => "language_and_script" },
@@ -221,13 +377,23 @@ class ImportDigitalObjects < BulkImportParser
       { :namespace => "note" },
       { :namespace => "agent" },
       { :namespace => "extent" },
-    ].map do |family|
-      infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
-      {
-        :pattern => /\A#{Regexp.escape(family[:namespace])}_(?<index>[1-9]\d*)#{infix}.+\z/,
-        :representative => "1",
-      }
-    end
+      { :namespace => "event" },
+    ]
+  end
+
+  def field_classifier
+    @field_classifier ||= RepeatableFieldClassifier.new(
+      :vocabulary => valid_column_codes,
+      :families => repeatable_families,
+      :headers => @headers.compact.reject { |head| head =~ START_MARKER }
+    )
+  end
+
+  def check_unknown_columns
+    unknown = field_classifier.unknown_headers
+    return if unknown.empty?
+
+    raise Exception.new(I18n.t("bulk_import.error.unknown_columns", :codes => unknown.join(", ")))
   end
 
   def canonical_group_indices(namespace)
@@ -339,61 +505,15 @@ class ImportDigitalObjects < BulkImportParser
     notes
   end
 
-  def process_agents
-    agent_links = []
-
-    canonical_group_indices("agent").each do |num|
-      agent_type = @row_hash["agent_#{num}_agent_type"]
-      record_id = @row_hash["agent_#{num}_record_id"]
-      header = @row_hash["agent_#{num}_header"]
-      role = @row_hash["agent_#{num}_role"]
-      relator = @row_hash["agent_#{num}_relator"]
-      next if [agent_type, record_id, header, role, relator].all?(&:nil?)
-
-      if record_id.nil? && header.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_missing_identity", :num => num))
-        next
-      end
-
-      if agent_type.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_missing_type", :num => num))
-        next
-      end
-
-      type = handler_agent_type(agent_type)
-      if type.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_unsupported_type", :num => num, :agent_type => agent_type))
-        next
-      end
-
-      begin
-        link = @agent_handler.get_or_create(
-          type,
-          record_id,
-          header,
-          relator,
-          role, @report
-        )
-
-        agent_links.push link if link && !@validate_only
-
-      rescue BulkImportException => e
-        @report.add_errors(I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => num, :why => e.message))
-      end
-    end
-
-    agent_links
-  end
-
-  def handler_agent_type(agent_type)
-    case agent_type
-    when "agent_person"
-      "people"
-    when "agent_family"
-      "families"
-    when "agent_corporate_entity"
-      "corporate_entities"
-    end
+  def agent_linker
+    AgentLinker.new(
+      :report => @report,
+      :field_classifier => field_classifier,
+      :agent_handler => @agent_handler,
+      :created_refs => @created_refs,
+      :validate_only => @validate_only,
+      :controlled_value_resolver => method(:resolve_controlled_value)
+    )
   end
 
   def process_subjects

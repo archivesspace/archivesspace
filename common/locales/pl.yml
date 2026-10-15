@@ -1426,6 +1426,7 @@ pl:
       csv_syntax_error: "Błąd importu CSV (%{type}): %{element}"
   bulk_import:
     agent: Agent
+    event_created: "Grupa zdarzenia %{group} utworzona: %{type}"
     error:
       utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 
         przetworzyć.
@@ -1452,6 +1453,18 @@ pl:
       agent_missing_identity: "Agent %{num} wymaga identyfikatora rekordu lub nagłówka"
       agent_missing_type: "Agent %{num} wymaga typu agenta"
       agent_unsupported_type: "Agent %{num} ma nieobsługiwany typ agenta '%{agent_type}'"
+      agent_required_field: "Agent %{num}, pole %{field}, jest wymagane"
+      agent_invalid_value: "Agent %{num}, pole %{field}, nie jest istniejącą wartością: '%{value}'"
+      agent_unrecognized_boolean: "Agent %{num}, pole %{field}, wymaga wartości logicznej; otrzymano '%{value}', dozwolone wartości: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE lub puste, aby użyć wartości domyślnej"
+      agent_incompatible_field: "Agent %{num}, pole %{field}, jest nieprawidłowe dla typu agenta '%{agent_type}'. Nie utworzono ani nie powiązano żadnego agenta"
+      agent_mode_conflict: "Agent %{num}, pole %{field}, nie może być łączone z polami tworzenia agenta. Nie utworzono ani nie połączono żadnego agenta"
+      agent_invalid_record_id: "Agent %{num}, pole %{field}, wymaga dodatniego identyfikatora liczbowego lub kanonicznego URI agenta; otrzymano: '%{value}'"
+      agent_type_with_uri: "Agent %{num}, pole %{field}, musi być puste, gdy identyfikator rekordu jest URI; otrzymano: '%{value}'"
+      agent_unsupported_uri: "Agent %{num}, pole %{field}, jest URI nieobsługiwanego typu agenta: '%{value}'"
+      agent_not_found: "Agent %{num}, pole %{field}, nie pasuje do żadnego istniejącego agenta: '%{value}'"
+      agent_uri_header_conflict: "Agent %{num}, pola %{record_field} i %{header_field}, nie mogą być używane razem, gdy identyfikator rekordu jest URI. Nie połączono żadnego agenta"
+      agent_fingerprint_collision: "Agent %{num} nie został utworzony: istniejący agent ma te same dane identyfikacyjne. Aby użyć tego agenta, połącz go przez identyfikator rekordu lub URI"
+      agent_authority_id_collision: "Agent %{num} nie został utworzony: istniejący agent używa już tego identyfikatora autorytatywnego. Aby użyć tego agenta, połącz go przez identyfikator rekordu lub URI"
       validated: '%{what} zostało zweryfikowane'
       validation_error: 'Nie można zweryfikować %{what}: %{err}'
       ao_validation: 'Wystąpił błąd walidacji podczas próby zapisania obiektu archiwalnego: %{err}'
@@ -1461,6 +1474,18 @@ pl:
         [%{what}]"
       initial_save_error: Wystąpił problem podczas początkowego zapisywania pliku %{title} — %{msg}
       dig_validation: Nie można utworzyć obiektu cyfrowego %{err}
+      event_validation: "Nie można utworzyć grupy zdarzenia %{group} (%{type}): %{err}"
+      invalid_event_type: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącym typem zdarzenia: '%{value}'"
+      invalid_event_outcome: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącym wynikiem zdarzenia: '%{value}'"
+      event_required_field: "Grupa zdarzenia %{group}, pole %{field}, jest wymagane"
+      invalid_event_date: "Grupa zdarzenia %{group}, pole %{field}, nie jest prawidłową datą zdarzenia: '%{value}'"
+      invalid_event_date_label: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącą etykietą daty: '%{value}'"
+      event_date_label_without_date: "Grupa zdarzenia %{group}, pole %{field}, wymaga daty: '%{value}'"
+      event_agent_type_with_uri: "Grupa zdarzenia %{group}, pole %{field}, musi być puste, gdy %{record_field} jest identyfikatorem URI: '%{value}'"
+      event_agent_unsupported_type: "Grupa zdarzenia %{group}, pole %{field}, nie jest obsługiwanym typem agenta: '%{value}'"
+      invalid_event_agent_role: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącą rolą agenta zdarzenia: '%{value}'"
+      invalid_event_agent_record_id: "Grupa zdarzenia %{group}, pole %{field}, musi być numerycznym identyfikatorem lub kanonicznym identyfikatorem URI agenta: '%{value}'"
+      event_agent_not_found: "Grupa zdarzenia %{group}, pole %{field}, nie odpowiada istniejącemu agentowi: '%{value}'"
       dig_info_miss: Nie określono ani identyfikatora URI obiektu cyfrowego, ani identyfikatora URI 
         miniatury.
       ref_id_miss: Nie podano identyfikatora referencyjnego.

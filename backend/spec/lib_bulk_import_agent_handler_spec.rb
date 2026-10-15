@@ -152,4 +152,39 @@ describe "Agent Handler" do
     newid = a1["ref"].split("/")[3]
     expect(newid).to eq(agent_3[:id].to_s)
   end
+
+  describe "create_linked" do
+    def built_agent(type, name)
+      name_type = type.sub("agent_", "name_")
+      name_fields = type == "agent_family" ? { "family_name" => name } : { "primary_name" => name, "name_order" => "direct" }
+      { "jsonmodel_type" => type,
+        "names" => [{ "jsonmodel_type" => name_type, "rules" => "local", "authorized" => true, "is_display_name" => true }.merge(name_fields)] }
+    end
+
+    def row_info
+      @report.new_row(2)
+      @report.rows[0].info
+    end
+
+    it "reports a created person Agent by its primary name and URI" do
+      link = @ah.create_linked(built_agent("agent_person", "Created Person #{rand(1_000_000)}"), { "role" => "creator" }, @report, 1)
+
+      expect(row_info[0]).to match(%r{\AAgent\[Created Person \d+\] created: #{Regexp.escape(link['ref'])}\z})
+      expect(link["ref"]).to match(%r{\A/agents/people/\d+\z})
+    end
+
+    it "reports a created family Agent by its family name" do
+      @ah.create_linked(built_agent("agent_family", "Created Family #{rand(1_000_000)}"), { "role" => "creator" }, @report, 1)
+
+      expect(row_info[0]).to match(%r{\AAgent\[Created Family \d+\] created: /agents/families/\d+\z})
+    end
+
+    it "reports that an Agent would be created in validate-only mode, saving nothing" do
+      before_count = AgentPerson.count
+      @ahv.create_linked(built_agent("agent_person", "Preview Person #{rand(1_000_000)}"), { "role" => "creator" }, @report, 1)
+
+      expect(row_info[0]).to match(/\AAgent\[Preview Person \d+\] would be created\z/)
+      expect(AgentPerson.count).to eq(before_count)
+    end
+  end
 end
