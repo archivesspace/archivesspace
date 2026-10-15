@@ -1,7 +1,7 @@
 <%
    root_type = root_record.jsonmodel_type
    child_type = InfiniteTreeHierarchy.child_type_for(root_type)
-   show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_largetree_container]
+   show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_tree_container]
    read_only = false if read_only.blank?
    toolbar_capabilities = {
      show_add_duplicate: root_type == 'resource',
