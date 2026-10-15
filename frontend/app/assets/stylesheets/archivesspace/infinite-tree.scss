@@ -840,3 +840,10 @@
     }
   }
 }
+
+.move-node-into-menu {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 400px;
+}

@@ -136,7 +136,6 @@ it:
     browse: Naviga
     cancel: Cancella
     date_picker_toggle: Attiva selettore data
-    drop_before: 'Caduta prima'
     download: Scarica
     duplicate_resource_confirm_message: Un lavoro sarà creato per duplicare 
       questa risorsa con tutti i suoi oggetti d'archivio. Questa operazione può 
@@ -149,7 +148,6 @@ it:
     merge_resource_confirm_message: I record selezionati saranno uniti 
       all'interno della risorsa '%{source}'. Tutti i record selezionati saranno 
       eliminati e ogni record linkato sarà linkato nuovamente a questa risorsa.
-    drop_after: 'Caduta dopo'
     edit_default_archival_object_values: Modifica componenti predefiniti
     refresh_page: Ricarica pagina
     merge_agent_confirm_message: I record selezionati saranno uniti all'interno 
@@ -204,7 +202,6 @@ it:
       componenti nella sua gerarchia.</p>
     view_published: Visualizza i pubblicati
     print_to_pdf: Genera PDF
-    drop_into: Abbandona come bambino
     move_up_a_level: Salire di un livello
     move_up: Su
     move_down_into: Giù dentro...
@@ -1263,8 +1260,6 @@ it:
       before: Aggiungi elementi prima
       after: Aggiungi elementi dopo
       as_child: Aggiungi elementi come figli
-    unexpected_failure: Ops! Stiamo riscontrando problemi nel recuperare questo 
-      albero. Per favore, prova ad aggiornare la pagina.
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
     drag_to_reorder: Trascina per riordinare

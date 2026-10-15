@@ -1,3 +1,4 @@
+//= require jquery.cookie
 //= require jquery.event.drag-1.4.min
 //= require jquery.kiketable.colsizable-1.1
 //= require jquery.columnmanager.min
