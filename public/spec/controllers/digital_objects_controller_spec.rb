@@ -86,7 +86,7 @@ describe DigitalObjectsController, type: :controller do
   describe "Digital Object" do
     render_views
 
-    img_uri = 'http://foo.com/image.jpg'
+    img_uri = 'http://foo.invalid/image.jpg'
 
     before(:all) do
       @do2 = create(:digital_object, publish: true, :file_versions => [

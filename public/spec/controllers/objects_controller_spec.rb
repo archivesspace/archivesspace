@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe ObjectsController, type: :controller do
-  img_uri1 = 'http://foo.com/image.jpg'
-  img_uri2 = 'http://foo.com/image2.jpg'
-  img_uri3 = 'http://foo.com/image3.jpg'
-  img_uri4 = 'http://foo.com/image4.jpg'
-  img_uri5 = 'http://foo.com/image5.jpg'
+  img_uri1 = 'http://foo.invalid/image.jpg'
+  img_uri2 = 'http://foo.invalid/image2.jpg'
+  img_uri3 = 'http://foo.invalid/image3.jpg'
+  img_uri4 = 'http://foo.invalid/image4.jpg'
+  img_uri5 = 'http://foo.invalid/image5.jpg'
   caption1 = 'caption1'
   caption2 = 'caption2'
   additional_file_versions_accordion_css = '#res_accordion > .accordion-item > #additional_file_versions_list'

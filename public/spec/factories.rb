@@ -78,7 +78,7 @@ module AspaceFactories
         name { generate :repo_name }
         publish { true }
         org_code { "123" }
-        image_url { "http://foo.com/bar" }
+        image_url { "http://foo.invalid/bar" }
         url { "http://foo.com" }
       end
 
