@@ -9,12 +9,19 @@ require_relative 'utils'
 # links keep showing: see MigrationUtils::FileVersionDisplayFlags in utils.rb for the rules.
 Sequel.migration do
   up do
+    # A plugin implementing the new thumbnail logic before it was in core may have added this already
+    unless self[:file_version].columns.include?(:is_display_thumbnail)
+      alter_table(:file_version) do
+        add_column(:is_display_thumbnail, Integer, :null => true, :default => nil)
+
+        add_unique_constraint([:is_display_thumbnail, :digital_object_id], :name => 'do_one_display_thumbnail')
+        add_unique_constraint([:is_display_thumbnail, :digital_object_component_id], :name => 'doc_one_display_thumbnail')
+      end
+    end
+
     alter_table(:file_version) do
-      add_column(:is_display_thumbnail, Integer, :null => true, :default => nil)
       add_column(:is_display_link, Integer, :null => true, :default => nil)
 
-      add_unique_constraint([:is_display_thumbnail, :digital_object_id], :name => 'do_one_display_thumbnail')
-      add_unique_constraint([:is_display_thumbnail, :digital_object_component_id], :name => 'doc_one_display_thumbnail')
       add_unique_constraint([:is_display_link, :digital_object_id], :name => 'do_one_display_link')
       add_unique_constraint([:is_display_link, :digital_object_component_id], :name => 'doc_one_display_link')
     end
