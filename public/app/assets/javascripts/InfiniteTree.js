@@ -644,6 +644,12 @@
           const parentNodeUri = node.getAttribute('data-parent-uri');
           const siblingList = node.closest('.node-children');
           const batchOffset = Number(node.getAttribute('data-observe-offset'));
+
+          node.removeAttribute('data-observe-next-batch');
+          node.removeAttribute('data-parent-uri');
+          node.removeAttribute('data-observe-offset');
+          observer.unobserve(node);
+
           const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
           if (!batchData) {
@@ -682,11 +688,6 @@
             batchOffset,
             observeForBatch
           );
-
-          node.removeAttribute('data-observe-next-batch');
-          node.removeAttribute('data-parent-uri');
-          node.removeAttribute('data-observe-offset');
-          observer.unobserve(node);
 
           if (observeForBatch !== null) {
             const nextNode = siblingList.querySelector(
