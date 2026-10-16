@@ -11,6 +11,8 @@ es:
     welcome_page_title: interfaz pública de ArchivesSpace
 
   actions:
+    collapse_node: "Contraer %{title}"
+    expand_node: "Expandir %{title}"
     search: Buscar
     search_header: Buscar en los archivos
     search_within: Busca dentro de los resultados

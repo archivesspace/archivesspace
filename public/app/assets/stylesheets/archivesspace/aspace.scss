@@ -750,9 +750,8 @@ ul.no-bullets {
   .classification-subgroups {
     margin-top: 5px;
 
-    .classification-subgroups-tree.largetree-container {
-      max-height: 200px;
-      overflow: auto;
+    .classification-subgroups-tree {
+      margin-top: 5px;
     }
   }
 }

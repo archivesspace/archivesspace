@@ -1,0 +1,59 @@
+<%# Templates cloned by InfiniteTreeMarkup. Render once per page; every
+    InfiniteTree instance on the page shares them. %>
+<template id="infinite-tree-root-list-template">
+  <ol class="infinite-tree"></ol>
+</template>
+
+<template id="infinite-tree-root-node-template">
+  <li class="root node" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-title-container">
+          <a class="node-title" href></a>
+        </div>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-node-template">
+  <li class="node" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-indentation"></div>
+        <div class="node-title-container">
+          <a class="node-title" href></a>
+        </div>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-node-list-template">
+  <ol
+    class="node-children"
+    id
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  >
+  </ol>
+</template>
+
+<template id="infinite-tree-expand-button-template">
+  <button
+    class="node-expand"
+    type="button"
+    data-has-expanded="false"
+    aria-expanded="false"
+    aria-controls
+  >
+    <i class="node-expand-icon fa fa-chevron-right"></i>
+    <span class="visually-hidden node-expand-label" data-when="collapsed"></span>
+    <span class="visually-hidden node-expand-label" data-when="expanded"></span>
+  </button>
+</template>
+
+<template id="infinite-tree-batch-placeholder-template">
+  <li data-batch-placeholder style="display:none"></li>
+</template>

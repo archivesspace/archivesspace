@@ -41,6 +41,12 @@
   } %>
 </div>
 
+<dialog id="records-loading-dialog" class="loading-dialog">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden"><%= t('resource.load_records.loading') %></span>
+  </div>
+</dialog>
+
 <%= render partial: 'resources/infinite_load_all', locals: {num_records: num_records} %>
 
 <script>
@@ -49,6 +55,8 @@ const resourceUri = '<%= @result["uri"] %>';
 const treeWaypointSize = '<%= tree_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
 const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
+const expand_label = <%== I18n.t('actions.expand_node').to_json %>;
+const collapse_label = <%== I18n.t('actions.collapse_node').to_json %>;
 const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
 const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
 const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
@@ -65,34 +73,22 @@ const infiniteRecords = new InfiniteRecords(
   uriFragment,
   coordinator
 );
-const infiniteTree = new InfiniteTree(
-  treeWaypointSize,
-  appUrlPrefix,
-  resourceUri,
-  identifier_separator,
-  date_type_bulk,
+const infiniteTree = new InfiniteTree({
+  container: document.querySelector('#infinite-tree-container'),
+  rootUri: resourceUri,
+  batchSize: treeWaypointSize,
+  fetchPrefix: appUrlPrefix,
+  i18n: {
+    sep: identifier_separator,
+    bulk: date_type_bulk,
+    expand: expand_label,
+    collapse: collapse_label,
+  },
+  titleRules: 'collection-organization',
+  onTitleClick: event => infiniteRecords.treeLinkHandler(event),
+  coordinator,
   uriFragment,
-  coordinator
-);
-
-infiniteTree.container.addEventListener('click', (e) => {
-  treeClickDelegator(e, infiniteTree, infiniteRecords);
 });
-
-/**
- * treeClickDelegator
- * @description - Delegate click events on the InfiniteTree container
- * @param {Event} event - Click event
- * @param {InfiniteTree} tree - InfiniteTree instance
- * @param {InfiniteRecords} records - InfiniteRecords instance
- */
-function treeClickDelegator(event, tree, records) {
-  if (event.target.closest('.node-expand')) {
-    tree.expandHandler(event);
-  } else if (event.target.closest('.node-title')) {
-    records.treeLinkHandler(event);
-  }
-}
 </script>
 
 <%= render partial: 'shared/modal_actions' %>
