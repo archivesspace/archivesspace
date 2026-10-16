@@ -14,8 +14,7 @@ describe 'Infinite Tree toolbar action matrix', js: true do
   end
 
   before do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
   end
 
   def expect_itree_toolbar_to_include(*labels)

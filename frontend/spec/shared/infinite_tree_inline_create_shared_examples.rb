@@ -3,7 +3,8 @@
 
 RSpec.shared_examples 'entering inline create and cancelling' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "itree_inline_create_#{config[:root_type]}_#{now}") }
+  before(:all) { @repo = create(:repo, repo_code: "itree_inline_create_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
     create(
@@ -29,8 +30,7 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
 
   before do
     set_repo(repo)
-    login_admin
-    select_repository(repo)
+    login_admin_and_select_repository(repo)
     child_record
   end
 
@@ -209,7 +209,8 @@ end
 
 RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "itree_inline_save_#{config[:root_type]}_#{now}") }
+  before(:all) { @repo = create(:repo, repo_code: "itree_inline_save_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
     create(
@@ -225,8 +226,7 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
 
   before do
     set_repo(repo)
-    login_admin
-    select_repository(repo)
+    login_admin_and_select_repository(repo)
     child_record
   end
 

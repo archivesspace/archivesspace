@@ -20,7 +20,34 @@ module ASpaceHelpers
     login_user(OpenStruct.new(username: 'admin', password: 'admin'))
   end
 
+  # Capybara resets the browser session after every JS example, so the login
+  # form and the Select Repository modal would be repeated for every example.
+  # This logs in once per repository, saves the session cookie (the frontend
+  # keeps the backend session and the selected repository in it) and restores
+  # it on later calls instead.
+  def login_admin_and_select_repository(repo)
+    cookies = ASpaceHelpers.admin_session_cookies[repo.repo_code]
+
+    if cookies
+      visit '/robots.txt' # cookies can only be added for the current domain
+      cookies.each { |cookie| page.driver.browser.manage.add_cookie(cookie) }
+    else
+      login_admin
+      select_repository(repo)
+      expect(page).to have_css('.current-repository-id', exact_text: repo.repo_code)
+
+      ASpaceHelpers.admin_session_cookies[repo.repo_code] =
+        page.driver.browser.manage.all_cookies.map { |cookie| cookie.slice(:name, :value, :path) }
+    end
+  end
+
+  def self.admin_session_cookies
+    @admin_session_cookies ||= {}
+  end
+
   def login_user(user)
+    # Logging out expires the backend session that saved cookies refer to.
+    ASpaceHelpers.admin_session_cookies.clear
     visit '/logout' # ensure we are logged out before trying to login
     page.has_xpath? '//input[@id="login"]'
 

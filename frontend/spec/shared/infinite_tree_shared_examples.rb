@@ -27,13 +27,7 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
   end
 
   before(:each) do
-    unless page.has_css?('.nav-link', text: 'admin', wait: 0)
-      login_admin
-    end
-
-    unless page.has_css?('.repository-badge', text: @repo.repo_code, wait: 0)
-      select_repository(@repo)
-    end
+    login_admin_and_select_repository(@repo)
   end
 
   let(:container) { find('#infinite-tree-container') }

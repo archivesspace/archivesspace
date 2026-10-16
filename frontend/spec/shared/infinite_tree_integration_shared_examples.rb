@@ -5,7 +5,8 @@
 
 RSpec.shared_context 'infinite tree integration hierarchy setup' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "infinite_tree_integration_#{config[:root_type]}_#{now}") }
+  before(:all) { @repo = create(:repo, repo_code: "infinite_tree_integration_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
     create(
@@ -35,8 +36,7 @@ RSpec.shared_context 'infinite tree integration hierarchy setup' do |config|
 
   before do
     set_repo(repo)
-    login_admin
-    select_repository(repo)
+    login_admin_and_select_repository(repo)
     child_record
   end
 end
