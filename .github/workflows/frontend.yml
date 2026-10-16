@@ -24,6 +24,7 @@ on:
           - 'ag-az'
           - 'b-h'
           - 'i'
+          - 'infinite-tree-p-z'
           - 'j-q'
           - 'r'
           - 's-z'
@@ -97,8 +98,19 @@ jobs:
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/i*_spec.rb"
+        ./build/run frontend:test -Dpattern="spec/features/i[^n]*_spec.rb,spec/features/in[^f]*_spec.rb,spec/features/infinite_tree_[a-o]*_spec.rb"
       name: i
+      java-version: ${{ inputs.java-version || 17 }}
+      browser: ${{ inputs.browser || 'firefox' }}
+  frontend_features_infinite-tree-p-z:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'infinite-tree-p-z' || inputs.group-choice == '' }}
+    name: infinite-tree-p-z
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/infinite_tree_[p-z]*_spec.rb,spec/features/infinite_tree_spec.rb"
+      name: infinite-tree-p-z
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
