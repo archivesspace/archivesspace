@@ -437,7 +437,7 @@
 
     /**
      * Creates an expand button to show and hide a node's children
-     * @param {string} title - The node title
+     * @param {string} title - The node title (may contain HTML entities)
      * @returns {DocumentFragment} - A <button>
      * @private
      */
@@ -447,8 +447,17 @@
         .querySelector('#infinite-tree-expand-button-template')
         .content.cloneNode(true);
       const btn = btnTemplate.querySelector('.node-expand');
+      const text = new DOMParser().parseFromString(title, 'text/html')
+        .documentElement.textContent;
+      const expandLabel = btn.querySelector(
+        '.node-expand-label[data-when="collapsed"]'
+      );
+      const collapseLabel = btn.querySelector(
+        '.node-expand-label[data-when="expanded"]'
+      );
 
-      btn.querySelector('.sr-only').textContent = title;
+      expandLabel.textContent = this.i18n.toggleLabel('expand', text);
+      collapseLabel.textContent = this.i18n.toggleLabel('collapse', text);
 
       btnFrag.appendChild(btnTemplate);
 

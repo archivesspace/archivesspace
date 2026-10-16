@@ -120,6 +120,8 @@ const EnumerationTranslations2 = {
 const infiniteTree = new InfiniteTree({
   sep: "<%= I18n.t("#{root_type}.identifier_separator") %>",
   bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
+  expand: <%== I18n.t('actions.expand_node').to_json %>,
+  collapse: <%== I18n.t('actions.collapse_node').to_json %>,
   enumerations: EnumerationTranslations2
 });
 

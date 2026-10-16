@@ -1,5 +1,7 @@
 fr:
   actions:
+    collapse_node: "Réduire %{title}"
+    expand_node: "Développer %{title}"
     lightmode_toggle: Mode lumière
     export_marc_auth: Télécharger l'autorité MARCXML
     add: Ajouter

@@ -1,5 +1,7 @@
 de:
   actions:
+    collapse_node: "%{title} einklappen"
+    expand_node: "%{title} ausklappen"
     close: Schließen
     add: Hinzufügen
     batch: Stapel
