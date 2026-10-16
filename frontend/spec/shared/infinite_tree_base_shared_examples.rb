@@ -1,25 +1,24 @@
-RSpec.shared_examples 'having basic node markup' do
-  it 'has the correct role and data-uri' do
-    aggregate_failures do
+# Checks of a node's state right after the page loads.  A scenario runs all of
+# the checks that apply to it in one example, so the page is visited once
+# instead of once per check.
+module InfiniteTreeNodeStateChecks
+  def expect_basic_node_markup
+    aggregate_failures 'basic node markup' do
       expect(node['role']).to eq('treeitem')
       expect(node['data-uri']).to eq(expected_uri)
     end
   end
-end
 
-RSpec.shared_examples 'having no children' do
-  it 'has no children' do
-    aggregate_failures do
+  def expect_no_children
+    aggregate_failures 'no children' do
       expect(node).not_to have_css('[aria-expanded]')
       expect(node).not_to have_css('[data-has-expanded]')
       expect(node).not_to have_css(':scope > .node-row .node-expand')
       expect(node).not_to have_css(':scope > .node-children', visible: :all)
     end
   end
-end
 
-RSpec.shared_examples 'having the correct data-total-child-batches attribute' do
-  it 'has the correct data-total-child-batches attribute' do
+  def expect_total_child_batches
     if node[:class].include?('root')
       # root node only has the attribute on its .node-children list
       expect(node).to have_css(":scope > .node-children[data-total-child-batches='#{total_batches}']")
@@ -30,15 +29,51 @@ RSpec.shared_examples 'having the correct data-total-child-batches attribute' do
       expect(node['data-total-child-batches']).to eq(total_batches.to_s)
     end
   end
-end
 
-RSpec.shared_examples 'having X children visible' do
-  it 'is expanded with the correct number of children visible' do
-    aggregate_failures do
+  def expect_children_visible
+    aggregate_failures 'children visible' do
       expect(node['aria-expanded']).to eq('true')
       expect(node['data-has-expanded']).to eq('true') unless node[:class].include?('root')
       expect(node).to have_css(':scope > .node-row .node-expand-icon.expanded') unless node[:class].include?('root')
       expect(node).to have_css(':scope > .node-children > .node', count: child_count, visible: true)
+    end
+  end
+
+  def expect_not_expanded_yet
+    aggregate_failures 'not expanded yet' do
+      expect(node['aria-expanded']).to eq('false')
+      expect(node['data-has-expanded']).to eq('false')
+      expect(node).to have_css(':scope > .node-row .node-expand-icon:not(.expanded)')
+      expect(node).not_to have_css(':scope > .node-children', visible: :all)
+    end
+  end
+
+  def expect_observer_for_second_batch
+    expect(child_list).to have_css('[data-observe-node][data-observe-offset="1"]')
+  end
+
+  def expect_batch_placeholders
+    aggregate_failures 'batch placeholders' do
+      expect(child_list).to have_css(':scope > li[data-batch-placeholder]', count: batches_not_yet_loaded.size, visible: false)
+
+      batches_not_yet_loaded.each do |batch_number|
+        expect(child_list).to have_css(":scope > li[data-batch-placeholder='#{batch_number}']", visible: false)
+      end
+    end
+  end
+end
+
+RSpec.configure do |config|
+  config.include InfiniteTreeNodeStateChecks, type: :feature
+end
+
+# Runs the named InfiniteTreeNodeStateChecks (without the expect_ prefix)
+# against one page visit, e.g.
+#   it_behaves_like 'having the node state', :basic_node_markup, :no_children
+RSpec.shared_examples 'having the node state' do |*checks|
+  it "has the expected node state (#{checks.join(', ')})" do
+    aggregate_failures do
+      checks.each { |check| send("expect_#{check}") }
     end
   end
 end
@@ -62,17 +97,6 @@ RSpec.shared_examples 'being collapsed after a single expand' do
   end
 
   it_behaves_like 'having X children hidden'
-end
-
-RSpec.shared_examples 'having not been expanded yet' do
-  it 'has not been expanded' do
-    aggregate_failures do
-      expect(node['aria-expanded']).to eq('false')
-      expect(node['data-has-expanded']).to eq('false')
-      expect(node).to have_css(':scope > .node-row .node-expand-icon:not(.expanded)')
-      expect(node).not_to have_css(':scope > .node-children', visible: :all)
-    end
-  end
 end
 
 RSpec.shared_examples 'having expand and collapse behavior' do
@@ -168,24 +192,6 @@ RSpec.shared_examples 'having expand and collapse behavior' do
     aggregate_failures 'collapses on enter keydown' do
       expand_button.send_keys(:enter)
       verify_collapsed_state(node, child_count)
-    end
-  end
-end
-
-RSpec.shared_examples 'having an observer node for the second batch' do
-  it 'has an observer node for the second batch' do
-    expect(child_list).to have_css('[data-observe-node][data-observe-offset="1"]')
-  end
-end
-
-RSpec.shared_examples 'having the correct number of batch placeholders' do
-  it 'has the correct number of batch placeholders' do
-    aggregate_failures do
-      expect(child_list).to have_css(':scope > li[data-batch-placeholder]', count: batches_not_yet_loaded.size, visible: false)
-
-      batches_not_yet_loaded.each do |batch_number|
-        expect(child_list).to have_css(":scope > li[data-batch-placeholder='#{batch_number}']", visible: false)
-      end
     end
   end
 end
