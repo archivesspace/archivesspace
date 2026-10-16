@@ -14,8 +14,7 @@ describe 'Infinite Tree toolbar action matrix', js: true do
   end
 
   before do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
   end
 
   def expect_itree_toolbar_to_include(*labels)
@@ -32,7 +31,6 @@ describe 'Infinite Tree toolbar action matrix', js: true do
       title: "Matrix DOC #{now}",
       digital_object: { ref: digital_object.uri }
     )
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -80,7 +78,6 @@ describe 'Infinite Tree toolbar action matrix', js: true do
       title: "Matrix Term #{now}",
       classification: { ref: classification.uri }
     )
-    run_indexer
 
     visit "classifications/#{classification.id}/edit"
     wait_for_infinite_tree_pane_ready

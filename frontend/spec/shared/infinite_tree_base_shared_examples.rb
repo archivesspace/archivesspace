@@ -1,25 +1,20 @@
-RSpec.shared_examples 'having basic node markup' do
-  it 'has the correct role and data-uri' do
-    aggregate_failures do
-      expect(node['role']).to eq('treeitem')
-      expect(node['data-uri']).to eq(expected_uri)
-    end
+# Checks of a node's state right after the page loads.  A scenario runs all of
+# the checks that apply to it in one example, so the page is visited once
+# instead of once per check.
+module InfiniteTreeNodeStateChecks
+  def expect_basic_node_markup
+    expect(node['role']).to eq('treeitem')
+    expect(node['data-uri']).to eq(expected_uri)
   end
-end
 
-RSpec.shared_examples 'having no children' do
-  it 'has no children' do
-    aggregate_failures do
-      expect(node).not_to have_css('[aria-expanded]')
-      expect(node).not_to have_css('[data-has-expanded]')
-      expect(node).not_to have_css(':scope > .node-row .node-expand')
-      expect(node).not_to have_css(':scope > .node-children', visible: :all)
-    end
+  def expect_no_children
+    expect(node).not_to have_css('[aria-expanded]')
+    expect(node).not_to have_css('[data-has-expanded]')
+    expect(node).not_to have_css(':scope > .node-row .node-expand')
+    expect(node).not_to have_css(':scope > .node-children', visible: :all)
   end
-end
 
-RSpec.shared_examples 'having the correct data-total-child-batches attribute' do
-  it 'has the correct data-total-child-batches attribute' do
+  def expect_total_child_batches
     if node[:class].include?('root')
       # root node only has the attribute on its .node-children list
       expect(node).to have_css(":scope > .node-children[data-total-child-batches='#{total_batches}']")
@@ -30,15 +25,45 @@ RSpec.shared_examples 'having the correct data-total-child-batches attribute' do
       expect(node['data-total-child-batches']).to eq(total_batches.to_s)
     end
   end
+
+  def expect_children_visible
+    expect(node['aria-expanded']).to eq('true')
+    expect(node['data-has-expanded']).to eq('true') unless node[:class].include?('root')
+    expect(node).to have_css(':scope > .node-row .node-expand-icon.expanded') unless node[:class].include?('root')
+    expect(node).to have_css(':scope > .node-children > .node', count: child_count, visible: true)
+  end
+
+  def expect_not_expanded_yet
+    expect(node['aria-expanded']).to eq('false')
+    expect(node['data-has-expanded']).to eq('false')
+    expect(node).to have_css(':scope > .node-row .node-expand-icon:not(.expanded)')
+    expect(node).not_to have_css(':scope > .node-children', visible: :all)
+  end
+
+  def expect_observer_for_second_batch
+    expect(child_list).to have_css('[data-observe-node][data-observe-offset="1"]')
+  end
+
+  def expect_batch_placeholders
+    expect(child_list).to have_css(':scope > li[data-batch-placeholder]', count: batches_not_yet_loaded.size, visible: false)
+
+    batches_not_yet_loaded.each do |batch_number|
+      expect(child_list).to have_css(":scope > li[data-batch-placeholder='#{batch_number}']", visible: false)
+    end
+  end
 end
 
-RSpec.shared_examples 'having X children visible' do
-  it 'is expanded with the correct number of children visible' do
+RSpec.configure do |config|
+  config.include InfiniteTreeNodeStateChecks, type: :feature
+end
+
+# Runs the named InfiniteTreeNodeStateChecks (without the expect_ prefix)
+# against one page visit, e.g.
+#   it_behaves_like 'having the node state', :basic_node_markup, :no_children
+RSpec.shared_examples 'having the node state' do |*checks|
+  it "has the expected node state (#{checks.join(', ')})" do
     aggregate_failures do
-      expect(node['aria-expanded']).to eq('true')
-      expect(node['data-has-expanded']).to eq('true') unless node[:class].include?('root')
-      expect(node).to have_css(':scope > .node-row .node-expand-icon.expanded') unless node[:class].include?('root')
-      expect(node).to have_css(':scope > .node-children > .node', count: child_count, visible: true)
+      checks.each { |check| send("expect_#{check}") }
     end
   end
 end
@@ -57,22 +82,11 @@ end
 RSpec.shared_examples 'being collapsed after a single expand' do
   before do
     node.find(':scope > .node-row .node-expand').click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
     node.find(':scope > .node-row .node-expand').click
   end
 
   it_behaves_like 'having X children hidden'
-end
-
-RSpec.shared_examples 'having not been expanded yet' do
-  it 'has not been expanded' do
-    aggregate_failures do
-      expect(node['aria-expanded']).to eq('false')
-      expect(node['data-has-expanded']).to eq('false')
-      expect(node).to have_css(':scope > .node-row .node-expand-icon:not(.expanded)')
-      expect(node).not_to have_css(':scope > .node-children', visible: :all)
-    end
-  end
 end
 
 RSpec.shared_examples 'having expand and collapse behavior' do
@@ -92,13 +106,13 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
   def expand_and_verify_full_state(element, node, child_count)
     element.click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
     verify_expanded_state(node, child_count)
   end
 
   def expand_and_verify_aria(element, node)
     element.click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
     expect(node['aria-expanded']).to eq('true')
   end
 
@@ -134,7 +148,7 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
     aggregate_failures 'expands on space keydown' do
       expand_button.send_keys(:space)
-      wait_for_ajax
+      wait_for_infinite_tree_node_expanded(node)
       verify_expanded_state(node, child_count)
     end
 
@@ -144,7 +158,7 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
     aggregate_failures 'expands on enter keydown' do
       expand_button.send_keys(:enter)
-      wait_for_ajax
+      wait_for_infinite_tree_node_expanded(node)
       verify_expanded_state(node, child_count)
     end
 
@@ -172,24 +186,6 @@ RSpec.shared_examples 'having expand and collapse behavior' do
   end
 end
 
-RSpec.shared_examples 'having an observer node for the second batch' do
-  it 'has an observer node for the second batch' do
-    expect(child_list).to have_css('[data-observe-node][data-observe-offset="1"]')
-  end
-end
-
-RSpec.shared_examples 'having the correct number of batch placeholders' do
-  it 'has the correct number of batch placeholders' do
-    aggregate_failures do
-      expect(child_list).to have_css(':scope > li[data-batch-placeholder]', count: batches_not_yet_loaded.size, visible: false)
-
-      batches_not_yet_loaded.each do |batch_number|
-        expect(child_list).to have_css(":scope > li[data-batch-placeholder='#{batch_number}']", visible: false)
-      end
-    end
-  end
-end
-
 RSpec.shared_examples 'lazy loading the remaining batches of children on scroll' do
   it 'loads batches of children on scroll' do
     aggregate_failures do
@@ -199,7 +195,7 @@ RSpec.shared_examples 'lazy loading the remaining batches of children on scroll'
 
         observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
         container.scroll_to(observer_node, align: :center)
-        wait_for_ajax
+        expect(observer_node).not_to match_css('[data-observe-offset]')
       end
 
       expect(child_list).to have_css(':scope > li', count: total_child_count, visible: :all)
@@ -215,18 +211,18 @@ RSpec.shared_examples 'showing all previously loaded children on expand' do
       batches_to_load.each_with_index do |batch_number, i|
         if node['aria-expanded'] == 'false'
           node.find(':scope > .node-row .node-expand').click
-          wait_for_ajax
+          wait_for_infinite_tree_node_expanded(node)
         end
 
         observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
         container.scroll_to(observer_node, align: :center)
-        wait_for_ajax
+        expect(observer_node).not_to match_css('[data-observe-offset]')
 
         node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
+        expect(node).to match_css("[aria-expanded='false']")
 
         node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
+        wait_for_infinite_tree_node_expanded(node)
 
         expected_child_count = [child_count_on_initial_expand + (i + 1) * Rails.configuration.infinite_tree_batch_size, total_child_count].min
         expect(child_list).to have_css(':scope > li.node', count: expected_child_count, visible: true)

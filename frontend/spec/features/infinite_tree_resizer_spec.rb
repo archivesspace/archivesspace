@@ -6,8 +6,7 @@ require 'rails_helper'
 describe 'Infinite Tree Resizer', js: true do
   context 'Resources' do
     before do
-      login_admin
-      select_repository($repo)
+      login_admin_and_select_repository($repo)
       visit '/resources/1'
     end
 
@@ -18,7 +17,8 @@ describe 'Infinite Tree Resizer', js: true do
 
   context 'Digital Objects' do
     let(:now) { Time.now.to_i }
-    let(:repo) { create(:repo, repo_code: "itree_resizer_do_#{now}") }
+    before(:all) { @repo = create(:repo, repo_code: "itree_resizer_do_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+    let(:repo) { @repo }
     let(:root_record) do
       create(
         :digital_object,
@@ -30,8 +30,7 @@ describe 'Infinite Tree Resizer', js: true do
 
     before do
       set_repo(repo)
-      login_admin
-      select_repository(repo)
+      login_admin_and_select_repository(repo)
       visit "/digital_objects/#{root_record.id}"
     end
 
@@ -42,7 +41,8 @@ describe 'Infinite Tree Resizer', js: true do
 
   context 'Classifications' do
     let(:now) { Time.now.to_i }
-    let(:repo) { create(:repo, repo_code: "itree_resizer_class_#{now}") }
+    before(:all) { @repo = create(:repo, repo_code: "itree_resizer_class_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+    let(:repo) { @repo }
     let(:root_record) do
       create(
         :classification,
@@ -54,8 +54,7 @@ describe 'Infinite Tree Resizer', js: true do
 
     before do
       set_repo(repo)
-      login_admin
-      select_repository(repo)
+      login_admin_and_select_repository(repo)
       visit "/classifications/#{root_record.id}"
     end
 

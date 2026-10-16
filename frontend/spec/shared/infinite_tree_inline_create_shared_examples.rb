@@ -3,7 +3,8 @@
 
 RSpec.shared_examples 'entering inline create and cancelling' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "itree_inline_create_#{config[:root_type]}_#{now}") }
+  before(:all) { @repo = create(:repo, repo_code: "itree_inline_create_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
     create(
@@ -29,18 +30,15 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
 
   before do
     set_repo(repo)
-    login_admin
-    select_repository(repo)
+    login_admin_and_select_repository(repo)
     child_record
-    run_indexer
   end
 
   describe 'Add Child' do
     context 'from the root record' do
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
-        wait_for_infinite_tree_pane_ready
+        wait_for_infinite_tree_loaded
         expect(page).to have_css("#infinite-tree-record-pane #form_#{root_form_prefix}")
         install_inline_create_fetch_capture
       end
@@ -95,9 +93,8 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
     context 'from a child record' do
       before do
         nested_child_record
-        run_indexer
         visit "#{edit_path}#{nested_child_record_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
         install_inline_create_fetch_capture
       end
 
@@ -151,7 +148,7 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
   describe 'Add Sibling' do
     before do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       install_inline_create_fetch_capture
     end
 
@@ -211,7 +208,8 @@ end
 
 RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "itree_inline_save_#{config[:root_type]}_#{now}") }
+  before(:all) { @repo = create(:repo, repo_code: "itree_inline_save_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
     create(
@@ -227,17 +225,14 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
 
   before do
     set_repo(repo)
-    login_admin
-    select_repository(repo)
+    login_admin_and_select_repository(repo)
     child_record
-    run_indexer
   end
 
   describe 'plain Save from Add Child' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_loaded
       install_inline_create_submit_capture
       click_infinite_tree_toolbar_add_child
     end
@@ -247,9 +242,7 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
       fill_valid_inline_child_fields(child_type: config[:child_type], title: child_title)
 
       save_label = I18n.t("#{child_form_prefix}._frontend.action.save")
-      find('button', text: save_label, match: :first).click
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
 
       saved_id = saved_child_id_from_pane
       submit_detail = last_record_pane_submit_success_detail
@@ -283,8 +276,7 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'invalid Save +1' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_loaded
       install_inline_create_submit_capture
       click_infinite_tree_toolbar_add_child
     end
@@ -320,8 +312,7 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'Save +1 from Add Child' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_loaded
       install_inline_create_submit_capture
       click_infinite_tree_toolbar_add_child
     end
@@ -363,8 +354,7 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'consecutive Save +1' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_loaded
       click_infinite_tree_toolbar_add_child
     end
 
@@ -403,16 +393,14 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'consecutive inline create after plain Save' do
     it 'Add Sibling uses the saved node as anchor on the second create without re-selection' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       click_infinite_tree_toolbar_add_sibling
 
       sibling_title = "First Sibling #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: sibling_title)
 
       save_label = I18n.t("#{child_form_prefix}._frontend.action.save")
-      find('button', text: save_label, match: :first).click
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
 
       saved_id = saved_child_id_from_pane
 
@@ -443,16 +431,14 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
 
     it 'Add Child uses the saved child as parent on the second create without re-selection' do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       click_infinite_tree_toolbar_add_child
 
       child_title = "First Child #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: child_title)
 
       save_label = I18n.t("#{child_form_prefix}._frontend.action.save")
-      find('button', text: save_label, match: :first).click
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
 
       saved_id = saved_child_id_from_pane
 

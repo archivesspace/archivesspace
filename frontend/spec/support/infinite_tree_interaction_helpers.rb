@@ -26,7 +26,7 @@ module InfiniteTreeInteractionHelpers
     return if toggle.text == I18n.t('actions.reorder_active')
 
     toggle.click
-    wait_for_ajax
+    expect(page.document).to have_css('#infinite-tree-container.reorder-mode')
   end
 
   def disable_reorder_mode
@@ -34,7 +34,7 @@ module InfiniteTreeInteractionHelpers
     return if toggle.text == I18n.t('actions.enable_reorder')
 
     toggle.click
-    wait_for_ajax
+    expect(page.document).to have_no_css('#infinite-tree-container.reorder-mode')
   end
 
   # @param node_or_uri [Object, String] record with #title or tree node data-uri
@@ -48,7 +48,26 @@ module InfiniteTreeInteractionHelpers
     within '#infinite-tree-container' do
       click_link title
     end
-    wait_for_ajax
+    wait_for_infinite_tree_current_node(node_or_uri.respond_to?(:uri) ? node_or_uri.uri : node_or_uri)
+  end
+
+  # Waits for the state a tree page visit ends in: the router has made a node
+  # current (it rewrites a missing hash to the root) and the record pane has
+  # finished loading it.  The pane loads the current record twice on page load,
+  # and the second response can arrive after the pane is unblocked, so also
+  # wait for every request the page has sent.
+  def wait_for_infinite_tree_loaded
+    expect(page.document).to have_css('#infinite-tree-container li.node.current', visible: :all)
+    wait_for_infinite_tree_pane_ready
+    wait_for_frontend_requests
+  end
+
+  # Waits for the node to become current and the record pane to finish loading
+  # it.  The pane is blocked in the same task that marks the node current, so
+  # the pane check can't pass before the load has started.
+  def wait_for_infinite_tree_current_node(uri)
+    expect(page.document).to have_css("#infinite-tree-container li.node.current[data-uri='#{uri}']", visible: :all)
+    wait_for_infinite_tree_pane_ready
   end
 
   # ============================================================================
@@ -60,7 +79,14 @@ module InfiniteTreeInteractionHelpers
     return if node['aria-expanded'] == 'true'
 
     node.find(':scope > .node-row .node-expand').click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
+  end
+
+  # Waits for an expand to finish: the node is marked expanded and its first
+  # batch of children (or their placeholders) is rendered.
+  def wait_for_infinite_tree_node_expanded(node)
+    expect(node).to match_css("[aria-expanded='true']")
+    expect(node).to have_css(':scope > .node-children > li', minimum: 1, visible: :all)
   end
 
   def collapse_tree_node(uri)
@@ -447,6 +473,37 @@ module InfiniteTreeInteractionHelpers
     expect(page).to have_no_css('#infinite-tree-record-pane.blocked', wait: 10)
   end
 
+  # Waits for the record pane form to register an edit: form.js marks the
+  # form's toolbar .formchanged on the first change or keyup.
+  def wait_for_infinite_tree_record_pane_dirty
+    expect(page.document).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+  end
+
+  # Runs the block, which submits the record pane form, then waits for the
+  # pane's submitted event (sent on success and on validation failure) and for
+  # the pane to finish loading the result.  The pane isn't blocked while the
+  # submit request is in flight, so waiting for the pane alone could pass early.
+  def wait_for_infinite_tree_record_pane_submit
+    page.execute_script(<<~JS)
+      window.__itreeRecordPaneSubmitted = false;
+      document.querySelector('#infinite-tree-record-pane').addEventListener(
+        'infiniteTreeRecordPane:submitted',
+        () => { window.__itreeRecordPaneSubmitted = true; },
+        { once: true }
+      );
+    JS
+
+    yield
+
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.05 until page.evaluate_script('window.__itreeRecordPaneSubmitted')
+    end
+    wait_for_infinite_tree_pane_ready
+    # A successful save rebuilds the tree and, after Save +1, loads a blank
+    # sibling form; those requests follow the submit one after another.
+    wait_for_frontend_requests
+  end
+
   # Wait for an inline edit form to finish loading in the record pane.
   # form_prefix is the record type form id prefix (e.g. 'resource', 'archival_object').
   def wait_for_infinite_tree_inline_edit_form(form_prefix:)
@@ -470,7 +527,7 @@ module InfiniteTreeInteractionHelpers
   def select_tree_row_by_id(record)
     node_id = infinite_tree_node_id_for(record)
     find("#infinite-tree-container li##{node_id} > .node-row a.record-title").click
-    wait_for_ajax
+    wait_for_infinite_tree_current_node(record.uri)
   end
 
   # Wait for tree to be fully ready for reorder mode interactions
@@ -635,15 +692,11 @@ module InfiniteTreeInteractionHelpers
     select level, from: "#{form_prefix}_level_" if level
 
     save_label = I18n.t("#{form_prefix}._frontend.action.save")
-    find('button', text: save_label, match: :first).click
-    wait_for_ajax
-    wait_for_infinite_tree_pane_ready
+    wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
   end
 
   def click_infinite_tree_create_plus_one
-    find('#createPlusOne', match: :first).click
-    wait_for_ajax
-    wait_for_infinite_tree_pane_ready
+    wait_for_infinite_tree_record_pane_submit { find('#createPlusOne', match: :first).click }
   end
 
   # Fill hierarchy-specific required fields for a valid inline child create.
@@ -694,8 +747,6 @@ module InfiniteTreeInteractionHelpers
     within '#infinite-tree-toolbar' do
       find('.js-itree-toolbar-rde:not(.disabled)', visible: true).click
     end
-
-    wait_for_ajax
 
     aggregate_failures do
       expect(page).to have_css('#rapidDataEntryModal', visible: true)
@@ -769,7 +820,7 @@ module InfiniteTreeInteractionHelpers
 
   def click_infinite_tree_toolbar_paste
     find('.js-itree-toolbar-paste').click
-    wait_for_ajax
+    wait_for_reorder_idle
   end
 
   def expect_infinite_tree_toolbar_cut_enabled(enabled = true)
@@ -907,7 +958,7 @@ module InfiniteTreeInteractionHelpers
         ).click
       end
     end
-    wait_for_ajax
+    wait_for_reorder_idle
   end
 
   def open_move_menu_for_node(node_or_uri)
