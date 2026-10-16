@@ -250,8 +250,7 @@ RSpec.shared_examples 'a root node having no children' do
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having no children'
+    it_behaves_like 'having the node state', :basic_node_markup, :no_children
   end
 end
 
@@ -269,9 +268,7 @@ RSpec.shared_examples 'a root node having three children' do
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having X children visible'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :children_visible
   end
 end
 
@@ -304,11 +301,7 @@ RSpec.shared_examples 'a root node having N batches of children' do |batch_count
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having X children visible'
-    it_behaves_like 'having an observer node for the second batch'
-    it_behaves_like 'having the correct number of batch placeholders'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :children_visible, :observer_for_second_batch, :batch_placeholders
     it_behaves_like 'lazy loading the remaining batches of children on scroll'
   end
 end
@@ -328,9 +321,7 @@ RSpec.shared_examples 'a node having three children' do
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having not been expanded yet'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :not_expanded_yet
     it_behaves_like 'having expand and collapse behavior'
 
     describe 'when collapsed after expanding' do
@@ -373,9 +364,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having not been expanded yet'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :not_expanded_yet
     it_behaves_like 'having expand and collapse behavior'
 
     describe 'when collapsed after expanding' do
@@ -391,8 +380,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
       let(:child_list) { node.find(':scope > .node-children') }
       let(:batches_not_yet_loaded) { (1...batch_count).to_a }
 
-      it_behaves_like 'having an observer node for the second batch'
-      it_behaves_like 'having the correct number of batch placeholders'
+      it_behaves_like 'having the node state', :observer_for_second_batch, :batch_placeholders
       it_behaves_like 'lazy loading the remaining batches of children on scroll'
 
       describe 'when collapsed after loading all batches' do
@@ -473,8 +461,7 @@ RSpec.shared_examples 'being a leaf node' do
     find('.infinite-tree')
   end
 
-  it_behaves_like 'having basic node markup'
-  it_behaves_like 'having no children'
+  it_behaves_like 'having the node state', :basic_node_markup, :no_children
 end
 
 RSpec.shared_examples 'simple column rendering' do
