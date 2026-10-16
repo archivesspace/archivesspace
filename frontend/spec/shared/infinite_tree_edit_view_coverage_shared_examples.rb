@@ -29,7 +29,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
     child_record
     child_record2
     visit edit_path
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
   end
 
   describe 'Close Record' do
@@ -38,7 +38,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       expect(page.current_url).to include("#tree::#{config[:child_type]}_#{child_record.id}")
 
       find('.js-itree-toolbar-finish-editing').click
-      wait_for_ajax
+      expect(page).to have_no_current_path(%r{/edit}, url: true)
 
       aggregate_failures do
         expect(page.current_url).not_to include('/edit')
@@ -60,7 +60,6 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       within '#confirmChangesModal' do
         click_on 'Delete'
       end
-      wait_for_ajax
 
       aggregate_failures do
         expect(page).to have_no_css(
@@ -86,7 +85,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
 
       before do
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
       end
 
       it 'badges only the suppressed record' do

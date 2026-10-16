@@ -57,7 +57,7 @@ end
 RSpec.shared_examples 'being collapsed after a single expand' do
   before do
     node.find(':scope > .node-row .node-expand').click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
     node.find(':scope > .node-row .node-expand').click
   end
 
@@ -92,13 +92,13 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
   def expand_and_verify_full_state(element, node, child_count)
     element.click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
     verify_expanded_state(node, child_count)
   end
 
   def expand_and_verify_aria(element, node)
     element.click
-    wait_for_ajax
+    wait_for_infinite_tree_node_expanded(node)
     expect(node['aria-expanded']).to eq('true')
   end
 
@@ -134,7 +134,7 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
     aggregate_failures 'expands on space keydown' do
       expand_button.send_keys(:space)
-      wait_for_ajax
+      wait_for_infinite_tree_node_expanded(node)
       verify_expanded_state(node, child_count)
     end
 
@@ -144,7 +144,7 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
     aggregate_failures 'expands on enter keydown' do
       expand_button.send_keys(:enter)
-      wait_for_ajax
+      wait_for_infinite_tree_node_expanded(node)
       verify_expanded_state(node, child_count)
     end
 
@@ -199,7 +199,7 @@ RSpec.shared_examples 'lazy loading the remaining batches of children on scroll'
 
         observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
         container.scroll_to(observer_node, align: :center)
-        wait_for_ajax
+        expect(observer_node).not_to match_css('[data-observe-offset]')
       end
 
       expect(child_list).to have_css(':scope > li', count: total_child_count, visible: :all)
@@ -215,18 +215,18 @@ RSpec.shared_examples 'showing all previously loaded children on expand' do
       batches_to_load.each_with_index do |batch_number, i|
         if node['aria-expanded'] == 'false'
           node.find(':scope > .node-row .node-expand').click
-          wait_for_ajax
+          wait_for_infinite_tree_node_expanded(node)
         end
 
         observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
         container.scroll_to(observer_node, align: :center)
-        wait_for_ajax
+        expect(observer_node).not_to match_css('[data-observe-offset]')
 
         node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
+        expect(node).to match_css("[aria-expanded='false']")
 
         node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
+        wait_for_infinite_tree_node_expanded(node)
 
         expected_child_count = [child_count_on_initial_expand + (i + 1) * Rails.configuration.infinite_tree_batch_size, total_child_count].min
         expect(child_list).to have_css(':scope > li.node', count: expected_child_count, visible: true)

@@ -46,7 +46,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       child_list = parent_li.find(':scope > ol.node-children')
       observer_node = child_list.find("[data-observe-offset='#{batch_offset}']", match: :first)
       tree_container.scroll_to(observer_node, align: :center)
-      wait_for_ajax
+      expect(observer_node).not_to match_css('[data-observe-offset]')
     end
 
     def find_badge(uri)
@@ -83,7 +83,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       next if example.metadata[:ancestry_multilevel_tree]
 
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
     end
 
     context 'when reorder mode is off' do
@@ -91,7 +91,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         within '#infinite-tree-container' do
           click_link ao.title
         end
-        wait_for_ajax
+        wait_for_infinite_tree_current_node(ao.uri)
 
         expect(page.current_url).to include("tree::archival_object_#{ao.id}")
         expect(data_selection_uris).to be_nil
@@ -150,7 +150,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       describe 'Shift + click extends selection across all depths' do
         before do
           expand_tree_node(ao2.uri)
-          wait_for_ajax
           # Guard the precondition: the level-2 child_ao is now in the DOM
           # between the two level-1 siblings ao2 and ao3, so cross-depth range
           # behavior is actually being exercised.
@@ -297,16 +296,14 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
         before do
           visit "#{edit_path}#{root_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
           enable_reorder_mode
           wait_for_reorder_mode_ready
 
           expect(page).to have_css("li.node[data-uri='#{b_ao.uri}']", wait: 10)
           expand_tree_node(b_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bb_ao.uri}']", wait: 10)
           expand_tree_node(bb_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bbb_ao.uri}']", wait: 10)
         end
 
@@ -434,7 +431,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
           within '#infinite-tree-container' do
             click_link ao2.title
           end
-          wait_for_ajax
+          wait_for_infinite_tree_current_node(ao2.uri)
 
           expect(page.current_url).to include("tree::archival_object_#{ao2.id}")
           expect(data_selection_uris).to eq(ao2.uri)
@@ -482,7 +479,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       describe 'expand and collapse do not mutate the selection' do
         before do
           expand_tree_node(ao2.uri)
-          wait_for_ajax
         end
 
         it 'preserves selected descendants in the explicit selection when their ancestor collapses' do
@@ -490,7 +486,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
           expect(data_selection_uris).to eq(child_ao.uri)
 
           collapse_tree_node(ao2.uri)
-          wait_for_ajax
 
           expect(data_selection_uris).to eq(child_ao.uri)
         end
@@ -501,12 +496,10 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
           expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
 
           collapse_tree_node(ao2.uri)
-          wait_for_ajax
 
           expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
 
           expand_tree_node(ao2.uri)
-          wait_for_ajax
 
           expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
           expect(page).to have_css(
@@ -530,7 +523,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       describe 'implicit selection badges with single parent selected' do
         before do
           expand_tree_node(ao2.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
         end
 
@@ -607,14 +599,13 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
         before do
           visit "#{edit_path}#{root_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
           enable_reorder_mode
           wait_for_reorder_mode_ready
 
           # Expand B to see its direct children (BA, BB, BC) but not grandchildren yet
           expect(page).to have_css("li.node[data-uri='#{b_ao.uri}']", wait: 10)
           expand_tree_node(b_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bb_ao.uri}']", wait: 10)
         end
 
@@ -630,7 +621,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
           # Now expand BB to lazy-load grandchildren BBA and BBB
           expand_tree_node(bb_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
 
           # Grandchildren should now also have implicit selection styling
@@ -648,7 +638,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
           # Initial expansion of BD loads batch 0 only
           expand_tree_node(bd_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bd_first_batch_child.uri}']", wait: 10)
           expect(page).to have_no_css("li.node[data-uri='#{bd_second_batch_child.uri}']")
 
@@ -672,7 +661,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
           # Expand BB (which is implicitly selected, not explicitly)
           expand_tree_node(bb_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
 
           # BBA and BBB (grandchildren of B, children of BB) should be implicitly selected
@@ -690,7 +678,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
           # Expand BB (no selection active, reorder mode off)
           expand_tree_node(bb_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
 
           # No implicit selection classes should be present
@@ -705,7 +692,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
           # Expand BB under B (which is not selected)
           expand_tree_node(bb_ao.uri)
-          wait_for_ajax
           expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
 
           # BBA and BBB should NOT be implicitly selected (they're not under A)

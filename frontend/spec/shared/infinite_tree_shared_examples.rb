@@ -35,7 +35,7 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
   let(:basic_child_record) { @basic_child_record }
   subject(:tree) do
     visit show_path.call(basic_root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -246,7 +246,7 @@ RSpec.shared_examples 'a root node having no children' do
     let(:expected_uri) { root_record.uri }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
@@ -265,7 +265,7 @@ RSpec.shared_examples 'a root node having three children' do
     let(:child_count) { 3 }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
@@ -300,7 +300,7 @@ RSpec.shared_examples 'a root node having N batches of children' do |batch_count
     let(:batches_not_yet_loaded) { (1...batch_count).to_a }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
@@ -324,7 +324,7 @@ RSpec.shared_examples 'a node having three children' do
     let(:child_count) { 3 }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
@@ -369,7 +369,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     let(:child_count) { @batch_size }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
@@ -385,7 +385,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     describe 'after initial expansion' do
       before do
         node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
+        wait_for_infinite_tree_node_expanded(node)
       end
 
       let(:child_list) { node.find(':scope > .node-children') }
@@ -400,7 +400,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
           batches_not_yet_loaded.each do |batch_number|
             observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
             container.scroll_to(observer_node, align: :center)
-            wait_for_ajax
+            expect(observer_node).not_to match_css('[data-observe-offset]')
           end
           node.find(':scope > .node-row .node-expand').click
         end
@@ -422,13 +422,13 @@ RSpec.shared_examples 'having lazy loading behavior' do
     let(:node) { tree.find("##{child_type}_#{parent_record.id}") }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
     before(:each) do
       node.find(':scope > .node-row .node-expand').click
-      wait_for_ajax
+      wait_for_infinite_tree_node_expanded(node)
     end
 
     let(:child_list) { node.find(':scope > .node-children') }
@@ -445,11 +445,11 @@ RSpec.shared_examples 'having lazy loading behavior' do
           num_batches_loaded.times do |i|
             if node['aria-expanded'] == 'false'
               node.find(':scope > .node-row .node-expand').click
-              wait_for_ajax
+              wait_for_infinite_tree_node_expanded(node)
             end
             observer_node = child_list.find("[data-observe-offset='#{i + 1}']", match: :first)
             container.scroll_to(observer_node, align: :center)
-            wait_for_ajax
+            expect(observer_node).not_to match_css('[data-observe-offset]')
           end
           node.find(':scope > .node-row .node-expand').click
         end
@@ -469,7 +469,7 @@ RSpec.shared_examples 'being a leaf node' do
   let(:expected_uri) { leaf_record.uri }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -482,7 +482,7 @@ RSpec.shared_examples 'simple column rendering' do
   let(:child_record) { @columns_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -494,7 +494,7 @@ RSpec.shared_examples 'column rendering with conditional columns' do
   let(:child_record) { @columns_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -558,7 +558,7 @@ RSpec.shared_examples 'showing a badge on suppressed records' do
   let(:suppressed_record) { @suppressed_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -591,7 +591,7 @@ RSpec.shared_examples 'having mixed content behavior' do
 
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 

@@ -31,7 +31,7 @@ describe 'Infinite Tree Integration', js: true do
           it 'displays the tree root and Record Not Found in the pane' do
             nonexistent_id = ao.id + 999
             visit "#{show_path}#tree::archival_object_#{nonexistent_id}"
-            wait_for_ajax
+            expect(page).to have_css('#infinite-tree-record-pane h2', text: 'Record Not Found')
 
             aggregate_failures do
               expect(page).to have_css('#infinite-tree-container .root')
@@ -69,16 +69,15 @@ describe 'Infinite Tree Integration', js: true do
       context 'consecutive inline create after Save' do
         it 'Add Duplicate uses the saved node as anchor on the second create without re-selection' do
           visit "#{edit_path}#{ao_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
 
           find('.js-itree-toolbar-add-duplicate').click
-          wait_for_ajax
+          expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /duplicated from/)
 
           duplicate_title = "[Duplicated] First AO #{now}"
           fill_in 'archival_object_title_', with: duplicate_title
 
-          find('button', text: 'Save Archival Object', match: :first).click
-          wait_for_ajax
+          wait_for_infinite_tree_record_pane_submit { find('button', text: 'Save Archival Object', match: :first).click }
 
           saved_id = within('#infinite-tree-record-pane') do
             find('#uri', visible: :all).value.split('/').last.to_i
@@ -92,7 +91,7 @@ describe 'Infinite Tree Integration', js: true do
           end
 
           find('.js-itree-toolbar-add-duplicate').click
-          wait_for_ajax
+          expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /duplicated from/)
 
           aggregate_failures do
             within('#infinite-tree-container') do
