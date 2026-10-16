@@ -3,6 +3,7 @@ require 'socket'
 require 'ashttp'
 require 'asutils'
 require 'English'
+require 'securerandom'
 require File.expand_path('indexer/app/lib/periodic_indexer', ASUtils.find_base_directory)
 require File.expand_path('indexer/app/lib/pui_indexer', ASUtils.find_base_directory)
 
@@ -178,6 +179,44 @@ module TestUtils
       def run_indexers
         SpecIndexing.get_indexer.run_index_round
         SpecIndexing.get_pui_indexer.run_index_round
+      end
+    end
+  end
+
+  module SpecBatchCreate
+    BatchCreatedRecord = Struct.new(:id, :uri)
+
+    # Creates `count` sibling tree records (archival objects, digital object
+    # components or classification terms) in the current repository with a
+    # single batch import request, instead of one request per record.  The
+    # records are positioned in creation order under `parent` (or at the top
+    # level of `root`), so `result[i]` is the (i + 1)th sibling.  `root_key` is
+    # the record's link to its root (e.g. :resource).  An optional block
+    # receives the index and returns extra values for that record.
+    def batch_create_tree_children(factory, count, root_key:, root:, parent: nil, **values)
+      repo_id = JSONModel.repository
+      records = Array.new(count) do |i|
+        record = build(factory, {
+          root_key => {'ref' => root.uri},
+          parent: parent && {'ref' => parent.uri},
+          position: i
+        }.compact.merge(values).merge(block_given? ? yield(i) : {}))
+
+        record.to_hash(:raw).merge(
+          'uri' => "/repositories/#{repo_id}/#{record.class.record_type}s/import_#{SecureRandom.hex(8)}"
+        )
+      end
+
+      url = URI("#{JSONModel::HTTP.backend_url}/repositories/#{repo_id}/batch_imports")
+      response = JSONModel::HTTP.post_json(url, records.to_json)
+      results = ASUtils.json_parse(response.body).last
+      if response.code != '200' || results['errors']
+        raise "Batch import failed (#{response.code}): #{results['errors'] || response.body}"
+      end
+
+      records.map do |record|
+        uri, id = results['saved'].fetch(record['uri'])
+        BatchCreatedRecord.new(id, uri)
       end
     end
   end

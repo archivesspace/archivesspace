@@ -1,5 +1,6 @@
 module ASpaceHelpers
   include Capybara::DSL
+  include TestUtils::SpecBatchCreate
 
   def apply_session_to_controller(controller, username, password)
     session = User.login(username, password)

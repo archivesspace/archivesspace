@@ -55,42 +55,30 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
     @root_no_children = create(factory, { title: "Root no children #{@test_prefix}" }.merge(@additional_root_attrs))
 
     @root_three_children = create(factory, { title: "Root three children #{@test_prefix}" }.merge(@additional_root_attrs))
-    @root_three_children_children = 3.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @root_three_children.uri },
-        title: "Child #{i + 1} of root three children #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @root_three_children_children = batch_create_tree_children(
+      child_factory, 3, root_key: relationship_key, root: @root_three_children, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of root three children #{@test_prefix}" } }
 
     @root_two_batches = create(factory, { title: "Root two batches #{@test_prefix}" }.merge(@additional_root_attrs))
     two_batch_count = @batch_size + 1
-    @root_two_batches_children = two_batch_count.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @root_two_batches.uri },
-        title: "Child #{i + 1} of root two batches #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @root_two_batches_children = batch_create_tree_children(
+      child_factory, two_batch_count, root_key: relationship_key, root: @root_two_batches, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of root two batches #{@test_prefix}" } }
 
     if config[:max_batch_scenarios] >= 3
       @root_three_batches = create(factory, { title: "Root three batches #{@test_prefix}" }.merge(@additional_root_attrs))
       three_batch_count = @batch_size * 2 + 1
-      @root_three_batches_children = three_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @root_three_batches.uri },
-          title: "Child #{i + 1} of root three batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @root_three_batches_children = batch_create_tree_children(
+        child_factory, three_batch_count, root_key: relationship_key, root: @root_three_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of root three batches #{@test_prefix}" } }
     end
 
     if config[:max_batch_scenarios] >= 4
       @root_four_batches = create(factory, { title: "Root four batches #{@test_prefix}" }.merge(@additional_root_attrs))
       four_batch_count = @batch_size * 3 + 1
-      @root_four_batches_children = four_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @root_four_batches.uri },
-          title: "Child #{i + 1} of root four batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @root_four_batches_children = batch_create_tree_children(
+        child_factory, four_batch_count, root_key: relationship_key, root: @root_four_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of root four batches #{@test_prefix}" } }
     end
 
     @basic_root_record = create(factory, { title: "Basic root #{@test_prefix}" }.merge(@additional_root_attrs))
@@ -110,13 +98,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
       relationship_key => { 'ref' => @parent_three_children_root.uri },
       title: "Parent three children #{@test_prefix}"
     }.merge(@additional_child_attrs))
-    @parent_three_children_children = 3.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @parent_three_children_root.uri },
-        parent: { 'ref' => @parent_three_children.uri },
-        title: "Child #{i + 1} of parent three children #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @parent_three_children_children = batch_create_tree_children(
+      child_factory, 3, root_key: relationship_key, root: @parent_three_children_root, parent: @parent_three_children, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of parent three children #{@test_prefix}" } }
 
     @parent_two_batches_root = create(factory, { title: "Parent two batches root #{@test_prefix}" }.merge(@additional_root_attrs))
     @parent_two_batches = create(child_factory, {
@@ -124,13 +108,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
       title: "Parent two batches #{@test_prefix}"
     }.merge(@additional_child_attrs))
     two_batch_count = @batch_size + 1
-    @parent_two_batches_children = two_batch_count.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @parent_two_batches_root.uri },
-        parent: { 'ref' => @parent_two_batches.uri },
-        title: "Child #{i + 1} of parent two batches #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @parent_two_batches_children = batch_create_tree_children(
+      child_factory, two_batch_count, root_key: relationship_key, root: @parent_two_batches_root, parent: @parent_two_batches, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of parent two batches #{@test_prefix}" } }
 
     if config[:max_batch_scenarios] >= 3
       @parent_three_batches_root = create(factory, { title: "Parent three batches root #{@test_prefix}" }.merge(@additional_root_attrs))
@@ -139,13 +119,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
         title: "Parent three batches #{@test_prefix}"
       }.merge(@additional_child_attrs))
       three_batch_count = @batch_size * 2 + 1
-      @parent_three_batches_children = three_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @parent_three_batches_root.uri },
-          parent: { 'ref' => @parent_three_batches.uri },
-          title: "Child #{i + 1} of parent three batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @parent_three_batches_children = batch_create_tree_children(
+        child_factory, three_batch_count, root_key: relationship_key, root: @parent_three_batches_root, parent: @parent_three_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of parent three batches #{@test_prefix}" } }
     end
 
     if config[:max_batch_scenarios] >= 4
@@ -155,13 +131,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
         title: "Parent four batches #{@test_prefix}"
       }.merge(@additional_child_attrs))
       four_batch_count = @batch_size * 3 + 1
-      @parent_four_batches_children = four_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @parent_four_batches_root.uri },
-          parent: { 'ref' => @parent_four_batches.uri },
-          title: "Child #{i + 1} of parent four batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @parent_four_batches_children = batch_create_tree_children(
+        child_factory, four_batch_count, root_key: relationship_key, root: @parent_four_batches_root, parent: @parent_four_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of parent four batches #{@test_prefix}" } }
 
       @lazy_loading_root = @parent_four_batches_root
       @lazy_loading_parent = @parent_four_batches
