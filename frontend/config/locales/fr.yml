@@ -860,6 +860,7 @@ fr:
       un ou plusieurs agents ont des coordonnées auxquelles vous n'êtes pas 
       autorisé à accéder.
     sidebar_label: Erreurs et avertissements
+    submission_failed: Échec de l'envoi. Veuillez corriger les erreurs ci-dessous.
     error_403: Page inaccessible
     error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus,
       ou alors vous n'avez pas la permission de la voir."
