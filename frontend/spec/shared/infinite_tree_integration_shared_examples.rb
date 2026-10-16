@@ -60,7 +60,7 @@ RSpec.shared_examples 'adds root hash and displays root on load' do |path_let, v
   it "adds root hash and displays root (#{view_type})" do
     path = send(path_let)
     visit path
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(path)}#tree::#{root_type}_})
@@ -92,7 +92,7 @@ RSpec.shared_examples 'keeps hash and displays record on load' do |path_let, has
     hash = send(hash_let)
     record = send(record_let)
     visit "#{path}#{hash}"
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(path)}#{Regexp.escape(hash)}})
@@ -126,10 +126,10 @@ RSpec.shared_examples 'tree node title click updates pane and URL when no unsave
     expected_hash = send(expected_hash_let)
     expected_record = node
     visit "#{path}#{start_hash}"
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
 
     within('#infinite-tree-container') { click_link node.title }
-    wait_for_ajax
+    wait_for_infinite_tree_current_node(node.uri)
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(expected_hash)}})
@@ -171,7 +171,7 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       it 'displays the tree root and Record Not Found in the pane' do
         nonexistent_id = child_record.id + 999
         visit "#{edit_path}#tree::#{child_type}_#{nonexistent_id}"
-        wait_for_ajax
+        expect(page).to have_css('#infinite-tree-record-pane h2', text: 'Record Not Found')
 
         aggregate_failures do
           expect(page).to have_css('#infinite-tree-container .root')
@@ -199,10 +199,10 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     context 'via record hash change' do
       it 'updates the pane and URL to the target record' do
         visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
 
         page.execute_script("window.location.hash = 'tree::#{child_type}_#{child_record.id}'")
-        wait_for_ajax
+        wait_for_infinite_tree_current_node(child_record.uri)
 
         aggregate_failures do
           expect(page.current_url).to match(%r{#{child_record_hash}})
@@ -215,12 +215,11 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   describe 'when navigating with unsaved changes' do
     it 'guard shows modal on hash change and reverts the hash' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       fill_in config[:child_dirty_field], with: 'unsaved change'
-      wait_for_ajax
+      wait_for_infinite_tree_record_pane_dirty
 
       page.execute_script("window.location.hash = 'tree::#{root_type}_#{root_record.id}'")
-      wait_for_ajax
 
       aggregate_failures do
         expect(page).to have_css('#saveYourChangesModal', visible: true)
@@ -233,12 +232,11 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
     it 'guard shows modal on tree title click' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       fill_in config[:child_dirty_field], with: 'unsaved change'
-      wait_for_ajax
+      wait_for_infinite_tree_record_pane_dirty
 
       within('#infinite-tree-container') { click_link root_record.title }
-      wait_for_ajax
 
       expect(page).to have_css('#saveYourChangesModal', visible: true)
       within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
@@ -248,19 +246,17 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       context 'for root' do
         it 'dismisses unsaved changes and reloads selected root record' do
           visit "#{edit_path}#{root_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
 
           initial_title = find_field(config[:root_dirty_field]).value
 
           fill_in config[:root_dirty_field], with: "#{initial_title} "
-          wait_for_ajax
 
           expect(page).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
 
           within('#infinite-tree-record-pane .record-toolbar') do
             click_link 'Revert Changes'
           end
-          wait_for_ajax
 
           aggregate_failures do
             within('#infinite-tree-record-pane') do
@@ -276,19 +272,17 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       context 'for child' do
         it 'dismisses unsaved changes and reloads selected child record' do
           visit "#{edit_path}#{child_record_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
 
           initial_title = find_field(config[:child_revert_field]).value
 
           fill_in config[:child_revert_field], with: "#{initial_title} "
-          wait_for_ajax
 
           expect(page).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
 
           within('#infinite-tree-record-pane .record-toolbar') do
             click_link 'Revert Changes'
           end
-          wait_for_ajax
 
           aggregate_failures do
             within('#infinite-tree-record-pane') do
@@ -305,14 +299,13 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     describe 'modal actions' do
       it 'Save submits form, closes modal, and navigates to new record' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
         fill_in config[:child_save_field], with: config[:child_save_value]
-        wait_for_ajax
+        wait_for_infinite_tree_record_pane_dirty
         within('#infinite-tree-container') { click_link root_record.title }
-        wait_for_ajax
 
         within('#saveYourChangesModal') { click_on 'Save Changes' }
-        wait_for_ajax
+        wait_for_infinite_tree_current_node(root_record.uri)
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
@@ -323,14 +316,13 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
       it 'Dismiss discards changes, closes modal, and navigates to new record' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
         fill_in config[:child_dirty_field], with: 'unsaved change'
-        wait_for_ajax
+        wait_for_infinite_tree_record_pane_dirty
         within('#infinite-tree-container') { click_link root_record.title }
-        wait_for_ajax
 
         within('#saveYourChangesModal') { click_on 'Dismiss Changes' }
-        wait_for_ajax
+        wait_for_infinite_tree_current_node(root_record.uri)
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
@@ -341,14 +333,12 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
       it 'Cancel closes modal and stays on current record' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
         fill_in config[:child_dirty_field], with: 'unsaved change'
-        wait_for_ajax
+        wait_for_infinite_tree_record_pane_dirty
         within('#infinite-tree-container') { click_link root_record.title }
-        wait_for_ajax
 
         within('#saveYourChangesModal') { click_on 'Cancel' }
-        wait_for_ajax
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
@@ -359,8 +349,7 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
       it 'Save with validation errors closes modal and stays on the invalid form' do
         visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
-        wait_for_infinite_tree_pane_ready
+        wait_for_infinite_tree_loaded
 
         click_infinite_tree_toolbar_add_child
         wait_for_infinite_tree_pane_ready
@@ -393,23 +382,20 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   describe 'after successful save' do
     it 'form has no unsaved changes; navigation proceeds without modal' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
 
       updated_title = "Updated Title #{now}"
       fill_in config[:child_post_save_field], with: updated_title
       within('#infinite-tree-container') { click_link root_record.title }
-      wait_for_ajax
 
       aggregate_failures do
         expect(page).to have_css('#saveYourChangesModal', visible: true)
         within('#saveYourChangesModal') { click_on 'Cancel' }
 
         find('button', text: child_save_label, match: :first).click
-        wait_for_ajax
         expect(page).to have_text(updated_title)
 
         within('#infinite-tree-container') { click_link root_record.title }
-        wait_for_ajax
         expect(page).not_to have_css('#saveYourChangesModal', visible: true)
         within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
       end
@@ -417,14 +403,14 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
     it 'refreshes the root row in the tree with the saved root data' do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_loaded
 
       updated_title = "Updated Root #{now}"
       fill_in config[:root_dirty_field], with: updated_title
 
-      find('button', text: I18n.t("#{config[:root_type]}._frontend.action.save"), match: :first).click
-      wait_for_ajax
+      wait_for_infinite_tree_record_pane_submit do
+        find('button', text: I18n.t("#{config[:root_type]}._frontend.action.save"), match: :first).click
+      end
 
       root_title = find('#infinite-tree-container li.node.root > .node-row .record-title')
 
@@ -441,17 +427,16 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       target_hash = nested_child_record_hash
 
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       install_tree_event_capture('infiniteTreeRouter:setCurrentNode')
 
       fill_in config[:child_dirty_field], with: 'unsaved change'
-      wait_for_ajax
+      wait_for_infinite_tree_record_pane_dirty
 
       navigate_tree_hash(target_hash)
       expect(page).to have_css('#saveYourChangesModal', visible: true)
 
       within('#saveYourChangesModal') { click_on 'Dismiss Changes' }
-      wait_for_ajax
 
       expect(page).to have_css(
         "#infinite-tree-container li.node.current[data-uri='#{nested_child_record.uri}']"

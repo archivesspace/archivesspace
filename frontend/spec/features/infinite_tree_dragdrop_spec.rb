@@ -82,7 +82,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       enable_reorder_mode
       install_accept_children_capture
     end
@@ -215,7 +215,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     it 'preserves a current record that is different from the first moved row' do
       expect(page).to have_css('.record-title', text: ao2.title)
       click_link ao2.title
-      wait_for_ajax
+      wait_for_infinite_tree_current_node(ao2.uri)
 
       drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
       wait_for_reorder_idle
@@ -309,7 +309,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       within '#infinite-tree-container' do
         click_link ao3.title
       end
-      wait_for_ajax
+      wait_for_infinite_tree_current_node(ao3.uri)
 
       expect(selection_uris).to eq([ao3.uri])
       expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
@@ -325,7 +325,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       within '#infinite-tree-container' do
         click_link ao2.title
       end
-      wait_for_ajax
+      wait_for_infinite_tree_current_node(ao2.uri)
 
       aggregate_failures do
         expect(current_uri).to eq(ao2.uri)
@@ -337,7 +337,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       within '#infinite-tree-container' do
         click_link ao3.title
       end
-      wait_for_ajax
+      wait_for_infinite_tree_current_node(ao3.uri)
 
       aggregate_failures do
         expect(current_uri).to eq(ao3.uri)
@@ -355,7 +355,6 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
       before do
         expand_tree_node(ao2.uri)
-        wait_for_ajax
         expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
       end
 
@@ -429,7 +428,6 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
     it 'blocks drops onto descendants of a dragged source subtree' do
       expand_tree_node(ao2.uri)
-      wait_for_ajax
 
       meta_click_row(ao2.uri)
       dragstart_from(ao2.uri)
@@ -700,7 +698,6 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
         it 'happens after the snapback animation from an invalid drop on a selection-locked node' do
           expand_tree_node(ao2.uri)
-          wait_for_ajax
 
           dragstart_from(ao2.uri)
           expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)

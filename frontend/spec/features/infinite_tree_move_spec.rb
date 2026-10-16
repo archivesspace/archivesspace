@@ -48,7 +48,7 @@ describe 'Infinite Tree Move', js: true do
 
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
     end
 
     context 'when reorder mode is off' do
@@ -126,7 +126,7 @@ describe 'Infinite Tree Move', js: true do
       describe 'Up a level' do
         before do
           visit "#{edit_path}#{nested_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
         end
 
         it 'moves a nested node up a level' do

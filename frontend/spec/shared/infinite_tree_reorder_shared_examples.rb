@@ -51,7 +51,7 @@ RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
     nested_child_record
     nested_under_sibling2
     visit "#{edit_path}#{root_hash}"
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
   end
 end
 
@@ -95,7 +95,7 @@ RSpec.shared_examples 'moving records in reorder mode' do
 
     it 'moves a nested child up a level' do
       visit "#{edit_path}#{nested_child_record_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       enable_reorder_mode
 
       before_order = root_child_uris
@@ -222,7 +222,7 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
   it 'pastes cut rows as children of the root using the root accept_children path' do
     install_accept_children_capture
     visit "#{edit_path}#{child_record_hash}"
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
 
     enable_reorder_mode
     click_infinite_tree_toolbar_cut
@@ -246,7 +246,6 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
     install_accept_children_capture
     enable_reorder_mode
     expand_tree_node(sibling2.uri)
-    wait_for_ajax
 
     page.execute_script(<<~JS)
       (function() {

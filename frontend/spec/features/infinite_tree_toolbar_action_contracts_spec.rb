@@ -72,7 +72,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
   before do
     visit "#{edit_path}#{root_hash}"
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     install_toolbar_event_capture
   end
 
@@ -101,7 +101,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
         .js-itree-toolbar-add-sibling
         .js-itree-toolbar-add-duplicate
         .js-itree-toolbar-load-bulk
-      ].each { |selector| find(selector).click }
+      ].each { |selector| find("#{selector}:not(.disabled)").click }
 
       # Bulk modal opens synchronously; click RDE before dirty-state re-gating disables it.
       page.execute_script("document.querySelector('.js-itree-toolbar-rde').click()")
@@ -247,7 +247,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     context 'Resources' do
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
       end
 
       it_behaves_like 'bulk load is available'
@@ -261,7 +261,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
       end
 
       it_behaves_like 'bulk load is unavailable'
@@ -275,7 +275,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
       end
 
       it_behaves_like 'bulk load is unavailable'
