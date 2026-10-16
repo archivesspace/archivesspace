@@ -58,12 +58,20 @@ function readlink_dash_f {
 cd "`dirname $0`"
 
 # Check for Java
-java -version &>/dev/null
+java_version_output="`java -version 2>&1`"
 
 if [ "$?" != "0" ]; then
     echo "Could not run your 'java' executable."
-    echo "Please ensure that Java 1.7 or 1.8 is installed and on your PATH"
+    echo "Please ensure that Java 21 or later is installed and on your PATH"
     exit
+fi
+
+JAVA_MAJOR="`echo "$java_version_output" | sed -n 's/.* version "\([0-9]*\).*/\1/p' | head -1`"
+
+if [ "${JAVA_MAJOR:-0}" -lt 21 ]; then
+    echo "ArchivesSpace requires Java 21 or later, but your 'java' executable is:"
+    echo "$java_version_output"
+    exit 1
 fi
 
 if [ ! -e "scripts/find-base.sh" ]; then
@@ -96,11 +104,14 @@ if [ "$ARCHIVESSPACE_APPEND_LOGS" = "" ]; then
     ARCHIVESSPACE_APPEND_LOGS=
 fi
 
-# swallow_client_abort is disabled to avoid an infinite loop in jruby-rack's
-# client abort detection that pins a CPU core for the life of the process.
-# See https://github.com/jruby/jruby-rack/issues/449 - fixed upstream but not
-# yet in a release we can use.  Listed before $JAVA_OPTS so sites can override.
-export JAVA_OPTS="-Darchivesspace-daemon=yes -Djruby.rack.response.swallow_client_abort=false $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
+# JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; silence the JDK 24+ warnings about it.
+# --sun-misc-unsafe-memory-access only exists from Java 23, so only pass it when the JVM knows it.
+ASPACE_JAVA_MODULE_OPTS="--enable-native-access=ALL-UNNAMED"
+if [ "$JAVA_MAJOR" -ge 23 ]; then
+    ASPACE_JAVA_MODULE_OPTS="$ASPACE_JAVA_MODULE_OPTS --sun-misc-unsafe-memory-access=allow"
+fi
+
+export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
 # Wow.  Not proud of this!
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
@@ -125,7 +136,7 @@ done
 
 
 startup_cmd="java "$JAVA_OPTS"  \
-        $ASPACE_GC_OPTS $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS -Dfile.encoding=UTF-8 \
+        $ASPACE_GC_OPTS $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MODULE_OPTS -Dfile.encoding=UTF-8 \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
         org.jruby.Main --disable-gems \"launcher/launcher.rb\""
 

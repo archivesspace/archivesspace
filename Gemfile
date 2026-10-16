@@ -17,7 +17,7 @@ end
 gem 'thor', group: [:docs, :thor, :release_notes]
 gem 'yard', group: :docs
 gem 'erb',  group: :docs
-gem 'cgi', '0.3.1', group: :docs
+gem 'cgi', '~> 0.3.7', group: :docs
 gem 'csv', group: :docs
 
 backend_gemfile = File.expand_path('./backend/Gemfile', File.dirname(__FILE__))
