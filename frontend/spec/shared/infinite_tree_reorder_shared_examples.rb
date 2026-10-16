@@ -4,7 +4,7 @@
 # Deep tree-engine edge cases (multiselection ancestry, drag previews, etc.) stay
 # in the feature specs under Resources as representative coverage.
 RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
-  include_context 'infinite tree integration hierarchy setup', config.merge(run_indexer: true)
+  include_context 'infinite tree integration hierarchy setup', config
 
   let(:sibling2) do
     create(
@@ -50,7 +50,6 @@ RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
     sibling3
     nested_child_record
     nested_under_sibling2
-    run_indexer
     visit "#{edit_path}#{root_hash}"
     wait_for_ajax
   end

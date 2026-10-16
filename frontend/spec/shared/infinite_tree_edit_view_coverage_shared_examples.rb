@@ -28,7 +28,6 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
     select_repository(repo)
     child_record
     child_record2
-    run_indexer
     visit edit_path
     wait_for_ajax
   end
@@ -86,7 +85,6 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       end
 
       before do
-        run_indexer
         visit edit_path
         wait_for_ajax
       end

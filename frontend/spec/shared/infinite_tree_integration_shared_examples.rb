@@ -38,7 +38,6 @@ RSpec.shared_context 'infinite tree integration hierarchy setup' do |config|
     login_admin
     select_repository(repo)
     child_record
-    run_indexer if config.fetch(:run_indexer, false)
   end
 end
 
@@ -48,8 +47,7 @@ RSpec.shared_context 'infinite tree integration setup' do
                   child_type: 'archival_object',
                   root_factory: :resource,
                   child_factory: :archival_object,
-                  root_relationship_key: :resource,
-                  run_indexer: false
+                  root_relationship_key: :resource
 
   # Legacy aliases used by existing Resource-only specs.
   let(:resource) { root_record }
@@ -440,7 +438,6 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   describe 'discarding changes on the way to a node that is not loaded yet' do
     it 'dispatches a single tree navigation' do
       nested_child_record
-      run_indexer
       target_hash = nested_child_record_hash
 
       visit "#{edit_path}#{child_record_hash}"

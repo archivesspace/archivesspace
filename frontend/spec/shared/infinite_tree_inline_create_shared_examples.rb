@@ -32,7 +32,6 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
     login_admin
     select_repository(repo)
     child_record
-    run_indexer
   end
 
   describe 'Add Child' do
@@ -95,7 +94,6 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
     context 'from a child record' do
       before do
         nested_child_record
-        run_indexer
         visit "#{edit_path}#{nested_child_record_hash}"
         wait_for_ajax
         install_inline_create_fetch_capture
@@ -230,7 +228,6 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
     login_admin
     select_repository(repo)
     child_record
-    run_indexer
   end
 
   describe 'plain Save from Add Child' do
