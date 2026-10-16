@@ -18,6 +18,8 @@ nl:
       verplicht is, en mislukt de import als die barcode al in gebruik is in de 
       repository.
   actions:
+    collapse_node: "%{title} samenvouwen"
+    expand_node: "%{title} uitvouwen"
     add: Toevoegen
     add_event: Voeg gebeurtenis toe
     add_event_event_type: Type

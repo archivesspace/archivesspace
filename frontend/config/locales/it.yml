@@ -31,6 +31,8 @@ it:
       notare che questo modello serve a creare i record Soggetto stessi, non a 
       collegarli ad altri record.
   actions:
+    collapse_node: "Comprimi %{title}"
+    expand_node: "Espandi %{title}"
     add_event_event_type: Tipo
     add: Aggiungi
     batch: Serie

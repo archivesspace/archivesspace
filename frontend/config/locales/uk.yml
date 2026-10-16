@@ -1,5 +1,7 @@
 uk:
   actions:
+    collapse_node: "Згорнути %{title}"
+    expand_node: "Розгорнути %{title}"
     close: Закрити
     add: Додати
     add_event: Додати подію
