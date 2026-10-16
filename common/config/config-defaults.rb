@@ -368,8 +368,8 @@ AppConfig[:demo_data_url] = ""
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
 
-# Whether to display archival record identifiers in the frontend largetree container
-AppConfig[:display_identifiers_in_largetree_container] = false
+# Whether to display archival record identifiers in the frontend tree container
+AppConfig[:display_identifiers_in_tree_container] = false
 
 # Allow mixed content in the title fields of resources, archival objects,
 # digital objects, digital object components, and accessions
