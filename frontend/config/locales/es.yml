@@ -2,6 +2,8 @@
 # Google translate
 es:
   actions:
+    collapse_node: "Contraer %{title}"
+    expand_node: "Expandir %{title}"
     lightmode_toggle: Modo de luz
     export_marc_auth: Descarga MARCXML Authority
     add: Añadir

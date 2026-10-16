@@ -1,5 +1,7 @@
 en:
   actions:
+    collapse_node: "Collapse %{title}"
+    expand_node: "Expand %{title}"
     add: Add
     add_event: Add Event
     add_event_event_type: Type

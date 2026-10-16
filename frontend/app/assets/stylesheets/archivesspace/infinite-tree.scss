@@ -66,6 +66,7 @@
   --tree-multiselect-hover-bg: var(--blue-200);
   --tree-link-hover: var(--blue-800);
   --tree-expand-hover: var(--blue-950);
+  --tree-focus-ring: var(--blue-700);
   --tree-reorder-row-hover-bg: var(--blue-100);
   --tree-multiselect-bg: var(--blue-150);
   --tree-multiselect-border: var(--blue-700);
@@ -680,10 +681,24 @@
     color: var(--tree-expand-hover);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--tree-focus-ring);
+    outline-offset: -2px;
+  }
+
   &.disabled {
     color: var(--tree-expand-btn-color-disabled);
     cursor: default !important;
   }
+}
+
+.node[aria-expanded='true']
+  > .node-row
+  .node-expand-label[data-when='collapsed'],
+.node[aria-expanded='false']
+  > .node-row
+  .node-expand-label[data-when='expanded'] {
+  display: none;
 }
 
 .node-expand-icon {
@@ -712,6 +727,11 @@
     &:hover {
       text-decoration: underline;
       color: var(--tree-link-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--tree-focus-ring);
+      outline-offset: -2px;
     }
   }
 }
