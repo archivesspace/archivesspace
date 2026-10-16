@@ -45,6 +45,13 @@ describe 'Top Containers and Instances', js: true do
     select_repository(@repo)
   end
 
+  it 'provides screen reader context for the container contents heading' do
+    visit @container.uri.sub(%r{/repositories/\d+}, '')
+
+    expect(page).to have_css('#container_contents h3', text: 'Linked Records')
+    expect(page).to have_css('#container_contents h3 .sr-only', text: 'related to this top container', visible: :all)
+  end
+
   it 'abides by search and browse column preferences' do
     visit '/'
     click_button id: 'user-menu-dropdown'
