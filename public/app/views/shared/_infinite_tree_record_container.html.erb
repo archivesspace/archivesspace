@@ -1,0 +1,28 @@
+<%#
+  Mount point for a record-linked InfiniteTree (show-page sidebars and
+  classification search subgroups). Boot it with
+  `InfiniteTree.fromRecordContainer(element)`; configuration is read from the
+  data attributes below.
+
+  Locals:
+    root_uri    - URI of the tree root (resource, digital object, classification)
+    current_uri - (optional) URI of the page's record; its ancestors and itself
+                  are expanded and it is marked current
+    id          - (optional) HTML id for the container
+    css_class   - (optional) extra classes for the container
+    style       - (optional) inline style for the container
+%>
+<% current_uri = local_assigns[:current_uri] %>
+<div
+  <% if local_assigns[:id] %>id="<%= id %>"<% end %>
+  class="infinite-tree-container<%= local_assigns[:css_class] ? " #{css_class}" : '' %>"
+  <% if local_assigns[:style] %>style="<%= style %>"<% end %>
+  data-root-uri="<%= root_uri %>"
+  <% if current_uri %>data-current-uri="<%= current_uri %>"<% end %>
+  data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
+  data-identifier-separator="<%= I18n.t('resource.identifier_separator') %>"
+  data-classification-identifier-separator="<%= I18n.t('classification.identifier_separator') %>"
+  data-date-type-bulk="<%= I18n.t('date_type_bulk.bulk') %>"
+  data-expand-label="<%= I18n.t('actions.expand_node') %>"
+  data-collapse-label="<%= I18n.t('actions.collapse_node') %>"
+></div>

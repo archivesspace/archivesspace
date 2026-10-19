@@ -6,6 +6,8 @@ it:
     welcome_head: Benvenuto in ArchivesSpace
     welcome_message: "<p>Cerca tra le nostre collezioni, materiali digitali e molto altro.</p>\n"
   actions:
+    collapse_node: "Comprimi %{title}"
+    expand_node: "Espandi %{title}"
     close: Chiudi
     search: Cerca
     search_header: Cerca negli archivi

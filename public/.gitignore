@@ -24,6 +24,8 @@
 # IDE config folders
 /.idea
 
-# Hide shared tree resources
+# Legacy: LargeTree files the build used to copy into the public app (no longer
+# copied as of ANW-3012). Kept so stale copies in existing checkouts stay
+# untracked; safe to remove in a later release.
 /vendor/assets/stylesheets/archivesspace/largetree.scss
 /vendor/assets/javascripts/largetree.js.erb

@@ -5,7 +5,7 @@
   --tree-unit-width: calc(var(--tree-indent-width) + var(--tree-line-width));
 }
 
-#infinite-tree-container {
+.infinite-tree-container {
   height: 600px;
   border: 1px solid $lightshade;
   background-color: $lightshade;
@@ -124,7 +124,10 @@
 }
 
 .node-expand {
-  height: 2rem;
+  /* Fill .node-indentation rather than a fixed 2rem: a root's last child has a
+     1px bottom border, which shortens its row, and a fixed-height button then
+     overflows by half a pixel above the row onto the current-node outline */
+  height: 100%;
   width: var(--tree-indent-width);
   border: none;
   padding: 0;
@@ -140,6 +143,22 @@
   &:hover {
     color: $darkest;
   }
+
+  &:focus-visible {
+    outline: 2px solid $midblue;
+    outline-offset: -2px;
+  }
+}
+
+/* The expand button carries "Expand {title}" and "Collapse {title}" labels;
+   show only the one for the action the button will take */
+.node[data-is-expanded='true']
+  > .node-row
+  .node-expand-label[data-when='collapsed'],
+.node[data-is-expanded='false']
+  > .node-row
+  .node-expand-label[data-when='expanded'] {
+  display: none;
 }
 
 .node-expand-icon {
@@ -176,4 +195,15 @@
     text-decoration: underline;
     color: $darkblue;
   }
+
+  &:focus-visible {
+    outline: 2px solid $midblue;
+    outline-offset: -2px;
+  }
+}
+
+/* Compact trees inside search results (classification subgroups) */
+.infinite-tree-container.infinite-tree-compact {
+  height: auto;
+  max-height: 200px;
 }
