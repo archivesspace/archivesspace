@@ -4,16 +4,13 @@
 //= require InfiniteTreeIds
 
 (function (exports) {
-  /** @see legacy largetree considerExpandingRow; InfiniteTree equivalent is #considerAutoExpandingNext */
   const ITREE_SCROLL_DELAY_MS = 100;
   const ITREE_THRESHOLD_EMS = 300;
 
   class InfiniteTree {
     static EVENT_TYPE_CURRENT_NODE_CHANGED = 'infiniteTree:currentNodeChanged';
     static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
-    /** Record pane: resync tree .current after inline create Cancel (pane already shows the parent record). */
     static EVENT_TYPE_SYNC_CURRENT_NODE = 'infiniteTree:syncCurrentNode';
-    /** Fired after container.replaceChildren() rebuilds the tree DOM. */
     static EVENT_TYPE_TREE_CONTENT_REPLACED =
       'infiniteTree:treeContentReplaced';
 
