@@ -750,9 +750,8 @@ ul.no-bullets {
   .classification-subgroups {
     margin-top: 5px;
 
-    .classification-subgroups-tree.largetree-container {
-      max-height: 200px;
-      overflow: auto;
+    .classification-subgroups-tree {
+      margin-top: 5px;
     }
   }
 }
@@ -993,7 +992,7 @@ span.head {
 }
 
 .has_digital_instance {
-  margin-right: 0.5rem;
+  margin-right: 0.5rem !important;
 }
 
 @media (min-width: 992px) {

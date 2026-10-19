@@ -1,7 +1,12 @@
 (function (exports) {
+  /**
+   * Shares the current record between InfiniteRecords and InfiniteTree on the
+   * collection organization page
+   */
   class InfiniteCoordinator {
     constructor() {
       this.currentRecordUri = null;
+      this.tree = null;
     }
 
     /**
@@ -15,20 +20,20 @@
       return this.currentRecordUri;
     }
 
+    /**
+     * Called by InfiniteTree so current-node updates are scoped to that tree
+     * @param {InfiniteTree} tree - The tree instance
+     */
+    registerTree(tree) {
+      this.tree = tree;
+    }
+
+    /**
+     * Marks the tree node for the current record as current
+     */
     updateCurrentTreeNode() {
-      const _new = document.querySelector(
-        `#infinite-tree-container .node[data-uri="${this.currentRecordUri}"]`
-      );
-      const old = document.querySelector(
-        '#infinite-tree-container .node.current'
-      );
-
-      if (old) {
-        old.classList.remove('current');
-      }
-
-      if (_new) {
-        _new.classList.add('current');
+      if (this.tree) {
+        this.tree.markCurrent(this.currentRecordUri);
       }
     }
   }

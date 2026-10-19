@@ -1,27 +1,19 @@
-<%= javascript_include_tag 'largetree' %>
-<%= javascript_include_tag 'tree_renderer' %>
+<%#
+  Record show-page hierarchy sidebar (resources, archival objects, digital
+  objects, digital object components, classifications, classification terms).
 
+  Locals: heading_text, root_node_uri, current_node_uri
+%>
 <h2><%= heading_text %></h2>
-<div class="infinite-tree-view largetree-container" id="tree-container" style="height: 600px"></div>
+<%= render partial: 'shared/infinite_tree_record_container', locals: {
+  id: 'record-tree-container',
+  root_uri: root_node_uri,
+  current_uri: current_node_uri
+} %>
+<%= infinite_tree_templates %>
 
 <script>
-
-    var root_uri = '<%= app_prefix(root_node_uri) %>';
-    var should_link_to_record = true;
-
-    var tree = new LargeTree(new TreeDataSource(root_uri + '/tree'),
-        $('#tree-container'),
-        root_uri,
-        true,
-        new SimpleRenderer(should_link_to_record),
-        function() {
-            var tree_id = TreeIds.uri_to_tree_id('<%= current_node_uri %>');
-            tree.setCurrentNode(tree_id, function() {
-                // scroll to selected node
-                tree.elt.scrollTo('#'+tree_id, 0, {offset: -50});
-            });
-        },
-        function(current_node, tree) {
-          tree.expandNode(current_node);
-        });
+  InfiniteTree.fromRecordContainer(
+    document.querySelector('#record-tree-container')
+  );
 </script>

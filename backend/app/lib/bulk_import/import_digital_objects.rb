@@ -158,49 +158,11 @@ class ImportDigitalObjects < BulkImportParser
       .group_by { |key| key[/\Afile_version_(\d+)_/, 1] }
 
     groups.keys.sort_by(&:to_i).filter_map do |index|
-      keys = groups[index]
-      next if keys.all? { |key| @row_hash[key].nil? }
-
-      fv = {}
-      keys.each do |key|
-        field = key.sub(/\Afile_version_\d+_/, "")
-        fv[field.to_sym] = @row_hash[key]
-      end
-
-      representative_column = "file_version_#{index}_is_representative"
-      publish_column = "file_version_#{index}_publish"
-      fv[:is_representative] = digital_object_boolean(representative_column) if keys.include?(representative_column)
-      fv[:publish] = digital_object_boolean(publish_column) if keys.include?(publish_column)
-
-      fv[:publish] = true if fv[:is_representative]
-      size_column = "file_version_#{index}_file_size_bytes"
-      fv[:file_size_bytes] = file_version_file_size_bytes(size_column, fv[:file_size_bytes])
-      fv
+      build_file_version(groups[index].to_h { |key| [key.sub(/\Afile_version_\d+_/, ""), key] })
     end
   end
 
   private
-
-  def digital_object_boolean(column)
-    ASpaceImport::Utils.normalize_boolean.call(@row_hash[column])
-  rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
-    raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value))
-  end
-
-  def file_version_file_size_bytes(column, value)
-    return nil if value.nil?
-
-    integer = exact_whole_number(value)
-    return integer unless integer.nil?
-
-    raise BulkImportException.new(
-      I18n.t(
-        "bulk_import.error.invalid_file_version_size",
-        :column => column,
-        :value => value
-      )
-    )
-  end
 
   def valid_column_codes
     @valid_column_codes ||= CSV.read(
@@ -434,22 +396,6 @@ class ImportDigitalObjects < BulkImportParser
     raise BulkImportException.new(I18n.t("bulk_import.error.invalid_user_defined_integer", :value => value))
   end
 
-  def exact_whole_number(value)
-    # JRuby Integer() truncates Floats, so 42.5 becomes 42. Those values use
-    # the decimal exactness check below instead of that shortcut.
-    unless value.is_a?(Float)
-      integer = Integer(value, exception: false)
-      return integer unless integer.nil?
-    end
-
-    decimal = decimal_from(value)
-    return nil unless decimal&.finite? && decimal.frac.zero?
-
-    decimal.to_i
-  rescue FloatDomainError
-    nil
-  end
-
   def normalize_user_defined_real(value)
     float = Float(value, exception: false)
     decimal = decimal_from(value)
@@ -463,12 +409,6 @@ class ImportDigitalObjects < BulkImportParser
     return integer if fraction.nil?
 
     "#{integer}.#{fraction.sub(/0+\z/, "")}".sub(/\.\z/, "")
-  end
-
-  def decimal_from(value)
-    BigDecimal(value.to_s)
-  rescue ArgumentError
-    nil
   end
 
   def process_extents

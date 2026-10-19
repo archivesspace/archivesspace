@@ -17,6 +17,7 @@ require 'aspace_logger'
 require 'ostruct'
 
 require 'iiif'
+require 'file_uri'
 
 
 if defined?(Bundler)

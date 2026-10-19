@@ -1,5 +1,7 @@
 ml:
   actions:
+    collapse_node: "%{title} ചുരുക്കുക"
+    expand_node: "%{title} വികസിപ്പിക്കുക"
     request: അപേക്ഷിക്കുക
   brand:
     title: ആർക്കൈവ് സ്പേസ് പൊതു ഇൻറർഫെയ്സ്

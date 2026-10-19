@@ -220,23 +220,23 @@ describe 'Mixed Content in title fields', js: true do
       end
     end
 
-    context 'in the largetree' do
+    context 'in the record show page tree' do
       it 'for resources and archival objects' do
         visit @resource.uri
-        expect(page).to have_css "#tree-container .record-title > span#{@frontend_title_selector}", text: "Resource #{@now}"
-        expect(page).to have_css "#tree-container .record-title > span#{@frontend_emph_selector}", text: "Archival Object #{@now}"
+        expect(page).to have_css "#record-tree-container .node-title > span#{@frontend_title_selector}", text: "Resource #{@now}"
+        expect(page).to have_css "#record-tree-container .node-title > span#{@frontend_emph_selector}", text: "Archival Object #{@now}"
       end
 
       it 'for digital objects and digital object components' do
         visit @do.uri
-        expect(page).to have_css "#tree-container .record-title > span#{@frontend_title_selector}", text: "Digital Object #{@now}"
-        expect(page).to have_css "#tree-container .record-title > span#{@frontend_emph_italic_selector}", text: "Digital Object Component #{@now}"
+        expect(page).to have_css "#record-tree-container .node-title > span#{@frontend_title_selector}", text: "Digital Object #{@now}"
+        expect(page).to have_css "#record-tree-container .node-title > span#{@frontend_emph_italic_selector}", text: "Digital Object Component #{@now}"
       end
 
       it 'for classifications and classification terms' do
         visit @classification.uri
-        expect(page).to have_css "#tree-container .record-title > span#{@frontend_emph_selector}", text: "Classification #{@now}"
-        expect(page).to have_css "#tree-container .record-title > span#{@frontend_title_selector}", text: "Classification Term #{@now}"
+        expect(page).to have_css "#record-tree-container .node-title > span#{@frontend_emph_selector}", text: "Classification #{@now}"
+        expect(page).to have_css "#record-tree-container .node-title > span#{@frontend_title_selector}", text: "Classification Term #{@now}"
       end
     end
 
