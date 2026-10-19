@@ -447,6 +447,78 @@ module InfiniteTreeInteractionHelpers
     expect(page).to have_no_css('#infinite-tree-record-pane.blocked', wait: 10)
   end
 
+  # Holds back the responses of fetches whose URL contains one of
+  # `url_fragments` (e.g. a record pane load such as "/resources/1/edit?inline=true")
+  # until release_held_fetch is called, so a spec can choose the order in which
+  # overlapping requests finish.  Each matching fetch is held separately.
+  def hold_fetches(*url_fragments)
+    page.execute_script(<<~JS, url_fragments)
+      var fragments = arguments[0];
+      var originalFetch = window.fetch.bind(window);
+
+      window.__itreeHeldFetches = [];
+
+      window.fetch = function(input, init) {
+        var url = typeof input === 'string' ? input : input.url;
+        var request = originalFetch(input, init);
+        var fragment = fragments.find(function(f) { return url.indexOf(f) !== -1; });
+
+        if (!fragment) return request;
+
+        var held = { fragment: fragment, released: false, delivered: false };
+        window.__itreeHeldFetches.push(held);
+
+        return new Promise(function(resolve, reject) {
+          held.release = function() {
+            held.released = true;
+            request.then(function(response) {
+              // Mark delivered once the caller has read the body and run the
+              // code that follows it in the same task (rendering the pane).
+              var text = response.text.bind(response);
+              response.text = function() {
+                return text().then(function(body) {
+                  setTimeout(function() { held.delivered = true; }, 0);
+                  return body;
+                });
+              };
+              resolve(response);
+            }, reject);
+          };
+        });
+      };
+    JS
+  end
+
+  # Waits until a fetch matching `url_fragment` has been issued and is being held.
+  def wait_for_held_fetch(url_fragment)
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.05 until page.evaluate_script(<<~JS)
+        (window.__itreeHeldFetches || []).some(function(h) {
+          return h.fragment === #{url_fragment.to_json} && !h.released;
+        })
+      JS
+    end
+  end
+
+  # Releases the oldest held fetch matching `url_fragment` and waits until its
+  # caller has handled the response.
+  def release_held_fetch(url_fragment)
+    wait_for_held_fetch(url_fragment)
+
+    page.execute_script(<<~JS, url_fragment)
+      var fragment = arguments[0];
+      var held = window.__itreeHeldFetches.find(function(h) {
+        return h.fragment === fragment && !h.released;
+      });
+      window.__itreeReleasedFetch = held;
+      held.release();
+    JS
+
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.05 until page.evaluate_script('window.__itreeReleasedFetch.delivered')
+    end
+  end
+
   # Wait for an inline edit form to finish loading in the record pane.
   # form_prefix is the record type form id prefix (e.g. 'resource', 'archival_object').
   def wait_for_infinite_tree_inline_edit_form(form_prefix:)
