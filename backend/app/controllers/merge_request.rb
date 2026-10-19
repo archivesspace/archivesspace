@@ -181,21 +181,25 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -H 'Content-Type: application/json' \\
             -H "X-ArchivesSpace-Session: $SESSION" \\
-            -d '{"dry_run":true, \\
-                 "merge_request_detail":{ \\
-                   "jsonmodel_type":"merge_request_detail", \\
-                   "merge_candidates":[{"ref":"/agents/people/3"}], \\
-                   "merge_destination":{"ref":"/agents/people/4"}, \\
-                   "selections":{
-                     "names":[{"primary_name":"REPLACE", "position":"0"}], \\
-                     "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
-                     "agent_conventions_declarations":[
-                       {"append":"REPLACE", "position":"1"}, \\
-                       {"append":"REPLACE", "position":"0"} \\
-                      ],
-                   } \\
+            -d '{"jsonmodel_type": "merge_request_detail", \\
+                  "merge_destination": { \\
+                    "ref": "/agents/people/16" \\
+                  }, \\
+                  "merge_candidates": [ \\
+                    { \\
+                      "ref": "/agents/people/36" \\
+                    } \\
+                  ], \\
+                  "selections": { \\
+                    "names.0.source": "REPLACE", \\
+                    "names": { \\
+                      "1": { \\
+                        "append": "REPLACE", \\
+                        "position": "0" \\
+                      } \\
+                    } \\
+                  } \\
                 } \\
-              } \\
             "http://localhost:8089/merge_requests/agent_detail"
       SHELL
     end

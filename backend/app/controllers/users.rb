@@ -120,6 +120,51 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/users/:id/groups')
     .description("Update a user's groups")
+    .example("shell") do
+      <<~SHELL
+        curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+        # Replace "admin" with your password and "http://localhost:8089" with your ASpace API URL followed by
+        # "/users/{your_username}/login"
+
+        set SESSION="session_id"
+        # If using a unix-like shell, replace set with export
+
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+        "http://localhost:8089/repositories/users/:user_id:/groups?repo_id=:repo_id:&remove_groups=false" \\
+        -data-urlencode 'groups[]=/repositories/:repo_id:/groups/:user_group_id:'
+        -data-urlencode 'groups[]=/repositories/:repo_id:/groups/:user_group_id:'
+        # Replace http://localhost:8089 with your ArchivesSpace API URL, :user_id: with the ArchivesSpace generated ID
+        # for the user you want to update, :repo_id: with the repository ID number, consider changing
+        # remove_groups=false to true if you want to remove a user from all groups in a repository, and :user_group_id:
+        # with the group ID number you want to add to a user.
+
+        # Output:
+        # {"status":"OK"}
+      SHELL
+    end
+    .example("python") do
+      <<~PYTHON
+        from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+        client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+        # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+        client.authorize()  # authorizes the client
+
+        update_groups = {"groups[]": ["/repositories/:repo_id:/groups/:user_group_id:",
+                                      "/repositories/:repo_id:/groups/:user_group_id:"]}
+
+        user_group_update = client.post("users/:user_id:/groups?repo_id=:repo_id:&remove_groups=false",
+                                        data=update_groups)
+        # Post the data from the user who's group(s) you are trying to update. Replace :user_id: with the ArchivesSpace
+        # generated ID for the user you want to update, :repo_id: with the repository ID number, and
+        # :user_group_id: with the group ID number you want to update
+
+        print(user_group_update.json())
+        # Output:
+        # {"status": "OK"}
+      PYTHON
+    end
     .params(["id", :id],
             ["groups", [String], "Array of groups URIs to assign the user to", :optional => true],
             ["remove_groups", BooleanParam, "Remove all groups from the user for the current repo_id if true"],
