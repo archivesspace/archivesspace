@@ -1025,6 +1025,7 @@ pl:
 
   errors:
     sidebar_label: Błędy i ostrzeżenia
+    submission_failed: Wysyłanie nie powiodło się. Popraw błędy wymienione poniżej.
     error_403: Nie można uzyskać dostępu do strony.
     error_403_message: Strona, do której próbujesz uzyskać dostęp, mogła zostać 
       usunięta lub nie masz uprawnień do jej przeglądania.

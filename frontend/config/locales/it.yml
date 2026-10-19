@@ -727,6 +727,7 @@ it:
     merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
       questa unione.
     sidebar_label: Errori e avvisi
+    submission_failed: Invio non riuscito. Correggere gli errori di seguito indicati.
     error_403: Impossibile accedere alla pagina
     error_403_message: La pagina a cui hai tentato di accedere potrebbe non 
       esistere più oppure potresti non avere l'autorizzazione per visualizzarla.

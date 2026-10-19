@@ -971,6 +971,41 @@ $(function () {
   });
 });
 
+/**
+ * Shows a hidden alert and moves focus to it for screen reader announcement.
+ *
+ * @param {JQuery|HTMLElement} alertEl
+ */
+AS.showAndFocusAlert = function (alertEl) {
+  const $alert = alertEl.jquery ? alertEl : $(alertEl);
+
+  if ($alert.length === 0) {
+    return;
+  }
+
+  $alert.show();
+  const node = $alert[0];
+
+  if (node && typeof node.focus === 'function') {
+    node.focus();
+  }
+};
+
+/**
+ * Hides an alert used for dynamic validation feedback.
+ *
+ * @param {JQuery|HTMLElement} alertEl
+ */
+AS.hideAlert = function (alertEl) {
+  const $alert = alertEl.jquery ? alertEl : $(alertEl);
+
+  if ($alert.length === 0) {
+    return;
+  }
+
+  $alert.hide();
+};
+
 // Add close action to all alerts
 $(function () {
   var handleCloseAlert = function (event) {

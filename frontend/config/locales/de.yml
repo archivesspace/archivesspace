@@ -955,6 +955,7 @@ de:
 
   errors:
     sidebar_label: Fehler und Warnungen
+    submission_failed: Übermittlung fehlgeschlagen. Bitte korrigieren Sie die folgenden Fehler.
     error_403: Kann Seite nicht aufrufen
     error_404_message: Die aufgerufene Aufzeichnung könnte nicht mehr existieren
       oder Sie haben keine Rechte sie anzuzeigen.
