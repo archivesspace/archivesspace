@@ -202,7 +202,7 @@ class ArchivesSpaceService < Sinatra::Base
       # Output
       # {"status": "Merged", "id": 197537, "selections": {"names.0.source.": "REPLACE", ...}}
     SHELL
-    end
+  end
   .params(["dry_run", BooleanParam, "If true, don't process the merge, just display the merged record", :optional => true],
           ["merge_request_detail",
              JSONModel(:merge_request_detail), "A detailed merge request",
