@@ -130,13 +130,12 @@ class ArchivesSpaceService < Sinatra::Base
         # If using a unix-like shell, replace set with export
 
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
-        "http://localhost:8089/repositories/users/:user_id:/groups?repo_id=:repo_id:&remove_groups=false" \\
-        -data-urlencode 'groups[]=/repositories/:repo_id:/groups/:user_group_id:'
-        -data-urlencode 'groups[]=/repositories/:repo_id:/groups/:user_group_id:'
+        "http://localhost:8089/users/:user_id:/groups?repo_id=:repo_id:&remove_groups=false" \\
+        --data-urlencode 'groups[]=/repositories/:repo_id:/groups/:user_group_id:' \\
+        --data-urlencode 'groups[]=/repositories/:repo_id:/groups/:user_group_id:'
         # Replace http://localhost:8089 with your ArchivesSpace API URL, :user_id: with the ArchivesSpace generated ID
-        # for the user you want to update, :repo_id: with the repository ID number, consider changing
-        # remove_groups=false to true if you want to remove a user from all groups in a repository, and :user_group_id:
-        # with the group ID number you want to add to a user.
+        # for the user you want to update, and :repo_id: with the repository ID number. remove_groups sets the user's
+        # groups for this repository (existing groups in the repo are replaced).
 
         # Output:
         # {"status":"OK"}
@@ -158,7 +157,8 @@ class ArchivesSpaceService < Sinatra::Base
                                         data=update_groups)
         # Post the data from the user who's group(s) you are trying to update. Replace :user_id: with the ArchivesSpace
         # generated ID for the user you want to update, :repo_id: with the repository ID number, and
-        # :user_group_id: with the group ID number you want to update
+        # :user_group_id: with the group ID number you want to update. remove_groups sets the user's groups for this
+        # repository (existing groups in the repo are replaced).
 
         print(user_group_update.json())
         # Output:
