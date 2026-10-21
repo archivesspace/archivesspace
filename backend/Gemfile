@@ -23,6 +23,8 @@ gem 'sinatra-contrib', '~> 3.2', require: false
 gem 'tzinfo'
 
 gem 'warbler', group: :build
+# the WARs' boot.rb and BUNDLE_FROZEN handling (see */config/warble.rb) rely on how jruby-rack 1.2.8 boots
+gem 'jruby-rack', '= 1.2.8', group: :build
 
 gem 'activesupport', '~> 6.1.6'
 gem 'i18n', '~> 1.0'

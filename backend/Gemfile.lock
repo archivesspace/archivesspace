@@ -256,6 +256,7 @@ DEPENDENCIES
   i18n (~> 1.0)
   jdbc-mysql (>= 8.0)
   jruby-jars (= 9.4.15.0)
+  jruby-rack (= 1.2.8)
   json
   json-schema (~> 1.0.10)
   mizuno-aspace
