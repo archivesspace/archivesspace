@@ -162,6 +162,9 @@ sure they understand what the code changes are supposed to do. Next, they review
 the code changes to see the proposed solution. Then they checkout the branch to
 test the solution in a running instance of ArchivesSpace.
 
+The [Code Review Guidelines](CODE_REVIEW_GUIDELINES.md) list what reviewers look
+at while doing this.
+
 During the review, the reviewer may have comments or ask questions in the
 Pull Request. Once the comment/questions have been answered/resolved, a Pull
 Request can only be accepted and merged into the core code base by a core
