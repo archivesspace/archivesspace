@@ -207,7 +207,6 @@ es:
     check_all: Comprobar todo
     uncheck_all: Desmarcar todos
     download: Descargar
-    drop_before: Soltar antes
   states:
     auto_generated: Generado automáticamente
 
@@ -774,8 +773,6 @@ es:
       before: Añadir artículos antes
       after: Añadir artículos después
       as_child: Añadir artículos como niños
-    unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este 
-      árbol. Por favor, intente actualizar la página.
     resize: Arrastrar para cambiar la altura del árbol
     maximize: Maximizar/minimizar la altura del árbol
     drag_to_reorder: Arrastrar para reordenar

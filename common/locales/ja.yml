@@ -1720,11 +1720,6 @@ ja:
   resource_component:
     _singular: リソースコンポーネント
 
-  largetree:
-    reparent_error:
-      title: 移動を実行できません
-      message: 親は自分の子供になれないので、移転は認められていない。
-
   rights_statement_act: &rights_statement_act_attributes
     _singular: 行為
     _plural: 行為

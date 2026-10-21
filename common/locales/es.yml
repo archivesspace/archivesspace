@@ -2341,10 +2341,6 @@ es:
   resource_component:
     _singular: Componente de recurso
 
-  largetree:
-    reparent_error:
-      title: No se puede realizar el movimiento
-      message: El movimiento se ha rechazado porque un padre no puede convertirse en su propio hijo.
   rights_statement_act: &rights_statement_act_attributes
     _singular: Acto
     _plural: Hechos

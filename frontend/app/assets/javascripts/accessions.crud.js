@@ -1,4 +1,3 @@
-//= require tree
 //= require resources.crud
 //= require lang_materials.crud
 //= require dates.crud
