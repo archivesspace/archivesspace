@@ -11,7 +11,7 @@
   <property name="jruby_build_version" value="3.1.0" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
-  <!-- jruby-rack (and the rack it vendors) come from the jruby-rack gem locked in the Gemfiles -->
+  <!-- jruby-rack (and the rack it vendors) come from the jruby-rack gem pinned in backend/Gemfile -->
   <property name="bundler_version" value="2.6.9" />
   <property name="jetty_version" value="10.0.26" />
 
