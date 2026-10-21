@@ -57,4 +57,32 @@ describe 'MixedContentParser' do
     expect(converted).to include("two")
   end
 
+
+  it "does not modify the string it is given", :skip_db_open do
+    text = "  one<lb/>two\n\tthree  "
+    original = text.dup
+
+    MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
+
+    expect(text).to eq(original)
+  end
+
+
+  it "accepts frozen strings", :skip_db_open do
+    converted = MixedContentParser.parse(" one<lb/>two ".freeze, "http://example.com", {:wrap_blocks => false})
+
+    expect(converted).to eq("one<br />two")
+  end
+
+
+  it "keeps pretty_print per call", :skip_db_open do
+    text = "foo\n\nbar"
+
+    pretty = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true, :pretty_print => true})
+    compact = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
+
+    expect(compact).to eq("<p>foo</p><p>bar</p>")
+    expect(pretty).to include("\n")
+  end
+
 end
