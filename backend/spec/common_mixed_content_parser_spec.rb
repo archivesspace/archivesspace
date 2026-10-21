@@ -57,4 +57,57 @@ describe 'MixedContentParser' do
     expect(converted).to include("two")
   end
 
+
+  it "keeps self-closed elements empty instead of swallowing the following text", :skip_db_open do
+    {
+      "one <emph render=\"bold\"/> two" => "one <span class=\"emph render-bold\"></span> two",
+      "one <unitdate normal=\"1900\" /> two" => "one <span class=\"emph render-none\"></span> two",
+      "one <a href=\"http://example.com/x\"/> two" => "one <a href=\"http://example.com/x\"></a> two",
+      "one <span/> two" => "one <span></span> two",
+      "one <p/> two" => "one <p></p> two",
+      # the HTML parser reads everything after <title> as text until </title>
+      "one <title render=\"italic\"/> two <emph>three</emph>" =>
+        "one <span class=\"emph render-italic\"></span> two <span class=\"emph render-none\">three</span>"
+    }.each do |text, expected|
+      converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
+
+      expect(converted).to eq(expected), "for #{text.inspect}"
+    end
+  end
+
+
+  it "does not write non-void elements as self-closing", :skip_db_open do
+    converted = MixedContentParser.parse("one<p/><p>two</p>", "http://example.com", {:wrap_blocks => false})
+
+    expect(converted).to eq("one<p></p><p>two</p>")
+  end
+
+
+  it "does not modify the string it is given", :skip_db_open do
+    text = "  one<lb/>two\n\tthree  "
+    original = text.dup
+
+    MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
+
+    expect(text).to eq(original)
+  end
+
+
+  it "accepts frozen strings", :skip_db_open do
+    converted = MixedContentParser.parse(" one<lb/>two ".freeze, "http://example.com", {:wrap_blocks => false})
+
+    expect(converted).to eq("one<br />two")
+  end
+
+
+  it "keeps pretty_print per call", :skip_db_open do
+    text = "foo\n\nbar"
+
+    pretty = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true, :pretty_print => true})
+    compact = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
+
+    expect(compact).to eq("<p>foo</p><p>bar</p>")
+    expect(pretty).to include("\n")
+  end
+
 end
