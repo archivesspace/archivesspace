@@ -2,11 +2,12 @@
 
 DATA_TMP_DIR="${APPCONFIG_DATA_DIR:-"/archivesspace/data"}/tmp"
 
-# JRuby 9.4 uses sun.misc.Unsafe; allow it quietly on JDK 23+ (the option does not exist before that).
-# ASPACE_JAVA_VERSION is the image's JAVA_VERSION build arg, so no JVM has to be started to find it.
-if [ "${ASPACE_JAVA_VERSION:-0}" -ge 23 ]; then
-  export JDK_JAVA_OPTIONS="$JDK_JAVA_OPTIONS --sun-misc-unsafe-memory-access=allow"
-fi
+# archivesspace.sh adds the JDK flags JRuby needs to the server's JVM. The helper scripts run below start
+# JVMs of their own, so they get the same flags through JAVA_OPTS. ASPACE_JAVA_VERSION is the image's
+# JAVA_VERSION build arg, so no JVM has to be started to find it.
+JAVA_MAJOR="${ASPACE_JAVA_VERSION:-0}"
+. /archivesspace/scripts/java-module-opts.sh
+HELPER_JAVA_OPTS="$JAVA_OPTS $ASPACE_JAVA_MODULE_OPTS"
 
 # DEPLOY_PKG (optional): [./config/config.rb, ./config/robots.txt, ./plugins, ./stylesheets]
 if [[ -v ASPACE_DEPLOY_PKG_URL ]]; then
@@ -29,7 +30,7 @@ if [[ -v ASPACE_INITIALIZE_PLUGINS ]]; then
   for plugin in ${ASPACE_INITIALIZE_PLUGINS//,/ }
   do
     echo "Initializing plugin: $plugin"
-    /archivesspace/scripts/initialize-plugin.sh $plugin
+    JAVA_OPTS="$HELPER_JAVA_OPTS" /archivesspace/scripts/initialize-plugin.sh $plugin
   done
 fi
 
@@ -37,7 +38,7 @@ fi
 rm -rf $DATA_TMP_DIR/*
 
 if [ "$ASPACE_DB_MIGRATE" = true ]; then
-  /archivesspace/scripts/setup-database.sh
+  JAVA_OPTS="$HELPER_JAVA_OPTS" /archivesspace/scripts/setup-database.sh
   if [[ "$?" != 0 ]]; then
     echo "Error running the database setup script."
     exit 1

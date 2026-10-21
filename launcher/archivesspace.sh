@@ -104,12 +104,8 @@ if [ "$ARCHIVESSPACE_APPEND_LOGS" = "" ]; then
     ARCHIVESSPACE_APPEND_LOGS=
 fi
 
-# JRuby 9.4 loads native code (jffi) and uses sun.misc.Unsafe; silence the JDK 24+ warnings about it.
-# --sun-misc-unsafe-memory-access only exists from Java 23, so only pass it when the JVM knows it.
-ASPACE_JAVA_MODULE_OPTS="--enable-native-access=ALL-UNNAMED"
-if [ "$JAVA_MAJOR" -ge 23 ]; then
-    ASPACE_JAVA_MODULE_OPTS="$ASPACE_JAVA_MODULE_OPTS --sun-misc-unsafe-memory-access=allow"
-fi
+# Sets ASPACE_JAVA_MODULE_OPTS from JAVA_MAJOR
+. scripts/java-module-opts.sh
 
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
