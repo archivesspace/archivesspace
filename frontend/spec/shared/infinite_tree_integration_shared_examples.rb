@@ -548,5 +548,29 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
         within(pane) { expect(page).to have_no_css('h2', text: root_record.title) }
       end
     end
+
+    it 'keeps an Add Sibling form when the earlier record response arrives last' do
+      hold_fetches(child_load_url)
+
+      within('#infinite-tree-container') { click_link root_record.title }
+      wait_for_infinite_tree_pane_ready
+
+      within('#infinite-tree-container') { click_link child_record.title }
+      wait_for_held_fetch(child_load_url)
+      expect(page).to have_css(infinite_tree_current_node_selector(child_record))
+
+      find('.js-itree-toolbar-add-sibling').click
+      wait_for_infinite_tree_pane_ready
+      expect(page).to have_css("#{pane} form[action$='/#{child_type}s']")
+
+      release_held_fetch(child_load_url)
+
+      aggregate_failures do
+        expect(page).to have_no_css("#{pane}.blocked")
+        expect(page).to have_css("#{pane} form[action$='/#{child_type}s']")
+        expect(page).to have_css("#infinite-tree-container li##{child_type}_new.js-itree-synthetic-new")
+        within(pane) { expect(page).to have_no_css('h2', text: child_record.title) }
+      end
+    end
   end
 end
