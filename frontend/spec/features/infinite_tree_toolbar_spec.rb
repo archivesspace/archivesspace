@@ -412,6 +412,42 @@ describe 'Infinite Tree Toolbar', js: true do
             end
           end
 
+          it 'keeps the duplicate form when an earlier record response arrives last' do
+            source_load_url = "/archival_objects/#{child_record.id}/edit?inline=true"
+            hold_fetches(source_load_url)
+
+            find(
+              "#infinite-tree-container li##{infinite_tree_node_id_for(root_record)} > .node-row .record-title"
+            ).click
+            wait_for_infinite_tree_pane_ready
+
+            find(
+              "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} > .node-row .record-title"
+            ).click
+            wait_for_held_fetch(source_load_url)
+
+            find('.js-itree-toolbar-add-duplicate').click
+            wait_for_infinite_tree_pane_ready
+
+            release_held_fetch(source_load_url)
+
+            aggregate_failures do
+              expect(page).to have_no_css('#infinite-tree-record-pane.blocked')
+              expect(page.current_url).to include('#new')
+              expect(page).to have_css(
+                "li##{child_form_prefix}_new.js-itree-synthetic-new.current"
+              )
+
+              within('#infinite-tree-record-pane') do
+                expect(page).to have_css("##{child_form_prefix}_form")
+                expect(page).to have_css(
+                  '.alert.alert-success.with-hide-alert',
+                  text: /duplicated from/
+                )
+              end
+            end
+          end
+
           it 'shows the duplicated-from flash and the created flash after Save' do
             nested_child_record
             visit "#{edit_path}#{nested_child_record_hash}"

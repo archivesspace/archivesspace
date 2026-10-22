@@ -2,6 +2,21 @@
 
 (function (exports) {
   class InfiniteTreeRecordPane {
+    /**
+     * Incremented by every pane load (record, new child/sibling/duplicate form).
+     * A load renders and unblocks the pane only while its number is still the
+     * latest, so a slow response can't overwrite a newer one.
+     * @type {number}
+     */
+    #loadSeq = 0;
+
+    /**
+     * The latest record load while its request is in flight, so a repeat
+     * request for the same record shares it instead of starting another.
+     * @type {{ seq: number, url: string, promise: Promise<boolean> }|null}
+     */
+    #inflightRecordLoad = null;
+
     constructor() {
       this.container = document.querySelector('#infinite-tree-record-pane');
       this.treeContainerEl = document.querySelector('#infinite-tree-container');
@@ -370,28 +385,7 @@
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
 
-      this.#blockUI();
-
-      try {
-        const html = await this.#fetchRecordHtml(url);
-
-        this.#renderNewForm(html);
-        this.#setDirty(true);
-      } catch (error) {
-        this._inlineCreateAnchorNode = null;
-
-        this.#dispatchRemoveSyntheticNewChild();
-
-        if (error.status === 404) {
-          this.#showRecordNotFound();
-        } else {
-          this.container.appendChild(this.#loadErrorMessageFragment(error));
-
-          this.#setDirty(false);
-        }
-      } finally {
-        this.#unblockUI();
-      }
+      await this.#loadNewForm(url);
     }
 
     /**
@@ -415,28 +409,7 @@
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
 
-      this.#blockUI();
-
-      try {
-        const html = await this.#fetchRecordHtml(url);
-
-        this.#renderNewForm(html);
-        this.#setDirty(true);
-      } catch (error) {
-        this._inlineCreateAnchorNode = null;
-
-        this.#dispatchRemoveSyntheticNewChild();
-
-        if (error.status === 404) {
-          this.#showRecordNotFound();
-        } else {
-          this.container.appendChild(this.#loadErrorMessageFragment(error));
-
-          this.#setDirty(false);
-        }
-      } finally {
-        this.#unblockUI();
-      }
+      await this.#loadNewForm(url);
     }
 
     /**
@@ -466,14 +439,26 @@
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
 
-      this.#blockUI();
+      await this.#loadNewForm(url);
+    }
+
+    /**
+     * Loads a new record form (Add Child, Add Sibling, Add Duplicate) into the pane.
+     * @param {string} url
+     */
+    async #loadNewForm(url) {
+      const seq = this.#beginLoad();
 
       try {
         const html = await this.#fetchRecordHtml(url);
 
+        if (!this.#isLatestLoad(seq)) return;
+
         this.#renderNewForm(html);
         this.#setDirty(true);
       } catch (error) {
+        if (!this.#isLatestLoad(seq)) return;
+
         this._inlineCreateAnchorNode = null;
 
         this.#dispatchRemoveSyntheticNewChild();
@@ -486,8 +471,42 @@
           this.#setDirty(false);
         }
       } finally {
-        this.#unblockUI();
+        this.#endLoad(seq);
       }
+    }
+
+    /**
+     * Starts a pane load: supersedes any load in flight and blocks the pane.
+     * @returns {number} this load's sequence number
+     */
+    #beginLoad() {
+      this.#loadSeq += 1;
+      this.#inflightRecordLoad = null;
+
+      this.#blockUI();
+
+      return this.#loadSeq;
+    }
+
+    /**
+     * @param {number} seq
+     * @returns {boolean} whether no newer load has started since `seq`
+     */
+    #isLatestLoad(seq) {
+      return seq === this.#loadSeq;
+    }
+
+    /**
+     * Unblocks the pane when `seq` is the latest load; a superseded load leaves
+     * the pane blocked for the newer one.
+     * @param {number} seq
+     */
+    #endLoad(seq) {
+      if (!this.#isLatestLoad(seq)) return;
+
+      this.#inflightRecordLoad = null;
+
+      this.#unblockUI();
     }
 
     /**
@@ -517,7 +536,10 @@
      * Reload parent record from Cancel, then restore tree .current (loadRecord alone does not set it).
      */
     async #restoreCurrentNodeAfterCancelNewChild(parent) {
-      await this.loadRecord(parent);
+      const loaded = await this.loadRecord(parent);
+
+      // A newer load (e.g. a tree click) took over; it owns the tree selection.
+      if (!loaded) return;
 
       this.#requestCurrentNodeSync(parent);
       this.#restoreInlineCreateAnchorHash(parent);
@@ -541,9 +563,15 @@
     }
 
     /**
+     * Loads the record for `node` into the pane. A later load (of any kind)
+     * supersedes this one: its response is then discarded and the pane stays
+     * blocked until the later load finishes. A repeat request for the record
+     * that is already loading shares that load.
      * @param {HTMLElement} node - The tree node corresponding to the record to load
+     * @returns {Promise<boolean>} true when this load rendered the pane, false
+     * when a newer load superseded it
      */
-    async loadRecord(node) {
+    loadRecord(node) {
       this._inlineCreateAnchorNode = null;
 
       if (this.treeContainerEl) {
@@ -558,13 +586,39 @@
 
       const url = recordPath + '?inline=true';
 
-      this.#blockUI();
+      if (
+        this.#inflightRecordLoad &&
+        this.#inflightRecordLoad.url === url &&
+        this.#isLatestLoad(this.#inflightRecordLoad.seq)
+      ) {
+        return this.#inflightRecordLoad.promise;
+      }
 
+      const seq = this.#beginLoad();
+      const promise = this.#loadRecordHtml(url, seq);
+
+      this.#inflightRecordLoad = { seq, url, promise };
+
+      return promise;
+    }
+
+    /**
+     * @param {string} url
+     * @param {number} seq - from #beginLoad
+     * @returns {Promise<boolean>} see loadRecord
+     */
+    async #loadRecordHtml(url, seq) {
       try {
         const html = await this.#fetchRecordHtml(url);
 
+        if (!this.#isLatestLoad(seq)) return false;
+
         this.#renderNewForm(html);
+
+        return true;
       } catch (error) {
+        if (!this.#isLatestLoad(seq)) return false;
+
         if (error.status === 404) {
           this.#showRecordNotFound();
         } else {
@@ -572,8 +626,10 @@
 
           this.#setDirty(false);
         }
+
+        return true;
       } finally {
-        this.#unblockUI();
+        this.#endLoad(seq);
       }
     }
 
@@ -730,6 +786,10 @@
 
       const isCreateSubmission = this.#isChildTypeCreateSubmission(this.form);
 
+      // A pane load that starts while the submit is in flight (e.g. a tree click
+      // on a clean form) supersedes it: the response then isn't rendered.
+      const seq = this.#loadSeq;
+
       // Snapshot and clear plus-one flag before any async work so failed validation on
       // re-render starts clean (#bindForm sets a fresh flag on the next form instance).
       const shouldPlusOne = this._createPlusOne;
@@ -765,25 +825,34 @@
         });
 
         const html = await response.text();
+        const superseded = !this.#isLatestLoad(seq);
+        let result = this.container;
 
-        this.#renderNewForm(html);
+        if (superseded) {
+          // Read the outcome without rendering over the newer load
+          result = new DOMParser().parseFromString(html, 'text/html');
+        } else {
+          this.#renderNewForm(html);
+        }
 
-        const hasError = this.container.querySelector('.error') !== null;
+        const hasError = result.querySelector('.error') !== null;
 
         if (response.ok && !hasError) {
-          this._inlineCreateAnchorNode = null;
-
-          this.#setDirty(false);
-
-          // Try to extract the saved record URI from the updated pane (common hidden field id="uri")
+          // Try to extract the saved record URI from the response (common hidden field id="uri")
           let savedUri = null;
-          const uriInput = this.container.querySelector('#uri');
+          const uriInput = result.querySelector('#uri');
 
           if (uriInput && uriInput.value) savedUri = uriInput.value;
 
-          // Unblock UI before firing success events to prevent race condition
-          // with rebuildAndShow triggering loadRecord while pane is still blocked
-          this.#unblockUI();
+          if (!superseded) {
+            this._inlineCreateAnchorNode = null;
+
+            this.#setDirty(false);
+
+            // Unblock UI before firing success events to prevent race condition
+            // with rebuildAndShow triggering loadRecord while pane is still blocked
+            this.#unblockUI();
+          }
 
           if (submitButton) submitButton.removeAttribute('disabled');
 
@@ -795,7 +864,7 @@
 
           this.#dispatch('infiniteTreeRecordPane:submitted', { success: true });
         } else {
-          this.#setDirty(true);
+          if (!superseded) this.#setDirty(true);
 
           this.#dispatch('infiniteTreeRecordPane:submitError', {
             status: response.status,
@@ -807,9 +876,11 @@
         }
       } catch (error) {
         // Show an error banner and emit error
-        this.container.appendChild(this.#loadErrorMessageFragment(error));
+        if (this.#isLatestLoad(seq)) {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
 
-        this.#setDirty(true);
+          this.#setDirty(true);
+        }
 
         this.#dispatch('infiniteTreeRecordPane:submitError', {
           error: String(error),
@@ -817,8 +888,12 @@
 
         this.#dispatch('infiniteTreeRecordPane:submitted', { success: false });
       } finally {
-        // Only unblock and re-enable if not already done in success case
-        if (this.container.classList.contains('blocked')) {
+        // Only unblock and re-enable if not already done in success case, and
+        // never while a newer load owns the pane
+        if (
+          this.#isLatestLoad(seq) &&
+          this.container.classList.contains('blocked')
+        ) {
           this.#unblockUI();
         }
 
