@@ -3,10 +3,20 @@ require_relative "handler"
 require_relative "../../model/agent_person"
 require_relative "../../model/agent_family"
 require_relative "../../model/agent_corporate_entity"
+require_relative "../../model/agent_software"
 require_relative "bulk_import_mixins"
 
 class AgentHandler < Handler
   AGENT_TYPES = { "families" => "family", "family" => "family", "corporate_entities" => "corporate_entity", "corporate_entity" => "corporate_entity", "people" => "person", "person" => "person" }
+
+  def self.import_agent_types
+    AGENT_TYPES.values.uniq
+  end
+
+  def self.import_agent_type(value, allowed = import_agent_types)
+    type = value.to_s.strip.downcase
+    type if allowed.include?(type)
+  end
 
   def initialize(current_user, validate_only = false)
     super
@@ -131,6 +141,8 @@ class AgentHandler < Handler
   end
 
   def get_model(type)
+    return AgentSoftware if type == "software"
+
     model = nil
     case AGENT_TYPES[type]
     when "person"

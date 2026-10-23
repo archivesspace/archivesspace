@@ -1452,7 +1452,7 @@ pl:
       subject_missing_identity: "Temat %{num} wymaga identyfikatora rekordu lub terminu"
       agent_missing_identity: "Agent %{num} wymaga identyfikatora rekordu lub nagłówka"
       agent_missing_type: "Agent %{num} wymaga typu agenta"
-      agent_unsupported_type: "Agent %{num} ma nieobsługiwany typ agenta '%{agent_type}'"
+      agent_unsupported_type: "Agent %{num} ma nieobsługiwany typ agenta. Dozwolone wartości: %{accepted}"
       validated: '%{what} zostało zweryfikowane'
       validation_error: 'Nie można zweryfikować %{what}: %{err}'
       ao_validation: 'Wystąpił błąd walidacji podczas próby zapisania obiektu archiwalnego: %{err}'
@@ -1470,7 +1470,7 @@ pl:
       invalid_event_date_label: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącą etykietą daty: '%{value}'"
       event_date_label_without_date: "Grupa zdarzenia %{group}, pole %{field}, wymaga daty: '%{value}'"
       event_agent_type_with_uri: "Grupa zdarzenia %{group}, pole %{field}, musi być puste, gdy %{record_field} jest identyfikatorem URI: '%{value}'"
-      event_agent_unsupported_type: "Grupa zdarzenia %{group}, pole %{field}, nie jest obsługiwanym typem agenta: '%{value}'"
+      event_agent_unsupported_type: "Grupa zdarzenia %{group}, pole %{field}, nie jest obsługiwanym typem agenta. Dozwolone wartości: %{accepted}"
       invalid_event_agent_role: "Grupa zdarzenia %{group}, pole %{field}, nie jest istniejącą rolą agenta zdarzenia: '%{value}'"
       invalid_event_agent_record_id: "Grupa zdarzenia %{group}, pole %{field}, musi być numerycznym identyfikatorem lub kanonicznym identyfikatorem URI agenta: '%{value}'"
       event_agent_not_found: "Grupa zdarzenia %{group}, pole %{field}, nie odpowiada istniejącemu agentowi: '%{value}'"

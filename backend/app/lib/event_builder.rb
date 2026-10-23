@@ -3,6 +3,10 @@ require "date"
 class EventBuilder
   attr_reader :errors, :explicit_agent_ref
 
+  def self.agent_types
+    AgentHandler.import_agent_types + ["software"]
+  end
+
   def initialize(attributes:, controlled_value_resolver:)
     @errors = []
     @explicit_agent_ref = nil
@@ -107,7 +111,7 @@ class EventBuilder
   end
 
   def canonicalize_agent(record_id, agent_type, role, resolver)
-    return if blank?(record_id) && blank?(agent_type) && blank?(role)
+    return if blank?(record_id) && blank_type?(agent_type) && blank?(role)
 
     canonicalize_agent_role(role, resolver)
     canonicalize_agent_target(record_id, agent_type)
@@ -146,7 +150,7 @@ class EventBuilder
   end
 
   def canonicalize_agent_uri(agent_type, reference)
-    unless blank?(agent_type)
+    unless blank_type?(agent_type)
       add_error(:forbidden, :agent_type, agent_type)
       return
     end
@@ -155,23 +159,28 @@ class EventBuilder
   end
 
   def canonicalize_agent_numeric_id(record_id, agent_type)
-    if blank?(agent_type)
+    if blank_type?(agent_type)
       add_error(:required, :agent_type)
       return
     end
 
-    unless AgentManager.known_agent_type?(agent_type)
+    type = event_agent_type(agent_type)
+    unless type
       add_error(:unsupported, :agent_type, agent_type)
       return
     end
 
-    @explicit_agent_ref = freeze_copy(JSONModel(agent_type).uri_for(record_id.to_i))
+    @explicit_agent_ref = freeze_copy(JSONModel("agent_#{type}").uri_for(record_id.to_i))
   end
 
   def add_unsupported_agent_type(agent_type)
-    return if blank?(agent_type) || AgentManager.known_agent_type?(agent_type)
+    return if blank_type?(agent_type) || event_agent_type(agent_type)
 
     add_error(:unsupported, :agent_type, agent_type)
+  end
+
+  def event_agent_type(agent_type)
+    AgentHandler.import_agent_type(agent_type, self.class.agent_types)
   end
 
   def canonical_agent_reference(record_id)
@@ -181,7 +190,7 @@ class EventBuilder
     return nil unless reference
 
     type = reference[:type].to_s
-    return nil unless AgentManager.known_agent_type?(type)
+    return nil unless type.start_with?("agent_") && event_agent_type(type.delete_prefix("agent_"))
 
     id = reference[:id]
     return nil unless id.is_a?(Integer) && id > 0
@@ -228,6 +237,10 @@ class EventBuilder
 
   def blank?(value)
     value.nil? || value == ""
+  end
+
+  def blank_type?(value)
+    blank?(value) || (value.is_a?(String) && value.strip.empty?)
   end
 
   def freeze_copy(value)

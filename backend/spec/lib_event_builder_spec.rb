@@ -163,7 +163,7 @@ describe EventBuilder do
     invalid_date = builder_for(:date => "1999/03/03", :date_label => nil)
     uri_with_type = builder_for(
       :agent_record_id => JSONModel(:agent_person).uri_for(4),
-      :agent_type => "agent_person",
+      :agent_type => "person",
       :agent_role => "implementer"
     )
     numeric_without_type = builder_for(
@@ -188,7 +188,7 @@ describe EventBuilder do
         { :code => :invalid, :attribute => :date, :value => "1999/03/03" },
       ])
       expect(uri_with_type.errors).to eq([
-        { :code => :forbidden, :attribute => :agent_type, :value => "agent_person" },
+        { :code => :forbidden, :attribute => :agent_type, :value => "person" },
       ])
       expect(uri_with_type.explicit_agent_ref).to be_nil
       expect(numeric_without_type.errors).to eq([
@@ -202,25 +202,67 @@ describe EventBuilder do
     end
   end
 
-  it "builds a positive numeric Agent link from registered Agent type knowledge" do
-    agent_type = "agent_software"
-    expect(AgentManager.known_agent_type?(agent_type)).to eq(true)
-    agent_uri = JSONModel(agent_type).uri_for(27)
-    builder = builder_for(
-      :date => "1999-03",
-      :agent_record_id => "27",
-      :agent_type => agent_type,
-      :agent_role => "implementer"
-    )
-    event = materialize(builder)
+  it "builds a positive numeric Agent link from each bare Agent type" do
+    aggregate_failures do
+      {
+        "person" => :agent_person,
+        "family" => :agent_family,
+        "corporate_entity" => :agent_corporate_entity,
+        "software" => :agent_software,
+      }.each do |type, model|
+        agent_uri = JSONModel(model).uri_for(27)
+        builder = builder_for(
+          :date => "1999-03",
+          :agent_record_id => "27",
+          :agent_type => type,
+          :agent_role => "implementer"
+        )
+        event = materialize(builder)
+
+        expect(builder.errors).to eq([])
+        expect(builder.explicit_agent_ref).to eq(agent_uri)
+        expect(event["linked_agents"]).to eq([
+          { "role" => "implementer", "ref" => agent_uri },
+        ])
+        expect(event["date"]).to include("begin" => "1999-03", "label" => "other", "date_type" => "single")
+      end
+    end
+  end
+
+  it "normalizes case and padding, and treats a whitespace-only Agent type as blank" do
+    padded = builder_for(:agent_record_id => "27", :agent_type => " Corporate_Entity\t", :agent_role => "implementer")
+    blank = builder_for(:agent_record_id => "27", :agent_type => "  ", :agent_role => "implementer")
 
     aggregate_failures do
-      expect(builder.errors).to eq([])
-      expect(builder.explicit_agent_ref).to eq(agent_uri)
-      expect(event["linked_agents"]).to eq([
-        { "role" => "implementer", "ref" => agent_uri },
+      expect(padded.errors).to eq([])
+      expect(padded.explicit_agent_ref).to eq(JSONModel(:agent_corporate_entity).uri_for(27))
+      expect(blank.errors).to eq([
+        { :code => :required, :attribute => :agent_type, :value => nil },
       ])
-      expect(event["date"]).to include("begin" => "1999-03", "label" => "other", "date_type" => "single")
+    end
+  end
+
+  it "rejects an invalid Agent type on a numeric ID" do
+    builder = builder_for(:agent_record_id => "27", :agent_type => "xyz", :agent_role => "implementer")
+
+    expect(builder.errors).to eq([
+      { :code => :unsupported, :attribute => :agent_type, :value => "xyz" },
+    ])
+    expect(builder.explicit_agent_ref).to be_nil
+  end
+
+  it "forbids a non-blank Agent type next to a URI whether or not it matches the URI type" do
+    uri = JSONModel(:agent_person).uri_for(4)
+    matching = builder_for(:agent_record_id => uri, :agent_type => "person", :agent_role => "implementer")
+    mismatched = builder_for(:agent_record_id => uri, :agent_type => "family", :agent_role => "implementer")
+
+    aggregate_failures do
+      expect(matching.errors).to eq([
+        { :code => :forbidden, :attribute => :agent_type, :value => "person" },
+      ])
+      expect(mismatched.errors).to eq([
+        { :code => :forbidden, :attribute => :agent_type, :value => "family" },
+      ])
     end
   end
 

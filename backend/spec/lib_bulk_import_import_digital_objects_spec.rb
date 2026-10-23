@@ -254,10 +254,10 @@ describe "Import Digital Objects" do
     digital_object_row['digital_object_publish'] = 'TRUE'
     digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
 
-    digital_object_row['agent_1_agent_type'] = 'agent_person'
+    digital_object_row['agent_1_agent_type'] = 'person'
     digital_object_row['agent_1_record_id'] = agent_person.id
 
-    digital_object_row['agent_2_agent_type'] = 'agent_person'
+    digital_object_row['agent_2_agent_type'] = 'person'
     digital_object_row['agent_2_header'] = "Agent Person Title 1 #{@now}"
     digital_object_row['agent_2_role'] = "Creator"
 
@@ -1965,13 +1965,13 @@ describe "Import Digital Objects" do
 
     it 'imports both displayed canonical groups and all three supported Agent types' do
       report = run_agent_import(
-        'agent_1_agent_type' => 'agent_person',
+        'agent_1_agent_type' => 'person',
         'agent_1_header' => "Person one #{@now}",
         'agent_1_role' => "Creator",
-        'agent_2_agent_type' => 'agent_family',
+        'agent_2_agent_type' => 'family',
         'agent_2_header' => "Family two #{@now}",
         'agent_2_role' => "Creator",
-        'agent_3_agent_type' => 'agent_corporate_entity',
+        'agent_3_agent_type' => 'corporate_entity',
         'agent_3_header' => "Corporate three #{@now}",
         'agent_3_role' => "Creator",
       )
@@ -1991,7 +1991,7 @@ describe "Import Digital Objects" do
     it 'links an existing Agent by numeric record ID' do
       linked = create(:json_agent_person)
       report = run_agent_import(
-        'agent_1_agent_type' => 'agent_person',
+        'agent_1_agent_type' => 'person',
         'agent_1_record_id' => linked.id,
       )
 
@@ -2011,10 +2011,10 @@ describe "Import Digital Objects" do
       original_count = AgentPerson.count
 
       report = run_agent_import(
-        'agent_1_agent_type' => 'agent_person',
+        'agent_1_agent_type' => 'person',
         'agent_1_header' => header,
         'agent_1_role' => "Creator",
-        'agent_2_agent_type' => 'agent_person',
+        'agent_2_agent_type' => 'person',
         'agent_2_header' => header,
         'agent_2_role' => "Creator",
       )
@@ -2036,7 +2036,7 @@ describe "Import Digital Objects" do
         'agent_1_header' => nil,
         'agent_1_role' => nil,
         'agent_1_relator' => nil,
-        'agent_5_agent_type' => 'agent_person',
+        'agent_5_agent_type' => 'person',
         'agent_5_header' => "Person five #{@now}",
         'agent_5_role' => "Creator",
         'agent_9_agent_type' => nil,
@@ -2044,7 +2044,7 @@ describe "Import Digital Objects" do
         'agent_9_header' => nil,
         'agent_9_role' => nil,
         'agent_9_relator' => nil,
-        'agent_10_agent_type' => 'agent_family',
+        'agent_10_agent_type' => 'family',
         'agent_10_header' => "Family ten #{@now}",
         'agent_10_role' => "Creator",
       )
@@ -2062,7 +2062,7 @@ describe "Import Digital Objects" do
 
     it 'groups Agent fields that share an index' do
       report = run_agent_import(
-        'agent_5_agent_type' => 'agent_corporate_entity',
+        'agent_5_agent_type' => 'corporate_entity',
         'agent_5_header' => "Corporate five #{@now}",
         'agent_5_role' => "Source",
         'agent_5_relator' => "aut",
@@ -2124,18 +2124,40 @@ describe "Import Digital Objects" do
 
     it 'reports an unsupported Agent type instead of silently dropping the group' do
       report = run_agent_import(
-        'agent_1_agent_type' => 'agent_software',
-        'agent_1_header' => "Software one #{@now}",
+        'agent_1_agent_type' => 'xyz',
+        'agent_1_header' => "Unsupported one #{@now}",
         'agent_1_role' => "Creator",
       )
 
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors).to include(
-        I18n.t("bulk_import.error.agent_unsupported_type", :num => 1, :agent_type => 'agent_software'))
+        I18n.t("bulk_import.error.agent_unsupported_type", :num => 1, :accepted => "family, corporate_entity, person"))
+      expect(report.rows[0].errors.join(" ")).not_to include("xyz")
 
       digital_object = ::DigitalObject.to_jsonmodel(
         DigitalObject.where(:title => "Digital Object Title #{@now}").first.id)
       expect(digital_object.linked_agents).to eq([])
+    end
+
+    it 'accepts uppercase and padded Agent types' do
+      report = run_agent_import(
+        'agent_1_agent_type' => ' PERSON ',
+        'agent_1_header' => "Padded person #{@now}",
+        'agent_1_role' => "Creator",
+        'agent_2_agent_type' => "\tCorporate_Entity\n",
+        'agent_2_header' => "Padded corporate #{@now}",
+        'agent_2_role' => "Creator",
+      )
+
+      expect(report.terminal_error).to be_nil
+      expect(report.rows[0].errors).to eq([])
+
+      digital_object = ::DigitalObject.to_jsonmodel(
+        DigitalObject.where(:title => "Digital Object Title #{@now}").first.id)
+      expect(linked_agent_summaries(digital_object)).to match_array([
+        { :title => "Padded person #{@now}", :jsonmodel_type => "agent_person", :role => "creator" },
+        { :title => "Padded corporate #{@now}", :jsonmodel_type => "agent_corporate_entity", :role => "creator" },
+      ])
     end
   end
 

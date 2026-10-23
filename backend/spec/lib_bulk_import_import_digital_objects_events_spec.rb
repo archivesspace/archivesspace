@@ -1667,7 +1667,7 @@ describe "Import Digital Objects" do
           "event_1_type" => "cataloged",
           "event_1_date" => "1999-03-03",
           "event_1_agent_1_record_id" => agent.id,
-          "event_1_agent_1_agent_type" => "agent_family",
+          "event_1_agent_1_agent_type" => "family",
           "event_1_agent_1_role" => "recipient",
         },
         :title => title
@@ -1705,7 +1705,7 @@ describe "Import Digital Objects" do
           "event_1_type" => "cataloged",
           "event_1_date" => "1999-03-03",
           "event_1_agent_1_record_id" => person.uri,
-          "event_1_agent_1_agent_type" => "agent_person",
+          "event_1_agent_1_agent_type" => "person",
           "event_1_agent_1_role" => "implementer",
           "event_2_type" => "processed",
           "event_2_date" => "2001-04-05",
@@ -1719,7 +1719,7 @@ describe "Import Digital Objects" do
       row_report = result[:report].rows.first
       errors = row_report ? row_report.errors : []
       info = row_report ? row_report.info : []
-      uri_errors = errors.select { |error| error.to_s.include?("event_1_agent_1_agent_type") && error.to_s.include?("agent_person") }
+      uri_errors = errors.select { |error| error.to_s.include?("event_1_agent_1_agent_type") && error.to_s.include?("'person'") }
       missing_type_errors = errors.select { |error| error.to_s.include?("event_2_agent_1_agent_type") }
 
       aggregate_failures do
@@ -1818,6 +1818,80 @@ describe "Import Digital Objects" do
         expect(info).not_to include(I18n.t("bulk_import.event_created", :group => 1, :type => "cataloged"))
         expect_digital_object_kept(result[:report], title, events_before, :validate_only => false)
         expect(agent_record_count).to eq(agents_before)
+      end
+    end
+
+    it "rejects an invalid Agent Type on a numeric ID and lists the accepted values" do
+      person = create(:json_agent_person)
+      title = "Digital Object Title #{@now} event agent invalid type"
+      agents_before = agent_record_count
+      events_before = Event.count
+      result = import_event_with_agent_columns(
+        {
+          "event_1_type" => "cataloged",
+          "event_1_date" => "1999-03-03",
+          "event_1_agent_1_record_id" => person.id,
+          "event_1_agent_1_agent_type" => "xyz",
+          "event_1_agent_1_role" => "implementer",
+        },
+        :title => title
+      )
+      errors = result[:report].rows.first.errors
+
+      aggregate_failures do
+        expect(result[:report].terminal_error).to be_nil, result[:report].terminal_error.inspect
+        expect(errors).to eq([
+          I18n.t("bulk_import.error.event_agent_unsupported_type",
+                 :group => 1, :field => "event_1_agent_1_agent_type",
+                 :accepted => "family, corporate_entity, person, software"),
+        ])
+        expect(errors.join(" ")).not_to include("xyz")
+        expect(agent_record_count).to eq(agents_before)
+        expect(Event.count).to eq(events_before)
+      end
+    end
+
+    it "links an existing software Agent by numeric ID and Agent Type" do
+      agent = create(:json_agent_software)
+      title = "Digital Object Title #{@now} event software numeric id"
+      result = import_event_with_agent_columns(
+        {
+          "event_1_type" => "cataloged",
+          "event_1_date" => "1999-03-03",
+          "event_1_agent_1_record_id" => agent.id,
+          "event_1_agent_1_agent_type" => "software",
+          "event_1_agent_1_role" => "implementer",
+        },
+        :title => title
+      )
+
+      expect_saved_event_agent(result, :role => "implementer", :ref => agent.uri)
+    end
+
+    it "reports a nonexistent software Agent ID as not found and creates no Agent" do
+      title = "Digital Object Title #{@now} event missing software agent"
+      agents_before = agent_record_count
+      events_before = Event.count
+      result = import_event_with_agent_columns(
+        {
+          "event_1_type" => "cataloged",
+          "event_1_date" => "1999-03-03",
+          "event_1_agent_1_record_id" => 2_000_000_001,
+          "event_1_agent_1_agent_type" => "software",
+          "event_1_agent_1_role" => "implementer",
+        },
+        :title => title
+      )
+      errors = result[:report].rows.first.errors
+
+      aggregate_failures do
+        expect(result[:report].terminal_error).to be_nil, result[:report].terminal_error.inspect
+        expect(errors).to eq([
+          I18n.t("bulk_import.error.event_agent_not_found",
+                 :group => 1, :field => "event_1_agent_1_record_id", :value => "2000000001"),
+        ])
+        expect(agent_record_count).to eq(agents_before)
+        expect(Event.count).to eq(events_before)
       end
     end
 

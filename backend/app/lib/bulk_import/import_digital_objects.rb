@@ -25,10 +25,10 @@ class ImportDigitalObjects < BulkImportParser
 
   def create_instance(ao)
     dig_instance = nil
+    @agent_handler = AgentHandler.new(@current_user, @validate_only)
     prepared_events = prepare_event_builders
 
     @notes_handler = NotesHandler.new
-    @agent_handler = AgentHandler.new(@current_user, @validate_only)
     @subject_handler = SubjectHandler.new(@current_user, @validate_only)
     @lang_handler = LangHandler.new(@current_user)
 
@@ -326,7 +326,7 @@ class ImportDigitalObjects < BulkImportParser
         :value => error[:value]
       )
     when :unsupported
-      add_event_field_error("event_agent_unsupported_type", group, field, :value => error[:value])
+      add_event_field_error("event_agent_unsupported_type", group, field, :accepted => EventBuilder.agent_types.join(", "))
     when :invalid
       add_event_field_error(invalid_event_error_key(error[:attribute]), group, field, :value => error[:value])
     else
@@ -343,8 +343,8 @@ class ImportDigitalObjects < BulkImportParser
     return false unless builder.explicit_agent_ref
 
     reference = JSONModel.parse_reference(builder.explicit_agent_ref)
-    type = reference && reference[:type].to_s
-    model = type && AgentManager.known_agent_type?(type) && AgentManager.model_for(type)
+    type = reference && reference[:type].to_s.delete_prefix("agent_")
+    model = type && @agent_handler.get_model(type)
     record = model && model[reference[:id]]
     return false if record && record.uri
 
@@ -515,9 +515,9 @@ class ImportDigitalObjects < BulkImportParser
         next
       end
 
-      type = handler_agent_type(agent_type)
+      type = AgentHandler.import_agent_type(agent_type)
       if type.nil?
-        @report.add_errors(I18n.t("bulk_import.error.agent_unsupported_type", :num => num, :agent_type => agent_type))
+        @report.add_errors(I18n.t("bulk_import.error.agent_unsupported_type", :num => num, :accepted => AgentHandler.import_agent_types.join(", ")))
         next
       end
 
@@ -538,17 +538,6 @@ class ImportDigitalObjects < BulkImportParser
     end
 
     agent_links
-  end
-
-  def handler_agent_type(agent_type)
-    case agent_type
-    when "agent_person"
-      "people"
-    when "agent_family"
-      "families"
-    when "agent_corporate_entity"
-      "corporate_entities"
-    end
   end
 
   def process_subjects
