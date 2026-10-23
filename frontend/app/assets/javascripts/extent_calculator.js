@@ -63,7 +63,9 @@ $(function () {
         'extentCalculationModal',
         'Extent Calculation',
         dialog_content,
-        'large'
+        'large',
+        {},
+        AS.deriveModalOwner(this)
       );
 
       $.ajax({
