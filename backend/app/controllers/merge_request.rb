@@ -171,34 +171,38 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   # Shell example for /merge_requests/agent_detail below illustrates an agent merge where:
-  # - Only the primary name field from the FIRST (position = 0) merge_candidate agent record replaces the primary name field in the merge_destination. After the merge, the rest of the merge_candidate name record is discarded
-  # - The entire FIRST (position = 0) agent_record_identifer record from the merge_candidate is added to the set of agent_record_identifier records in the merge_destination at the end (position = n + 1)
-  # - The entire SECOND (position = 1) agent_conventions_declaration from the merge_candidate replaces the FIRST (because it is at index = 0 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the merge_destination
-  # - The entire FIRST (position = 0) agent_conventions_declaration from the merge_candidate replaces the SECOND (because it is at index = 1 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the merge_destination
+  # - Replace the name source for the first name form with the source from the merge_candidate's name form
+  # - Append the name from the merge_candidate agent to the name forms of the merge_destination record.
   Endpoint.post('/merge_requests/agent_detail')
   .description("Carry out a detailed merge request against Agent records")
   .example('shell') do
-      <<~SHELL
-        curl -H 'Content-Type: application/json' \\
-            -H "X-ArchivesSpace-Session: $SESSION" \\
-            -d '{"dry_run":true, \\
-                 "merge_request_detail":{ \\
-                   "jsonmodel_type":"merge_request_detail", \\
-                   "merge_candidates":[{"ref":"/agents/people/3"}], \\
-                   "merge_destination":{"ref":"/agents/people/4"}, \\
-                   "selections":{
-                     "names":[{"primary_name":"REPLACE", "position":"0"}], \\
-                     "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
-                     "agent_conventions_declarations":[
-                       {"append":"REPLACE", "position":"1"}, \\
-                       {"append":"REPLACE", "position":"0"} \\
-                      ],
-                   } \\
-                } \\
-              } \\
-            "http://localhost:8089/merge_requests/agent_detail"
-      SHELL
-    end
+    <<~SHELL
+      curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+      # Replace "admin" with your password and "http://localhost:8089" with your ASpace API URL followed by
+      # "/users/{your_username}/login"
+
+      set SESSION="session_id"
+      # If using a unix-like shell, replace set with export
+
+      curl -H 'Content-Type: application/json' \\
+      -H "X-ArchivesSpace-Session: $SESSION" \\
+      "http://localhost:8089/merge_requests/agent_detail?dry_run=false" \\
+      -d '{"jsonmodel_type": "merge_request_detail", \\
+           "merge_destination": {"ref": "/agents/people/:agent_person_dest_id:"}, \\
+           "merge_candidates": [{"ref": "/agents/people/:agent_person_cand_id:"}], \\
+           "selections": {"names.0.source": "REPLACE", \\
+                          "names": {"1": {"append": "REPLACE", "position": "0"}} \\
+                         } \\
+           } \\
+      # Replace http://localhost:8089 with your ArchivesSpace API URL, change dry_run=false to true if you want to only
+      # display the merged record and not process it, :agent_person_dest_id: with the agent_person ArchivesSpace
+      # generated identifier for the agent_person you are merging into (keeping), and :agent_person_cand_id: with the
+      # agent_person ArchivesSpace generated identifier for the agent_person you are merging (deleting).
+
+      # Output
+      # {"status": "Merged", "id": 197537, "selections": {"names.0.source.": "REPLACE", ...}}
+    SHELL
+  end
   .params(["dry_run", BooleanParam, "If true, don't process the merge, just display the merged record", :optional => true],
           ["merge_request_detail",
              JSONModel(:merge_request_detail), "A detailed merge request",
