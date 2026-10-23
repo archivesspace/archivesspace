@@ -33,6 +33,12 @@ funding from the Andrew W. Mellon Foundation, organizational support from Lyrasi
 
 ArchivesSpace is free to download and use, but has a membership model to promote sustainability and the continuing development of the application and to support those who use it. Learn more about [ArchivesSpace membership and its benefits](https://archivesspace.org/community/member-benefits) on our website. Reach out to the program team at ArchivesSpaceHome@lyrasis.org if you are interested in becoming an ArchivesSpace member.
 
+# Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to set up a development environment, run the test suites and submit a pull request.
+
+If you use large language models or other generative AI tools in a contribution, our [AI Contribution Policy](AI_POLICY.md) sets out the accountability, disclosure and licensing requirements that apply.
+
 # Reporting an Issue
 
 All users are welcome to submit bug reports and requests for new features for consideration by our member community. Instructions are available on our wiki:
