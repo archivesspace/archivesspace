@@ -41,4 +41,48 @@ describe 'MixedContentParser' do
     expect(converted).to eq("<span class=\"emph render-italic\">title text</span>");
   end
 
+  it "converts lb elements to br without swallowing the following text", :skip_db_open do
+    ["one<lb/>two", "one<lb />two", "one<lb></lb>two", "one<LB>two", "one<lb>two</lb>"].each do |text|
+      converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
+
+      expect(converted).to eq("one<br />two"), "for #{text.inspect}"
+    end
+  end
+
+
+  it "does not treat elements whose names start with lb as lb", :skip_db_open do
+    converted = MixedContentParser.parse("one<lb-foo>two</lb-foo>", "http://example.com", {:wrap_blocks => false})
+
+    expect(converted).not_to include("<br")
+    expect(converted).to include("two")
+  end
+
+
+  it "does not modify the string it is given", :skip_db_open do
+    text = "  one<lb/>two\n\tthree  "
+    original = text.dup
+
+    MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
+
+    expect(text).to eq(original)
+  end
+
+
+  it "accepts frozen strings", :skip_db_open do
+    converted = MixedContentParser.parse(" one<lb/>two ".freeze, "http://example.com", {:wrap_blocks => false})
+
+    expect(converted).to eq("one<br />two")
+  end
+
+
+  it "keeps pretty_print per call", :skip_db_open do
+    text = "foo\n\nbar"
+
+    pretty = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true, :pretty_print => true})
+    compact = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
+
+    expect(compact).to eq("<p>foo</p><p>bar</p>")
+    expect(pretty).to include("\n")
+  end
+
 end

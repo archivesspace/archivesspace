@@ -156,4 +156,9 @@ Warbler::Config.new do |config|
   # See ./web.xml for jetty configuration
 
   config.override_gem_home = true
+
+  # jruby-rack >= 1.2.8 defaults BUNDLE_FROZEN to true when a Gemfile.lock is present. Plugin gems are
+  # added to the Gemfile at runtime (ASUtils.load_plugin_gems) and are not in the shipped lockfile, so
+  # Bundler must be allowed to re-resolve. META-INF/init.rb is evaluated before jruby-rack sets its default.
+  config.init_contents << StringIO.new("ENV['BUNDLE_FROZEN'] ||= 'false'\n")
 end

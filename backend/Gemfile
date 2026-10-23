@@ -6,7 +6,7 @@ gem 'atomic'
 gem 'bcrypt'
 gem 'childprocess'
 gem 'jdbc-mysql', '>=8.0', group: :development
-gem 'jruby-jars', '= 9.4.9.0'
+gem 'jruby-jars', '= 9.4.15.0'
 gem 'json'
 gem 'json-schema', '~> 1.0.10'
 gem 'net-ldap'
@@ -23,6 +23,8 @@ gem 'sinatra-contrib', '~> 3.2', require: false
 gem 'tzinfo'
 
 gem 'warbler', group: :build
+# the WARs' boot.rb and BUNDLE_FROZEN handling (see */config/warble.rb) rely on how jruby-rack 1.2.8 boots
+gem 'jruby-rack', '= 1.2.8', group: :build
 
 gem 'activesupport', '~> 6.1.6'
 gem 'i18n', '~> 1.0'
