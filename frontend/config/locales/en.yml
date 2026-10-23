@@ -836,6 +836,7 @@ en:
         save: Save Accession
 
   agent: &agent_attributes
+    header_description: "Agent record: "
     _frontend:
       messages:
         created: Agent Created
@@ -857,6 +858,7 @@ en:
         name: Name Forms
         contacts: Contact Details
         search_embedded: Linked Records
+        search_embedded_related_text: related to this agent
         linked_via_rights_statement: Linked Records via Rights Statement
         events: Events
         merge_destination_record: This record will be updated
@@ -969,6 +971,7 @@ en:
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
+        search_embedded_related_text: related to this classification
       action:
         add_child: Add Child
         create: Create Classification
@@ -986,6 +989,7 @@ en:
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
+        search_embedded_related_text: related to this classification term
       action:
         add_child: Add Child
         add_sibling: Add Sibling
@@ -1212,6 +1216,7 @@ en:
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
+        search_embedded_related_text: related to this location
       action:
         add_child: Add Subcomponent
         add_sibling: Add Sibling
@@ -1425,6 +1430,7 @@ en:
         basic_information: Basic Information
         terms: Terms and Subdivisions
         search_embedded: Linked Records
+        search_embedded_related_text: related to this subject
       action:
         create: Create Subject
         save: Save Subject
@@ -1714,6 +1720,7 @@ en:
       section:
         active_restrictions: Active Restrictions
         linked_records: Linked Records
+        linked_records_related_text: related to this top container
         basic_information: Container Information
       action:
         add: Add Top Container
