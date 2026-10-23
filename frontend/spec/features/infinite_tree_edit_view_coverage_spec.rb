@@ -40,7 +40,7 @@ describe 'Infinite Tree edit view coverage', js: true do
 
       before do
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
       end
 
       def root_child_titles
@@ -95,7 +95,7 @@ describe 'Infinite Tree edit view coverage', js: true do
         expect(page).to have_css('#infinite-tree-container .record-title', text: duplicate_title)
 
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
 
         original_index = root_child_index_for(ao.title)
         duplicate_index = root_child_index_for(duplicate_title)
@@ -113,10 +113,10 @@ describe 'Infinite Tree edit view coverage', js: true do
         within '#confirmChangesModal' do
           click_on 'Delete'
         end
-        wait_for_ajax
+        expect(page).to have_no_css("#infinite-tree-container li##{infinite_tree_node_id_for(ao)}", visible: :all)
 
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
 
         aggregate_failures do
           expect(root_child_index_for(duplicate_title)).not_to be_nil

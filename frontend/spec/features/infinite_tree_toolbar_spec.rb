@@ -42,7 +42,7 @@ describe 'Infinite Tree Toolbar', js: true do
   context 'show view' do
     before do
       visit show_path
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
     end
 
     it 'is not present' do
@@ -56,7 +56,7 @@ describe 'Infinite Tree Toolbar', js: true do
       context 'when the root node is the current record' do
         before do
           visit edit_path
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
         end
 
         context 'default mode' do
@@ -115,7 +115,7 @@ describe 'Infinite Tree Toolbar', js: true do
       context 'when a child node is the current record' do
         before do
           visit "#{edit_path}#{ao_hash}"
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
         end
 
         context 'default mode' do
@@ -233,7 +233,7 @@ describe 'Infinite Tree Toolbar', js: true do
 
         before do
           visit edit_path
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
         end
 
         context 'auto-expand mode' do
@@ -298,7 +298,7 @@ describe 'Infinite Tree Toolbar', js: true do
               scroll_root_children
               scroll_nested_chains
               visit edit_path
-              wait_for_ajax
+              wait_for_infinite_tree_loaded
             end
 
             it 'expands parent nodes that are far away when the user scrolls close to them' do
@@ -309,13 +309,12 @@ describe 'Infinite Tree Toolbar', js: true do
               (1..5).each do |offset|
                 observer_node = find("[data-observe-offset='#{offset}']", visible: :all)
                 tree_container.scroll_to(observer_node, align: :center)
-                wait_for_ajax
+                expect(observer_node).not_to match_css('[data-observe-offset]')
               end
 
               expect(page).to have_css(root_child_selector, count: total_root_children)
 
               tree_container.scroll_to(find('#infinite-tree-container .root.node > .node-row'), align: :top)
-              wait_for_ajax
 
               click_infinite_tree_toolbar_enable_auto_expand
               expect(page).to have_css('#infinite-tree-container.expand-all')
@@ -325,7 +324,6 @@ describe 'Infinite Tree Toolbar', js: true do
               expect(page).to have_css("#archival_object_#{last_root_child.id}[aria-expanded='false']")
 
               tree_container.scroll_to(find("#archival_object_#{scroll_trigger_child.id}", visible: :all), align: :center)
-              wait_for_ajax
 
               expect(page).to have_css("#archival_object_#{penultimate_root_child.id}[aria-expanded='true']")
               expect(page).to have_css("#archival_object_#{last_root_child.id}[aria-expanded='true']")
@@ -382,7 +380,7 @@ describe 'Infinite Tree Toolbar', js: true do
         describe 'Add Duplicate' do
           before do
             visit "#{edit_path}#{child_record_hash}"
-            wait_for_ajax
+            wait_for_infinite_tree_loaded
           end
 
           it 'opens a new child record form with a synthetic tree row' do
@@ -415,7 +413,7 @@ describe 'Infinite Tree Toolbar', js: true do
           it 'shows the duplicated-from flash and the created flash after Save' do
             nested_child_record
             visit "#{edit_path}#{nested_child_record_hash}"
-            wait_for_ajax
+            wait_for_infinite_tree_loaded
 
             click_infinite_tree_toolbar_add_duplicate
 
@@ -493,7 +491,7 @@ describe 'Infinite Tree Toolbar', js: true do
     describe 'reorder mode' do
       before do
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
 
         enable_reorder_mode
       end
@@ -669,14 +667,14 @@ describe 'Infinite Tree Toolbar', js: true do
 
         def open_single_child_move_menu
           visit single_child_ao_edit_path
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
           enable_reorder_mode
           click_infinite_tree_toolbar_move_menu
         end
 
         before(:each) do
           visit edit_path
-          wait_for_ajax
+          wait_for_infinite_tree_loaded
           enable_reorder_mode
         end
 
@@ -788,7 +786,7 @@ describe 'Infinite Tree Toolbar', js: true do
 
           before do
             visit edit_path
-            wait_for_ajax
+            wait_for_infinite_tree_loaded
             enable_reorder_mode
           end
 
@@ -832,7 +830,7 @@ describe 'Infinite Tree Toolbar', js: true do
             end
 
             visit edit_path
-            wait_for_ajax
+            wait_for_infinite_tree_loaded
             enable_reorder_mode
 
             all_uris = root_child_uris
@@ -863,7 +861,7 @@ describe 'Infinite Tree Toolbar', js: true do
     context 'while the record pane is dirty' do
       before do
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
         select_tree_row(ao)
       end
 
@@ -943,7 +941,7 @@ describe 'Infinite Tree Toolbar', js: true do
   describe 'reorder toggle while the record pane is dirty' do
     before do
       visit edit_path
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       select_tree_row(ao)
       within '#infinite-tree-record-pane' do
         fill_in 'archival_object_title_', with: "Dirty title #{now}"

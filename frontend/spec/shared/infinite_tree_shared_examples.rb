@@ -27,13 +27,7 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
   end
 
   before(:each) do
-    unless page.has_css?('.nav-link', text: 'admin', wait: 0)
-      login_admin
-    end
-
-    unless page.has_css?('.repository-badge', text: @repo.repo_code, wait: 0)
-      select_repository(@repo)
-    end
+    login_admin_and_select_repository(@repo)
   end
 
   let(:container) { find('#infinite-tree-container') }
@@ -41,7 +35,7 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
   let(:basic_child_record) { @basic_child_record }
   subject(:tree) do
     visit show_path.call(basic_root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -55,42 +49,30 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
     @root_no_children = create(factory, { title: "Root no children #{@test_prefix}" }.merge(@additional_root_attrs))
 
     @root_three_children = create(factory, { title: "Root three children #{@test_prefix}" }.merge(@additional_root_attrs))
-    @root_three_children_children = 3.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @root_three_children.uri },
-        title: "Child #{i + 1} of root three children #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @root_three_children_children = batch_create_tree_children(
+      child_factory, 3, root_key: relationship_key, root: @root_three_children, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of root three children #{@test_prefix}" } }
 
     @root_two_batches = create(factory, { title: "Root two batches #{@test_prefix}" }.merge(@additional_root_attrs))
     two_batch_count = @batch_size + 1
-    @root_two_batches_children = two_batch_count.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @root_two_batches.uri },
-        title: "Child #{i + 1} of root two batches #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @root_two_batches_children = batch_create_tree_children(
+      child_factory, two_batch_count, root_key: relationship_key, root: @root_two_batches, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of root two batches #{@test_prefix}" } }
 
     if config[:max_batch_scenarios] >= 3
       @root_three_batches = create(factory, { title: "Root three batches #{@test_prefix}" }.merge(@additional_root_attrs))
       three_batch_count = @batch_size * 2 + 1
-      @root_three_batches_children = three_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @root_three_batches.uri },
-          title: "Child #{i + 1} of root three batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @root_three_batches_children = batch_create_tree_children(
+        child_factory, three_batch_count, root_key: relationship_key, root: @root_three_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of root three batches #{@test_prefix}" } }
     end
 
     if config[:max_batch_scenarios] >= 4
       @root_four_batches = create(factory, { title: "Root four batches #{@test_prefix}" }.merge(@additional_root_attrs))
       four_batch_count = @batch_size * 3 + 1
-      @root_four_batches_children = four_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @root_four_batches.uri },
-          title: "Child #{i + 1} of root four batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @root_four_batches_children = batch_create_tree_children(
+        child_factory, four_batch_count, root_key: relationship_key, root: @root_four_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of root four batches #{@test_prefix}" } }
     end
 
     @basic_root_record = create(factory, { title: "Basic root #{@test_prefix}" }.merge(@additional_root_attrs))
@@ -110,13 +92,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
       relationship_key => { 'ref' => @parent_three_children_root.uri },
       title: "Parent three children #{@test_prefix}"
     }.merge(@additional_child_attrs))
-    @parent_three_children_children = 3.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @parent_three_children_root.uri },
-        parent: { 'ref' => @parent_three_children.uri },
-        title: "Child #{i + 1} of parent three children #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @parent_three_children_children = batch_create_tree_children(
+      child_factory, 3, root_key: relationship_key, root: @parent_three_children_root, parent: @parent_three_children, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of parent three children #{@test_prefix}" } }
 
     @parent_two_batches_root = create(factory, { title: "Parent two batches root #{@test_prefix}" }.merge(@additional_root_attrs))
     @parent_two_batches = create(child_factory, {
@@ -124,13 +102,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
       title: "Parent two batches #{@test_prefix}"
     }.merge(@additional_child_attrs))
     two_batch_count = @batch_size + 1
-    @parent_two_batches_children = two_batch_count.times.map do |i|
-      create(child_factory, {
-        relationship_key => { 'ref' => @parent_two_batches_root.uri },
-        parent: { 'ref' => @parent_two_batches.uri },
-        title: "Child #{i + 1} of parent two batches #{@test_prefix}"
-      }.merge(@additional_child_attrs.except(:identifier)))
-    end
+    @parent_two_batches_children = batch_create_tree_children(
+      child_factory, two_batch_count, root_key: relationship_key, root: @parent_two_batches_root, parent: @parent_two_batches, **@additional_child_attrs.except(:identifier)
+    ) { |i| { title: "Child #{i + 1} of parent two batches #{@test_prefix}" } }
 
     if config[:max_batch_scenarios] >= 3
       @parent_three_batches_root = create(factory, { title: "Parent three batches root #{@test_prefix}" }.merge(@additional_root_attrs))
@@ -139,13 +113,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
         title: "Parent three batches #{@test_prefix}"
       }.merge(@additional_child_attrs))
       three_batch_count = @batch_size * 2 + 1
-      @parent_three_batches_children = three_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @parent_three_batches_root.uri },
-          parent: { 'ref' => @parent_three_batches.uri },
-          title: "Child #{i + 1} of parent three batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @parent_three_batches_children = batch_create_tree_children(
+        child_factory, three_batch_count, root_key: relationship_key, root: @parent_three_batches_root, parent: @parent_three_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of parent three batches #{@test_prefix}" } }
     end
 
     if config[:max_batch_scenarios] >= 4
@@ -155,13 +125,9 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
         title: "Parent four batches #{@test_prefix}"
       }.merge(@additional_child_attrs))
       four_batch_count = @batch_size * 3 + 1
-      @parent_four_batches_children = four_batch_count.times.map do |i|
-        create(child_factory, {
-          relationship_key => { 'ref' => @parent_four_batches_root.uri },
-          parent: { 'ref' => @parent_four_batches.uri },
-          title: "Child #{i + 1} of parent four batches #{@test_prefix}"
-        }.merge(@additional_child_attrs.except(:identifier)))
-      end
+      @parent_four_batches_children = batch_create_tree_children(
+        child_factory, four_batch_count, root_key: relationship_key, root: @parent_four_batches_root, parent: @parent_four_batches, **@additional_child_attrs.except(:identifier)
+      ) { |i| { title: "Child #{i + 1} of parent four batches #{@test_prefix}" } }
 
       @lazy_loading_root = @parent_four_batches_root
       @lazy_loading_parent = @parent_four_batches
@@ -280,12 +246,11 @@ RSpec.shared_examples 'a root node having no children' do
     let(:expected_uri) { root_record.uri }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having no children'
+    it_behaves_like 'having the node state', :basic_node_markup, :no_children
   end
 end
 
@@ -299,13 +264,11 @@ RSpec.shared_examples 'a root node having three children' do
     let(:child_count) { 3 }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having X children visible'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :children_visible
   end
 end
 
@@ -334,15 +297,11 @@ RSpec.shared_examples 'a root node having N batches of children' do |batch_count
     let(:batches_not_yet_loaded) { (1...batch_count).to_a }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having X children visible'
-    it_behaves_like 'having an observer node for the second batch'
-    it_behaves_like 'having the correct number of batch placeholders'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :children_visible, :observer_for_second_batch, :batch_placeholders
     it_behaves_like 'lazy loading the remaining batches of children on scroll'
   end
 end
@@ -358,13 +317,11 @@ RSpec.shared_examples 'a node having three children' do
     let(:child_count) { 3 }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having not been expanded yet'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :not_expanded_yet
     it_behaves_like 'having expand and collapse behavior'
 
     describe 'when collapsed after expanding' do
@@ -403,13 +360,11 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     let(:child_count) { @batch_size }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
-    it_behaves_like 'having basic node markup'
-    it_behaves_like 'having the correct data-total-child-batches attribute'
-    it_behaves_like 'having not been expanded yet'
+    it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :not_expanded_yet
     it_behaves_like 'having expand and collapse behavior'
 
     describe 'when collapsed after expanding' do
@@ -419,14 +374,13 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     describe 'after initial expansion' do
       before do
         node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
+        wait_for_infinite_tree_node_expanded(node)
       end
 
       let(:child_list) { node.find(':scope > .node-children') }
       let(:batches_not_yet_loaded) { (1...batch_count).to_a }
 
-      it_behaves_like 'having an observer node for the second batch'
-      it_behaves_like 'having the correct number of batch placeholders'
+      it_behaves_like 'having the node state', :observer_for_second_batch, :batch_placeholders
       it_behaves_like 'lazy loading the remaining batches of children on scroll'
 
       describe 'when collapsed after loading all batches' do
@@ -434,7 +388,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
           batches_not_yet_loaded.each do |batch_number|
             observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
             container.scroll_to(observer_node, align: :center)
-            wait_for_ajax
+            expect(observer_node).not_to match_css('[data-observe-offset]')
           end
           node.find(':scope > .node-row .node-expand').click
         end
@@ -456,13 +410,13 @@ RSpec.shared_examples 'having lazy loading behavior' do
     let(:node) { tree.find("##{child_type}_#{parent_record.id}") }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
       find('.infinite-tree')
     end
 
     before(:each) do
       node.find(':scope > .node-row .node-expand').click
-      wait_for_ajax
+      wait_for_infinite_tree_node_expanded(node)
     end
 
     let(:child_list) { node.find(':scope > .node-children') }
@@ -479,11 +433,11 @@ RSpec.shared_examples 'having lazy loading behavior' do
           num_batches_loaded.times do |i|
             if node['aria-expanded'] == 'false'
               node.find(':scope > .node-row .node-expand').click
-              wait_for_ajax
+              wait_for_infinite_tree_node_expanded(node)
             end
             observer_node = child_list.find("[data-observe-offset='#{i + 1}']", match: :first)
             container.scroll_to(observer_node, align: :center)
-            wait_for_ajax
+            expect(observer_node).not_to match_css('[data-observe-offset]')
           end
           node.find(':scope > .node-row .node-expand').click
         end
@@ -503,12 +457,11 @@ RSpec.shared_examples 'being a leaf node' do
   let(:expected_uri) { leaf_record.uri }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
-  it_behaves_like 'having basic node markup'
-  it_behaves_like 'having no children'
+  it_behaves_like 'having the node state', :basic_node_markup, :no_children
 end
 
 RSpec.shared_examples 'simple column rendering' do
@@ -516,7 +469,7 @@ RSpec.shared_examples 'simple column rendering' do
   let(:child_record) { @columns_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -528,7 +481,7 @@ RSpec.shared_examples 'column rendering with conditional columns' do
   let(:child_record) { @columns_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -592,7 +545,7 @@ RSpec.shared_examples 'showing a badge on suppressed records' do
   let(:suppressed_record) { @suppressed_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
@@ -625,7 +578,7 @@ RSpec.shared_examples 'having mixed content behavior' do
 
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
     find('.infinite-tree')
   end
 
