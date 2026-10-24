@@ -28,10 +28,20 @@ class FileVersion < Sequel::Model(:file_version)
     jsons
   end
 
+  def before_validation
+    super
+
+    self.file_uri = self.file_uri.strip if self.file_uri
+  end
+
   def validate
     is_published = [true, 1].include?(self[:publish])
     is_display_thumbnail = [true, 1].include?(self[:is_display_thumbnail])
     is_display_link = [true, 1].include?(self[:is_display_link])
+
+    if self[:file_uri].to_s.empty?
+      errors.add(:file_uri, 'missing_required_property')
+    end
 
     if !is_published && is_display_thumbnail
       errors.add(:is_display_thumbnail, 'display_thumbnail_must_be_published')
