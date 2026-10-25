@@ -1,6 +1,3 @@
-//= require largetree
-//= require tree_renderer
-
 /* search form javascript support */
 
 var $template, $as;
@@ -146,17 +143,8 @@ function toggle_subgroups(event) {
     } else {
         $tree.show();
 
-        if ($tree.is(':empty')) {
-            var root_uri = $result.data('uri');
-            var should_link_to_record = true;
-
-            var tree = new LargeTree(new TreeDataSource(AS.app_prefix(root_uri + '/tree')),
-                $tree,
-                root_uri,
-                true,
-                new SimpleRenderer(should_link_to_record),
-                $.noop,
-                $.noop);
+        if (!$tree.data('infiniteTree')) {
+            $tree.data('infiniteTree', InfiniteTree.fromRecordContainer($tree[0]));
         }
 
         $button.attr('aria-pressed', 'true').addClass('active');

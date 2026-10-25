@@ -52,39 +52,49 @@ describe 'Collection Organization', js: true do
     page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
   end
 
+  # Waits for the sidebar's resize handle, which the page script adds once the
+  # sidebar is set up, then reads both elements' edges in a single call so a
+  # layout change can't land between the two readings.
+  def sidebar_and_content_edges
+    find('.resizable-sidebar-handle')
+    page.evaluate_script(<<~JS)
+      (() => {
+        const sidebar = document.querySelector('.infinite-tree-sidebar').getBoundingClientRect();
+        const content = document.querySelector('.resizable-content-pane').getBoundingClientRect();
+        return { sidebar_left: sidebar.left, sidebar_right: sidebar.right,
+                 content_left: content.left, content_right: content.right };
+      })()
+    JS
+  end
+
+  # The records pane shows a modal loading dialog while it fetches its first
+  # waypoints.  The dialog covers the page and makes the rest of it inert, so a
+  # drag started before it closes presses on the dialog, and keys never reach
+  # the sidebar handle.
+  def wait_for_records_to_load
+    expect(page).not_to have_css('#records-loading-dialog[open]', visible: :all)
+  end
+
+  def expect_sidebar_left_of_content
+    edges = sidebar_and_content_edges
+    expect(edges['sidebar_left']).to be < edges['content_left']
+    expect(edges['sidebar_right']).to eq edges['content_left']
+  end
+
+  def expect_sidebar_right_of_content
+    edges = sidebar_and_content_edges
+    expect(edges['sidebar_left']).to eq edges['content_right']
+    expect(edges['sidebar_right']).to be > edges['content_right']
+  end
+
   describe 'Infinite Tree sidebar' do
     before(:all) do
       set_repo(@repo)
 
-      121.times do |i| # 5 batches
-        instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao3.uri},
-          publish: true
-        ))
+      batch_create_archival_objects(121, resource: @resource, parent: @ao3) # 5 batches
+      [@ao4, @ao5, @ao6].each do |parent|
+        batch_create_archival_objects(1, resource: @resource, parent: parent)
       end
-
-      61.times do |i| # 3 batches
-        instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao4.uri},
-          publish: true
-        ))
-      end
-
-      31.times do |i| # 2 batches
-        instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao5.uri},
-          publish: true
-        ))
-      end
-
-      @ao1_of_ao6 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao6.uri},
-        publish: true
-      )
 
       run_indexers
     end
@@ -115,34 +125,23 @@ describe 'Collection Organization', js: true do
 
       it 'is positioned on the left side of the resource show and infinite views' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to be < content_left_coordinate
-        expect(sidebar_right_coordinate).to eq content_left_coordinate
+        expect_sidebar_left_of_content
 
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to be < content_left_coordinate
-        expect(sidebar_right_coordinate).to eq content_left_coordinate
+        expect_sidebar_left_of_content
       end
 
       it 'is positioned on the left side of the objects show view' do
         visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to be < content_left_coordinate
-        expect(sidebar_right_coordinate).to eq content_left_coordinate
+        expect_sidebar_left_of_content
 
         visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to be < content_left_coordinate
-        expect(sidebar_right_coordinate).to eq content_left_coordinate
+        expect_sidebar_left_of_content
       end
 
       it 'resizes appropriately via mouse drag' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        wait_for_records_to_load
 
         sidebar = find('.infinite-tree-sidebar')
         sidebar_handle = find('.resizable-sidebar-handle')
@@ -153,7 +152,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.drag_to(content)
 
-        wait_for_jquery
         expect(sidebar_left_coordinate).to eq sidebar_left_initial
         expect(sidebar_right_coordinate).to be > sidebar_right_initial
 
@@ -161,13 +159,13 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.drag_to(sidebar)
 
-        wait_for_jquery
         expect(sidebar_left_coordinate).to eq sidebar_left_initial
         expect(sidebar_right_coordinate).to be < sidebar_right_increase
       end
 
       it 'resizes appropriately via keyboard arrow keys' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        wait_for_records_to_load
 
         sidebar_handle = find('.resizable-sidebar-handle')
 
@@ -177,7 +175,6 @@ describe 'Collection Organization', js: true do
         sidebar_handle.send_keys(:tab)
         sidebar_handle.send_keys(:up)
 
-        wait_for_jquery
         expect(sidebar_left_coordinate).to eq sidebar_left_initial
         expect(sidebar_right_coordinate).to be > sidebar_right_initial
 
@@ -185,7 +182,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.send_keys(:down)
 
-        wait_for_jquery
         expect(sidebar_left_coordinate).to eq sidebar_left_initial
         expect(sidebar_right_coordinate).to be < sidebar_right_increase1
 
@@ -193,7 +189,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.send_keys(:right)
 
-        wait_for_jquery
         expect(sidebar_left_coordinate).to eq sidebar_left_initial
         expect(sidebar_right_coordinate).to be > sidebar_right_decrease1
 
@@ -201,7 +196,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.send_keys(:left)
 
-        wait_for_jquery
         expect(sidebar_left_coordinate).to eq sidebar_left_initial
         expect(sidebar_right_coordinate).to be < sidebar_right_increase2
       end
@@ -214,34 +208,23 @@ describe 'Collection Organization', js: true do
 
       it 'is positioned on the right side of the show and infinite views' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to eq content_right_coordinate
-        expect(sidebar_right_coordinate).to be > content_right_coordinate
+        expect_sidebar_right_of_content
 
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to eq content_right_coordinate
-        expect(sidebar_right_coordinate).to be > content_right_coordinate
+        expect_sidebar_right_of_content
       end
 
       it 'is positioned on the right side of the objects show view' do
         visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to eq content_right_coordinate
-        expect(sidebar_right_coordinate).to be > content_right_coordinate
+        expect_sidebar_right_of_content
 
         visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
-
-        wait_for_jquery
-        expect(sidebar_left_coordinate).to eq content_right_coordinate
-        expect(sidebar_right_coordinate).to be > content_right_coordinate
+        expect_sidebar_right_of_content
       end
 
       it 'resizes appropriately via mouse drag' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        wait_for_records_to_load
 
         sidebar = find('.infinite-tree-sidebar')
         sidebar_handle = find('.resizable-sidebar-handle')
@@ -252,7 +235,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.drag_to(content)
 
-        wait_for_jquery
         expect(sidebar_right_coordinate).to eq sidebar_right_initial
         expect(sidebar_left_coordinate).to be < sidebar_left_initial
 
@@ -260,13 +242,13 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.drag_to(sidebar)
 
-        wait_for_jquery
         expect(sidebar_right_coordinate).to eq sidebar_right_initial
         expect(sidebar_left_coordinate).to be > sidebar_left_increase
       end
 
       it 'resizes appropriately via keyboard arrow keys' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        wait_for_records_to_load
 
         sidebar = find('.infinite-tree-sidebar')
         sidebar_handle = find('.resizable-sidebar-handle')
@@ -278,7 +260,6 @@ describe 'Collection Organization', js: true do
         sidebar_handle.send_keys(:tab)
         sidebar_handle.send_keys(:up)
 
-        wait_for_jquery
         expect(sidebar_right_coordinate).to eq sidebar_right_initial
         expect(sidebar_left_coordinate).to be < sidebar_left_initial
 
@@ -286,7 +267,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.send_keys(:down)
 
-        wait_for_jquery
         expect(sidebar_right_coordinate).to eq sidebar_right_initial
         expect(sidebar_left_coordinate).to be > sidebar_left_increase1
 
@@ -294,7 +274,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.send_keys(:left)
 
-        wait_for_jquery
         expect(sidebar_right_coordinate).to eq sidebar_right_initial
         expect(sidebar_left_coordinate).to be < sidebar_left_decrease1
 
@@ -302,7 +281,6 @@ describe 'Collection Organization', js: true do
 
         sidebar_handle.send_keys(:right)
 
-        wait_for_jquery
         expect(sidebar_right_coordinate).to eq sidebar_right_initial
         expect(sidebar_left_coordinate).to be > sidebar_left_increase2
       end
@@ -311,7 +289,6 @@ describe 'Collection Organization', js: true do
     describe 'parent nodes' do
       before(:each) do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        wait_for_jquery
         @container = page.find('#infinite-tree-container')
         @ao3_node = page.find("#archival_object_#{@ao3.id}")
       end
@@ -335,18 +312,17 @@ describe 'Collection Organization', js: true do
 
       it 'are expanded and collapsed by clicking the "expand" button' do
         @ao3_node.find('.node-expand').click
-        wait_for_jquery
         aggregate_failures do
-          expect(@ao3_node['data-is-expanded']).to eq "true"
+          expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: true)
+          expect(@ao3_node).to match_css('[data-is-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[aria-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[data-has-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand-icon.expanded')
-          expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: true)
         end
 
         @ao3_node.find('.node-expand').click
         aggregate_failures do
-          expect(@ao3_node['data-is-expanded']).to eq "false"
+          expect(@ao3_node).to match_css('[data-is-expanded="false"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[aria-expanded="false"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[data-has-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand-icon:not(.expanded)')
@@ -391,79 +367,47 @@ describe 'Collection Organization', js: true do
   describe 'Load All Records' do
     before(:all) do
       set_repo(@repo)
-      @res_1wp = create(:resource,
-        title: 'Collection with 1 waypoint of records',
-        publish: true
-      )
-      2.times do |i|
-        instance_variable_set("@ao#{i + 1}_1wp", create(:archival_object,
-          resource: {'ref' => @res_1wp.uri},
-          title: "AO #{i + 1}",
-          publish: true
-        ))
-      end
 
-      @res_2wp = create(:resource,
-        title: 'Collection with 2 waypoints of records',
-        publish: true
-      )
-      5.times do |i|
-        instance_variable_set("@ao#{i + 1}_2wp", create(:archival_object,
-          resource: {'ref' => @res_2wp.uri},
-          title: "AO #{i + 1}",
+      # resource with N waypoints of records => number of records
+      { 1 => 2, 2 => 5, 3 => 10, 4 => 15, 5 => 20, 10 => 45 }.each do |waypoints, count|
+        resource = create(:resource,
+          title: "Collection with #{waypoints} waypoint#{'s' if waypoints > 1} of records",
           publish: true
-        ))
-      end
+        )
+        instance_variable_set("@res_#{waypoints}wp", resource)
 
-      @res_3wp = create(:resource,
-        title: 'Collection with 3 waypoints of records',
-        publish: true
-      )
-      10.times do |i|
-        instance_variable_set("@ao#{i + 1}_3wp", create(:archival_object,
-          resource: {'ref' => @res_3wp.uri},
-          title: "AO #{i + 1}",
-          publish: true
-        ))
-      end
-
-      @res_4wp = create(:resource,
-        title: 'Collection with 4 waypoints of records',
-        publish: true
-      )
-      15.times do |i|
-        instance_variable_set("@ao#{i + 1}_4wp", create(:archival_object,
-          resource: {'ref' => @res_4wp.uri},
-          title: "AO #{i + 1}",
-          publish: true
-        ))
-      end
-
-      @res_5wp = create(:resource,
-        title: 'Collection with 5 waypoints of records',
-        publish: true
-      )
-      20.times do |i|
-        instance_variable_set("@ao#{i + 1}_5wp", create(:archival_object,
-          resource: {'ref' => @res_5wp.uri},
-          title: "AO #{i + 1}",
-          publish: true
-        ))
-      end
-
-      @res_10wp = create(:resource,
-        title: 'Collection with 10 waypoints of records',
-        publish: true
-      )
-      45.times do |i|
-        instance_variable_set("@ao#{i + 1}_10wp", create(:archival_object,
-          resource: {'ref' => @res_10wp.uri},
-          title: "AO #{i + 1}",
-          publish: true
-        ))
+        records = batch_create_archival_objects(count, resource: resource) { |i| { title: "AO #{i + 1}" } }
+        records.each.with_index(1) do |record, n|
+          instance_variable_set("@ao#{n}_#{waypoints}wp", record)
+        end
       end
 
       run_indexers
+    end
+
+    # Count the main thread's fetch calls made from the moment the Load All
+    # toggle is clicked, and the waypoints still empty at that moment.  Web
+    # workers don't have access to `window`, so their fetch calls aren't
+    # counted.  Both values are taken by a capture listener on the click
+    # itself, so a waypoint the page is still loading on its own can't skew
+    # either of them.
+    def track_load_all_fetches
+      page.execute_script(<<~JS)
+        window.loadAllFetchCount = 0;
+        window.fetch = ((originalFetch) => {
+          return (...args) => {
+            window.loadAllFetchCount++;
+            return originalFetch(...args);
+          };
+        })(window.fetch);
+
+        document.querySelector('.load-all__label-toggle').addEventListener('click', () => {
+          window.loadAllFetchCount = 0;
+          window.emptyWaypointsAtLoadAll = document.querySelectorAll(
+            '#infinite-records-container .waypoint:not(.populated)'
+          ).length;
+        }, { capture: true });
+      JS
     end
 
     it 'is not shown for a resource with less than 3 waypoints of records' do
@@ -524,10 +468,9 @@ describe 'Collection Organization', js: true do
     it 'shows the percentage of records that have been loaded after page load' do
       visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
 
-      wait_for_jquery
-
-      loaded_waypoints = page.all('#infinite-records-container .waypoint.populated')
-      expect(loaded_waypoints.length).to eq 3
+      # Waypoints 0 and 1 render on load; waypoint 2 follows once waypoint 1's
+      # records are observed, so wait for it rather than counting straight away
+      expect(page).to have_css('#infinite-records-container .waypoint.populated', count: 3)
 
       loaded_records = page.all('#infinite-records-container .infinite-record-record')
       total_records = page.find('#infinite-records-container')['data-total-records']
@@ -573,8 +516,8 @@ describe 'Collection Organization', js: true do
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
       expect(page).to have_css('#records-loading-dialog', visible: false)
-
-      wait_for_jquery
+      toggle = page.find('.load-all__label-toggle')
+      total_records = page.find('#infinite-records-container')['data-total-records'].to_i
 
       # There is no dialog 'open' event so listen for 'close' which implies it was open
       page.execute_script(<<~JS)
@@ -586,10 +529,10 @@ describe 'Collection Organization', js: true do
       JS
 
       expect(page.evaluate_script('window.dialogClosed')).to eq false
-      page.find('.load-all__label-toggle').click
+      toggle.click
 
-      wait_for_jquery
-
+      # The dialog closes in the same step that renders the last record
+      expect(page).to have_css('#infinite-records-container .infinite-record-record', count: total_records)
       expect(page.evaluate_script('window.dialogClosed')).to eq true
     end
 
@@ -598,8 +541,6 @@ describe 'Collection Organization', js: true do
       expect(page).to have_css('#load-all-section', visible: true)
       page.find('.load-all__label-toggle').click
 
-      wait_for_jquery
-
       expect(page).to have_css('#load-all-section', visible: false)
     end
 
@@ -607,31 +548,16 @@ describe 'Collection Organization', js: true do
       it 'loads all remaining records from the main thread' do
         visit "/repositories/#{@repo.id}/resources/#{@res_5wp.id}/collection_organization"
 
-        wait_for_jquery
+        total_records = page.find('#infinite-records-container')['data-total-records'].to_i
+        expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records)
 
-        total_records = page.find('#infinite-records-container')['data-total-records']
-        num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
-        expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
-
-        # Add a wrapper function around `window.fetch()` that increments a number when
-        # the browser's main thread makes a fetch call.
-        page.execute_script(<<~JS)
-          window.loadAllFetchCount = 0;
-          window.fetch = ((originalFetch) => {
-            return (...args) => {
-              window.loadAllFetchCount++;
-              return originalFetch(...args);
-            };
-          })(window.fetch);
-        JS
-
-        expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+        track_load_all_fetches
         page.find('.load-all__label-toggle').click
 
-        wait_for_jquery
-
-        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
-        expect(page.evaluate_script('window.loadAllFetchCount')).to eq num_empty_waypoints_start
+        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records)
+        empty_waypoints_at_load_all = page.evaluate_script('window.emptyWaypointsAtLoadAll')
+        expect(empty_waypoints_at_load_all).to be > 0
+        expect(page.evaluate_script('window.loadAllFetchCount')).to eq empty_waypoints_at_load_all
       end
     end
 
@@ -639,30 +565,13 @@ describe 'Collection Organization', js: true do
       it 'loads all remaining records from a background thread' do
         visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-        wait_for_jquery
+        total_records = page.find('#infinite-records-container')['data-total-records'].to_i
+        expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records)
 
-        total_records = page.find('#infinite-records-container')['data-total-records']
-        expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
-
-        # Add a wrapper function around `window.fetch()` that increments a number when
-        # the browser's main thread makes a fetch call. Web workers don't have access
-        # to `window`, so its fetch calls won't be counted.
-        page.execute_script(<<~JS)
-          window.loadAllFetchCount = 0;
-          window.fetch = ((originalFetch) => {
-            return (...args) => {
-              window.loadAllFetchCount++;
-              return originalFetch(...args);
-            };
-          })(window.fetch);
-        JS
-
-        expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+        track_load_all_fetches
         page.find('.load-all__label-toggle').click
 
-        wait_for_jquery
-
-        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records)
         expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
       end
     end

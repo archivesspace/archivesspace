@@ -42,14 +42,13 @@ describe 'Infinite Tree Cut/Paste', js: true do
 
     before do
       visit edit_path
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
     end
 
     it 'pastes only the parent when both parent and child are cut' do
       install_accept_children_capture
       enable_reorder_mode
       expand_tree_node(ao2.uri)
-      wait_for_ajax
 
       # Parent/child explicit multiselection is intentionally blocked in reorder mode
       # by InfiniteTreeMultiSelection ancestry-lock rules. Seed that explicit selection
@@ -118,7 +117,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
     it 'pastes cut rows as children of the root when root is the paste target' do
       install_accept_children_capture
       visit "#{edit_path}#{ao_hash}"
-      wait_for_ajax
+      wait_for_infinite_tree_loaded
 
       enable_reorder_mode
       click_infinite_tree_toolbar_cut
@@ -144,7 +143,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
       click_infinite_tree_toolbar_cut
 
       find('.js-itree-toolbar-paste').click
-      wait_for_ajax
+      wait_for_reorder_idle
 
       aggregate_failures do
         expect(accept_children_requests).to eq([])
@@ -158,7 +157,6 @@ describe 'Infinite Tree Cut/Paste', js: true do
         enable_reorder_mode
         wait_for_reorder_mode_ready
         expand_tree_node(ao2.uri)
-        wait_for_ajax
         expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
       end
 
@@ -178,7 +176,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
         select_tree_row(child_ao)
 
         find('.js-itree-toolbar-paste').click
-        wait_for_ajax
+        wait_for_reorder_idle
 
         aggregate_failures do
           expect(accept_children_requests).to eq([])
@@ -205,7 +203,7 @@ describe 'Infinite Tree Cut/Paste', js: true do
         expect_infinite_tree_toolbar_paste_enabled(true)
 
         # child_ao has never been expanded into view, so this hash goes through
-        # loadNodeWithAncestors -> #renderAncestors(replace: true), which calls
+        # loadNodeWithAncestors -> #renderAncestorsAndShow(replace: true), which calls
         # container.replaceChildren().
         navigate_tree_hash(tree_hash_for(child_ao.uri))
         expect(page).to have_css("li.node.current[data-uri='#{child_ao.uri}']")

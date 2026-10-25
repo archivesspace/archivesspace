@@ -161,7 +161,6 @@ class ResourcesController < ApplicationController
       ]
 
       fill_request_info
-      @dig = process_digital_instance(@result['json']['instances'])
       process_extents(@result['json'])
 
       @n_digital_objects = get_digital_object_count
@@ -198,7 +197,7 @@ class ResourcesController < ApplicationController
       fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
-      record_not_found(uri, 'resource')
+      record_not_found(@root_uri, 'resource')
     end
   end
 

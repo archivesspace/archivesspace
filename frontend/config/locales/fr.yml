@@ -1,5 +1,7 @@
 fr:
   actions:
+    collapse_node: "Réduire %{title}"
+    expand_node: "Développer %{title}"
     lightmode_toggle: Mode lumière
     export_marc_auth: Télécharger l'autorité MARCXML
     add: Ajouter
@@ -208,9 +210,6 @@ fr:
     check_all: Vérifie tout
     uncheck_all: Tout décocher
     download: Télécharger
-    drop_before: Laisser tomber avant
-    drop_into: Laisser tomber enfant
-    drop_after: Laisser tomber après
     require_subrecord: Exiger un sous-enregistrement
     select_resource: Sélectionner Ressource
     expand_tree_mode_on: Développer tout automatiquement
@@ -299,7 +298,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     resource:
       score: Pertinence
       title: Intitulé
@@ -323,7 +322,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     archival_object:
       score: Pertinence
       title: Intitulé
@@ -341,7 +340,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     subject:
       score: Pertinence
       source: Source
@@ -372,7 +371,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     digital_object_component:
       score: Pertinence
       title: Intitulé
@@ -387,7 +386,7 @@ fr:
       asc: Ascendant
       desc: Descendant
       uri: URI
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
     agent:
       score: Pertinence
       title: Nom
@@ -581,7 +580,7 @@ fr:
       langcode: Langue des matériaux
       asc: Ascendant
       desc: Descendant
-      representative_file_version: Image miniature
+      thumbnail: Image miniature
       uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Service
@@ -839,8 +838,6 @@ fr:
       before: Ajouter items avant
       after: Ajouter items après
       as_child: Ajouter items comme fils
-    unexpected_failure: Oups! Impossible de récupérer cette arborescence. 
-      Veuillez rafraîchir la page .
     resize: Faire glisser pour ajuster la hauteur de l'arborescence
     maximize: Maximiser/minimiser la hauteur de l'arborescence
     drag_to_reorder: Faire glisser pour réordonner
@@ -848,6 +845,10 @@ fr:
       move_records: Impossible de déplacer les notices
       move_records_message: Les notices n'ont pas pu être déplacées. Veuillez 
         rafraîchir la page et réessayer.
+
+  sidebar:
+    aria_label: Sections de la notice
+    system_info_aria_label: Sections des infos système
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur 
@@ -1029,7 +1030,7 @@ fr:
         spawn_menu_before: Insérer le composant généré avant
         transfer_description: Sélectionnez une ressource dans laquelle 
           transférer cette entrée
-        spawn_placeholder: <em>Le composant généré sera inséré ici</em>
+        spawn_placeholder: Le composant généré sera inséré ici
         spawn_menu_after: Insérer le composant généré aprés
       section:
         basic_information: Informations de base
@@ -1238,6 +1239,7 @@ fr:
 
   file_version:
     _frontend:
+      published: Publié
       messages:
         no_iiif_viewer: "Aucune visionneuse IIIF n'est disponible. Définissez AppConfig[:iiif_viewer]
           sur 'universal_viewer', 'mirador' ou l'URL d'une visionneuse IIIF hébergée
@@ -1245,10 +1247,11 @@ fr:
       action:
         add: Ajouter version de fichier
         make_representative: Rendre représentatif
+        make_display_thumbnail: Utiliser comme miniature d'affichage
+        make_display_thumbnail_tooltip: Affiche l'image située à l'URI du fichier de cette version du fichier comme miniature de la notice. Une version du fichier qui n'est pas une image affichable montre une icône générique à la place.
+        make_display_link: Utiliser comme lien d'affichage
+        make_display_link_tooltip: Lie la miniature ou l'icône générique de la notice à l'URI du fichier de cette version du fichier.
 
-        make_representative_tooltip: Utilisez-le pour indiquer que cette image 
-          doit être affichée lorsqu'il existe plusieurs versions de fichier 
-          associées à l'enregistrement.
   group:
     _frontend:
       action:

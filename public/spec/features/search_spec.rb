@@ -238,7 +238,7 @@ describe 'Search', js: true do
 
     matcher :highlight_term_found_in do |label, term|
       match_unless_raises do |page|
-        expect(page).to have_xpath "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., '#{label}')]]/span[contains(@class, 'searchterm')][contains(., '#{term}')]"
+        expect(page).to have_xpath "//div[contains(@class, 'recordrow')][div[h2[contains(., '#{searched_record.title}')]]]//div[contains(@class, 'highlighting')][strong[contains(., '#{label}')]]/span[contains(@class, 'searchterm')][contains(., '#{term}')]"
       end
     end
 
@@ -253,8 +253,8 @@ describe 'Search', js: true do
       )
     end
 
-    let(:result_title) { find('.recordrow > h2', text: searched_record.title) }
-    let(:result_highlights) { all(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')]") }
+    let(:result_title) { find('.recordrow .record-title', text: searched_record.title) }
+    let(:result_highlights) { all(:xpath, "//div[contains(@class, 'recordrow')][div[h2[contains(., '#{searched_record.title}')]]]//div[contains(@class, 'highlighting')]") }
 
     before :each do
       set_repo repository
@@ -326,7 +326,7 @@ describe 'Search', js: true do
         it 'highlights the search term in the results title and found in sections' do
           expect(page).to highlight_term_in_title search_term
 
-          page.all(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
+          page.all(:xpath, "//div[contains(@class, 'recordrow')][div[h2[contains(., '#{searched_record.title}')]]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
             expect(e.text).to eq(search_term)
           end
 
@@ -426,6 +426,69 @@ describe 'Search', js: true do
           expect(page).to have_text('No Records Found')
         end
       end
+    end
+  end
+
+  describe 'container summary on results' do
+    let(:now) { Time.now.to_i }
+    let(:repository) { create(:repo, :repo_code => "container_search_test_#{now}", publish: true) }
+    let(:top_container) { create(:json_top_container, indicator: "#{now}", type: 'box', barcode: "barcode_#{now}") }
+    let(:ao) do
+      create(:archival_object,
+             title: "Container Summary AO #{now}",
+             publish: true,
+             resource: { 'ref' => create(:resource, publish: true).uri },
+             instances: [build(:json_instance, {
+               instance_type: 'text',
+               sub_container: build(:json_sub_container, {
+                 top_container: { ref: top_container.uri },
+                 type_2: 'folder',
+                 indicator_2: '3',
+                 barcode_2: "child_barcode_#{now}"
+               })
+             })])
+    end
+
+    before :each do
+      set_repo repository
+      ao
+      run_indexers
+    end
+
+    it 'shows the top container type and indicator but not the barcode' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_barcodes) { false }
+
+      visit('/search')
+      find('#q0').fill_in with: ao.title
+      click_on 'Search'
+
+      badge = find(:xpath, "//div[contains(@class, 'recordrow')][.//h2[contains(., '#{ao.title}')]]//div[contains(@class, 'record-type-badge')]")
+      expect(badge).to have_text("Box: #{now}, Folder: 3")
+      expect(badge).not_to have_text("barcode_#{now}")
+
+      visit(ao.uri)
+      expect(page).not_to have_text("barcode_#{now}")
+    end
+
+    it 'shows the barcode when AppConfig[:pui_display_barcodes] is true' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_barcodes) { true }
+
+      visit('/search')
+      find('#q0').fill_in with: ao.title
+      click_on 'Search'
+
+      badge = find(:xpath, "//div[contains(@class, 'recordrow')][.//h2[contains(., '#{ao.title}')]]//div[contains(@class, 'record-type-badge')]")
+      expect(badge).to have_text("Box: #{now} [Barcode: barcode_#{now}], Folder: 3 [Barcode: child_barcode_#{now}]")
+    end
+
+    it 'shows the barcode on the record page when AppConfig[:pui_display_barcodes] is true' do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:pui_display_barcodes) { true }
+
+      visit(ao.uri)
+      expect(page).to have_css('ul.top_containers li', text: "Box: #{now} [Barcode: barcode_#{now}], Folder: 3 [Barcode: child_barcode_#{now}]", visible: :all)
     end
   end
 

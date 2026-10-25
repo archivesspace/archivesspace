@@ -30,6 +30,8 @@ fr:
     welcome_page_title: Interface publique d'ArchivesSpace
 
   actions:
+    collapse_node: "Réduire %{title}"
+    expand_node: "Développer %{title}"
     search: Chercher
     search_header: Rechercher dans les archives
     search_within: Chercher dans les résultats
@@ -393,10 +395,8 @@ fr:
     _singular: Document numérique
     _plural: Matériaux numériques
     _public:
-      thumbnail: miniature
       link: Lien vers objet numérique
       badge_label: Numérique %{level}
-      go: Aller au dossier
       section: {}
       messages: {}
       additional: Versions de fichiers supplémentaires
@@ -654,5 +654,8 @@ fr:
     username_aria_label: Nom d'utilisateur
     password_aria_label: Mot de passe
     required: Champs obligatoires
-    pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter la PUI."
+    pui_permission_denied: "L'utilisateur `%{username}` n'a pas la permission de consulter l'interface publique."
     login_failed: "Échec de la connexion. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."
+  thumbnails:
+    view_digital_object: Voir l'objet numérique
+    view_digital_material: Voir le matériel numérique

@@ -12,6 +12,8 @@ ja:
       のような完全な URI 
       を指定するか、バーコードのみを指定します。バーコードのみを指定した場合は、そのバーコードを持つトップコンテナ（既存のものでも、前の行で作成されたものでも）がリンクされ、リポジトリ内にそのバーコードを持つトップコンテナが存在しない場合、インポートは失敗します。バーコードとともに他のトップコンテナ項目を入力した場合は、代わりにそのバーコードを持つ新しいトップコンテナが作成され、インジケーターが必須となります。そのバーコードがリポジトリ内ですでに使用されている場合、インポートは失敗します。
   actions:
+    collapse_node: "%{title} を折りたたむ"
+    expand_node: "%{title} を展開"
     lightmode_toggle: ライトモード
     export_marc_auth: MARCXMLAuthorityをダウンロードする
     add: 追加
@@ -244,6 +246,7 @@ ja:
 
   search:
     accession:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -267,6 +270,7 @@ ja:
       asc: 上昇
       desc: 降順
     resource:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -289,6 +293,7 @@ ja:
       asc: 上昇
       desc: 降順
     archival_object:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -316,6 +321,7 @@ ja:
       asc: 上昇
       desc: 降順
     digital_object:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -333,6 +339,7 @@ ja:
       asc: 上昇
       desc: 降順
     digital_object_component:
+      thumbnail: サムネイル
       score: 関連性
       title: タイトル
       publish: 発行済み
@@ -501,6 +508,7 @@ ja:
       asc: 上昇
       desc: 降順
     multi:
+      thumbnail: サムネイル
       score: 関連性
       primary_type: レコードタイプ
       creators: クリエイター
@@ -722,13 +730,16 @@ ja:
       before: 項目を前に追加する
       after: 後に項目を追加
       as_child: 子供としてアイテムを追加する
-    unexpected_failure: おっとっと！このツリーを取得する際に問題が発生しています。ページをリフレッシュしてみてください。
     resize: ツリーの高さをドラッグして調整
     maximize: ツリーの高さを最大化/最小化
     drag_to_reorder: ドラッグして並べ替え
     errors:
       move_records: レコードを移動できません
       move_records_message: レコードを移動できませんでした。ページを更新してもう一度お試しください。
+
+  sidebar:
+    aria_label: レコードのセクション
+    system_info_aria_label: システムインフォメーションのセクション
 
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。
@@ -1061,12 +1072,17 @@ ja:
 
   file_version:
     _frontend:
+      published: 公開
       messages:
         no_iiif_viewer: "利用可能な IIIF ビューアがありません。AppConfig[:iiif_viewer] に 'universal_viewer'、'mirador'、または外部でホストされている
           IIIF ビューアの URL を設定してください。"
       action:
         add: ファイルバージョンを追加
         make_representative: 代表者にする
+        make_display_thumbnail: 表示サムネイルに設定
+        make_display_thumbnail_tooltip: このファイルのバージョンのファイルURIにある画像を、レコードのサムネイルとして表示します。表示可能な画像でない場合は、代わりに汎用アイコンが表示されます。
+        make_display_link: 表示リンクに設定
+        make_display_link_tooltip: レコードのサムネイルまたは汎用アイコンを、このファイルのバージョンのファイルURIにリンクします。
 
   group:
     _frontend:

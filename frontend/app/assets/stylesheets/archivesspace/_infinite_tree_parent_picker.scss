@@ -1,0 +1,88 @@
+// Parent picker: a browse-only InfiniteTree hosted in TreeLinkingModal on the
+// standalone new Archival Object page. See InfiniteTreeParentPicker.js and
+// archival_objects/_infinite_tree_parent_picker.html.erb.
+
+// Fill the modal body, which AS.openCustomModal sizes, so the tree container
+// is the scroll container the batch observer expects.
+.infinite-tree-parent-picker {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.infinite-tree-parent-picker #infinite-tree-container {
+  // Containing block for the placement menu, which scrolls with the rows
+  position: relative;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 12rem;
+  margin: 0;
+}
+
+.infinite-tree-parent-picker .root > .node-row .record-title,
+.infinite-tree-parent-picker .spawn-placeholder .record-title {
+  cursor: default;
+}
+
+.infinite-tree-parent-picker .node:not(.root, .spawn-placeholder) > .node-row {
+  cursor: pointer;
+}
+
+.infinite-tree-parent-picker .root > .node-row .record-title:hover,
+.infinite-tree-parent-picker .spawn-placeholder .record-title:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.infinite-tree-parent-picker .node.spawn-anchor > .node-row > .node-body {
+  position: relative;
+  background-color: var(--tree-drop-hover-bg);
+
+  .node-indentation {
+    --indent-fill: var(--tree-drop-hover-bg);
+    --indent-line: transparent;
+  }
+
+  .node-expand {
+    background-color: var(--tree-drop-hover-bg);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    border: 2px solid var(--green-600);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+}
+
+.infinite-tree-parent-picker .node.spawn-placeholder > .node-row > .node-body {
+  position: relative;
+  background-color: var(--tree-current-bg);
+
+  .node-indentation {
+    --indent-fill: var(--tree-current-bg);
+    --indent-line: transparent;
+  }
+
+  .node-expand {
+    background-color: var(--tree-current-bg);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    border: 1px solid var(--tree-current-border);
+    pointer-events: none;
+  }
+}

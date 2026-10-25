@@ -2,6 +2,8 @@ pl:
   bulk_import_templates:
     aspace_accession_import_template_csv: Twórz rekordy Nabytków wraz z Rozmiarami, Dokumentami zewnętrznymi, Tematami, Agentami i Instancjami z kontenerami nadrzędnymi. Pobrany plik zawiera jedną grupę _1 dla każdego z nich. Powiąż istniejący Temat za pomocą subject_1_record_id, podając identyfikator liczbowy, na przykład 197, albo pełny URI, na przykład /subjects/197. Powiąż istniejącego Agenta za pomocą agent_1_record_id w ten sam sposób; agent_1_agent_type jest wymagany, gdy podajesz identyfikator liczbowy, i opcjonalny, gdy podajesz URI, na przykład /agents/people/5. Nie wypełniaj pól powiązania i tworzenia w tej samej grupie. Powiąż istniejący kontener nadrzędny za pomocą pełnego URI, na przykład /repositories/2/top_containers/5, albo samym kodem kreskowym. Sam kod kreskowy powiązuje kontener nadrzędny, który go posiada, niezależnie od tego, czy już istniał, czy utworzył go wcześniejszy wiersz; import kończy się niepowodzeniem, jeśli żaden kontener nadrzędny w repozytorium nie ma tego kodu kreskowego. Wypełnienie dowolnego innego pola kontenera nadrzędnego obok kodu kreskowego powoduje natomiast utworzenie nowego kontenera nadrzędnego z tym kodem kreskowym, przy czym wskaźnik jest wymagany, a import kończy się niepowodzeniem, jeśli ten kod kreskowy jest już używany w repozytorium.
   actions:
+    collapse_node: "Zwiń %{title}"
+    expand_node: "Rozwiń %{title}"
     add: Dodać
     add_event: Dodaj Wydarzenie
     add_event_event_type: Odmiana
@@ -25,7 +27,6 @@ pl:
     date_picker: Otwórz selektor daty
     date_picker_toggle: Włącz/wyłącz selektor daty.
     defaults: Wartości domyślne
-    drop_before: Upuść przed
     duplicate_resource: Zduplikowany zasób
     duplicate_resource_confirm_message: Zostanie utworzone zadanie polegające na
       skopiowaniu tego zasobu wraz ze wszystkimi zawartymi w nim obiektami 
@@ -183,8 +184,6 @@ pl:
     unpublish_archival_object: Cofnij publikację wszystkich elementów.
     unpublish_archival_object_confirm_title: Cofnąć publikację?
     view_search_results: Przejdź do wyników wyszukiwania.
-    drop_after: Spadek po
-    drop_into: Upuść jako dziecko
     move_ordering_problem_message: Problem z kolejnością sortowania rekordów
     reset_confirm_title: Przywrócić domyślne ustawienia aplikacji dla 
       %{preftype}?
@@ -384,7 +383,7 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
     resource:
       score: Znaczenie
       title: Tytuł
@@ -408,7 +407,7 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
     archival_object:
       score: Znaczenie
       title: Tytuł
@@ -421,7 +420,7 @@ pl:
       langcode: Język materiałów
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       dates: Daty
       extents: Zakres
       user_mtime: Zmodyfikowany
@@ -447,7 +446,7 @@ pl:
       digital_object_id: Cyfrowy identyfikator obiektu
       audit_info: Informacje dotyczące audytu
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       user_mtime: Zmodyfikowany
       dates: Daty
       desc: Zstępujący
@@ -462,7 +461,7 @@ pl:
       context: Znaleziono w
       dates: Daty
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       title: Tytuł
       create_time: Stworzony
       score: Znaczenie
@@ -675,7 +674,7 @@ pl:
       dates: Daty
       langcode: Język materiałów
       uri: URI
-      representative_file_version: Obraz miniatury
+      thumbnail: Obraz miniatury
       desc: Zstępujący
       query: Tekst
       user_mtime: Zmodyfikowany
@@ -825,8 +824,8 @@ pl:
           <strong>%{accession_display_string}</strong>. Ten rekord nie został 
           jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
           przycisk Zapisz.
-        spawn_placeholder: <em>Wygenerowany komponent zostanie wstawiony w tym 
-          miejscu</em>
+        spawn_placeholder: Wygenerowany komponent zostanie wstawiony w tym
+          miejscu
         spawn_menu_before: Wstaw wygenerowany komponent przed
         spawn_menu_child: Wstaw wygenerowany komponent jako element podrzędny.
         spawn_menu_after: Wstaw wygenerowany komponent po
@@ -1011,14 +1010,16 @@ pl:
       after: Dodaj elementy po
       before: Dodaj elementy przed
       as_child: Dodaj elementy jako dzieci
-    unexpected_failure: Ups! Wystąpił problem z wczytywaniem tego drzewa. 
-      Spróbuj odświeżyć stronę.
     resize: Przeciągnij, aby zmienić wysokość drzewa.
     maximize: Maksymalizacja/minimalizacja wysokości drzewa.
     drag_to_reorder: Przeciągnij, aby zmienić kolejność
     errors:
       move_records: Nie można przenieść rekordów
       move_records_message: Nie można przenieść rekordów. Odśwież stronę i spróbuj ponownie.
+  sidebar:
+    aria_label: Sekcje rekordu
+    system_info_aria_label: Sekcje informacji o systemie
+
   errors:
     sidebar_label: Błędy i ostrzeżenia
     error_403: Nie można uzyskać dostępu do strony.
@@ -1132,14 +1133,16 @@ pl:
         add: Dodaj dokument zewnętrzny
   file_version:
     _frontend:
+      published: Opublikowano
       messages:
         no_iiif_viewer: "Brak dostępnej przeglądarki IIIF. Ustaw AppConfig[:iiif_viewer] na 'universal_viewer', 'mirador' lub adres URL przeglądarki IIIF hostowanej zewnętrznie."
       action:
         add: Dodaj wersję pliku
-        make_representative_tooltip: Służy do wskazania, że ten obraz powinien 
-          być wyświetlany, gdy z danym rekordem powiązanych jest wiele wersji 
-          pliku.
         make_representative: Wyznacz przedstawiciela
+        make_display_thumbnail: Ustaw jako miniaturę wyświetlania
+        make_display_thumbnail_tooltip: Wyświetla obraz spod URI pliku tej wersji pliku jako miniaturę rekordu. Jeśli wersja pliku nie jest obrazem, który można wyświetlić, zamiast niego pokazywana jest ogólna ikona.
+        make_display_link: Ustaw jako link wyświetlania
+        make_display_link_tooltip: Łączy miniaturę lub ogólną ikonę rekordu z URI pliku tej wersji pliku.
   location_batch:
     _frontend:
       messages:

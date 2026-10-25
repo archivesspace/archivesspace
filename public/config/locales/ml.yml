@@ -1,5 +1,9 @@
 ml:
   actions:
+    collapse_node: "%{title} ചുരുക്കുക"
+    expand_node: "%{title} വികസിപ്പിക്കുക"
     request: അപേക്ഷിക്കുക
   brand:
     title: ആർക്കൈവ് സ്പേസ് പൊതു ഇൻറർഫെയ്സ്
+    title_link_text: ആർക്കൈവ്സ്സ്പെയ്സ് ഹോംപേജിലേക്ക് മടങ്ങുക
+    welcome_head: ആർക്കൈവ്സ്സ്പെയ്സ്ലേക്ക് സ്വാഗതം

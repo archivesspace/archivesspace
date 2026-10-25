@@ -1,37 +1,30 @@
  <%# any result that is going to be presented in a list %>
   <% if !props.fetch(:full,false) %>
-   <div class="recordrow" style="clear:both" data-uri="<%= result.uri %>">
+   <div class="recordrow result-row" data-uri="<%= result.uri %>">
      <% end %>
-  <% if result['json']['representative_file_version'].present? %>
-    <div class="flex items-start">
-      <%= render partial: 'shared/representative_file_version_result', locals: {
-        :uri => result['json']['representative_file_version']['file_uri'],
-        :caption => result['json']['representative_file_version']['caption'],
-        :figure_class => 'result-repfv__figure',
-        :img_class => 'result-repfv__img',
-        :figcaption_class => 'result-repfv__figcaption'
-      } %>
-      <div>
-        <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
-        <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
-      </div>
-    </div>
-  <% else %>
-    <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
-    <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
-  <% end %>
 
-  <% if result.highlights.present? %>
-    <div>
-      <% result.highlights.each do |key, value| %>
-        <% next if I18n.t("search_results.highlighting.#{key}").include?('Translation missing') %>
-        <div class="highlighting">
-          <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
-          <%== process_mixed_content(value.join(" ")) %>
+    <div class="recordrow-summary">
+      <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
+      <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
+
+      <% if result.highlights.present? %>
+        <div>
+          <% result.highlights.each do |key, value| %>
+            <% next if I18n.t("search_results.highlighting.#{key}").include?('Translation missing') %>
+            <div class="highlighting">
+              <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
+              <%== process_mixed_content(value.join(" ")) %>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>
-  <% end %>
+
+    <%= render partial: 'shared/thumbnail', locals: {
+          result: result,
+          thumbnail_link: app_prefix(result.uri),
+        }
+    %>
 
 <% if !props.fetch(:full,false) %>
    </div>

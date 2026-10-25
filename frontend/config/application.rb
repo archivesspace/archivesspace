@@ -17,6 +17,7 @@ require 'aspace_logger'
 require 'ostruct'
 
 require 'iiif'
+require 'file_uri'
 
 
 if defined?(Bundler)
@@ -130,8 +131,7 @@ module ArchivesSpace
     #                               # that pull the other stuff in.  Precompile
     #                               # them.
     #                               (path =~ /themes\/.*?\/(application|bootstrap)\.scss/ ||
-    #                               path =~ /archivesspace\/rde\.scss/ ||
-    #                               path =~ /archivesspace\/largetree\.scss/)
+    #                               path =~ /archivesspace\/rde\.scss/)
     #                             end]
 
     if not ASUtils.find_local_directories.blank?

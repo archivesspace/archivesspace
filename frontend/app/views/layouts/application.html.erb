@@ -28,7 +28,6 @@
     APP_PATH = "<%= j(AppConfig[:frontend_proxy_prefix]) %>";
     COOKIE_PREFIX = "<%= j(AppConfig[:cookie_prefix]) %>";
     FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
-    SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:display_identifiers_in_largetree_container] %>;
   </script>
 
   <%= stylesheet_link_tag    'application', media: 'all' %>
@@ -46,7 +45,7 @@
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" class="action-<%= controller.action_name %>">
   <%= render "shared/skipnav" %>
 
-  <div class="min-vh-100 d-flex flex-column container-fluid center-block"><!-- this could be deleted -->
+  <div class="min-vh-100 d-flex flex-column container-fluid center-block">
     <header>
       <%= render "shared/header_global" %>
     </header>

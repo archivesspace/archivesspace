@@ -2,7 +2,8 @@
 
 RSpec.shared_examples 'covering edit view tree behavior' do |config|
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "itree_edit_coverage_#{config[:root_type]}_#{now}") }
+  before(:all) { @repo = create(:repo, repo_code: "itree_edit_coverage_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
     create(
@@ -24,13 +25,11 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
 
   before do
     set_repo(repo)
-    login_admin
-    select_repository(repo)
+    login_admin_and_select_repository(repo)
     child_record
     child_record2
-    run_indexer
     visit edit_path
-    wait_for_ajax
+    wait_for_infinite_tree_loaded
   end
 
   describe 'Close Record' do
@@ -39,7 +38,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       expect(page.current_url).to include("#tree::#{config[:child_type]}_#{child_record.id}")
 
       find('.js-itree-toolbar-finish-editing').click
-      wait_for_ajax
+      expect(page).to have_no_current_path(%r{/edit}, url: true)
 
       aggregate_failures do
         expect(page.current_url).not_to include('/edit')
@@ -61,7 +60,6 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       within '#confirmChangesModal' do
         click_on 'Delete'
       end
-      wait_for_ajax
 
       aggregate_failures do
         expect(page).to have_no_css(
@@ -86,9 +84,8 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       end
 
       before do
-        run_indexer
         visit edit_path
-        wait_for_ajax
+        wait_for_infinite_tree_loaded
       end
 
       it 'badges only the suppressed record' do

@@ -2,7 +2,6 @@
 //= link_directory ../javascripts .js
 //= link_directory ../stylesheets .scss
 //= link application.css
-//= link archivesspace/largetree.css
 //= link archivesspace/rde.css
 //= link archivesspace/bulk_archival_object_updater.css
 //= link archivesspace/fattable.css
@@ -11,4 +10,3 @@
 //= link_tree ../stylesheets/themes .scss
 //= link codemirror/util/simple-hint.js
 //= link tablesorter/jquery.tablesorter.min.js
-//= link largetree.js

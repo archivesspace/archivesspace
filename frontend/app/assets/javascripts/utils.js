@@ -115,21 +115,8 @@ $(function () {
     );
   };
 
-  var clearSelected = function () {
-    $('#archivesSpaceSidebar .as-nav-list > li:not(.sidebar-heading)').each(
-      function () {
-        $(this).attr('aria-selected', 'false');
-      }
-    );
-  };
-
   var initSidebar = function () {
     $('#archivesSpaceSidebar:not(.initialised)').each(function () {
-      $('a', $(this)).click(function (e) {
-        clearSelected();
-        $(this).parent().attr('aria-selected', 'true');
-      });
-
       $(this).addClass('initialised');
     });
     refreshSidebarSubMenus();
@@ -761,10 +748,6 @@ AS.initAddAsYouGoActions = function ($form, $list) {
   init();
 };
 
-// Used by all tree layouts -- sets the initial height for the tree pane... but can
-// be overridden by a user's cookie value
-AS.DEFAULT_TREE_PANE_HEIGHT = 100;
-
 AS.resetScrollSpy = function () {
   // reset the scrollspy plugin
   // so the headers update the status of the sidebar
@@ -828,8 +811,7 @@ AS.initSubRecordSorting = function ($list) {
     $list.children('li').each(function () {
       var $child = $(this);
       if (!$child.hasClass('sort-enabled')) {
-        // Duplicate shared/_grip_svg.html.erb, tweak height, width, viewbox
-        // for consistency with tree_renderers.js.erb
+        // Duplicate shared/_grip_svg.html.erb with dimensions suited to subrecords.
         const grip_svg = `
 <svg height="32" width="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
   <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>

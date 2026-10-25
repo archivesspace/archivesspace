@@ -55,7 +55,7 @@ module InfiniteTreeHierarchyConfigs
       show_path: ->(id) { "/resources/#{id}" },
       columns: {
         base: %w[title level type container],
-        conditional: { identifier: 'display_identifiers_in_largetree_container' }
+        conditional: { identifier: 'display_identifiers_in_tree_container' }
       },
       additional_root_attrs: {},
       additional_child_attrs: {}
@@ -75,7 +75,6 @@ module InfiniteTreeHierarchyConfigs
 
   INTEGRATION = {
     resources: RESOURCE.merge(
-      run_indexer: false,
       root_dirty_field: 'resource_title_',
       child_dirty_field: 'archival_object_component_id_',
       child_revert_field: 'archival_object_title_',
@@ -84,7 +83,6 @@ module InfiniteTreeHierarchyConfigs
       child_post_save_field: 'archival_object_title_'
     ),
     digital_objects: DIGITAL_OBJECT.merge(
-      run_indexer: true,
       root_dirty_field: 'digital_object_title_',
       child_dirty_field: 'digital_object_component_component_id_',
       child_revert_field: 'digital_object_component_title_',
@@ -93,7 +91,6 @@ module InfiniteTreeHierarchyConfigs
       child_post_save_field: 'digital_object_component_title_'
     ),
     classifications: CLASSIFICATION.merge(
-      run_indexer: true,
       root_dirty_field: 'classification_title_',
       child_dirty_field: 'classification_term_identifier_',
       child_revert_field: 'classification_term_title_',

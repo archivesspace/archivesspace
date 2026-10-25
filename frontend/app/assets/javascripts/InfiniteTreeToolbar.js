@@ -113,12 +113,12 @@ class InfiniteTreeToolbar {
         this.#onSelectionCleared.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        'infiniteTree:redisplayAndReopenComplete',
-        this.#onRedisplayAndReopenComplete.bind(this)
+        'infiniteTree:rebuildAndReopenComplete',
+        this.#onRebuildAndReopenComplete.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        'infiniteTree:redisplayAndShowComplete',
-        this.#onRedisplayAndShowComplete.bind(this)
+        'infiniteTree:rebuildAndShowComplete',
+        this.#onRebuildAndShowComplete.bind(this)
       );
     }
 
@@ -313,7 +313,7 @@ class InfiniteTreeToolbar {
     if (this.reorderMode || this.cutActive) this.#applyCutPasteState();
   }
 
-  #onRedisplayAndReopenComplete() {
+  #onRebuildAndReopenComplete() {
     if (!this.reorderMode) return;
 
     this.#syncCurrentNodeFromTree();
@@ -321,7 +321,7 @@ class InfiniteTreeToolbar {
     this.#applyCutPasteState();
   }
 
-  #onRedisplayAndShowComplete() {
+  #onRebuildAndShowComplete() {
     if (this.reorderMode) return;
 
     this.#syncCurrentNodeFromLiveTree();

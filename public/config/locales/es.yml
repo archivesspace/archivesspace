@@ -11,6 +11,8 @@ es:
     welcome_page_title: interfaz pública de ArchivesSpace
 
   actions:
+    collapse_node: "Contraer %{title}"
+    expand_node: "Expandir %{title}"
     search: Buscar
     search_header: Buscar en los archivos
     search_within: Busca dentro de los resultados
@@ -368,10 +370,8 @@ es:
     _singular: Registro digital
     _plural: materiales digitales
     _public:
-      thumbnail: Miniatura
       link: Enlace al objeto digital
       badge_label: Digital %{level}
-      go: Ir al archivo
       section: {}
       messages: {}
       browse_number_digital_objects_in_collection:
@@ -602,5 +602,8 @@ es:
     username_aria_label: Nombre de usuario
     password_aria_label: Contraseña de usuario
     required: Campos requeridos
-    pui_permission_denied: "El usuario `%{username}` no tiene permiso para ver la PUI."
+    pui_permission_denied: "El usuario `%{username}` no tiene permiso para ver la interfaz pública."
     login_failed: "Error al iniciar sesión. Compruebe su nombre de usuario y contraseña."
+  thumbnails:
+    view_digital_object: Ver objeto digital
+    view_digital_material: Ver material digital

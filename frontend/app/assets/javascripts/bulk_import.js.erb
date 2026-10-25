@@ -8,7 +8,6 @@
 /* returns a hash with information about the selected archival object or resource */
 	var get_object_info = function() {
 	    var ret_obj = new Object;
-	    var $tree = $("#archives_tree");
 	    var $obj_form = $("#archival_object_form");
 	    if (typeof $obj_form.attr("action") !== 'undefined') {
             ret_obj.type = "archival_object";

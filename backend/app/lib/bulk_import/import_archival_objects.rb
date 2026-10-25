@@ -6,6 +6,13 @@ class ImportArchivalObjects < BulkImportParser
 
   START_MARKER = /ArchivesSpace field code/.freeze
 
+  # The file_version_<field>_<N> columns; N numbers the file versions of the row's digital object
+  FILE_VERSION_FIELDS = %w[
+    file_uri publish use_statement xlink_actuate_attribute xlink_show_attribute file_format_name
+    file_format_version file_size_bytes checksum checksum_method is_display_thumbnail is_display_link caption
+  ].freeze
+  FILE_VERSION_COLUMN = /\Afile_version_(?<field>.+)_(?<index>[1-9]\d*)\z/.freeze
+
   def initialize(input_file, content_type, current_user, opts, log_method = nil)
     super(input_file, content_type, current_user, opts, log_method)
     @first_level_aos = []
@@ -165,6 +172,27 @@ class ImportArchivalObjects < BulkImportParser
 
   private
 
+  # The old rep_* and nonrep_* file version columns, and file_version_*_<N> columns for fields that
+  # don't exist, would otherwise be ignored and silently create no file versions
+  def check_unknown_columns
+    unknown = @headers.compact.select do |head|
+      head.match?(/\A(rep|nonrep)_/) ||
+        (head.start_with?('file_version_') && !FILE_VERSION_FIELDS.include?(head[FILE_VERSION_COLUMN, :field]))
+    end
+    raise Exception.new(I18n.t("bulk_import.error.unknown_columns", :codes => unknown.join(", "))) unless unknown.empty?
+  end
+
+  def file_versions
+    groups = @row_hash.keys.compact
+      .filter_map { |key| key.match(FILE_VERSION_COLUMN) }
+      .select { |match| FILE_VERSION_FIELDS.include?(match[:field]) }
+      .group_by { |match| match[:index] }
+
+    groups.keys.sort_by(&:to_i).filter_map do |index|
+      build_file_version(groups[index].to_h { |match| [match[:field], match.string] })
+    end
+  end
+
   # create an archival_object
   def create_archival_object(parent_uri)
     errs = []
@@ -217,12 +245,12 @@ class ImportArchivalObjects < BulkImportParser
 
     ao.instances = create_top_container_instances
     dig_instance = nil
-    unless [@row_hash["digital_object_title"], @row_hash["rep_file_uri"], @row_hash["nonrep_file_uri"],
-            @row_hash["digital_object_id"]].reject(&:nil?).empty?
+    file_uri_columns = @row_hash.keys.grep(/\Afile_version_file_uri_[1-9]\d*\z/)
+    unless [@row_hash["digital_object_title"], @row_hash["digital_object_id"], *@row_hash.values_at(*file_uri_columns)].compact.empty?
 
       begin
         normalize_boolean_column(@row_hash, 'digital_object_publish')
-        normalize_boolean_column(@row_hash, 'nonrep_publish')
+        is_representative = digital_object_boolean('digital_object_is_representative')
         dig_instance = @doh.create(
           title: @row_hash["digital_object_title"],
           id: @row_hash["digital_object_id"],
@@ -237,7 +265,8 @@ class ImportArchivalObjects < BulkImportParser
           linked_agents: [],
           archival_object: ao,
           report: @report,
-          file_versions: [representative_file_version, non_representative_file_version].compact)
+          file_versions: file_versions)
+        dig_instance.is_representative = true if dig_instance && is_representative
       rescue Exception => e
         @report.add_errors(e.message)
       end

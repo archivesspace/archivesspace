@@ -1,5 +1,7 @@
 en:
   actions:
+    collapse_node: "Collapse %{title}"
+    expand_node: "Expand %{title}"
     add: Add
     add_event: Add Event
     add_event_event_type: Type
@@ -23,9 +25,6 @@ en:
     date_picker: Open Date Picker
     date_picker_toggle: Toggle the Date Picker
     defaults: Default Values
-    drop_before: Drop Before
-    drop_into: Drop as Child
-    drop_after: Drop After
     duplicate_resource: Duplicate Resource
     duplicate_resource_confirm_message: A job is going to be created to duplicate this resource with all its archival objects. This may take a while according to the amount of records.
     edit: Edit
@@ -235,7 +234,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     resource:
       score: Relevance
       title: Title
@@ -259,7 +258,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     archival_object:
       score: Relevance
       title: Title
@@ -277,7 +276,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     subject:
       score: Relevance
       source: Source
@@ -308,7 +307,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     digital_object_component:
       score: Relevance
       title: Title
@@ -323,7 +322,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     agent:
       score: Relevance
       title: Name
@@ -536,7 +535,7 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
+      thumbnail: Thumbnail
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
 
@@ -768,13 +767,16 @@ en:
       before: Add Items Before
       after: Add Items After
       as_child: Add Items as Children
-    unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
     resize: Drag to resize the tree height
     maximize: Maximize/minimize the tree height
     drag_to_reorder: Drag to reorder
     errors:
       move_records: Unable to move records
       move_records_message: The records could not be moved. Please refresh the page and try again.
+
+  sidebar:
+    aria_label: Record sections
+    system_info_aria_label: System Information sections
 
   errors:
     sidebar_label: Errors and Warnings
@@ -938,7 +940,7 @@ en:
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
         spawned: "This Archival Object has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
-        spawn_placeholder: "<em>Spawned component will be inserted here</em>"
+        spawn_placeholder: "Spawned component will be inserted here"
         spawn_menu_before: Insert spawned component before
         spawn_menu_child: Insert spawned component as child
         spawn_menu_after: Insert spawned component after
@@ -1156,10 +1158,14 @@ en:
     _frontend:
       messages:
         no_iiif_viewer: "No IIIF viewer is available. Set AppConfig[:iiif_viewer] to 'universal_viewer', 'mirador', or the URL of an externally hosted IIIF viewer."
+      published: Published
       action:
         add: Add File Version
         make_representative: Make Representative
-        make_representative_tooltip: Use to indicate that this image should be displayed when there are multiple file versions associated with the record.
+        make_display_thumbnail: Make Display Thumbnail
+        make_display_thumbnail_tooltip: Use to show the image at this file version's File URI as the thumbnail for the record. A file version that is not a renderable image shows a generic icon instead.
+        make_display_link: Make Display Link
+        make_display_link_tooltip: Use to link the record's thumbnail or generic icon to this file version's File URI.
 
   group:
     _frontend:

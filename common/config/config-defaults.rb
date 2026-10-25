@@ -368,8 +368,8 @@ AppConfig[:demo_data_url] = ""
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
 
-# Whether to display archival record identifiers in the frontend largetree container
-AppConfig[:display_identifiers_in_largetree_container] = false
+# Whether to display archival record identifiers in the frontend tree container
+AppConfig[:display_identifiers_in_tree_container] = false
 
 # Allow mixed content in the title fields of resources, archival objects,
 # digital objects, digital object components, and accessions
@@ -594,6 +594,10 @@ AppConfig[:pui_collection_org_sidebar_position] = 'left'
 
 # Whether to display archival record identifiers in the PUI collection organization tree
 AppConfig[:pui_display_identifiers_in_resource_tree] = false
+
+# Whether to display top container and child container barcodes in PUI container information.
+# Citations never include barcodes. Staff request emails list top container barcodes separately, whatever this setting is.
+AppConfig[:pui_display_barcodes] = false
 
 # The number of characters to truncate before showing the 'Read More' link on notes on the collection overview page on the PUI
 # If your Scope & Contents notes are very long you can increase this to show more

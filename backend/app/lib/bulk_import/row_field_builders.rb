@@ -1,3 +1,6 @@
+require_relative "../../converters/lib/utils"
+require "bigdecimal"
+
 # Builds JSONModel fragments (dates, notes, file versions) from spreadsheet row
 # cells. Shared by the Archival Object and Digital Object bulk importers.
 module RowFieldBuilders
@@ -93,42 +96,18 @@ module RowFieldBuilders
     hash[column].nil? ? default_publish : hash[column]
   end
 
-  def representative_file_version
-    if @row_hash['rep_file_uri'].present?
-      {
-        is_representative: true,
-        file_uri: @row_hash['rep_file_uri'],
-        xlink_actuate_attribute: @row_hash['rep_xlink_actuate_attribute'],
-        xlink_show_attribute: @row_hash['rep_xlink_show_attribute'],
-        publish: true,
-        use_statement: @row_hash['rep_use_statement'],
-        file_format_name: @row_hash['rep_file_format'],
-        file_format_version: @row_hash['rep_file_format_version'],
-        file_size_bytes: @row_hash['rep_file_size'].to_i,
-        checksum: @row_hash['rep_checksum'],
-        checksum_method: @row_hash['rep_checksum_method'],
-        caption: @row_hash['rep_caption']
-      }
-    end
-  end
+  # columns: { file_version field => column code } for one file version. Returns nil when every
+  # cell is blank. A display flag makes the file version published, as it must be.
+  def build_file_version(columns)
+    return nil if columns.values.all? { |column| @row_hash[column].nil? }
 
-  def non_representative_file_version
-    if @row_hash['nonrep_file_uri'].present?
-      {
-        is_representative: false,
-        file_uri: @row_hash['nonrep_file_uri'],
-        xlink_actuate_attribute: @row_hash['nonrep_xlink_actuate_attribute'],
-        xlink_show_attribute: @row_hash['nonrep_xlink_show_attribute'],
-        publish: @row_hash['nonrep_publish'],
-        use_statement: @row_hash['nonrep_use_statement'],
-        file_format_name: @row_hash['nonrep_file_format'],
-        file_format_version: @row_hash['nonrep_file_format_version'],
-        file_size_bytes: @row_hash['nonrep_file_size'].to_i,
-        checksum: @row_hash['nonrep_checksum'],
-        checksum_method: @row_hash['nonrep_checksum_method'],
-        caption: @row_hash['nonrep_caption']
-      }
+    fv = columns.to_h { |field, column| [field.to_sym, @row_hash[column]] }
+    %w[publish is_display_thumbnail is_display_link].each do |field|
+      fv[field.to_sym] = digital_object_boolean(columns[field]) if columns.key?(field)
     end
+    fv[:publish] = true if fv[:is_display_thumbnail] || fv[:is_display_link]
+    fv[:file_size_bytes] = file_version_file_size_bytes(columns['file_size_bytes'], fv[:file_size_bytes])
+    fv
   end
 
   def normalize_boolean_column(row_hash, column)
@@ -146,5 +125,48 @@ module RowFieldBuilders
     rescue Exception => e
       @report.add_errors(I18n.t("bulk_import.error.#{field_name}", :what => e.message, :date_str => date_str))
     end
+  end
+
+  def digital_object_boolean(column)
+    ASpaceImport::Utils.normalize_boolean.call(@row_hash[column])
+  rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
+    raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value))
+  end
+
+  def file_version_file_size_bytes(column, value)
+    return nil if value.nil?
+
+    integer = exact_whole_number(value)
+    return integer unless integer.nil?
+
+    raise BulkImportException.new(
+      I18n.t(
+        "bulk_import.error.invalid_file_version_size",
+        :column => column,
+        :value => value
+      )
+    )
+  end
+
+  def exact_whole_number(value)
+    # JRuby Integer() truncates Floats, so 42.5 becomes 42. Those values use
+    # the decimal exactness check below instead of that shortcut.
+    unless value.is_a?(Float)
+      integer = Integer(value, exception: false)
+      return integer unless integer.nil?
+    end
+
+    decimal = decimal_from(value)
+    return nil unless decimal&.finite? && decimal.frac.zero?
+
+    decimal.to_i
+  rescue FloatDomainError
+    nil
+  end
+
+  def decimal_from(value)
+    BigDecimal(value.to_s)
+  rescue ArgumentError
+    nil
   end
 end

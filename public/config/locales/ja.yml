@@ -8,6 +8,8 @@ ja:
     welcome_message: "<p>コレクション、デジタル資料などを検索します。 </p>"
     welcome_page_title: ArchivesSpaceパブリックインターフェイス
   actions:
+    collapse_node: "%{title} を折りたたむ"
+    expand_node: "%{title} を展開"
     search: サーチ
     search_header: アーカイブを検索
     search_within: 結果内で検索する
@@ -331,10 +333,8 @@ ja:
     _singular: デジタルレコード
     _plural: デジタル素材
     _public:
-      thumbnail: サムネイル
       link: デジタルオブジェクトへのリンク
       badge_label: デジタル%{level}
-      go: ファイルに移動
       section: {}
       messages: {}
       browse_number_digital_objects_in_collection:
@@ -530,5 +530,8 @@ ja:
     username_aria_label: ユーザー名
     password_aria_label: ユーザーパスワード
     required: 必須
-    pui_permission_denied: "ユーザー「%{username}」にはPUIを表示する権限がありません。"
+    pui_permission_denied: "ユーザー「%{username}」にはパブリックインターフェイスを表示する権限がありません。"
     login_failed: "ログインに失敗しました。ユーザー名とパスワードを確認してください。"
+  thumbnails:
+    view_digital_object: デジタルオブジェクトを見る
+    view_digital_material: デジタル資料を見る

@@ -31,6 +31,8 @@ it:
       notare che questo modello serve a creare i record Soggetto stessi, non a 
       collegarli ad altri record.
   actions:
+    collapse_node: "Comprimi %{title}"
+    expand_node: "Espandi %{title}"
     add_event_event_type: Tipo
     add: Aggiungi
     batch: Serie
@@ -136,7 +138,6 @@ it:
     browse: Naviga
     cancel: Cancella
     date_picker_toggle: Attiva selettore data
-    drop_before: 'Caduta prima'
     download: Scarica
     duplicate_resource_confirm_message: Un lavoro sarà creato per duplicare 
       questa risorsa con tutti i suoi oggetti d'archivio. Questa operazione può 
@@ -149,7 +150,6 @@ it:
     merge_resource_confirm_message: I record selezionati saranno uniti 
       all'interno della risorsa '%{source}'. Tutti i record selezionati saranno 
       eliminati e ogni record linkato sarà linkato nuovamente a questa risorsa.
-    drop_after: 'Caduta dopo'
     edit_default_archival_object_values: Modifica componenti predefiniti
     refresh_page: Ricarica pagina
     merge_agent_confirm_message: I record selezionati saranno uniti all'interno 
@@ -204,7 +204,6 @@ it:
       componenti nella sua gerarchia.</p>
     view_published: Visualizza i pubblicati
     print_to_pdf: Genera PDF
-    drop_into: Abbandona come bambino
     move_up_a_level: Salire di un livello
     move_up: Su
     move_down_into: Giù dentro...
@@ -321,7 +320,7 @@ it:
       processors: Processori
       user_mtime: Modificato
       uri: URI
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
       access_restrictions: Restrizioni di accesso
       accession_date_year: Data di accesso
@@ -335,7 +334,7 @@ it:
       dates: Date
       processors: Processori
       desc: Discendente
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       uri: URI
       level: Livello
       identifier: Identificatore
@@ -364,7 +363,7 @@ it:
       desc: Discendente
       uri: URI
       title: Titolo
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       context: Risorsa per i genitori
       extents: Estensione
     subject:
@@ -396,7 +395,7 @@ it:
       asc: Ascendente
       subjects: Soggetto
       uri: URI
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       extents: Estensione
     digital_object_component:
       publish: Pubblicato
@@ -411,7 +410,7 @@ it:
       user_mtime: Modificato
       create_time: Creato
       asc: Ascendente
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       extents: Estensione
     agent:
       score: Rilevanza
@@ -609,7 +608,7 @@ it:
     multi:
       score: Rilevanza
       relevance: Rilevanza
-      representative_file_version: Immagine thumbnail
+      thumbnail: Immagine thumbnail
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente
@@ -701,6 +700,10 @@ it:
       missing_file: Seleziona un file EAD da caricare
       error_prefix: Errore durante l'importazione del file
       complete: R Complete
+  sidebar:
+    aria_label: Sezioni del record
+    system_info_aria_label: Sezioni delle informazioni di sistema
+
   errors:
     merge_restricted_contact_details: Questa unione non può essere completata 
       perché uno o più degli agents ha dettagli di contatto a cui non hai il 
@@ -1259,8 +1262,6 @@ it:
       before: Aggiungi elementi prima
       after: Aggiungi elementi dopo
       as_child: Aggiungi elementi come figli
-    unexpected_failure: Ops! Stiamo riscontrando problemi nel recuperare questo 
-      albero. Per favore, prova ad aggiornare la pagina.
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
     drag_to_reorder: Trascina per riordinare
@@ -1389,7 +1390,7 @@ it:
           stato salvato. È necessario fare clic su Salva affinché il record 
           venga creato nel sistema.
         delete_conflict: "Impossibile eliminare l'oggetto di archivio: <pre>%{error}</pre>"
-        spawn_placeholder: <em>Il componente generato verrà inserito qui</em>
+        spawn_placeholder: Il componente generato verrà inserito qui
         spawn_menu_before: Inserire il componente generato prima
         spawn_menu_child: Inserisci il componente generato come figlio
         spawn_menu_after: Inserisci il componente generato dopo
@@ -1598,6 +1599,7 @@ it:
         add: Aggiungi documento esterno
   file_version:
     _frontend:
+      published: Pubblicato
       messages:
         no_iiif_viewer: "Non è disponibile alcun visualizzatore IIIF. Impostare AppConfig[:iiif_viewer]
           su 'universal_viewer', 'mirador' o l'URL di un visualizzatore IIIF ospitato
@@ -1605,9 +1607,10 @@ it:
       action:
         add: Aggiungi versione del file
         make_representative: Rendere rappresentante
-        make_representative_tooltip: Utilizzare questa opzione per indicare che 
-          questa immagine deve essere visualizzata quando sono presenti più 
-          versioni del file associate al record.
+        make_display_thumbnail: Usa come miniatura di visualizzazione
+        make_display_thumbnail_tooltip: Mostra l'immagine all'URI del file di questa versione del file come miniatura del record. Se la versione del file non è un'immagine visualizzabile, viene mostrata un'icona generica.
+        make_display_link: Usa come link di visualizzazione
+        make_display_link_tooltip: Collega la miniatura o l'icona generica del record all'URI del file di questa versione del file.
   group:
     _frontend:
       action:

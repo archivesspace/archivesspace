@@ -1,12 +1,12 @@
 <div class="py-3 d-flex bg-white record-pane mr-0">
   <div class="col-md-3">
-    <div id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem">
+    <nav id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem" aria-label="<%= t('sidebar.system_info_aria_label') %>">
       <ul class="nav as-nav-list d-flex flex-column">
         <% @info.keys.each do |key| %>
           <li><a class="nav-link" href="#<%= key %>"><%= key.upcase %></a></li>
         <% end %>
       </ul>
-    </div>
+    </nav>
   </div>
   <div class="col-md-9">
     <h3 class="subrecord-form-heading">
