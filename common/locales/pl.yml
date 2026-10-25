@@ -1429,6 +1429,7 @@ pl:
   bulk_import:
     agent: Agent
     event_created: "Grupa zdarzenia %{group} utworzona: %{type}"
+    event_would_be_created: "Grupa zdarzenia %{group} zostałaby utworzona: %{type}"
     error:
       utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 
         przetworzyć.

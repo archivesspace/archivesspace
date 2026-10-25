@@ -24,6 +24,7 @@ nl:
       event_agent_not_found: "Gebeurtenisgroep %{group}, veld %{field}, komt niet overeen met een bestaande agent: '%{value}'"
     agent: Agent
     event_created: "Gebeurtenisgroep %{group} aangemaakt: %{type}"
+    event_would_be_created: "Gebeurtenisgroep %{group} zou worden aangemaakt: %{type}"
   reports:
     formats:
       json: JSON

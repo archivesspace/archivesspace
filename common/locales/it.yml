@@ -23,6 +23,7 @@ it:
       event_agent_not_found: "Il gruppo evento %{group}, campo %{field}, non corrisponde a un agente esistente: '%{value}'"
     agent: Agente
     event_created: "Gruppo evento %{group} creato: %{type}"
+    event_would_be_created: "Gruppo evento %{group} verrebbe creato: %{type}"
   states:
     suppressed: Bloccato
     deleted: Eliminato

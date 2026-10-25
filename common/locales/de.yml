@@ -2833,6 +2833,7 @@ de:
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
     event_created: "Ereignisgruppe %{group} erstellt: %{type}"
+    event_would_be_created: "Ereignisgruppe %{group} würde erstellt werden: %{type}"
     row_error: 'Zeile %{row} wird aufgrund von Fehlern nicht verarbeitet: %{errs}'
     created: '%{what} erstellt: %{id}'
     could_be: '%{what} würde erstellt werden'

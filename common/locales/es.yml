@@ -2704,6 +2704,7 @@ es:
     processing_row: "El procesamiento de fila %{row}"
     dig_assoc: Objeto digital añade a objetos Archivo
     event_created: "Grupo de evento %{group} creado: %{type}"
+    event_would_be_created: "Grupo de evento %{group} sería creado: %{type}"
     row_error: "Fila %{row} no serán objeto de tratamiento debido a errores: %{errs}"
     created: "%{what} creado: %{id}"
     could_be: "%{what} se crearía"

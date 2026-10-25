@@ -2805,6 +2805,7 @@ fr:
     processing_row: "Traitement ligne %{row}"
     dig_assoc: Objet numérique ajouté à archives Objet
     event_created: "Groupe d'événement %{group} créé : %{type}"
+    event_would_be_created: "Groupe d'événement %{group} serait créé : %{type}"
     row_error: "Row %{row} ne seront pas traitées en raison d'erreurs: %{errs}"
     created: "%{what} établi: %{id}"
     could_be: "%{what} serait créé"

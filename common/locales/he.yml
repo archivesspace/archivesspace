@@ -23,6 +23,7 @@ he:
       event_agent_not_found: "קבוצת אירוע %{group}, שדה %{field}, אינו תואם לסוכן קיים: '%{value}'"
     agent: סוכן
     event_created: "קבוצת אירוע %{group} נוצרה: %{type}"
+    event_would_be_created: "קבוצת אירוע %{group} תיווצר: %{type}"
   reports:
     formats:
       json: JSON

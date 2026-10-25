@@ -1017,10 +1017,46 @@ describe "Import Digital Objects" do
           I18n.t("bulk_import.could_be", :what => I18n.t("bulk_import.dig"))
         )
         expect(messages[:info]).not_to include(created)
+        expect(messages[:info]).to include(
+          I18n.t("bulk_import.event_would_be_created", :group => 1, :type => "cataloged")
+        )
         expect(DigitalObject.count).to eq(digital_objects_before)
         expect(DigitalObject.where(:title => title).count).to eq(0)
         expect(Event.count).to eq(result[:events_before])
         expect(instances_after).to eq(instances_before)
+      end
+    end
+
+    it "reports would be created during validate-only only for the Event group that passes validation" do
+      title = "Digital Object Title #{@now} validate-only mixed event groups"
+      result = import_event_sheet(
+        {
+          "event_1_type" => "cataloged",
+          "event_1_date" => "1999-03-03",
+          "event_3_type" => "processed",
+          "event_3_date" => "2001-04-05",
+          "event_3_outcome" => "pass",
+          "event_3_outcome_note" => "n" * 16_385,
+        },
+        :title => title,
+        :extra_indices => [3],
+        :validate_only => true
+      )
+      messages = row_messages(result[:report])
+      validation_failure = I18n.t("bulk_import.error.event_validation",
+                                  :group => 3, :type => "processed", :err => "").strip
+
+      aggregate_failures do
+        expect(result[:report].terminal_error).to be_nil
+        expect(messages[:errors].length).to eq(1), messages[:errors].inspect
+        expect(messages[:errors].first.to_s).to start_with(validation_failure)
+        expect(messages[:info]).to include(
+          I18n.t("bulk_import.event_would_be_created", :group => 1, :type => "cataloged")
+        )
+        expect(messages[:info]).not_to include(
+          I18n.t("bulk_import.event_would_be_created", :group => 3, :type => "processed")
+        )
+        expect_digital_object_kept(result[:report], title, result[:events_before], :validate_only => true)
       end
     end
 

@@ -13,7 +13,12 @@ class EventHandler < Handler
         :system_agent_ref => system_agent_ref
       )
       event = JSONModel(:event).from_hash(event_data)
-      return if @validate_only
+      if @validate_only
+        report.add_info(I18n.t("bulk_import.event_would_be_created",
+                               :group => group,
+                               :type => event_data["event_type"]))
+        return
+      end
 
       saved = save(event, Event)
     rescue JSONModel::ValidationException => validation_error

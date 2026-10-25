@@ -2470,6 +2470,7 @@ uk:
     processing_row: Обробка рядка %{row}
     dig_assoc: Цифровий об'єкт додано до архівного об'єкта
     event_created: "Групу події %{group} створено: %{type}"
+    event_would_be_created: "Групу події %{group} буде створено: %{type}"
     row_error: 'Рядок %{row} не буде оброблено через помилки: %{errs}'
     created: '%{what} створив: %{id}'
     could_be: '%{what} буде створено'

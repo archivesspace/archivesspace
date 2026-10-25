@@ -1968,6 +1968,7 @@ ja:
     processing_row: "%{row}行の処理"
     dig_assoc: デジタルオブジェクトはアーカイブオブジェクトに追加します
     event_created: "イベントグループ %{group} を作成しました: %{type}"
+    event_would_be_created: "イベントグループ %{group} が作成されます: %{type}"
     row_error: "行%{row}エラーのため処理されません。%{errs}"
     created: "%{what} 作成した： %{id}"
     could_be: "%{what}作成されるだろう"
