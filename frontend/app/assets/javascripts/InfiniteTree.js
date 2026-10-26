@@ -25,6 +25,11 @@
 
     #destroyed = false;
 
+    #skipCheckQueued = false;
+
+    /** Container scrollTop at the last skipped-batch check */
+    #lastScrollTop = 0;
+
     /**
      * Listeners to be removed by destroy().
      * @type {Array<[EventTarget, string, EventListener, (boolean|AddEventListenerOptions|undefined)]>}
@@ -108,6 +113,30 @@
         'scroll',
         () => {
           this.#onTreeContainerScroll();
+        },
+        { passive: true }
+      );
+
+      // A jump larger than the observer zone can carry a trigger past it between frames, so also check on scroll
+      this.#listen(
+        this.container,
+        'scroll',
+        () => {
+          if (this.#skipCheckQueued) return;
+
+          this.#skipCheckQueued = true;
+          requestAnimationFrame(() => {
+            this.#skipCheckQueued = false;
+
+            if (this.#destroyed) return;
+
+            const scrollTop = this.container.scrollTop;
+            this.#loadSkippedBatches(
+              Math.min(this.#lastScrollTop, scrollTop),
+              Math.max(this.#lastScrollTop, scrollTop)
+            );
+            this.#lastScrollTop = scrollTop;
+          });
         },
         { passive: true }
       );
@@ -739,6 +768,7 @@
           behavior: 'instant',
           block: 'center',
         });
+        this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
         return;
       }
 
@@ -980,11 +1010,13 @@
 
       if (nodeOfInterest) {
         if (setCurrent) this.setCurrentNode(nodeOfInterest, { notifyPane });
-        if (center)
+        if (center) {
           nodeOfInterest.scrollIntoView({
             behavior: 'instant',
             block: 'center',
           });
+          this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
+        }
       }
 
       nodesToObserve.forEach(node => {
@@ -1030,6 +1062,7 @@
 
       if (canRestoreScroll) {
         this.container.scrollTop = Number(scrollTop);
+        this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
       }
 
       if (!revealNode) return;
@@ -1040,6 +1073,7 @@
 
       if (shouldReveal) {
         revealNode.scrollIntoView({ behavior: 'instant', block: 'center' });
+        this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
       }
     }
 
@@ -1192,11 +1226,26 @@
           const batchOffset = Number(
             observedNode.getAttribute('data-observe-offset')
           );
+
+          // The observer and the scroll check, or the trigger nodes on both sides
+          // of one placeholder, can fire for the same batch; load it only once
+          const placeholderEl = siblingList.querySelector(
+            `:scope > li[data-batch-placeholder="${batchOffset}"]`
+          );
+          if (
+            !placeholderEl ||
+            placeholderEl.hasAttribute('data-batch-loading')
+          ) {
+            return;
+          }
+          placeholderEl.setAttribute('data-batch-loading', '');
+
           const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
           if (this.#destroyed) return;
 
           if (!batchData) {
+            placeholderEl.removeAttribute('data-batch-loading');
             console.error('#batchObserverHandler failed to fetch batch');
             return;
           }
@@ -1322,6 +1371,56 @@
         : prevSiblingIsAPlaceholder
           ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
           : null;
+    }
+
+    /**
+     * Loads any unloaded batch whose gap the view covered since the last check,
+     * i.e. the loaded row next to the batch placeholder lies within the scroll
+     * range from fromScrollTop to toScrollTop, plus the container height and
+     * half a container height on each side. Unloaded batches take no space, so
+     * a fast scroll can carry a gap through the view between frames without
+     * the observer seeing its trigger node.
+     * @param {number} fromScrollTop - The lower scrollTop of the range
+     * @param {number} toScrollTop - The higher scrollTop of the range
+     */
+    #loadSkippedBatches(fromScrollTop, toScrollTop) {
+      const rootRect = this.container.getBoundingClientRect();
+      const margin = rootRect.height / 2;
+      const sweptTop = fromScrollTop - margin;
+      const sweptBottom = toScrollTop + rootRect.height + margin;
+
+      this.container
+        .querySelectorAll('[data-observe-next-batch]')
+        .forEach(node => {
+          if (node.getClientRects().length === 0) return; // inside a collapsed node
+
+          const offset = node.getAttribute('data-observe-offset');
+          const placeholder = node
+            .closest('.node-children')
+            .querySelector(`:scope > li[data-batch-placeholder="${offset}"]`);
+          if (!placeholder) return;
+
+          const batchIsBelow =
+            node.compareDocumentPosition(placeholder) &
+            Node.DOCUMENT_POSITION_FOLLOWING;
+          const edgeRow = batchIsBelow
+            ? placeholder.previousElementSibling
+            : placeholder.nextElementSibling;
+          if (!edgeRow || edgeRow.matches('li[data-batch-placeholder]')) return;
+
+          const edgeRect = edgeRow.getBoundingClientRect();
+          const edge =
+            (batchIsBelow ? edgeRect.bottom : edgeRect.top) -
+            rootRect.top +
+            this.container.scrollTop; // position in the scrolled content
+
+          if (edge >= sweptTop && edge <= sweptBottom) {
+            this.#batchObserverHandler(
+              [{ isIntersecting: true, target: node }],
+              this.batchObserver
+            );
+          }
+        });
     }
 
     /**

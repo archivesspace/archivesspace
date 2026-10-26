@@ -85,7 +85,7 @@
         },
         {
           root: this.container,
-          rootMargin: '50% 0px 50% 0px', // container plus half its height above and below
+          rootMargin: '-30% 0px -30% 0px', // middle 40% of container
           threshold: 0,
         }
       );
