@@ -247,6 +247,20 @@ describe 'Thumbnails', js: true do
       visit @resource_from_tree.uri
       expect(page).to have_css ".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}'] img[src='#{@img_1}']"
     end
+
+    it 'leaves space between the thumbnail and the text flowing around it' do
+      [@resource_with_thumbnail, @aobj_with_thumbnail, @accession_with_thumbnail].each do |record|
+        visit record.uri
+
+        thumbnail = find(".pui-thumbnail a[href$='#{@dobj_with_thumbnail.uri}']").ancestor('.pui-thumbnail')
+        margin_left, margin_bottom = thumbnail.evaluate_script('[getComputedStyle(this).marginLeft, getComputedStyle(this).marginBottom]')
+
+        aggregate_failures record.uri do
+          expect(margin_left.to_f).to be > 0
+          expect(margin_bottom.to_f).to be > 0
+        end
+      end
+    end
   end
 
   describe 'on records with digital object instances, none of them representative (ANW-3061)' do
