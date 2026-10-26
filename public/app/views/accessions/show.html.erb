@@ -73,4 +73,10 @@
   </div>
 </div>
 
+<script>
+  document.querySelectorAll("[data-js='readmore-toggle']").forEach((button) => {
+    new ReadMoreNotes(button);
+  });
+</script>
+
 <%= render partial: 'shared/modal_actions' %>
