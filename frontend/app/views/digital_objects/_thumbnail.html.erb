@@ -7,7 +7,7 @@
   # see thumbnail_fallback.js)
   candidates = thumbnail['image_url'] ? [thumbnail] + Array(thumbnail['fallbacks']) : [thumbnail]
 %>
-<div class="digital-object-thumbnail">
+<div class="digital-object-thumbnail" data-image-timeout-seconds="<%= AppConfig[:thumbnail_image_timeout_seconds] %>">
   <% candidates.each_with_index do |candidate, index| %>
     <%
       image_alt_text = candidate['caption']

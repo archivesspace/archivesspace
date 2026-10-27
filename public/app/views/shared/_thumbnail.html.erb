@@ -11,7 +11,7 @@
     # see thumbnail_fallback.js)
     candidates = thumbnail['image_url'] ? [thumbnail] + Array(thumbnail['fallbacks']) : [thumbnail]
   %>
-  <div class="pui-thumbnail">
+  <div class="pui-thumbnail" data-image-timeout-seconds="<%= AppConfig[:thumbnail_image_timeout_seconds] %>">
     <% candidates.each_with_index do |candidate, index| %>
       <%
         caption = strip_mixed_content(candidate['caption'])

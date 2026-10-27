@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rails_helper'
+require 'socket'
 
 describe 'Thumbnails', js: true do
   before(:all) do
@@ -418,7 +419,25 @@ describe 'Thumbnails', js: true do
         'Resource without a loadable image', [@dobj_with_unreachable_thumbnail, @dobj_with_tiff_thumbnail]
       )
 
+      # Accepts connections but never answers, like a host that does not respond
+      @hanging_host = TCPServer.new('127.0.0.1', 0)
+      @hanging_image = "http://127.0.0.1:#{@hanging_host.addr[1]}/thumbnail.gif"
+      @dobj_with_hanging_thumbnail = create(
+        :digital_object,
+        publish: true,
+        title: 'Digital object with hanging thumbnail',
+        digital_object_type: 'still_image',
+        file_versions: [{ publish: true, is_display_thumbnail: true, file_uri: @hanging_image }]
+      )
+      @resource_with_hanging_image = resource_with_representative_archival_objects(
+        'Resource with a hanging image', [@dobj_with_hanging_thumbnail, @dobj_with_loadable_thumbnail]
+      )
+
       run_indexers
+    end
+
+    after(:all) do
+      @hanging_host&.close
     end
 
     def resource_with_representative_archival_objects(title, digital_objects)
@@ -461,6 +480,20 @@ describe 'Thumbnails', js: true do
       expect_fallback_icon(@resource_without_loadable_image, unreachable_image)
       expect(page).to have_css(".pui-thumbnail img[src='#{tiff_image}']", visible: :hidden)
       expect(page).to have_css(".pui-thumbnail a[href$='#{@dobj_with_unreachable_thumbnail.uri}'] .pui-thumbnail-fallback", visible: true)
+    end
+
+    context 'with AppConfig[:thumbnail_image_timeout_seconds] set to 1' do
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:thumbnail_image_timeout_seconds).and_return(1)
+      end
+
+      it 'gives up on an image that is not recognized as an image within the timeout, and shows the next one (ANW-3089)' do
+        visit @resource_with_hanging_image.uri
+        expect(page).to have_css(".pui-thumbnail[data-image-timeout-seconds='1']")
+        expect(page).to have_css(".pui-thumbnail a[href$='#{@dobj_with_loadable_thumbnail.uri}'] img[src='#{loadable_image}']", visible: true)
+        expect(page).not_to have_css(".pui-thumbnail img[src='#{@hanging_image}']", visible: :all)
+      end
     end
   end
 end

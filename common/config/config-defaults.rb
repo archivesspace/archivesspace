@@ -997,3 +997,11 @@ AppConfig[:iiif_viewer] = 'universal_viewer'
 # shows the icon. The public interface and search results use a new value once
 # records are reindexed.
 AppConfig[:max_thumbnail_images] = 10
+
+# AppConfig[:thumbnail_image_timeout_seconds] sets how many seconds the browser waits
+# for a candidate image to be recognized as an image. After that, it abandons the
+# download and tries the next candidate image, or shows the generic icon, so that a
+# host that does not answer does not leave the thumbnail empty. An image the browser
+# has recognized keeps loading. Set it to nil or 0 for no timeout. It applies on the
+# next page load, without reindexing.
+AppConfig[:thumbnail_image_timeout_seconds] = 5

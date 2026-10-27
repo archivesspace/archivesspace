@@ -1,7 +1,6 @@
 // A thumbnail image failed to load: show the next fallback image of the thumbnail, loading it now, or
 // when there is none, the generic icon of the first image in place of the images (ANW-3089)
-// Called from the onerror attribute of the thumbnail images
-// eslint-disable-next-line no-unused-vars
+// Called from the onerror attribute of the thumbnail images, and when an image times out
 function showNextThumbnailCandidate(image) {
   const candidate = image.closest('.pui-thumbnail-candidate');
   const next = candidate.nextElementSibling;
@@ -13,6 +12,7 @@ function showNextThumbnailCandidate(image) {
     const nextImage = next.querySelector('img');
     nextImage.src = nextImage.dataset.src;
     next.style.display = 'block';
+    abandonThumbnailCandidateAfterTimeout(nextImage);
   } else {
     const first = image
       .closest('.pui-thumbnail')
@@ -21,3 +21,40 @@ function showNextThumbnailCandidate(image) {
     first.querySelector('.pui-thumbnail-fallback').style.display = 'block';
   }
 }
+
+// Gives up on a thumbnail image the browser has not recognized as an image within the timeout of its
+// thumbnail (AppConfig[:thumbnail_image_timeout_seconds]), so that a host that does not answer does not
+// leave the thumbnail empty. Removing the src lets the browser cancel the download (ANW-3089).
+function abandonThumbnailCandidateAfterTimeout(image) {
+  const seconds = Number(
+    image.closest('.pui-thumbnail').dataset.imageTimeoutSeconds
+  );
+  if (!seconds) return;
+
+  setTimeout(() => {
+    // Loaded, failed (handled by onerror), abandoned already, removed from the page, or recognized
+    // as an image (its size is known) and still loading
+    if (!image.isConnected || image.complete || image.naturalWidth > 0) return;
+
+    image.onerror = null;
+    image.removeAttribute('src');
+    showNextThumbnailCandidate(image);
+  }, seconds * 1000);
+}
+
+// Times the first image of each thumbnail as it is added to the page: with the page, or later, like
+// the thumbnails of the collection organization
+new MutationObserver(mutations => {
+  const selector = '.pui-thumbnail-candidate img[src]';
+
+  mutations.forEach(mutation => {
+    mutation.addedNodes.forEach(node => {
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+      if (node.matches(selector)) abandonThumbnailCandidateAfterTimeout(node);
+      node
+        .querySelectorAll(selector)
+        .forEach(abandonThumbnailCandidateAfterTimeout);
+    });
+  });
+}).observe(document.documentElement, { childList: true, subtree: true });
