@@ -43,7 +43,7 @@
               </td>
               <td>
                 <% terms = ASUtils.wrap(link['terms']) %>
-                <% if terms.any? || link['title'] %>
+                <% if terms.any? || link['title'].present? %>
                   <dl>
                   <% if terms.any? %>
                     <dt><%= t("linked_agent.terms") %></dt>
@@ -55,7 +55,7 @@
                     <% end %>
                   <% end %>
 
-                  <% if link['title'] %>
+                  <% if link['title'].present? %>
                     <dt><%= t("linked_agent.title") %></dt>
                     <dd><%= link['title'] %></dd>
                   <% end %>
