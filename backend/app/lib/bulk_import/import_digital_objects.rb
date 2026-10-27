@@ -255,7 +255,7 @@ class ImportDigitalObjects < BulkImportParser
   end
 
   def resolve_event_controlled_value(list_name, submitted_value)
-    value_check(event_controlled_value_list(list_name), submitted_value, [])
+    event_controlled_value_list(list_name).lookup(submitted_value)
   end
 
   def event_controlled_value_list(list_name)

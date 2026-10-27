@@ -23,17 +23,22 @@ class CvList
   end
 
   def value(label)
-    if @list_hash[label]
-      v = @list_hash[label]
-    elsif @list.index(label)
-      v = label
-    end
+    v = lookup(label)
 
     if !v and !CvList::CREATE_NEW_VALUES_FOR.include?(@which)
       raise Exception.new(I18n.t("bulk_import.error.enum", label: label, which: @which, valid_values: @list.join(', ')))
     end
 
     v
+  end
+
+  # the stored value for a translated label or stored value, or nil if the list has neither
+  def lookup(label)
+    if @list_hash[label]
+      @list_hash[label]
+    elsif @list.index(label)
+      label
+    end
   end
 
   def length

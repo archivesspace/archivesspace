@@ -1144,6 +1144,33 @@ describe "Import Digital Objects" do
       end
     end
 
+    it "loads each Event controlled value list once for the whole import" do
+      allow(CvList).to receive(:new).and_call_original
+
+      result = import_event_rows([
+        {
+          :title => "Digital Object Title #{@now} first cached list row",
+          :cells => {
+            "event_1_type" => "cataloged",
+            "event_1_date" => "1999-03-03",
+          },
+        },
+        {
+          :title => "Digital Object Title #{@now} second cached list row",
+          :cells => {
+            "event_1_type" => "processed",
+            "event_1_date" => "2001-04-05",
+          },
+        },
+      ])
+
+      aggregate_failures do
+        expect(result[:report].terminal_error).to be_nil
+        expect(result[:report].rows.flat_map(&:errors)).to eq([])
+        expect(CvList).to have_received(:new).with("event_event_type", anything).once
+      end
+    end
+
     def expect_label_without_date(validate_only:)
       title = "Digital Object Title #{@now} label without date #{validate_only}"
       result = import_event_sheet(
