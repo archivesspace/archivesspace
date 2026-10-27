@@ -1,1 +1,4 @@
 ml:
+  actions:
+    collapse_node: '%{ശീർഷകം} ചുരുക്കുക'
+    expand_node: '%{ശീർഷകം} വികസിപ്പിക്കുക'
