@@ -531,4 +531,40 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       end
     end
   end
+
+  # Save uses fetch POST; tree navigation uses GET ?inline=true, so hold the save,
+  # navigate on a clean form, then release the save.
+  describe 'when navigation starts while a save request is still in flight' do
+    let(:child_save_url) { "/#{child_type}s/#{child_record.id}" }
+    let(:pane) { '#infinite-tree-record-pane' }
+
+    before do
+      visit "#{edit_path}#{child_record_hash}"
+      wait_for_infinite_tree_pane_ready
+    end
+
+    it 'keeps the navigated record when the save response arrives last' do
+      hold_fetches(child_save_url, methods: %w[POST PUT PATCH])
+
+      find('button', text: child_save_label, match: :first).click
+      wait_for_held_fetch(child_save_url)
+
+      within('#infinite-tree-container') { click_link root_record.title }
+      expect(page).to have_css(infinite_tree_current_node_selector(root_record))
+      wait_for_infinite_tree_pane_ready
+
+      release_held_fetch(child_save_url)
+
+      aggregate_failures do
+        expect(page).to have_css(infinite_tree_current_node_selector(root_record))
+        expect(page.current_url).to match(/#{Regexp.escape(root_hash)}/)
+        expect(page).to have_no_css("#{pane}.blocked")
+        within(pane) do
+          expect(page).to have_css('h2', text: root_record.title)
+          expect(page).to have_css("#form_#{root_type}")
+          expect(page).to have_no_css("#form_#{child_type}")
+        end
+      end
+    end
+  end
 end

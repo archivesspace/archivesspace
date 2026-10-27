@@ -507,21 +507,53 @@ module InfiniteTreeInteractionHelpers
   # `url_fragments` (e.g. a record pane load such as "/resources/1/edit?inline=true")
   # until release_held_fetch is called, so a spec can choose the order in which
   # overlapping requests finish.  Each matching fetch is held separately.
-  def hold_fetches(*url_fragments)
-    page.execute_script(<<~JS, url_fragments)
-      var fragments = arguments[0];
-      var originalFetch = window.fetch.bind(window);
+  #
+  # Optional `methods` limits the hold to those HTTP verbs (e.g. `%w[POST]` for
+  # inline saves).  Rules accumulate across repeated calls on the same page.
+  def hold_fetches(*url_fragments, methods: nil)
+    methods_list = methods&.map { |m| m.to_s.upcase }
+    page.execute_script(<<~JS, url_fragments, methods_list)
+      const fragments = arguments[0];
+      const methods = arguments[1];
 
-      window.__itreeHeldFetches = [];
+      window.__itreeHeldFetches = window.__itreeHeldFetches || [];
+      window.__itreeFetchHoldRules = window.__itreeFetchHoldRules || [];
+      window.__itreeFetchHoldRules.push({ fragments: fragments, methods: methods });
+
+      if (window.__itreeFetchHoldInstalled) return;
+
+      window.__itreeFetchHoldInstalled = true;
+      const originalFetch = window.fetch.bind(window);
+
+      function requestMethod(input, init) {
+        if (init && init.method) return init.method.toUpperCase();
+        if (typeof input !== 'string' && input.method) return input.method.toUpperCase();
+        return 'GET';
+      }
+
+      function matchingFragment(url, reqMethod) {
+        for (const rule of window.__itreeFetchHoldRules) {
+          const fragment = rule.fragments.find(function(f) { return url.indexOf(f) !== -1; });
+
+          if (!fragment) continue;
+          if (rule.methods && rule.methods.length && rule.methods.indexOf(reqMethod) === -1) {
+            continue;
+          }
+
+          return fragment;
+        }
+
+        return null;
+      }
 
       window.fetch = function(input, init) {
-        var url = typeof input === 'string' ? input : input.url;
-        var request = originalFetch(input, init);
-        var fragment = fragments.find(function(f) { return url.indexOf(f) !== -1; });
+        const url = typeof input === 'string' ? input : input.url;
+        const fragment = matchingFragment(url, requestMethod(input, init));
 
-        if (!fragment) return request;
+        if (!fragment) return originalFetch(input, init);
 
-        var held = { fragment: fragment, released: false, delivered: false };
+        const request = originalFetch(input, init);
+        const held = { fragment: fragment, released: false, delivered: false };
         window.__itreeHeldFetches.push(held);
 
         return new Promise(function(resolve, reject) {
@@ -530,7 +562,7 @@ module InfiniteTreeInteractionHelpers
             request.then(function(response) {
               // Mark delivered once the caller has read the body and run the
               // code that follows it in the same task (rendering the pane).
-              var text = response.text.bind(response);
+              const text = response.text.bind(response);
               response.text = function() {
                 return text().then(function(body) {
                   setTimeout(function() { held.delivered = true; }, 0);
