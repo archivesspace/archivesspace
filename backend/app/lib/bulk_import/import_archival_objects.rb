@@ -82,6 +82,9 @@ class ImportArchivalObjects < BulkImportParser
       # tree hierachy
       level = value_check(@archival_levels, @row_hash["level"], err_arr)
       err_arr.push I18n.t("bulk_import.error.level") if level.nil?
+      note_columns_missing_text.each do |note_column, columns|
+        err_arr.push I18n.t("bulk_import.error.note_text_missing", :note_column => note_column, :columns => columns.join(", "))
+      end
     rescue StopBulkImportException => se
       raise se
     rescue Exception => e
@@ -96,6 +99,17 @@ class ImportArchivalObjects < BulkImportParser
       normalize_boolean_column(@row_hash, 'restrictions_flag')
     end
     err_arr.join("; ")
+  end
+
+  def note_columns_missing_text
+    @row_hash.keys.each_with_object({}) do |column, missing|
+      next if @row_hash[column].to_s.strip.empty?
+      match = column.match(/\A[a-z]_(.+?)(_\d+)?\z/)
+      next if match.nil?
+      note_column = ["n_#{match[1]}#{match[2]}", "n_#{match[1]}"].find { |candidate| @row_hash.key?(candidate) }
+      next if note_column.nil? || !@row_hash[note_column].to_s.strip.empty?
+      (missing[note_column] ||= []) << column
+    end
   end
 
   def process_row(row_hash = nil)

@@ -3014,6 +3014,7 @@ en:
       uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%{row_uri}]"
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
+      note_text_missing: "%{note_column} is blank, but it is required when %{columns} has a value"
       hier_miss: Missing hierachy -- must be a number greater than 0
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row

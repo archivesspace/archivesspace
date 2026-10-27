@@ -3,6 +3,7 @@ nl:
     error:
       unknown_columns: "Deze kolommen worden niet herkend (mogelijk gebruikt u een verouderd sjabloon): %{codes}"
       unrecognized_boolean: "Kolom %{column} vereist een booleaanse waarde; ontvangen '%{value}'"
+      note_text_missing: "%{note_column} is leeg, maar is verplicht wanneer %{columns} een waarde bevat"
       invalid_user_defined_integer: "Ongeldig gebruikergedefinieerd geheel getal: %{value}"
       invalid_file_version_size: "Kolom %{column} vereist een geheel aantal bytes; ontvangen '%{value}'"
       invalid_user_defined_real: "Ongeldig gebruikergedefinieerd reëel getal: %{value}"

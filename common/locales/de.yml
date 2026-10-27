@@ -2735,6 +2735,7 @@ de:
         [%{row_uri}] überein
       title: Fehlender Titel
       title_and_date: Fehlende Definition von Titel UND Definition des Gültigkeitsdatums
+      note_text_missing: "%{note_column} ist leer, ist aber erforderlich, wenn %{columns} einen Wert enthält"
       hier_miss: Fehlende Hierarchie -- muss eine Zahl größer als 0 sein
       hier_zero: Hierarchie muss größer als 0 sein
       hier_wrong_resource: Wollten Sie die Bearbeitung mit einem ausgewählten Archiv-Objekt starten?

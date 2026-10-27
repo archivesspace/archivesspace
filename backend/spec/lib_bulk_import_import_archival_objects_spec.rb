@@ -1709,24 +1709,24 @@ describe "Import Archival Objects" do
     end
   end
 
+  # Imports one archival object row from the CSV template with the given cells, plus any extra columns
+  def import_row(cells, extra_columns = [])
+    csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_template.csv")
+    columns = csv_data[0] + extra_columns
+    row = columns.to_h { |column| [column, nil] }
+    row.merge!('res_uri' => @resource.uri, 'title' => 'Archival Object', 'hierarchy' => '1', 'level' => 'class')
+    row.merge!(cells)
+
+    csv_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.csv"
+    csv_path = File.join(Dir.tmpdir, csv_filename)
+    File.write(csv_path, CSV.generate { |csv| csv << columns << (csv_data[1] + extra_columns) << row.values })
+
+    opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => csv_filename,
+             :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "" }
+    ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+  end
+
   describe 'digital object file version columns' do
-    # Imports one archival object row from the CSV template with the given cells, plus any extra columns
-    def import_row(cells, extra_columns = [])
-      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_template.csv")
-      columns = csv_data[0] + extra_columns
-      row = columns.to_h { |column| [column, nil] }
-      row.merge!('res_uri' => @resource.uri, 'title' => 'Archival Object with file versions', 'hierarchy' => '1', 'level' => 'class')
-      row.merge!(cells)
-
-      csv_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.csv"
-      csv_path = File.join(Dir.tmpdir, csv_filename)
-      File.write(csv_path, CSV.generate { |csv| csv << columns << (csv_data[1] + extra_columns) << row.values })
-
-      opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => csv_filename,
-               :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "" }
-      ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
-    end
-
     def imported_digital_object(report)
       archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
       ::DigitalObject.to_jsonmodel(archival_object['instances'][0]['digital_object']['ref'].split('/').pop.to_i)
@@ -1812,6 +1812,41 @@ describe "Import Archival Objects" do
       report = import_row({}, ['file_version_colour_1'])
 
       expect(report.terminal_error).to include(I18n.t('bulk_import.error.unknown_columns', :codes => 'file_version_colour_1'))
+    end
+  end
+
+  describe 'note columns' do
+    it 'rejects the row when a local access restriction type is given without the access restriction note' do
+      archival_object_count_before = ::ArchivalObject.count
+
+      report = import_row('t_accessrestrict_1' => 'RestrictedSpecColl')
+
+      expect(::ArchivalObject.count).to eq archival_object_count_before
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+
+    it 'reports every filled column for every note whose text is blank' do
+      report = import_row('p_abstract' => '1', 'l_abstract' => 'Summary', 'b_userestrict' => '2030-01-01')
+
+      abstract_error = I18n.t('bulk_import.error.note_text_missing', :columns => 'p_abstract, l_abstract', :note_column => 'n_abstract')
+      userestrict_error = I18n.t('bulk_import.error.note_text_missing', :columns => 'b_userestrict', :note_column => 'n_userestrict')
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{abstract_error}; #{userestrict_error}")])
+    end
+
+    it 'imports the restriction types when the access restriction note has text' do
+      report = import_row('n_accessrestrict' => 'Closed until 2030', 't_accessrestrict_1' => 'RestrictedSpecColl')
+
+      expect(report.rows[0].errors).to eq([])
+      archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+      note = archival_object['notes'].find { |n| n['type'] == 'accessrestrict' }
+      expect(note['rights_restriction']['local_access_restriction_type']).to eq(['RestrictedSpecColl'])
+    end
+
+    it 'does not treat a column without a matching note column as part of a note' do
+      report = import_row('l_lang' => 'eng')
+
+      expect(report.rows[0].errors).to eq([])
     end
   end
 end
