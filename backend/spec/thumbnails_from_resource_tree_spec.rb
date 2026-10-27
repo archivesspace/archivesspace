@@ -67,6 +67,63 @@ describe 'Thumbnails::FromResourceTree' do
     expect(thumbnail).not_to have_key('image_url')
   end
 
+  it 'falls back to the images of its archival objects, in tree order, when the browser cannot display its own image (ANW-3089)' do
+    own = image_do
+    resource = create(:json_resource, :instances => [representative_instance(own)])
+    first = image_do
+    second = image_do
+    archival_object_in(resource, first)
+    archival_object_in(resource, icon_do)
+    archival_object_in(resource, second)
+
+    thumbnail = thumbnail_for(Resource, resource)
+    expect(thumbnail['record_uri']).to eq(own.uri)
+    expect(thumbnail['fallbacks'].map { |fallback| fallback['record_uri'] }).to eq([first.uri, second.uri])
+  end
+
+  it 'falls back to the image of a later archival object when the browser cannot display the image of the first one (ANW-3009)' do
+    resource = create(:json_resource)
+    document = digital_object_with([link_file_version(:is_display_thumbnail => true, :is_display_link => true)])
+    later = image_do
+    archival_object_in(resource, document)
+    archival_object_in(resource, later)
+
+    thumbnail = thumbnail_for(Resource, resource)
+    expect(thumbnail['record_uri']).to eq(document.uri)
+    expect(thumbnail['fallbacks'].map { |fallback| fallback['record_uri'] }).to eq([later.uri])
+  end
+
+  it 'offers at most AppConfig[:max_thumbnail_images] images' do
+    allow(AppConfig).to receive(:[]).and_call_original
+    allow(AppConfig).to receive(:[]).with(:max_thumbnail_images) { 2 }
+
+    resource = create(:json_resource)
+    digital_objects = (1..3).map { image_do }
+    digital_objects.each { |digital_object| archival_object_in(resource, digital_object) }
+
+    thumbnail = thumbnail_for(Resource, resource)
+    expect(thumbnail['record_uri']).to eq(digital_objects.first.uri)
+    expect(thumbnail['fallbacks'].map { |fallback| fallback['record_uri'] }).to eq([digital_objects[1].uri])
+  end
+
+  it 'lists a digital object once when it is both its own and an archival object representative instance' do
+    own = image_do
+    resource = create(:json_resource, :instances => [representative_instance(own)])
+    archival_object_in(resource, own)
+
+    expect(thumbnail_for(Resource, resource)).not_to have_key('fallbacks')
+  end
+
+  it 'shows the first generic icon of its archival objects when its own representative instance shows nothing' do
+    unpublished = digital_object_with([image_file_version(:is_display_thumbnail => true)], :publish => false)
+    resource = create(:json_resource, :instances => [representative_instance(unpublished)])
+    archival_object_in(resource, icon_do)
+
+    thumbnail = thumbnail_for(Resource, resource)
+    expect(thumbnail['record_uri']).to eq(icon_do.uri)
+    expect(thumbnail).not_to have_key('image_url')
+  end
+
   it 'ignores unpublished archival objects' do
     resource = create(:json_resource)
     archival_object_in(resource, image_do, :publish => false)

@@ -6,49 +6,61 @@
 <% if result.has_thumbnail? %>
   <%
     thumbnail = result.thumbnail
-    caption = strip_mixed_content(thumbnail['caption'])
-
-    # In a list, the thumbnail repeats the title link, so screen readers and the keyboard skip it.
-    # Otherwise an accession, resource or archival object links to the digital object record, and a
-    # digital object (component) opens its display link file version, if any, in a new window.
-    if title_link.present?
-      link_url = title_link
-      link_options = {:target => '_self', 'aria-hidden' => 'true', :tabindex => '-1'}
-      link_text = nil
-    elsif thumbnail['record_uri']
-      link_url = app_prefix(thumbnail['record_uri'])
-      link_options = {:target => '_self'}
-      link_text = t('thumbnails.view_digital_object')
-    elsif FileURI.allowed_scheme?(thumbnail['link_url'])
-      # The backend already drops a link_url whose scheme is not allowed; checking again here covers
-      # records indexed before it did
-      link_url = thumbnail['link_url']
-      link_options = {:target => '_blank'}
-      link_text = t('thumbnails.view_digital_material')
-    else
-      link_url = nil
-    end
-
-    icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
-    icon_options = {:title => caption, :role => 'img', 'aria-label' => caption}
-    show_fallback_icon = 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block";'
+    # Only the browser can tell whether it can display an image, so when an image fails to load it tries
+    # the next fallback image, and when none loads it shows the generic icon of the thumbnail (ANW-3089,
+    # see thumbnail_fallback.js)
+    candidates = thumbnail['image_url'] ? [thumbnail] + Array(thumbnail['fallbacks']) : [thumbnail]
   %>
   <div class="pui-thumbnail">
-    <% image = capture do %>
-      <% if link_text %>
-        <div class="pui-thumbnail-help-text"><%= link_text %></div>
+    <% candidates.each_with_index do |candidate, index| %>
+      <%
+        caption = strip_mixed_content(candidate['caption'])
+
+        # In a list, the thumbnail repeats the title link, so screen readers and the keyboard skip it.
+        # Otherwise an accession, resource or archival object links to the digital object record, and a
+        # digital object (component) opens its display link file version, if any, in a new window.
+        if title_link.present?
+          link_url = title_link
+          link_options = {:target => '_self', 'aria-hidden' => 'true', :tabindex => '-1'}
+          link_text = nil
+        elsif candidate['record_uri']
+          link_url = app_prefix(candidate['record_uri'])
+          link_options = {:target => '_self'}
+          link_text = t('thumbnails.view_digital_object')
+        elsif FileURI.allowed_scheme?(candidate['link_url'])
+          # The backend already drops a link_url whose scheme is not allowed; checking again here covers
+          # records indexed before it did
+          link_url = candidate['link_url']
+          link_options = {:target => '_blank'}
+          link_text = t('thumbnails.view_digital_material')
+        else
+          link_url = nil
+        end
+
+        icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(candidate['digital_object_type'])}"
+        icon_options = {:title => caption, :role => 'img', 'aria-label' => caption}
+      %>
+      <%= content_tag(:div, :class => 'pui-thumbnail-candidate', :style => ('display: none;' unless index.zero?)) do %>
+        <% image = capture do %>
+          <% if link_text %>
+            <div class="pui-thumbnail-help-text"><%= link_text %></div>
+          <% end %>
+          <% if (image_url = candidate['image_url']) && index.zero? %>
+            <%= image_tag image_url, :alt => caption, 'onError' => 'showNextThumbnailCandidate(this)' %>
+            <%# Shown in place of the images when the browser cannot load or display any of them %>
+            <%= content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
+          <% elsif image_url %>
+            <%# Loaded only when the image before it fails %>
+            <%= tag.img(:alt => caption, :data => {:src => image_url}, 'onError' => 'showNextThumbnailCandidate(this)') %>
+          <% else %>
+            <%= content_tag(:i, nil, icon_options.merge(:class => icon_class)) %>
+          <% end %>
+        <% end %>
+        <%= link_to_if link_url, image, link_url, link_options %>
+        <% if caption.present? %>
+          <div class="pui-thumbnail-caption"><%= caption %></div>
+        <% end %>
       <% end %>
-      <% if (image_url = thumbnail['image_url']) %>
-        <%= image_tag image_url, :alt => caption, 'onError' => show_fallback_icon %>
-        <%# Shown in place of an image the browser cannot load or display %>
-        <%= content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
-      <% else %>
-        <%= content_tag(:i, nil, icon_options.merge(:class => icon_class)) %>
-      <% end %>
-    <% end %>
-    <%= link_to_if link_url, image, link_url, link_options %>
-    <% if caption.present? %>
-      <div class="pui-thumbnail-caption"><%= caption %></div>
     <% end %>
     <% if n_digital_objects && representative_link_to_digital_materials?(result) %>
       <div class="pui-thumbnail-digital-materials">

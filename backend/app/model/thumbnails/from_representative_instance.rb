@@ -1,7 +1,7 @@
 # Adds the read-only `thumbnail` property to Accessions, Archival Objects and Resources: the thumbnail
 # of the Digital Object linked by their instance marked `is_representative`, linking to that Digital
-# Object record. When several candidate Digital Objects show a thumbnail, the first image wins,
-# otherwise the first generic icon.
+# Object record. When several candidate Digital Objects show a thumbnail, the first image wins, with the
+# next images as its fallbacks, otherwise the first generic icon (see Rules.choose_thumbnail).
 module Thumbnails
   module FromRepresentativeInstance
     def self.included(base)
@@ -16,8 +16,8 @@ module Thumbnails
         thumbnails = Rules.digital_object_thumbnails(candidates.values.flatten.uniq)
 
         jsons.zip(objs).each do |json, obj|
-          found = candidates.fetch(obj.id, []).map { |do_id| thumbnails[do_id] }.compact
-          json['thumbnail'] = found.find { |thumbnail| thumbnail['image_url'] } || found.first
+          found = candidates.fetch(obj.id, []).uniq.map { |do_id| thumbnails[do_id] }.compact
+          json['thumbnail'] = Rules.choose_thumbnail(found)
         end
 
         jsons

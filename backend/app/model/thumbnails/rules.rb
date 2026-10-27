@@ -20,8 +20,28 @@ require 'file_uri'
 # On an Accession, Resource or Archival Object, a Digital Object without an image of its own shows the
 # display thumbnail of its first published, unsuppressed Digital Object Component (in tree order), skipping
 # components with an unpublished or suppressed ancestor (ANW-3057).
+#
+# Only the browser can tell whether it can display an image, so a record with several candidate images
+# gets the first as its thumbnail and the next ones, up to AppConfig[:max_thumbnail_images] in all, as its
+# `fallbacks`. The interfaces show the first image that loads, else the generic icon of the thumbnail
+# (ANW-3089).
 module Thumbnails
   module Rules
+    # The most images a thumbnail offers: the image shown and its fallbacks
+    def self.max_images
+      [AppConfig[:max_thumbnail_images].to_i, 1].max
+    end
+
+    # The thumbnail of a record from its candidate thumbnails, in order of preference: the first image,
+    # with the next images as fallbacks, otherwise the first generic icon
+    def self.choose_thumbnail(candidates)
+      images = candidates.select { |candidate| candidate['image_url'] }.first(max_images)
+      return candidates.first if images.empty?
+      return images.first if images.length == 1
+
+      images.first.merge('fallbacks' => images.drop(1))
+    end
+
     # file_versions: hashes with the file_version JSONModel property names
     def self.thumbnail_for_file_versions(file_versions, title, digital_object_type)
       published = file_versions.select { |fv| fv['publish'] }
@@ -73,6 +93,36 @@ module Thumbnails
 
       without_image = digital_objects.map(&:id).reject { |id| thumbnails.dig(id, 'image_url') }
       thumbnails.merge(component_image_thumbnails(without_image, types))
+    end
+
+    # The ids of the published, unsuppressed Digital Objects among the given ids that can show an image:
+    # with a published Display Thumbnail File Version of their own, or of a published, unsuppressed
+    # Digital Object Component. Unlike digital_object_thumbnails, it neither loads the File Versions nor
+    # checks the ancestors of the components, so it may include a Digital Object whose only image is on a
+    # component with an unpublished or suppressed ancestor.
+    def self.digital_objects_with_image(digital_object_ids)
+      return [] if digital_object_ids.empty?
+
+      published = DigitalObject.any_repo
+                    .filter(:id => digital_object_ids, :publish => 1, :suppressed => 0)
+                    .select_map(:id)
+
+      own = FileVersion
+              .filter(:digital_object_id => published, :publish => 1, :is_display_thumbnail => 1)
+              .distinct
+              .select_map(:digital_object_id)
+
+      from_components = DigitalObjectComponent.any_repo
+                          .join(:file_version, Sequel.qualify(:file_version, :digital_object_component_id) => Sequel.qualify(:digital_object_component, :id))
+                          .filter(Sequel.qualify(:digital_object_component, :root_record_id) => published - own)
+                          .filter(Sequel.qualify(:digital_object_component, :publish) => 1)
+                          .filter(Sequel.qualify(:digital_object_component, :suppressed) => 0)
+                          .filter(Sequel.qualify(:file_version, :publish) => 1)
+                          .filter(Sequel.qualify(:file_version, :is_display_thumbnail) => 1)
+                          .distinct
+                          .select_map(Sequel.qualify(:digital_object_component, :root_record_id))
+
+      own + from_components
     end
 
     # { digital object id => thumbnail } of the first published, unsuppressed Digital Object Component

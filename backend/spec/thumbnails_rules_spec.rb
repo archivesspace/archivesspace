@@ -70,4 +70,61 @@ describe 'Thumbnails::Rules' do
       expect(thumbnail([image_file_version(:is_display_thumbnail => true)], 'The DO title')['caption']).to eq('The DO title')
     end
   end
+
+  describe 'choose_thumbnail' do
+    def candidate(name, image = true)
+      {'record_uri' => name}.merge(image ? {'image_url' => "http://example.com/#{name}.jpg"} : {})
+    end
+
+    it 'shows the first image, with the next images as fallbacks for the browser to try in turn (ANW-3089)' do
+      expect(Thumbnails::Rules.choose_thumbnail([candidate('icon', false), candidate('first'), candidate('second')])).to eq(
+        candidate('first').merge('fallbacks' => [candidate('second')])
+      )
+    end
+
+    it 'offers ten images by default' do
+      images = (1..12).map { |n| candidate("image#{n}") }
+
+      thumbnail = Thumbnails::Rules.choose_thumbnail(images)
+      expect(thumbnail['record_uri']).to eq('image1')
+      expect(thumbnail['fallbacks'].map { |fallback| fallback['record_uri'] }).to eq((2..10).map { |n| "image#{n}" })
+    end
+
+    context 'with AppConfig[:max_thumbnail_images] set' do
+      let(:images) { (1..4).map { |n| candidate("image#{n}") } }
+
+      def configure_max_images(max_images)
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:max_thumbnail_images) { max_images }
+      end
+
+      it 'offers at most the configured number of images' do
+        configure_max_images(3)
+
+        thumbnail = Thumbnails::Rules.choose_thumbnail(images)
+        expect(thumbnail['record_uri']).to eq('image1')
+        expect(thumbnail['fallbacks'].map { |fallback| fallback['record_uri'] }).to eq(%w[image2 image3])
+      end
+
+      it 'offers one image without fallbacks when configured for one or fewer' do
+        [1, 0].each do |max_images|
+          configure_max_images(max_images)
+
+          expect(Thumbnails::Rules.choose_thumbnail(images)).to eq(candidate('image1'))
+        end
+      end
+    end
+
+    it 'has no fallbacks with a single image' do
+      expect(Thumbnails::Rules.choose_thumbnail([candidate('icon', false), candidate('image')])).to eq(candidate('image'))
+    end
+
+    it 'shows the first generic icon without images' do
+      expect(Thumbnails::Rules.choose_thumbnail([candidate('first', false), candidate('second', false)])).to eq(candidate('first', false))
+    end
+
+    it 'shows nothing without candidates' do
+      expect(Thumbnails::Rules.choose_thumbnail([])).to be_nil
+    end
+  end
 end

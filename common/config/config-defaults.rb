@@ -980,3 +980,20 @@ AppConfig[:iiif_viewer] = 'universal_viewer'
 # Additionally, to be a candidate for embedding in the PUI, the File Version
 # and any parent records must also be published.
 #
+
+
+## Thumbnail Configuration
+#
+# Only the browser can tell whether it can display the image of a Display Thumbnail
+# File Version, so an accession, resource or archival object offers it several
+# candidate images and shows the first one that loads, else the generic icon of the
+# first one. For a resource, the candidates are the Digital Object of its own
+# representative instance, then those of its archival objects, in tree order.
+#
+# AppConfig[:max_thumbnail_images] sets the most candidate images offered, counting
+# the first one, so 1 offers no fallbacks. A higher value means more database rows
+# each time a resource is loaded or indexed, larger records and pages, and, when the
+# images keep failing, more images the browser requests one after another before it
+# shows the icon. The public interface and search results use a new value once
+# records are reindexed.
+AppConfig[:max_thumbnail_images] = 10

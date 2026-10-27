@@ -324,7 +324,8 @@ describe 'Thumbnails', js: true do
         search_for record.title
 
         within ".recordrow[data-uri='#{record.uri}']" do
-          expect(page.find('.pui-thumbnail img', visible: :all)[:src]).to eq @img_1
+          # The images after the first are fallbacks that are not loaded yet, so have no src
+          expect(page.find('.pui-thumbnail img[src]', visible: :all)[:src]).to eq @img_1
           expect(page.find('.pui-thumbnail img')[:alt]).to eq @caption_1
         end
       end
@@ -378,6 +379,8 @@ describe 'Thumbnails', js: true do
     unreachable_image = 'http://127.0.0.1:1/thumbnail.jpg'
     # A valid 1x1 TIFF: a format neither Chrome nor Firefox can display
     tiff_image = 'data:image/tiff;base64,SUkqAAgAAAAJAAABAwABAAAAAQAAAAEBAwABAAAAAQAAAAIBAwABAAAACAAAAAMBAwABAAAAAQAAAAYBAwABAAAAAQAAABEBBAABAAAAegAAABUBAwABAAAAAQAAABYBAwABAAAAAQAAABcBBAABAAAAAQAAAAAAAAD/'
+    # A valid 1x1 GIF, which every browser displays
+    loadable_image = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
     before(:all) do
       @dobj_with_unreachable_thumbnail = create(
@@ -401,8 +404,30 @@ describe 'Thumbnails', js: true do
         resource: { 'ref' => @resource_with_thumbnail.uri },
         instances: [build(:instance_digital, digital_object: { ref: @dobj_with_tiff_thumbnail.uri }, is_representative: true)]
       )
+      @dobj_with_loadable_thumbnail = create(
+        :digital_object,
+        publish: true,
+        title: 'Digital object with loadable thumbnail',
+        digital_object_type: 'still_image',
+        file_versions: [{ publish: true, is_display_thumbnail: true, file_uri: loadable_image }]
+      )
+      @resource_with_fallback_image = resource_with_representative_archival_objects(
+        'Resource with a fallback image', [@dobj_with_unreachable_thumbnail, @dobj_with_loadable_thumbnail]
+      )
+      @resource_without_loadable_image = resource_with_representative_archival_objects(
+        'Resource without a loadable image', [@dobj_with_unreachable_thumbnail, @dobj_with_tiff_thumbnail]
+      )
 
       run_indexers
+    end
+
+    def resource_with_representative_archival_objects(title, digital_objects)
+      resource = create(:resource, publish: true, title: title)
+      digital_objects.each do |digital_object|
+        create(:archival_object, publish: true, resource: { 'ref' => resource.uri },
+                                 instances: [build(:instance_digital, digital_object: { ref: digital_object.uri }, is_representative: true)])
+      end
+      resource
     end
 
     def expect_fallback_icon(record, image_url)
@@ -423,6 +448,19 @@ describe 'Thumbnails', js: true do
     it 'shows the fallback icon, still linked to the digital object, if the thumbnail is in a format the browser cannot display' do
       expect_fallback_icon(@aobj_with_tiff_thumbnail, tiff_image)
       expect(page).to have_css(".pui-thumbnail a[href$='#{@dobj_with_tiff_thumbnail.uri}'] .pui-thumbnail-fallback")
+    end
+
+    it 'shows the next image, linked to its digital object, if the browser cannot display the first (ANW-3089)' do
+      visit @resource_with_fallback_image.uri
+      expect(page).to have_css(".pui-thumbnail a[href$='#{@dobj_with_loadable_thumbnail.uri}'] img[src='#{loadable_image}']", visible: true)
+      expect(page).to have_css(".pui-thumbnail img[src='#{unreachable_image}']", visible: :hidden)
+      expect(page).not_to have_css('.pui-thumbnail-fallback', visible: true)
+    end
+
+    it 'shows the fallback icon of the first image, linked to its digital object, if the browser cannot display any image (ANW-3089)' do
+      expect_fallback_icon(@resource_without_loadable_image, unreachable_image)
+      expect(page).to have_css(".pui-thumbnail img[src='#{tiff_image}']", visible: :hidden)
+      expect(page).to have_css(".pui-thumbnail a[href$='#{@dobj_with_unreachable_thumbnail.uri}'] .pui-thumbnail-fallback", visible: true)
     end
   end
 end

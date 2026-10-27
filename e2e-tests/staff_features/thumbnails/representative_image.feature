@@ -131,6 +131,39 @@ Feature: Representative image on Accessions, Resources and Archival Objects (ANW
       And the thumbnail links to the Digital Object Component 'Page'
       And the thumbnail has the caption 'Page image'
 
+  Scenario: A Resource shows the image of a later Archival Object when the browser cannot render the image of the first
+    Given a Digital Object 'Report' has been created with the following File Versions
+      | File       | Published | Marked as         | Caption |
+      | a document | yes       | Display Thumbnail |         |
+      And a Resource 'Collection' has been created
+      And the Resource 'Collection' has an Archival Object 'First Folder' with the Digital Object 'Report' as its representative instance
+      And the Resource 'Collection' has an Archival Object 'Second Folder' with the Digital Object 'Photograph' as its representative instance
+     When the user views the 'Collection' in the staff interface
+     Then the thumbnail shows 'an image'
+      And the thumbnail links to the Digital Object 'Photograph'
+      And the thumbnail has the caption 'Photograph image'
+     When the user views the 'Collection' in the public interface
+     Then the thumbnail shows 'an image'
+      And the thumbnail links to the Digital Object 'Photograph'
+      And the thumbnail has the caption 'Photograph image'
+
+  Scenario: A Resource shows the generic icon of its first image when the browser cannot render any of its images
+    Given a Digital Object 'Report' has been created with the following File Versions
+      | File       | Published | Marked as         | Caption |
+      | a document | yes       | Display Thumbnail |         |
+      And a Digital Object 'Lost Photograph' has been created with the following File Versions
+        | File           | Published | Marked as         | Caption |
+        | a broken image | yes       | Display Thumbnail |         |
+      And a Resource 'Collection' has been created
+      And the Resource 'Collection' has an Archival Object 'First Folder' with the Digital Object 'Report' as its representative instance
+      And the Resource 'Collection' has an Archival Object 'Second Folder' with the Digital Object 'Lost Photograph' as its representative instance
+     When the user views the 'Collection' in the staff interface
+     Then the thumbnail falls back to the generic icon because the browser cannot render 'a document'
+      And the thumbnail links to the Digital Object 'Report'
+     When the user views the 'Collection' in the public interface
+     Then the thumbnail falls back to the generic icon because the browser cannot render 'a document'
+      And the thumbnail links to the Digital Object 'Report'
+
   Scenario: Without a Display Thumbnail on the Digital Object or its components no image or generic icon is shown
     Given a Digital Object 'Album' has been created without File Versions
       And the Digital Object 'Album' has a Digital Object Component 'Page' with the following File Versions

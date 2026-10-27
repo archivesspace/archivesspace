@@ -26,3 +26,4 @@
 //= require bootstrap3-typeahead
 //= require jquery.matchHeight
 //= require iiif_embed
+//= require thumbnail_fallback
