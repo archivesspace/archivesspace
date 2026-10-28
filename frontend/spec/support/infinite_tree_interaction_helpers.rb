@@ -503,6 +503,110 @@ module InfiniteTreeInteractionHelpers
     wait_for_ajax
   end
 
+  # Holds back the responses of fetches whose URL contains one of
+  # `url_fragments` (e.g. a record pane load such as "/resources/1/edit?inline=true")
+  # until release_held_fetch is called, so a spec can choose the order in which
+  # overlapping requests finish.  Each matching fetch is held separately.
+  #
+  # Optional `methods` limits the hold to those HTTP verbs (e.g. `%w[POST]` for
+  # inline saves).  Rules accumulate across repeated calls on the same page.
+  def hold_fetches(*url_fragments, methods: nil)
+    methods_list = methods&.map { |m| m.to_s.upcase }
+    page.execute_script(<<~JS, url_fragments, methods_list)
+      const fragments = arguments[0];
+      const methods = arguments[1];
+
+      window.__itreeHeldFetches = window.__itreeHeldFetches || [];
+      window.__itreeFetchHoldRules = window.__itreeFetchHoldRules || [];
+      window.__itreeFetchHoldRules.push({ fragments: fragments, methods: methods });
+
+      if (window.__itreeFetchHoldInstalled) return;
+
+      window.__itreeFetchHoldInstalled = true;
+      const originalFetch = window.fetch.bind(window);
+
+      function requestMethod(input, init) {
+        if (init && init.method) return init.method.toUpperCase();
+        if (typeof input !== 'string' && input.method) return input.method.toUpperCase();
+        return 'GET';
+      }
+
+      function matchingFragment(url, reqMethod) {
+        for (const rule of window.__itreeFetchHoldRules) {
+          const fragment = rule.fragments.find(function(f) { return url.indexOf(f) !== -1; });
+
+          if (!fragment) continue;
+          if (rule.methods && rule.methods.length && rule.methods.indexOf(reqMethod) === -1) {
+            continue;
+          }
+
+          return fragment;
+        }
+
+        return null;
+      }
+
+      window.fetch = function(input, init) {
+        const url = typeof input === 'string' ? input : input.url;
+        const fragment = matchingFragment(url, requestMethod(input, init));
+
+        if (!fragment) return originalFetch(input, init);
+
+        const request = originalFetch(input, init);
+        const held = { fragment: fragment, released: false, delivered: false };
+        window.__itreeHeldFetches.push(held);
+
+        return new Promise(function(resolve, reject) {
+          held.release = function() {
+            held.released = true;
+            request.then(function(response) {
+              // Mark delivered once the caller has read the body and run the
+              // code that follows it in the same task (rendering the pane).
+              const text = response.text.bind(response);
+              response.text = function() {
+                return text().then(function(body) {
+                  setTimeout(function() { held.delivered = true; }, 0);
+                  return body;
+                });
+              };
+              resolve(response);
+            }, reject);
+          };
+        });
+      };
+    JS
+  end
+
+  # Waits until a fetch matching `url_fragment` has been issued and is being held.
+  def wait_for_held_fetch(url_fragment)
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.05 until page.evaluate_script(<<~JS)
+        (window.__itreeHeldFetches || []).some(function(h) {
+          return h.fragment === #{url_fragment.to_json} && !h.released;
+        })
+      JS
+    end
+  end
+
+  # Releases the oldest held fetch matching `url_fragment` and waits until its
+  # caller has handled the response.
+  def release_held_fetch(url_fragment)
+    wait_for_held_fetch(url_fragment)
+
+    page.execute_script(<<~JS, url_fragment)
+      var fragment = arguments[0];
+      var held = window.__itreeHeldFetches.find(function(h) {
+        return h.fragment === fragment && !h.released;
+      });
+      window.__itreeReleasedFetch = held;
+      held.release();
+    JS
+
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.05 until page.evaluate_script('window.__itreeReleasedFetch.delivered')
+    end
+  end
+
   # Wait for an inline edit form to finish loading in the record pane.
   # form_prefix is the record type form id prefix (e.g. 'resource', 'archival_object').
   def wait_for_infinite_tree_inline_edit_form(form_prefix:)
