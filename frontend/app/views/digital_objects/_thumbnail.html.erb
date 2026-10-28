@@ -13,6 +13,7 @@
       image_alt_text = candidate['caption']
       image_link_url = defined?(override_link_url) ? override_link_url : thumbnail_link_url(candidate)
       image_link_target = defined?(override_link_target) ? override_link_target : (candidate['record_uri'] ? '_self' : '_blank')
+      fallback_link_url = (thumbnail_fallback_link_url(candidate) if index.zero? && !defined?(override_link_url))
       icon_class = "digital-object-thumbnail-icon #{thumbnail_icon_class(candidate['digital_object_type'])}"
       icon_label = strip_tags(image_alt_text.to_s)
     %>
@@ -21,13 +22,18 @@
         <% if (image_url = candidate['image_url']) && index.zero? %>
           <%= image_tag image_url, :alt => image_alt_text, 'onError' => 'showNextThumbnailCandidate(this)' %>
           <%# Shown in place of the images when the browser cannot load or display any of them %>
-          <%= content_tag(:i, nil, {
+          <% fallback_icon = content_tag(:i, nil, {
             :title => image_alt_text,
             :class => "#{icon_class} digital-object-thumbnail-fallback",
             :style => 'display: none;',
             :role => 'img',
             'aria-label' => icon_label
           }) %>
+          <% if fallback_link_url %>
+            <%= link_to fallback_icon, fallback_link_url, :target => '_blank', :class => 'digital-object-thumbnail-fallback-link', :style => 'display: none;' %>
+          <% else %>
+            <%= fallback_icon %>
+          <% end %>
         <% elsif image_url %>
           <%# Loaded only when the image before it fails %>
           <%= tag.img(:alt => image_alt_text, :data => {:src => image_url}, 'onError' => 'showNextThumbnailCandidate(this)') %>

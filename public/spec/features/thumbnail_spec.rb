@@ -148,8 +148,9 @@ describe 'Thumbnails', js: true do
     it 'shows the display thumbnail without a link when there is no display link' do
       visit @dobj_thumbnail_without_link.uri
       expect(page).to have_css ".pui-thumbnail img[src='#{@img_1}']"
+      # The link to the file of the image is only shown with the generic icon, if the image cannot be displayed
       expect(page).not_to have_css '.pui-thumbnail a'
-      expect(page).not_to have_css '.pui-thumbnail-help-text', visible: :all
+      expect(page).not_to have_css '.pui-thumbnail-help-text'
     end
 
     it 'opens the display link file version in a new window, with help text' do
@@ -457,6 +458,12 @@ describe 'Thumbnails', js: true do
 
     it 'shows the fallback icon if the thumbnail URL cannot be reached' do
       expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
+    end
+
+    it 'links the fallback icon of a thumbnail without a display link to the file of its image, with help text (ANW-3001)' do
+      expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
+      expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'][target='_blank'] .pui-thumbnail-fallback", visible: true)
+      expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'] .pui-thumbnail-help-text", visible: true)
     end
 
     it 'gives the fallback icon an accessible name' do

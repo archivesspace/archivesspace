@@ -94,6 +94,23 @@ describe 'Thumbnail fallback icon', js: true do
     expect_fallback_icon(@tiff, tiff_image)
   end
 
+  it 'links the generic icon of a thumbnail without a display link to the file of its image (ANW-3001)' do
+    expect_fallback_icon(@unreachable, unreachable_image)
+
+    within '#infinite-tree-record-pane' do
+      expect(page).to have_css(".digital-object-thumbnail a[href='#{unreachable_image}'][target='_blank'] .digital-object-thumbnail-fallback", visible: true)
+    end
+  end
+
+  it 'shows a thumbnail image the browser can display without a link, when there is no display link (ANW-3001)' do
+    visit "digital_objects/#{@loadable.id}"
+
+    within '#infinite-tree-record-pane' do
+      expect(page).to have_css(".digital-object-thumbnail img[src='#{loadable_image}']", visible: true)
+      expect(page).not_to have_css('.digital-object-thumbnail a')
+    end
+  end
+
   it 'shows the next image, linked to its digital object, in place of a thumbnail the browser cannot display (ANW-3089)' do
     visit "resources/#{@with_fallback_image.id}"
 

@@ -115,7 +115,8 @@ def thumbnail_add_file_versions(form_prefix, file_versions)
       select file[:xlink_show], from: 'XLink Show Attribute' if file[:xlink_show]
       row.fetch('Published') == 'yes' ? check('Publish?') : uncheck('Publish?')
       fill_in 'Caption', with: row['Caption'] unless row['Caption'].to_s.empty?
-      click_on "Make #{row['Marked as']}" unless row['Marked as'].to_s.empty?
+      # A File Version can be marked as both: 'Display Thumbnail and Display Link'
+      row['Marked as'].to_s.split(' and ').each { |mark| click_on "Make #{mark}" }
     end
   end
 end

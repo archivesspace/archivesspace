@@ -17,8 +17,13 @@ function showNextThumbnailCandidate(image) {
     const first = image
       .closest('.pui-thumbnail')
       .querySelector('.pui-thumbnail-candidate');
+    const fallback = first.querySelector('.pui-thumbnail-fallback');
     first.style.display = 'block';
-    first.querySelector('.pui-thumbnail-fallback').style.display = 'block';
+    fallback.style.display = 'block';
+
+    // Without a link of its own, the generic icon links to the file of the image (ANW-3001)
+    const fallbackLink = fallback.closest('.pui-thumbnail-fallback-link');
+    if (fallbackLink) fallbackLink.style.display = '';
   }
 }
 

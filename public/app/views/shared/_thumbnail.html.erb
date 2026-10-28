@@ -37,6 +37,10 @@
           link_url = nil
         end
 
+        # Without a link of its own, a thumbnail image that the browser cannot display is replaced by a
+        # generic icon linked to the file of the image, like a display link (ANW-3001)
+        fallback_link_url = (candidate['image_url'] if link_url.nil? && index.zero? && FileURI.allowed_scheme?(candidate['image_url']))
+
         icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(candidate['digital_object_type'])}"
         icon_options = {:title => caption, :role => 'img', 'aria-label' => caption}
       %>
@@ -48,7 +52,15 @@
           <% if (image_url = candidate['image_url']) && index.zero? %>
             <%= image_tag image_url, :alt => caption, 'onError' => 'showNextThumbnailCandidate(this)' %>
             <%# Shown in place of the images when the browser cannot load or display any of them %>
-            <%= content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
+            <% fallback_icon = content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
+            <% if fallback_link_url %>
+              <%= link_to fallback_link_url, :target => '_blank', :class => 'pui-thumbnail-fallback-link', :style => 'display: none;' do %>
+                <div class="pui-thumbnail-help-text"><%= t('thumbnails.view_digital_material') %></div>
+                <%= fallback_icon %>
+              <% end %>
+            <% else %>
+              <%= fallback_icon %>
+            <% end %>
           <% elsif image_url %>
             <%# Loaded only when the image before it fails %>
             <%= tag.img(:alt => caption, :data => {:src => image_url}, 'onError' => 'showNextThumbnailCandidate(this)') %>

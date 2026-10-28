@@ -90,6 +90,10 @@ module DigitalObjectHelper
     end
   end
 
+  def thumbnail_fallback_link_url(thumbnail)
+    thumbnail['image_url'] if thumbnail_link_url(thumbnail).nil? && FileURI.allowed_scheme?(thumbnail['image_url'])
+  end
+
   private
 
   def cleanup!(data)
