@@ -2296,7 +2296,7 @@ ja:
     xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースの種類または性質。</p>\n"
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリソースを最後に検証した日付または日時。</p>\n"
     file_uri_tooltip: |
-      <p>エージェントの記述を作成する際に使った情報源の、オンライン上の所在を示す URI。例：http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373（Find-A-Grave の Robert W. Service の項目）。</p>
+      <p>エージェントの記述を作成する際に使った情報源の、オンライン上の場所を示す URI。例：http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373（Find-A-Grave の Robert W. Service の項目）。</p>
   subrecord_subject_agent_place:
     subjects_tooltip: "<p>エージェントに関連付けられた地理的な場所。</p>"
   subrecord_subject_agent_occupation:
