@@ -21,6 +21,16 @@ on:
         required: true
         type: string
         default: 'firefox'
+      timings-artifact:
+        description: When set, records the run time of each spec file and uploads it as an artifact with this name
+        required: false
+        type: string
+        default: ''
+      coverage:
+        description: Whether to post coverage to Coveralls
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   frontend:
@@ -93,6 +103,16 @@ jobs:
       env:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+        # Formatters given in SPEC_OPTS replace the ones on the rspec command line, so keep documentation output too
+        SPEC_OPTS: ${{ inputs.timings-artifact && format('--require {0}/build/scripts/frontend_feature_shards/file_timing_formatter.rb --format documentation --format FileTimingFormatter --out {0}/feature_timings.jsonl', github.workspace) || '' }}
+
+    - uses: actions/upload-artifact@v6
+      if: ${{ always() && inputs.timings-artifact }}
+      with:
+        name: ${{ inputs.timings-artifact }}
+        path: feature_timings.jsonl
+        if-no-files-found: ignore
+        retention-days: 7
 
     - uses: actions/upload-artifact@v6
       if: failure()
@@ -101,6 +121,7 @@ jobs:
         path: 'ci_logs'
 
     - name: Post Coverage to Coveralls
+      if: ${{ inputs.coverage }}
       uses: coverallsapp/github-action@v2
       with:
         format: simplecov

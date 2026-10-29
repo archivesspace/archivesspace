@@ -352,6 +352,8 @@ describe 'Mixed Content in title fields', js: true do
       end
 
       describe 'in an index view' do
+        include_context 'filter search results by text'
+
         it 'for accessions' do
           visit '/accessions'
           expect(page).to have_css "#tabledSearchResults .title > span#{@emph_selector}", text: "Accession 2 #{@now}"
@@ -373,12 +375,14 @@ describe 'Mixed Content in title fields', js: true do
 
         it 'for subjects' do
           visit '/subjects'
+          filter_search_results_by_text(@now.to_s)
           expect(page).to have_css "#tabledSearchResults .title > span#{@emph_selector}", text: "Subject #{@now}"
         end
 
         it 'for agents' do
           visit '/agents/'
           click_link 'Person'
+          filter_search_results_by_text(@now.to_s)
           expect(page).to have_css "#tabledSearchResults .title > span#{@title_selector}", text: "Agent Person #{@now}"
         end
 
