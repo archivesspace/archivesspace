@@ -23,15 +23,19 @@
       # The backend already drops a link_url whose scheme is not allowed; checking again here covers
       # records indexed before it did
       link_url = thumbnail['link_url']
-      link_options = {:target => '_blank'}
+      link_options = {:target => '_blank', :rel => 'noopener'}
       link_text = t('thumbnails.view_digital_material')
     else
       link_url = nil
     end
 
+    # Link of the generic icon shown when the browser cannot display the image (ANW-3001)
+    fallback_link_url = (thumbnail['image_url'] if link_url.nil? && FileURI.allowed_scheme?(thumbnail['image_url']))
+    fallback_link_options = FileURI.download_only?(fallback_link_url) ? {:download => ''} : {:target => '_blank', :rel => 'noopener'}
+
     icon_class = "pui-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
     icon_options = {:title => caption, :role => 'img', 'aria-label' => caption}
-    show_fallback_icon = 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block";'
+    show_fallback_icon = 'const parent = this.closest(".pui-thumbnail"); this.style.display = "none"; parent.querySelector(".pui-thumbnail-fallback").style.display = "block"; const fallbackLink = parent.querySelector(".pui-thumbnail-fallback-link"); if (fallbackLink) fallbackLink.style.display = "";'
   %>
   <div class="pui-thumbnail">
     <% image = capture do %>
@@ -41,7 +45,15 @@
       <% if (image_url = thumbnail['image_url']) %>
         <%= image_tag image_url, :alt => caption, 'onError' => show_fallback_icon %>
         <%# Shown in place of an image the browser cannot load or display %>
-        <%= content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
+        <% fallback_icon = content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
+        <% if fallback_link_url %>
+          <%= link_to fallback_link_url, fallback_link_options.merge(:class => 'pui-thumbnail-fallback-link', :style => 'display: none;') do %>
+            <div class="pui-thumbnail-help-text"><%= t('thumbnails.view_digital_material') %></div>
+            <%= fallback_icon %>
+          <% end %>
+        <% else %>
+          <%= fallback_icon %>
+        <% end %>
       <% else %>
         <%= content_tag(:i, nil, icon_options.merge(:class => icon_class)) %>
       <% end %>

@@ -18,4 +18,18 @@ describe FileURI do
       end
     end
   end
+
+  describe '.download_only?' do
+    ['data:image/png;base64,iVBORw0KGgo=', ' DATA:image/tiff;base64,SUkqAA=='].each do |uri|
+      it "is true for #{uri.inspect}" do
+        expect(FileURI.download_only?(uri)).to be true
+      end
+    end
+
+    ['http://example.com/a.jpg', 'HTTPS://example.com/a.pdf', 'javascript:alert(1)', 'relative/path.pdf', '', nil].each do |uri|
+      it "is false for #{uri.inspect}" do
+        expect(FileURI.download_only?(uri)).to be false
+      end
+    end
+  end
 end
