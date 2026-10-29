@@ -342,11 +342,9 @@ def create_resource_archival_object(uuid)
   click_on 'Add Language'
   within 'li.sort-enabled.initialised' do
     fill_in 'Language', with: 'English'
-    dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-    dropdown_items.first.click
+    find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
     fill_in 'Script', with: 'adlam'
-    dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-    dropdown_items.first.click
+    find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'Adlam', match: :first).click
   end
 
   click_on 'Add Date'
