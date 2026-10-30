@@ -10,54 +10,56 @@ ja:
   actions:
     collapse_node: "%{title} を折りたたむ"
     expand_node: "%{title} を展開"
-    search: サーチ
+    search: 検索
     search_header: アーカイブを検索
     search_within: 結果内で検索する
-    search_in: 検索%{type}
+    search_in: '%{type}を検索'
     new_search: 新しい検索
     refine_search: 絞り込み検索
     close: 閉じる
     backup: 前のページに戻る
     backup_abbr: 戻る
     cite: 引用
-    cite_item: 項目を引用
+    cite_item: 資料を引用
     cite_item_description: アイテムの説明を引用
-    request: 要求
+    request: 閲覧申込み
     print: PDFをダウンロード
-    print-generating: 生成
+    print-generating: 生成中
     collection_overview: コレクションの概要
-    hierarch: 収集組織
-    numeric: コンテナインベントリ
+    hierarch: コレクションの編成
+    numeric: コンテナ目録
     clipboard: クリップボードにコピー
     cilpboard_cite_item: アイテムの引用をクリップボードにコピーする
     cilpboard_cite_item_description: アイテムの説明の引用をクリップボードにコピーする
     search_add_row: 検索行を追加する
     search_remove_row: 下の行を削除
-    staff_link: 関係者以外立ち入り禁止
+    staff_link: スタッフ専用
     digitized: デジタル資料を見る
     authenticating: アクセスの確認
+    next: 次へ
+    previous: 前へ
   page_actions: ページアクション
   request:
     email_header: ご依頼ありがとうございます
     required: 必須
-    user_name: あなたの名前
+    user_name: お名前
     user_email: メールアドレス
     date: 到着予定日
-    note: スタッフへの注意
-    visit: 訪問するリクエストを送信%{repo_name}表示するには<strong>%{archival_object}</strong>
-    submit: リクエストを送信する
-    submitted: ありがとう、あなたの要求が提出されました。間もなくあなたのリクエストのコピーが入った電子メールが届きます。
+    note: スタッフへの連絡事項
+    visit: '%{repo_name} を訪問して <strong>%{archival_object}</strong> を閲覧するためのリクエストを送信'
+    submit: 申込みを送信
+    submitted: ありがとうございます。リクエストを送信しました。まもなくリクエスト内容の控えがメールで届きます。
     errors:
-      name: あなたの名前を入力してください
+      name: お名前を入力してください
       email: 有効なメールアドレスを入力してください
     email:
       subject: "%{title}へのリクエスト"
   search-button:
-    label: サーチ
-  search-limit: "%{limit}"
-  search-limiting: "%{limit}"
+    label: 検索
+  search-limit: "%{limit} に限定"
+  search-limiting: "%{limit} に限定"
   search-limits:
-    all: すべてのレコードタイプ
+    all: すべてのレコードの種類
     repository: リポジトリ
     repositories: リポジトリ
     resource: コレクション
@@ -65,121 +67,123 @@ ja:
     digital: デジタル資料
     digital_object: デジタル資料
     objects: アーカイブまたはデジタル記録
-    subject: 主題
-    agent: コンテンツクリエータ
-    agents: コンテンツ制作者
+    subject: 件名
+    agent: 作成者
+    agents: 作成者
   search-field: 検索フィールド
-  searched-field: 検索%{field}
+  searched-field: '%{field} を検索'
   pagination:
     controls: ページネーションコントロール
     top_controls: 上部のページネーションコントロール
     bottom_controls: 下部のページネーションコントロール
   search_results:
     highlighting:
-      found_in: 見つかった場所
+      found_in: ヒット箇所：
       four_part_id: 識別子
       dates: 日付
-      subjects_text: 科目
+      subjects_text: 件名
       agents_text: エージェント
-      creators_text: クリエイター
+      creators_text: 作成者
       role_enum_s: 役割
       linked_agent_roles: リンクされたエージェントの役割
-      notes_published: ノート
-      finding_aid_title: 援助のタイトルを見つける
+      notes_published: 注記
+      finding_aid_title: 検索手段のタイトル
       instance_type_enum_s: インスタンスの種類
-      acquisition_type: 獲得タイプ
-    page_title: 見つかった%{count}結果
-    results_head: "%{type} ： %{start} - %{end}の%{total}"
+      acquisition_type: 受入方法
+    page_title: '%{count} 件の結果が見つかりました'
+    results_head: "%{type}を表示中：%{total} 件中 %{start} - %{end} 件"
     result: 結果
     results: 結果
-    search_for: 検索%{type}ここで%{conditions}
+    search_for: '%{conditions} で %{type} を検索'
     keyword_contain: "<strong>キーワード</strong> ： <span class='searchterm'>%{kw}</span>"
-    title_contain: "<strong>タイトルに</strong>は<span class='searchterm'>%{kw}</span>"
-    notes_contain: "<strong>音符に</strong>は<span class='searchterm'>%{kw}</span>"
-    creators_text_contain: "<strong>作成者</strong>に<span class='searchterm'>%{kw}</span>"
-    subjects_text_contain: "<strong>被写体に</strong>は<span class='searchterm'>%{kw}</span>"
-    identifier_contain: "<strong>識別子に</strong>は<span class='searchterm'>%{kw}</span>"
-    in_repository: "<strong>%{name}</strong>"
+    title_contain: "<strong>タイトル</strong>に <span class='searchterm'>%{kw}</span> を含む"
+    notes_contain: "<strong>注記</strong>に <span class='searchterm'>%{kw}</span> を含む"
+    creators_text_contain: "<strong>作成者</strong>に <span class='searchterm'>%{kw}</span> を含む"
+    subjects_text_contain: "<strong>件名</strong>に <span class='searchterm'>%{kw}</span> を含む"
+    identifier_contain: "<strong>識別子</strong>に <span class='searchterm'>%{kw}</span> を含む"
+    in_repository: " （<strong>%{name}</strong> 内）"
     anything: "*"
     search_term: 検索語
     error: 予期しないエラーのために検索を完了できませんでした
     no_results: レコードが見つかりません
-    filter_by: フィルタリングする
-    filtered_by: フィルタリングされた
+    filter_by: 絞り込み
+    filtered_by: 絞り込み条件
     remove_filter: このフィルタを削除
     refine_search_controls_aria: 絞り込み検索の操作
-    more_facets: もっと
-    fewer_facets: もっと少なく
+    more_facets: さらに表示
+    fewer_facets: 表示を減らす
     op:
-      AND: AND
-      OR: OR
-      NOT: NOT
+      AND: かつ
+      OR: または
+      NOT: かつ次を含まない
     op_first_row:
-      NOT: ない
+      NOT: 次を含まない
     filter:
       head: 結果をフィルタリングする
-      add: 追加のフィルタ
+      add: さらに絞り込む
       form: 検索結果内で検索する
-      show_fewer: 表示回数を減らす
-      show_more: もっと見せる
+      show_fewer: 表示を減らす
+      show_more: さらに表示
       query: テキスト
       subjects: 件名
-      primary_type: タイプ
+      primary_type: 種類
       repository: リポジトリ
       used_within_published_repository: リポジトリ
-      creators: クリエイター
+      creators: 作成者
       fullrecord: キーワード
       subjects_text: 件名
       title: タイトル
-      creators_text: クリエイター
+      creators_text: 作成者
       scope: 範囲
-      notes: ノート
-      identifier: 識別
+      notes: 注記
+      identifier: 識別子
       source: ソース
       published_agents: 名前
       agents_text: 名前
       classification_uri: 分類
       linked_agent_roles: 役割
-      from_year: 年から
-      to_year: 年に
+      from_year: 開始年
+      to_year: 終了年
       years: 年
       from: から
-      to: に
-      years_include: 含まれる年数
+      to: まで
+      years_include: 対象とする年
       year_now: 今
       year_begin: 始まり
       from_to: "年： %{begin}から%{end}"
       from_to_range: "%{begin}から%{end}"
       child_container_u_sstr: 子コンテナ
       grand_child_container_u_sstr: 孫のコンテナ
-      type_enum_s: タイプ
+      type_enum_s: 種類
       published_series_title_u_sstr: シリーズ
       instance_type_enum_s: インスタンスの種類
       langcode: 言語
 
+      digital_object_type_enum_s: 種類
+      extent_type_enum_s: 数量の種類
   search_sorting:
     sort_by: 並び替え：
-    sort: ソート
-    asc: "（上昇）"
+    sort: 並び替え
+    asc: "（昇順）"
     desc: "（降順）"
     relevance: 関連性
     title_sort: タイトル
-    identifier: 識別
+    identifier: 識別子
     year_sort: 年
     sorting: "%{type} %{direction}"
-    classification_identifier: 識別
+    classification_identifier: 識別子
   inherit:
-    inherited: "%{level} ："
+    inherited: "%{level}から継承："
     collection: コレクション
     series: シリーズ
     sub-series: サブシリーズ
     class: クラス
     file: ファイル
-    fonds: 資金
+    fonds: フォンド
     item: 項目
     otherlevel: その他のレベル
-    recordgrp: レコードグループ
-    subfonds: サブフォンズ
+    recordgrp: 記録群
+    subfonds: サブフォンド
     subgrp: サブグループ
   errors:
     error_404: "%{type}レコードが見つかりません"
@@ -187,13 +191,14 @@ ja:
     backend_down: データベースに接続できません
     backend_down_message: ArchivesSpaceは現在技術的な問題を抱えています。ご迷惑をおかけしましたことをお詫び申し上げます。後でもう一度お試しください。
     unexpected_error: 予期しないエラーのためにリクエストを完了できませんでした
+    invalid_search_params: フィールド「%{field}」の検索パラメーター「%{value}」が正しくありません
   boolean:
     'true': はい
     'false': いいえ
   navbar:
     search_placeholder: 検索用語を入力してください
     error_no_term: 検索語が入力されていません。
-    toggle_navigation: Toggle Navigation
+    toggle_navigation: ナビゲーションの切り替え
   navigation:
     hierarchical: 階層ナビゲーション
     top_level: トップレベルナビゲーション
@@ -213,51 +218,52 @@ ja:
       NOT: NOT
     nav_switcher: {}
     index_switcher: {}
-    limit_label: レコードタイプによる制限
+    limit_label: レコードの種類で絞り込む
     add_row: 行を追加
     remove_row: 行を削除
-  contains: "%{count} %{type}含みます%{type}"
-  found: "%{count} %{type}見つかりました"
+  contains: "%{count} 件の%{type}を含む"
+  found: "%{count} 件の%{type}に含まれる"
   coll_obj:
     _singular: コレクションまたはレコード
     _plural: コレクションおよび/またはレコード
-  scope_note: スコープノート
+  scope_note: 範囲注記
   multiple_containers: 複数のコンテナ
   extent_number_type: "%{number} %{type}"
   extent_phys_details: "： %{deets}"
   extent_dims: "; %{dimensions}"
   external_docs: 外部ドキュメント
-  more_about: もっと詳しく
+  more_about: 詳細：
   list: "%{type}リスト"
-  cont_arr: 収集組織
-  dig_cont_arr: デジタルオブジェクトの組織
+  cont_arr: コレクションの編成
+  dig_cont_arr: デジタルオブジェクトの編成
   subgroups: サブグループ
-  accessed: アクセスされた
-  containers: 物理ストレージ情報
-  related_accessions: 関連する未加工材料
+  accessed: アクセス日
+  containers: 保管場所の情報
+  related_accessions: 関連する未整理資料
   related_resources: 関連コレクション
   linked_instances: リンクされたレコード
-  linked_digital_objects: デジタル素材
+  linked_digital_objects: デジタル資料
   accession:
-    _singular: 未処理
-    _plural: 未加工材料
+    _singular: 未整理資料
+    _plural: 未整理資料
     _public:
       section:
-        acquisition_type: 獲得タイプ
-        provenance: 出所
-        language: 説明の言語
-        script: 説明のスクリプト
+        acquisition_type: 受入方法
+        provenance: 来歴
+        language: 記述の言語
+        script: 記述の文字体系
         access_restrictions: アクセス制限
-        access_restrictions_apply: アクセス制限の適用
+        access_restrictions_apply: アクセス制限あり
         use_restrictions: 使用制限
-        use_restrictions_apply: 制限を適用する
+        use_restrictions_apply: 利用制限あり
         content_description: コンテンツの説明
         inventory: 目録
       related_accessions:
-        accessions: 関連する未加工材料
-        deaccessions: Deaccessionedマテリアル
-        forms_part_of: 部品の関係
+        accessions: 関連する未整理資料
+        deaccessions: 除籍された資料
+        forms_part_of: 部分関係
         sibling_of: 兄弟関係
+        has_part: 部分関係
   archival_object:
     _public:
       section: {}
@@ -272,50 +278,55 @@ ja:
     _plural: リポジトリ
     what: このリポジトリには何が入っていますか？
     details: リポジトリの詳細
-    part: の一部
-  context: 見つかった
+    part: 所属：
+  context: 収録先
   context_delimiter: "/"
   bulk:
-    _singular: "%{dates}にあるマテリアルの大半"
-    _plural: "%{dates}以内に見つかったマテリアルの大半"
+    _singular: "資料の大半は %{dates} のもの"
+    _plural: "資料の大半は %{dates} の範囲のもの"
   resource:
     _singular: コレクション
     _plural: コレクション
     identifier_separator: ":"
     _public:
-      identifier: 識別
-      extent: エクステント
-      extent_full: 完全なエクステント
-      extent_partial: 部分的なエクステント
+      identifier: 識別子
+      extent: 数量
+      extent_full: 完全な数量
+      extent_partial: 部分的な数量
       dates: 日付
-      lang: 材料の言語
-      script: スクリプト
+      lang: 資料の言語
+      script: 文字体系
       digital_object: デジタルオブジェクト
-      physdesc: 身体的特徴
+      physdesc: 形態的記述
       storage: コンテナ情報
       additional: 追加の説明
       section: {}
       messages: {}
       finding_aid:
-        head: 援助と行政情報の検索
+        head: 検索手段と管理情報
         title: タイトル
-        subtitle: 字幕
+        subtitle: 副題
         status: 状態
         author: 著者
         date: 日付
-        description_rules: 説明ルール
-        identifier: 識別
-        language: 説明の言語
-        script: 説明のスクリプト
-        language_note: 説明文の言語
+        description_rules: 記述規則
+        identifier: 識別子
+        language: 記述の言語
+        script: 記述の文字体系
+        language_note: 記述の言語に関する注記
         sponsor: スポンサー
         edition_statement: 版ステートメント
-        series_statement: シリーズ声明
-        note: 注意
+        series_statement: シリーズ表示
+        note: 注記
         revision: 改訂ステートメント
       related_accessions:
-        accessions: 受付記録
-        deaccessions: デアクセスレコード
+        accessions: 受入レコード
+        deaccessions: 除籍レコード
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
+      ark_link_name: Archival Resource Key（ARK）
+      lang_pdf: 資料の言語
+      uri: ID [aspace_uri]
     load_records:
       alert: "このコレクションには%{count}件のレコードが含まれています。"
       showing: "表示中"
@@ -328,52 +339,55 @@ ja:
   top_container:
     _singular: コンテナ
     _plural: コンテナ
+    restricted: 制限あり
   related_resource: {}
   digital_object:
-    _singular: デジタルレコード
-    _plural: デジタル素材
+    _singular: デジタル資料
+    _plural: デジタル資料
     _public:
       link: デジタルオブジェクトへのリンク
       badge_label: デジタル%{level}
       section: {}
       messages: {}
       browse_number_digital_objects_in_collection:
-        other: コレクションの%{num}つのディジタルオブジェクトを閲覧する
+        other: コレクション内の %{num} 件のデジタルオブジェクトを閲覧
+      additional: その他のファイルバージョン
+      url_encoded_data: URL エンコードされたデータ
   digital_object_component:
     _public:
       section: {}
       messages: {}
   subject:
     _singular: 件名
-    _plural: 科目
+    _plural: 件名
   component: {}
   classification:
-    _singular: レコードグループ
-    _plural: レコードグループ
-    creator: クリエイター
-    identifier_separator: "。"
+    _singular: 記録群
+    _plural: 記録群
+    creator: 作成者
+    identifier_separator: "."
     _public:
       actions:
         show_subgroups: サブグループを表示
   classification_term:
-    _singular: レコードグループ期間
-    _plural: レコードグループ規約
+    _singular: 記録群の項目
+    _plural: 記録群の項目
     identifier_separator: "/"
-  an_agent: 名
+  an_agent: 名前
   pui_agent:
-    _singular: 名
+    _singular: 名前
     _plural: 名前
     related: 関連する名前
     parallel: 並列名
     also_known_as: 次の名前でも知られています
   record:
-    _singular: 記録
-    _plural: 記録
+    _singular: レコード
+    _plural: レコード
   record_group:
-    _singular: レコードグループ
-    _plural: レコードグループ
+    _singular: 記録群
+    _plural: 記録群
   agent:
-    _singular: 名
+    _singular: 名前
     _plural: 名前
     _public:
       section:
@@ -383,8 +397,8 @@ ja:
         related_agent_description: 説明
         related_agent_dates: 日付
   agent_person:
-    _singular: 人
-    _plural: 人々
+    _singular: 個人
+    _plural: 個人
   agent_family:
     _singular: 家族
     _plural: 家族
@@ -398,35 +412,39 @@ ja:
   instance:
     _public: {}
   record_tree: {}
-  description: 約
-  contact: 接触
+  description: 概要
+  contact: 連絡先
   number_of: "%{type}数："
   parent_inst: 親機関
   email: メールを送る
   fax: ファックス
   pdf_reports:
-    administrative_information: 行政情報
-    collection_inventory: コレクションインベントリ
+    administrative_information: 管理情報
+    collection_inventory: コレクション目録
     summary_information: 要約情報
     table_of_contents: 目次
     return_to_table_of_contents: 目次に戻る
-    publication_statement: 出版物
-    controlled_access_headings: 制御されたアクセス見出し
-    finding_aid_date_prefix: この発見支援は、ArchivesSpace on
-    finding_aid_written_in: 書かれた援助を見つける
-    your_finding_aid_pdf: "&quot; %{title} &quot;の検索援助PDF"
-    your_finding_aid_is_attached: あなたが求めた援助が添付されています。
+    publication_statement: 出版表示
+    controlled_access_headings: 統制アクセス見出し
+    finding_aid_date_prefix: この検索手段は ArchivesSpace を使用して作成されました。作成日：
+    finding_aid_written_in: 検索手段の記述言語：
+    your_finding_aid_pdf: "「%{title}」の検索手段PDF"
+    your_finding_aid_is_attached: ご依頼の検索手段を添付します。
+    accessrestrict: アクセス条件
+    userestrict: 利用条件
+    accruals: 追加受入
+    acqinfo: 直接の入手元
   readmore:
     see_more: 続きを見る
-    see_less: もっと見る
+    see_less: 表示を減らす
   skipnav:
     main_content: メインコンテンツへスキップ
     search: 検索にスキップする
     search_results: 検索結果にスキップする
-  search_tab: 検索%{target}
+  search_tab: '%{target}を検索'
 
   agent_function:
-    _singular: 関数
+    _singular: 機能
     _plural: 機能
   agent_gender:
     _singular: 性別
@@ -448,7 +466,7 @@ ja:
       action: {}
     identifier_type: 識別子の種類
     source: ソース
-    primary_identifier: 一次識別子はありますか？
+    primary_identifier: 主識別子か
     record_identifier: レコード識別子
     snac: ソーシャルネットワークとアーカイブコンテキスト（SNAC）識別子
   agent_identifier:
@@ -458,8 +476,8 @@ ja:
     entity_identifier: エンティティID
   dates_of_existence: {}
   date_label:
-    existence: 存在
-    usage: 使用法
+    existence: 存続期間
+    usage: 使用期間
   use_date:
     _plural: 使用日
     _singular: 使用日
@@ -471,12 +489,12 @@ ja:
   structured_date_single: {}
   structured_date_range: {}
   agent_contact:
-    name: 連絡先
-    salutation: あいさつ
-    address_1: 住所（1
-    address_2: アドレス2
+    name: 担当者名
+    salutation: 敬称
+    address_1: 住所1
+    address_2: 住所2
     address_3: 住所3
-    city: 市
+    city: 市区町村
     region: 州/地域
     country: 国
     post_code: 郵便番号
@@ -484,39 +502,39 @@ ja:
     email: Eメール
   telephone:
     _plural: 電話番号
-    number_type: 番号タイプ
-    number: 数
-    ext: 内線電話
+    number_type: 番号の種類
+    number: 番号
+    ext: 内線番号
   telephone_required: {}
   agent_notes:
-    _singular: 注意
-    _plural: ノート
+    _singular: 注記
+    _plural: 注記
     persistent_id: 永続ID
-    type: ノートタイプ
+    type: 注記の種類
     content: コンテンツ
     note_citation: 引用
     note_bioghist: バイオグラフィー
-    note_general_context: 一般的なコンテキスト
+    note_general_context: 全般的背景
     note_legal_status: 法的地位
-    note_mandate: 委任
+    note_mandate: 権限の根拠
     note_structure_or_genealogy: 構造または系図
-    note_text: 注意
+    note_text: 注記
   metadata_rights_declaration:
-    file_version_xlink_show_attribute: Xlinkの属性を表示
+    file_version_xlink_show_attribute: Xlink Show 属性
     last_verified_date: 最終確認日
     _plural: メタデータの権利宣言
     _singular: メタデータの権利宣言
     license: ライセンス
-    descriptive_note: 注釈
+    descriptive_note: 注記
     file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
+    xlink_title_attribute: Xlink Title 属性
+    xlink_role_attribute: Xlink Role 属性
+    xlink_arcrole_attribute: Xlink Arcrole 属性
+    file_version_xlink_actuate_attribute: Xlink Actuate 属性
 
   footer:
-    staff_interface_html: <a href="%{staff_url}">スタッフ用インターフェース</a>
-    archivesspace_home_html: <a href='http://archivesspace.org'>ArchivesSpace</a>で作成されています
+    staff_interface_html: <a href="%{staff_url}">スタッフ用画面</a>
+    archivesspace_home_html: <a href='http://archivesspace.org'>ArchivesSpace</a> を使用しています
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>ご意見・ご質問</a>
 
   languages:
@@ -528,10 +546,27 @@ ja:
     username_placeholder: ユーザー名
     password_placeholder: パスワード
     username_aria_label: ユーザー名
-    password_aria_label: ユーザーパスワード
+    password_aria_label: ユーザーのパスワード
     required: 必須
     pui_permission_denied: "ユーザー「%{username}」にはパブリックインターフェイスを表示する権限がありません。"
     login_failed: "ログインに失敗しました。ユーザー名とパスワードを確認してください。"
   thumbnails:
     view_digital_object: デジタルオブジェクトを見る
     view_digital_material: デジタル資料を見る
+  pdf_error:
+    title: この PDF を作成する際にエラーが発生しました。
+    description: 申し訳ありません。この PDF 形式の検索手段を作成する際にエラーが発生しました。原因を調べる手がかりとなる情報を、以下に表示します。
+    headings:
+      location: エラーの発生箇所
+      message: エラーメッセージ
+      type: エラーの種類
+      additional_info: 補足情報
+    location:
+      location_header: ヘッダーの作成中にエラーが発生しました。
+      location_title_page: 表紙の作成中にエラーが発生しました。
+      location_toc: 目次の作成中にエラーが発生しました。
+      location_resource: リソースレコードに関する部分（概要情報、統制アクセスポイント、注記の各節を含む）の作成中にエラーが発生しました。
+      location_archival_object: コレクションの目録の作成中にエラーが発生しました。
+      location_footer: フッターの作成中にエラーが発生しました。
+    additional_info:
+      invalid_markup: このエラーは、注記またはサブレコードに無効なマークアップが含まれている場合に発生することがあります。
