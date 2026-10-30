@@ -33,7 +33,9 @@ $(document).on('click', '.access-top-containers-btn', function () {
     'accessTopContainersModal',
     $btn.data('modal-title'),
     `<div class="modal-body"><div class="p-4"><p>${AS.locales.loading}</p></div></div>`,
-    'full'
+    'full',
+    {},
+    AS.deriveModalOwner(this)
   );
 
   $modal.one('hidden.bs.modal', function () {
@@ -87,7 +89,7 @@ function loadAccessTopContainersModal(
   });
 }
 
-function openTopContainerSubModal(tcId, mode) {
+function openTopContainerSubModal(tcId, mode, initializer) {
   const title =
     mode === 'edit'
       ? AS.access_top_containers_locales.edit_top_container
@@ -96,7 +98,9 @@ function openTopContainerSubModal(tcId, mode) {
     'accessTopContainerSubModal',
     title,
     `<div class="modal-body"><div class="p-4"><p>${AS.locales.loading}</p></div></div>`,
-    'large'
+    'large',
+    {},
+    initializer
   );
 
   const url = AS.app_prefix(
@@ -142,7 +146,7 @@ $(document).on('click', '.inline-tc-view-btn', function (event) {
   if (!id) {
     return;
   }
-  openTopContainerSubModal(id, 'view');
+  openTopContainerSubModal(id, 'view', this);
 });
 
 $(document).on('click', '.inline-tc-edit-btn', function (event) {
@@ -151,7 +155,7 @@ $(document).on('click', '.inline-tc-edit-btn', function (event) {
   if (!id) {
     return;
   }
-  openTopContainerSubModal(id, 'edit');
+  openTopContainerSubModal(id, 'edit', this);
 });
 
 $(document).on(
