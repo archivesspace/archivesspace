@@ -5,11 +5,13 @@ require 'rails_helper'
 require 'base64'
 require 'puma'
 
-describe 'Thumbnail fallback icon', js: true do
+describe 'Thumbnail image in the browser', js: true do
   unreachable_image = 'http://127.0.0.1:1/thumbnail.jpg'
   unrenderable_tiff_image = 'data:image/tiff;base64,SUkqAAgAAAAJAAABAwABAAAAAQAAAAEBAwABAAAAAQAAAAIBAwABAAAACAAAAAMBAwABAAAAAQAAAAYBAwABAAAAAQAAABEBBAABAAAAegAAABUBAwABAAAAAQAAABYBAwABAAAAAQAAABcBBAABAAAAAQAAAAAAAAD/'
   # A valid 1x1 GIF, which every browser displays
   renderable_gif = Base64.decode64('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+  # An SVG with a viewBox but no width or height, so without a width of its own
+  svg_image = "data:image/svg+xml;base64,#{Base64.strict_encode64("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'><rect width='200' height='100'/></svg>")}"
 
   before(:all) do
     @repository = create(:repo, repo_code: "thumbnail_fallback_test_#{Time.now.to_i}")
@@ -19,6 +21,8 @@ describe 'Thumbnail fallback icon', js: true do
                                            file_versions: [{ file_uri: unreachable_image, publish: true, is_display_thumbnail: true }])
     @tiff = create(:digital_object, title: 'TIFF thumbnail', digital_object_type: 'still_image',
                                     file_versions: [{ file_uri: unrenderable_tiff_image, file_format_name: 'tiff', publish: true, is_display_thumbnail: true }])
+    @svg = create(:digital_object, title: 'SVG thumbnail', digital_object_type: 'still_image',
+                                   file_versions: [{ file_uri: svg_image, publish: true, is_display_thumbnail: true, is_display_link: true }])
 
     @image_host = Puma::Server.new(->(_env) { [200, { 'content-type' => 'image/gif' }, [renderable_gif]] }, nil, log_writer: Puma::LogWriter.null)
     @image_host.binder.parse(['tcp://127.0.0.1:0'])
@@ -82,6 +86,15 @@ describe 'Thumbnail fallback icon', js: true do
       # Only shown with the generic icon
       expect(page).to have_css(".digital-object-thumbnail a[href='#{@loadable_image}']", visible: :hidden)
       expect(page).not_to have_css('.digital-object-thumbnail a')
+    end
+  end
+
+  it 'shows a linked SVG image without a width of its own (ANW-3091)' do
+    visit "digital_objects/#{@svg.id}"
+
+    within '#infinite-tree-record-pane' do
+      image = find(".digital-object-thumbnail a[href='#{svg_image}'] img[src='#{svg_image}']", visible: true)
+      expect(image.evaluate_script('this.getBoundingClientRect().width')).to be > 0
     end
   end
 end
