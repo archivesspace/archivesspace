@@ -1848,5 +1848,15 @@ describe "Import Archival Objects" do
 
       expect(report.rows[0].errors).to eq([])
     end
+
+    it 'still reports a blank note text when a column with a blank header has a value' do
+      archival_object_count_before = ::ArchivalObject.count
+
+      report = import_row({ 't_accessrestrict_1' => 'RestrictedSpecColl', nil => 'stray value' }, [nil])
+
+      expect(::ArchivalObject.count).to eq archival_object_count_before
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
   end
 end
