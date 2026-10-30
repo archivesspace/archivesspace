@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/vscode/devcontainers/java:11
+FROM mcr.microsoft.com/vscode/devcontainers/java:21-bookworm
 
-ARG GECKODRIVER_VERSION=0.30.0
-ARG MYSQL_CONNECTOR_VERSION=9.1.0
+ARG GECKODRIVER_VERSION=0.37.1
+ARG MYSQL_CONNECTOR_VERSION=9.7.0
 
 COPY . /archivesspace
 WORKDIR /archivesspace
@@ -20,7 +20,6 @@ RUN echo 'Downloading Packages' && \
       mycli \
       netbase \
       npm \
-      openjdk-21-jre-headless \
       python3-pkg-resources \
       python3-setuptools \
       ruby-dev \
