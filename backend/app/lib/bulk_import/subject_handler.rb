@@ -80,11 +80,11 @@ class SubjectHandler < Handler
       end
       if subj
         if subj[:id_but_no_term]
-          @subjects[subject[:id].to_s] = subj
+          remember(@subjects, subject[:id].to_s, subj)
         else
-          @subjects[subj.id.to_s] = subj
+          remember(@subjects, subj.id.to_s, subj)
         end
-        @subjects[subject_key] = subj
+        remember(@subjects, subject_key, subj)
       end
     end
     subj

@@ -291,6 +291,27 @@ describe EventBuilder do
     end
   end
 
+  it "trims surrounding whitespace on a numeric Agent ID or a canonical Agent URI" do
+    agent_uri = JSONModel(:agent_person).uri_for(27)
+    numeric = builder_for(
+      :agent_record_id => " 27 ",
+      :agent_type => "person",
+      :agent_role => "implementer"
+    )
+    uri = builder_for(
+      :agent_record_id => " #{agent_uri} ",
+      :agent_type => nil,
+      :agent_role => "implementer"
+    )
+
+    aggregate_failures do
+      expect(numeric.errors).to eq([])
+      expect(numeric.explicit_agent_ref).to eq(agent_uri)
+      expect(uri.errors).to eq([])
+      expect(uri.explicit_agent_ref).to eq(agent_uri)
+    end
+  end
+
   it "uses the supplied system Agent as executing_program when the Agent triplet is blank" do
     resolver = controlled_value_resolver
     builder = builder_for(

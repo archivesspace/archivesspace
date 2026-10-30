@@ -10,7 +10,7 @@ RSpec.shared_context "digital object importer harness" do
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
       csv << column_explanations
-      csv << row.values
+      (row.is_a?(Array) ? row : [row]).each { |values| csv << values.values }
     end
     csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
     csv_path = File.join(Dir.tmpdir, csv_filename)
