@@ -7,6 +7,11 @@
   /** @see legacy largetree considerExpandingRow; InfiniteTree equivalent is #considerAutoExpandingNext */
   const ITREE_SCROLL_DELAY_MS = 100;
   const ITREE_THRESHOLD_EMS = 300;
+  /**
+   * How far the batch-loading zone extends above and below the container, as a
+   * fraction of its height. Used by both the batch observer and the scroll check.
+   */
+  const ITREE_BATCH_ZONE_RATIO = 0.5;
 
   class InfiniteTree {
     static EVENT_TYPE_CURRENT_NODE_CHANGED = 'infiniteTree:currentNodeChanged';
@@ -92,7 +97,7 @@
         },
         {
           root: this.container,
-          rootMargin: '50% 0px 50% 0px', // container plus half its height above and below
+          rootMargin: `${ITREE_BATCH_ZONE_RATIO * 100}% 0px`,
           threshold: 0,
         }
       );
@@ -1377,7 +1382,7 @@
      * Loads any unloaded batch whose gap the view covered since the last check,
      * i.e. the loaded row next to the batch placeholder lies within the scroll
      * range from fromScrollTop to toScrollTop, plus the container height and
-     * half a container height on each side. Unloaded batches take no space, so
+     * the batch zone margin on each side. Unloaded batches take no space, so
      * a fast scroll can carry a gap through the view between frames without
      * the observer seeing its trigger node.
      * @param {number} fromScrollTop - The lower scrollTop of the range
@@ -1385,7 +1390,7 @@
      */
     #loadSkippedBatches(fromScrollTop, toScrollTop) {
       const rootRect = this.container.getBoundingClientRect();
-      const margin = rootRect.height / 2;
+      const margin = rootRect.height * ITREE_BATCH_ZONE_RATIO;
       const sweptTop = fromScrollTop - margin;
       const sweptBottom = toScrollTop + rootRect.height + margin;
 
