@@ -110,6 +110,15 @@ describe 'Subjects', js: true do
     expect(element).to have_text subject.title
   end
 
+  it 'provides screen reader context for the linked records heading' do
+    subject = create(:subject, terms: [build(:term, {term: 'Subject Term', term_type: 'temporal'})])
+
+    visit "subjects/#{subject.id}"
+
+    expect(page).to have_css('#linked_records h3', text: 'Linked Records')
+    expect(page).to have_css('#linked_records h3 .sr-only', text: 'related to this subject', visible: :all)
+  end
+
   it 'can reorder the terms and have them maintain order' do
     now = Time.now.to_i
 
