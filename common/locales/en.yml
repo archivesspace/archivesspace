@@ -3047,6 +3047,7 @@ en:
       role_invalid: "Unable to create agent link due to problem with Role '%{label}': %{why}"
       has_dig_obj: "Archival object already has an associated digital object"
       dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
+      dig_not_representative: "Digital object instance not made representative: the archival object already has a representative instance"
       ref_id_miss: No Ref Id specified
       dig_info_miss: Neither the Digital Object URI or the Thumbnail URI is specified
       dig_validation: "Cannot create the digital object %{err}"

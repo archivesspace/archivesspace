@@ -6,11 +6,11 @@ RSpec.shared_context "digital object importer harness" do
     index_1.map { |column| column.sub(/\A#{Regexp.escape(namespace)}_1_/, "#{namespace}_#{index}_") }
   end
 
-  def import_digital_object_csv(columns, column_explanations, row, validate_only: false)
+  def import_digital_object_csv(columns, column_explanations, *rows, validate_only: false)
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
       csv << column_explanations
-      csv << row.values
+      rows.each { |row| csv << row.values }
     end
     csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
     csv_path = File.join(Dir.tmpdir, csv_filename)
