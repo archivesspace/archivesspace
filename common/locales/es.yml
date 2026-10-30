@@ -2803,6 +2803,7 @@ es:
       role_invalid: "No se puede crear enlace agente debido a un problema con la función '%{label}': %{why}"
       has_dig_obj: "Objeto Archivo ya tiene un objeto digital asociada"
       dig_unassoc: "No se puede guardar objeto de archivo con el objeto digital asociada: %{msg}"
+      dig_not_representative: "La instancia del objeto digital no se hizo representativa: el objeto de archivo ya tiene una instancia representativa"
       ref_id_miss: No Ref ID especificado
       dig_info_miss: Ni el objeto URN Digital o la miniatura URN se especifica
       dig_validation: "No se puede crear el objeto digital %{err}"

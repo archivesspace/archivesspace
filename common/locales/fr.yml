@@ -2904,6 +2904,7 @@ fr:
         %{why}"
       has_dig_obj: "Objet d'archive a déjà un objet numérique associé"
       dig_unassoc: "Impossible d'enregistrer l'objet d'archivage avec un objet numérique associé: %{msg}"
+      dig_not_representative: "L'instance de l'objet numérique n'a pas été rendue représentative : l'objet d'archive a déjà une instance représentative"
       ref_id_miss: Non Ref Id spécifié
       dig_info_miss: Ni le URN Object numérique ou sur la vignette URN est spécifié
       dig_validation: "Impossible de créer l'objet numérique %{err}"
