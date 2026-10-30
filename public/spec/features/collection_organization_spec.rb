@@ -118,9 +118,9 @@ describe 'Collection Organization', js: true do
       expect(ao2_title).to have_content('This is not a mixed content title')
     end
 
-    context 'when AppConfig[:pui_collection_org_sidebar_position] is set to left' do
+    context 'when AppConfig[:pui_tree_sidebar_position] is set to left' do
       before :each do
-        allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
+        allow(AppConfig).to receive(:[]).with(:pui_tree_sidebar_position) { 'left' }
       end
 
       it 'is positioned on the left side of the resource show and infinite views' do
@@ -201,9 +201,9 @@ describe 'Collection Organization', js: true do
       end
     end
 
-    context 'when AppConfig[:pui_collection_org_sidebar_position] is set to right' do
+    context 'when AppConfig[:pui_tree_sidebar_position] is set to right' do
       before :each do
-        allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
+        allow(AppConfig).to receive(:[]).with(:pui_tree_sidebar_position) { 'right' }
       end
 
       it 'is positioned on the right side of the show and infinite views' do
