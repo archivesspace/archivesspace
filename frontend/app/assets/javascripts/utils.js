@@ -407,7 +407,7 @@ AS.renderTemplate = function (templateId, data, cb) {
     var templateNode = $('#' + templateId).get(0);
     if (templateNode) {
       var firstNode = templateNode.firstChild;
-      var template = null;
+      var template;
       // Check whether the template is wrapped in <!-- -->
       if (firstNode && (firstNode.nodeType === 8 || firstNode.nodeType === 4)) {
         template = firstNode.data.toString();

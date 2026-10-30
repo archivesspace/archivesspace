@@ -3,13 +3,11 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function () {
     $('.create-extent-btn').on('click', function (event) {
-      if (
-        !(
-          $('#extent_portion_').val() &&
-          $('#extent_number_').val() &&
-          $('#extent_extent_type_').val()
-        )
-      ) {
+      if (!(
+        $('#extent_portion_').val() &&
+        $('#extent_number_').val() &&
+        $('#extent_extent_type_').val()
+      )) {
         alert($('#required_fields_alert_message').attr('message'));
         return;
       }
