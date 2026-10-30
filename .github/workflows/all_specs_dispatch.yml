@@ -11,9 +11,9 @@ on:
         required: true
         type: choice
         options:
-          - '11'
-          - '17'
-        default: '17'
+          - '21'
+          - '25'
+        default: '21'
       browser:
         description: Which browser to use
         required: true
@@ -38,7 +38,7 @@ jobs:
     uses: ./.github/workflows/codescan.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+      java-version: ${{ inputs.java-version || 21 }}
 
   changes:
     needs: codescan
@@ -88,7 +88,7 @@ jobs:
     uses: ./.github/workflows/frontend.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       group-choice: 'all'
       browser: ${{ inputs.browser || 'firefox' }}
 
@@ -98,7 +98,7 @@ jobs:
     uses: ./.github/workflows/common.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
 
   backend:
     needs: changes
@@ -106,7 +106,7 @@ jobs:
     uses: ./.github/workflows/backend.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
 
   indexer:
     needs: changes
@@ -114,7 +114,7 @@ jobs:
     uses: ./.github/workflows/indexer.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
 
   public:
     needs: changes
@@ -122,7 +122,7 @@ jobs:
     uses: ./.github/workflows/public.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
   coveralls:

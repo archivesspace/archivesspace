@@ -11,9 +11,9 @@ on:
         required: true
         type: choice
         options:
-          - '11'
-          - '17'
-        default: '17'
+          - '21'
+          - '25'
+        default: '21'
       group-choice:
         description: Which group of specs to run
         required: true
@@ -45,7 +45,7 @@ on:
         description: Java version to run specs on
         required: true
         type: string
-        default: '17'
+        default: '21'
       group-choice:
         required: true
         type: string
@@ -66,7 +66,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/a[a-f]*_spec.rb"
       name: aa-af
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
   frontend_features_ag-az:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'ag-az' || inputs.group-choice == '' }}
@@ -77,7 +77,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/a[g-z]*_spec.rb"
       name: ag-az
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
   frontend_features_b-h:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-h' || inputs.group-choice == '' }}
@@ -88,7 +88,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[b-h]*_spec.rb"
       name: b-h
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
   frontend_features_i:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'i' || inputs.group-choice == '' }}
@@ -99,7 +99,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/i*_spec.rb"
       name: i
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
   frontend_features_j-q:
@@ -111,7 +111,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[j-q]*_spec.rb"
       name: j-q
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
   frontend_features_r:
@@ -123,7 +123,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/r*_spec.rb"
       name: r
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
   frontend_features_s-z:
@@ -135,7 +135,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
       name: s-z
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
   frontend_models_and_controllers:
@@ -147,7 +147,7 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/models/*_spec.rb,spec/controllers/*_spec.rb"
       name: models_and_controllers
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
   # ANW-2997: Temporarily moving to own group (and out of models/controllers) until resolved.
@@ -160,5 +160,5 @@ jobs:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/helpers/*_spec.rb"
       name: helpers
-      java-version: ${{ inputs.java-version || 17 }}
+      java-version: ${{ inputs.java-version || 21 }}
       browser: ${{ inputs.browser || 'firefox' }}

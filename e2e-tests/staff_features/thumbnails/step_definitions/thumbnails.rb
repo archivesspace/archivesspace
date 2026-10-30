@@ -98,9 +98,9 @@ def thumbnail_staff_path(record)
   end
 end
 
-def within_first_thumbnail(&block)
+def within_first_thumbnail(&)
   retry_with_reload do
-    within(first(thumbnail_selector(:thumbnail), minimum: 1), &block)
+    within(first(thumbnail_selector(:thumbnail), minimum: 1), &)
   end
 end
 
