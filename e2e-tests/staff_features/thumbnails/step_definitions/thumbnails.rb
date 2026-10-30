@@ -22,12 +22,14 @@ THUMBNAIL_SELECTORS = {
     thumbnail: '.record-pane .digital-object-thumbnail',
     icon: '.digital-object-thumbnail-icon',
     fallback_icon: '.digital-object-thumbnail-fallback',
+    fallback_link: '.digital-object-thumbnail-fallback-link',
     caption: '.digital-object-thumbnail-caption'
   },
   public: {
     thumbnail: '.pui-thumbnail',
     icon: '.pui-thumbnail-icon',
     fallback_icon: '.pui-thumbnail-fallback',
+    fallback_link: '.pui-thumbnail-fallback-link',
     caption: '.pui-thumbnail-caption'
   }
 }.freeze
@@ -115,7 +117,8 @@ def thumbnail_add_file_versions(form_prefix, file_versions)
       select file[:xlink_show], from: 'XLink Show Attribute' if file[:xlink_show]
       row.fetch('Published') == 'yes' ? check('Publish?') : uncheck('Publish?')
       fill_in 'Caption', with: row['Caption'] unless row['Caption'].to_s.empty?
-      click_on "Make #{row['Marked as']}" unless row['Marked as'].to_s.empty?
+      # A File Version can be marked as both: 'Display Thumbnail and Display Link'
+      row['Marked as'].to_s.split(' and ').each { |mark| click_on "Make #{mark}" }
     end
   end
 end
@@ -485,7 +488,8 @@ end
 Then 'no link on the page points to {string}' do |file_name|
   uri = thumbnail_file(file_name)[:uri]
 
-  expect(page).not_to have_css("a[href='#{uri}']", visible: :all)
+  expect(page).not_to have_css("a[href='#{uri}']:not(#{thumbnail_selector(:fallback_link)})", visible: :all)
+  expect(page).not_to have_css("a[href='#{uri}']")
 end
 
 # Browse column preferences

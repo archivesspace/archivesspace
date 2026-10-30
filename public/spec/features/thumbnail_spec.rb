@@ -146,16 +146,18 @@ describe 'Thumbnails', js: true do
 
     it 'shows the display thumbnail without a link when there is no display link' do
       visit @dobj_thumbnail_without_link.uri
-      expect(page).to have_css ".pui-thumbnail img[src='#{@img_1}']"
+      expect(page).to have_css(".pui-thumbnail img[src='#{@img_1}']") { |image| image.evaluate_script('this.complete && this.naturalWidth > 0') }
+      # Only shown with the generic icon (ANW-3001)
+      expect(page).to have_css ".pui-thumbnail a[href='#{@img_1}'] .pui-thumbnail-help-text", visible: :hidden
       expect(page).not_to have_css '.pui-thumbnail a'
-      expect(page).not_to have_css '.pui-thumbnail-help-text', visible: :all
+      expect(page).not_to have_css '.pui-thumbnail-help-text'
     end
 
     it 'opens the display link file version in a new window, with help text' do
       visit @dobj_with_thumbnail.uri
 
       aggregate_failures do
-        expect(page).to have_css ".pui-thumbnail a[href='#{@link_1}'][target='_blank']"
+        expect(page).to have_css ".pui-thumbnail a[href='#{@link_1}'][target='_blank'][rel='noopener']"
         expect(page).to have_css '.pui-thumbnail a .pui-thumbnail-help-text', text: 'View Digital Material', visible: :all
         expect(page).not_to have_css '.pui-thumbnail a[aria-hidden]'
       end
@@ -388,7 +390,6 @@ describe 'Thumbnails', js: true do
   end
 
   describe 'fallback to icon' do
-    # Nothing listens on port 1, so the browser fails to load the image straight away
     unreachable_image = 'http://127.0.0.1:1/thumbnail.jpg'
     # A valid 1x1 TIFF: a format neither Chrome nor Firefox can display
     tiff_image = 'data:image/tiff;base64,SUkqAAgAAAAJAAABAwABAAAAAQAAAAEBAwABAAAAAQAAAAIBAwABAAAACAAAAAMBAwABAAAAAQAAAAYBAwABAAAAAQAAABEBBAABAAAAegAAABUBAwABAAAAAQAAABYBAwABAAAAAQAAABcBBAABAAAAAQAAAAAAAAD/'
@@ -427,6 +428,17 @@ describe 'Thumbnails', js: true do
 
     it 'shows the fallback icon if the thumbnail URL cannot be reached' do
       expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
+    end
+
+    it 'links the fallback icon of a thumbnail without a display link to the file of its image, with help text (ANW-3001)' do
+      expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
+      expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'][target='_blank'][rel='noopener'] .pui-thumbnail-fallback", visible: true)
+      expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'] .pui-thumbnail-help-text", text: 'View Digital Material', visible: true)
+    end
+
+    it 'links the fallback icon of a thumbnail in a data: uri to download its file (ANW-3001)' do
+      expect_fallback_icon(@dobj_with_tiff_thumbnail, tiff_image)
+      expect(page).to have_css(".pui-thumbnail a[href='#{tiff_image}'][download]:not([target]) .pui-thumbnail-fallback", visible: true)
     end
 
     it 'gives the fallback icon an accessible name' do

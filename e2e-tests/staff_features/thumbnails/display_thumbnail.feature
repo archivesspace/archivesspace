@@ -5,14 +5,33 @@ Feature: Display thumbnail for Digital Objects and Digital Object Components (AN
   Background:
     Given an administrator user is logged in
 
-  Scenario: The image of the Display Thumbnail File Version shows on a Digital Object
+  Scenario: Display Thumbnail file version is renderable, same file is Display Link
     Given a Digital Object 'Photograph' has been created with the following File Versions
-      | File     | Published | Marked as         | Caption |
-      | an image | yes       | Display Thumbnail |         |
+      | File             | Published | Marked as                          | Caption |
+      | an image         | yes       | Display Thumbnail and Display Link |         |
+      | another document | yes       |                                    |         |
      When the user views the 'Photograph' in the staff interface
      Then the thumbnail shows 'an image'
+      And the thumbnail links to 'an image'
      When the user views the 'Photograph' in the public interface
      Then the thumbnail shows 'an image'
+      And the thumbnail links to 'an image'
+      And the File Versions list lists only the following files
+        | another document |
+
+  Scenario: Display Thumbnail file version is not renderable, same file is Display Link
+    Given a Digital Object 'Lost Photograph' has been created with the following File Versions
+      | File             | Published | Marked as                          | Caption |
+      | a broken image   | yes       | Display Thumbnail and Display Link |         |
+      | another document | yes       |                                    |         |
+     When the user views the 'Lost Photograph' in the staff interface
+     Then the thumbnail falls back to the generic icon because the browser cannot render 'a broken image'
+      And the thumbnail links to 'a broken image'
+     When the user views the 'Lost Photograph' in the public interface
+     Then the thumbnail falls back to the generic icon because the browser cannot render 'a broken image'
+      And the thumbnail links to 'a broken image'
+      And the File Versions list lists only the following files
+        | another document |
 
   Scenario: The image of the Display Thumbnail File Version shows on a Digital Object Component
     Given a Digital Object 'Album' has been created without File Versions
@@ -23,15 +42,6 @@ Feature: Display thumbnail for Digital Objects and Digital Object Components (AN
      Then the thumbnail shows 'an image'
      When the user views the 'Page' in the public interface
      Then the thumbnail shows 'an image'
-
-  Scenario: A Display Thumbnail image that the browser cannot render shows a generic icon
-    Given a Digital Object 'Lost Photograph' has been created with the following File Versions
-      | File           | Published | Marked as         | Caption |
-      | a broken image | yes       | Display Thumbnail |         |
-     When the user views the 'Lost Photograph' in the staff interface
-     Then the thumbnail falls back to the generic icon because the browser cannot render 'a broken image'
-     When the user views the 'Lost Photograph' in the public interface
-     Then the thumbnail falls back to the generic icon because the browser cannot render 'a broken image'
 
   Scenario Outline: The generic icon reflects the Digital Object Type
     Given a Digital Object 'Digital Material' of type '<Type>' has been created with the following File Versions
