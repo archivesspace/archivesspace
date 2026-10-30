@@ -1515,6 +1515,7 @@ pl:
       hier_zero: Hierarchia musi być większa od 0.
       hier_miss: Brak hierarchii – musi to być liczba większa od 0.
       title_and_date: Brak tytułu ORAZ prawidłowej definicji daty.
+      note_text_missing: "%{note_column} jest puste, ale jest wymagane, gdy %{columns} zawiera wartość"
       title: Brak tytułu
       uri_mismatch: Podany identyfikator URI zasobu [%{res_uri}] nie zgadza się z identyfikatorem 
         URI wiersza [%{row_uri}].

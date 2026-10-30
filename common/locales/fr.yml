@@ -2871,6 +2871,7 @@ fr:
       uri_mismatch: "URI de ressource d'entrée [%{res_uri}] ne correspond pas à l'URI de la ligne [%{row_uri}]"
       title: titre manquant
       title_and_date: Titre manquant et la définition de date valide
+      note_text_missing: "%{note_column} est vide, mais il est obligatoire lorsque %{columns} contient une valeur"
       hier_miss: Manquant hierachy - doit être un nombre supérieur à 0
       hier_zero: Hiérarchie doit être supérieure à 0
       hier_wrong: Hiérarchie ne peut pas être plus d'un niveau plus profond que la ligne précédente

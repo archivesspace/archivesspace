@@ -2,6 +2,7 @@ it:
   bulk_import:
     error:
       unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}'"
+      note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando %{columns} contiene un valore"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
       invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
       invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"

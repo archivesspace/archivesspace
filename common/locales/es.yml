@@ -2769,6 +2769,7 @@ es:
       uri_mismatch: "De recursos de entrada URI [%{res_uri}] no coincide con la fila de URIs [%{row_uri}]"
       title: Falta el título
       title_and_date: Falta el título y la fecha definición válida
+      note_text_missing: "%{note_column} está vacío, pero es obligatorio cuando %{columns} tiene un valor"
       hier_miss: Missing jerarquía - debe ser un número mayor que 0
       hier_zero: Jerarquía debe ser mayor que 0
       hier_wrong: Jerarquía no no puede haber más de un nivel más profundo que la fila anterior

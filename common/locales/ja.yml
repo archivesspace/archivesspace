@@ -2032,6 +2032,7 @@ ja:
       uri_mismatch: "入力リソースのURI [%{res_uri}]は、行のURI [%{row_uri}]を一致しません"
       title: 行方不明のタイトル
       title_and_date: 欠落しているタイトルと有効な日付の定義
+      note_text_missing: "%{columns} に値がある場合、%{note_column} は必須ですが、空欄です"
       hier_miss: hierachyがありませんすることは -  0よりも数も大きくなければなりません
       hier_zero: 階層は0より大きくなければなりません
       hier_wrong: 階層が深く前の行より複数のレベルではないことはできません
