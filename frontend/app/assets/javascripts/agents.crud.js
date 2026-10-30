@@ -237,7 +237,6 @@ var selectStructuredDateSubform = function () {
     var $subform = $(this).parents('[data-index]:first');
     var $target_subrecord_list = $($this).parent().find('.sdl-subrecord-form');
     var $parent_subrecord_list = $subform.parents('.subrecord-form-list:first');
-    var index = $('.subrecord-form-fields', $this).length + 1;
 
     var $date_subform;
 
@@ -282,6 +281,5 @@ var selectStructuredDateSubform = function () {
       'date',
       $updated_subrecord_list,
     ]);
-    index++;
   });
 };

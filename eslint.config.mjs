@@ -6,6 +6,7 @@ import globals from 'globals';
 export default defineConfig([
   globalIgnores([
     'frontend/app/assets/javascripts/fattable.js',
+    'frontend/app/assets/javascripts/clipboard.js',
     'frontend/vendor/',
     'public/app/assets/javascripts/bootstrap-accessibility/',
     'public/vendor/assets/javascripts/',
