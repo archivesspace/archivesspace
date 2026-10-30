@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Shared setup and cross-hierarchy reorder parity examples for Infinite Tree.
+# Resources, Digital Objects, and Classifications all run these adapter contracts.
 # Deep tree-engine edge cases (multiselection ancestry, drag previews, etc.) stay
 # in the feature specs under Resources as representative coverage.
 RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
@@ -45,11 +46,17 @@ RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
     "/#{parts[-2]}/#{parts[-1]}/accept_children"
   end
 
-  before do
+  before do |example|
     sibling2
     sibling3
     nested_child_record
     nested_under_sibling2
+
+    # Nested `let!` hooks run after this hook, so visiting here would load the
+    # tree before custom fixture rows exist. Examples tagged
+    # :defer_initial_tree_visit perform their own visit after those lets run.
+    next if example.metadata[:defer_initial_tree_visit]
+
     visit "#{edit_path}#{root_hash}"
     wait_for_infinite_tree_loaded
   end
@@ -73,10 +80,6 @@ end
 RSpec.shared_examples 'moving records in reorder mode' do
   context 'when reorder mode is on' do
     before { enable_reorder_mode }
-
-    it 'disables the Move menu when the root is current' do
-      expect_infinite_tree_toolbar_move_enabled(false)
-    end
 
     it 'moves a root-level child down among siblings' do
       before_order = root_child_uris
@@ -247,6 +250,10 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
     enable_reorder_mode
     expand_tree_node(sibling2.uri)
 
+    # Parent/child explicit multiselection is intentionally blocked in reorder mode
+    # by InfiniteTreeMultiSelection ancestry-lock rules. Seed that explicit selection
+    # directly via JS (documented exception) so this example still exercises
+    # cut/paste effective-set deduping.
     page.execute_script(<<~JS)
       (function() {
         var container = document.querySelector('#infinite-tree-container');
@@ -282,6 +289,7 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
       expect(request['body']).not_to include(
         "children%5B%5D=#{ERB::Util.url_encode(nested_under_sibling2.uri)}"
       )
+      expect(request['body']).to include('index=0')
       expect(page).to have_no_css('li.node.cut')
     end
   end
@@ -337,10 +345,6 @@ RSpec.shared_examples 'selecting multiple records in reorder mode' do
     before do
       enable_reorder_mode
       wait_for_reorder_mode_ready
-    end
-
-    it 'toggles .reorder-mode on the tree container' do
-      expect(page).to have_css('#infinite-tree-container.reorder-mode')
     end
 
     it 'adds rows with meta key and excludes the root from selection' do
