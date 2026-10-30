@@ -71,6 +71,16 @@ remember everyone is a beginner at first
 - ArchivesSpace Core Committer's Group - ArchivesSpaceCoreCommitters@lyrasis.org
 - ArchivesSpace Program Team - ArchivesSpaceHome@lyrasis.org
 
+## AI-assisted contributions
+
+You may use large language models and other generative AI tools when working on
+ArchivesSpace, within the guardrails set out in our
+[AI Contribution Policy](AI_POLICY.md). In short: you are accountable for
+everything you submit, you must understand and be able to explain every part of
+it, and you must disclose AI use when it generated a significant portion of your
+contribution. Please read [AI_POLICY.md](AI_POLICY.md) before opening a pull
+request that contains AI-generated or AI-assisted content.
+
 ## Look at the impact of your changes
 
 ArchivesSpace has two separate user interfaces - staff and public - so make sure
