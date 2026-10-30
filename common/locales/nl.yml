@@ -22,6 +22,7 @@ nl:
       invalid_event_agent_role: "Gebeurtenisgroep %{group}, veld %{field}, is geen bestaande gebeurtenisagentrol: '%{value}'"
       invalid_event_agent_record_id: "Gebeurtenisgroep %{group}, veld %{field}, moet een numerieke ID of een canonieke agent-URI zijn: '%{value}'"
       event_agent_not_found: "Gebeurtenisgroep %{group}, veld %{field}, komt niet overeen met een bestaande agent: '%{value}'"
+      dig_not_representative: "Instantie van het digitale object is niet representatief gemaakt: het archiefonderdeel heeft al een representatieve instantie"
     agent: Agent
     event_created: "Gebeurtenisgroep %{group} aangemaakt: %{type}"
     event_would_be_created: "Gebeurtenisgroep %{group} zou worden aangemaakt: %{type}"

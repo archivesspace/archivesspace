@@ -2753,6 +2753,7 @@ de:
         werden: %{why}"
       bad_role: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist keine gültige Rolle"
       dig_unassoc: 'Archiv-Objekt mit zugehörigem digitalen Objekt kann nicht gespeichert werden: %{msg}'
+      dig_not_representative: 'Instanz des digitalen Objekts wurde nicht repräsentativ gemacht: Das Archiv-Objekt hat bereits eine repräsentative Instanz'
       dig_validation: Das digitale Objekt kann nicht erstellt werden %{err}
       event_validation: "Ereignisgruppe %{group} (%{type}) kann nicht erstellt werden: %{err}"
       invalid_event_type: "Ereignisgruppe %{group}, Feld %{field}, ist kein vorhandener Ereignistyp: '%{value}'"
