@@ -8,19 +8,52 @@ class AgentBuilder
   end
 
   def to_h
-    raise ArgumentError, "AgentBuilder#to_h requires an error-free builder" unless @errors.empty?
+    values(:derived => true)
+  end
+
+  def supplied_values
+    values(:derived => false)
+  end
+
+  def source_of(path)
+    return { :attribute => :publish } if path == ["publish"]
+
+    key, _index, property, nested_index, nested_property = path
+    case key
+    when "names"
+      { :record => :name, :attribute => attribute_for(property) }
+    when "agent_contacts"
+      if property == "telephones"
+        { :record => :contact, :nested => @telephone_keys[nested_index], :attribute => nested_property.to_sym }
+      else
+        { :record => :contact, :attribute => property.to_sym }
+      end
+    when "notes"
+      { :record => :note, :attribute => @subnote_attributes[nested_index] }
+    end
+  end
+
+  private
+
+  def values(derived:)
+    raise ArgumentError, "AgentBuilder values require an error-free builder" unless @errors.empty?
 
     agent = {
       "jsonmodel_type" => "agent_#{@agent_type}",
-      "names" => [@name],
+      "names" => [derived ? @name.merge(@name_derived) : @name],
     }
-    agent["agent_contacts"] = [@contact] if @contact
+    agent["agent_contacts"] = [contact_values(derived)] if @contact
     agent["notes"] = [@note] if @note
     agent["publish"] = @publish unless @publish.nil?
     agent
   end
 
-  private
+  def contact_values(derived)
+    return @contact if @telephones.empty?
+
+    telephones = derived ? @telephones.zip(@telephone_derived).map { |telephone, values| telephone.merge(values) } : @telephones
+    @contact.merge("telephones" => telephones)
+  end
 
   def canonicalize(attributes, resolver)
     canonicalize_agent_type(attributes[:agent_type])
@@ -52,7 +85,7 @@ class AgentBuilder
 
   def canonicalize_name(submitted, resolver)
     @name = canonicalize_record(:name, name_type, submitted, resolver)
-    @name["sort_name_auto_generate"] = false if @name.key?("sort_name")
+    @name_derived = @name.key?("sort_name") ? { "sort_name_auto_generate" => false } : {}
   end
 
   def canonicalize_contact(submitted, resolver)
@@ -62,24 +95,28 @@ class AgentBuilder
     scalars, nested = submitted.partition { |_attribute, value| !value.is_a?(Hash) }.map(&:to_h)
     @contact = canonicalize_record(:contact, :agent_contact, scalars, resolver)
     telephones = nested.filter_map do |key, values|
-      canonicalize_nested_record(:contact, key, values, schema, resolver)
+      record, derived = canonicalize_nested_record(:contact, key, values, schema, resolver)
+      [key, record, derived] if record
     end
-    @contact["telephones"] = telephones unless telephones.empty?
+    @telephone_keys = telephones.map(&:first)
+    @telephones = telephones.map { |_key, record, _derived| record }
+    @telephone_derived = telephones.map(&:last)
   end
 
   def canonicalize_nested_record(parent, key, submitted, schema, resolver)
     return if all_blank?(submitted)
 
-    item_type, defaults = nested_target(schema, key, resolver)
+    item_type, enum_value = nested_target(schema, key, resolver)
     if item_type.nil?
       submitted.each { |attribute, value| add_error(:incompatible, attribute, value, parent, key) unless blank?(value) }
       return
     end
 
     record = canonicalize_record(parent, item_type, submitted, resolver, key)
-    record.merge!(defaults)
+    defaulted = item_type == key
+    record.merge!(enum_value) unless defaulted
     add_error(:required, :number, nil, parent, key) if item_type == :telephone && record.key?("ext") && !record.key?("number")
-    record
+    [record, defaulted ? enum_value : {}]
   end
 
   def nested_target(schema, key, resolver)
@@ -124,9 +161,10 @@ class AgentBuilder
       end
 
       array = JSONModel(type).schema["properties"]["content"]["type"] == "array"
-      { "jsonmodel_type" => type.to_s, "content" => array ? [freeze_copy(value)] : freeze_copy(value) }
+      [attribute, { "jsonmodel_type" => type.to_s, "content" => array ? [freeze_copy(value)] : freeze_copy(value) }]
     end
-    @note = { "jsonmodel_type" => "note_bioghist", "subnotes" => subnotes } unless subnotes.empty?
+    @subnote_attributes = subnotes.map(&:first)
+    @note = { "jsonmodel_type" => "note_bioghist", "subnotes" => subnotes.map(&:last) } unless subnotes.empty?
   end
 
   def note_subnote_types

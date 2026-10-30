@@ -18,9 +18,25 @@ class AgentHandler < Handler
     type if allowed.include?(type)
   end
 
+  def self.supplied_differences(supplied, existing, path = [])
+    case supplied
+    when Hash
+      supplied.flat_map do |key, value|
+        supplied_differences(value, existing.is_a?(Hash) ? existing[key] : nil, path + [key])
+      end
+    when Array
+      supplied.each_with_index.flat_map do |value, index|
+        supplied_differences(value, existing.is_a?(Array) ? existing[index] : nil, path + [index])
+      end
+    else
+      supplied == existing ? [] : [{ :path => path, :supplied => supplied, :existing => existing }]
+    end
+  end
+
   def initialize(current_user, validate_only = false)
     super
     @agents = {}
+    @would_create = {}
     @agent_role ||= CvList.new("linked_agent_role", @current_user)
     @agent_relators ||= CvList.new("linked_agent_archival_record_relators", @current_user)
   end
@@ -29,6 +45,7 @@ class AgentHandler < Handler
     clear(@agent_relators)
     clear(@agent_role)
     @agents = {}
+    @would_create = {}
   end
 
   def key_for(agent)
@@ -109,8 +126,8 @@ class AgentHandler < Handler
         agent[:id_but_no_name] = nil
       end
       id = "#{agent[:type]}_#{agent[:id]}"
-      @agents[id] = agent_obj
-      @agents[agent_key] = agent_obj
+      remember(@agents, id, agent_obj)
+      remember(@agents, agent_key, agent_obj)
       agent_link["ref"] = agent_obj.uri if agent_link
     end
     agent_link
@@ -129,20 +146,31 @@ class AgentHandler < Handler
     ret_agent
   end
 
-  def create_linked(agent, link, report, num)
-    return report_collision(report, num, "agent_authority_id_collision") if authority_id_taken?(agent)
-
+  def create_linked(agent, link, report, num, created_refs: nil, field_for: nil, supplied: agent)
     type = agent["jsonmodel_type"]
-    saved = save(JSONModel(type.to_sym).new(agent), get_model(type.delete_prefix("agent_")))
+    model = get_model(type.delete_prefix("agent_"))
+    json = JSONModel(type.to_sym).new(agent)
+    model.ensure_authorized_name(json)
+    json.to_hash
+
+    pending_keys = @validate_only ? pending_keys(model, json) : []
+    match = existing_match(model, json) || pending_keys.filter_map { |key| @would_create[key] }.first
+    return link_match(match, supplied, link, report, num, field_for) if match
+
+    saved = save(json, model)
+    created_refs << saved.uri if created_refs && saved.uri
+    pending = { :agent => agent, :name => display_name(agent), :row => report.current_row.row }
+    pending_keys.each { |key| remember(@would_create, key, pending) }
     link["ref"] = saved.uri
-    name = agent["names"][0]
-    report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.agent")}[#{name["primary_name"] || name["family_name"]}]", :id => saved.uri))
+    report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.agent")}[#{display_name(agent)}]", :id => saved.uri))
     link
   rescue JSONModel::ValidationException => e
     report_process_error(report, num, e.message)
   rescue Sequel::ValidationFailed => e
     key = collision_key(e)
     key ? report_collision(report, num, key) : report_process_error(report, num, e.message)
+  rescue StandardError => e
+    report_process_error(report, num, e.message)
   end
 
   def get_db_agent(agent, report)
@@ -202,9 +230,79 @@ class AgentHandler < Handler
 
   private
 
-  def authority_id_taken?(agent)
-    authority_id = agent["names"].map { |name| name["authority_id"] }.compact.first
-    !authority_id.nil? && !NameAuthorityId.find(:authority_id => authority_id).nil?
+  def existing_match(model, json)
+    existing = model.find_matching(json) || agent_holding_authority_id(json)
+    return nil unless existing
+
+    existing_json = existing.class.sequel_to_jsonmodel([existing])[0].to_hash(:trusted)
+    { :agent => existing_json, :name => existing_json["title"], :uri => existing_json["uri"] }
+  end
+
+  def agent_holding_authority_id(json)
+    authority_id = authority_id(json)
+    authority = authority_id && NameAuthorityId.find(:authority_id => authority_id)
+    return nil unless authority
+
+    agent_type = AgentManager.registered_agents.find { |registered| authority[:"#{registered[:name_type]}_id"] }
+    name = agent_type[:name_model][authority[:"#{agent_type[:name_type]}_id"]]
+    agent_type[:model][name[:"#{agent_type[:jsonmodel]}_id"]]
+  end
+
+  def pending_keys(model, json)
+    keys = ["sha1_#{model.calculate_hash(json)}"]
+    authority_id = authority_id(json)
+    keys << "authority_#{authority_id}" if authority_id
+    keys
+  end
+
+  def authority_id(json)
+    json["names"].map { |name| name["authority_id"] }.compact.first
+  end
+
+  def link_match(match, supplied, link, report, num, field_for)
+    return report_collision(report, num, "agent_authority_id_collision") if match[:agent]["jsonmodel_type"] != supplied["jsonmodel_type"]
+
+    differences = AgentHandler.supplied_differences(supplied, match[:agent])
+    unless differences.empty?
+      report.add_errors(mismatch_error(match, num, describe_differences(differences, field_for)))
+      return nil
+    end
+
+    link["ref"] = match[:uri]
+    report.add_info(match_info(match, num))
+    link
+  end
+
+  def match_info(match, num)
+    if match[:row]
+      I18n.t("bulk_import.agent_would_link_earlier_row", :num => num, :name => match[:name], :row => match[:row])
+    else
+      key = @validate_only ? "bulk_import.agent_would_link_existing" : "bulk_import.agent_linked_existing"
+      I18n.t(key, :num => num, :name => match[:name], :uri => match[:uri])
+    end
+  end
+
+  def mismatch_error(match, num, differences)
+    if match[:row]
+      I18n.t("bulk_import.error.agent_match_mismatch_earlier_row", :num => num, :name => match[:name], :row => match[:row], :differences => differences)
+    else
+      I18n.t("bulk_import.error.agent_match_mismatch", :num => num, :name => match[:name], :where => match[:uri], :differences => differences)
+    end
+  end
+
+  def describe_differences(differences, field_for)
+    differences.map do |difference|
+      path = difference[:path]
+      I18n.t("bulk_import.error.agent_match_difference",
+             :field => field_for&.call(path) || path.map { |step| step.is_a?(Integer) ? step + 1 : step }.join("/"),
+             :supplied => difference[:supplied],
+             :existing => difference[:existing])
+    end.join("; ")
+  end
+
+  def display_name(agent)
+    name = agent["names"][0]
+    name["primary_name"] || name["family_name"]
   end
 
   def collision_key(error)

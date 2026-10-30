@@ -340,4 +340,29 @@ describe AgentBuilder do
       expect { builder.to_h }.to raise_error(ArgumentError)
     end
   end
+
+  describe "#supplied_values" do
+    it "leaves out the values the builder derives rather than copies from a column" do
+      builder = builder_for(
+        :name => { :sort_name => "Orwell, G." },
+        :contact => { :name => "Front Desk", :telephone => { :number => "555-0100" }, :fax => { :number => "555-0199" } }
+      )
+
+      supplied = builder.supplied_values
+      expect(supplied["names"][0]).to include("sort_name" => "Orwell, G.")
+      expect(supplied["names"][0]).not_to include("sort_name_auto_generate")
+      expect(supplied["agent_contacts"][0]["telephones"]).to eq(
+        [
+          { "jsonmodel_type" => "telephone", "number" => "555-0100" },
+          { "jsonmodel_type" => "telephone", "number" => "555-0199", "number_type" => "fax" },
+        ]
+      )
+    end
+
+    it "refuses to build when the request has errors" do
+      builder = builder_for(:name => { :primary_name => nil })
+
+      expect { builder.supplied_values }.to raise_error(ArgumentError)
+    end
+  end
 end

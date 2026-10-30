@@ -2753,6 +2753,7 @@ de:
         werden: %{why}"
       bad_role: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist keine gültige Rolle"
       dig_unassoc: 'Archiv-Objekt mit zugehörigem digitalen Objekt kann nicht gespeichert werden: %{msg}'
+      dig_row_not_saved: "Aus dieser Zeile wurde nichts gespeichert, da das digitale Objekt nicht erstellt werden konnte"
       dig_validation: Das digitale Objekt kann nicht erstellt werden %{err}
       event_validation: "Ereignisgruppe %{group} (%{type}) kann nicht erstellt werden: %{err}"
       invalid_event_type: "Ereignisgruppe %{group}, Feld %{field}, ist kein vorhandener Ereignistyp: '%{value}'"
@@ -2778,13 +2779,16 @@ de:
       agent_invalid_value: "Agent %{num}, Feld %{field}, ist kein vorhandener Wert: '%{value}'"
       agent_unrecognized_boolean: "Agent %{num}, Feld %{field}, erfordert einen booleschen Wert; erhalten: '%{value}', zulässig sind: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE oder leer, um den Standardwert zu verwenden"
       agent_incompatible_field: "Agent %{num}, Feld %{field}, ist für den Agent-Typ '%{agent_type}' nicht zulässig. Es wurde kein Agent erstellt oder verknüpft"
-      agent_mode_conflict: "Agent %{num}, Feld %{field}, kann nicht mit Feldern zur Agentenerstellung kombiniert werden. Es wurde kein Agent erstellt oder verknüpft"
+      agent_mode_conflict: "Agent %{num}, Feld %{field}, kann nicht mit Feldern zur Agentenerstellung (%{creation_fields}) kombiniert werden. Es wurde kein Agent erstellt oder verknüpft"
       agent_invalid_record_id: "Agent %{num}, Feld %{field}, erfordert eine positive numerische ID oder eine kanonische Agent-URI; erhalten: '%{value}'"
       agent_type_with_uri: "Agent %{num}, Feld %{field}, muss leer sein, wenn die Datensatz-ID eine URI ist; erhalten: '%{value}'"
       agent_unsupported_uri: "Agent %{num}, Feld %{field}, ist eine URI für einen Agententyp, der hier nicht verwendet werden kann. Zulässige Werte: %{accepted}"
       agent_not_found: "Agent %{num}, Feld %{field}, entspricht keinem vorhandenen Agent: '%{value}'"
       agent_uri_header_conflict: "Agent %{num}, Felder %{record_field} und %{header_field}, können nicht zusammen verwendet werden, wenn die Datensatz-ID eine URI ist. Es wurde kein Agent verknüpft"
       agent_fingerprint_collision: "Agent %{num} wurde nicht erstellt: Ein vorhandener Agent hat dieselben Identifikationsdaten. Um diesen Agenten zu verwenden, verknüpfen Sie ihn über Datensatz-ID oder URI"
+      agent_match_mismatch: "Agent %{num} entspricht Agent %{name} (%{where}), aber diese Werte unterscheiden sich: %{differences}. Um diesen Agenten zu verwenden, verknüpfen Sie ihn über Datensatz-ID oder URI"
+      agent_match_mismatch_earlier_row: "Agent %{num} entspricht Agent %{name}, der in %{row} erstellt würde, aber diese Werte unterscheiden sich: %{differences}. Gleichen Sie diese Werte in beiden Zeilen an"
+      agent_match_difference: "%{field} ist hier '%{supplied}' und bei diesem Agenten '%{existing}'"
       agent_authority_id_collision: "Agent %{num} wurde nicht erstellt: Ein vorhandener Agent verwendet diese Normdaten-ID bereits. Um diesen Agenten zu verwenden, verknüpfen Sie ihn über Datensatz-ID oder URI"
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
       unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}'"
@@ -2849,6 +2853,9 @@ de:
     row_error: 'Zeile %{row} wird aufgrund von Fehlern nicht verarbeitet: %{errs}'
     created: '%{what} erstellt: %{id}'
     could_be: '%{what} würde erstellt werden'
+    agent_linked_existing: "Agent %{num} mit vorhandenem Agenten %{name} verknüpft: %{uri}"
+    agent_would_link_existing: "Agent %{num} würde mit vorhandenem Agenten %{name} verknüpft: %{uri}"
+    agent_would_link_earlier_row: "Agent %{num} würde mit Agent %{name} verknüpft, der in %{row} erstellt würde"
     updated: '%{what}: %{id}'
     clip_btn: In die Zwischenablage kopieren
     clip_created: "\t%{what} erstellt: \t%{nm} %{id} %{ref_id}"

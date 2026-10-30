@@ -28,11 +28,9 @@ class ImportDigitalObjects < BulkImportParser
 
   def create_instance(ao)
     dig_instance = nil
-    @agent_handler = AgentHandler.new(@current_user, @validate_only)
     prepared_events = prepare_event_builders
 
     @notes_handler = NotesHandler.new
-    @subject_handler = SubjectHandler.new(@current_user, @validate_only)
     @lang_handler = LangHandler.new(@current_user)
 
     begin
@@ -41,8 +39,10 @@ class ImportDigitalObjects < BulkImportParser
       dates = create_dates
       notes = create_notes
       extents = process_extents
-      subjects = process_subjects
-      linked_agents = agent_linker.link_agents(@row_hash)
+      subjects, subjects_failed = process_subjects
+      linker = agent_linker
+      linked_agents = linker.link_agents(@row_hash)
+      return nil if subjects_failed || linker.failed?
 
       dig_instance = @digital_object_handler.create(
         title: @row_hash["digital_object_title"],
@@ -97,6 +97,44 @@ class ImportDigitalObjects < BulkImportParser
   end
 
   def process_row
+    @agent_handler.start_row
+    @subject_handler.start_row
+    digital_instance = @validate_only ? import_row : import_row_in_savepoint
+    unless digital_instance
+      forget_handler_rows
+      report_row_not_saved if @validate_only
+    end
+    digital_instance
+  rescue Exception
+    forget_handler_rows
+    raise
+  end
+
+  def import_row_in_savepoint
+    created_count = @created_refs.length
+    digital_instance = nil
+    begin
+      DB.transaction(:savepoint => true) do
+        digital_instance = import_row
+        unless digital_instance
+          @created_refs.slice!(created_count..)
+          report_row_not_saved
+          raise Sequel::Rollback
+        end
+      end
+    rescue Exception
+      @created_refs.slice!(created_count..)
+      raise
+    end
+    digital_instance
+  end
+
+  def report_row_not_saved
+    @report.current_row.info.clear
+    @report.add_errors(I18n.t("bulk_import.error.dig_row_not_saved"))
+  end
+
+  def import_row
     errs = []
     begin
       resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
@@ -159,6 +197,8 @@ class ImportDigitalObjects < BulkImportParser
   def initialize_handler_enums
     @digital_object_handler = DigitalObjectHandler.new(@current_user, @validate_only)
     @event_handler = EventHandler.new(@current_user, @validate_only)
+    @agent_handler = AgentHandler.new(@current_user, @validate_only)
+    @subject_handler = SubjectHandler.new(@current_user, @validate_only)
   end
 
   # any problem here would result in the digital object not being created
@@ -479,8 +519,14 @@ class ImportDigitalObjects < BulkImportParser
     )
   end
 
+  def forget_handler_rows
+    @agent_handler.forget_row
+    @subject_handler.forget_row
+  end
+
   def process_subjects
     subjects = []
+    failed = false
 
     repo_id = @repository.split("/")[2]
     canonical_group_indices("subject").each do |num|
@@ -492,6 +538,7 @@ class ImportDigitalObjects < BulkImportParser
 
       if record_id.nil? && term.nil?
         @report.add_errors(I18n.t("bulk_import.error.subject_missing_identity", :num => num))
+        failed = true
         next
       end
 
@@ -504,10 +551,11 @@ class ImportDigitalObjects < BulkImportParser
 
       rescue Exception => e
         @report.add_errors(I18n.t("bulk_import.error.process_error", :type => "Subject", :num => num, :why => e.message))
+        failed = true
       end
     end
 
-    subjects
+    [subjects, failed]
   end
 
   def normalize_user_defined_integer(value)

@@ -8,10 +8,11 @@ describe "Import Digital Objects Agents" do
   TEMPLATES_DIR = File.join(File.dirname(__FILE__), "../", "../", "frontend", "public", "bulk_import_templates") unless defined?(TEMPLATES_DIR)
 
   def run_agent_import(row_overrides, validate_only = false)
+    rows_overrides = row_overrides.is_a?(Array) ? row_overrides : [row_overrides]
     csv_data = CSV.read(File.join(TEMPLATES_DIR, "bulk_import_DO_template.csv"))
     columns = csv_data[0].dup
     column_explanations = csv_data[1].dup
-    row_overrides.keys.map { |key| key[/\Aagent_(\d+)_/, 1] }.compact.uniq.each do |index|
+    rows_overrides.flat_map(&:keys).map { |key| key[/\Aagent_(\d+)_/, 1] }.compact.uniq.each do |index|
       next if columns.any? { |column| column.to_s.start_with?("agent_#{index}_") }
 
       extra = family_headers_at(csv_data[0], "agent", index)
@@ -19,14 +20,25 @@ describe "Import Digital Objects Agents" do
       column_explanations += extra.map { "Agent(#{index})" }
     end
 
-    row = {}
-    columns.each { |column| row[column] = nil }
-    row["res_uri"] = @resource.uri
-    row["ao_uri"] = @archival_object.uri
-    row["digital_object_title"] = "Digital Object Title #{@now}"
-    row_overrides.each { |key, value| row[key] = value }
+    rows = rows_overrides.map do |overrides|
+      row = {}
+      columns.each { |column| row[column] = nil }
+      row["res_uri"] = @resource.uri
+      row["ao_uri"] = @archival_object.uri
+      row["digital_object_title"] = "Digital Object Title #{@now}"
+      overrides.each { |key, value| row[key] = value }
+      row
+    end
 
-    import_digital_object_csv(columns, column_explanations, row, validate_only: validate_only)
+    import_digital_object_csv(columns, column_explanations, rows, validate_only: validate_only)
+  end
+
+  def digital_object_count(title = "Digital Object Title #{@now}")
+    DigitalObject.where(:title => title).count
+  end
+
+  def digital_object_titled(title)
+    ::DigitalObject.to_jsonmodel(DigitalObject.where(:title => title).first.id)
   end
 
   def person_group(overrides = {})
@@ -177,7 +189,7 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include("agent_1_agent_name_1_title", "'family'")
       expect(AgentFamily.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
   end
 
@@ -256,7 +268,7 @@ describe "Import Digital Objects Agents" do
       expect([link["role"], link["relator"]]).to eq(%w[source aut])
     end
 
-    it "reports a missing primary name by its uploaded column and imports the Digital Object without an Agent" do
+    it "reports a missing primary name by its uploaded column and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_agent_name_1_primary_name" => nil))
@@ -264,20 +276,20 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include("agent_1_agent_name_1_primary_name")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports a missing Agent type by its uploaded column and imports the Digital Object without an Agent" do
+    it "reports a missing Agent type by its uploaded column and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_agent_type" => nil))
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_agent_type")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports a missing Name Order by its uploaded column and imports the Digital Object without an Agent" do
+    it "reports a missing Name Order by its uploaded column and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_agent_name_1_name_order" => nil))
@@ -285,30 +297,30 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include("agent_1_agent_name_1_name_order")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports an unrecognized Name Order by its uploaded column and imports the Digital Object without an Agent" do
+    it "reports an unrecognized Name Order by its uploaded column and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_agent_name_1_name_order" => "sideways"))
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_agent_name_1_name_order", "sideways")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports a prefixed Agent type as unsupported and imports the Digital Object without an Agent" do
+    it "reports a prefixed Agent type as unsupported and imports no Digital Object" do
       original_count = AgentFamily.count
 
       report = run_agent_import(person_group("agent_1_agent_type" => "agent_family"))
 
       expect(report.rows[0].errors.join(" ")).to include("Agent 1 has an unsupported agent type. Accepted values: family, corporate_entity, person")
       expect(AgentFamily.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports an invalid role and imports the Digital Object without an Agent" do
+    it "reports an invalid role and imports no Digital Object" do
       original_count = AgentPerson.count
       bad_role = "not-a-role-#{@now}"
 
@@ -316,7 +328,7 @@ describe "Import Digital Objects Agents" do
 
       expect(report.rows[0].errors.join(" ")).to include(bad_role)
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "creates no Agent and no Digital Object in validate-only mode" do
@@ -330,7 +342,7 @@ describe "Import Digital Objects Agents" do
       expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
     end
 
-    it "reports an Agent that fails schema validation and imports the Digital Object without an Agent" do
+    it "reports an Agent that fails schema validation and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_agent_name_1_primary_name" => "x" * 256))
@@ -338,7 +350,7 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include("primary_name")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
   end
 
@@ -402,7 +414,7 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include(*field_codes)
       expect(AgentPerson.count).to eq(@original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     before(:each) { @original_count = AgentPerson.count }
@@ -500,7 +512,7 @@ describe "Import Digital Objects Agents" do
   end
 
   context "mixing link or Header String fields with creation fields" do
-    it "reports a conflict between an existing-record reference and creation fields and imports the Digital Object without an Agent" do
+    it "reports a conflict between an existing-record reference and creation fields and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_record_id" => "12345"))
@@ -508,17 +520,17 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include("agent_1_record_id")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports a conflict between a Header String and creation fields and imports the Digital Object without an Agent" do
+    it "reports a conflict between a Header String and creation fields and imports no Digital Object" do
       original_count = AgentPerson.count
 
       report = run_agent_import(person_group("agent_1_header" => "Header Person #{@now}"))
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_header")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "reports a mode conflict and an invalid role together" do
@@ -531,7 +543,7 @@ describe "Import Digital Objects Agents" do
       expect(errors).to include("agent_1_header")
       expect(errors).to include(bad_role)
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "links nothing when a canonical URI of an existing Agent is combined with creation fields" do
@@ -542,7 +554,7 @@ describe "Import Digital Objects Agents" do
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_record_id")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "links nothing when a numeric ID of an existing Agent is combined with creation fields" do
@@ -553,7 +565,7 @@ describe "Import Digital Objects Agents" do
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_record_id")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "links nothing when the Header String of an existing Agent is combined with creation fields" do
@@ -564,7 +576,55 @@ describe "Import Digital Objects Agents" do
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_header")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
+    end
+
+    it "names the filled Publish column next to the record ID column" do
+      existing = create(:json_agent_person)
+
+      report = run_agent_import("agent_1_record_id" => existing.uri, "agent_1_publish" => "yes")
+
+      expect(report.rows[0].errors).to eq([
+        "Agent 1, field agent_1_record_id, cannot be combined with agent creation fields (agent_1_publish). No agent was created or linked",
+        I18n.t("bulk_import.error.dig_row_not_saved"),
+      ])
+    end
+
+    it "names every filled creation column next to the Header String column, in header order" do
+      creation_columns = person_group.keys - ["agent_1_agent_type"]
+
+      report = run_agent_import(person_group("agent_1_header" => "Header Person #{@now}"))
+
+      expect(report.rows[0].errors.first).to eq(
+        I18n.t("bulk_import.error.agent_mode_conflict", :num => 1, :field => "agent_1_header", :creation_fields => creation_columns.join(", "))
+      )
+      expect(report.rows[0].errors.first).to include("(#{creation_columns.join(", ")})")
+    end
+
+    it "names the filled Publish column in the error for each linking column" do
+      existing = create(:json_agent_person)
+
+      report = run_agent_import(
+        "agent_1_record_id" => existing.uri,
+        "agent_1_header" => "Header Person #{@now}",
+        "agent_1_publish" => "yes"
+      )
+
+      conflicts = report.rows[0].errors - [I18n.t("bulk_import.error.dig_row_not_saved")]
+      expect(conflicts.length).to eq(2)
+      expect(conflicts).to all(include("(agent_1_publish)"))
+      expect(conflicts[0]).to include("agent_1_record_id")
+      expect(conflicts[1]).to include("agent_1_header")
+    end
+
+    it "names the filled Publish column in validate-only mode" do
+      existing = create(:json_agent_person)
+
+      report = run_agent_import({ "agent_1_record_id" => existing.uri, "agent_1_publish" => "yes" }, true)
+
+      expect(report.rows[0].errors.first).to eq(
+        "Agent 1, field agent_1_record_id, cannot be combined with agent creation fields (agent_1_publish). No agent was created or linked"
+      )
     end
   end
 
@@ -654,7 +714,7 @@ describe "Import Digital Objects Agents" do
       )
 
       expect(report.rows[0].errors.join(" ")).to include("agent_1_agent_type, must be blank")
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "reports a URI combined with a Header String as a conflict and links nothing" do
@@ -667,11 +727,12 @@ describe "Import Digital Objects Agents" do
       )
 
       errors = report.rows[0].errors
-      expect(errors.length).to eq(1)
+      expect(errors.length).to eq(2)
+      expect(errors.last).to eq(I18n.t("bulk_import.error.dig_row_not_saved"))
       expect(errors.first).to include("agent_1_record_id")
       expect(errors.first).to include("agent_1_header")
       expect(errors.first).not_to include("creation fields")
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
       expect(AgentPerson.count).to eq(original_people)
     end
 
@@ -681,14 +742,14 @@ describe "Import Digital Objects Agents" do
       errors = report.rows[0].errors.join(" ")
       expect(errors).to include("Agent 1, field agent_1_record_id, is a URI for an agent type that cannot be used here. Accepted values: family, corporate_entity, person")
       expect(errors).not_to include("/agents/software/1")
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "reports a numeric ID with a software Agent type as unsupported and links nothing" do
       report = run_agent_import("agent_1_record_id" => "1", "agent_1_agent_type" => "software")
 
       expect(report.rows[0].errors.join(" ")).to include("Agent 1 has an unsupported agent type. Accepted values: family, corporate_entity, person")
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "links an existing Agent by numeric ID with a mixed-case, padded Agent type" do
@@ -708,7 +769,7 @@ describe "Import Digital Objects Agents" do
 
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include("agent_1_record_id, does not match an existing agent")
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
       expect(AgentPerson.count).to eq(original_people)
     end
 
@@ -721,7 +782,8 @@ describe "Import Digital Objects Agents" do
       )
 
       errors = report.rows[0].errors
-      expect(errors.length).to eq(1)
+      expect(errors.length).to eq(2)
+      expect(errors.last).to eq(I18n.t("bulk_import.error.dig_row_not_saved"))
       expect(errors.first).to include("cannot be used together")
       expect(AgentPerson.count).to eq(original_people)
     end
@@ -731,7 +793,7 @@ describe "Import Digital Objects Agents" do
         report = run_agent_import("agent_1_record_id" => bad)
 
         expect(report.rows[0].errors.join(" ")).to include("agent_1_record_id, must be a positive numeric ID or a canonical agent URI")
-        expect(linked_refs).to eq([])
+        expect(digital_object_count).to eq(0)
       end
     end
 
@@ -746,7 +808,7 @@ describe "Import Digital Objects Agents" do
         )
 
         expect(report.rows[0].errors.join(" ")).to include("agent_1_record_id, must be a positive numeric ID or a canonical agent URI")
-        expect(linked_refs).to eq([])
+        expect(digital_object_count).to eq(0)
         expect(AgentPerson.count).to eq(original_people)
       end
     end
@@ -757,7 +819,7 @@ describe "Import Digital Objects Agents" do
       report = run_agent_import("agent_1_record_id" => person.uri[/\d+\z/])
 
       expect(report.rows[0].errors.join(" ")).to match(/agent type/i)
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "validates the role before looking up a URI" do
@@ -769,7 +831,7 @@ describe "Import Digital Objects Agents" do
       errors = report.rows[0].errors.join(" ")
       expect(errors).to include("not-a-role")
       expect(errors).not_to include("987654321")
-      expect(linked_refs).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "preserves an explicit role and relator on a URI link" do
@@ -826,7 +888,7 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include(bad_relator)
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "creates and links no Agent when the role is invalid" do
@@ -842,7 +904,7 @@ describe "Import Digital Objects Agents" do
       expect(report.terminal_error).to be_nil
       expect(report.rows[0].errors.join(" ")).to include(bad_role)
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "reports an invalid role together with an invalid record ID" do
@@ -857,7 +919,7 @@ describe "Import Digital Objects Agents" do
       errors = report.rows[0].errors.join(" ")
       expect(errors).to include(bad_role)
       expect(errors).to include("abc")
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
 
     it "reports an invalid role together with a missing primary name" do
@@ -872,11 +934,11 @@ describe "Import Digital Objects Agents" do
       expect(errors).to include(bad_role)
       expect(errors).to include("agent_1_agent_name_1_primary_name")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents).to eq([])
+      expect(digital_object_count).to eq(0)
     end
   end
 
-  context "isolating invalid Agent groups" do
+  context "failing the row on an invalid Agent or Subject group" do
     def group_three_person(overrides = {})
       {
         "agent_3_agent_type" => "person",
@@ -885,7 +947,7 @@ describe "Import Digital Objects Agents" do
       }.merge(overrides)
     end
 
-    it "creates a valid Agent and reports an invalid sibling Agent group" do
+    it "creates no valid sibling Agent and no Digital Object when another Agent group is invalid" do
       original_count = AgentPerson.count
 
       report = run_agent_import(
@@ -893,11 +955,11 @@ describe "Import Digital Objects Agents" do
       )
 
       expect(report.rows[0].errors.join(" ")).to include("agent_3_agent_name_1_primary_name")
-      expect(AgentPerson.count).to eq(original_count + 1)
-      expect(imported_digital_object.linked_agents.length).to eq(1)
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count).to eq(0)
     end
 
-    it "links an existing Agent and reports a conflicting sibling Agent group" do
+    it "links no existing Agent and imports no Digital Object when a sibling Agent group conflicts" do
       existing = create(:json_agent_person)
       original_count = AgentPerson.count
 
@@ -911,7 +973,34 @@ describe "Import Digital Objects Agents" do
 
       expect(report.rows[0].errors.join(" ")).to include("agent_3_header")
       expect(AgentPerson.count).to eq(original_count)
-      expect(imported_digital_object.linked_agents.map { |link| link["ref"] }).to eq([existing.uri])
+      expect(digital_object_count).to eq(0)
+    end
+
+    [false, true].each do |validate_only|
+      it "reports every bad Agent and Subject group and saves nothing from the row (validate-only: #{validate_only})" do
+        original_people = AgentPerson.count
+        original_subjects = Subject.count
+        bad_role = "not-a-role-#{@now}"
+
+        report = run_agent_import(
+          person_group("agent_1_role" => bad_role).merge(
+            "agent_2_agent_type" => "person",
+            "agent_2_header" => "Valid Header Person #{@now}",
+            "subject_1_term" => "Valid Subject #{@now}",
+            "subject_1_type" => "topical",
+            "subject_1_source" => "local",
+            "subject_2_type" => "topical"
+          ),
+          validate_only
+        )
+
+        errors = report.rows[0].errors
+        expect(errors.join(" ")).to include(bad_role)
+        expect(errors).to include(I18n.t("bulk_import.error.subject_missing_identity", :num => "2"))
+        expect(AgentPerson.count).to eq(original_people)
+        expect(Subject.count).to eq(original_subjects)
+        expect(digital_object_count).to eq(0)
+      end
     end
 
     it "reports the same errors and persists nothing in validate-only mode" do
@@ -928,7 +1017,7 @@ describe "Import Digital Objects Agents" do
     end
   end
 
-  context "reporting Agent identity collisions" do
+  context "matching an existing Agent from creation columns" do
     def colliding_group_three(overrides = {})
       {
         "agent_3_agent_type" => "person",
@@ -937,32 +1026,69 @@ describe "Import Digital Objects Agents" do
       }.merge(overrides)
     end
 
-    it "reports a fingerprint collision differing only in publish and keeps the valid sibling and the Digital Object" do
-      original_count = AgentPerson.count
-
-      report = run_agent_import(
-        person_group("agent_1_publish" => "true").merge(colliding_group_three("agent_3_publish" => "false"))
-      )
-
-      expect(report.rows[0].errors).to eq([I18n.t("bulk_import.error.agent_fingerprint_collision", :num => 3)])
-      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(1)
-      expect(AgentPerson.count).to eq(original_count + 1)
-      expect(imported_digital_object.linked_agents.length).to eq(1)
+    def import_existing(overrides = {})
+      run_agent_import(person_group(overrides).merge("digital_object_title" => "Existing Title #{@now}"))
+      digital_object_titled("Existing Title #{@now}").linked_agents.first["ref"]
     end
 
-    it "reports a fingerprint collision differing only in an explicit Sort Name" do
+    def expect_mismatch(report, uri, *named)
+      errors = report.rows[0].errors.join(" ")
+      expect(errors).to include(uri, *named)
+      expect(errors).to include("link it by record ID or URI")
+    end
+
+    [false, true].each do |validate_only|
+      it "links the existing Agent on a full fingerprint match and reports its URI (validate-only: #{validate_only})" do
+        existing_uri = import_existing("agent_1_publish" => "true")
+        original_count = AgentPerson.count
+
+        report = run_agent_import(person_group("agent_1_publish" => "true"), validate_only)
+
+        expect(report.rows[0].errors).to eq([])
+        key = validate_only ? "bulk_import.agent_would_link_existing" : "bulk_import.agent_linked_existing"
+        expect(report.rows[0].info).to include(I18n.t(key, :num => 1, :name => "Created Person #{@now}", :uri => existing_uri))
+        expect(AgentPerson.count).to eq(original_count)
+        expect(imported_digital_object.linked_agents.map { |link| link["ref"] }).to eq([existing_uri]) unless validate_only
+      end
+
+      it "fails the row when a fingerprint match differs in publish (validate-only: #{validate_only})" do
+        existing_uri = import_existing("agent_1_publish" => "true")
+        original_count = AgentPerson.count
+
+        report = run_agent_import(person_group("agent_1_publish" => "false"), validate_only)
+
+        expect_mismatch(report, existing_uri, "agent_1_publish", "false")
+        expect(AgentPerson.count).to eq(original_count)
+        expect(digital_object_count).to eq(0)
+      end
+    end
+
+    it "links the existing Agent on an authority ID match with the same values" do
+      authority = { "agent_1_agent_name_1_authority_id" => "same-#{@now}", "agent_1_agent_name_1_source" => "naf" }
+      existing_uri = import_existing(authority)
+      original_count = AgentPerson.count
+
+      report = run_agent_import(person_group(authority))
+
+      expect(report.rows[0].errors).to eq([])
+      expect(AgentPerson.count).to eq(original_count)
+      expect(imported_digital_object.linked_agents.map { |link| link["ref"] }).to eq([existing_uri])
+    end
+
+    it "fails the row when a sibling group matches the Agent created earlier in the row but differs in Sort Name" do
       original_count = AgentPerson.count
 
       report = run_agent_import(
         person_group.merge(colliding_group_three("agent_3_agent_name_1_sort_name" => "Custom Sort #{@now}"))
       )
 
-      expect(report.rows[0].errors).to eq([I18n.t("bulk_import.error.agent_fingerprint_collision", :num => 3)])
-      expect(AgentPerson.count).to eq(original_count + 1)
-      expect(imported_digital_object.linked_agents.length).to eq(1)
+      expect(report.rows[0].errors.join(" ")).to include("Agent 3", "agent_3_agent_name_1_sort_name", "Custom Sort #{@now}")
+      expect(report.rows[0].errors.join(" ")).not_to include("sort_name_auto_generate")
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count).to eq(0)
     end
 
-    it "reports a fingerprint collision differing only in nested telephone data" do
+    it "fails the row when a sibling group matches but differs only in nested telephone data" do
       original_count = AgentPerson.count
 
       report = run_agent_import(
@@ -977,47 +1103,148 @@ describe "Import Digital Objects Agents" do
         )
       )
 
-      expect(report.rows[0].errors).to eq([I18n.t("bulk_import.error.agent_fingerprint_collision", :num => 3)])
-      expect(AgentPerson.count).to eq(original_count + 1)
-      expect(imported_digital_object.linked_agents.length).to eq(1)
-    end
-
-    it "reports an authority ID collision between Agents with different names" do
-      original_count = AgentPerson.count
-
-      report = run_agent_import(
-        person_group("agent_1_agent_name_1_authority_id" => "collide-#{@now}", "agent_1_agent_name_1_source" => "naf").merge(
-          colliding_group_three(
-            "agent_3_agent_name_1_primary_name" => "Other Person #{@now}",
-            "agent_3_agent_name_1_authority_id" => "collide-#{@now}",
-            "agent_3_agent_name_1_source" => "naf"
-          )
-        )
-      )
-
-      expect(report.rows[0].errors).to eq([I18n.t("bulk_import.error.agent_authority_id_collision", :num => 3)])
-      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(1)
-      expect(AgentPerson.count).to eq(original_count + 1)
-      expect(imported_digital_object.linked_agents.length).to eq(1)
-    end
-
-    it "reports an authority ID collision with an existing Agent in validate-only mode" do
-      run_agent_import(
-        person_group("agent_1_agent_name_1_authority_id" => "existing-#{@now}", "agent_1_agent_name_1_source" => "naf")
-      )
-      original_count = AgentPerson.count
-
-      report = run_agent_import(
-        person_group(
-          "agent_1_agent_name_1_primary_name" => "Other Person #{@now}",
-          "agent_1_agent_name_1_authority_id" => "existing-#{@now}",
-          "agent_1_agent_name_1_source" => "naf"
-        ),
-        true
-      )
-
-      expect(report.rows[0].errors).to eq([I18n.t("bulk_import.error.agent_authority_id_collision", :num => 1)])
+      expect(report.rows[0].errors.join(" ")).to include("Agent 3", "agent_3_agent_contact_1_telephone_1_number", "555-0199")
       expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count).to eq(0)
+    end
+
+    it "fails the row when an authority ID match has a different name" do
+      existing_uri = import_existing("agent_1_agent_name_1_authority_id" => "existing-#{@now}", "agent_1_agent_name_1_source" => "naf")
+      original_count = AgentPerson.count
+
+      [false, true].each do |validate_only|
+        report = run_agent_import(
+          person_group(
+            "agent_1_agent_name_1_primary_name" => "Other Person #{@now}",
+            "agent_1_agent_name_1_authority_id" => "existing-#{@now}",
+            "agent_1_agent_name_1_source" => "naf"
+          ),
+          validate_only
+        )
+
+        expect_mismatch(report, existing_uri, "agent_1_agent_name_1_primary_name", "Other Person #{@now}")
+      end
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count).to eq(0)
+    end
+
+    [false, true].each do |validate_only|
+      it "fails the row without naming internal fields when an authority ID belongs to another Agent type (validate-only: #{validate_only})" do
+        authority = { "agent_1_agent_name_1_authority_id" => "family-#{@now}", "agent_1_agent_name_1_source" => "naf" }
+        run_agent_import(
+          { "agent_1_agent_type" => "family", "agent_1_agent_name_1_primary_name" => "Existing Family #{@now}" }
+            .merge(authority)
+            .merge("digital_object_title" => "Existing Title #{@now}")
+        )
+        original_people = AgentPerson.count
+
+        report = run_agent_import(person_group(authority), validate_only)
+
+        errors = report.rows[0].errors.join(" ")
+        expect(errors).to include(I18n.t("bulk_import.error.agent_authority_id_collision", :num => 1))
+        expect(errors).not_to include("jsonmodel_type", "agent_person", "agent_family", "name_person", "name_family")
+        expect(AgentPerson.count).to eq(original_people)
+        expect(digital_object_count).to eq(0)
+      end
+    end
+
+    [false, true].each do |validate_only|
+      it "reports a schema-invalid creation Agent the same way in both modes (validate-only: #{validate_only})" do
+        report = run_agent_import(person_group("agent_1_agent_name_1_primary_name" => "x" * 256), validate_only)
+
+        expect(report.rows[0].errors.join(" ")).to include("Error processing Agent 1:", "primary_name")
+        expect(digital_object_count).to eq(0)
+      end
+    end
+  end
+
+  context "the same creation Agent on several rows" do
+    def row_titled(index, overrides = {})
+      person_group(overrides).merge("digital_object_title" => "Row #{index} Title #{@now}")
+    end
+
+    it "creates one Agent and links it to both Digital Objects" do
+      original_count = AgentPerson.count
+
+      report = run_agent_import([row_titled(1), row_titled(2)])
+
+      expect(report.rows.map(&:errors)).to eq([[], []])
+      expect(AgentPerson.count).to eq(original_count + 1)
+      first = digital_object_titled("Row 1 Title #{@now}").linked_agents.map { |link| link["ref"] }
+      second = digital_object_titled("Row 2 Title #{@now}").linked_agents.map { |link| link["ref"] }
+      expect(second).to eq(first)
+      expect(report.rows[1].info).to include(I18n.t("bulk_import.agent_linked_existing", :num => 1, :name => "Created Person #{@now}", :uri => first.first))
+    end
+
+    it "predicts in validate-only mode that row 2 links the Agent row 1 would create" do
+      report = run_agent_import([row_titled(1), row_titled(2)], true)
+
+      expect(report.rows.map(&:errors)).to eq([[], []])
+      expect(report.rows[1].info).to include(
+        I18n.t("bulk_import.agent_would_link_earlier_row", :num => 1, :name => "Created Person #{@now}", :row => report.rows[0].row)
+      )
+    end
+
+    [false, true].each do |validate_only|
+      it "fails row 2 when it differs from row 1's Agent in publish (validate-only: #{validate_only})" do
+        report = run_agent_import([row_titled(1, "agent_1_publish" => "true"), row_titled(2, "agent_1_publish" => "false")], validate_only)
+
+        expect(report.rows[0].errors).to eq([])
+        errors = report.rows[1].errors.join(" ")
+        expect(errors).to include("agent_1_publish", "false")
+        if validate_only
+          expect(errors).to include(report.rows[0].row)
+          expect(errors).not_to include("link it by record ID or URI")
+        else
+          expect(errors).to include("link it by record ID or URI")
+        end
+        expect(digital_object_count("Row 2 Title #{@now}")).to eq(0)
+      end
+
+      it "creates the Agent in row 2 when row 1 failed after creating it (validate-only: #{validate_only})" do
+        original_count = AgentPerson.count
+
+        report = run_agent_import([row_titled(1, "user_defined_integer_1" => "not-a-number"), row_titled(2)], validate_only)
+
+        expect(report.rows[1].errors).to eq([])
+        expect(report.rows[1].info.join(" ")).not_to include("link")
+        expect(AgentPerson.count).to eq(original_count + (validate_only ? 0 : 1))
+        unless validate_only
+          agent_uri = digital_object_titled("Row 2 Title #{@now}").linked_agents.first["ref"]
+          expect(JSONModel(:agent_person).find_by_uri(agent_uri).title).to eq("Created Person #{@now}")
+        end
+      end
+    end
+
+    it "creates one Agent for the same new Header String on two rows" do
+      original_count = AgentPerson.count
+      legacy = { "agent_1_agent_type" => "person", "agent_1_header" => "Legacy Shared #{@now}" }
+
+      report = run_agent_import([
+        legacy.merge("digital_object_title" => "Row 1 Title #{@now}"),
+        legacy.merge("digital_object_title" => "Row 2 Title #{@now}"),
+      ])
+
+      expect(report.rows.map(&:errors)).to eq([[], []])
+      expect(AgentPerson.count).to eq(original_count + 1)
+    end
+
+    it "reports an unexpected error while creating the Agent, fails that row, and imports the next row" do
+      allow_any_instance_of(AgentHandler).to receive(:save).and_raise(RuntimeError, "boom #{@now}")
+      original_count = AgentPerson.count
+
+      report = run_agent_import([
+        row_titled(1),
+        { "digital_object_title" => "Row 2 Title #{@now}" },
+      ])
+
+      expect(report.rows[0].errors).to include(
+        I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => 1, :why => "boom #{@now}")
+      )
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count("Row 1 Title #{@now}")).to eq(0)
+      expect(report.rows[1].errors).to eq([])
+      expect(digital_object_count("Row 2 Title #{@now}")).to eq(1)
     end
   end
 
@@ -1085,6 +1312,112 @@ describe "Import Digital Objects Agents" do
 
       expect(report.terminal_error).to include("agent_x_agent_type", "agent_01_agent_type")
       expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
+    end
+  end
+
+  context "rolling back a row whose Digital Object is not created" do
+    before(:each) do
+      allow(ImportDigitalObjects).to receive(:new).and_wrap_original do |original, *args|
+        @importer = original.call(*args)
+      end
+      @original_people = AgentPerson.count
+      @original_subjects = Subject.count
+    end
+
+    def expect_row_rolled_back(report)
+      expect(report.terminal_error).to be_nil
+      expect(report.rows[0].errors).to include(I18n.t("bulk_import.error.dig_row_not_saved"))
+      expect(report.rows[0].info).to eq([])
+      expect(AgentPerson.count).to eq(@original_people)
+      expect(@importer.record_uris).to eq([])
+      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
+    end
+
+    it "saves no creation Agent when a later field raises" do
+      report = run_agent_import(person_group("user_defined_integer_1" => "not-a-number"))
+
+      expect(report.rows[0].errors.join(" ")).to include("not-a-number")
+      expect_row_rolled_back(report)
+    end
+
+    it "saves no creation Agent when the Digital Object handler rejects a file version" do
+      report = run_agent_import(
+        person_group(
+          "file_version_1_file_uri" => "http://example.org/#{@now}",
+          "file_version_1_file_format_name" => "not-a-format-#{@now}"
+        )
+      )
+
+      expect(report.rows[0].errors.join(" ")).to include("not-a-format-#{@now}")
+      expect_row_rolled_back(report)
+    end
+
+    it "saves no Header String Agent and no Subject from a failed row" do
+      report = run_agent_import(
+        "agent_1_agent_type" => "person",
+        "agent_1_header" => "Legacy Person #{@now}",
+        "subject_1_term" => "Rolled Back Subject #{@now}",
+        "subject_1_type" => "topical",
+        "subject_1_source" => "local",
+        "user_defined_integer_1" => "not-a-number"
+      )
+
+      expect_row_rolled_back(report)
+      expect(Subject.count).to eq(@original_subjects)
+    end
+
+    it "creates and links the Agent when the corrected row is imported again" do
+      run_agent_import(person_group("user_defined_integer_1" => "not-a-number"))
+
+      report = run_agent_import(person_group)
+
+      expect(report.terminal_error).to be_nil
+      expect(report.rows[0].errors).to eq([])
+      expect(AgentPerson.count).to eq(@original_people + 1)
+      expect(linked_agent_records(imported_digital_object).map(&:title)).to eq(["Created Person #{@now}"])
+    end
+
+    it "reports a failed row in validate-only mode the same way as the real run" do
+      report = run_agent_import(person_group("user_defined_integer_1" => "not-a-number"), true)
+
+      errors = report.rows[0].errors
+      expect(errors.join(" ")).to include("not-a-number")
+      expect(errors).to include(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
+      expect(errors.last).to eq(I18n.t("bulk_import.error.dig_row_not_saved"))
+      expect(report.rows[0].info).to eq([])
+      expect(AgentPerson.count).to eq(@original_people)
+      expect(@importer.record_uris).to eq([])
+    end
+
+    it "keeps the Agent when an Event group fails after the Digital Object is linked" do
+      report = run_agent_import(
+        person_group(
+          "event_1_type" => "processed",
+          "event_1_date" => "2001-04-05",
+          "event_1_outcome" => "pass",
+          "event_1_outcome_note" => "n" * 16_385
+        )
+      )
+
+      expect(report.rows[0].errors.join(" ")).to include(
+        I18n.t("bulk_import.error.event_validation", :group => 1, :type => "processed", :err => "").strip
+      )
+      expect(report.rows[0].errors).not_to include(I18n.t("bulk_import.error.dig_row_not_saved"))
+      expect(AgentPerson.count).to eq(@original_people + 1)
+      expect(linked_agent_records(imported_digital_object).map(&:title)).to eq(["Created Person #{@now}"])
+    end
+
+    it "keeps the Digital Object and its Agent when the Archival Object cannot be saved" do
+      allow_any_instance_of(ImportDigitalObjects).to receive(:ao_save).and_raise(BulkImportException.new("attach failed #{@now}"))
+
+      report = run_agent_import(person_group)
+
+      expect(report.rows[0].errors).to eq(
+        [I18n.t("bulk_import.error.dig_unassoc", :msg => "attach failed #{@now}")]
+      )
+      expect(AgentPerson.count).to eq(@original_people + 1)
+      expect(linked_agent_records(imported_digital_object).map(&:title)).to eq(["Created Person #{@now}"])
+      expect(@importer.record_uris).to include(imported_digital_object.linked_agents.first["ref"])
     end
   end
 end

@@ -186,5 +186,103 @@ describe "Agent Handler" do
       expect(row_info[0]).to match(/\AAgent\[Preview Person \d+\] would be created\z/)
       expect(AgentPerson.count).to eq(before_count)
     end
+
+    it "reports a schema-invalid Agent the same way in validate-only mode as in a real run" do
+      reports = [@ah, @ahv].map do |handler|
+        report = BulkImportReport.new
+        report.new_row(1)
+        expect(handler.create_linked(built_agent("agent_person", "x" * 256), { "role" => "creator" }, report, 1)).to be_nil
+        report.current_row.errors
+      end
+
+      expect(reports[0]).not_to be_empty
+      expect(reports[1]).to eq(reports[0])
+    end
+
+    it "links an existing Agent whose supplied values all match, in both modes" do
+      name = "Matched Person #{rand(1_000_000)}"
+      existing = @ah.create_linked(built_agent("agent_person", name), { "role" => "creator" }, @report, 1)
+      before_count = AgentPerson.count
+
+      [[@ah, "bulk_import.agent_linked_existing"], [@ahv, "bulk_import.agent_would_link_existing"]].each do |handler, key|
+        report = BulkImportReport.new
+        report.new_row(2)
+        link = handler.create_linked(built_agent("agent_person", name), { "role" => "creator" }, report, 1)
+
+        expect(link["ref"]).to eq(existing["ref"])
+        expect(report.current_row.info).to eq([I18n.t(key, :num => 1, :name => name, :uri => existing["ref"])])
+      end
+      expect(AgentPerson.count).to eq(before_count)
+    end
+
+    it "reports a match whose publish value differs, naming the value and the existing URI" do
+      name = "Mismatched Person #{rand(1_000_000)}"
+      existing = @ah.create_linked(built_agent("agent_person", name).merge("publish" => true), { "role" => "creator" }, @report, 1)
+      report = BulkImportReport.new
+      report.new_row(2)
+
+      link = @ah.create_linked(built_agent("agent_person", name).merge("publish" => false), { "role" => "creator" }, report, 1)
+
+      expect(link).to be_nil
+      expect(report.current_row.errors.join(" ")).to include(existing["ref"], "publish", "false", "true")
+    end
+
+    it "remembers an Agent validate-only would create until the row is forgotten" do
+      name = "Pending Person #{rand(1_000_000)}"
+      @ahv.start_row
+      @ahv.create_linked(built_agent("agent_person", name), { "role" => "creator" }, @report, 1)
+
+      report = BulkImportReport.new
+      report.new_row(2)
+      @ahv.create_linked(built_agent("agent_person", name), { "role" => "creator" }, report, 1)
+      expect(report.current_row.info).to eq([I18n.t("bulk_import.agent_would_link_earlier_row", :num => 1, :name => name, :row => @report.current_row.row)])
+
+      @ahv.forget_row
+      report = BulkImportReport.new
+      report.new_row(3)
+      @ahv.create_linked(built_agent("agent_person", name), { "role" => "creator" }, report, 1)
+      expect(report.current_row.info.first).to match(/would be created\z/)
+    end
+
+    it "reports an unexpected error while saving and returns nil" do
+      allow(@ah).to receive(:save).and_raise(RuntimeError, "unexpected failure")
+
+      link = nil
+      expect {
+        link = @ah.create_linked(built_agent("agent_person", "Failing Person"), { "role" => "creator" }, @report, 1)
+      }.not_to raise_error
+
+      expect(link).to be_nil
+      expect(@report.current_row.errors).to eq(["Error processing Agent 1: unexpected failure"])
+    end
+  end
+
+  describe "supplied_differences" do
+    it "finds no differences when every supplied value matches" do
+      supplied = { "publish" => true, "names" => [{ "primary_name" => "Smith" }] }
+      existing = { "publish" => true, "title" => "Smith", "names" => [{ "primary_name" => "Smith", "sort_name" => "Smith" }] }
+
+      expect(AgentHandler.supplied_differences(supplied, existing)).to eq([])
+    end
+
+    it "ignores values only the existing record has" do
+      expect(AgentHandler.supplied_differences({ "names" => [{}] }, { "names" => [{ "a" => 1 }, { "b" => 2 }] })).to eq([])
+    end
+
+    it "reports each differing value with its path, supplied value and existing value" do
+      supplied = { "publish" => false, "agent_contacts" => [{ "telephones" => [{ "number" => "555-0199" }] }] }
+      existing = { "publish" => true, "agent_contacts" => [{ "telephones" => [{ "number" => "555-0100" }] }] }
+
+      expect(AgentHandler.supplied_differences(supplied, existing)).to eq([
+        { :path => ["publish"], :supplied => false, :existing => true },
+        { :path => ["agent_contacts", 0, "telephones", 0, "number"], :supplied => "555-0199", :existing => "555-0100" },
+      ])
+    end
+
+    it "reports a supplied value the existing record lacks" do
+      expect(AgentHandler.supplied_differences({ "notes" => [{ "content" => ["x"] }] }, { "notes" => [] })).to eq([
+        { :path => ["notes", 0, "content", 0], :supplied => "x", :existing => nil },
+      ])
+    end
   end
 end

@@ -2083,9 +2083,7 @@ describe "Import Digital Objects" do
       expect(report.rows[0].errors).to include(
         I18n.t("bulk_import.error.agent_missing_identity", :num => 1))
 
-      digital_object = ::DigitalObject.to_jsonmodel(
-        DigitalObject.where(:title => "Digital Object Title #{@now}").first.id)
-      expect(digital_object.linked_agents).to eq([])
+      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
     end
 
     it 'reports a relator-only Agent group instead of silently dropping it' do
@@ -2097,9 +2095,7 @@ describe "Import Digital Objects" do
       expect(report.rows[0].errors).to include(
         I18n.t("bulk_import.error.agent_missing_identity", :num => 1))
 
-      digital_object = ::DigitalObject.to_jsonmodel(
-        DigitalObject.where(:title => "Digital Object Title #{@now}").first.id)
-      expect(digital_object.linked_agents).to eq([])
+      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
     end
 
     it 'reports a missing Agent type instead of silently dropping the group' do
@@ -2112,9 +2108,7 @@ describe "Import Digital Objects" do
       expect(report.rows[0].errors).to include(
         I18n.t("bulk_import.error.agent_missing_type", :num => 1))
 
-      digital_object = ::DigitalObject.to_jsonmodel(
-        DigitalObject.where(:title => "Digital Object Title #{@now}").first.id)
-      expect(digital_object.linked_agents).to eq([])
+      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
     end
 
     it 'reports an unsupported Agent type instead of silently dropping the group' do
@@ -2129,9 +2123,7 @@ describe "Import Digital Objects" do
         I18n.t("bulk_import.error.agent_unsupported_type", :num => 1, :accepted => "family, corporate_entity, person"))
       expect(report.rows[0].errors.join(" ")).not_to include("xyz")
 
-      digital_object = ::DigitalObject.to_jsonmodel(
-        DigitalObject.where(:title => "Digital Object Title #{@now}").first.id)
-      expect(digital_object.linked_agents).to eq([])
+      expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
     end
 
     it 'accepts uppercase and padded Agent types' do
