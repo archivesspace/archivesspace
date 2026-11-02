@@ -69,7 +69,7 @@ Given 'a Resource with two Top Containers has been created' do
   url_parts.pop
   @resource_id = url_parts.pop
 
-  top_containers = all('.top_container')
+  top_containers = all('.top_container', count: 2)
   @top_container_first_id = top_containers[0][:href].split('/').last.scan(/\d+/).first
   @top_container_second_id = top_containers[1][:href].split('/').last.scan(/\d+/).first
 end
