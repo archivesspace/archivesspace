@@ -33,3 +33,7 @@ AppConfig.set_options(:email_delivery_method, [:smtp, :sendmail])
 AppConfig.add_alias(option: :display_identifiers_in_largetree_container,
                     maps_to: :display_identifiers_in_tree_container,
                     deprecated: true)
+
+AppConfig.add_alias(option: :pui_collection_org_sidebar_position,
+                    maps_to: :pui_tree_sidebar_position,
+                    deprecated: true)
