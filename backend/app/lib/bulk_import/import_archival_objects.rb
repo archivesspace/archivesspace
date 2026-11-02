@@ -102,7 +102,7 @@ class ImportArchivalObjects < BulkImportParser
   end
 
   def note_columns_missing_text
-    @row_hash.keys.each_with_object({}) do |column, missing|
+    @row_hash.keys.compact.each_with_object({}) do |column, missing|
       next if @row_hash[column].to_s.strip.empty?
       match = column.match(/\A[a-z]_(.+?)(_\d+)?\z/)
       next if match.nil?
