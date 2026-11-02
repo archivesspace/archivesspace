@@ -49,6 +49,10 @@ describe "Import Digital Objects Agents" do
     }.merge(overrides)
   end
 
+  def row_titled(index, overrides = {})
+    person_group(overrides).merge("digital_object_title" => "Row #{index} Title #{@now}")
+  end
+
   def imported_digital_object
     ::DigitalObject.to_jsonmodel(
       DigitalObject.where(:title => "Digital Object Title #{@now}").first.id
@@ -1205,10 +1209,6 @@ describe "Import Digital Objects Agents" do
   end
 
   context "the same creation Agent on several rows" do
-    def row_titled(index, overrides = {})
-      person_group(overrides).merge("digital_object_title" => "Row #{index} Title #{@now}")
-    end
-
     it "creates one Agent and links it to both Digital Objects" do
       original_count = AgentPerson.count
 
@@ -1273,50 +1273,6 @@ describe "Import Digital Objects Agents" do
 
       expect(report.rows.map(&:errors)).to eq([[], []])
       expect(AgentPerson.count).to eq(original_count + 1)
-    end
-
-    it "reports an unexpected error while creating the Agent, fails that row, and imports the next row" do
-      allow_any_instance_of(AgentHandler).to receive(:save).and_raise(RuntimeError, "boom #{@now}")
-      original_count = AgentPerson.count
-
-      report = run_agent_import([
-        row_titled(1),
-        { "digital_object_title" => "Row 2 Title #{@now}" },
-      ])
-
-      expect(report.rows[0].errors).to include(
-        I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => 1, :why => "boom #{@now}")
-      )
-      expect(AgentPerson.count).to eq(original_count)
-      expect(digital_object_count("Row 1 Title #{@now}")).to eq(0)
-      expect(report.rows[1].errors).to eq([])
-      expect(digital_object_count("Row 2 Title #{@now}")).to eq(1)
-    end
-
-    it "rolls back an Agent saved earlier in the row when a later Agent raises an unexpected error, and imports the next row" do
-      allow_any_instance_of(AgentHandler).to receive(:save).and_wrap_original do |original, json, model|
-        raise RuntimeError, "boom #{@now}" if json["names"].first["primary_name"] == "Second Person #{@now}"
-        original.call(json, model)
-      end
-      original_count = AgentPerson.count
-      second_group = {
-        "agent_2_agent_type" => "person",
-        "agent_2_agent_name_1_primary_name" => "Second Person #{@now}",
-        "agent_2_agent_name_1_name_order" => "direct",
-      }
-
-      report = run_agent_import([
-        row_titled(1).merge(second_group),
-        { "digital_object_title" => "Row 2 Title #{@now}" },
-      ])
-
-      expect(report.rows[0].errors).to include(
-        I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => 2, :why => "boom #{@now}")
-      )
-      expect(AgentPerson.count).to eq(original_count)
-      expect(digital_object_count("Row 1 Title #{@now}")).to eq(0)
-      expect(report.rows[1].errors).to eq([])
-      expect(digital_object_count("Row 2 Title #{@now}")).to eq(1)
     end
   end
 
@@ -1403,6 +1359,52 @@ describe "Import Digital Objects Agents" do
       expect(AgentPerson.count).to eq(@original_people)
       expect(@importer.record_uris).to eq([])
       expect(DigitalObject.where(:title => "Digital Object Title #{@now}").count).to eq(0)
+    end
+
+    def run_with_clean_second_row(first_row)
+      run_agent_import([first_row, { "digital_object_title" => "Row 2 Title #{@now}" }])
+    end
+
+    def expect_agent_error_rolled_back(report, num)
+      expect(report.terminal_error).to be_nil
+      expect(report.rows[0].errors).to include(
+        I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => num, :why => "boom #{@now}"),
+        I18n.t("bulk_import.error.dig_row_not_saved")
+      )
+      expect(report.rows[0].info).to eq([])
+      expect(AgentPerson.count).to eq(@original_people)
+      expect(digital_object_count("Row 1 Title #{@now}")).to eq(0)
+      expect(report.rows[1].errors).to eq([])
+      expect(digital_object_count("Row 2 Title #{@now}")).to eq(1)
+      expect(@importer.record_uris).to contain_exactly(@archival_object.uri, digital_object_titled("Row 2 Title #{@now}").uri)
+    end
+
+    it "reports an unexpected error while creating the Agent, fails that row, and imports the next row" do
+      allow_any_instance_of(AgentHandler).to receive(:save).and_raise(RuntimeError, "boom #{@now}")
+
+      report = run_with_clean_second_row(row_titled(1))
+
+      expect_agent_error_rolled_back(report, 1)
+    end
+
+    it "rolls back an Agent saved earlier in the row when a later Agent raises an unexpected error, and imports the next row" do
+      saved_uris = []
+      allow_any_instance_of(AgentHandler).to receive(:save).and_wrap_original do |original, json, model|
+        raise RuntimeError, "boom #{@now}" if json["names"].first["primary_name"] == "Second Person #{@now}"
+
+        original.call(json, model).tap { |saved| saved_uris << saved.uri }
+      end
+      second_group = {
+        "agent_2_agent_type" => "person",
+        "agent_2_agent_name_1_primary_name" => "Second Person #{@now}",
+        "agent_2_agent_name_1_name_order" => "direct",
+      }
+
+      report = run_with_clean_second_row(row_titled(1).merge(second_group))
+
+      expect(saved_uris.length).to eq(1)
+      expect(AgentPerson[JSONModel(:agent_person).id_for(saved_uris.first)]).to be_nil
+      expect_agent_error_rolled_back(report, 2)
     end
 
     it "saves no creation Agent when a later field raises" do
