@@ -28,8 +28,6 @@
     #destroyed = false;
 
     #skipCheckQueued = false;
-
-    /** Container scrollTop at the last skipped-batch check */
     #lastScrollTop = 0;
 
     /**
@@ -119,7 +117,7 @@
         { passive: true }
       );
 
-      // A jump larger than the observer zone can carry a trigger past it between frames, so also check on scroll
+      // Catch any intersections missed by the observer from a fast scroll
       this.#listen(
         this.container,
         'scroll',
@@ -770,7 +768,8 @@
           behavior: 'instant',
           block: 'center',
         });
-        this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
+        // Don't count this as the user scrolling; avoids a skipped batch check
+        this.#lastScrollTop = this.container.scrollTop;
         return;
       }
 
@@ -1017,7 +1016,8 @@
             behavior: 'instant',
             block: 'center',
           });
-          this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
+          // Don't count this as the user scrolling; avoids a skipped batch check
+          this.#lastScrollTop = this.container.scrollTop;
         }
       }
 
@@ -1064,7 +1064,8 @@
 
       if (canRestoreScroll) {
         this.container.scrollTop = Number(scrollTop);
-        this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
+        // Don't count this as the user scrolling; avoids a skipped batch check
+        this.#lastScrollTop = this.container.scrollTop;
       }
 
       if (!revealNode) return;
@@ -1075,7 +1076,8 @@
 
       if (shouldReveal) {
         revealNode.scrollIntoView({ behavior: 'instant', block: 'center' });
-        this.#lastScrollTop = this.container.scrollTop; // not a user scroll past batches
+        // Don't count this as the user scrolling; avoids a skipped batch check
+        this.#lastScrollTop = this.container.scrollTop;
       }
     }
 
@@ -1376,12 +1378,9 @@
     }
 
     /**
-     * Loads any unloaded batch whose gap the view covered since the last check,
-     * i.e. the loaded row next to the batch placeholder lies within the scroll
-     * range from fromScrollTop to toScrollTop, plus the container height and
-     * the batch zone margin on each side. Unloaded batches take no space, so
-     * a fast scroll can carry a gap through the view between frames without
-     * the observer seeing its trigger node.
+     * Loads the batch for any trigger that passed through the zone between
+     * the two scroll positions. The observer samples once per frame, so a
+     * fast scroll can carry a trigger across the zone unseen.
      * @param {number} fromScrollTop - The lower scrollTop of the range
      * @param {number} toScrollTop - The higher scrollTop of the range
      */

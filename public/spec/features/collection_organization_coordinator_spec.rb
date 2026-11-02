@@ -16,7 +16,7 @@ describe 'Collection Organization Infinite Coordinator', js: true do
       publish: true
     )
 
-    @children_of_ao2 = batch_create_archival_objects(31, resource: @resource, parent: @ao2) # 2 batches
+    @children_of_ao2 = batch_create_archival_objects(61, resource: @resource, parent: @ao2) # 3 batches
 
     run_indexers
   end
