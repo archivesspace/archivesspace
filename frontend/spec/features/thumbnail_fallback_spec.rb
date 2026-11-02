@@ -65,6 +65,7 @@ describe 'Thumbnail image in the browser', js: true do
 
     within '#infinite-tree-record-pane' do
       expect(page).to have_css(".digital-object-thumbnail a[href='#{unreachable_image}'][target='_blank'][rel='noopener'] .digital-object-thumbnail-fallback", visible: true)
+      expect(page).to have_css(".digital-object-thumbnail a[href='#{unreachable_image}'] .sr-only", text: 'Opens in new window', visible: :all)
     end
   end
 
@@ -73,6 +74,7 @@ describe 'Thumbnail image in the browser', js: true do
 
     within '#infinite-tree-record-pane' do
       expect(page).to have_css(".digital-object-thumbnail a[href='#{unrenderable_tiff_image}'][download]:not([target]) .digital-object-thumbnail-fallback", visible: true)
+      expect(page).to have_css(".digital-object-thumbnail a[href*='image/tiff'] .sr-only", text: 'Download file', visible: :all)
     end
   end
 

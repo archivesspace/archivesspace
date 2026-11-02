@@ -48,7 +48,8 @@
         <% fallback_icon = content_tag(:i, nil, icon_options.merge(:class => "#{icon_class} pui-thumbnail-fallback", :style => 'display: none;')) %>
         <% if fallback_link_url %>
           <%= link_to fallback_link_url, fallback_link_options.merge(:class => 'pui-thumbnail-fallback-link', :style => 'display: none;') do %>
-            <div class="pui-thumbnail-help-text"><%= t('thumbnails.view_digital_material') %></div>
+            <div class="pui-thumbnail-help-text" aria-hidden="true"><%= t('thumbnails.view_digital_material') %></div>
+            <span class="sr-only"><%= t(FileURI.download_only?(fallback_link_url) ? 'thumbnails.download_file' : 'thumbnails.opens_in_new_window') %></span>
             <%= fallback_icon %>
           <% end %>
         <% else %>

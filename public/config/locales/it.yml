@@ -557,3 +557,5 @@ it:
   thumbnails:
     view_digital_object: Visualizza l'oggetto digitale
     view_digital_material: Visualizza il materiale digitale
+    download_file: Scarica file
+    opens_in_new_window: Si apre in una nuova finestra

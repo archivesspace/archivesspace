@@ -787,6 +787,10 @@ es:
     aria_label: Secciones del registro
     system_info_aria_label: Secciones de información del sistema
 
+  thumbnails:
+    download_file: Descargar archivo
+    opens_in_new_window: Se abre en una ventana nueva
+
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
     merge_restricted_contact_details: La fusión no se puede completar porque uno

@@ -741,6 +741,10 @@ ja:
     aria_label: レコードのセクション
     system_info_aria_label: システムインフォメーションのセクション
 
+  thumbnails:
+    download_file: ファイルをダウンロード
+    opens_in_new_window: 新しいウィンドウで開く
+
   errors:
     merge_denied_for_system_user: 1人以上のエージェントがシステムユーザーです。
     merge_restricted_contact_details: 

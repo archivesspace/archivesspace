@@ -630,3 +630,5 @@ en:
   thumbnails:
     view_digital_object: View Digital Object
     view_digital_material: View Digital Material
+    download_file: Download file
+    opens_in_new_window: Opens in new window
