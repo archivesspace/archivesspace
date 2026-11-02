@@ -1246,6 +1246,32 @@ describe "Import Digital Objects Agents" do
       expect(report.rows[1].errors).to eq([])
       expect(digital_object_count("Row 2 Title #{@now}")).to eq(1)
     end
+
+    it "rolls back an Agent saved earlier in the row when a later Agent raises an unexpected error, and imports the next row" do
+      allow_any_instance_of(AgentHandler).to receive(:save).and_wrap_original do |original, json, model|
+        raise RuntimeError, "boom #{@now}" if json["names"].first["primary_name"] == "Second Person #{@now}"
+        original.call(json, model)
+      end
+      original_count = AgentPerson.count
+      second_group = {
+        "agent_2_agent_type" => "person",
+        "agent_2_agent_name_1_primary_name" => "Second Person #{@now}",
+        "agent_2_agent_name_1_name_order" => "direct",
+      }
+
+      report = run_agent_import([
+        row_titled(1).merge(second_group),
+        { "digital_object_title" => "Row 2 Title #{@now}" },
+      ])
+
+      expect(report.rows[0].errors).to include(
+        I18n.t("bulk_import.error.process_error", :type => I18n.t("bulk_import.agent"), :num => 2, :why => "boom #{@now}")
+      )
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count("Row 1 Title #{@now}")).to eq(0)
+      expect(report.rows[1].errors).to eq([])
+      expect(digital_object_count("Row 2 Title #{@now}")).to eq(1)
+    end
   end
 
   context "structural Agent indices in uploaded headers" do
