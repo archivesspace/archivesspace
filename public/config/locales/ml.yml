@@ -1,7 +1,7 @@
 ml:
   actions:
-    collapse_node: "%{ശീർഷകം} ചുരുക്കുക"
-    expand_node: "%{ശീർഷകം} വികസിപ്പിക്കുക"
+    collapse_node: "%{title} ചുരുക്കുക"
+    expand_node: "%{title} വികസിപ്പിക്കുക"
     request: അപേക്ഷിക്കുക
     authenticating: പ്രവേശനം/ലഭ്യത പരിശോധിക്കുന്നു
     search: തിരയുക/തേടുക
