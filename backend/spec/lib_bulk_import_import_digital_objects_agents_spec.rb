@@ -30,7 +30,7 @@ describe "Import Digital Objects Agents" do
       row
     end
 
-    import_digital_object_csv(columns, column_explanations, rows, validate_only: validate_only)
+    import_digital_object_csv(columns, column_explanations, *rows, validate_only: validate_only)
   end
 
   def digital_object_count(title = "Digital Object Title #{@now}")

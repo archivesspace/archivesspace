@@ -2908,6 +2908,7 @@ fr:
       has_dig_obj: "Objet d'archive a déjà un objet numérique associé"
       dig_unassoc: "Impossible d'enregistrer l'objet d'archivage avec un objet numérique associé: %{msg}"
       dig_row_not_saved: "Rien de cette ligne n'a été enregistré, car l'objet numérique n'a pas pu être créé"
+      dig_not_representative: "L'instance de l'objet numérique n'a pas été rendue représentative : l'objet d'archive avait déjà une instance représentative avant l'import, ou une ligne précédente en rend une représentative"
       ref_id_miss: Non Ref Id spécifié
       dig_info_miss: Ni le URN Object numérique ou sur la vignette URN est spécifié
       dig_validation: "Impossible de créer l'objet numérique %{err}"

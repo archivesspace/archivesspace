@@ -3051,6 +3051,7 @@ en:
       has_dig_obj: "Archival object already has an associated digital object"
       dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
       dig_row_not_saved: "Nothing from this row was saved because the digital object could not be created"
+      dig_not_representative: "Digital object instance not made representative: the archival object had a representative instance before the import, or an earlier row makes one representative"
       ref_id_miss: No Ref Id specified
       dig_info_miss: Neither the Digital Object URI or the Thumbnail URI is specified
       dig_validation: "Cannot create the digital object %{err}"

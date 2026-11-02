@@ -24,6 +24,7 @@ class ImportDigitalObjects < BulkImportParser
     @date_certainty = CvList.new("date_certainty", @current_user)
     @extent_types = CvList.new("extent_extent_type", @current_user)
     @extent_portions = CvList.new("extent_portion", @current_user)
+    @representative_ao_uris = Set.new
   end
 
   def create_instance(ao)
@@ -35,6 +36,7 @@ class ImportDigitalObjects < BulkImportParser
 
     begin
       publish = digital_object_boolean('digital_object_publish')
+      is_representative = digital_object_boolean('digital_object_is_representative')
       restrictions = digital_object_boolean('restrictions')
       dates = create_dates
       notes = create_notes
@@ -62,6 +64,7 @@ class ImportDigitalObjects < BulkImportParser
         lang_materials: create_lang_materials,
         user_defined: create_user_defined,
         collection_management: create_collection_management)
+      make_representative(dig_instance, ao) if dig_instance && ao && is_representative
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -163,6 +166,8 @@ class ImportDigitalObjects < BulkImportParser
     @created_refs.concat(
       [ao.uri, digital_instance.digital_object['ref']]
     ) if ao && digital_instance && !@validate_only
+    # A validation run saves nothing: count only the rows an import would not reject before saving (no errs).
+    @representative_ao_uris << ao.uri if @validate_only && errs.empty? && digital_instance&.is_representative
     digital_instance
   end
 
@@ -224,6 +229,14 @@ class ImportDigitalObjects < BulkImportParser
   end
 
   private
+
+  def make_representative(dig_instance, ao)
+    if ao.instances.any? { |instance| instance['is_representative'] } || @representative_ao_uris.include?(ao.uri)
+      @report.add_errors(I18n.t("bulk_import.error.dig_not_representative"))
+    else
+      dig_instance.is_representative = true
+    end
+  end
 
   def valid_column_codes
     @valid_column_codes ||= CSV.read(
