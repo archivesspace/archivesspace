@@ -15,6 +15,38 @@ describe ApplicationController, type: :controller do
     clean_params = controller.send(:cleanup_params_for_schema, params , JSONModel(:file_version).schema)
     expect(clean_params["file_size_bytes"]).to eq 0
   end
+
+  describe '#refresh_preferences' do
+    let(:now) { Time.now.to_i }
+
+    around do |example|
+      original = MemoryLeak::Resources.get(:preferences_system_mtime)
+      example.run
+    ensure
+      MemoryLeak::Resources.set(:preferences_system_mtime, original)
+    end
+
+    before do
+      session[:preferences] = { 'locale' => 'en' }
+      session[:last_preference_refresh] = now
+    end
+
+    it 'drops preferences cached in the same second as a preference change' do
+      MemoryLeak::Resources.set(:preferences_system_mtime, now)
+
+      controller.send(:refresh_preferences)
+
+      expect(session[:preferences]).to be_nil
+    end
+
+    it 'keeps preferences cached after the latest preference change' do
+      MemoryLeak::Resources.set(:preferences_system_mtime, now - 1)
+
+      controller.send(:refresh_preferences)
+
+      expect(session[:preferences]).to eq('locale' => 'en')
+    end
+  end
 end
 
 describe GenericRecordController, type: :controller do
