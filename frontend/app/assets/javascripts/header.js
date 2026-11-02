@@ -256,7 +256,7 @@ $(function () {
           }
 
           if (day) {
-            return day <= daysInMonths[--month];
+            return day <= daysInMonths[month - 1];
           }
 
           return true;

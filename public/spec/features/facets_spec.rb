@@ -17,6 +17,10 @@ describe 'Facets', js: true do
         expect(page).to have_css('dd a .record-count')
       end
     end
+
+    it 'does not set aria-labelledby on #facets' do
+      expect(page).to have_css('#facets:not([aria-labelledby])')
+    end
   end
 
   context 'More facets' do

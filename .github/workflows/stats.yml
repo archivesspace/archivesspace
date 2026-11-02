@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '17' # https://archivesspace.atlassian.net/browse/ANW-2022
+          java-version: '21'
 
       - name: Get download stats and append
         run: |
@@ -33,6 +33,6 @@ jobs:
           git commit -m "Updating the download stats"
 
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v1.3.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,47 +1,47 @@
 ja:
   enumeration_names:
-    accession_acquisition_type: アクセッション取得タイプ
-    accession_parts_relator: アクセッションパーツリレー
-    accession_parts_relator_type: アクセルパーツリレータイプ
-    accession_resource_type: アクセッションリソースタイプ
-    accession_sibling_relator: 受託兄弟リレー
-    accession_sibling_relator_type: 受け入れ兄弟リレータイプ
-    agency_code_type: 代理店コード
+    accession_acquisition_type: 受入取得の種類
+    accession_parts_relator: 受入部分関係
+    accession_parts_relator_type: 受入部分関係の種類
+    accession_resource_type: 受入リソースの種類
+    accession_sibling_relator: 受入兄弟関係
+    accession_sibling_relator_type: 受入兄弟関係の種類
+    agency_code_type: レコード管理：機関コードの種類
     agent_contact_salutation: エージェントコンタクト挨拶
-    agent_relationship_associative_relator: エージェント関係連想リレー
-    agent_relationship_earlierlater_relator: エージェントの関係
-    agent_relationship_family_relator: エージェント関係家族関係者
-    agent_relationship_hierarchical_relator: エージェント関係階層関係
-    agent_relationship_identity_relator: エージェント関係アイデンティティリレーター
-    agent_relationship_parentchild_relator: エージェントの関係親子リレー
-    agent_relationship_specific_relator: エージェント関係固有の関係者
-    agent_relationship_subordinatesuperior_relator: エージェントの関係下位関係者
-    agent_relationship_temporal_relator: エージェント関係時間的関係者
-    archival_record_level: アーカイブの記録レベル
-    begin_date_standardized_type: 開始日標準化タイプ
-    cataloging_source: カタログソース
+    agent_relationship_associative_relator: エージェント関係（関連）
+    agent_relationship_earlierlater_relator: エージェント関係（前身/後身）
+    agent_relationship_family_relator: エージェント関係の関係語（家族）
+    agent_relationship_hierarchical_relator: エージェント関係の関係語（階層）
+    agent_relationship_identity_relator: エージェント関係の関係語（同一性）
+    agent_relationship_parentchild_relator: エージェント関係（親子）
+    agent_relationship_specific_relator: エージェント関係の関係語（特定）
+    agent_relationship_subordinatesuperior_relator: エージェント関係（上位/下位）
+    agent_relationship_temporal_relator: エージェント関係の時間的関係
+    archival_record_level: 記述レベル
+    begin_date_standardized_type: 開始日標準化の種類
+    cataloging_source: レコード管理：目録作成元
     collection_management_processing_priority: コレクション管理処理優先度
     collection_management_processing_status: コレクション管理処理ステータス
-    container_location_status: コンテナの場所のステータス
-    container_type: コンテナタイプ
+    container_location_status: コンテナの所在のステータス
+    container_type: コンテナの種類
     country_iso_3166: 国ISO 3166
     date_calendar: 日付カレンダー
     date_certainty: 日付確信度
     date_era: 時代
     date_label: 日付ラベル
     date_role: 日付の役割
-    date_standardized_type: 日付標準化タイプ
+    date_standardized_type: 日付標準化の種類
     date_type: 日付の種類
-    date_type_structured: 日付タイプ
-    deaccession_scope: デアクセススコープ
-    digital_object_digital_object_type: デジタルオブジェクトデジタルオブジェクトタイプ
+    date_type_structured: 日付の種類
+    deaccession_scope: 除籍の範囲
+    digital_object_digital_object_type: デジタルオブジェクトの種類
     digital_object_level: デジタルオブジェクトレベル
     dimension_units: 寸法単位
-    end_date_standardized_type: 終了日標準化タイプ
-    event_event_type: イベントイベントの種類
+    end_date_standardized_type: 終了日標準化の種類
+    event_event_type: イベントの種類
     event_outcome: イベントの結果
-    extent_extent_type: エクステントエクステントタイプ
-    extent_portion: 範囲
+    extent_extent_type: 数量の種類
+    extent_portion: 数量の部分
     file_version_checksum_methods: ファイルバージョンチェックサムメソッド
     file_version_file_format_name: ファイルバージョンファイルフォーマット名
     file_version_use_statement: ファイルバージョン使用ステートメント
@@ -49,154 +49,154 @@ ja:
     file_version_xlink_show_attribute: ファイルのバージョンXlinkの表示属性
     gender: エージェントの性別
     government_agency_type: 政府機関の種類
-    identifier_type: 識別子の種類
-    instance_instance_type: インスタンスインスタンスタイプ
+    identifier_type: レコード管理：識別子の種類
+    instance_instance_type: インスタンスの種類
     job_type: ジョブの種類
     language_iso639_2: 言語ISO 639-2
     level_of_detail: 詳細度
-    linked_agent_archival_record_relators: リンクされたエージェントのアーカイブレコードリレー
+    linked_agent_archival_record_relators: リンクされたエージェントの関係指示子
     linked_agent_event_roles: リンクされたエージェントイベントの役割
     linked_agent_role: リンクされたエージェントの役割
-    linked_event_archival_record_roles: リンクされたイベントアーカイブのレコードの役割
-    location_function_type: ロケーション機能タイプ
-    location_temporary: 場所の一時的な
-    maintenance_agent_type: メンテナンスエージェントの種類
-    maintenance_event_type: メンテナンスイベントの種類
-    maintenance_status: メンテナンス状況
-    modified_record: 修正レコード
+    linked_event_archival_record_roles: リンクされたイベントにおけるアーカイブ記録の役割
+    location_function_type: 所在機能の種類
+    location_temporary: 一時的な所在
+    maintenance_agent_type: レコード管理：維持管理者の種類
+    maintenance_event_type: レコード管理：維持管理の処理の種類
+    maintenance_status: レコード管理：維持管理の状態
+    modified_record: レコード管理：変更の種類
     name_person_name_order: 名前人名順
     name_rule: 名前ルール
     name_source: 名前ソース
-    name_type: 名前の種類
-    note_bibliography_type: 注参考文献タイプ
-    note_digital_object_type: メモデジタルオブジェクトタイプ
-    note_index_item_type: 索引項目タイプ
-    note_index_type: インデックスタイプ
-    note_langmaterial_type: 品目タイプの注記言語
-    note_multipart_type: マルチパートタイプ
-    note_orderedlist_enumeration: メモオーダーリストの列挙
-    note_rights_statement_act_type: 注釈ステートメント法タイプ
-    note_rights_statement_type: メモの権利ステートメントの種類
-    note_singlepart_type: シングルパートタイプ
+    name_type: レコード管理：名前の種類
+    note_bibliography_type: 参考文献注記の種類
+    note_digital_object_type: デジタルオブジェクトの注記の種類
+    note_index_item_type: 索引注記の項目の種類
+    note_index_type: 索引注記の種類
+    note_langmaterial_type: 資料の言語の注記の種類
+    note_multipart_type: マルチパート注記の種類
+    note_orderedlist_enumeration: 注記の順序付きリストの番号の種類
+    note_rights_statement_act_type: 権利表明の行為の種類（注記）
+    note_rights_statement_type: 注記の権利表明の種類
+    note_singlepart_type: シングルパート注記の種類
     place_role: エージェントプレイスの役割
-    publication_status: 出版ステータス
-    reference_evaluation: 参照評価
-    resource_finding_aid_description_rules: リソース検索援助記述規則
-    resource_finding_aid_status: 資源援助の状況
-    resource_resource_type: リソースリソースタイプ
-    restriction_type: ローカルアクセス制限タイプ
-    rights_statement_act_restriction: 権利声明法の制限
-    rights_statement_act_type: 権利声明法の種類
-    rights_statement_external_document_identifier_type: 権利文書外部文書識別子タイプ
-    rights_statement_ip_status: 権利ステートメントIPステータス
-    rights_statement_other_rights_basis: 権利声明その他の権利の基礎
-    rights_statement_rights_type: 権利ステートメント権利タイプ
-    romanization: ローマ字
+    publication_status: レコード管理：公開状況
+    reference_evaluation: レコード管理：参照評価
+    resource_finding_aid_description_rules: 検索手段の記述規則
+    resource_finding_aid_status: 検索手段のステータス
+    resource_resource_type: リソースの種類
+    restriction_type: ローカルアクセス制限の種類
+    rights_statement_act_restriction: 権利表明の行為の制限
+    rights_statement_act_type: 権利表明の行為の種類
+    rights_statement_external_document_identifier_type: 権利表明の外部文書識別子の種類
+    rights_statement_ip_status: 権利表明のIPステータス
+    rights_statement_other_rights_basis: 権利表明のその他の権利の根拠
+    rights_statement_rights_type: 権利表明の権利の種類
+    romanization: ローマ字化
     script_iso15924: 言語スクリプトISO 15924
     subject_source: 件名ソース
     subject_term_type: 件名の種類
     telephone_number_type: 電話番号の種類
-    transliteration: 文字変換
-    user_defined_enum_1: ユーザー定義列挙型1
-    user_defined_enum_2: ユーザー定義列挙型2
-    user_defined_enum_3: ユーザー定義列挙型3
-    user_defined_enum_4: ユーザー定義列挙型4
+    transliteration: 翻字
+    user_defined_enum_1: ユーザー定義の選択肢1
+    user_defined_enum_2: ユーザー定義の選択肢2
+    user_defined_enum_3: ユーザー定義の選択肢3
+    user_defined_enum_4: ユーザー定義の選択肢4
 
     metadata_license: メタデータライセンス
   enumerations:
     accession_acquisition_type:
-      deposit: 保証金
-      gift: 贈り物
+      deposit: 寄託
+      gift: 寄贈
       purchase: 購入
-      transfer: 転送
+      transfer: 移管
     accession_parts_relator:
-      forms_part_of: フォームの一部
-      has_part: パートがある
+      forms_part_of: 一部を構成する
+      has_part: 構成部分を持つ
     accession_parts_relator_type:
-      part: "&quot;パート&quot;関係"
+      part: "「部分」関係"
     accession_resource_type:
       collection: コレクション
-      papers: 論文
+      papers: 個人文書
       publications: 出版物
       records: 記録
     accession_sibling_relator:
-      sibling_of: 兄弟は
+      sibling_of: 兄弟関係にある
     accession_sibling_relator_type:
-      bound_with: "&quot;結びついた&quot;関係"
+      bound_with: "「合綴」関係"
     agency_code_type:
-      local: 地元
+      local: ローカル
       oclc: OCLC
     agent_contact_salutation:
-      madame: 夫人
+      madame: マダム
       mr: 氏
-      mrs: 夫人
+      mrs: ミセス
       ms: ミズ
       sir: サー
     agent_relationship_associative_relator:
-      is_associative_with: 関連する連想
+      is_associative_with: 関連あり
     agent_relationship_earlierlater_relator:
-      is_earlier_form_of: 以前の形式の関連
-      is_later_form_of: 後の形の関連
+      is_earlier_form_of: 関連エージェントの前身
+      is_later_form_of: 関連エージェントの後身
     agent_relationship_family_relator:
-      is_related_with: エージェント関係関連の関係者
+      is_related_with: 家族関係あり
     agent_relationship_hierarchical_relator:
-      is_hierarchical_with: エージェント関係階層関係
+      is_hierarchical_with: 階層関係あり
     agent_relationship_identity_relator:
-      is_identified_with: リレーターで特定されたエージェントの関係
+      is_identified_with: 同一人物・団体
     agent_relationship_parentchild_relator:
-      is_child_of: 関連する子供
-      is_parent_of: 関連の親
+      is_child_of: 関連エージェントの子
+      is_parent_of: 関連エージェントの親
     agent_relationship_subordinatesuperior_relator:
-      is_subordinate_to: 関連する従属者
-      is_superior_of: 関連の優れている
+      is_subordinate_to: 関連エージェントの下位
+      is_superior_of: 関連エージェントの上位
     agent_relationship_temporal_relator:
-      is_temporal_with: エージェント関係時間的関係者
+      is_temporal_with: 時間的関係あり
     archival_record_level:
       class: クラス
       collection: コレクション
       file: ファイル
-      fonds: 資金
-      item: 項目
+      fonds: フォンド
+      item: アイテム
       otherlevel: その他のレベル
-      recordgrp: レコードグループ
+      recordgrp: 記録群
       series: シリーズ
-      subfonds: サブフォンズ
+      subfonds: サブフォンド
       subgrp: サブグループ
       subseries: サブシリーズ
     begin_date_standardized_type:
-      not_after: 後ではない
-      not_before: 前ではない
+      not_after: 以前（not after）
+      not_before: 以降（not before）
       standard: 標準
     cataloging_source:
       ccp: 共同目録作成プログラム
       nat_bib_agency: 全国書誌作成機関
-      natc: コーディングしようとしない
-      other: その他の
-      unknown: 道の
+      natc: コード化せず
+      other: その他
+      unknown: 不明
     collection_management_processing_priority:
-      high: 高い
-      low: 低い
+      high: 高
+      low: 低
       medium: 中
       none: 指定されていない
     collection_management_processing_status:
-      completed: 完了しました
+      completed: 完了
       in_progress: 進行中
-      new: 新しい
+      new: 新規
       none: 指定されていない
     container_location_status:
       current: 現在
-      previous: 前
+      previous: 以前
     container_type:
-      box: ボックス
+      box: 箱
       carton: カートン
-      case: 場合
+      case: ケース
       container: コンテナ
       folder: フォルダ
       frame: フレーム
       object: オブジェクト
       page: ページ
       reel: リール
-      volume: ボリューム
+      volume: 冊
     country_iso_3166:
       AD: アンドラ
       AE: アラブ首長国連邦
@@ -448,120 +448,120 @@ ja:
       ZM: ザンビア
       ZW: ジンバブエ
     date_calendar:
-      gregorian: グレゴリアン
+      gregorian: グレゴリオ暦
     date_certainty:
-      approximate: 近似
-      inferred: 推測された
+      approximate: おおよそ
+      inferred: 推定
       questionable: 疑わしい
     date_era:
-      ce: 本
+      ce: 西暦
     date_label:
       acquisition: 取得
       agent_relation: エージェント関係
       broadcast: 放送
       copyright: 著作権
-      creation: 創造
-      deaccession: デアクセス
-      digitized: デジタル化された
+      creation: 作成
+      deaccession: 除籍
+      digitized: デジタル化
       event: イベント
-      existence: 存在
-      issued: 発行済み
-      modified: 変更された
+      existence: 存続期間
+      issued: 発行
+      modified: 変更
       other: その他
-      publication: 出版物
-      record_keeping: 記録の保存
-      usage: 使用法
+      publication: 出版
+      record_keeping: 記録管理
+      usage: 使用期間
     date_role:
-      begin: ベギン
-      end: 終わり
+      begin: 開始
+      end: 終了
     date_standardized_type:
-      not_after: 後ではない
-      not_before: 以前ではない
+      not_after: 以前（not after）
+      not_before: 以降（not before）
       standard: 標準
     date_type:
-      bulk: バルク日付
-      expression: 式
-      inclusive: 包括日付
+      bulk: 主要年代
+      expression: 表記
+      inclusive: 包括年代
       range: 範囲
-      single: シングル
+      single: 単一
     date_type_structured:
       range: 範囲
-      single: シングル
+      single: 単一
     deaccession_scope:
-      part: 部
+      part: 一部
       whole: 全体
     digital_object_digital_object_type:
-      cartographic: 地図製作
-      mixed_materials: 混合材料
+      cartographic: 地図資料
+      mixed_materials: 混合資料
       moving_image: 動画
-      notated_music: ノミネート音楽
+      notated_music: 楽譜
       software_multimedia: ソフトウェア、マルチメディア
       sound_recording: 録音
-      sound_recording_musical: サウンドレコーディング（ミュージカル）
-      sound_recording_nonmusical: サウンドレコーディング（非音楽的）
+      sound_recording_musical: 録音（音楽）
+      sound_recording_nonmusical: 録音（音楽以外）
       still_image: 静止画
       text: テキスト
     digital_object_level:
       collection: コレクション
       image: 画像
-      work: 作業
+      work: 作品
     dimension_units:
       centimeters: センチメートル
-      feet: 足
+      feet: フィート
       inches: インチ
       meters: メートル
       millimeters: ミリメートル
       yards: ヤード
     end_date_standardized_type:
-      not_after: 後ではない
-      not_before: 前ではない
+      not_after: 以前（not after）
+      not_before: 以降（not before）
       standard: 標準
     event_event_type:
-      accession: 受託
-      accumulation: 累積
-      acknowledgement: 了承
-      acknowledgement_received: 受け取った謝辞
-      acknowledgement_sent: 送信された確認応答
-      agreement_received: 受領した契約
-      agreement_sent: 契約書が送信されました
+      accession: 受入
+      accumulation: 集積
+      acknowledgement: 受領通知
+      acknowledgement_received: 受領通知の受信
+      acknowledgement_sent: 受領通知の送付
+      agreement_received: 契約書の受領
+      agreement_sent: 契約書の送付
       agreement_signed: 契約書締結
-      appraisal: 審査
+      appraisal: 評価選別
       assessment: 評価
       capture: キャプチャー
-      cataloged: カタログ化された
+      cataloged: 目録作成済み
       collection: コレクション
-      component_transfer: コンポーネント転送
+      component_transfer: 構成要素の移管
       compression: 圧縮
       contribution: 貢献
       copyright_transfer: 著作権移転
-      custody_transfer: 保管転送
-      deaccession: デアクセス
-      decompression: 減圧
+      custody_transfer: 保管の移管
+      deaccession: 除籍
+      decompression: 解凍
       decryption: 復号化
       deletion: 削除
       digital_signature_validation: デジタル署名検証
-      fixity_check: 適合性チェック
-      ingestion: 摂取
+      fixity_check: 固定性検査
+      ingestion: 取り込み
       message_digest_calculation: メッセージダイジェスト計算
       migration: 移行
       normalization: 正規化
-      processed: 処理された
-      processing_completed: 処理が完了しました
-      processing_in_progress: 処理中の処理
-      processing_new: 新しい処理
+      processed: 整理済み
+      processing_completed: 処理完了
+      processing_in_progress: 処理中
+      processing_new: 処理（新規）
       processing_started: 処理開始
-      publication: 出版物
+      publication: 公開
       replication: 複製
       request: 要求
-      rights_transferred: 移転権
+      rights_transferred: 権利の移転
       validation: 検証
       virus_check: ウィルスチェック
     event_outcome:
       cancelled: キャンセル
-      fail: 失敗します
-      fulfilled: 完成品
-      partial pass: パーシャルパス
-      pass: パス
+      fail: 失敗
+      fulfilled: 完了
+      partial pass: 一部合格
+      pass: 合格
       pending: 保留中
     extent_extent_type:
       cassettes: カセット
@@ -576,9 +576,9 @@ ja:
       reels: リール
       sheets: シート
       terabytes: テラバイト
-      volumes: ボリューム
+      volumes: 冊
     extent_portion:
-      part: 部
+      part: 一部
       whole: 全体
     file_version_checksum_methods:
       md5: MD5
@@ -599,11 +599,11 @@ ja:
     file_version_use_statement:
       audio-clip: オーディオクリップ
       audio-master: オーディオマスター
-      audio-master-edited: オーディオマスター編集
+      audio-master-edited: オーディオマスター（編集済み）
       audio-service: オーディオサービス
       audio-streaming: オーディオストリーミング
       image-master: イメージマスター
-      image-master-edited: イメージマスター編集
+      image-master-edited: イメージマスター（編集済み）
       image-service: イメージサービス
       image-service-edited: イメージサービス編集済み
       image-thumbnail: 画像 - サムネイル
@@ -612,13 +612,13 @@ ja:
       text-data_definition: テキストデータ定義
       text-georeference: テキストジオリファレンス
       text-json: テキスト-JSON
-      text-ocr-edited: テキスト-Ocr編集
-      text-ocr-unedited: テキスト-Ocr-編集なし
-      text-tei-transcripted: テキスト転写されたテキスト
-      text-tei-translated: テキスト -  Tei-Translated
+      text-ocr-edited: テキスト-OCR（編集済み）
+      text-ocr-unedited: テキスト-OCR（未編集）
+      text-tei-transcripted: テキスト-TEI翻刻
+      text-tei-translated: テキスト-TEI翻訳
       video-clip: ビデオクリップ
       video-master: ビデオマスター
-      video-master-edited: ビデオマスター編集
+      video-master-edited: ビデオマスター（編集済み）
       video-service: ビデオサービス
       video-streaming: ビデオストリーミング
     file_version_xlink_actuate_attribute:
@@ -628,42 +628,42 @@ ja:
       other: その他
     file_version_xlink_show_attribute:
       embed: 埋め込み
-      new: 新しい
+      new: 新規
       none: なし
       other: その他
-      replace: 置き換える
+      replace: 置換
     gender:
       not_specified: 指定されていない
     government_agency_type:
       fed: 連邦/国家
       int_gov: 国際政府間
-      local: 地元
+      local: 地方
       multilocal: 多地域
-      multistate: 多状態
-      natc: コーディングしようとしない
+      multistate: 複数州
+      natc: コード化せず
       ngo: 非政府組織
-      other: その他の
-      provincial: 州、地方、領土、扶養家族など
-      sac: 自律型または半自律型コンポーネント
-      undetermined: 行政機関タイプ未定
-      unknown: 見出しが政府機関の場合は不明
+      other: その他
+      provincial: 州・省・準州・属領など
+      sac: 自治または半自治の構成体
+      undetermined: 行政機関の種類未定
+      unknown: 見出しが政府機関かどうか不明
     identifier_type:
-      lac: 図書館および公文書館カナダ
-      loc: 議会図書館
-      local: 地元
+      lac: カナダ国立図書館・文書館
+      loc: 米国議会図書館
+      local: ローカル
     instance_instance_type:
-      accession: 受託
+      accession: 受入
       audio: オーディオ
       books: 書籍
       computer_disks: コンピュータディスク
       digital_object: デジタルオブジェクト
       digital_object_link: デジタルオブジェクトリンク
-      graphic_materials: グラフィックス資料
+      graphic_materials: 画像資料
       maps: 地図
       microform: マイクロフォーム
-      mixed_materials: 混合材料
-      moving_images: 動画を見る
-      realia: Realia
+      mixed_materials: 混合資料
+      moving_images: 動画
+      realia: 実物資料
       text: テキスト
     language_iso639_2:
       aar: アファル語
@@ -685,7 +685,7 @@ ja:
       amh: アムハラ語
       ang: 古英語
       anp: アンギカ語
-      apa: アパッチ語族（英語版）
+      apa: アパッチ諸語
       ara: アラビア語
       arc: 公用アラム語
       arg: アラゴン語
@@ -755,7 +755,7 @@ ja:
       chv: チュヴァシ語
       chy: シャイアン語
       cmc: チャム諸語
-      cnr: モンテネグリン
+      cnr: モンテネグロ語
       cop: コプト語
       cor: コーンウォール語
       cos: コルシカ語
@@ -771,7 +771,7 @@ ja:
       dak: ダコタ語
       dan: デンマーク語
       dar: ダルギン語
-      day: ダヤク語（英語版）
+      day: 陸ダヤク諸語
       del: デラウェア語
       den: スレイビー語
       dgr: ドグリブ語
@@ -842,7 +842,7 @@ ja:
       heb: ヘブライ語
       her: ヘレロ語
       hil: ヒリガイノン語
-      him: ヒマーチャル語（英語版）
+      him: ヒマーチャル諸語；西パハール諸語
       hin: ヒンディー語
       hit: ヒッタイト語
       hmn: ミャオ語
@@ -902,7 +902,7 @@ ja:
       kpe: クペレ語
       krc: カラチャイ・バルカル語
       krl: カレリア語
-      kro: クル語（英語版）
+      kro: クル諸語
       kru: クルク語
       kua: クワニャマ語
       kum: クムク語
@@ -953,7 +953,7 @@ ja:
       mlt: マルタ語
       mnc: 満州語
       mni: マニプリ語
-      mno: マノボ諸語（英語版）
+      mno: マノボ諸語
       moh: モホーク語
       mon: モンゴル語
       mos: モシ語
@@ -999,7 +999,7 @@ ja:
       osa: オセージ語
       oss: オセット語
       ota: オスマン語
-      oto: オトミ語族（英語版）
+      oto: オトミ語族
       paa: パプア諸語
       pag: パンガシナン語
       pal: パフラヴィー語
@@ -1064,7 +1064,7 @@ ja:
       snk: ソニンケ語
       sog: ソグド語
       som: ソマリ語
-      son: ソンガイ語（英語版）
+      son: ソンガイ諸語
       sot: ソト語
       spa: スペイン語
       srd: サルデーニャ語
@@ -1127,7 +1127,7 @@ ja:
       vie: ベトナム語
       vol: ヴォラピュク
       vot: ヴォート語
-      wak: ワカシ語族（英語版）
+      wak: ワカシ語族
       wal: ウォライタ語
       war: ワライ語
       was: ワショ語
@@ -1145,188 +1145,188 @@ ja:
       zap: サポテク語
       zbl: ブリスシンボル
       zen: ゼナガ語
-      zgh: 標準的なモロッコのTamazight
+      zgh: 標準モロッコ・タマジグト語
       zha: チワン語
-      znd: ザンデ諸語（英語版）
+      znd: ザンデ諸語
       zul: ズールー語
       zun: ズニ語
-      zxx: 言語的でない内容
+      zxx: 言語的内容なし；該当なし
       zza: ザザキ語
     level_of_detail:
-      fully_established: 完全に確立された
+      fully_established: 完全レベル
       memorandum: メモ
-      natc: コーディングしようとしない
-      not_applicable: 適用できません
-      preliminary: 予備の
+      natc: コード化せず
+      not_applicable: 該当なし
+      preliminary: 予備レベル
       provisional: 仮
     linked_agent_archival_record_relators:
-      abr: Abridger
-      acp: アートコピーライター
+      abr: 要約者
+      acp: 美術品模写者
       act: 俳優
       adi: アートディレクター
-      adp: アダプタ
-      aft: アフターワード、コロフォンなどの作者
+      adp: 翻案者
+      aft: あとがき・奥付等の著者
       anl: アナリスト
       anm: アニメーター
       ann: 注釈者
       ant: 書誌的先例
-      ape: Appellee
+      ape: 被上訴人
       apl: 上訴人
-      app: 応募者
+      app: 申請者
       aqt: 引用やテキスト抄録の著者
       arc: 建築家
-      ard: アートディレクター
-      arr: アレンジャー
+      ard: 芸術監督
+      arr: 編曲者
       art: アーティスト
       asg: 譲受人
       asn: 関連する名前
-      ato: 車グラファ
+      ato: 自筆者
       att: 帰属名
       auc: 競売人
-      aud: ダイアログの作成者
-      aui: 紹介者など
+      aud: 台詞の著者
+      aui: 序論等の著者
       aus: 脚本などの作者
       aut: 著者
-      bdd: バインディングデザイナー
+      bdd: 装丁デザイナー
       bjd: ブックジャケットデザイナー
       bkd: ブックデザイナー
       bkp: ブックプロデューサー
-      blw: Blurbライター
-      bnd: バインダー
+      blw: 宣伝文執筆者
+      bnd: 製本者
       bpd: ブックプレートデザイナー
       brd: 放送者
       brl: 点字エンボスサー
       bsl: 書店
-      cas: キャスター
-      ccp: conceptor
+      cas: 鋳造者
+      ccp: 着想者
       chr: 振付師
       clb: コラボレーター
       cli: クライアント
-      cll: カリグラフィー
+      cll: 書家
       clr: カラリスト
-      clt: Collotyper
+      clt: コロタイプ製作者
       cmm: コメンテーター
       cmp: 作曲家
-      cmt: 作曲家
-      cnd: 導体
+      cmt: 植字工
+      cnd: 指揮者
       cng: 撮影監督
-      cns: 検閲
-      coe: コンテスト参加者
-      col: コレクタ
-      com: コンパイラ
-      con: 保守党
-      cor: コレクションレジストラ
-      cos: コンテスト
-      cot: コンテスト控訴人
-      cou: 裁判所が管轄する
+      cns: 検閲者
+      coe: 異議申立人-被上訴人
+      col: 収集者
+      com: 編纂者
+      con: 保存修復担当者
+      cor: コレクション登録担当者
+      cos: 異議申立人
+      cot: 異議申立人-上訴人
+      cou: 規則の適用を受ける裁判所
       cov: カバーデザイナー
-      cpc: 著作権者
-      cpe: 申立人 - 被告人
+      cpc: 著作権主張者
+      cpe: 申立人-被上訴人
       cph: 著作権者
       cpl: 申立人
       cpt: 申立人 - 上訴人
-      cre: クリエイター
-      crp: 特派員
-      crr: コレクター
-      crt: 裁判所の記者
+      cre: 作成者
+      crp: 通信者
+      crr: 訂正者
+      crt: 法廷速記者
       csl: コンサルタント
       csp: プロジェクトのコンサルタント
       cst: 衣装デザイナー
-      ctb: 貢献者
-      cte: コンテスト被告人
-      ctg: カートグラファー
+      ctb: 寄与者
+      cte: 被異議申立人-被上訴人
+      ctg: 地図製作者
       ctr: 請負業者
-      cts: Contestee
-      ctt: コンテスト控訴人
+      cts: 被異議申立人
+      ctt: 被異議申立人-上訴人
       cur: 展覧会のキュレーター
       cwt: 文章の解説者
       dbp: 配布場所
       dfd: 被告
-      dfe: 被告人 - 被告人
+      dfe: 被告-被上訴人
       dft: 被告 - 上訴人
-      dgg: 学位取得者
-      dgs: 学位監督
-      dis: ディザータン
+      dgg: 学位授与者
+      dgs: 学位論文指導者
+      dis: 学位論文執筆者
       dln: 描写者
       dnc: ダンサー
-      dnr: ドナー
-      dpc: 描かれた
-      dpt: 預金者
-      drm: 下書き
+      dnr: 寄贈者
+      dpc: 被描写者
+      dpt: 寄託者
+      drm: 製図者
       drt: ディレクター
       dsr: デザイナー
       dst: ディストリビューター
       dtc: データ寄稿者
-      dte: Dedicatee
+      dte: 被献呈者
       dtm: データ管理者
-      dto: 捧げます
-      dub: 嫌な著者
-      edc: 編集の編集者
+      dto: 献呈者
+      dub: 著者と疑われる者
+      edc: 編纂物の編者
       edm: 動画作品の編集者
       edt: 編集者
-      egr: 彫版
-      elg: 電気工事
-      elt: Electroperper
+      egr: 彫版師
+      elg: 電気技師
+      elt: 電気製版者
       eng: エンジニア
-      enj: 管轄裁判所
+      enj: 制定法域
       etr: エッチャー
       evp: イベント会場
       exp: 鑑定人
-      fac: ファクシミリスト
-      fds: フィルムディストリビューター
+      fac: 複製製作者
+      fds: 映画配給者
       fld: フィールドディレクター
-      flm: フィルムエディタ
+      flm: 映画編集者
       fmd: 映画監督
-      fmk: 映画監督
-      fmo: 元オーナー
+      fmk: 映画製作者
+      fmo: 旧蔵者
       fmp: 映画制作者
-      fnd: ファインダー
-      fpy: 最初のパーティ
-      frg: 偽造します
+      fnd: 資金提供者
+      fpy: 第一当事者
+      frg: 偽造者
       gis: 地理情報スペシャリスト
       grt: グラフィック技術者
       his: ホスト機関
-      hnr: オノレー
+      hnr: 被顕彰者
       hst: ホスト
       ill: イラストレーター
-      ilu: イルミネータ
-      ins: 看護師
+      ilu: 彩飾者
+      ins: 書き入れ者
       inv: 発明者
       isb: 発行機関
-      itr: インストゥルメント
-      ive: 面接者
+      itr: 器楽奏者
+      ive: インタビュー対象者
       ivr: インタビュアー
       jud: 裁判官
-      jug: 管轄は管轄
+      jug: 管轄法域
       lbr: 研究室
-      lbt: リブレスト
+      lbt: 台本作家
       ldr: 研究所所長
-      led: 鉛
-      lee: リベリ - アプスレー
-      lel: リヴァーゼ
+      led: 主導者
+      lee: 被訴者-被上訴人
+      lel: 被訴者
       len: 貸し手
-      let: リベリ - 上訴人
+      let: 被訴者-上訴人
       lgd: 照明デザイナー
-      lie: ライバル・アプピーリー
-      lil: リブラント
-      lit: ライバル訴状
-      lsa: 風景建築家
+      lie: 訴状提出者-被上訴人
+      lil: 訴状提出者
+      lit: 訴状提出者-上訴人
+      lsa: ランドスケープアーキテクト
       lse: ライセンシー
       lso: ライセンサー
-      ltg: リソグラフィー
+      ltg: 石版画家
       lyr: 作詞家
-      mcp: 音楽のコピーライター
+      mcp: 写譜者
       mdc: メタデータ連絡先
-      med: 中
+      med: 霊媒
       mfp: 製造場所
       mfr: メーカー
-      mod: モデレータ
+      mod: モデレーター
       mon: モニター
-      mrb: マーブル
-      mrk: マークアップエディタ
+      mrb: マーブル紙製作者
+      mrk: マークアップエディター
       msd: ミュージカルディレクター
       mte: 金属彫刻家
-      mtk: 議事録
+      mtk: 議事録作成者
       mus: ミュージシャン
       nrt: ナレーター
       opn: 相手
@@ -1337,243 +1337,244 @@ ja:
       own: オーナー
       pan: パネリスト
       pat: パトロン
-      pbd: 出版社取締役
+      pbd: 出版責任者
       pbl: 出版社
       pdr: プロジェクトディレクター
       pfr: 校正者
       pht: 写真家
-      plt: 製版メーカー
-      pma: 代理店を許可する
+      plt: 製版者
+      pma: 許可機関
       pmn: プロダクションマネージャー
-      pop: プレートのプリンタ
-      ppm: 製紙会社
-      ppt: 人形
-      pra: 社長
+      pop: 図版印刷者
+      ppm: 製紙者
+      ppt: 人形遣い
+      pra: 主宰者
       prc: プロセス連絡先
-      prd: 個人生産
+      prd: 制作スタッフ
       pre: プレゼンター
       prf: 出演者
       prg: プログラマー
       prm: プリントメーカー
-      prn: 芸能事務所
+      prn: 制作会社
       pro: プロデューサー
-      prp: 生産場所
-      prs: 生産デザイナー
-      prt: プリンタ
-      prv: プロバイダ
+      prp: 制作地
+      prs: プロダクションデザイナー
+      prt: 印刷者
+      prv: プロバイダー
       pta: 特許出願人
-      pte: 原告 - 被告人
+      pte: 原告-被上訴人
       ptf: 原告
       pth: 特許権者
       ptt: 原告 - 上訴人
       pup: 出版場所
-      rbr: Rubricator
-      rcd: 記録主義者
+      rbr: 朱書者
+      rcd: 録音技師
       rce: 録音エンジニア
-      rcp: 受信者
+      rcp: 受取人
       rdd: ラジオディレクター
-      red: エディタ
+      red: エディター
       ren: レンダラー
       res: 研究者
-      rev: レビューア
+      rev: レビュアー
       rpc: ラジオプロデューサー
       rps: リポジトリ
       rpt: レポーター
       rpy: 責任者
-      rse: 被告人 - 被告人
-      rsg: レスタージャー
-      rsp: 被告
-      rsr: リストラ主義者
-      rst: 被告人 - 上訴人
+      rse: 被申立人-被上訴人
+      rsg: 再演出家
+      rsp: 被申立人
+      rsr: 修復者
+      rst: 被申立人-上訴人
       rth: 研究チーム長
       rtm: 研究チームメンバー
       sad: 科学顧問
-      sce: Scenarist
+      sce: シナリオ作家
       scl: 彫刻家
       scr: スクライブ
       sds: サウンドデザイナー
       sec: 秘書
       sgd: 舞台監督
-      sgn: 看板
+      sgn: 署名者
       sht: サポートホスト
       sll: 売り手
       sng: 歌手
-      spk: スピーカー
+      spk: 講演者
       spn: スポンサー
-      spy: 第二者
-      srv: サーベイ
+      spy: 第二当事者
+      srv: 測量者
       std: 舞台美術家
       stg: 設定
       stl: ストーリーテラー
       stm: 舞台主任
       stn: 標準団体
-      str: ステレオタイプ
-      tcd: 技術指導者
+      str: ステロ版製作者
+      tcd: 技術監督
       tch: 先生
-      ths: 論文アシスタント
+      ths: 論文指導教員
       tld: テレビディレクター
       tlp: テレビプロデューサー
-      trc: 転写器
+      trc: 書き起こし者
       trl: 翻訳者
-      tyd: タイプデザイナー
-      tyg: Typographer
+      tyd: 書体デザイナー
+      tyg: タイポグラファー
       uvp: 大学の場所
       vac: 声優
       vdg: ビデオ作家
       voc: ボーカリスト
-      wac: 追加された解説者の作家
-      wal: 追加された歌詞の作家
-      wam: 添付資料の作家
+      wac: 追加注釈の著者
+      wal: 追加歌詞の作者
+      wam: 付属資料の著者
       wat: 追加されたテキストの作者
-      wdc: 木こり
-      wde: 木彫機
-      win: 紹介者
+      wdc: 木版画家
+      wde: 木口木版画家
+      win: 序論の著者
       wit: 証人
       wpr: 序文の著者
-      wst: 補足的なテキストコンテンツの作家
+      wst: 補足テキストの著者
     linked_agent_event_roles:
       authorizer: 承認者
-      executing_program: プログラムの実行
-      implementer: 実装者
-      recipient: 受信者
-      requester: リクエスタ
-      transmitter: トランスミッタ
-      validator: バリデーター
+      executing_program: 実行プログラム
+      implementer: 実施者
+      recipient: 受領者
+      requester: 依頼者
+      transmitter: 送付者
+      validator: 検証者
     linked_agent_role:
-      creator: クリエイター
-      source: ソース
+      creator: 作成者
+      source: 出所
       subject: 件名
     linked_event_archival_record_roles:
       context: コンテキスト
       outcome: 結果
-      requested: 要求された
+      requested: 依頼された
       source: ソース
-      transfer: 転送
+      transfer: 移管
     location_function_type:
-      arrivals: 到着
+      arrivals: 受入
       av_materials: 視聴覚資料
       shared: 共有
     location_temporary:
-      conservation: 保全
-      exhibit: 示す
-      loan: ローン
-      reading_room: 読書室
+      conservation: 保存修復
+      exhibit: 展示
+      loan: 貸出
+      reading_room: 閲覧室
     maintenance_agent_type:
       human: 人間
       machine: 機械
     maintenance_event_type:
       cancelled: キャンセル
-      created: 作成した
+      created: 作成
       deleted: 削除済み
       derived: 派生
       revised: 改訂
-      updated: 更新しました
+      updated: 更新
     maintenance_status:
       cancelled_obsolete: キャンセル/廃止
       deleted: 削除済み
       deleted_replaced: 削除 - 置き換え
-      deleted_split: 削除済み分割
+      deleted_split: 削除（分割）
       derived: 派生
-      new: 新しい
-      revised_corrected: 修正/修正
+      new: 新規
+      revised_corrected: 改訂/訂正
       upgraded: アップグレード済み
+      deleted_merged: 削除（統合）
     modified_record:
-      missing_characters: 行方不明の文字
-      natc: コーディングしようとしない
+      missing_characters: 欠落文字あり
+      natc: コード化せず
       not_modified: 変更なし
       shortened: 短縮
     name_person_name_order:
-      direct: 直接
-      inverted: 間接
+      direct: 正順
+      inverted: 倒置
     name_rule:
-      aacr: 英米の目録規則
+      aacr: 英米目録規則
       ccr: 文化資源の目録
       dacs: アーカイブの記述：コンテンツ標準
-      isaar: 企業、個人、家族のための国際標準アーカイブ機関の記録
+      isaar: 団体・個人・家族に関するアーカイブズ典拠レコードの国際標準（ISAAR(CPF)）
       local: ローカルルール
-      rad: アーカイブの説明に関する規則
-      rda: リソースの説明とアクセス
+      rad: アーカイブズ記述規則（RAD）
+      rda: RDA（資源の記述とアクセス）
     name_source:
-      cash: カナダの科目見出し
-      ingest: 指定されていないソース
-      lcnaf: 議会図書館の権限ファイル
-      lcshac: 議会図書館の子供の主題見出し
+      cash: カナダ件名標目表
+      ingest: 取り込み元未指定
+      lcnaf: 米国議会図書館名称典拠ファイル
+      lcshac: 米国議会図書館児童件名標目表
       local: ローカルソース
-      nad: NAD / ARK II名前権限データベース
-      naf: NACO権限ファイル
-      nal: 国立農業図書館の見出し見出し
-      ram: RAMEAU機関ディレクトリ
-      rvm: 件名見出しディレクトリ
+      nad: NAD / ARK II 名称典拠データベース
+      naf: NACO典拠ファイル
+      nal: 米国国立農学図書館件名標目表
+      ram: RAMEAU典拠レパートリー
+      rvm: 件名標目レパートリー（RVM）
       snac: SNAC
-      ulan: アーティスト名の連合リスト
+      ulan: ゲッティ芸術家名統合リスト（ULAN）
     name_type:
-      differentiated: 差別化
-      natc: コーディングしようとしない
-      not_applicable: 適用できません
-      undifferentiated: 未分化
+      differentiated: 個別化
+      natc: コード化せず
+      not_applicable: 該当なし
+      undifferentiated: 未個別化
     note_index_item_type:
-      corporate_entity: コーポレートエンティティ
+      corporate_entity: 団体
       family: 家族
-      function: 関数
-      genre_form: ジャンル/フォーム
+      function: 機能
+      genre_form: ジャンル/形式
       geographic_name: 地理的名称
-      name: 名
+      name: 名称
       occupation: 職業
-      person: 人
+      person: 個人
       subject: 件名
       title: タイトル
     note_rights_statement_act_type:
       additional_information: 追加情報
       expiration: 有効期限
-      extension: 拡張
-      permissions: アクセス許可
+      extension: 延長
+      permissions: 許諾
       restrictions: 制限事項
     note_rights_statement_type:
       additional_information: 追加情報
-      materials: 材料
-      type_note: タイプノート
+      materials: 資料
+      type_note: 種類の注記
     _note_types: &note_type_definitions
-      abstract: 抽象
-      accessrestrict: アクセスを管理する条件
-      accruals: 見越額
-      acqinfo: 買収の即時出典
-      altformavail: コピーの存在と場所
-      appraisal: 審査
-      arrangement: 配置
+      abstract: 要約
+      accessrestrict: アクセス条件
+      accruals: 追加受入
+      acqinfo: 直接の入手元
+      altformavail: 複製の存在と所在
+      appraisal: 評価選別
+      arrangement: 編成
       bibliography: 参考文献
-      bioghist: 伝記/歴史
-      contact_note: お問い合わせ先
-      custodhist: 親権史
+      bioghist: 経歴/沿革
+      contact_note: 連絡先注記
+      custodhist: 保管履歴
       dimensions: 寸法
       edition: 版
-      extent: エクステント
+      extent: 数量
       fileplan: ファイルプラン
-      general_context: 一般的なコンテキスト
-      index: インデックス
-      inscription: 登録
-      langmaterial: 材料の言語
+      general_context: 全般的背景
+      index: 索引
+      inscription: 銘文
+      langmaterial: 資料の言語
       legal_status: 法的地位
       legalstatus: 法的地位
-      mandate: 委任
-      materialspec: 材料固有の詳細
-      note: 一般的な注意
+      mandate: 権限の根拠
+      materialspec: 資料固有の詳細
+      note: 一般注記
       note_bibliography: 参考文献
-      odd: 一般
-      originalsloc: オリジナルの存在と場所
-      otherfindaid: その他の助成金
-      physdesc: 身体的特徴
-      physfacet: 物理ファセット
-      physloc: 物理的な位置
+      odd: 一般注記
+      originalsloc: 原本の存在と所在
+      otherfindaid: その他の検索手段
+      physdesc: 形態的記述
+      physfacet: 形態的側面
+      physloc: 所在
       phystech: 物理的特性と技術的要件
-      prefercite: 好ましい引用
-      processinfo: 処理情報
+      prefercite: 推奨引用形式
+      processinfo: 整理情報
       relatedmaterial: 関連資料
       rights_statement: 権利
       scopecontent: 範囲と内容
-      separatedmaterial: 分離された材料
+      separatedmaterial: 分離資料
       structure_or_genealogy: 構造または系図
       summary: 概要
-      userestrict: 使用を管理する条件
+      userestrict: 利用条件
     note_digital_object_type:
       <<: *note_type_definitions
     note_langmaterial_type:
@@ -1586,137 +1587,137 @@ ja:
       assoc_country: 関連国
       other_assoc: その他
       place_of_birth: 出生地
-      place_of_death: 死の場所
-      residence: レジデンス
+      place_of_death: 死没地
+      residence: 居住地
     publication_status:
       approved: 承認済み
-      in_process: インプロセス
+      in_process: 処理中
     reference_evaluation:
-      natc: コーディングしようとしない
-      not_applicable: 適用できません
-      tr_consistent: 見出しと一致するトレース
-      tr_inconsistent: 見出しと矛盾する追跡
+      natc: コード化せず
+      not_applicable: 該当なし
+      tr_consistent: 参照形が標目と一致
+      tr_inconsistent: 参照形が標目と不一致
     resource_finding_aid_description_rules:
       aacr: 英米の目録規則
       cco: 文化オブジェクトの目録
       dacs: アーカイブの記述：コンテンツ標準
       isadg: アーカイブのための国際標準記述 - 一般
-      rad: アーカイブのルール
+      rad: アーカイブズ記述規則（RAD）
     resource_finding_aid_status:
-      completed: 完了しました
+      completed: 完了
       in_progress: 進行中
       under_revision: 改訂中
       unprocessed: 未処理
     resource_resource_type:
       collection: コレクション
-      papers: 論文
+      papers: 個人文書
       publications: 出版物
       records: 記録
     restriction_type:
       ColdStorageBrbl: 5  - その他
-      InProcessSpecColl: 4  - 制限付きインプロセス
-      RestrictedCurApprSpecColl: 2  - リポジトリによるアクセス制限の適用
-      RestrictedFragileSpecColl: 3  - 脆弱な制限
-      RestrictedSpecColl: 1  - ドナー/大学がアクセス制限を課す
+      InProcessSpecColl: 4 - 整理中のため制限
+      RestrictedCurApprSpecColl: 2 - リポジトリによる利用制限
+      RestrictedFragileSpecColl: 3 - 脆弱資料のため制限
+      RestrictedSpecColl: 1 - 寄贈者/大学による利用制限
     rights_statement_act_restriction:
       allow: 許可する
       conditional: 条件付き
       disallow: 禁止
     rights_statement_act_type:
       delete: 削除
-      disseminate: 普及
+      disseminate: 頒布
       migrate: 移行する
       modify: 変更
       replicate: 複製する
-      use: つかいます
+      use: 利用
     rights_statement_external_document_identifier_type:
       agrovoc: AGROVOC多言語農業シソーラス。 （ローマ：APIMONDIA）
       allmovie: AllMovie
-      allmusic: すべての音楽
-      allocine: Screenrush
+      allmusic: AllMusic
+      allocine: AlloCiné
       amnbo: アメリカ国立バイオグラフィーオンライン
       ansi: ANSIまたはANSI / NISO標準の米国規格協会および国家標準規格機関番号
-      artsy: 芸術
+      artsy: Artsy
       bdusc: 米国議会の経歴書（米国議会）
-      bfi: BFI  - イギリス映​​画協会
+      bfi: BFI - 英国映画協会
       bnfcg: BnF総合カタログ（パリ：国立図書館）
-      cantic: CANTIC（カタルーニャの名前とタイトルの当局のカタログ）（Biblioteca de Catalunya）
+      cantic: CANTIC（カタルーニャ名称・タイトル典拠目録）（カタルーニャ図書館）
       cgndb: カナダの地理名データベース（カナダ天然資源省）
       danacode: ダナコード（Bnei Brak、イスラエル：DANA Systems）
       datoses: datos.bne.es（スペイン国立図書館）
-      discogs: ディスコ
+      discogs: Discogs
       dkfilm: デンマーク映画研究所映画データベース
       doi: デジタルオブジェクト識別子
       ean: 国際品番
       eidr: EIDR：エンターテインメント識別子レジストリ
-      fast: テーマ用語のファセットアプリケーション（オハイオ州ダブリン：OCLC）
+      fast: FAST（Faceted Application of Subject Terminology）（オハイオ州ダブリン：OCLC）
       filmport: filmportal.de
-      findagr: 墓を見つける
+      findagr: Find a Grave
       freebase: Freebase
-      gec: グレート・カタロニア語百科事典
+      gec: カタルーニャ大百科事典
       geogndb: 地理名データベース
       geonames: ジオネームズ
-      gettytgn: Geographic Names OnlineのGetty Thesaurus（J. Paul Getty Trust）
-      gettyulan: ユニオン・リストのアーティスト名オンライン（J.ポール・ゲッティ・トラスト）
-      gnd: 共通標準ファイル（ライプチヒ、フランクフルト：ドイツ国立図書館）
-      gnis: 地理情報システム（GNIS）（米国地質調査所、地理的名称に関する委員会）
+      gettytgn: ゲッティ地名シソーラス・オンライン（J・ポール・ゲッティ・トラスト）
+      gettyulan: 芸術家名統合リスト・オンライン（J・ポール・ゲッティ・トラスト）
+      gnd: 共通典拠ファイル（ライプチヒ、フランクフルト：ドイツ国立図書館）
+      gnis: 地名情報システム（GNIS）（米国地質調査所、米国地名委員会）
       gtin-14: 世界貿易識別番号14（EAN / UCC-128またはITF-14）
       hdl: ハンドル
-      ibdb: IBDB  - インターネットブロードウェイデータベース
-      idref: IdRef：Sudoc当局のリポジトリ（高等教育機関（ABES）の書誌情報機関）
-      imdb: IMDb  - インターネット映画データベース
+      ibdb: IBDB - インターネットブロードウェイデータベース
+      idref: IdRef：Sudoc典拠参照（ABES：高等教育書誌機関）
+      imdb: IMDb - インターネット映画データベース
       isan: 国際標準オーディオビジュアルナンバー
-      isbn: 国際標準ブック番号
-      isbn-a: 国際標準書番号（実行可能なISBN）（国際DOI財団（IDF））
-      isbnre: ISBN（国際標準書番号）登録者エレメント
+      isbn: 国際標準図書番号
+      isbn-a: 国際標準図書番号（アクショナブルISBN）（国際DOI財団（IDF））
+      isbnre: ISBN（国際標準図書番号）出版者記号
       isil: ISIL（図書館および関連機関の国際標準識別子）
-      ismn: 国際標準曲番号
+      ismn: 国際標準楽譜番号
       isni: 国際標準名称識別子
       iso: 国際標準化機構ISO規格の番号
       isrc: 国際標準録音コード
-      issn: 国際標準シリアル番号
-      issn-l: 国際標準シリアル番号のリンク
-      issue-number: 録音の問題番号
+      issn: 国際標準逐次刊行物番号
+      issn-l: リンキングISSN
+      issue-number: 録音資料の発売番号
       istc: 国際標準テキストコード
-      iswc: 国際標準演奏コード
+      iswc: 国際標準音楽作品コード
       itar: ITAR（インポートサービスとオーソリティレジストリ）
-      kinopo: 映画検索= KinoPoisk
-      lccn: 議会管理番号ライブラリ
-      lcmd: 議会図書館部図書館（ワシントンDC：議会図書館）
-      lcmpt: 議会図書館音楽のための演奏シソーラス（LCMPT）（ワシントンDC：議会図書館）
+      kinopo: KinoPoisk（КиноПоиск）
+      lccn: 米国議会図書館管理番号（LCCN）
+      lcmd: 米国議会図書館手稿部
+      lcmpt: 米国議会図書館音楽演奏手段シソーラス（LCMPT）
       libaus: 図書館オーストラリア（オーストラリア国立図書館）
       local: ローカルに定義された識別子
       matrix-number: サウンドレコーディングマトリックス番号
-      moma: 現代美術館（ニューヨーク：近代美術館）
+      moma: ニューヨーク近代美術館（MoMA）
       munzing: ムンジンジャー（Munzinger Archiv）
       music-plate: 出版社の音楽プレート番号
       music-publisher: 出版社が割り当てた音楽番号
       musicb: MusicBrainz
-      natgazfid: 米国の全米地名告知機能名識別子
+      natgazfid: 米国地名辞典地物名識別子
       nga: ナショナル・ギャラリー・オブ・アート（ワシントンDC：ナショナル・ギャラリー・オブ・アート）
       nipo: 公式出版物の識別番号
       nndb: NNDB（有名人データベース）
       npg: ナショナル・ポートレート・ギャラリー（ロンドン：国立ポートレート・ギャラリー）
       odnb: オックスフォード国立バイオグラフィー辞書（オックスフォード大学出版）
       opensm: OpenStreetMap
-      orcid: 公開研究者と寄稿者ID
+      orcid: ORCID（Open Researcher and Contributor ID）
       oxforddnb: Oxford Biography Index
       porthu: PORT.hu
-      rbmsbt: RBMS制御語彙：バインディング用語（レアブックと原稿セクション、大学図書館協会）
-      rbmsgt: RBMS制御語彙：ジャンル用語（レアブックと原稿部門、大学図書館協会）
-      rbmspe: RBMS制御語彙：出生率の証拠（レアブックと原稿部、大学図書館協会）
-      rbmsppe: RBMS制御語彙：印刷と出版の証拠（レアブックと原稿部、大学図書館協会）
-      rbmspt: RBMS制御語彙：論文用語（貴重書と学術図書館協会）
-      rbmsrd: RBMS制御語彙：関係設計者（レアブックと原稿部、大学図書館協会）
-      rbmste: RBMS制御語彙：タイプエビデンス（レアブックと写本セクション、大学図書館協会）
+      rbmsbt: RBMS統制語彙：製本用語（大学・研究図書館協会 稀覯書・手稿部会）
+      rbmsgt: RBMS統制語彙：ジャンル用語（大学・研究図書館協会 稀覯書・手稿部会）
+      rbmspe: RBMS統制語彙：来歴の証拠（ACRL稀覯書・手稿部会）
+      rbmsppe: RBMS統制語彙：印刷・出版の証拠（大学・研究図書館協会 稀覯書・手稿部会）
+      rbmspt: RBMS統制語彙：用紙用語（ACRL稀覯書・手稿部会）
+      rbmsrd: RBMS統制語彙：関係指示子（ACRL稀覯書・手稿部会）
+      rbmste: RBMS統制語彙：活字の証拠（ACRL稀覯書・手稿部会）
       rid: ResearcherID（トムソン・ロイター）
       rkda: RKDartists＆（ハーグ：オランダ美術史研究所）
       saam: スミソニアンアメリカ美術館（ワシントンDC：スミソニアン協会）
-      scholaru: 学者の宇宙
+      scholaru: Scholar Universe
       scope: 範囲
       scopus: Scopus著者識別子
-      sici: シリアルアイテムとコントリビュータ識別子
-      spotify: Spotifyは
+      sici: 逐次刊行物アイテム・構成部分識別子（SICI）
+      spotify: Spotify
       sprfbsb: スポーツリファレンス：野球
       sprfbsk: スポーツリファレンス：バスケットボール
       sprfcbb: スポーツ参照：カレッジバスケットボール
@@ -1728,21 +1729,21 @@ ja:
       strn: 標準テクニカルレポート番号
       svfilm: スウェーデン映画データベース
       tatearid: Tate Artist Identifier
-      theatr: 演劇
+      theatr: Theatricalia
       trove: Trove（オーストラリア国立図書館）
       upc: ユニバーサル商品コード
       uri: ユニフォームリソース識別子
       urn: 統一リソース名
-      viaf: 仮想国際機関ファイル番号
+      viaf: バーチャル国際典拠ファイル番号
       videorecording-identifier: パブリッシャー割り当ての録画番号
-      wikidata: ウィキダータ（ウィキメディア財団）
-      wndla: Web NDL Authorities（東京：国会図書館（NDL））
+      wikidata: ウィキデータ（ウィキメディア財団）
+      wndla: Web NDL Authorities（東京：国立国会図書館（NDL））
     rights_statement_ip_status:
-      copyrighted: 著作権
+      copyrighted: 著作権あり
       public_domain: パブリックドメイン
-      unknown: 未知の
+      unknown: 不明
     rights_statement_other_rights_basis:
-      donor: ドナー
+      donor: 寄贈者
       policy: ポリシー
     rights_statement_rights_type:
       copyright: 著作権
@@ -1750,244 +1751,247 @@ ja:
       other: その他
       statute: 法律
     romanization:
-      conv_rom_cat_agency: 目録作成代理店の言語での慣用のローマ字化または慣用名の形式
+      conv_rom_cat_agency: 目録作成機関の言語での慣用ローマ字形または慣用形
       int_std: 国際標準
       local_standard: 地域の基準
       nat_std: 国家規格
       nl_assoc_std: 国立図書館協会基準
-      nl_bib_agency_std: 国立図書館または書誌作成会社の規格
-      not_applicable: 適用できません
+      nl_bib_agency_std: 国立図書館または書誌作成機関の規格
+      not_applicable: 該当なし
       unknown_standard: 由来不明の規格
     script_iso15924:
-      Adlm: Adlam
-      Afak: Afaka
-      Aghb: Caucasian Albanian
-      Ahom: Ahom, Tai Ahom
-      Arab: Arabic
-      Aran: Arabic (Nastaliq variant)
-      Armi: Imperial Aramaic
-      Armn: Armenian
-      Avst: Avestan
-      Bali: Balinese
-      Bamu: Bamum
-      Bass: Bassa Vah
-      Batk: Batak
-      Beng: Bengali (Bangla)
-      Bhks: Bhaiksuki
-      Blis: Blissymbols
-      Bopo: Bopomofo
-      Brah: Brahmi
-      Brai: Braille
-      Bugi: Buginese
-      Buhd: Buhid
-      Cakm: Chakma
-      Cans: Unified Canadian Aboriginal Syllabics
-      Cari: Carian
-      Cham: Cham
-      Cher: Cherokee
-      Cirt: Cirth
-      Copt: Coptic
-      Cpmn: Cypro-Minoan
-      Cprt: Cypriot syllabary
-      Cyrl: Cyrillic
-      Cyrs: Cyrillic (Old Church Slavonic variant)
-      Deva: Devanagari (Nagari)
-      Dogr: Dogra
-      Dsrt: Deseret (Mormon)
-      Dupl: Duployan shorthand, Duployan stenography
-      Egyd: Egyptian demotic
-      Egyh: Egyptian hieratic
-      Egyp: Egyptian hieroglyphs
-      Elba: Elbasan
-      Elym: Elymaic
-      Ethi: Ethiopic (Geʻez)
-      Geok: Khutsuri (Asomtavruli and Nuskhuri)
-      Geor: Georgian (Mkhedruli and Mtavruli)
-      Glag: Glagolitic
-      Gong: Gunjala Gondi
-      Gonm: Masaram Gondi
-      Goth: Gothic
-      Gran: Grantha
-      Grek: Greek
-      Gujr: Gujarati
-      Guru: Gurmukhi
-      Hanb: Han with Bopomofo (alias for Han + Bopomofo)
-      Hang: Hangul (Hangŭl, Hangeul)
-      Hani: Han (Hanzi, Kanji, Hanja)
-      Hano: Hanunoo (Hanunóo)
-      Hans: Han (Simplified variant)
-      Hant: Han (Traditional variant)
-      Hatr: Hatran
-      Hebr: Hebrew
-      Hira: Hiragana
-      Hluw: Anatolian Hieroglyphs (Luwian Hieroglyphs, Hittite Hieroglyphs)
-      Hmng: Pahawh Hmong
-      Hmnp: Nyiakeng Puachue Hmong
-      Hrkt: Japanese syllabaries (alias for Hiragana + Katakana)
-      Hung: Old Hungarian (Hungarian Runic)
-      Inds: Indus (Harappan)
-      Ital: Old Italic (Etruscan, Oscan, etc.)
-      Jamo: Jamo (alias for Jamo subset of Hangul)
-      Java: Javanese
-      Jpan: Japanese (alias for Han + Hiragana + Katakana)
-      Jurc: Jurchen
-      Kali: Kayah Li
-      Kana: Katakana
-      Khar: Kharoshthi
-      Khmr: Khmer
-      Khoj: Khojki
-      Kitl: Khitan large script
-      Kits: Khitan small script
-      Knda: Kannada
-      Kore: Korean (alias for Hangul + Han)
-      Kpel: Kpelle
-      Kthi: Kaithi
-      Lana: Tai Tham (Lanna)
-      Laoo: Lao
-      Latf: Latin (Fraktur variant)
-      Latg: Latin (Gaelic variant)
-      Latn: Latin
-      Leke: Leke
-      Lepc: Lepcha (Róng)
-      Limb: Limbu
-      Lina: Linear A
-      Linb: Linear B
-      Lisu: Lisu (Fraser)
-      Loma: Loma
-      Lyci: Lycian
-      Lydi: Lydian
-      Mahj: Mahajani
-      Maka: Makasar
-      Mand: Mandaic, Mandaean
-      Mani: Manichaean
-      Marc: Marchen
-      Maya: Mayan hieroglyphs
-      Medf: Medefaidrin (Oberi Okaime, Oberi Ɔkaimɛ)
-      Mend: Mende Kikakui
-      Merc: Meroitic Cursive
-      Mero: Meroitic Hieroglyphs
-      Mlym: Malayalam
-      Modi: Modi, Moḍī
-      Mong: Mongolian
-      Moon: Moon (Moon code, Moon script, Moon type)
-      Mroo: Mro, Mru
-      Mtei: Meitei Mayek (Meithei, Meetei)
-      Mult: Multani
-      Mymr: Myanmar (Burmese)
-      Nand: Nandinagari
-      Narb: Old North Arabian (Ancient North Arabian)
-      Nbat: Nabataean
-      Newa: Newa, Newar, Newari, Nepāla lipi
-      Nkdb: Naxi Dongba (na²¹ɕi³³ to³³ba²¹, Nakhi Tomba)
-      Nkgb: Naxi Geba (na²¹ɕi³³ gʌ²¹ba²¹, 'Na-'Khi ²Ggŏ-¹baw, Nakhi Geba)
-      Nkoo: N’Ko
-      Nshu: Nüshu
-      Ogam: Ogham
-      Olck: Ol Chiki (Ol Cemet’, Ol, Santali)
-      Orkh: Old Turkic, Orkhon Runic
-      Orya: Oriya (Odia)
-      Osge: Osage
-      Osma: Osmanya
-      Palm: Palmyrene
-      Pauc: Pau Cin Hau
-      Perm: Old Permic
-      Phag: Phags-pa
-      Phli: Inscriptional Pahlavi
-      Phlp: Psalter Pahlavi
-      Phlv: Book Pahlavi
-      Phnx: Phoenician
-      Piqd: Klingon (KLI pIqaD)
-      Plrd: Miao (Pollard)
-      Prti: Inscriptional Parthian
-      Qaaa: Reserved for private use (start)
-      Qabx: Reserved for private use (end)
-      Rjng: Rejang (Redjang, Kaganga)
-      Rohg: Hanifi Rohingya
-      Roro: Rongorongo
-      Runr: Runic
-      Samr: Samaritan
-      Sara: Sarati
-      Sarb: Old South Arabian
-      Saur: Saurashtra
-      Sgnw: SignWriting
-      Shaw: Shavian (Shaw)
-      Shrd: Sharada, Śāradā
-      Shui: Shuishu
-      Sidd: Siddham, Siddhaṃ, Siddhamātṛkā
-      Sind: Khudawadi, Sindhi
-      Sinh: Sinhala
-      Sogd: Sogdian
-      Sogo: Old Sogdian
-      Sora: Sora Sompeng
-      Soyo: Soyombo
-      Sund: Sundanese
-      Sylo: Syloti Nagri
-      Syrc: Syriac
-      Syre: Syriac (Estrangelo variant)
-      Syrj: Syriac (Western variant)
-      Syrn: Syriac (Eastern variant)
-      Tagb: Tagbanwa
-      Takr: Takri, Ṭākrī, Ṭāṅkrī
-      Tale: Tai Le
-      Talu: New Tai Lue
-      Taml: Tamil
-      Tang: Tangut
-      Tavt: Tai Viet
-      Telu: Telugu
-      Teng: Tengwar
-      Tfng: Tifinagh (Berber)
-      Tglg: Tagalog (Baybayin, Alibata)
-      Thaa: Thaana
-      Thai: Thai
-      Tibt: Tibetan
-      Tirh: Tirhuta
-      Ugar: Ugaritic
-      Vaii: Vai
-      Visp: Visible Speech
-      Wara: Warang Citi (Varang Kshiti)
-      Wcho: Wancho
-      Wole: Woleai
-      Xpeo: Old Persian
-      Xsux: Cuneiform, Sumero-Akkadian
-      Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square 
-        Script)
-      Zinh: Code for inherited script
-      Zmth: Mathematical notation
-      Zsye: Symbols (Emoji variant)
-      Zsym: Symbols
-      Zxxx: Code for unwritten documents
-      Zyyy: Code for undetermined script
-      Zzzz: Code for uncoded script
+      Adlm: アドラム文字
+      Afak: アファカ文字
+      Aghb: カフカス・アルバニア文字
+      Ahom: アーホム文字
+      Arab: アラビア文字
+      Aran: アラビア文字（ナスタアリーク体）
+      Armi: 帝国アラム文字
+      Armn: アルメニア文字
+      Avst: アヴェスター文字
+      Bali: バリ文字
+      Bamu: バムン文字
+      Bass: バサ・ヴァー文字
+      Batk: バタク文字
+      Beng: ベンガル文字
+      Bhks: バイクシュキー文字
+      Blis: ブリスシンボル
+      Bopo: 注音字母
+      Brah: ブラーフミー文字
+      Brai: 点字
+      Bugi: ブギス文字
+      Buhd: ブヒッド文字
+      Cakm: チャクマ文字
+      Cans: 統合カナダ先住民音節文字
+      Cari: カリア文字
+      Cham: チャム文字
+      Cher: チェロキー文字
+      Cirt: キアス文字
+      Copt: コプト文字
+      Cpmn: キプロ・ミノア文字
+      Cprt: キプロス音節文字
+      Cyrl: キリル文字
+      Cyrs: キリル文字（古代教会スラヴ語異体）
+      Deva: デーヴァナーガリー文字
+      Dogr: ドーグラー文字
+      Dsrt: デザレット文字（モルモン）
+      Dupl: デュプロワイエ式速記
+      Egyd: エジプト民衆文字
+      Egyh: エジプト神官文字
+      Egyp: エジプト聖刻文字
+      Elba: エルバサン文字
+      Elym: エリマイス文字
+      Ethi: エチオピア文字（ゲエズ文字）
+      Geok: フツリ文字（アソムタヴルリ及びヌスフリ）
+      Geor: ジョージア文字（ムヘドルリ及びムタヴルリ）
+      Glag: グラゴル文字
+      Gong: グンジャラ・ゴーンディー文字
+      Gonm: マサラム・ゴーンディー文字
+      Goth: ゴート文字
+      Gran: グランタ文字
+      Grek: ギリシア文字
+      Gujr: グジャラート文字
+      Guru: グルムキー文字
+      Hanb: 漢字と注音字母
+      Hang: ハングル
+      Hani: 漢字
+      Hano: ハヌノオ文字
+      Hans: 漢字（簡体字）
+      Hant: 漢字（繁体字）
+      Hatr: ハトラ文字
+      Hebr: ヘブライ文字
+      Hira: 平仮名
+      Hluw: アナトリア象形文字（ルウィ象形文字、ヒッタイト象形文字）
+      Hmng: パハウ・フモン文字
+      Hmnp: ニアケン・プアチュエ・フモン文字
+      Hrkt: 仮名（平仮名と片仮名）
+      Hung: 古代ハンガリー文字
+      Inds: インダス文字
+      Ital: 古イタリア文字（エトルリア文字、オスク文字など）
+      Jamo: 字母（ハングルの字母）
+      Java: ジャワ文字
+      Jpan: 日本語の文字（漢字・平仮名・片仮名）
+      Jurc: 女真文字
+      Kali: カヤー・リー文字
+      Kana: 片仮名
+      Khar: カローシュティー文字
+      Khmr: クメール文字
+      Khoj: ホージャ文字
+      Kitl: 契丹大字
+      Kits: 契丹小字
+      Knda: カンナダ文字
+      Kore: 韓国語・朝鮮語の文字（ハングルと漢字）
+      Kpel: クペレ文字
+      Kthi: カイティー文字
+      Lana: タイ・タム文字（ラーンナー）
+      Laoo: ラーオ文字
+      Latf: ラテン文字（フラクトゥール体）
+      Latg: ラテン文字（ゲール体）
+      Latn: ラテン文字
+      Leke: レケ文字
+      Lepc: レプチャ文字
+      Limb: リンブ文字
+      Lina: 線文字A
+      Linb: 線文字B
+      Lisu: リス文字（フレーザー文字）
+      Loma: ロマ文字
+      Lyci: リュキア文字
+      Lydi: リュディア文字
+      Mahj: マハージャニー文字
+      Maka: マカッサル文字
+      Mand: マンダ文字
+      Mani: マニ文字
+      Marc: マルチェン文字
+      Maya: マヤ文字
+      Medf: メデファイドリン文字
+      Mend: メンデ・キカクイ文字
+      Merc: メロエ草書体
+      Mero: メロエ聖刻文字
+      Mlym: マラヤーラム文字
+      Modi: モーディー文字
+      Mong: モンゴル文字
+      Moon: ムーン式点字（ムーン文字）
+      Mroo: ムロ文字
+      Mtei: メイテイ文字
+      Mult: ムルターニー文字
+      Mymr: ミャンマー文字（ビルマ文字）
+      Nand: ナンディナーガリー文字
+      Narb: 古代北アラビア文字
+      Nbat: ナバテア文字
+      Newa: ネワール文字
+      Nkdb: ナシ・トンバ文字
+      Nkgb: ナシ・ゲバ文字
+      Nkoo: ンコ文字
+      Nshu: 女書
+      Ogam: オガム文字
+      Olck: オル・チキ文字
+      Orkh: 古テュルク文字（オルホン突厥文字）
+      Orya: オリヤー文字（オディア文字）
+      Osge: オセージ文字
+      Osma: オスマニヤ文字
+      Palm: パルミラ文字
+      Pauc: パウ・チン・ハウ文字
+      Perm: 古ペルミ文字
+      Phag: パスパ文字
+      Phli: 碑文パフラヴィー文字
+      Phlp: 詩篇パフラヴィー文字
+      Phlv: 書籍パフラヴィー文字
+      Phnx: フェニキア文字
+      Piqd: クリンゴン文字（pIqaD）
+      Plrd: ミャオ文字（ポラード文字）
+      Prti: 碑文パルティア文字
+      Qaaa: 私用（開始）
+      Qabx: 私用（終了）
+      Rjng: レジャン文字
+      Rohg: ハニーフィー・ロヒンギャ文字
+      Roro: ロンゴロンゴ文字
+      Runr: ルーン文字
+      Samr: サマリア文字
+      Sara: サラティ文字
+      Sarb: 古代南アラビア文字
+      Saur: サウラーシュトラ文字
+      Sgnw: サインライティング
+      Shaw: ショー文字
+      Shrd: シャーラダー文字
+      Shui: 水書
+      Sidd: 悉曇文字
+      Sind: クダーワーディー文字（シンド文字）
+      Sinh: シンハラ文字
+      Sogd: ソグド文字
+      Sogo: 古ソグド文字
+      Sora: ソラ・ソンペン文字
+      Soyo: ソヨンボ文字
+      Sund: スンダ文字
+      Sylo: シロティ・ナグリ文字
+      Syrc: シリア文字
+      Syre: シリア文字（エストランゲロ体）
+      Syrj: シリア文字（西方体）
+      Syrn: シリア文字（東方体）
+      Tagb: タグバヌワ文字
+      Takr: タークリー文字
+      Tale: タイ・ロ文字
+      Talu: 新タイ・ルー文字
+      Taml: タミル文字
+      Tang: 西夏文字
+      Tavt: タイ・ヴィエト文字
+      Telu: テルグ文字
+      Teng: テングワール
+      Tfng: ティフィナグ文字（ベルベル）
+      Tglg: タガログ文字（バイバイン）
+      Thaa: ターナ文字
+      Thai: タイ文字
+      Tibt: チベット文字
+      Tirh: ティルフータ文字
+      Ugar: ウガリット文字
+      Vaii: ヴァイ文字
+      Visp: 視話法
+      Wara: ワラング・クシティ文字
+      Wcho: ワンチョ文字
+      Wole: ウォレアイ文字
+      Xpeo: 古代ペルシア文字
+      Xsux: 楔形文字（シュメール・アッカド）
+      Yiii: 彝文字
+      Zanb: ザナバザル方形文字
+      Zinh: 継承文字用コード
+      Zmth: 数学記号
+      Zsye: 記号（絵文字）
+      Zsym: 記号
+      Zxxx: 書かれていない資料用コード
+      Zyyy: 未確定の文字用コード
+      Zzzz: コード未登録の文字
     source:
-      local: 地元
+      local: ローカル
       naf: NAF
       snac: SNAC
     subject_source:
-      aat: アート＆アーキテクチャシソーラス
-      cash: カナダの科目見出し
+      aat: 美術・建築シソーラス（AAT）
+      cash: カナダ件名標目表
       gmgpc: TGM II、ジャンルおよび物理的特性用語
-      ingest: 指定されていないソース
-      lcgft: 議会図書館のジャンル/フォーム利用規約
-      lcsh: 議会図書館の見出し見出し
-      lcshac: 議会図書館の子供の主題見出し
+      ingest: 取り込み元未指定
+      lcgft: 米国議会図書館ジャンル/形式用語
+      lcsh: 米国議会図書館件名標目表（LCSH）
+      lcshac: 米国議会図書館児童・青少年件名標目表
       local: ローカルソース
-      mesh: 医療対象見出し
-      nal: 国立農業図書館の見出し見出し
-      ram: RAMEAU機関ディレクトリ
-      rbgenr: ジャンル用語：レアブックや特別コレクションのカタログ化に使用するシソーラス
-      rvm: 件名見出しディレクトリ
-      tgn: Geographic Namesのゲットシソーラス
+      mesh: 医学件名標目表（MeSH）
+      nal: 米国国立農学図書館件名典拠ファイル
+      ram: RAMEAU典拠レパートリー
+      rbgenr: ジャンル用語：稀覯書・特殊コレクション目録用シソーラス
+      rvm: 件名標目レパートリー（RVM）
+      tgn: ゲッティ地名シソーラス（TGN）
+      not_applicable: 該当なし
+      not_specified: 出典の指定なし
+      other: その他
+      sears: シアーズ件名標目表
     subject_term_type:
       cultural_context: 文化的背景
-      function: 関数
-      genre_form: ジャンル/フォーム
-      geographic: 地理学
+      function: 機能
+      genre_form: ジャンル/形式
+      geographic: 地名
       occupation: 職業
-      style_period: スタイル/期間
-      technique: 技術
-      temporal: 時間的
-      topical: 話題の
+      style_period: 様式/時代
+      technique: 技法
+      temporal: 時代
+      topical: 主題
       uniform_title: 統一タイトル
     transliteration:
       ala-lc: ALA-LCローマ字表記テーブル
@@ -2000,16 +2004,10 @@ ja:
     user_defined_enum_4:
       novalue: 値が定義されていない
     metadata_license:
-      no_derivatives: このレコードは、Attribution-NoDerivatives 4.0 International 
-        CreativeCommonsライセンスの下で利用可能になります。
-      non_commercial_share_a_like: このレコードは、Attribution-NonCommercial-ShareAlike 4.0 International 
-        CreativeCommonsライセンスの下で利用可能になります。
-      other: 不特定またはカスタムライセンス。
-      public_domain: このレコードは、Universal 1.0 Public Domain Dedication 
-        CreativeCommonsライセンスの下で利用可能になります。
-      non_commercial: このレコードは、Attribution-NonCommercial 4.0 International 
-        CreativeCommonsライセンスの下で利用可能になります。
-      non_commercial_no_derivatives: このレコードは、Attribution-NonCommercial-NoDerivatives 4.0 
-        International CreativeCommonsライセンスの下で利用可能になります。
-      share_a_like: このレコードは、Attribution-ShareAlike 4.0 International 
-        CreativeCommonsライセンスの下で利用可能になります。
+      no_derivatives: このレコードはクリエイティブ・コモンズ 表示 - 改変禁止 4.0 国際 ライセンスの下で提供されています。
+      non_commercial_share_a_like: このレコードはクリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際 ライセンスの下で提供されています。
+      other: 未指定または独自のライセンス
+      public_domain: このレコードは、クリエイティブ・コモンズ CC0 1.0 全世界 パブリック・ドメイン提供のもとで利用できます。
+      non_commercial: このレコードはクリエイティブ・コモンズ 表示 - 非営利 4.0 国際 ライセンスの下で提供されています。
+      non_commercial_no_derivatives: このレコードはクリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンスの下で提供されています。
+      share_a_like: このレコードはクリエイティブ・コモンズ 表示 - 継承 4.0 国際 ライセンスの下で提供されています。

@@ -341,7 +341,7 @@
                 select_token($(next_token.get(0)));
               }
             } else {
-              var dropdown_item = null;
+              var dropdown_item;
 
               if (event.keyCode === KEY.DOWN || event.keyCode === KEY.RIGHT) {
                 dropdown_item = $(selected_dropdown_item).next();

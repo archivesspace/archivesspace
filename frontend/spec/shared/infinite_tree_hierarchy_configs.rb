@@ -101,6 +101,7 @@ module InfiniteTreeHierarchyConfigs
   }.freeze
 
   REORDER = {
+    resources: RESOURCE,
     digital_objects: DIGITAL_OBJECT,
     classifications: CLASSIFICATION
   }.freeze

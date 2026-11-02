@@ -112,6 +112,57 @@ describe ArchivalObjectsController, type: :controller do
       end
     end
 
+    it "only resolves relationships used by the duplicate form" do
+      archival_object_model = JSONModel(:archival_object)
+      expected_resolves = [
+        "resource",
+        "parent",
+        "subjects",
+        "linked_agents",
+        "accession_links",
+      ] + Plugins.fields_to_resolve
+
+      expect(archival_object_model).to receive(:find)
+        .with(archival_object.id.to_s, { "resolve[]" => expected_resolves })
+        .and_call_original
+
+      get :new, params: { resource_id: resource.id,
+                          duplicate_from_archival_object: { uri: archival_object.uri } }
+
+      expect(response.status).to eq 200
+    end
+
+    it "preserves relationships rendered by the duplicate form" do
+      linked_subject = create(:json_subject)
+      agent = create(:json_agent_person)
+      linked_accession = create(:json_accession)
+      source = create(
+        :json_archival_object,
+        resource: { "ref" => resource.uri },
+        subjects: [{ "ref" => linked_subject.uri }],
+        linked_agents: [{ "ref" => agent.uri, "role" => "creator" }],
+        accession_links: [{ "ref" => linked_accession.uri }]
+      )
+
+      get :new, params: { resource_id: resource.id,
+                          duplicate_from_archival_object: { uri: source.uri } }
+
+      result = Capybara.string(response.body)
+
+      aggregate_failures do
+        expect(response.status).to eq 200
+        expect(
+          result.find("input[name='archival_object[subjects][0][ref]']", visible: :all).value
+        ).to eq(linked_subject.uri)
+        expect(
+          result.find("input[name='archival_object[linked_agents][0][ref]']", visible: :all).value
+        ).to eq(agent.uri)
+        expect(
+          result.find("input[name='archival_object[accession_links][0][ref]']", visible: :all).value
+        ).to eq(linked_accession.uri)
+      end
+    end
+
     it "does not duplicate persistent id when duplicating an archival object note" do
       get :new, params: { resource_id: resource.id,
                           duplicate_from_archival_object: { uri: archival_object_with_note.uri } }

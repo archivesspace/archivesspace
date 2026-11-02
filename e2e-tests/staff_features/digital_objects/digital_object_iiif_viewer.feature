@@ -57,6 +57,18 @@ Feature: Digital Object IIIF viewer
       And the thumbnail links to 'a document'
       And the bundled Universal Viewer is embedded
 
+  Scenario: Without a Display Link the generic icon of a manifest marked as Display Thumbnail links to the manifest
+    Given a Digital Object 'Book' has been created with the following File Versions
+      | File            | Published | Marked as         | Caption |
+      | a IIIF manifest | yes       | Display Thumbnail |         |
+     When the user views the 'Book' in the staff interface
+     Then the thumbnail falls back to the generic icon because the browser cannot render 'a IIIF manifest'
+      And the thumbnail links to 'a IIIF manifest'
+     When the user views the 'Book' in the public interface
+     Then the thumbnail falls back to the generic icon because the browser cannot render 'a IIIF manifest'
+      And the thumbnail links to 'a IIIF manifest'
+      And the bundled Universal Viewer is embedded
+
   Scenario: An unpublished manifest is only embedded in the staff interface
     Given a Digital Object 'Book' has been created with the following File Versions
       | File            | Published | Marked as         | Caption |

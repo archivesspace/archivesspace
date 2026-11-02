@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/java:11
+FROM mcr.microsoft.com/vscode/devcontainers/java:21-bookworm
 
 ARG GECKODRIVER_VERSION \
     MYSQL_CONNECTOR_VERSION \

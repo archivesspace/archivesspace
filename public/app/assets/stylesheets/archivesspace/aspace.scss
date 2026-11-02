@@ -255,6 +255,15 @@ a img {
   --bs-gradient: none;
 }
 
+@include media-breakpoint-down(lg) {
+  .user-container {
+    width: 100%;
+    margin-top: rem-calc(8);
+    padding-top: rem-calc(8);
+    border-top: 1px solid $border;
+  }
+}
+
 #welcome {
   padding-left: rem-calc(60);
   padding-right: rem-calc(130);

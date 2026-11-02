@@ -1230,7 +1230,7 @@ class BulkArchivalObjectUpdater
       .select(:id, :repo_id, :identifier)
       .each do |row|
       bits = Identifiers.parse(row[:identifier])
-      candidate = AccessionCandidate.new(bits[0], bits[1].to_s, bits[2], bits[3])
+      candidate = AccessionCandidate.new(bits[0], bits[1], bits[2], bits[3])
       accessions[candidate] = JSONModel::JSONModel(:accession).uri_for(row[:id], :repo_id => row[:repo_id])
     end
 

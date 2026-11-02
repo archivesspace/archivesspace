@@ -588,9 +588,14 @@ AppConfig[:pui_hide][:container_inventory] = false
 # Whether to display linked deaccessions
 AppConfig[:pui_display_deaccessions] = true
 
-# Where to position the PUI Collection Organization sidebar
+# Where to position the PUI tree sidebar (Collection Organization, resources,
+# archival objects, digital objects, and classifications)
 # Options: 'left' or 'right'
-AppConfig[:pui_collection_org_sidebar_position] = 'left'
+AppConfig[:pui_tree_sidebar_position] = 'left'
+# DEPRECATED: AppConfig[:pui_collection_org_sidebar_position] has been renamed to
+# AppConfig[:pui_tree_sidebar_position]. The old name is still accepted as an alias
+# (with a deprecation warning at startup) but will be removed in a future release.
+# AppConfig[:pui_collection_org_sidebar_position] = 'left'
 
 # Whether to display archival record identifiers in the PUI collection organization tree
 AppConfig[:pui_display_identifiers_in_resource_tree] = false

@@ -1,0 +1,27 @@
+name: Create ArchivesSpace Solr core
+description: Copy the repository's Solr config into the Solr service container and create the archivesspace core
+
+inputs:
+  solr_container_id:
+    description: Container id of the Solr service (job.services.solr.id)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Copy solr config from workspace to solr service
+      shell: bash
+      env:
+        SOLR_ID: ${{ inputs.solr_container_id }}
+      run: |
+        # solr create_core (9.7+) expects the config files under a conf/ subdirectory
+        mkdir -p "$RUNNER_TEMP/solr_configset"
+        cp -r solr "$RUNNER_TEMP/solr_configset/conf"
+        docker cp "$RUNNER_TEMP/solr_configset" $SOLR_ID:/solr_conf_from_repo
+
+    - name: Create ArchivesSpace Solr core
+      shell: bash
+      env:
+        SOLR_ID: ${{ inputs.solr_container_id }}
+      run: |
+        docker exec --tty $SOLR_ID solr create_core --solr-url http://localhost:8983 -c archivesspace -d /solr_conf_from_repo

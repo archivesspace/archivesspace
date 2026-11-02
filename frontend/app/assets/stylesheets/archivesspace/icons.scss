@@ -98,7 +98,7 @@
     content: '\e165';
   }
 
-  &.icon-event {
+  &.icon-event::before {
     content: '\e109';
   }
 

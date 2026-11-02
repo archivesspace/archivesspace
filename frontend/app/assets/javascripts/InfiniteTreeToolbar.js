@@ -815,8 +815,8 @@ class InfiniteTreeToolbar {
       next = next.nextElementSibling;
     }
 
-    let selectedAbove = [];
-    let selectedBelow = [];
+    let selectedAbove;
+    let selectedBelow;
 
     // Prefer a 50/50 split (half above, half below), then let the side with more
     // siblings fill any unused slots up to the max.
