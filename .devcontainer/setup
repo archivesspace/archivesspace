@@ -16,8 +16,8 @@ sudo service mariadb start
 sudo service solr start
 
 echo "Creating dev & test Solr cores"
-sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c asdev -d /workspaces/archivesspace/solr"
-sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c astest -d /workspaces/archivesspace/solr"
+sudo su - solr -c "/opt/solr/bin/solr create -c asdev -d /workspaces/archivesspace/solr"
+sudo su - solr -c "/opt/solr/bin/solr create -c astest -d /workspaces/archivesspace/solr"
 
 echo "Downloading MySQL connector"
 wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/$MYSQL_CONNECTOR_VERSION/mysql-connector-j-$MYSQL_CONNECTOR_VERSION.jar && mv mysql-connector-j-$MYSQL_CONNECTOR_VERSION.jar ./common/lib/

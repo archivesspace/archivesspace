@@ -4,7 +4,7 @@ inputs:
   mysql-connector-url:
     description: 'URL for mysql connector'
     required: true
-    default: 'https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.1.0/mysql-connector-j-9.1.0.jar'
+    default: 'https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.7.0/mysql-connector-j-9.7.0.jar'
   backend:
     description: "install backend gems"
     default: false
@@ -27,16 +27,16 @@ inputs:
     description: Java version to install
     required: true
     type: string
-    default: '11'
+    default: '21'
 
 runs:
   using: "composite"
   steps:
     - name: Cache JRuby
       id: cache-jruby
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
-        key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-java${{ inputs.java-version || 21 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
           ./build/jruby*.jar
 
@@ -48,15 +48,15 @@ runs:
 
     - name: Cache gems directory
       id: cache-gems
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
-        key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-java${{ inputs.java-version || 21 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
           ./build/gems/jruby
 
     - name: Cache mysql connector
       id: cache-mysql-connector
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         key: ${{ inputs.mysql-connector-url }}
         path: |

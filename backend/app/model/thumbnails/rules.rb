@@ -1,25 +1,21 @@
 require 'file_uri'
 
-# Calculates the read-only `thumbnail` property shown for a record in the staff and public interfaces.
-# The functions here are shared by the mixins that add the property to models:
+# Calculates the read-only `thumbnail` property shown in the staff and public interfaces, for the
+# mixins that add it:
+#   * FromFileVersions: Digital Objects and Components, from their own File Versions
+#   * FromRepresentativeInstance: Accessions, Archival Objects and Resources, from the Digital Object
+#     of their representative instance, linking to its record
+#   * FromResourceTree: Resources whose own representative instance shows no image, from those of
+#     their Archival Objects in tree order
 #
-#   * Thumbnails::FromFileVersions: Digital Objects and Digital Object Components
-#   * Thumbnails::FromRepresentativeInstance: Accessions, Archival Objects and Resources
-#   * Thumbnails::FromResourceTree: the Archival Object fallback of Resources
+# From the published File Versions, if one is marked:
+#   * image: the `is_display_thumbnail` one, in any format. If the browser cannot render it, the
+#     interfaces show a generic icon, linked to the image file when there is no other link (ANW-3001).
+#   * link: the `is_display_link` one, if its scheme is allowed
+#   * caption: the image's, else the link's, else the record title (a Component's display string)
 #
-# A Digital Object's thumbnail comes from its own published File Versions:
-#
-#   * the File Version marked `is_display_thumbnail` supplies the image, whatever its file format; if
-#     the browser cannot render it, the interfaces show a generic icon in its place
-#   * the File Version marked `is_display_link` supplies the link; there is no fallback, so without
-#     one the thumbnail or generic icon has no link. A file URI with an invalid scheme gets no link either.
-#   * with neither marked, there is no thumbnail
-#   * caption: the thumbnail File Version's caption, else the link File Version's caption,
-#     else the record's title (display string for a component)
-#
-# On an Accession, Resource or Archival Object, a Digital Object without an image of its own shows the
-# display thumbnail of its first published, unsuppressed Digital Object Component (in tree order), skipping
-# components with an unpublished or suppressed ancestor (ANW-3057).
+# A representative Digital Object without an image takes that of its first Component with one (tree
+# order; published, unsuppressed, no unpublished or suppressed ancestor), linking to it (ANW-3057).
 module Thumbnails
   module Rules
     # file_versions: hashes with the file_version JSONModel property names

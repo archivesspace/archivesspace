@@ -60,11 +60,11 @@ class InfiniteTreeMove {
       ? sourceParentNode.getAttribute('data-uri') || this.rootUri
       : this.rootUri;
 
-    let targetNode = null;
-    let targetUri = null;
-    let targetParentUri = null;
-    let targetIndex = null;
-    let edge = null;
+    let targetNode;
+    let targetUri;
+    let targetParentUri;
+    let targetIndex;
+    let edge;
 
     if (action === 'up-level') {
       const parentNode = sourceParentNode;

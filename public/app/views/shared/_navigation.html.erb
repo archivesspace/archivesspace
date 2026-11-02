@@ -40,7 +40,7 @@
             <span class="user-label"><%= session[:pui_username] %></span>
           </button>
 
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-menu-dropdown">
+          <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="user-menu-dropdown">
             <li>
               <%= link_to t("login.logout"), {:controller => "sessions", :action => "logout"}, :id => "pui-logout", :class => "dropdown-item" %>
             </li>

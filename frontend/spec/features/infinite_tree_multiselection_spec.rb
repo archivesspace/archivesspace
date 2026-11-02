@@ -9,38 +9,12 @@ require 'rails_helper'
 
 describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true do
   context 'Resources' do
-    include_context 'infinite tree integration setup'
+    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:resources)
 
-    let(:edit_path) { "/resources/#{resource.id}/edit" }
-    let(:root_hash) { "#tree::resource_#{resource.id}" }
+    it_behaves_like 'selecting multiple records in reorder mode'
 
-    let!(:ao2) do
-      create(
-        :archival_object,
-        resource: { 'ref' => resource.uri },
-        title: "Sibling AO #{now}"
-      )
-    end
-
-    let!(:child_ao) do
-      create(
-        :archival_object,
-        resource: { 'ref' => resource.uri },
-        parent: { 'ref' => ao2.uri },
-        title: "Child AO #{now}"
-      )
-    end
-
-    let!(:ao3) do
-      create(
-        :archival_object,
-        resource: { 'ref' => resource.uri },
-        title: "Third AO #{now}"
-      )
-    end
-
-  # Scroll the tree container so IntersectionObserver loads a child batch
-  # (same pattern as infinite_tree_base_shared_examples).
+    # Scroll the tree container so IntersectionObserver loads a child batch
+    # (same pattern as infinite_tree_base_shared_examples).
     def scroll_to_load_child_batch(parent_uri, batch_offset)
       parent_li = tree_node(parent_uri)
       child_list = parent_li.find(':scope > ol.node-children')
@@ -76,29 +50,19 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       uris.join(',')
     end
 
-    before do |example|
-      # Nested `let!` hooks run after this hook, so the default visit would load the
-      # tree before ancestry fixture rows exist. Examples tagged :ancestry_multilevel_tree
-      # perform their own visit after those lets run (see nested before block).
-      next if example.metadata[:ancestry_multilevel_tree]
-
-      visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
-    end
-
     context 'when reorder mode is off' do
       it 'plain clicks retain router navigation behavior' do
         within '#infinite-tree-container' do
-          click_link ao.title
+          click_link child_record.title
         end
-        wait_for_infinite_tree_current_node(ao.uri)
+        wait_for_infinite_tree_current_node(child_record.uri)
 
-        expect(page.current_url).to include("tree::archival_object_#{ao.id}")
+        expect(page.current_url).to include(child_record_hash)
         expect(data_selection_uris).to be_nil
       end
 
       it 'ignores modifier-keyed clicks (no selection mutation)' do
-        meta_click_row(ao.uri)
+        meta_click_row(child_record.uri)
 
         expect(data_selection_uris).to be_nil
         expect(page).to have_no_css('#infinite-tree-container .node.multiselected')
@@ -107,191 +71,178 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
     context 'when reorder mode is on' do
       before do |example|
-        next if example.metadata[:ancestry_multilevel_tree]
+        # Deferred-visit examples load the tree themselves; see the note in the
+        # 'infinite tree reorder hierarchy setup' shared context.
+        next if example.metadata[:defer_initial_tree_visit]
 
         enable_reorder_mode
         wait_for_reorder_mode_ready
       end
 
-      it 'toggles .reorder-mode on the tree container' do
-        expect(page).to have_css('#infinite-tree-container.reorder-mode')
-      end
-
       describe 'Cmd/Ctrl + click toggles membership' do
         it 'adds rows with meta key, toggles off on second meta click' do
-          meta_click_row(ao.uri)
+          meta_click_row(child_record.uri)
 
-          expect(page).to have_css("li.node[data-uri='#{ao.uri}'].multiselected")
-          expect(data_selection_uris).to eq(ao.uri)
+          expect(page).to have_css("li.node[data-uri='#{child_record.uri}'].multiselected")
+          expect(data_selection_uris).to eq(child_record.uri)
 
-          meta_click_row(ao.uri)
+          meta_click_row(child_record.uri)
 
           expect(page).to have_no_css('.node.multiselected')
           expect(data_selection_uris).to be_nil
         end
 
         it 'adds rows with ctrl key and reflects DOM order in data-selection-uris' do
-          ctrl_click_row(ao.uri)
-          ctrl_click_row(ao3.uri)
+          ctrl_click_row(child_record.uri)
+          ctrl_click_row(sibling3.uri)
 
           expect(page).to have_css(".node.multiselected", count: 2)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri}")
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling3.uri}")
         end
 
         it 'preserves click order, not DOM order' do
-          meta_click_row(ao3.uri)
-          meta_click_row(ao.uri)
+          meta_click_row(sibling3.uri)
+          meta_click_row(child_record.uri)
 
           uris = data_selection_uris.split(',')
-          expect(uris).to eq([ao3.uri, ao.uri])
+          expect(uris).to eq([sibling3.uri, child_record.uri])
         end
       end
 
       describe 'Shift + click extends selection across all depths' do
         before do
-          expand_tree_node(ao2.uri)
-          # Guard the precondition: the level-2 child_ao is now in the DOM
-          # between the two level-1 siblings ao2 and ao3, so cross-depth range
+          expand_tree_node(sibling2.uri)
+          # Guard the precondition: the level-2 nested_under_sibling2 is now in the DOM
+          # between the two level-1 siblings sibling2 and sibling3, so cross-depth range
           # behavior is actually being exercised.
-          expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+          expect(page).to have_css("li.node[data-uri='#{nested_under_sibling2.uri}']")
         end
 
         it 'extends across same-level siblings and includes deeper rows in the range' do
-          meta_click_row(ao.uri)
-          shift_click_row(ao3.uri)
+          meta_click_row(child_record.uri)
+          shift_click_row(sibling3.uri)
 
           uris = data_selection_uris.split(',')
-          expect(uris).to eq([ao.uri, ao2.uri, ao3.uri])
-          expect(node_implicitly_selected?(child_ao.uri)).to be true
+          expect(uris).to eq([child_record.uri, sibling2.uri, sibling3.uri])
+          expect(node_implicitly_selected?(nested_under_sibling2.uri)).to be true
         end
 
         it 'extends from a level-1 anchor to a level-2 endpoint inside an expanded parent' do
-          meta_click_row(ao.uri)
-          shift_click_row(child_ao.uri)
+          meta_click_row(child_record.uri)
+          shift_click_row(nested_under_sibling2.uri)
 
           uris = data_selection_uris.split(',')
-          expect(uris).to eq([ao.uri, child_ao.uri])
-          expect(node_locked?(ao2.uri)).to be true
+          expect(uris).to eq([child_record.uri, nested_under_sibling2.uri])
+          expect(node_locked?(sibling2.uri)).to be true
         end
 
         it 'extends from a level-2 anchor to a level-1 endpoint, walking backward across depths' do
-          meta_click_row(child_ao.uri)
-          shift_click_row(ao.uri)
+          meta_click_row(nested_under_sibling2.uri)
+          shift_click_row(child_record.uri)
 
           uris = data_selection_uris.split(',')
-          # Click order: child_ao first, then only ao from range
-          # ao2 is SKIPPED because it's an ancestor of child_ao (locked)
-          expect(uris).to eq([child_ao.uri, ao.uri])
+          # Click order: nested_under_sibling2 first, then only child_record from range
+          # sibling2 is SKIPPED because it's an ancestor of nested_under_sibling2 (locked)
+          expect(uris).to eq([nested_under_sibling2.uri, child_record.uri])
         end
       end
 
       describe 'range anchor' do
         it 'does not change when a middle item is deselected' do
-          meta_click_row(ao.uri)
-          meta_click_row(ao2.uri)
-          meta_click_row(ao3.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao2.uri},#{ao3.uri}")
+          meta_click_row(child_record.uri)
+          meta_click_row(sibling2.uri)
+          meta_click_row(sibling3.uri)
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling2.uri},#{sibling3.uri}")
 
-          meta_click_row(ao2.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri}")
+          meta_click_row(sibling2.uri)
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling3.uri}")
 
-          shift_click_row(ao2.uri)
-          # Anchor is still ao3 (last remaining); range walks backward and adds ao2.
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri},#{ao2.uri}")
+          shift_click_row(sibling2.uri)
+          # Anchor is still sibling3 (last remaining); range walks backward and adds sibling2.
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling3.uri},#{sibling2.uri}")
         end
 
         it 'moves to the new last item when the previous anchor is deselected' do
-          meta_click_row(ao.uri)
-          meta_click_row(ao2.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao2.uri}")
+          meta_click_row(child_record.uri)
+          meta_click_row(sibling2.uri)
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling2.uri}")
 
-          meta_click_row(ao2.uri)
-          expect(data_selection_uris).to eq(ao.uri)
+          meta_click_row(sibling2.uri)
+          expect(data_selection_uris).to eq(child_record.uri)
 
-          shift_click_row(ao3.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao2.uri},#{ao3.uri}")
-        end
-      end
-
-      describe 'plain mousedown on row body' do
-        it 'collapses multiselection to the mousedown row when that row is not selected' do
-          meta_click_row(ao.uri)
-          meta_click_row(ao2.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao2.uri}")
-
-          click_tree_row(ao3.uri)
-          expect(data_selection_uris).to eq(ao3.uri)
+          shift_click_row(sibling3.uri)
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling2.uri},#{sibling3.uri}")
         end
       end
 
       describe 'selection order badges' do
         it 'are shown with only one row selected' do
-          meta_click_row(ao.uri)
+          meta_click_row(child_record.uri)
 
-          expect(find_badge(ao.uri)).to eq('1')
+          expect(find_badge(child_record.uri)).to eq('1')
         end
 
         it 'are shown with multiple rows selected' do
-          meta_click_row(ao.uri)
-          meta_click_row(ao3.uri)
+          meta_click_row(child_record.uri)
+          meta_click_row(sibling3.uri)
 
-          expect(find_badge(ao.uri)).to eq('1')
-          expect(find_badge(ao3.uri)).to eq('2')
+          expect(find_badge(child_record.uri)).to eq('1')
+          expect(find_badge(sibling3.uri)).to eq('2')
         end
 
         it 'are renumbered when a middle item is deselected' do
-          meta_click_row(ao.uri)
-          meta_click_row(ao2.uri)
-          meta_click_row(ao3.uri)
+          meta_click_row(child_record.uri)
+          meta_click_row(sibling2.uri)
+          meta_click_row(sibling3.uri)
 
-          expect(find_badge(ao.uri)).to eq('1')
-          expect(find_badge(ao2.uri)).to eq('2')
-          expect(find_badge(ao3.uri)).to eq('3')
+          expect(find_badge(child_record.uri)).to eq('1')
+          expect(find_badge(sibling2.uri)).to eq('2')
+          expect(find_badge(sibling3.uri)).to eq('3')
 
           # Deselect middle item
-          meta_click_row(ao2.uri)
+          meta_click_row(sibling2.uri)
 
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri}")
-          expect(find_badge(ao.uri)).to eq('1')
-          expect(find_badge(ao3.uri)).to eq('2')
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling3.uri}")
+          expect(find_badge(child_record.uri)).to eq('1')
+          expect(find_badge(sibling3.uri)).to eq('2')
         end
       end
 
-      describe 'ancestry-based locking (multi-level)', :ancestry_multilevel_tree do
+      describe 'ancestry-based locking (multi-level)', :defer_initial_tree_visit do
         let!(:a_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "A #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "A #{now}")
         end
 
         let!(:b_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "B #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "B #{now}")
         end
 
         let!(:ba_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BA #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BA #{now}")
         end
 
         let!(:bb_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BB #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BB #{now}")
         end
 
         let!(:bba_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBA #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBA #{now}")
         end
 
         let!(:bbb_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBB #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBB #{now}")
         end
 
         let!(:bc_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BC #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BC #{now}")
         end
 
         let!(:c_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "C #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "C #{now}")
         end
 
         let!(:d_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "D #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "D #{now}")
         end
 
         before do
@@ -424,19 +375,19 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         # pick. A plain click replaces any existing multi-selection with the
         # single clicked row (.multiselected), then routes through InfiniteTree.
         it 'navigates and replaces multiselect with the clicked destination row' do
-          ctrl_click_row(ao.uri)
-          ctrl_click_row(ao3.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri}")
+          ctrl_click_row(child_record.uri)
+          ctrl_click_row(sibling3.uri)
+          expect(data_selection_uris).to eq("#{child_record.uri},#{sibling3.uri}")
 
           within '#infinite-tree-container' do
-            click_link ao2.title
+            click_link sibling2.title
           end
-          wait_for_infinite_tree_current_node(ao2.uri)
+          wait_for_infinite_tree_current_node(sibling2.uri)
 
-          expect(page.current_url).to include("tree::archival_object_#{ao2.id}")
-          expect(data_selection_uris).to eq(ao2.uri)
+          expect(page.current_url).to include("##{tree_hash_for(sibling2.uri)}")
+          expect(data_selection_uris).to eq(sibling2.uri)
           expect(page).to have_css(
-            "li.node[data-uri='#{ao2.uri}'].current.multiselected"
+            "li.node[data-uri='#{sibling2.uri}'].current.multiselected"
           )
           expect(page).to have_css(
             '#infinite-tree-container .node.current',
@@ -448,8 +399,8 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
       describe 'outside click' do
         it 'clears selection when mousedown lands outside tree/toolbar/resizer' do
-          meta_click_row(ao.uri)
-          expect(data_selection_uris).to eq(ao.uri)
+          meta_click_row(child_record.uri)
+          expect(data_selection_uris).to eq(child_record.uri)
 
           page.execute_script(<<~JS)
             document.body.dispatchEvent(
@@ -462,8 +413,8 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         end
 
         it 'preserves selection when mousedown is inside the toolbar' do
-          meta_click_row(ao.uri)
-          expect(data_selection_uris).to eq(ao.uri)
+          meta_click_row(child_record.uri)
+          expect(data_selection_uris).to eq(child_record.uri)
 
           page.execute_script(<<~JS)
             document.querySelector('#infinite-tree-toolbar')
@@ -472,46 +423,46 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
           sleep 0.1
 
-          expect(data_selection_uris).to eq(ao.uri)
+          expect(data_selection_uris).to eq(child_record.uri)
         end
       end
 
       describe 'expand and collapse do not mutate the selection' do
         before do
-          expand_tree_node(ao2.uri)
+          expand_tree_node(sibling2.uri)
         end
 
         it 'preserves selected descendants in the explicit selection when their ancestor collapses' do
-          meta_click_row(child_ao.uri)
-          expect(data_selection_uris).to eq(child_ao.uri)
+          meta_click_row(nested_under_sibling2.uri)
+          expect(data_selection_uris).to eq(nested_under_sibling2.uri)
 
-          collapse_tree_node(ao2.uri)
+          collapse_tree_node(sibling2.uri)
 
-          expect(data_selection_uris).to eq(child_ao.uri)
+          expect(data_selection_uris).to eq(nested_under_sibling2.uri)
         end
 
         it 'preserves a multi-row selection across collapse + re-expand' do
-          meta_click_row(ao.uri)
-          meta_click_row(child_ao.uri)
-          expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
+          meta_click_row(child_record.uri)
+          meta_click_row(nested_under_sibling2.uri)
+          expect(data_selection_uris).to eq("#{child_record.uri},#{nested_under_sibling2.uri}")
 
-          collapse_tree_node(ao2.uri)
+          collapse_tree_node(sibling2.uri)
 
-          expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
+          expect(data_selection_uris).to eq("#{child_record.uri},#{nested_under_sibling2.uri}")
 
-          expand_tree_node(ao2.uri)
+          expand_tree_node(sibling2.uri)
 
-          expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
+          expect(data_selection_uris).to eq("#{child_record.uri},#{nested_under_sibling2.uri}")
           expect(page).to have_css(
-            "li.node[data-uri='#{child_ao.uri}'].multiselected"
+            "li.node[data-uri='#{nested_under_sibling2.uri}'].multiselected"
           )
         end
       end
 
       describe 'toggling reorder mode off' do
         it 'clears selection and removes .reorder-mode from the container' do
-          meta_click_row(ao.uri)
-          expect(data_selection_uris).to eq(ao.uri)
+          meta_click_row(child_record.uri)
+          expect(data_selection_uris).to eq(child_record.uri)
 
           find('.js-itree-toolbar-reorder-toggle').click
 
@@ -522,68 +473,68 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
       describe 'implicit selection badges with single parent selected' do
         before do
-          expand_tree_node(ao2.uri)
-          expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+          expand_tree_node(sibling2.uri)
+          expect(page).to have_css("li.node[data-uri='#{nested_under_sibling2.uri}']")
         end
 
         it 'shows checkmark badge on implicit descendants even with single parent selected' do
-          meta_click_row(ao2.uri)
+          meta_click_row(sibling2.uri)
 
-          badge = find_badge(child_ao.uri)
+          badge = find_badge(nested_under_sibling2.uri)
           aggregate_failures do
-            expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].multiselected")
-            expect(node_implicitly_selected?(child_ao.uri)).to be true
+            expect(page).to have_css("li.node[data-uri='#{sibling2.uri}'].multiselected")
+            expect(node_implicitly_selected?(nested_under_sibling2.uri)).to be true
             expect(badge).to eq("\u2713") # Unicode checkmark
           end
         end
 
         it 'shows numeric badge on single explicit selection' do
-          meta_click_row(ao2.uri)
+          meta_click_row(sibling2.uri)
 
-          expect(find_badge(ao2.uri)).to eq('1')
+          expect(find_badge(sibling2.uri)).to eq('1')
         end
       end
 
-      describe 'lazy-loaded implicit selection', :ancestry_multilevel_tree do
+      describe 'lazy-loaded implicit selection', :defer_initial_tree_visit do
         let(:tree_batch_size) { Rails.configuration.infinite_tree_batch_size }
 
         let!(:a_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "A #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "A #{now}")
         end
 
         let!(:b_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "B #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "B #{now}")
         end
 
         let!(:ba_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BA #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BA #{now}")
         end
 
         let!(:bb_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BB #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BB #{now}")
         end
 
         let!(:bba_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBA #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBA #{now}")
         end
 
         let!(:bbb_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBB #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBB #{now}")
         end
 
         let!(:bc_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BC #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BC #{now}")
         end
 
         let!(:bd_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BD #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, parent: { 'ref' => b_ao.uri }, title: "BD #{now}")
         end
 
         let!(:bd_batch_children) do
           (tree_batch_size + 1).times.map do |i|
             create(
               :archival_object,
-              resource: { 'ref' => resource.uri },
+              resource: { 'ref' => root_record.uri },
               parent: { 'ref' => bd_ao.uri },
               title: "BD Child #{i + 1} #{now}"
             )
@@ -594,7 +545,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         let(:bd_second_batch_child) { bd_batch_children.last }
 
         let!(:c_ao) do
-          create(:archival_object, resource: { 'ref' => resource.uri }, title: "C #{now}")
+          create(:archival_object, resource: { 'ref' => root_record.uri }, title: "C #{now}")
         end
 
         before do
@@ -699,7 +650,6 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
           expect(node_implicitly_selected?(bbb_ao.uri)).to be false
         end
       end
-
     end
 
     context 'drag-handle column visibility' do
@@ -718,76 +668,25 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       end
 
       it 'hides the drag-handle column by default and reveals it in reorder mode' do
-        expect(handle_display(ao.uri)).to eq('none')
+        expect(handle_display(child_record.uri)).to eq('none')
 
         enable_reorder_mode
         wait_for_reorder_mode_ready
 
         expect(page).to have_css('#infinite-tree-container.reorder-mode')
-        expect(handle_display(ao.uri)).not_to eq('none')
-      end
-    end
-
-  # A successful reorder calls rebuildAndReopen, which runs
-  # container.replaceChildren(). InfiniteTreeMultiSelection binds no listener for
-  # infiniteTree:rebuildAndReopenComplete, so every element left in `selected`
-  # is detached from the document while the array itself survives.
-    context 'after a successful reorder rebuilds the tree' do
-      before do
-        enable_reorder_mode
-        wait_for_reorder_mode_ready
-      end
-
-      it 'starts a fresh selection instead of carrying over rows detached by the rebuild' do
-        meta_click_row(ao.uri)
-        expect(selection_uris).to eq([ao.uri])
-
-        drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
-        wait_for_reorder_idle
-
-        # The tree was rebuilt, so nothing is visibly selected any more.
-        expect(page).to have_no_css('#infinite-tree-container .node.multiselected')
-
-        meta_click_row(ao2.uri)
-
-        aggregate_failures do
-          expect(selection_uris).to eq([ao2.uri])
-          expect(find_badge(ao2.uri)).to eq('1')
-          expect(page).to have_css(
-            '#infinite-tree-container .node.multiselected',
-            count: 1,
-            visible: :all
-          )
-        end
-      end
-
-      it 'does not send rows detached by the rebuild to accept_children' do
-        install_accept_children_capture
-
-        meta_click_row(ao.uri)
-        drag_into(source_uri: ao.uri, target_uri: ao3.uri, pause_ms: 0)
-        wait_for_reorder_idle
-
-        # Only ao2 is selected now; ao already lives under ao3 after the drag.
-        meta_click_row(ao2.uri)
-        click_infinite_tree_toolbar_cut
-        select_tree_row(ao3)
-        click_infinite_tree_toolbar_paste
-        wait_for_reorder_idle
-
-        expect(last_accept_children_params['children']).to eq([ao2.uri])
+        expect(handle_display(child_record.uri)).not_to eq('none')
       end
     end
   end
 
   context 'Digital Objects' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::DIGITAL_OBJECT
+    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:digital_objects)
 
     it_behaves_like 'selecting multiple records in reorder mode'
   end
 
   context 'Classifications' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::CLASSIFICATION
+    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:classifications)
 
     it_behaves_like 'selecting multiple records in reorder mode'
   end
