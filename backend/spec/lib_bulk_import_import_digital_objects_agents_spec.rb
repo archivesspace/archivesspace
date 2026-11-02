@@ -1128,6 +1128,35 @@ describe "Import Digital Objects Agents" do
       expect(digital_object_count).to eq(0)
     end
 
+    [false, true].each do |validate_only|
+      it "links an existing Agent whose telephone and fax are stored in another order (validate-only: #{validate_only})" do
+        existing = AgentPerson.create_from_json(JSONModel(:agent_person).from_hash(
+          "names" => [{ "primary_name" => "Created Person #{@now}", "name_order" => "direct", "sort_name_auto_generate" => true }],
+          "agent_contacts" => [{
+            "name" => "Contact #{@now}",
+            "telephones" => [
+              { "number" => "555-0199", "number_type" => "fax" },
+              { "number" => "555-0100", "number_type" => "home" },
+            ],
+          }]
+        ))
+        original_count = AgentPerson.count
+
+        report = run_agent_import(
+          person_group(
+            "agent_1_agent_contact_1_name" => "Contact #{@now}",
+            "agent_1_agent_contact_1_telephone_1_number" => "555-0100",
+            "agent_1_agent_contact_1_fax_1_number" => "555-0199"
+          ),
+          validate_only
+        )
+
+        expect(report.rows[0].errors).to eq([])
+        expect(AgentPerson.count).to eq(original_count)
+        expect(imported_digital_object.linked_agents.map { |link| link["ref"] }).to eq([existing.uri]) unless validate_only
+      end
+    end
+
     it "names the note column when an authority ID match has no note" do
       authority = { "agent_1_agent_name_1_authority_id" => "noted-#{@now}", "agent_1_agent_name_1_source" => "naf" }
       existing_uri = import_existing(authority)

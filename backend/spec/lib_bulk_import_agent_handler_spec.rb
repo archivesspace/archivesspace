@@ -279,6 +279,22 @@ describe "Agent Handler" do
       ])
     end
 
+    it "matches supplied records to existing ones regardless of their order" do
+      supplied = { "telephones" => [{ "number" => "555-0100" }, { "number" => "555-0199", "number_type" => "fax" }] }
+      existing = { "telephones" => [{ "number" => "555-0199", "number_type" => "fax" }, { "number" => "555-0100", "number_type" => "home" }] }
+
+      expect(AgentHandler.supplied_differences(supplied, existing)).to eq([])
+    end
+
+    it "compares an unmatched record with the existing record left over, not the one at its position" do
+      supplied = { "telephones" => [{ "number" => "555-0100" }, { "number" => "555-0199", "number_type" => "fax" }] }
+      existing = { "telephones" => [{ "number" => "555-0199", "number_type" => "fax" }, { "number" => "555-0111" }] }
+
+      expect(AgentHandler.supplied_differences(supplied, existing)).to eq([
+        { :path => ["telephones", 0, "number"], :supplied => "555-0100", :existing => "555-0111" },
+      ])
+    end
+
     it "reports a supplied value the existing record lacks" do
       expect(AgentHandler.supplied_differences({ "notes" => [{ "content" => ["x"] }] }, { "notes" => [] })).to eq([
         { :path => ["notes", 0, "content", 0], :supplied => "x", :existing => nil },

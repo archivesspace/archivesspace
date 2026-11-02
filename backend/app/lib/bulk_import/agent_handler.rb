@@ -28,8 +28,15 @@ class AgentHandler < Handler
         supplied_differences(value, existing.is_a?(Hash) ? existing[key] : nil, path + [key])
       end
     when Array
-      supplied.each_with_index.flat_map do |value, index|
-        supplied_differences(value, existing.is_a?(Array) ? existing[index] : nil, path + [index])
+      # order-insensitive: pair exact matches anywhere, then compare the rest in order
+      remaining = existing.is_a?(Array) ? existing.dup : []
+      unmatched = supplied.each_index.reject do |index|
+        found = remaining.index { |candidate| supplied_differences(supplied[index], candidate).empty? }
+        remaining.delete_at(found) unless found.nil?
+        found
+      end
+      unmatched.each_with_index.flat_map do |index, position|
+        supplied_differences(supplied[index], remaining[position], path + [index])
       end
     else
       supplied == existing ? [] : [{ :path => path, :supplied => supplied, :existing => existing }]
