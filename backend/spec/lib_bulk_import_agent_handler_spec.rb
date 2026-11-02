@@ -284,5 +284,22 @@ describe "Agent Handler" do
         { :path => ["notes", 0, "content", 0], :supplied => "x", :existing => nil },
       ])
     end
+
+    it "reports a record the existing agent lacks by its values, not its jsonmodel_type" do
+      supplied = { "notes" => [{ "jsonmodel_type" => "note_bioghist", "subnotes" => [{ "jsonmodel_type" => "note_text", "content" => "x" }] }] }
+
+      expect(AgentHandler.supplied_differences(supplied, { "notes" => [] })).to eq([
+        { :path => ["notes", 0, "subnotes", 0, "content"], :supplied => "x", :existing => nil },
+      ])
+    end
+
+    it "reports a different jsonmodel_type on a record both sides have" do
+      expect(AgentHandler.supplied_differences(
+        { "notes" => [{ "jsonmodel_type" => "note_bioghist" }] },
+        { "notes" => [{ "jsonmodel_type" => "note_general_context" }] }
+      )).to eq([
+        { :path => ["notes", 0, "jsonmodel_type"], :supplied => "note_bioghist", :existing => "note_general_context" },
+      ])
+    end
   end
 end

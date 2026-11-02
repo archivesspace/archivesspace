@@ -22,6 +22,9 @@ class AgentHandler < Handler
     case supplied
     when Hash
       supplied.flat_map do |key, value|
+        # a record the existing agent lacks is reported by its values, not its type
+        next [] if key == "jsonmodel_type" && !existing.is_a?(Hash)
+
         supplied_differences(value, existing.is_a?(Hash) ? existing[key] : nil, path + [key])
       end
     when Array

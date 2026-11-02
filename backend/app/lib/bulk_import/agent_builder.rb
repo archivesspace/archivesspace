@@ -29,7 +29,8 @@ class AgentBuilder
         { :record => :contact, :attribute => property.to_sym }
       end
     when "notes"
-      { :record => :note, :attribute => @subnote_attributes[nested_index] }
+      attribute = @subnote_attributes[nested_index] if property == "subnotes" && nested_property == "content"
+      { :record => :note, :attribute => attribute } if attribute
     end
   end
 

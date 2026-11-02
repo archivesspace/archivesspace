@@ -365,4 +365,15 @@ describe AgentBuilder do
       expect { builder.supplied_values }.to raise_error(ArgumentError)
     end
   end
+
+  describe "#source_of" do
+    it "maps a subnote's content to its note column and other note paths to nothing" do
+      builder = builder_for(:note => { :content => "Born 1903.", :citation => "Crick, 1980" })
+
+      expect(builder.source_of(["notes", 0, "subnotes", 0, "content"])).to eq({ :record => :note, :attribute => :content })
+      expect(builder.source_of(["notes", 0, "subnotes", 1, "content", 0])).to eq({ :record => :note, :attribute => :citation })
+      expect(builder.source_of(["notes", 0, "jsonmodel_type"])).to be_nil
+      expect(builder.source_of(["notes", 0, "subnotes", 0, "jsonmodel_type"])).to be_nil
+    end
+  end
 end

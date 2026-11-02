@@ -1128,6 +1128,23 @@ describe "Import Digital Objects Agents" do
       expect(digital_object_count).to eq(0)
     end
 
+    it "names the note column when an authority ID match has no note" do
+      authority = { "agent_1_agent_name_1_authority_id" => "noted-#{@now}", "agent_1_agent_name_1_source" => "naf" }
+      existing_uri = import_existing(authority)
+      original_count = AgentPerson.count
+
+      [false, true].each do |validate_only|
+        report = run_agent_import(person_group(authority.merge("agent_1_note_1_content" => "Born #{@now}")), validate_only)
+
+        expect_mismatch(report, existing_uri, "agent_1_note_1_content", "Born #{@now}")
+        errors = report.rows[0].errors.join(" ")
+        expect(errors).not_to include("no implicit conversion")
+        expect(errors).not_to include("jsonmodel_type")
+      end
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count).to eq(0)
+    end
+
     [false, true].each do |validate_only|
       it "fails the row without naming internal fields when an authority ID belongs to another Agent type (validate-only: #{validate_only})" do
         authority = { "agent_1_agent_name_1_authority_id" => "family-#{@now}", "agent_1_agent_name_1_source" => "naf" }
