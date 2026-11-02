@@ -1377,13 +1377,13 @@ describe "Import Digital Objects Agents" do
       expect(linked_agent_records(imported_digital_object).map(&:title)).to eq(["Created Person #{@now}"])
     end
 
-    it "reports a failed row in validate-only mode the same way as the real run" do
+    it "reports a failed row in validate-only mode once, without the real-run message" do
       report = run_agent_import(person_group("user_defined_integer_1" => "not-a-number"), true)
 
       errors = report.rows[0].errors
       expect(errors.join(" ")).to include("not-a-number")
-      expect(errors).to include(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
-      expect(errors.last).to eq(I18n.t("bulk_import.error.dig_row_not_saved"))
+      expect(errors.last).to eq(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
+      expect(errors).not_to include(I18n.t("bulk_import.error.dig_row_not_saved"))
       expect(report.rows[0].info).to eq([])
       expect(AgentPerson.count).to eq(@original_people)
       expect(@importer.record_uris).to eq([])

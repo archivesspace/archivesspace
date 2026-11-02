@@ -102,7 +102,7 @@ class ImportDigitalObjects < BulkImportParser
     digital_instance = @validate_only ? import_row : import_row_in_savepoint
     unless digital_instance
       forget_handler_rows
-      report_row_not_saved if @validate_only
+      @report.current_row.info.clear if @validate_only
     end
     digital_instance
   rescue Exception
@@ -355,20 +355,6 @@ class ImportDigitalObjects < BulkImportParser
   def add_event_field_error(key, group, field, extra = {})
     @report.add_errors(I18n.t("bulk_import.error.#{key}",
                               **{ :group => group, :field => field }.merge(extra)))
-  end
-
-  # This importer's repeatable root namespaces. Exact accepted leaves remain
-  # the maintained CSV via valid_column_codes; Language Material keeps its
-  # fixed language_and_script segment. The Agent pattern captures only the
-  # outer agent_N_ index.
-  def structural_column_rules
-    repeatable_families.map do |family|
-      infix = family[:fixed_segment] ? "_#{family[:fixed_segment]}_" : "_"
-      {
-        :pattern => /\A#{Regexp.escape(family[:namespace])}_(?<index>[1-9]\d*)#{infix}.+\z/,
-        :representative => "1",
-      }
-    end
   end
 
   def repeatable_families
