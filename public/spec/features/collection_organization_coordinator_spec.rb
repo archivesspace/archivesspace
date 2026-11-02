@@ -57,7 +57,9 @@ describe 'Collection Organization Infinite Coordinator', js: true do
         last_record = @records_container.find("[data-uri='#{last_record_uri}']")
         @records_container.scroll_to(last_record, align: :top)
         @ao2_expand_btn.click
-        observer_node = @tree_container.find('[data-observe-next-batch]')
+        ao2_children = @tree_container.find("[data-uri='#{@ao2.uri}'] > .node-children")
+        expect(ao2_children).to have_css('& > .node', count: 60) # batch 1 loads on expand
+        observer_node = ao2_children.find('[data-observe-offset="2"]')
         expect(@tree_container).not_to have_css('.current')
         @tree_container.scroll_to(observer_node, align: :center)
         expect(@tree_container).to have_css("[data-uri='#{last_record_uri}'].current")
