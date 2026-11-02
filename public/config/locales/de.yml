@@ -58,7 +58,6 @@ de:
       <strong>%{archival_object}</strong> einzusehen
     email_header: Danke für Ihre Anfrage
   search-limit: Einschränken auf %{limit}
-  search-limiting: eingeschränkt auft %{limit}
   search-limits:
     all: Alle Aufzeichnungs-Typen
     repository: Aufbewahrungsorte
@@ -71,7 +70,6 @@ de:
     agents: Urheber des Inhalts
     subject: Thema
     agent: Urheber des Inhalts
-  searched-field: '%{field} suchen'
   search_results:
     highlighting:
       found_in: Gefunden in

@@ -67,7 +67,6 @@ uk:
       email: Будь ласка, введіть дійсну адресу електронної пошти
     email:
       subject: Запит на %{title}
-  search-limiting: обмежено до %{limit}
   search-limits:
     all: усі типи записів
     repository: репозиторії
@@ -81,7 +80,6 @@ uk:
     agent: творець контенту
     agents: творці контенту
   search-field: Поле пошуку
-  searched-field: пошук %{field}
   search_results:
     highlighting:
       found_in: Знайдено в

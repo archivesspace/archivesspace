@@ -57,7 +57,6 @@ ja:
   search-button:
     label: 検索
   search-limit: "%{limit} に限定"
-  search-limiting: "%{limit} に限定"
   search-limits:
     all: すべてのレコードの種類
     repository: リポジトリ
@@ -71,7 +70,6 @@ ja:
     agent: 作成者
     agents: 作成者
   search-field: 検索フィールド
-  searched-field: '%{field} を検索'
   pagination:
     controls: ページネーションコントロール
     top_controls: 上部のページネーションコントロール
