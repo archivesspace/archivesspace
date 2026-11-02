@@ -6,7 +6,7 @@ name: archivesspace-dev
 services:
   db1:
     container_name: as_dev_db
-    image: mysql:8
+    image: mysql:8.4
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
@@ -17,7 +17,7 @@ services:
       - ./build/mysql_db_fixtures:/docker-entrypoint-initdb.d
   db2:
     container_name: as_test_db
-    image: mysql:8
+    image: mysql:8.4
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3307:3306"
@@ -51,7 +51,7 @@ services:
       - as_test_solr-data:/var/solr
 
   proxy:
-    image: nginx:stable
+    image: nginx:1.30-alpine
     container_name: as_proxy
     ports:
       - "80:80"

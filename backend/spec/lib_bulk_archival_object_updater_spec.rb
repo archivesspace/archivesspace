@@ -338,6 +338,42 @@ describe 'Bulk Archival Object Updater' do
 
       expect(total_records_count_before).to eq total_records_count_after
     end
+
+    it 'links a related accession whose identifier has only one part' do
+      one_part_accession = create(:json_accession, id_0: "One Part #{uuid}", id_1: nil, id_2: nil, id_3: nil)
+
+      update_empty_sheet_columns(row: 3, columns_to_update: {
+        'related_accessions/0/id_0' => one_part_accession.id_0
+      })
+
+      excel_file.write(excel_filename)
+
+      bulk_archival_object_updater.run
+
+      expect(bulk_archival_object_updater.errors).to eq []
+
+      reload_archival_object_2 = ::ArchivalObject.to_jsonmodel(archival_object_2.id)
+      expect(reload_archival_object_2.accession_links.map {|link| link['ref']}).to eq([one_part_accession.uri])
+    end
+
+    context 'when an archival object is already linked to an accession whose identifier has only one part' do
+      let(:accession) { create(:json_accession, id_0: "One Part #{uuid}", id_1: nil, id_2: nil, id_3: nil) }
+
+      it 'updates the archival object and keeps the related accession' do
+        title_index = column_names.find_index('title')
+        sheet[2][title_index].change_contents('Updated Archival Object Title 1')
+
+        excel_file.write(excel_filename)
+
+        bulk_archival_object_updater.run
+
+        expect(bulk_archival_object_updater.errors).to eq []
+
+        reload_archival_object_1 = ::ArchivalObject.to_jsonmodel(archival_object_1.id)
+        expect(reload_archival_object_1.title).to eq 'Updated Archival Object Title 1'
+        expect(reload_archival_object_1.accession_links.map {|link| link['ref']}).to eq([accession.uri])
+      end
+    end
   end
 
   context 'when the bulk updater does not update the provided archival objects' do

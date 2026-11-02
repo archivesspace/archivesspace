@@ -1,10 +1,13 @@
-.readmore__label {
+.readmore__toggle {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
+  font-family: inherit;
   border: 1px solid $primary-color;
   border-radius: 0.2rem;
+  background-color: transparent;
   text-align: center;
   color: $primary-color;
+  cursor: pointer;
   transition:
     border-color 0.2s ease,
     background-color 0.2s ease,
@@ -17,19 +20,19 @@
   }
 }
 
-.readmore__label--more {
+.readmore__text--more {
   display: inline-block;
 }
 
-.readmore__label--less {
+.readmore__text--less {
   display: none;
 }
 
-.readmore__state:checked ~ .readmore__label .readmore__label--more {
+.readmore__toggle[aria-expanded='true'] .readmore__text--more {
   display: none;
 }
 
-.readmore__state:checked ~ .readmore__label .readmore__label--less {
+.readmore__toggle[aria-expanded='true'] .readmore__text--less {
   display: inline-block;
 }
 
@@ -42,7 +45,7 @@
   -webkit-text-fill-color: transparent; /* Prefix required */
 }
 
-.readmore__state:checked ~ .readmore__content {
+.readmore__toggle[aria-expanded='true'] ~ .readmore__content {
   max-height: fit-content;
   background: none;
   -webkit-text-fill-color: initial;

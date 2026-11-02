@@ -366,7 +366,7 @@
           }
 
           case 'type': {
-            let typeText = '';
+            let typeText;
 
             if (data.digital_object_type) {
               typeText = this.i18n.t(
@@ -390,9 +390,7 @@
           }
 
           case 'container': {
-            let containerText = '';
-
-            containerText = this.#buildContainerSummary(data);
+            const containerText = this.#buildContainerSummary(data);
 
             column.textContent = containerText;
 

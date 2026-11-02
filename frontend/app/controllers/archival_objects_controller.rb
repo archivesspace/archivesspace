@@ -9,12 +9,9 @@ class ArchivalObjectsController < ApplicationController
 
   def new
     if params[:duplicate_from_archival_object]
-      new_find_opts = find_opts
-      new_find_opts["resolve[]"].push("top_container::container_locations")
-
       archival_object_id = params[:duplicate_from_archival_object][:uri].split('/').pop
 
-      @archival_object = JSONModel(:archival_object).find(archival_object_id, new_find_opts)
+      @archival_object = JSONModel(:archival_object).find(archival_object_id, duplicate_find_opts)
       @archival_object.ref_id = nil
       @archival_object.instances = []
       @archival_object.position = params[:position]
@@ -376,6 +373,18 @@ class ArchivalObjectsController < ApplicationController
   end
 
   private
+
+  def duplicate_find_opts
+    {
+      "resolve[]" => [
+        "resource",
+        "parent",
+        "subjects",
+        "linked_agents",
+        "accession_links",
+      ] + Plugins.fields_to_resolve
+    }
+  end
 
   def strip_persistent_ids(records, *nested_keys)
     notes = nested_keys.reduce(Array(records)) do |items, key|
