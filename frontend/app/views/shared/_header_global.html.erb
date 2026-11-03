@@ -4,7 +4,7 @@
       <%= t("header.staff_interface") %>
     </h1>
   </span>
-  <nav class="global-header-nav">
+  <nav class="global-header-nav" aria-label="<%= t("navbar.global_navigation") %>">
     <%= render "site/branding" %>
     <ul class="list-unstyled ml-auto d-flex gap-x-2 bg-light rounded-bottom shadow-sm">
       <%= render "shared/header_user" %>

@@ -17,6 +17,11 @@ describe 'Dropdown menu accessibility', js: true do
   end
 
   context 'global header' do
+    it 'gives navigation landmarks unique accessible names' do
+      expect(find('nav.global-header-nav')[:'aria-label']).to eq(I18n.t('navbar.global_navigation'))
+      expect(find('.repository-header nav')[:'aria-label']).to eq(I18n.t('navbar.main_navigation'))
+    end
+
     let(:global_header_menu_toggles) do
       {
         'Select Repository' => '.select-a-repository button.dropdown-toggle',
