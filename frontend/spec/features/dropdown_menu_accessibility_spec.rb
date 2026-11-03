@@ -19,7 +19,7 @@ describe 'Dropdown menu accessibility', js: true do
   context 'global header' do
     it 'gives navigation landmarks unique accessible names' do
       expect(find('nav.global-header-nav')[:'aria-label']).to eq(I18n.t('navbar.global_navigation'))
-      expect(find('.repository-header nav')[:'aria-label']).to eq(I18n.t('navbar.main_navigation'))
+      expect(find('.repository-header nav')[:'aria-label']).to eq(I18n.t('navbar.repository_navigation'))
     end
 
     let(:global_header_menu_toggles) do
