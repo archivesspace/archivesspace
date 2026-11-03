@@ -97,4 +97,20 @@ class Handler
   def clear(enum_list)
     enum_list.renew
   end
+
+  def start_row
+    @row_keys = []
+  end
+
+  def forget_row
+    (@row_keys || []).each { |hash, key| hash.delete(key) }
+    @row_keys = []
+  end
+
+  private
+
+  def remember(hash, key, value)
+    @row_keys << [hash, key] if @row_keys && !hash.key?(key)
+    hash[key] = value
+  end
 end

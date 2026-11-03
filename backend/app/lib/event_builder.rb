@@ -1,4 +1,5 @@
 require "date"
+require_relative "bulk_import/agent_reference_resolver"
 
 class EventBuilder
   attr_reader :errors, :explicit_agent_ref
@@ -132,45 +133,16 @@ class EventBuilder
   end
 
   def canonicalize_agent_target(record_id, agent_type)
-    if blank?(record_id)
-      add_error(:required, :agent_record_id)
-      add_unsupported_agent_type(agent_type)
-      return
-    end
-
-    reference = canonical_agent_reference(record_id)
-    if reference
-      canonicalize_agent_uri(agent_type, reference)
-    elsif positive_numeric_id?(record_id)
-      canonicalize_agent_numeric_id(record_id, agent_type)
+    agent_reference = AgentReferenceResolver.new(:allowed_types => self.class.agent_types).parse_agent_reference(record_id, agent_type)
+    if agent_reference[:errors]
+      agent_reference[:errors].each do |error|
+        attribute = error[:attribute] == :record_id ? :agent_record_id : error[:attribute]
+        add_error(error[:code], attribute, error[:value])
+      end
+      add_unsupported_agent_type(agent_type) if agent_reference[:errors].any? { |error| error[:attribute] == :record_id }
     else
-      add_error(:invalid, :agent_record_id, record_id)
-      add_unsupported_agent_type(agent_type)
+      @explicit_agent_ref = freeze_copy(agent_reference[:uri])
     end
-  end
-
-  def canonicalize_agent_uri(agent_type, reference)
-    unless blank_type?(agent_type)
-      add_error(:forbidden, :agent_type, agent_type)
-      return
-    end
-
-    @explicit_agent_ref = freeze_copy(JSONModel(reference[:type]).uri_for(reference[:id]))
-  end
-
-  def canonicalize_agent_numeric_id(record_id, agent_type)
-    if blank_type?(agent_type)
-      add_error(:required, :agent_type)
-      return
-    end
-
-    type = event_agent_type(agent_type)
-    unless type
-      add_error(:unsupported, :agent_type, agent_type)
-      return
-    end
-
-    @explicit_agent_ref = freeze_copy(JSONModel("agent_#{type}").uri_for(record_id.to_i))
   end
 
   def add_unsupported_agent_type(agent_type)
@@ -181,26 +153,6 @@ class EventBuilder
 
   def event_agent_type(agent_type)
     AgentHandler.import_agent_type(agent_type, self.class.agent_types)
-  end
-
-  def canonical_agent_reference(record_id)
-    return nil unless record_id.is_a?(String)
-
-    reference = JSONModel.parse_reference(record_id)
-    return nil unless reference
-
-    type = reference[:type].to_s
-    return nil unless type.start_with?("agent_") && event_agent_type(type.delete_prefix("agent_"))
-
-    id = reference[:id]
-    return nil unless id.is_a?(Integer) && id > 0
-    return nil unless record_id == JSONModel(reference[:type]).uri_for(id)
-
-    { :type => type, :id => id }
-  end
-
-  def positive_numeric_id?(value)
-    value.is_a?(String) && value.match?(/\A[1-9]\d*\z/)
   end
 
   def valid_date?(value)
