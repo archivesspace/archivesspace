@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe InfiniteTreeHierarchy do
+describe TreeHierarchy do
   describe '.child_type_for' do
     it 'returns the child type for each known root' do
       aggregate_failures do

@@ -6,10 +6,10 @@ describe 'Collection Organization', js: true do
     @repo = create(:repo, repo_code: "collection_organization_test_#{Time.now.to_i}")
     set_repo(@repo)
 
-    @tree_batch_size = Rails.configuration.infinite_tree_batch_size
+    @tree_batch_size = Rails.configuration.tree_batch_size
   end
 
-  describe 'InfiniteTree' do
+  describe 'Tree' do
     before(:all) do
       @resource = create(:resource, publish: true)
       @ao1, @ao2, @ao3, @ao4, @ao5, @ao6, @ao7 = batch_create_archival_objects(7, resource: @resource)
@@ -34,7 +34,7 @@ describe 'Collection Organization', js: true do
 
     RSpec::Matchers.define :appear_in_tree_viewport do
       match do |node|
-        tree = find('#infinite-tree-container')
+        tree = find('#tree-container')
         tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
         node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
         node_top_in_view = node_rect['top'] >= tree_rect['top'] && node_rect['top'] <= tree_rect['bottom']
@@ -74,7 +74,7 @@ describe 'Collection Organization', js: true do
         end
 
         unless expected_batch_placeholders.empty?
-          container = page.find('#infinite-tree-container')
+          container = page.find('#tree-container')
 
           expected_batch_placeholders.each do |batch_offset|
             observer_node = parent_list.first("[data-observe-offset='#{batch_offset}']")
@@ -220,7 +220,7 @@ describe 'Collection Organization', js: true do
         let!(:node) do
           visit "/repositories/#{@repo.id}/resources/#{resource_id}/collection_organization#tree::resource_#{resource_id}"
 
-          find(".infinite-tree .root.current")
+          find(".tree .root.current")
         end
 
         let(:parent_list) { node.find('& > .node-children') }

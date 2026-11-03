@@ -6,25 +6,25 @@ Given 'a Resource with an Archival Object has been created' do
 end
 
 When(/^the user selects the Archival Object in (edit|view) mode$/) do |mode|
-  within '#infinite-tree-container' do
+  within '#tree-container' do
     click_link "Archival Object #{@uuid}"
   end
 
   if mode == 'edit'
-    wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+    wait_for_tree_inline_edit_form(form_prefix: 'archival_object')
   else
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
   end
 end
 
 Then 'the Archival Object with Title {string} is saved as a child of the Resource' do |title|
-  root_list_sel = ".infinite-tree > .root.node#resource_#{@resource_id} > .node-children"
+  root_list_sel = ".tree > .root.node#resource_#{@resource_id} > .node-children"
   child_sel = "#{root_list_sel} > .node.indent-level-1.current#archival_object_#{@created_record_id}"
   expect(page).to have_css child_sel, text: title
 end
 
 Then 'the Archival Object with Title {string} is saved as a sibling of the current Archival Object' do |title|
-  root_list_sel = '.infinite-tree > .root.node > .node-children'
+  root_list_sel = '.tree > .root.node > .node-children'
   expect(page).to have_css(
     "#{root_list_sel} > li#archival_object_#{@archival_object_id} + li#archival_object_#{@created_record_id}",
     text: title
@@ -38,7 +38,7 @@ end
 Then 'the New Archival Object page is displayed' do
   if current_url.include? 'resources'
     expect(current_url).to include "resources/#{@resource_id}/edit#new"
-    wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
+    wait_for_tree_inline_new_form(form_prefix: 'archival_object')
   else
     expect(current_url).to include 'archival_objects/new'
   end

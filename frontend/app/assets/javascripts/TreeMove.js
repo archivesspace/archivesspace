@@ -1,13 +1,11 @@
-class InfiniteTreeMove {
-  static EVENT_MOVE_INTENT = 'infiniteTreeMove:moveIntent';
+class TreeMove {
+  static EVENT_MOVE_INTENT = 'treeMove:moveIntent';
 
   constructor() {
-    this.componentEl = document.getElementById('infinite-tree-component');
+    this.componentEl = document.getElementById('tree-component');
     if (!this.componentEl) return;
 
-    this.containerEl = this.componentEl.querySelector(
-      '#infinite-tree-container'
-    );
+    this.containerEl = this.componentEl.querySelector('#tree-container');
     if (!this.containerEl) return;
 
     this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
@@ -18,11 +16,11 @@ class InfiniteTreeMove {
 
   #bindEvents() {
     this.containerEl.addEventListener(
-      'infiniteTreeToolbar:reorderModeChanged',
+      'treeToolbar:reorderModeChanged',
       this.#onReorderModeChanged.bind(this)
     );
     this.containerEl.addEventListener(
-      'infiniteTreeToolbar:moveOptionSelected',
+      'treeToolbar:moveOptionSelected',
       this.#onMoveOptionSelected.bind(this)
     );
   }
@@ -118,7 +116,7 @@ class InfiniteTreeMove {
 
     const sameParentMove = sourceParentUri === targetParentUri;
     this.containerEl.dispatchEvent(
-      new CustomEvent(InfiniteTreeMove.EVENT_MOVE_INTENT, {
+      new CustomEvent(TreeMove.EVENT_MOVE_INTENT, {
         bubbles: true,
         detail: {
           sourceNodes: [sourceNode],
@@ -154,9 +152,8 @@ class InfiniteTreeMove {
     const list = node.querySelector(':scope > .node-children');
     if (!list) return 0;
 
-    return list.querySelectorAll(
-      ':scope > li.node:not(.js-itree-synthetic-new)'
-    ).length;
+    return list.querySelectorAll(':scope > li.node:not(.js-tree-synthetic-new)')
+      .length;
   }
 
   #positionForNode(node) {
@@ -167,7 +164,7 @@ class InfiniteTreeMove {
     if (!node.parentElement) return null;
     const siblings = Array.from(
       node.parentElement.querySelectorAll(
-        ':scope > li.node:not(.js-itree-synthetic-new)'
+        ':scope > li.node:not(.js-tree-synthetic-new)'
       )
     );
     const index = siblings.indexOf(node);
@@ -180,7 +177,7 @@ class InfiniteTreeMove {
     while (previous) {
       if (
         previous.matches('li.node') &&
-        !previous.classList.contains('js-itree-synthetic-new')
+        !previous.classList.contains('js-tree-synthetic-new')
       ) {
         return previous;
       }
@@ -194,7 +191,7 @@ class InfiniteTreeMove {
     while (next) {
       if (
         next.matches('li.node') &&
-        !next.classList.contains('js-itree-synthetic-new')
+        !next.classList.contains('js-tree-synthetic-new')
       ) {
         return next;
       }

@@ -1026,9 +1026,7 @@ AS.clickRecordFormSaveButton = function () {
 AS.closeRecordForm = function () {
   if (document.querySelector('.modal.show')) return;
 
-  const closeButton = document.querySelector(
-    '.js-itree-toolbar-finish-editing'
-  );
+  const closeButton = document.querySelector('.js-tree-toolbar-finish-editing');
   if (closeButton) {
     // An inline "new child" form sets the hash to #new: nothing to close yet.
     if (location.hash === '#new') return;

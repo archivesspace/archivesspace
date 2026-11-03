@@ -1,6 +1,6 @@
 (function (exports) {
   /**
-   * InfiniteTreeI18n encapsulates i18n logic for InfiniteTree rendering.
+   * TreeI18n encapsulates i18n logic for Tree rendering.
    *
    * @class
    * @param {Object} options
@@ -10,7 +10,7 @@
    * @param {string} options.expand - Expand button label
    * @param {string} options.collapse - Collapse button label
    */
-  class InfiniteTreeI18n {
+  class TreeI18n {
     constructor({ sep, bulk, enumerations, expand, collapse }) {
       this.sep = sep;
       this.bulk = bulk;
@@ -45,5 +45,5 @@
     }
   }
 
-  exports.InfiniteTreeI18n = InfiniteTreeI18n;
+  exports.TreeI18n = TreeI18n;
 })(window);

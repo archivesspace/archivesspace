@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# Stable hierarchy identity and capability flags for Infinite Tree feature specs.
+# Stable hierarchy identity and capability flags for Tree feature specs.
 # Concern-specific keys (form fields, flash lambdas, etc.) live beside their shared examples.
 
-module InfiniteTreeHierarchyConfigs
+module TreeHierarchyConfigs
   RESOURCE = {
     root_type: 'resource',
-    child_type: InfiniteTreeHierarchy.child_type_for('resource'),
+    child_type: TreeHierarchy.child_type_for('resource'),
     root_factory: :resource,
     child_factory: :archival_object,
     root_relationship_key: :resource,
@@ -20,7 +20,7 @@ module InfiniteTreeHierarchyConfigs
 
   DIGITAL_OBJECT = {
     root_type: 'digital_object',
-    child_type: InfiniteTreeHierarchy.child_type_for('digital_object'),
+    child_type: TreeHierarchy.child_type_for('digital_object'),
     root_factory: :digital_object,
     child_factory: :digital_object_component,
     root_relationship_key: :digital_object,
@@ -35,7 +35,7 @@ module InfiniteTreeHierarchyConfigs
 
   CLASSIFICATION = {
     root_type: 'classification',
-    child_type: InfiniteTreeHierarchy.child_type_for('classification'),
+    child_type: TreeHierarchy.child_type_for('classification'),
     root_factory: :classification,
     child_factory: :classification_term,
     root_relationship_key: :classification,

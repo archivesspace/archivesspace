@@ -1,4 +1,4 @@
-//= require InfiniteTree
+//= require Tree
 
 (function (exports) {
   const PLACEMENT_ACTION_CLASSES = Object.freeze({
@@ -16,7 +16,7 @@
    */
 
   /**
-   * Browse-only InfiniteTree host for choosing where a new child record will be
+   * Browse-only Tree host for choosing where a new child record will be
    * created: before, as the first child of†, or after an existing node. Used by
    * TreeLinkingModal on the standalone new Archival Object page.
    *
@@ -29,17 +29,17 @@
    * - the before/child/after placement menu for the anchor
    * - a picker-local placeholder row where the new record will appear
    *
-   * It does not instantiate InfiniteTreeRouter, InfiniteTreeRecordPane,
-   * InfiniteTreeResizer, the toolbar, or the reorder modules, and it does not
-   * call InfiniteTree#setCurrentNode, which is record-pane oriented.
+   * It does not instantiate TreeRouter, TreeRecordPane,
+   * TreeResizer, the toolbar, or the reorder modules, and it does not
+   * call Tree#setCurrentNode, which is record-pane oriented.
    */
-  class InfiniteTreeParentPicker {
+  class TreeParentPicker {
     static PLACEMENTS = Object.freeze(['before', 'child', 'after']);
 
     /** @type {HTMLElement} */
     #containerEl;
 
-    /** @type {InfiniteTree} */
+    /** @type {Tree} */
     #tree;
 
     /** @type {{before: string, child: string, after: string}} */
@@ -88,7 +88,7 @@
      * @param {string} options.rootUri - Backend URI of the root record, e.g.
      * "/repositories/2/resources/5"
      * @param {{sep: string, bulk: string, enumerations: Object}} options.i18n -
-     * InfiniteTree markup i18n
+     * Tree markup i18n
      * @param {{before: string, child: string, after: string}} options.menuLabels
      * - Labels for the placement actions
      * @param {string} options.placeholderHtml - Trusted, server-translated HTML
@@ -107,20 +107,20 @@
       onPlacementChange = () => {},
     }) {
       const scaffold = document
-        .querySelector('#infinite-tree-parent-picker-template')
+        .querySelector('#tree-parent-picker-template')
         .content.cloneNode(true);
-      const componentEl = scaffold.querySelector('#infinite-tree-component');
+      const componentEl = scaffold.querySelector('#tree-component');
 
       componentEl.dataset.rootUri = rootUri;
 
-      this.#containerEl = scaffold.querySelector('#infinite-tree-container');
+      this.#containerEl = scaffold.querySelector('#tree-container');
       this.#menuLabels = menuLabels;
       this.#placeholderHtml = placeholderHtml;
       this.#onPlacementChange = onPlacementChange;
 
       mountEl.replaceChildren(scaffold);
 
-      this.#tree = new InfiniteTree(i18n, {
+      this.#tree = new Tree(i18n, {
         componentEl,
         containerEl: this.#containerEl,
         resizable: false,
@@ -128,11 +128,8 @@
 
       const container = this.#containerEl;
 
-      this.#listen(
-        this.#listeners,
-        container,
-        InfiniteTree.EVENT_TYPE_TITLE_CLICK,
-        e => this.#activate(e.detail && e.detail.node)
+      this.#listen(this.#listeners, container, Tree.EVENT_TYPE_TITLE_CLICK, e =>
+        this.#activate(e.detail && e.detail.node)
       );
       this.#listen(this.#listeners, container, 'click', e =>
         this.#onContainerClick(e)
@@ -144,14 +141,11 @@
         this.#onContainerKeyup(e)
       );
       // Realizing rows above the anchor shifts it; keep an open menu attached
-      this.#listen(this.#listeners, container, 'infiniteTree:didExpand', () =>
+      this.#listen(this.#listeners, container, 'tree:didExpand', () =>
         this.#positionMenu()
       );
-      this.#listen(
-        this.#listeners,
-        container,
-        'infiniteTree:didInsertBatch',
-        () => this.#positionMenu()
+      this.#listen(this.#listeners, container, 'tree:didInsertBatch', () =>
+        this.#positionMenu()
       );
     }
 
@@ -168,10 +162,7 @@
       try {
         root = await this.#tree.renderRoot();
       } catch (error) {
-        console.error(
-          'InfiniteTreeParentPicker could not load the tree:',
-          error
-        );
+        console.error('TreeParentPicker could not load the tree:', error);
 
         return;
       }
@@ -237,15 +228,15 @@
         !this.#destroyed &&
         node instanceof HTMLElement &&
         node.matches(
-          'li.node:not(.root, .spawn-placeholder, .js-itree-synthetic-new)'
+          'li.node:not(.root, .spawn-placeholder, .js-tree-synthetic-new)'
         ) &&
         this.#containerEl.contains(node)
       );
     }
 
     /**
-     * Whole-row activation. Expand clicks belong to InfiniteTree, and title
-     * clicks arrive as InfiniteTree titleClick events.
+     * Whole-row activation. Expand clicks belong to Tree, and title
+     * clicks arrive as Tree titleClick events.
      * @param {MouseEvent} e
      */
     #onContainerClick(e) {
@@ -304,14 +295,14 @@
       const menu = document.createElement('ul');
       const anchorTitle = this.#anchorTitle();
 
-      menu.className = 'dropdown-menu show infinite-tree-parent-picker__menu';
+      menu.className = 'dropdown-menu show tree-parent-picker__menu';
       menu.setAttribute('role', 'menu');
       menu.setAttribute(
         'aria-label',
         (anchorTitle && anchorTitle.getAttribute('title')) || ''
       );
 
-      InfiniteTreeParentPicker.PLACEMENTS.forEach(placement => {
+      TreeParentPicker.PLACEMENTS.forEach(placement => {
         const item = document.createElement('li');
         const action = document.createElement('button');
 
@@ -473,10 +464,7 @@
         try {
           await this.#tree.expandNode(anchor);
         } catch (error) {
-          console.error(
-            'InfiniteTreeParentPicker could not expand the anchor:',
-            error
-          );
+          console.error('TreeParentPicker could not expand the anchor:', error);
 
           return;
         }
@@ -564,7 +552,7 @@
      */
     #createPlaceholder(level) {
       const placeholder = document
-        .querySelector('#infinite-tree-spawn-placeholder-template')
+        .querySelector('#tree-spawn-placeholder-template')
         .content.firstElementChild.cloneNode(true);
 
       placeholder.classList.add(`indent-level-${level}`);
@@ -677,5 +665,5 @@
     }
   }
 
-  exports.InfiniteTreeParentPicker = InfiniteTreeParentPicker;
+  exports.TreeParentPicker = TreeParentPicker;
 })(window);

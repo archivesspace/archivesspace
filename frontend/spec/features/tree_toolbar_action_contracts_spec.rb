@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Toolbar Action Contracts', js: true do
-  include_context 'infinite tree integration setup'
+describe 'Tree Toolbar Action Contracts', js: true do
+  include_context 'tree integration setup'
 
   let(:edit_path) { "/resources/#{resource.id}/edit" }
   let(:root_hash) { "#tree::resource_#{resource.id}" }
@@ -19,46 +19,46 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
   def install_toolbar_event_capture
     page.execute_script(<<~JS)
-      window.__itreeToolbarEvents = [];
+      window.__treeToolbarEvents = [];
       const names = [
-        'infiniteTreeToolbar:reorderModeChanged',
-        'infiniteTreeToolbar:expandModeChanged',
-        'infiniteTreeToolbar:collapseTreeRequested',
-        'infiniteTreeToolbar:addChildRequested',
-        'infiniteTreeToolbar:addSiblingRequested',
-        'infiniteTreeToolbar:addDuplicateRequested',
-        'infiniteTreeToolbar:loadBulkRequested',
-        'infiniteTreeToolbar:rdeRequested',
-        'infiniteTreeToolbar:moveMenuRequested',
-        'infiniteTreeToolbar:cutRequested',
-        'infiniteTreeToolbar:pasteRequested',
-        'infiniteTreeToolbar:finishEditingRequested'
+        'treeToolbar:reorderModeChanged',
+        'treeToolbar:expandModeChanged',
+        'treeToolbar:collapseTreeRequested',
+        'treeToolbar:addChildRequested',
+        'treeToolbar:addSiblingRequested',
+        'treeToolbar:addDuplicateRequested',
+        'treeToolbar:loadBulkRequested',
+        'treeToolbar:rdeRequested',
+        'treeToolbar:moveMenuRequested',
+        'treeToolbar:cutRequested',
+        'treeToolbar:pasteRequested',
+        'treeToolbar:finishEditingRequested'
       ];
       names.forEach(function(name) {
         document.addEventListener(name, function(event) {
-          window.__itreeToolbarEvents.push({ name: event.type, detail: event.detail || {} });
+          window.__treeToolbarEvents.push({ name: event.type, detail: event.detail || {} });
         });
       });
     JS
   end
 
   def event_count(name)
-    page.evaluate_script("window.__itreeToolbarEvents.filter(function(e){ return e.name === '#{name}'; }).length")
+    page.evaluate_script("window.__treeToolbarEvents.filter(function(e){ return e.name === '#{name}'; }).length")
   end
 
   def event_names
-    page.evaluate_script('window.__itreeToolbarEvents.map(function(e){ return e.name; })')
+    page.evaluate_script('window.__treeToolbarEvents.map(function(e){ return e.name; })')
   end
 
   def last_event_detail
-    page.evaluate_script('window.__itreeToolbarEvents[window.__itreeToolbarEvents.length - 1].detail')
+    page.evaluate_script('window.__treeToolbarEvents[window.__treeToolbarEvents.length - 1].detail')
   end
 
   # detail includes a DOM node; full detail does not round-trip through evaluate_script.
   def contextual_event_metadata(event_name)
     page.evaluate_script(<<~JS)
       (function() {
-        var ev = window.__itreeToolbarEvents.find(function(e) {
+        var ev = window.__treeToolbarEvents.find(function(e) {
           return e.name === '#{event_name}';
         });
         if (!ev || !ev.detail) return {};
@@ -72,50 +72,50 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
   before do
     visit "#{edit_path}#{root_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     install_toolbar_event_capture
   end
 
   describe 'Mode controls' do
     it 'emits events with expected details' do
-      click_infinite_tree_toolbar_enable_auto_expand
-      expect(event_names).to include('infiniteTreeToolbar:expandModeChanged')
+      click_tree_toolbar_enable_auto_expand
+      expect(event_names).to include('treeToolbar:expandModeChanged')
       expect(last_event_detail['enabled']).to be(true)
 
-      click_infinite_tree_toolbar_collapse_tree
-      expect(event_names).to include('infiniteTreeToolbar:collapseTreeRequested')
+      click_tree_toolbar_collapse_tree
+      expect(event_names).to include('treeToolbar:collapseTreeRequested')
       expect(last_event_detail).to eq({})
 
-      find('.js-itree-toolbar-reorder-toggle').click
-      expect(event_names).to include('infiniteTreeToolbar:reorderModeChanged')
+      find('.js-tree-toolbar-reorder-toggle').click
+      expect(event_names).to include('treeToolbar:reorderModeChanged')
       expect(last_event_detail['enabled']).to be(true)
     end
   end
 
   describe 'Contextual actions' do
     it 'emits events with root metadata' do
-      find('.js-itree-toolbar-add-child').click
+      find('.js-tree-toolbar-add-child').click
       select_tree_row(ao)
 
       %w[
-        .js-itree-toolbar-add-sibling
-        .js-itree-toolbar-add-duplicate
-        .js-itree-toolbar-load-bulk
+        .js-tree-toolbar-add-sibling
+        .js-tree-toolbar-add-duplicate
+        .js-tree-toolbar-load-bulk
       ].each { |selector| find("#{selector}:not(.disabled)").click }
 
       # Bulk modal opens synchronously; click RDE before dirty-state re-gating disables it.
-      page.execute_script("document.querySelector('.js-itree-toolbar-rde').click()")
+      page.execute_script("document.querySelector('.js-tree-toolbar-rde').click()")
 
       names = event_names
       expect(names).to include(
-        'infiniteTreeToolbar:addChildRequested',
-        'infiniteTreeToolbar:addSiblingRequested',
-        'infiniteTreeToolbar:addDuplicateRequested',
-        'infiniteTreeToolbar:loadBulkRequested',
-        'infiniteTreeToolbar:rdeRequested'
+        'treeToolbar:addChildRequested',
+        'treeToolbar:addSiblingRequested',
+        'treeToolbar:addDuplicateRequested',
+        'treeToolbar:loadBulkRequested',
+        'treeToolbar:rdeRequested'
       )
 
-      metadata = contextual_event_metadata('infiniteTreeToolbar:addChildRequested')
+      metadata = contextual_event_metadata('treeToolbar:addChildRequested')
       expect(metadata['rootType']).to eq('resource')
       expect(metadata['rootUri']).to eq(resource.uri)
     end
@@ -128,13 +128,13 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     end
 
     it 'emits cutRequested and pasteRequested when buttons are clicked' do
-      click_infinite_tree_toolbar_cut
+      click_tree_toolbar_cut
       select_tree_row(ao2)
-      click_infinite_tree_toolbar_paste
+      click_tree_toolbar_paste
 
       expect(event_names).to include(
-        'infiniteTreeToolbar:cutRequested',
-        'infiniteTreeToolbar:pasteRequested'
+        'treeToolbar:cutRequested',
+        'treeToolbar:pasteRequested'
       )
     end
   end
@@ -146,8 +146,8 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     end
 
     it 'emits moveMenuRequested when the Move toggle is clicked' do
-      click_infinite_tree_toolbar_move_menu
-      expect(event_names).to include('infiniteTreeToolbar:moveMenuRequested')
+      click_tree_toolbar_move_menu
+      expect(event_names).to include('treeToolbar:moveMenuRequested')
     end
   end
 
@@ -155,16 +155,16 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     before { fill_in 'resource_title_', with: 'Modified Title' }
 
     it 'does not emit mutating action events' do
-      expect(page).to have_css('.js-itree-toolbar-add-child.disabled')
-      expect(page).to have_css('.js-itree-toolbar-finish-editing.disabled')
+      expect(page).to have_css('.js-tree-toolbar-add-child.disabled')
+      expect(page).to have_css('.js-tree-toolbar-finish-editing.disabled')
 
-      before_add_child_events = event_count('infiniteTreeToolbar:addChildRequested')
-      before_finish_events = event_count('infiniteTreeToolbar:finishEditingRequested')
+      before_add_child_events = event_count('treeToolbar:addChildRequested')
+      before_finish_events = event_count('treeToolbar:finishEditingRequested')
 
-      find('.js-itree-toolbar-add-child').click
+      find('.js-tree-toolbar-add-child').click
 
-      after_add_child_events = event_count('infiniteTreeToolbar:addChildRequested')
-      after_finish_events = event_count('infiniteTreeToolbar:finishEditingRequested')
+      after_add_child_events = event_count('treeToolbar:addChildRequested')
+      after_finish_events = event_count('treeToolbar:finishEditingRequested')
 
       expect(after_add_child_events).to eq(before_add_child_events)
       expect(after_finish_events).to eq(before_finish_events)
@@ -174,20 +174,20 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
   describe 'availability by tree type' do
     def install_integration_stubs
       page.execute_script(<<~JS)
-        window.__itreeBulkCalled = false;
-        window.__itreeRdeCalled = false;
+        window.__treeBulkCalled = false;
+        window.__treeRdeCalled = false;
         window.bulkFileSelection = function() {
-          window.__itreeBulkCalled = true;
+          window.__treeBulkCalled = true;
         };
         window.jQuery(document).on('rdeshow.aspace', function() {
-          window.__itreeRdeCalled = true;
+          window.__treeRdeCalled = true;
         });
       JS
     end
 
     def dispatch_toolbar_event(event_name)
       page.execute_script(<<~JS)
-        var container = document.getElementById('infinite-tree-container');
+        var container = document.getElementById('tree-container');
         var current = container.querySelector('li.node.current');
         container.dispatchEvent(new CustomEvent('#{event_name}', {
           bubbles: true,
@@ -197,28 +197,28 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     end
 
     def dispatch_rde_event
-      dispatch_toolbar_event('infiniteTreeToolbar:rdeRequested')
+      dispatch_toolbar_event('treeToolbar:rdeRequested')
     end
 
     shared_examples 'bulk load is available' do
       before do
         install_integration_stubs
-        dispatch_toolbar_event('infiniteTreeToolbar:loadBulkRequested')
+        dispatch_toolbar_event('treeToolbar:loadBulkRequested')
       end
 
       it 'invokes bulk file selection' do
-        expect(page.evaluate_script('window.__itreeBulkCalled')).to be(true)
+        expect(page.evaluate_script('window.__treeBulkCalled')).to be(true)
       end
     end
 
     shared_examples 'bulk load is unavailable' do
       before do
         install_integration_stubs
-        dispatch_toolbar_event('infiniteTreeToolbar:loadBulkRequested')
+        dispatch_toolbar_event('treeToolbar:loadBulkRequested')
       end
 
       it 'does not invoke bulk file selection' do
-        expect(page.evaluate_script('window.__itreeBulkCalled')).to be(false)
+        expect(page.evaluate_script('window.__treeBulkCalled')).to be(false)
       end
     end
 
@@ -229,7 +229,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
       end
 
       it 'invokes the RDE integration' do
-        expect(page.evaluate_script('window.__itreeRdeCalled')).to be(true)
+        expect(page.evaluate_script('window.__treeRdeCalled')).to be(true)
       end
     end
 
@@ -240,14 +240,14 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
       end
 
       it 'does not invoke the RDE integration' do
-        expect(page.evaluate_script('window.__itreeRdeCalled')).to be(false)
+        expect(page.evaluate_script('window.__treeRdeCalled')).to be(false)
       end
     end
 
     context 'Resources' do
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
       end
 
       it_behaves_like 'bulk load is available'
@@ -261,7 +261,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
       end
 
       it_behaves_like 'bulk load is unavailable'
@@ -275,7 +275,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
       end
 
       it_behaves_like 'bulk load is unavailable'
@@ -286,15 +286,15 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
   describe 'Finish editing' do
     it 'preserves hash in target URL' do
       page.execute_script(<<~JS)
-        var container = document.getElementById('infinite-tree-container');
-        container.addEventListener('infiniteTreeToolbar:finishEditingRequested', function(event) {
-          window.sessionStorage.setItem('itreeFinishTarget', event.detail.target);
+        var container = document.getElementById('tree-container');
+        container.addEventListener('treeToolbar:finishEditingRequested', function(event) {
+          window.sessionStorage.setItem('treeFinishTarget', event.detail.target);
         });
       JS
 
-      find('.js-itree-toolbar-finish-editing').click
+      find('.js-tree-toolbar-finish-editing').click
 
-      finish_target = page.evaluate_script("window.sessionStorage.getItem('itreeFinishTarget')")
+      finish_target = page.evaluate_script("window.sessionStorage.getItem('treeFinishTarget')")
       expect(finish_target).to include("/resources/#{resource.id}")
       expect(finish_target).to include(root_hash)
     end

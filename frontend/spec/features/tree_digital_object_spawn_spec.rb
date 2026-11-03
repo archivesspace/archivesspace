@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree digital object spawn from instance linker', js: true do
-  include_context 'infinite tree integration setup'
+describe 'Tree digital object spawn from instance linker', js: true do
+  include_context 'tree integration setup'
 
   let(:edit_path) { "/resources/#{resource.id}/edit" }
   let(:resource_hash) { "#tree::resource_#{resource.id}" }
@@ -25,7 +25,7 @@ describe 'Infinite Tree digital object spawn from instance linker', js: true do
   end
 
   def open_spawned_digital_object_create_modal(linker_scope:, modal_id:)
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       click_on 'Add Digital Object'
 
       within linker_scope do
@@ -41,11 +41,11 @@ describe 'Infinite Tree digital object spawn from instance linker', js: true do
 
   it 'prefills the create form from the resource selected in the tree' do
     visit "#{edit_path}#{resource_hash}"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     aggregate_failures 'tree and pane show the resource' do
-      expect(page).to have_css(infinite_tree_current_node_selector(resource))
-      within('#infinite-tree-record-pane') do
+      expect(page).to have_css(tree_current_node_selector(resource))
+      within('#tree-record-pane') do
         expect(page).to have_css('#resource_form')
         expect(page).to have_css('h2', text: resource.title)
       end
@@ -62,11 +62,11 @@ describe 'Infinite Tree digital object spawn from instance linker', js: true do
 
   it 'prefills the create form from the archival object selected in the tree' do
     visit "#{edit_path}#{ao_hash}"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     aggregate_failures 'tree and pane show the archival object' do
-      expect(page).to have_css(infinite_tree_current_node_selector(ao))
-      within('#infinite-tree-record-pane') do
+      expect(page).to have_css(tree_current_node_selector(ao))
+      within('#tree-record-pane') do
         expect(page).to have_css('#archival_object_form')
         expect(page).to have_css('h2', text: ao.title)
       end

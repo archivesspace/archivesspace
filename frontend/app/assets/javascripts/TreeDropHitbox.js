@@ -2,7 +2,7 @@
  * Derived from Atlassian Pragmatic Drag and Drop (Apache-2.0):
  * packages/hitbox/src/tree-item.ts (standardHitbox).
  */
-class InfiniteTreeDropHitbox {
+class TreeDropHitbox {
   /**
    * @param {{x:number, y:number}} client
    * @param {{top:number, bottom:number, height:number}} borderBox
@@ -16,4 +16,4 @@ class InfiniteTreeDropHitbox {
   }
 }
 
-window.InfiniteTreeDropHitbox = InfiniteTreeDropHitbox;
+window.TreeDropHitbox = TreeDropHitbox;

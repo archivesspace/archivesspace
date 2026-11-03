@@ -245,9 +245,9 @@ describe 'Mixed Content in title fields', js: true do
         visit "#{@resource.uri}/collection_organization"
       end
 
-      it 'infinite tree sidebar' do
-        expect(page).to have_css ".infinite-tree .node-title > span#{@frontend_title_selector}", text: "Resource #{@now}"
-        expect(page).to have_css ".infinite-tree .node-title > span#{@frontend_emph_selector}", text: "Archival Object #{@now}"
+      it 'tree sidebar' do
+        expect(page).to have_css ".tree .node-title > span#{@frontend_title_selector}", text: "Resource #{@now}"
+        expect(page).to have_css ".tree .node-title > span#{@frontend_emph_selector}", text: "Archival Object #{@now}"
       end
 
       it 'infinite records section' do

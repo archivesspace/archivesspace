@@ -4,9 +4,9 @@ require 'rails_helper'
 # The batch observer samples once per animation frame, so a fast scroll can
 # carry a batch's trigger node across the observer zone unseen. These cover
 # the scroll check that loads those skipped batches.
-describe 'Collection Organization InfiniteTree fast scroll', js: true do
+describe 'Collection Organization Tree fast scroll', js: true do
   before(:all) do
-    @repo = create(:repo, repo_code: "infinite_tree_fast_scroll_#{Time.now.to_i}")
+    @repo = create(:repo, repo_code: "tree_fast_scroll_#{Time.now.to_i}")
     set_repo(@repo)
 
     @resource = create(:resource, publish: true)
@@ -15,10 +15,10 @@ describe 'Collection Organization InfiniteTree fast scroll', js: true do
     run_indexers
   end
 
-  let(:batch_size) { Rails.configuration.infinite_tree_batch_size }
+  let(:batch_size) { Rails.configuration.tree_batch_size }
   let(:total_nodes) { @children.length }
   let(:total_batches) { (total_nodes / batch_size.to_f).ceil }
-  let(:container) { find('#infinite-tree-container') }
+  let(:container) { find('#tree-container') }
   let(:root_list) { find("#resource_#{@resource.id}-children") }
 
   # Scrolls the container by `step` px per animation frame until it stops

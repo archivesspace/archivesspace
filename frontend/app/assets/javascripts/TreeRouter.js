@@ -1,20 +1,19 @@
-//= require InfiniteTreeIds
+//= require TreeIds
 
 (function (exports) {
-  class InfiniteTreeRouter {
+  class TreeRouter {
     /**
      * @constructor
      * @param {Object} i18n - The i18n object for use in a non .js.erb file
      * @param {string} i18n.saveChangesTitle - The title of the save changes modal
      */
     constructor(i18n) {
-      const { rootUri, isReadOnly } = document.querySelector(
-        '#infinite-tree-component'
-      ).dataset;
+      const { rootUri, isReadOnly } =
+        document.querySelector('#tree-component').dataset;
 
       this.currentHash = window.location.hash;
-      this.treeContainer = document.querySelector('#infinite-tree-container');
-      this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
+      this.treeContainer = document.querySelector('#tree-container');
+      this.recordPaneEl = document.querySelector('#tree-record-pane');
       this.rootUri = rootUri;
       this.isReadOnly = isReadOnly === 'true';
       this.i18n = i18n;
@@ -31,149 +30,132 @@
     }
 
     addListeners() {
-      this.recordPaneEl.addEventListener('infiniteTreeRecordPane:dirty', () => {
+      this.recordPaneEl.addEventListener('treeRecordPane:dirty', () => {
         this.isDirty = true;
       });
 
-      this.recordPaneEl.addEventListener('infiniteTreeRecordPane:clean', () => {
+      this.recordPaneEl.addEventListener('treeRecordPane:clean', () => {
         this.isDirty = false;
       });
 
       // Respond to submit results during dirty guard Save
-      this.recordPaneEl.addEventListener(
-        'infiniteTreeRecordPane:submitSuccess',
-        e => {
-          const target = this._pendingHash;
-          const { uri: savedUri, created, plusOne } = e.detail || {};
+      this.recordPaneEl.addEventListener('treeRecordPane:submitSuccess', e => {
+        const target = this._pendingHash;
+        const { uri: savedUri, created, plusOne } = e.detail || {};
 
-          // plusOne is set by InfiniteTreeRecordPane when the user clicked Save +1 on an
-          // inline tree form (type="button" plus-one controls; see that module). Plain
-          // Save and dirty-guard submits leave it false. The sibling form load is deferred
-          // until after rebuildAndShow completes.
-          this._pendingTransaction = {
-            target: target,
-            savedUri: savedUri,
-            created: !!created,
-            plusOne: !!plusOne,
-          };
+        // plusOne is set by TreeRecordPane when the user clicked Save +1 on an
+        // inline tree form (type="button" plus-one controls; see that module). Plain
+        // Save and dirty-guard submits leave it false. The sibling form load is deferred
+        // until after rebuildAndShow completes.
+        this._pendingTransaction = {
+          target: target,
+          savedUri: savedUri,
+          created: !!created,
+          plusOne: !!plusOne,
+        };
 
-          // Clear pending hash now that we've captured it
-          this._pendingHash = null;
-          this._pendingSavedUri = null;
-          this.isDirty = false;
+        // Clear pending hash now that we've captured it
+        this._pendingHash = null;
+        this._pendingSavedUri = null;
+        this.isDirty = false;
 
-          if (!savedUri) {
-            this.#completeTransaction();
+        if (!savedUri) {
+          this.#completeTransaction();
 
-            return;
-          }
+          return;
+        }
 
-          if (created) {
-            const newRecordHash = InfiniteTreeIds.treeLinkUrl(savedUri);
+        if (created) {
+          const newRecordHash = TreeIds.treeLinkUrl(savedUri);
 
-            if (target) {
-              const pendingHash = target.startsWith('#')
-                ? target
-                : `#${target}`;
+          if (target) {
+            const pendingHash = target.startsWith('#') ? target : `#${target}`;
 
-              this.#setHashSilently(pendingHash);
+            this.#setHashSilently(pendingHash);
 
-              this.treeContainer.dispatchEvent(
-                new CustomEvent('infiniteTreeRouter:rebuildAndShow', {
-                  detail: {
-                    targetHash: pendingHash,
-                    plusOne: !!plusOne,
-                    notifyPane: false,
-                  },
-                })
-              );
-            } else {
-              this.#setHashSilently(newRecordHash);
-
-              this.treeContainer.dispatchEvent(
-                new CustomEvent('infiniteTreeRouter:rebuildAndShow', {
-                  detail: {
-                    targetHash: newRecordHash,
-                    plusOne: !!plusOne,
-                    notifyPane: false,
-                  },
-                })
-              );
-            }
-          } else {
             this.treeContainer.dispatchEvent(
-              new CustomEvent('infiniteTreeRouter:refreshNode', {
+              new CustomEvent('treeRouter:rebuildAndShow', {
+                detail: {
+                  targetHash: pendingHash,
+                  plusOne: !!plusOne,
+                  notifyPane: false,
+                },
+              })
+            );
+          } else {
+            this.#setHashSilently(newRecordHash);
+
+            this.treeContainer.dispatchEvent(
+              new CustomEvent('treeRouter:rebuildAndShow', {
+                detail: {
+                  targetHash: newRecordHash,
+                  plusOne: !!plusOne,
+                  notifyPane: false,
+                },
+              })
+            );
+          }
+        } else {
+          this.treeContainer.dispatchEvent(
+            new CustomEvent('treeRouter:refreshNode', {
+              detail: { uri: savedUri },
+            })
+          );
+        }
+      });
+
+      // Listen for refresh completion to finish the transaction
+      this.treeContainer.addEventListener('tree:refreshNodeComplete', () => {
+        if (this._pendingTransaction) {
+          this.#completeTransaction();
+        }
+      });
+
+      this.treeContainer.addEventListener('tree:rebuildAndShowComplete', () => {
+        if (this._pendingTransaction) {
+          const { savedUri, created, plusOne } = this._pendingTransaction;
+
+          // Inline Save +1: open the sibling new form after tree refresh.
+          // plusOneAfterCreate runs before
+          // completeTransaction so the record pane still has transaction context.
+          if (created && plusOne && savedUri) {
+            this.recordPaneEl.dispatchEvent(
+              new CustomEvent('treeRouter:plusOneAfterCreate', {
                 detail: { uri: savedUri },
               })
             );
           }
+
+          this.#completeTransaction();
         }
-      );
+      });
 
-      // Listen for refresh completion to finish the transaction
-      this.treeContainer.addEventListener(
-        'infiniteTree:refreshNodeComplete',
-        () => {
-          if (this._pendingTransaction) {
-            this.#completeTransaction();
-          }
-        }
-      );
+      this.treeContainer.addEventListener('treeRouter:replaceHash', e => {
+        const { targetHash } = e.detail || {};
 
-      this.treeContainer.addEventListener(
-        'infiniteTree:rebuildAndShowComplete',
-        () => {
-          if (this._pendingTransaction) {
-            const { savedUri, created, plusOne } = this._pendingTransaction;
+        if (!targetHash) return;
 
-            // Inline Save +1: open the sibling new form after tree refresh.
-            // plusOneAfterCreate runs before
-            // completeTransaction so the record pane still has transaction context.
-            if (created && plusOne && savedUri) {
-              this.recordPaneEl.dispatchEvent(
-                new CustomEvent('infiniteTreeRouter:plusOneAfterCreate', {
-                  detail: { uri: savedUri },
-                })
-              );
-            }
+        this.#setHashSilently(targetHash);
 
-            this.#completeTransaction();
-          }
-        }
-      );
+        // When the requested hash matches the URL hash (the common case from
+        // reorder flows where we re-assert the current record),
+        // no hashchange event fires and `_ignoreHashChange` would otherwise
+        // stay stuck at true. Clear it after the current microtask so the
+        // next user-initiated hashchange is processed normally.
+        queueMicrotask(() => {
+          this._ignoreHashChange = false;
+        });
+      });
 
-      this.treeContainer.addEventListener(
-        'infiniteTreeRouter:replaceHash',
-        e => {
-          const { targetHash } = e.detail || {};
-
-          if (!targetHash) return;
-
-          this.#setHashSilently(targetHash);
-
-          // When the requested hash matches the URL hash (the common case from
-          // reorder flows where we re-assert the current record),
-          // no hashchange event fires and `_ignoreHashChange` would otherwise
-          // stay stuck at true. Clear it after the current microtask so the
-          // next user-initiated hashchange is processed normally.
-          queueMicrotask(() => {
-            this._ignoreHashChange = false;
-          });
-        }
-      );
-
-      this.recordPaneEl.addEventListener(
-        'infiniteTreeRecordPane:submitError',
-        () => {
-          this.#abandonPendingNavigation();
-          this.#closeDirtyModal();
-        }
-      );
+      this.recordPaneEl.addEventListener('treeRecordPane:submitError', () => {
+        this.#abandonPendingNavigation();
+        this.#closeDirtyModal();
+      });
 
       // Intercept title clicks
-      this.treeContainer.addEventListener('infiniteTree:titleClick', e => {
+      this.treeContainer.addEventListener('tree:titleClick', e => {
         const { node } = e.detail;
-        const target = InfiniteTreeIds.uriToLocationHash(node.dataset.uri);
+        const target = TreeIds.uriToLocationHash(node.dataset.uri);
 
         if (this.isReadOnly || !this.isDirty) {
           // Fast path: clean — just set the hash and let the hashchange handler dispatch
@@ -193,7 +175,7 @@
 
     init() {
       if (this.currentHash === '' || !this.#isValidTreeHash(this.currentHash)) {
-        const hash = InfiniteTreeIds.treeLinkUrl(this.rootUri);
+        const hash = TreeIds.treeLinkUrl(this.rootUri);
 
         // Set the hash and rely on hashchange to dispatch the first navigation
         this.setHash(hash);
@@ -304,7 +286,7 @@
 
     #requestFormSubmit() {
       this.recordPaneEl.dispatchEvent(
-        new CustomEvent('infiniteTreeRouter:requestSubmit')
+        new CustomEvent('treeRouter:requestSubmit')
       );
     }
 
@@ -312,7 +294,7 @@
       const prefixedHash = hash && hash.startsWith('#') ? hash : `#${hash}`;
 
       this.treeContainer.dispatchEvent(
-        new CustomEvent('infiniteTreeRouter:setCurrentNode', {
+        new CustomEvent('treeRouter:setCurrentNode', {
           detail: {
             targetHash: prefixedHash,
           },
@@ -356,9 +338,9 @@
      * @private
      */
     #isValidTreeHash(hash) {
-      const id = InfiniteTreeIds.locationHashToHtmlId(hash);
+      const id = TreeIds.locationHashToHtmlId(hash);
 
-      return InfiniteTreeIds.parseTreeId(id) !== null;
+      return TreeIds.parseTreeId(id) !== null;
     }
 
     /**
@@ -391,5 +373,5 @@
     }
   }
 
-  exports.InfiniteTreeRouter = InfiniteTreeRouter;
+  exports.TreeRouter = TreeRouter;
 })(window);

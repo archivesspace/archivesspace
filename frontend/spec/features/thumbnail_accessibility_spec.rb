@@ -23,7 +23,7 @@ describe 'Thumbnail accessibility', js: true do
   it 'gives the generic icon an accessible name, so that its link is not empty' do
     visit "digital_objects/#{@digital_object.id}"
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       aggregate_failures do
         expect(page).to have_css(".digital-object-thumbnail a i.fa-file-video[role='img'][aria-label='Video of the event']")
         expect(page).not_to have_css('.digital-object-thumbnail a[aria-hidden]')

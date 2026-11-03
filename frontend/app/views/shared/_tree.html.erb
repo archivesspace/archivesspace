@@ -1,6 +1,6 @@
 <%
    root_type = root_record.jsonmodel_type
-   child_type = InfiniteTreeHierarchy.child_type_for(root_type)
+   child_type = TreeHierarchy.child_type_for(root_type)
    show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_tree_container]
    read_only = false if read_only.blank?
    toolbar_capabilities = {
@@ -15,23 +15,23 @@
    new_duplicate_placeholder_title = root_type == 'resource' ? I18n.t('archival_object._frontend.tree.duplicated_record_title') : ''
 %>
 
-<%= javascript_include_tag "InfiniteTreeRouter.js" %>
-<%= javascript_include_tag "InfiniteTreeIds.js" %>
-<%= javascript_include_tag "InfiniteTree.js" %>
-<%= javascript_include_tag "InfiniteTreeResizer.js" %>
-<%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
-<%= javascript_include_tag "InfiniteTreeToolbar.js" %>
-<%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
-<%= javascript_include_tag "InfiniteTreeMultiSelection.js" %>
-<%= javascript_include_tag "InfiniteTreeDropHitbox.js" %>
-<%= javascript_include_tag "InfiniteTreeDragDrop.js" %>
-<%= javascript_include_tag "InfiniteTreeCutPaste.js" %>
-<%= javascript_include_tag "InfiniteTreeMove.js" %>
-<%= javascript_include_tag "InfiniteTreeReorderActions.js" %>
+<%= javascript_include_tag "TreeRouter.js" %>
+<%= javascript_include_tag "TreeIds.js" %>
+<%= javascript_include_tag "Tree.js" %>
+<%= javascript_include_tag "TreeResizer.js" %>
+<%= javascript_include_tag "TreeRecordPane.js" %>
+<%= javascript_include_tag "TreeToolbar.js" %>
+<%= javascript_include_tag "TreeToolbarActions.js" %>
+<%= javascript_include_tag "TreeMultiSelection.js" %>
+<%= javascript_include_tag "TreeDropHitbox.js" %>
+<%= javascript_include_tag "TreeDragDrop.js" %>
+<%= javascript_include_tag "TreeCutPaste.js" %>
+<%= javascript_include_tag "TreeMove.js" %>
+<%= javascript_include_tag "TreeReorderActions.js" %>
 
 <div
-  id="infinite-tree-component"
-  data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
+  id="tree-component"
+  data-batch-size="<%= Rails.configuration.tree_batch_size %>"
   data-is-read-only="<%= read_only %>"
   data-root-uri="<%= root_record.uri %>"
   data-record-type="<%= root_type %>"
@@ -43,7 +43,7 @@
   data-error-move-records-message="<%= h(I18n.t('tree.errors.move_records_message')) %>"
 >
   <% if !read_only %>
-    <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar", :locals => {
+    <%= render_aspace_partial :partial => "shared/tree_toolbar", :locals => {
          :add_child_label => toolbar_add_child_label,
          :add_sibling_label => toolbar_add_sibling_label,
          :add_duplicate_label => toolbar_add_duplicate_label,
@@ -52,29 +52,29 @@
          :show_rde => toolbar_capabilities[:show_rde],
        } %>
   <% end %>
-  <div id="infinite-tree-container" class="mb-2"></div>
-  <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
-  <%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
+  <div id="tree-container" class="mb-2"></div>
+  <%= render_aspace_partial :partial => "shared/tree_resizer" %>
+  <%= render_aspace_partial :partial => "shared/tree_record_pane" %>
 </div>
 
-<%= render_aspace_partial partial: 'shared/infinite_tree_templates', locals: { root_type: root_type, show_identifiers: show_identifiers } %>
+<%= render_aspace_partial partial: 'shared/tree_templates', locals: { root_type: root_type, show_identifiers: show_identifiers } %>
 
-<template id="infinite-tree-empty-drag-image-template">
-  <div class="infinite-tree-empty-drag-image"></div>
+<template id="tree-empty-drag-image-template">
+  <div class="tree-empty-drag-image"></div>
 </template>
 
-<template id="infinite-tree-drag-preview-template">
-  <div class="infinite-tree-drag-preview">
-    <ol class="infinite-tree-drag-preview__list"></ol>
+<template id="tree-drag-preview-template">
+  <div class="tree-drag-preview">
+    <ol class="tree-drag-preview__list"></ol>
   </div>
 </template>
 
-<template id="infinite-tree-drag-preview-item-template">
-  <li class="infinite-tree-drag-preview__item"></li>
+<template id="tree-drag-preview-item-template">
+  <li class="tree-drag-preview__item"></li>
 </template>
 
-<template id="infinite-tree-drag-preview-count-template">
-  <div class="infinite-tree-drag-preview__count"></div>
+<template id="tree-drag-preview-count-template">
+  <div class="tree-drag-preview__count"></div>
 </template>
 
 <%
@@ -94,7 +94,7 @@
 %>
 
 <script>
-window.InfiniteTreeHierarchyConfig = <%== InfiniteTreeHierarchy.to_json %>;
+window.TreeHierarchyConfig = <%== TreeHierarchy.to_json %>;
 
 const ENUMERATION_TRANSLATIONS_2 = <%== translations.to_json %>;
 
@@ -112,7 +112,7 @@ const EnumerationTranslations2 = {
   ENUMERATION_TRANSLATIONS: ENUMERATION_TRANSLATIONS_2
 };
 
-const infiniteTree = new InfiniteTree({
+const tree = new Tree({
   sep: "<%= I18n.t("#{root_type}.identifier_separator") %>",
   bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
   expand: <%== I18n.t('actions.expand_node').to_json %>,
@@ -120,19 +120,19 @@ const infiniteTree = new InfiniteTree({
   enumerations: EnumerationTranslations2
 });
 
-const infiniteTreeRecordPane = new InfiniteTreeRecordPane();
+const treeRecordPane = new TreeRecordPane();
 
-const infiniteTreeRouter = new InfiniteTreeRouter({
+const treeRouter = new TreeRouter({
     saveChangesTitle: "<%= I18n.t('save_changes_modal.save') %>"
 });
 
 if (!<%= read_only %>) {
-  new InfiniteTreeToolbar();
-  new InfiniteTreeToolbarActions();
-  new InfiniteTreeMultiSelection();
-  new InfiniteTreeDragDrop();
-  new InfiniteTreeCutPaste();
-  new InfiniteTreeMove();
-  new InfiniteTreeReorderActions();
+  new TreeToolbar();
+  new TreeToolbarActions();
+  new TreeMultiSelection();
+  new TreeDragDrop();
+  new TreeCutPaste();
+  new TreeMove();
+  new TreeReorderActions();
 }
 </script>

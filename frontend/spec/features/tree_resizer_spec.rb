@@ -3,21 +3,21 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Resizer', js: true do
+describe 'Tree Resizer', js: true do
   context 'Resources' do
     before do
       login_admin_and_select_repository($repo)
       visit '/resources/1'
     end
 
-    include_context 'infinite tree resizer page setup'
+    include_context 'tree resizer page setup'
 
     it_behaves_like 'resizing the tree pane'
   end
 
   context 'Digital Objects' do
     let(:now) { Time.now.to_i }
-    before(:all) { @repo = create(:repo, repo_code: "itree_resizer_do_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+    before(:all) { @repo = create(:repo, repo_code: "tree_resizer_do_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
     let(:repo) { @repo }
     let(:root_record) do
       create(
@@ -34,14 +34,14 @@ describe 'Infinite Tree Resizer', js: true do
       visit "/digital_objects/#{root_record.id}"
     end
 
-    include_context 'infinite tree resizer page setup'
+    include_context 'tree resizer page setup'
 
     it_behaves_like 'resizing the tree pane'
   end
 
   context 'Classifications' do
     let(:now) { Time.now.to_i }
-    before(:all) { @repo = create(:repo, repo_code: "itree_resizer_class_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+    before(:all) { @repo = create(:repo, repo_code: "tree_resizer_class_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
     let(:repo) { @repo }
     let(:root_record) do
       create(
@@ -58,7 +58,7 @@ describe 'Infinite Tree Resizer', js: true do
       visit "/classifications/#{root_record.id}"
     end
 
-    include_context 'infinite tree resizer page setup'
+    include_context 'tree resizer page setup'
 
     it_behaves_like 'resizing the tree pane'
   end

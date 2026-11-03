@@ -2,7 +2,7 @@
 
 RSpec.shared_examples 'covering edit view tree behavior' do |config|
   let(:now) { Time.now.to_i }
-  before(:all) { @repo = create(:repo, repo_code: "itree_edit_coverage_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  before(:all) { @repo = create(:repo, repo_code: "tree_edit_coverage_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
   let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
@@ -29,7 +29,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
     child_record
     child_record2
     visit edit_path
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
   end
 
   describe 'Close Record' do
@@ -37,7 +37,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
       select_tree_row_by_id(child_record)
       expect(page.current_url).to include("#tree::#{config[:child_type]}_#{child_record.id}")
 
-      find('.js-itree-toolbar-finish-editing').click
+      find('.js-tree-toolbar-finish-editing').click
       expect(page).to have_no_current_path(%r{/edit}, url: true)
 
       aggregate_failures do
@@ -51,9 +51,9 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
   describe 'deleting a child record' do
     it 'removes the deleted record from the tree and leaves a coherent pane' do
       select_tree_row_by_id(child_record)
-      wait_for_infinite_tree_inline_edit_form(form_prefix: child_form_prefix)
+      wait_for_tree_inline_edit_form(form_prefix: child_form_prefix)
 
-      within '#infinite-tree-record-pane' do
+      within '#tree-record-pane' do
         expect(page).to have_css('h2', text: child_record.title)
         click_on 'Delete'
       end
@@ -63,11 +63,11 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
 
       aggregate_failures do
         expect(page).to have_no_css(
-          "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)}",
+          "#tree-container li##{tree_node_id_for(child_record)}",
           visible: :all
         )
         expect(page).to have_css(
-          "#infinite-tree-container li##{infinite_tree_node_id_for(child_record2)}"
+          "#tree-container li##{tree_node_id_for(child_record2)}"
         )
       end
     end
@@ -85,11 +85,11 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
 
       before do
         visit edit_path
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
       end
 
       it 'badges only the suppressed record' do
-        badges = page.all('#infinite-tree-container .record-title .badge', text: 'Suppressed')
+        badges = page.all('#tree-container .record-title .badge', text: 'Suppressed')
 
         aggregate_failures do
           expect(badges.length).to eq(1)
@@ -110,7 +110,7 @@ RSpec.shared_examples 'covering edit view tree behavior' do |config|
 
     it 'is not draggable and shows no drag handle' do
       root_row = page.find(
-        "#infinite-tree-container li.node.root[data-uri='#{root_record.uri}'] > .node-row"
+        "#tree-container li.node.root[data-uri='#{root_record.uri}'] > .node-row"
       )
       child_row = tree_row(child_record.uri)
 

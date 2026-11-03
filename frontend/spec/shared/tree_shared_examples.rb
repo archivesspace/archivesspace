@@ -1,4 +1,4 @@
-RSpec.shared_examples 'having an infinite tree on the read-only view' do |record_config|
+RSpec.shared_examples 'having a tree on the read-only view' do |record_config|
   let(:record_type) { record_config[:record_type] }
   let(:child_type) { record_config[:child_type] }
   let(:root_factory) { record_config[:root_factory] }
@@ -11,8 +11,8 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
   before(:all) do
     now = Time.now.to_i
     @test_prefix = "#{record_config[:record_type]}_#{now}"
-    @batch_size = Rails.configuration.infinite_tree_batch_size
-    @repo = create(:repo, repo_code: "infinite_tree_test_#{@test_prefix}")
+    @batch_size = Rails.configuration.tree_batch_size
+    @repo = create(:repo, repo_code: "tree_test_#{@test_prefix}")
     set_repo(@repo)
 
     # Evaluate additional attrs for this record type
@@ -30,13 +30,13 @@ RSpec.shared_examples 'having an infinite tree on the read-only view' do |record
     login_admin_and_select_repository(@repo)
   end
 
-  let(:container) { find('#infinite-tree-container') }
+  let(:container) { find('#tree-container') }
   let(:basic_root_record) { @basic_root_record }
   let(:basic_child_record) { @basic_child_record }
   subject(:tree) do
     visit show_path.call(basic_root_record.id)
-    wait_for_infinite_tree_loaded
-    find('.infinite-tree')
+    wait_for_tree_loaded
+    find('.tree')
   end
 
   private
@@ -246,8 +246,8 @@ RSpec.shared_examples 'a root node having no children' do
     let(:expected_uri) { root_record.uri }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_infinite_tree_loaded
-      find('.infinite-tree')
+      wait_for_tree_loaded
+      find('.tree')
     end
 
     it_behaves_like 'having the node state', :basic_node_markup, :no_children
@@ -264,8 +264,8 @@ RSpec.shared_examples 'a root node having three children' do
     let(:child_count) { 3 }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_infinite_tree_loaded
-      find('.infinite-tree')
+      wait_for_tree_loaded
+      find('.tree')
     end
 
     it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :children_visible
@@ -297,8 +297,8 @@ RSpec.shared_examples 'a root node having N batches of children' do |batch_count
     let(:batches_not_yet_loaded) { (1...batch_count).to_a }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_infinite_tree_loaded
-      find('.infinite-tree')
+      wait_for_tree_loaded
+      find('.tree')
     end
 
     it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :children_visible, :observer_for_second_batch, :batch_placeholders
@@ -317,8 +317,8 @@ RSpec.shared_examples 'a node having three children' do
     let(:child_count) { 3 }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_infinite_tree_loaded
-      find('.infinite-tree')
+      wait_for_tree_loaded
+      find('.tree')
     end
 
     it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :not_expanded_yet
@@ -360,8 +360,8 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     let(:child_count) { @batch_size }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_infinite_tree_loaded
-      find('.infinite-tree')
+      wait_for_tree_loaded
+      find('.tree')
     end
 
     it_behaves_like 'having the node state', :basic_node_markup, :total_child_batches, :not_expanded_yet
@@ -374,7 +374,7 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     describe 'after initial expansion' do
       before do
         node.find(':scope > .node-row .node-expand').click
-        wait_for_infinite_tree_node_expanded(node)
+        wait_for_tree_node_expanded(node)
       end
 
       let(:child_list) { node.find(':scope > .node-children') }
@@ -410,13 +410,13 @@ RSpec.shared_examples 'having lazy loading behavior' do
     let(:node) { tree.find("##{child_type}_#{parent_record.id}") }
     let(:tree) do
       visit show_path.call(root_record.id)
-      wait_for_infinite_tree_loaded
-      find('.infinite-tree')
+      wait_for_tree_loaded
+      find('.tree')
     end
 
     before(:each) do
       node.find(':scope > .node-row .node-expand').click
-      wait_for_infinite_tree_node_expanded(node)
+      wait_for_tree_node_expanded(node)
     end
 
     let(:child_list) { node.find(':scope > .node-children') }
@@ -433,7 +433,7 @@ RSpec.shared_examples 'having lazy loading behavior' do
           num_batches_loaded.times do |i|
             if node['aria-expanded'] == 'false'
               node.find(':scope > .node-row .node-expand').click
-              wait_for_infinite_tree_node_expanded(node)
+              wait_for_tree_node_expanded(node)
             end
             observer_node = child_list.find("[data-observe-offset='#{i + 1}']", match: :first)
             container.scroll_to(observer_node, align: :center)
@@ -457,8 +457,8 @@ RSpec.shared_examples 'being a leaf node' do
   let(:expected_uri) { leaf_record.uri }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_infinite_tree_loaded
-    find('.infinite-tree')
+    wait_for_tree_loaded
+    find('.tree')
   end
 
   it_behaves_like 'having the node state', :basic_node_markup, :no_children
@@ -469,8 +469,8 @@ RSpec.shared_examples 'simple column rendering' do
   let(:child_record) { @columns_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_infinite_tree_loaded
-    find('.infinite-tree')
+    wait_for_tree_loaded
+    find('.tree')
   end
 
   it_behaves_like 'rendering the base columns'
@@ -481,8 +481,8 @@ RSpec.shared_examples 'column rendering with conditional columns' do
   let(:child_record) { @columns_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_infinite_tree_loaded
-    find('.infinite-tree')
+    wait_for_tree_loaded
+    find('.tree')
   end
 
   it_behaves_like 'rendering the base columns'
@@ -545,13 +545,13 @@ RSpec.shared_examples 'showing a badge on suppressed records' do
   let(:suppressed_record) { @suppressed_child }
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_infinite_tree_loaded
-    find('.infinite-tree')
+    wait_for_tree_loaded
+    find('.tree')
   end
 
   it 'is shown only for suppressed records' do
     tree
-    badge_selector = '#infinite-tree-container .record-title .badge'
+    badge_selector = '#tree-container .record-title .badge'
     badge = find(badge_selector, text: 'Suppressed', match: :first)
     badge_parent = badge.find(:xpath, '..')
 
@@ -578,8 +578,8 @@ RSpec.shared_examples 'having mixed content behavior' do
 
   let(:tree) do
     visit show_path.call(root_record.id)
-    wait_for_infinite_tree_loaded
-    find('.infinite-tree')
+    wait_for_tree_loaded
+    find('.tree')
   end
 
   it 'renders titles with mixed content appropriately' do

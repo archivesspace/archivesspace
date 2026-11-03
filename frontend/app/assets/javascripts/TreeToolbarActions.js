@@ -1,10 +1,8 @@
-class InfiniteTreeToolbarActions {
+class TreeToolbarActions {
   constructor() {
-    this.componentEl = document.querySelector('#infinite-tree-component');
-    this.treeContainerEl = this.componentEl.querySelector(
-      '#infinite-tree-container'
-    );
-    this.toolbarEl = this.componentEl.querySelector('#infinite-tree-toolbar');
+    this.componentEl = document.querySelector('#tree-component');
+    this.treeContainerEl = this.componentEl.querySelector('#tree-container');
+    this.toolbarEl = this.componentEl.querySelector('#tree-toolbar');
     this.rootType = this.componentEl.getAttribute('data-record-type');
 
     this.#bindEvents();
@@ -12,12 +10,12 @@ class InfiniteTreeToolbarActions {
 
   #bindEvents() {
     this.treeContainerEl.addEventListener(
-      'infiniteTreeToolbar:loadBulkRequested',
+      'treeToolbar:loadBulkRequested',
       this.#onLoadBulkRequested.bind(this)
     );
 
     this.treeContainerEl.addEventListener(
-      'infiniteTreeToolbar:rdeRequested',
+      'treeToolbar:rdeRequested',
       this.#onRdeRequested.bind(this)
     );
   }
@@ -42,7 +40,7 @@ class InfiniteTreeToolbarActions {
 
     const $ = window.jQuery;
     const $node = $(node);
-    const buttonEl = this.toolbarEl.querySelector('.js-itree-toolbar-rde');
+    const buttonEl = this.toolbarEl.querySelector('.js-tree-toolbar-rde');
     const $button = $(buttonEl);
 
     $(document).triggerHandler('rdeshow.aspace', [$node, $button]);

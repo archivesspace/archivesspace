@@ -1,7 +1,7 @@
 <%#
-  Mount point for a record-linked InfiniteTree (show-page sidebars and
+  Mount point for a record-linked Tree (show-page sidebars and
   classification search subgroups). Boot it with
-  `InfiniteTree.fromRecordContainer(element)`; configuration is read from the
+  `Tree.fromRecordContainer(element)`; configuration is read from the
   data attributes below.
 
   Locals:
@@ -15,11 +15,11 @@
 <% current_uri = local_assigns[:current_uri] %>
 <div
   <% if local_assigns[:id] %>id="<%= id %>"<% end %>
-  class="infinite-tree-container<%= local_assigns[:css_class] ? " #{css_class}" : '' %>"
+  class="tree-container<%= local_assigns[:css_class] ? " #{css_class}" : '' %>"
   <% if local_assigns[:style] %>style="<%= style %>"<% end %>
   data-root-uri="<%= root_uri %>"
   <% if current_uri %>data-current-uri="<%= current_uri %>"<% end %>
-  data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
+  data-batch-size="<%= Rails.configuration.tree_batch_size %>"
   data-identifier-separator="<%= I18n.t('resource.identifier_separator') %>"
   data-classification-identifier-separator="<%= I18n.t('classification.identifier_separator') %>"
   data-date-type-bulk="<%= I18n.t('date_type_bulk.bulk') %>"

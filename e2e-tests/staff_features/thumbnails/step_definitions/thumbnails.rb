@@ -191,10 +191,10 @@ def thumbnail_create_digital_object_component(parent_name, name, file_versions, 
 
   visit "#{STAFF_URL}/digital_objects/#{parent[:id]}/edit"
 
-  wait_for_infinite_tree_ready_for_rde
+  wait_for_tree_ready_for_rde
 
-  within('#infinite-tree-toolbar') { click_on 'Add Child' }
-  wait_for_infinite_tree_inline_new_form(form_prefix: 'digital_object_component')
+  within('#tree-toolbar') { click_on 'Add Child' }
+  wait_for_tree_inline_new_form(form_prefix: 'digital_object_component')
 
   fill_in 'digital_object_component_label_', with: label
   fill_in 'digital_object_component_title_', with: title if title
@@ -261,7 +261,7 @@ def thumbnail_create_resource(name, digital_object_name)
 
   if digital_object_name
     visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-    wait_for_infinite_tree_inline_edit_form(form_prefix: 'resource')
+    wait_for_tree_inline_edit_form(form_prefix: 'resource')
 
     thumbnail_add_digital_object_instance('resource', digital_object_name, representative: true)
 
@@ -278,10 +278,10 @@ Given 'the Resource {string} has an Archival Object {string} with the Digital Ob
 
   visit "#{STAFF_URL}/resources/#{resource[:id]}/edit"
 
-  wait_for_infinite_tree_ready_for_rde
+  wait_for_tree_ready_for_rde
 
-  within('#infinite-tree-toolbar') { click_on 'Add Child' }
-  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
+  within('#tree-toolbar') { click_on 'Add Child' }
+  wait_for_tree_inline_new_form(form_prefix: 'archival_object')
 
   fill_in 'Title', with: title
   select 'File', from: 'Level of Description'
@@ -315,7 +315,7 @@ end
 When 'the user opens the {string} in edit mode' do |name|
   record = thumbnail_record(name)
   visit "#{STAFF_URL}/digital_objects/#{record[:id]}/edit"
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 When 'the user adds a File Version for {string}' do |file_name|

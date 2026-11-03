@@ -5,21 +5,21 @@
   --tree-unit-width: calc(var(--tree-indent-width) + var(--tree-line-width));
 }
 
-.infinite-tree-container {
+.tree-container {
   height: 600px;
   border: 1px solid $lightshade;
   background-color: $lightshade;
   overflow-y: auto;
 }
 
-.infinite-tree,
+.tree,
 .node-children {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.infinite-tree {
+.tree {
   font-size: 1rem;
   background-color: $white;
 }
@@ -203,7 +203,7 @@
 }
 
 /* Compact trees inside search results (classification subgroups) */
-.infinite-tree-container.infinite-tree-compact {
+.tree-container.tree-compact {
   height: auto;
   max-height: 200px;
 }
