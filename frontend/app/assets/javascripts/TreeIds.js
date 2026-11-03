@@ -1,17 +1,17 @@
 (function (exports) {
-  class InfiniteTreeIds {
+  class TreeIds {
     static #uriPattern = /\/repositories\/([0-9]+)\/([a-z_]+)\/([0-9]+)/;
 
     /**
      * @returns {Record<string, { childType: string }>}
      */
     static #hierarchyConfig() {
-      const config = exports.InfiniteTreeHierarchyConfig;
+      const config = exports.TreeHierarchyConfig;
 
       if (!config || typeof config !== 'object') {
         throw new Error(
-          'InfiniteTreeHierarchyConfig is missing. It must be assigned before ' +
-            'InfiniteTree modules initialize.'
+          'TreeHierarchyConfig is missing. It must be assigned before ' +
+            'Tree modules initialize.'
         );
       }
 
@@ -128,5 +128,5 @@
     }
   }
 
-  exports.InfiniteTreeIds = InfiniteTreeIds;
+  exports.TreeIds = TreeIds;
 })(window);

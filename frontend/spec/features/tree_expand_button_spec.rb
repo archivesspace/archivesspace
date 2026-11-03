@@ -3,10 +3,10 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree expand buttons', js: true do
+describe 'Tree expand buttons', js: true do
   before(:all) do
     @now = Time.now.to_i
-    @repo = create(:repo, repo_code: "itree_expand_button_test_#{@now}")
+    @repo = create(:repo, repo_code: "tree_expand_button_test_#{@now}")
     set_repo(@repo)
 
     @resource = create(:resource, title: "Expand Button Resource #{@now}", publish: true)

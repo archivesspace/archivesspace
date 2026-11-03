@@ -1,7 +1,7 @@
 # Checks of a node's state right after the page loads.  A scenario runs all of
 # the checks that apply to it in one example, so the page is visited once
 # instead of once per check.
-module InfiniteTreeNodeStateChecks
+module TreeNodeStateChecks
   def expect_basic_node_markup
     aggregate_failures 'basic node markup' do
       expect(node['role']).to eq('treeitem')
@@ -64,10 +64,10 @@ module InfiniteTreeNodeStateChecks
 end
 
 RSpec.configure do |config|
-  config.include InfiniteTreeNodeStateChecks, type: :feature
+  config.include TreeNodeStateChecks, type: :feature
 end
 
-# Runs the named InfiniteTreeNodeStateChecks (without the expect_ prefix)
+# Runs the named TreeNodeStateChecks (without the expect_ prefix)
 # against one page visit, e.g.
 #   it_behaves_like 'having the node state', :basic_node_markup, :no_children
 RSpec.shared_examples 'having the node state' do |*checks|
@@ -92,7 +92,7 @@ end
 RSpec.shared_examples 'being collapsed after a single expand' do
   before do
     node.find(':scope > .node-row .node-expand').click
-    wait_for_infinite_tree_node_expanded(node)
+    wait_for_tree_node_expanded(node)
     node.find(':scope > .node-row .node-expand').click
   end
 
@@ -116,13 +116,13 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
   def expand_and_verify_full_state(element, node, child_count)
     element.click
-    wait_for_infinite_tree_node_expanded(node)
+    wait_for_tree_node_expanded(node)
     verify_expanded_state(node, child_count)
   end
 
   def expand_and_verify_aria(element, node)
     element.click
-    wait_for_infinite_tree_node_expanded(node)
+    wait_for_tree_node_expanded(node)
     expect(node['aria-expanded']).to eq('true')
   end
 
@@ -158,7 +158,7 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
     aggregate_failures 'expands on space keydown' do
       expand_button.send_keys(:space)
-      wait_for_infinite_tree_node_expanded(node)
+      wait_for_tree_node_expanded(node)
       verify_expanded_state(node, child_count)
     end
 
@@ -168,7 +168,7 @@ RSpec.shared_examples 'having expand and collapse behavior' do
 
     aggregate_failures 'expands on enter keydown' do
       expand_button.send_keys(:enter)
-      wait_for_infinite_tree_node_expanded(node)
+      wait_for_tree_node_expanded(node)
       verify_expanded_state(node, child_count)
     end
 
@@ -221,7 +221,7 @@ RSpec.shared_examples 'showing all previously loaded children on expand' do
       batches_to_load.each_with_index do |batch_number, i|
         if node['aria-expanded'] == 'false'
           node.find(':scope > .node-row .node-expand').click
-          wait_for_infinite_tree_node_expanded(node)
+          wait_for_tree_node_expanded(node)
         end
 
         observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
@@ -232,9 +232,9 @@ RSpec.shared_examples 'showing all previously loaded children on expand' do
         expect(node).to match_css("[aria-expanded='false']")
 
         node.find(':scope > .node-row .node-expand').click
-        wait_for_infinite_tree_node_expanded(node)
+        wait_for_tree_node_expanded(node)
 
-        expected_child_count = [child_count_on_initial_expand + (i + 1) * Rails.configuration.infinite_tree_batch_size, total_child_count].min
+        expected_child_count = [child_count_on_initial_expand + (i + 1) * Rails.configuration.tree_batch_size, total_child_count].min
         expect(child_list).to have_css(':scope > li.node', count: expected_child_count, visible: true)
       end
     end

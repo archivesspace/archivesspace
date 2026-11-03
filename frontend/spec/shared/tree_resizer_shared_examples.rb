@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-RSpec.shared_context 'infinite tree resizer page setup' do
+RSpec.shared_context 'tree resizer page setup' do
   before do
     page.execute_script('localStorage.removeItem("AS_Tree_Height")')
-    @handle = find('#infinite-tree-resizer [data-resize-handle]')
-    @toggle = find('#infinite-tree-resizer [data-resize-toggle]')
+    @handle = find('#tree-resizer [data-resize-handle]')
+    @toggle = find('#tree-resizer [data-resize-toggle]')
   end
 
   def tree_height
     evaluate_script(
-      "parseInt(getComputedStyle(document.getElementById('infinite-tree-container')).height, 10)"
+      "parseInt(getComputedStyle(document.getElementById('tree-container')).height, 10)"
     )
   end
 
   def available_height
     maximized_margin_bottom = 50
     evaluate_script(
-      "Math.floor(window.innerHeight - #{maximized_margin_bottom} - document.getElementById('infinite-tree-container').getBoundingClientRect().top)"
+      "Math.floor(window.innerHeight - #{maximized_margin_bottom} - document.getElementById('tree-container').getBoundingClientRect().top)"
     )
   end
 
@@ -41,7 +41,7 @@ RSpec.shared_examples 'resizing the tree pane' do
           expected_height = tree_height
 
           page.refresh
-          handle = find('#infinite-tree-resizer [data-resize-handle]')
+          handle = find('#tree-resizer [data-resize-handle]')
           stored_height = evaluate_script("localStorage.getItem('AS_Tree_Height')")
 
           expect(stored_height.to_i).to eq(expected_height)

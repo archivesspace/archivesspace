@@ -41,7 +41,7 @@ Given 'a Digital Object Rapid Data Entry template has been created' do
   end
 
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
-  wait_for_infinite_tree_ready_for_rde
+  wait_for_tree_ready_for_rde
 end
 
 Then 'the template is removed from the Digital Object Rapid Data Entry templates' do

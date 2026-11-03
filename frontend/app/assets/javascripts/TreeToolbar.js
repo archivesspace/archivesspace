@@ -1,15 +1,11 @@
-class InfiniteTreeToolbar {
+class TreeToolbar {
   constructor() {
-    this.componentEl = document.getElementById('infinite-tree-component');
+    this.componentEl = document.getElementById('tree-component');
     if (!this.componentEl) return;
 
-    this.toolbarEl = this.componentEl.querySelector('#infinite-tree-toolbar');
-    this.treeContainerEl = this.componentEl.querySelector(
-      '#infinite-tree-container'
-    );
-    this.recordPaneEl = this.componentEl.querySelector(
-      '#infinite-tree-record-pane'
-    );
+    this.toolbarEl = this.componentEl.querySelector('#tree-toolbar');
+    this.treeContainerEl = this.componentEl.querySelector('#tree-container');
+    this.recordPaneEl = this.componentEl.querySelector('#tree-record-pane');
 
     this.readOnly =
       this.componentEl.getAttribute('data-is-read-only') === 'true';
@@ -30,7 +26,7 @@ class InfiniteTreeToolbar {
 
     if (this.treeContainerEl) {
       this.treeContainerEl.addEventListener(
-        'infiniteTree:autoExpandBusy',
+        'tree:autoExpandBusy',
         this.#onAutoExpandBusy.bind(this)
       );
     }
@@ -39,9 +35,7 @@ class InfiniteTreeToolbar {
   #bindMoveMenuEvents() {
     if (!this.toolbarEl) return;
 
-    const moveMenu = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-move-menu'
-    );
+    const moveMenu = this.toolbarEl.querySelector('.js-tree-toolbar-move-menu');
     if (!moveMenu) return;
 
     moveMenu.addEventListener('click', this.#onMoveMenuClick.bind(this));
@@ -51,7 +45,7 @@ class InfiniteTreeToolbar {
    * @param {MouseEvent} event
    */
   #onMoveMenuClick(event) {
-    const option = event.target.closest('.js-itree-toolbar-move-option');
+    const option = event.target.closest('.js-tree-toolbar-move-option');
     if (!option) return;
 
     if (option.hasAttribute('disabled')) {
@@ -67,7 +61,7 @@ class InfiniteTreeToolbar {
     }
 
     event.preventDefault();
-    this.#emitSimpleEvent('infiniteTreeToolbar:moveOptionSelected', {
+    this.#emitSimpleEvent('treeToolbar:moveOptionSelected', {
       action,
       targetNodeId: option.getAttribute('data-target-node-id'),
     });
@@ -78,18 +72,18 @@ class InfiniteTreeToolbar {
 
     if (this.recordPaneEl) {
       this.recordPaneEl.addEventListener(
-        'infiniteTree:currentNodeChanged',
+        'tree:currentNodeChanged',
         this.#handleCurrentNodeChanged.bind(this)
       );
     }
 
     if (this.recordPaneEl) {
-      this.recordPaneEl.addEventListener('infiniteTreeRecordPane:dirty', () => {
+      this.recordPaneEl.addEventListener('treeRecordPane:dirty', () => {
         this.isDirty = true;
         this.#applyDirtyState();
       });
 
-      this.recordPaneEl.addEventListener('infiniteTreeRecordPane:clean', () => {
+      this.recordPaneEl.addEventListener('treeRecordPane:clean', () => {
         this.isDirty = false;
         this.#applyDirtyState();
       });
@@ -97,36 +91,36 @@ class InfiniteTreeToolbar {
 
     if (this.treeContainerEl) {
       this.treeContainerEl.addEventListener(
-        InfiniteTreeCutPaste.EVENT_CUT_PERFORMED,
+        TreeCutPaste.EVENT_CUT_PERFORMED,
         this.#onCutPerformed.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        InfiniteTreeCutPaste.EVENT_CUT_CLEARED,
+        TreeCutPaste.EVENT_CUT_CLEARED,
         this.#onCutCleared.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        InfiniteTreeMultiSelection.EVENT_CHANGED,
+        TreeMultiSelection.EVENT_CHANGED,
         this.#onSelectionChanged.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        InfiniteTreeMultiSelection.EVENT_CLEARED,
+        TreeMultiSelection.EVENT_CLEARED,
         this.#onSelectionCleared.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        'infiniteTree:rebuildAndReopenComplete',
+        'tree:rebuildAndReopenComplete',
         this.#onRebuildAndReopenComplete.bind(this)
       );
       this.treeContainerEl.addEventListener(
-        'infiniteTree:rebuildAndShowComplete',
+        'tree:rebuildAndShowComplete',
         this.#onRebuildAndShowComplete.bind(this)
       );
     }
 
     this.toolbarEl.addEventListener('click', event => {
-      const target = event.target.closest('[data-itree-action]');
+      const target = event.target.closest('[data-tree-action]');
       if (!target || this.#isControlDisabled(target)) return;
 
-      const action = target.getAttribute('data-itree-action');
+      const action = target.getAttribute('data-tree-action');
 
       switch (action) {
         case 'reorder-toggle':
@@ -134,12 +128,12 @@ class InfiniteTreeToolbar {
 
           break;
         case 'cut':
-          this.#emitSimpleEvent('infiniteTreeToolbar:cutRequested');
+          this.#emitSimpleEvent('treeToolbar:cutRequested');
           event.preventDefault();
 
           break;
         case 'paste':
-          this.#emitSimpleEvent('infiniteTreeToolbar:pasteRequested');
+          this.#emitSimpleEvent('treeToolbar:pasteRequested');
           event.preventDefault();
 
           break;
@@ -147,29 +141,27 @@ class InfiniteTreeToolbar {
           if (this.reorderMode) {
             this.#renderMoveMenu();
           }
-          this.#emitSimpleEvent('infiniteTreeToolbar:moveMenuRequested');
+          this.#emitSimpleEvent('treeToolbar:moveMenuRequested');
 
           break;
         case 'add-child':
-          this.#emitContextualEvent('infiniteTreeToolbar:addChildRequested');
+          this.#emitContextualEvent('treeToolbar:addChildRequested');
 
           break;
         case 'add-sibling':
-          this.#emitContextualEvent('infiniteTreeToolbar:addSiblingRequested');
+          this.#emitContextualEvent('treeToolbar:addSiblingRequested');
 
           break;
         case 'add-duplicate':
-          this.#emitContextualEvent(
-            'infiniteTreeToolbar:addDuplicateRequested'
-          );
+          this.#emitContextualEvent('treeToolbar:addDuplicateRequested');
 
           break;
         case 'load-bulk':
-          this.#emitContextualEvent('infiniteTreeToolbar:loadBulkRequested');
+          this.#emitContextualEvent('treeToolbar:loadBulkRequested');
 
           break;
         case 'rde':
-          this.#emitContextualEvent('infiniteTreeToolbar:rdeRequested');
+          this.#emitContextualEvent('treeToolbar:rdeRequested');
 
           break;
         case 'expand-mode':
@@ -202,13 +194,13 @@ class InfiniteTreeToolbar {
     const isChildTypeCurrent = this.#isChildTypeCurrent();
     const moveEnabled = this.reorderMode && this.#hasNonRootCurrentNode();
     const moveToggle = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-move-toggle'
+      '.js-tree-toolbar-move-toggle'
     );
 
     this.#setControlEnabled(moveToggle, moveEnabled);
 
     const moveGroup = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-move-group'
+      '.js-tree-toolbar-move-group'
     );
 
     if (moveGroup) {
@@ -220,14 +212,14 @@ class InfiniteTreeToolbar {
     }
 
     const siblingBtn = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-add-sibling'
+      '.js-tree-toolbar-add-sibling'
     );
     if (siblingBtn) {
       siblingBtn.style.display = isChildTypeCurrent ? '' : 'none';
     }
 
     const duplicateBtn = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-add-duplicate'
+      '.js-tree-toolbar-add-duplicate'
     );
     if (duplicateBtn) {
       duplicateBtn.style.display =
@@ -239,13 +231,13 @@ class InfiniteTreeToolbar {
     if (!this.toolbarEl) return;
 
     const selector =
-      '.js-itree-toolbar-reorder-toggle,' +
-      '.js-itree-toolbar-add-child,' +
-      '.js-itree-toolbar-add-sibling,' +
-      '.js-itree-toolbar-add-duplicate,' +
-      '.js-itree-toolbar-load-bulk,' +
-      '.js-itree-toolbar-rde,' +
-      '.js-itree-toolbar-finish-editing';
+      '.js-tree-toolbar-reorder-toggle,' +
+      '.js-tree-toolbar-add-child,' +
+      '.js-tree-toolbar-add-sibling,' +
+      '.js-tree-toolbar-add-duplicate,' +
+      '.js-tree-toolbar-load-bulk,' +
+      '.js-tree-toolbar-rde,' +
+      '.js-tree-toolbar-finish-editing';
 
     this.toolbarEl.querySelectorAll(selector).forEach(btn => {
       this.#setControlEnabled(btn, !this.isDirty);
@@ -269,7 +261,7 @@ class InfiniteTreeToolbar {
 
     this.#applyReorderState();
     this.#applyCurrentNodeState();
-    this.#emitSimpleEvent('infiniteTreeToolbar:reorderModeChanged', {
+    this.#emitSimpleEvent('treeToolbar:reorderModeChanged', {
       enabled: this.reorderMode,
     });
   }
@@ -284,7 +276,7 @@ class InfiniteTreeToolbar {
       ? this.#translate('actions.expand_tree_mode_off', 'Disable Auto-Expand')
       : this.#translate('actions.expand_tree_mode_on', 'Auto-Expand All');
 
-    this.#emitSimpleEvent('infiniteTreeToolbar:expandModeChanged', {
+    this.#emitSimpleEvent('treeToolbar:expandModeChanged', {
       enabled: this.expandAllMode,
     });
   }
@@ -337,7 +329,7 @@ class InfiniteTreeToolbar {
     if (!this.treeContainerEl) return null;
 
     const current = this.treeContainerEl.querySelector(
-      'li.node.current:not(.js-itree-synthetic-new)'
+      'li.node.current:not(.js-tree-synthetic-new)'
     );
 
     if (current && current.isConnected) {
@@ -382,7 +374,7 @@ class InfiniteTreeToolbar {
     if (this.expandAllMode) {
       this.expandAllMode = false;
       const expandBtn = this.toolbarEl
-        ? this.toolbarEl.querySelector('.js-itree-toolbar-expand-mode')
+        ? this.toolbarEl.querySelector('.js-tree-toolbar-expand-mode')
         : null;
 
       if (expandBtn) {
@@ -394,18 +386,18 @@ class InfiniteTreeToolbar {
         );
       }
 
-      this.#emitSimpleEvent('infiniteTreeToolbar:expandModeChanged', {
+      this.#emitSimpleEvent('treeToolbar:expandModeChanged', {
         enabled: false,
       });
     }
 
-    this.#emitSimpleEvent('infiniteTreeToolbar:collapseTreeRequested');
+    this.#emitSimpleEvent('treeToolbar:collapseTreeRequested');
   }
 
   #onAutoExpandBusy(e) {
     const busy = !!(e.detail && e.detail.busy);
     const expandBtn = this.toolbarEl
-      ? this.toolbarEl.querySelector('.js-itree-toolbar-expand-mode')
+      ? this.toolbarEl.querySelector('.js-tree-toolbar-expand-mode')
       : null;
     if (!expandBtn) return;
 
@@ -418,7 +410,7 @@ class InfiniteTreeToolbar {
     const readonlyPath = window.location.pathname.replace(/\/edit$/, '');
     const target = readonlyPath + window.location.hash;
 
-    this.#emitSimpleEvent('infiniteTreeToolbar:finishEditingRequested', {
+    this.#emitSimpleEvent('treeToolbar:finishEditingRequested', {
       target,
     });
 
@@ -468,9 +460,9 @@ class InfiniteTreeToolbar {
     if (!attrName || !this.toolbarEl) return fallback;
 
     const hosts = [
-      this.toolbarEl.querySelector('.js-itree-toolbar-reorder-toggle'),
-      this.toolbarEl.querySelector('.js-itree-toolbar-expand-mode'),
-      this.toolbarEl.querySelector('.js-itree-toolbar-move-group'),
+      this.toolbarEl.querySelector('.js-tree-toolbar-reorder-toggle'),
+      this.toolbarEl.querySelector('.js-tree-toolbar-expand-mode'),
+      this.toolbarEl.querySelector('.js-tree-toolbar-move-group'),
       this.toolbarEl,
     ];
 
@@ -518,13 +510,13 @@ class InfiniteTreeToolbar {
     const showReorderControls = this.reorderMode;
     const showNonReorderControls = !this.reorderMode;
     const cutPasteGroup = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-cut-paste-group'
+      '.js-tree-toolbar-cut-paste-group'
     );
     const expandGroup = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-expand-group'
+      '.js-tree-toolbar-expand-group'
     );
     const primaryActionsGroup = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-primary-actions'
+      '.js-tree-toolbar-primary-actions'
     );
 
     if (cutPasteGroup) {
@@ -549,11 +541,11 @@ class InfiniteTreeToolbar {
   #applyCutPasteState() {
     if (!this.toolbarEl) return;
 
-    const cutBtn = this.toolbarEl.querySelector('.js-itree-toolbar-cut');
+    const cutBtn = this.toolbarEl.querySelector('.js-tree-toolbar-cut');
     const cutEnabled = this.reorderMode && this.#hasEligibleCutNode();
     this.#setControlEnabled(cutBtn, cutEnabled);
 
-    const pasteBtn = this.toolbarEl.querySelector('.js-itree-toolbar-paste');
+    const pasteBtn = this.toolbarEl.querySelector('.js-tree-toolbar-paste');
     if (!pasteBtn) return;
 
     const pasteEnabled =
@@ -583,7 +575,7 @@ class InfiniteTreeToolbar {
   /**
    * Whether a valid paste destination exists: the `.current` row that is not
    * `.cut` and not a descendant of a cut row, including root. Matches
-   * InfiniteTreeCutPaste / InfiniteTreeDragDrop blocked-target rules.
+   * TreeCutPaste / TreeDragDrop blocked-target rules.
    * @returns {boolean}
    */
   #hasEligiblePasteTarget() {
@@ -615,9 +607,9 @@ class InfiniteTreeToolbar {
     if (node.classList.contains('root')) return false;
 
     const uri = node.getAttribute('data-uri');
-    if (!uri || !window.InfiniteTreeIds) return false;
+    if (!uri || !window.TreeIds) return false;
 
-    const parts = InfiniteTreeIds.uriToParts(uri);
+    const parts = TreeIds.uriToParts(uri);
     const matchesChildType = !!parts && parts.type === this.childType;
 
     return matchesChildType;
@@ -687,7 +679,7 @@ class InfiniteTreeToolbar {
     const button = document.createElement('button');
     button.type = 'button';
     button.className =
-      'btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option';
+      'btn btn-sm rounded-0 dropdown-item cursor-default js-tree-toolbar-move-option';
     button.setAttribute('data-move-action', action);
     if (!enabled) {
       button.setAttribute('disabled', 'disabled');
@@ -699,7 +691,7 @@ class InfiniteTreeToolbar {
   #renderMoveMenu() {
     if (!this.toolbarEl) return;
 
-    const menuEl = this.toolbarEl.querySelector('.js-itree-toolbar-move-menu');
+    const menuEl = this.toolbarEl.querySelector('.js-tree-toolbar-move-menu');
     if (!menuEl) return;
 
     const node = this.#getMoveContextNode();
@@ -797,7 +789,7 @@ class InfiniteTreeToolbar {
     while (previous) {
       if (
         previous.matches('li.node') &&
-        !previous.classList.contains('js-itree-synthetic-new')
+        !previous.classList.contains('js-tree-synthetic-new')
       ) {
         siblingsAbove.push(previous);
       }
@@ -808,7 +800,7 @@ class InfiniteTreeToolbar {
     while (next) {
       if (
         next.matches('li.node') &&
-        !next.classList.contains('js-itree-synthetic-new')
+        !next.classList.contains('js-tree-synthetic-new')
       ) {
         siblingsBelow.push(next);
       }

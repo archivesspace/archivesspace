@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Page Load', js: true do
+describe 'Tree Page Load', js: true do
   before(:all) do
     @repo = create(:repo, repo_code: "collection_organization_test_#{Time.now.to_i}")
     set_repo(@repo)
 
-    @tree_batch_size = Rails.configuration.infinite_tree_batch_size
+    @tree_batch_size = Rails.configuration.tree_batch_size
   end
 
   before(:each) do
@@ -15,7 +15,7 @@ describe 'Infinite Tree Page Load', js: true do
 
   RSpec::Matchers.define :appear_in_tree_viewport do
     match do |node|
-      tree = find('#infinite-tree-container')
+      tree = find('#tree-container')
       # Documented JS exception: viewport geometry check (no Capybara equivalent)
       tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
       node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
@@ -53,7 +53,7 @@ describe 'Infinite Tree Page Load', js: true do
 
     aggregate_failures 'on page load' do
       expect(node.find(':scope > .node-row')).to appear_in_tree_viewport
-      expect(page).to have_css('#infinite-tree-container .node.current', count: 1, visible: :all)
+      expect(page).to have_css('#tree-container .node.current', count: 1, visible: :all)
       expect(parent_list).to have_css('.node', count: node_count)
       expect(rendered_children(parent_list)).to eq expected_children(children, child_type, populated_batches)
     end
@@ -61,7 +61,7 @@ describe 'Infinite Tree Page Load', js: true do
     placeholders = (0...total_batches).to_a - populated_batches
     return if placeholders.empty?
 
-    container = page.find('#infinite-tree-container')
+    container = page.find('#tree-container')
     placeholders.each do |batch_offset|
       observer_node = parent_list.first("[data-observe-offset='#{batch_offset}']")
       container.scroll_to(observer_node, align: :center)
@@ -184,7 +184,7 @@ describe 'Infinite Tree Page Load', js: true do
               root, children = @child_lists.fetch(siblings)
 
               visit "/#{root_type}s/#{root.id}#tree::#{root_type}_#{root.id}"
-              node = find('.infinite-tree .root.current')
+              node = find('.tree .root.current')
 
               expect_uri_fragment_batch_rendering(node, node.find(':scope > .node-children'), children, child_type,
                                                   node_count, [0])

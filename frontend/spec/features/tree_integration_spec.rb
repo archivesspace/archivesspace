@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-# Integration spec for Infinite Tree components (Router + Tree + Record Pane)
+# Integration spec for Tree components (Router + Tree + Record Pane)
 
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Integration', js: true do
+describe 'Tree Integration', js: true do
   context 'Resources' do
-    include_context 'infinite tree integration setup'
+    include_context 'tree integration setup'
 
     let(:show_path) { "/resources/#{resource.id}" }
     let(:edit_path) { "/resources/#{resource.id}/edit" }
@@ -31,15 +31,15 @@ describe 'Infinite Tree Integration', js: true do
           it 'displays the tree root and Record Not Found in the pane' do
             nonexistent_id = ao.id + 999
             visit "#{show_path}#tree::archival_object_#{nonexistent_id}"
-            expect(page).to have_css('#infinite-tree-record-pane h2', text: 'Record Not Found')
+            expect(page).to have_css('#tree-record-pane h2', text: 'Record Not Found')
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container .root')
+              expect(page).to have_css('#tree-container .root')
               expect(page).not_to have_css(
-                '#infinite-tree-container .current',
+                '#tree-container .current',
                 visible: :all
               )
-              within('#infinite-tree-record-pane') do
+              within('#tree-record-pane') do
                 expect(page).to have_css('h2', text: 'Record Not Found')
                 expect(page).to have_text(
                   "The record you've tried to access may no longer exist or you may not have permission to view it."
@@ -62,44 +62,44 @@ describe 'Infinite Tree Integration', js: true do
 
     describe 'edit view' do
       it_behaves_like 'navigating the edit view with integrated router and pane',
-                      InfiniteTreeHierarchyConfigs::INTEGRATION[:resources]
+                      TreeHierarchyConfigs::INTEGRATION[:resources]
     end
 
     describe 'inline create after save' do
       context 'consecutive inline create after Save' do
         it 'Add Duplicate uses the saved node as anchor on the second create without re-selection' do
           visit "#{edit_path}#{ao_hash}"
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
 
-          find('.js-itree-toolbar-add-duplicate').click
+          find('.js-tree-toolbar-add-duplicate').click
           expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /duplicated from/)
 
           duplicate_title = "[Duplicated] First AO #{now}"
           fill_in 'archival_object_title_', with: duplicate_title
 
-          wait_for_infinite_tree_record_pane_submit { find('button', text: 'Save Archival Object', match: :first).click }
+          wait_for_tree_record_pane_submit { find('button', text: 'Save Archival Object', match: :first).click }
 
-          saved_id = within('#infinite-tree-record-pane') do
+          saved_id = within('#tree-record-pane') do
             find('#uri', visible: :all).value.split('/').last.to_i
           end
 
           aggregate_failures 'saved record is current in tree' do
             expect(page).to have_css(
-              "#infinite-tree-container li#archival_object_#{saved_id}.current",
+              "#tree-container li#archival_object_#{saved_id}.current",
               visible: :all
             )
           end
 
-          find('.js-itree-toolbar-add-duplicate').click
+          find('.js-tree-toolbar-add-duplicate').click
           expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /duplicated from/)
 
           aggregate_failures do
-            within('#infinite-tree-container') do
+            within('#tree-container') do
               expect(page).to have_css(
-                "#infinite-tree-container li#archival_object_#{saved_id} + li#archival_object_new"
+                "#tree-container li#archival_object_#{saved_id} + li#archival_object_new"
               )
               expect(page).to have_no_css(
-                "#infinite-tree-container li#archival_object_#{ao.id} + li#archival_object_new"
+                "#tree-container li#archival_object_#{ao.id} + li#archival_object_new"
               )
               expect(page).to have_css(
                 '.record-title',
@@ -107,7 +107,7 @@ describe 'Infinite Tree Integration', js: true do
               )
             end
             expect(page.current_url).to include('#new')
-            within('#infinite-tree-record-pane') do
+            within('#tree-record-pane') do
               expect(page).to have_css('#archival_object_form')
               expect(page).to have_css(
                 '.alert.alert-success.with-hide-alert',
@@ -122,11 +122,11 @@ describe 'Infinite Tree Integration', js: true do
 
   context 'Digital Objects' do
     it_behaves_like 'navigating the edit view with integrated router and pane',
-                    InfiniteTreeHierarchyConfigs::INTEGRATION[:digital_objects]
+                    TreeHierarchyConfigs::INTEGRATION[:digital_objects]
   end
 
   context 'Classifications' do
     it_behaves_like 'navigating the edit view with integrated router and pane',
-                    InfiniteTreeHierarchyConfigs::INTEGRATION[:classifications]
+                    TreeHierarchyConfigs::INTEGRATION[:classifications]
   end
 end

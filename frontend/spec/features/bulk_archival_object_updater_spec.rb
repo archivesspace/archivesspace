@@ -317,7 +317,7 @@ describe 'Bulk Archival Object Updater', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
-    element = find('#infinite-tree-container')
+    element = find('#tree-container')
     expect(element).to have_text "Updated Archival Object Title 1 #{now}"
     expect(element).to have_text "Updated Archival Object Title 2 #{now}"
   end

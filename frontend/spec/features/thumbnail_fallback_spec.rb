@@ -46,7 +46,7 @@ describe 'Thumbnail image in the browser', js: true do
   def expect_fallback_icon(digital_object, image_url)
     visit "digital_objects/#{digital_object.id}"
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       expect(page).to have_css(".digital-object-thumbnail img[src='#{image_url}']", visible: :hidden)
       expect(page).to have_css('.digital-object-thumbnail .digital-object-thumbnail-fallback.fa-file-image', visible: true)
     end
@@ -63,7 +63,7 @@ describe 'Thumbnail image in the browser', js: true do
   it 'links the generic icon of a thumbnail without a display link to the file of its image (ANW-3001)' do
     expect_fallback_icon(@unreachable, unreachable_image)
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       expect(page).to have_css(".digital-object-thumbnail a[href='#{unreachable_image}'][target='_blank'][rel='noopener'] .digital-object-thumbnail-fallback", visible: true)
       expect(page).to have_css(".digital-object-thumbnail a[href='#{unreachable_image}'] .sr-only", text: 'Opens in new window', visible: :all)
     end
@@ -72,7 +72,7 @@ describe 'Thumbnail image in the browser', js: true do
   it 'links the generic icon of a thumbnail in a data: uri to download its file (ANW-3001)' do
     expect_fallback_icon(@tiff, unrenderable_tiff_image)
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       expect(page).to have_css(".digital-object-thumbnail a[href='#{unrenderable_tiff_image}'][download]:not([target]) .digital-object-thumbnail-fallback", visible: true)
       expect(page).to have_css(".digital-object-thumbnail a[href*='image/tiff'] .sr-only", text: 'Download file', visible: :all)
     end
@@ -81,7 +81,7 @@ describe 'Thumbnail image in the browser', js: true do
   it 'shows a thumbnail image the browser can display without a link, when there is no display link (ANW-3001)' do
     visit "digital_objects/#{@loadable.id}"
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       expect(page).to have_css(".digital-object-thumbnail img[src='#{@loadable_image}']", visible: true) { |image|
         image.evaluate_script('this.complete && this.naturalWidth > 0')
       }
@@ -94,7 +94,7 @@ describe 'Thumbnail image in the browser', js: true do
   it 'shows a linked SVG image without a width of its own (ANW-3091)' do
     visit "digital_objects/#{@svg.id}"
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       image = find(".digital-object-thumbnail a[href='#{svg_image}'] img[src='#{svg_image}']", visible: true)
       expect(image.evaluate_script('this.getBoundingClientRect().width')).to be > 0
     end

@@ -3,7 +3,7 @@
 
 RSpec.shared_examples 'entering inline create and cancelling' do |config|
   let(:now) { Time.now.to_i }
-  before(:all) { @repo = create(:repo, repo_code: "itree_inline_create_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  before(:all) { @repo = create(:repo, repo_code: "tree_inline_create_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
   let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
@@ -38,13 +38,13 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
     context 'from the root record' do
       before do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
-        expect(page).to have_css("#infinite-tree-record-pane #form_#{root_form_prefix}")
+        wait_for_tree_loaded
+        expect(page).to have_css("#tree-record-pane #form_#{root_form_prefix}")
         install_inline_create_fetch_capture
       end
 
       it 'opens a new child record form with a synthetic tree row' do
-        click_infinite_tree_toolbar_add_child
+        click_tree_toolbar_add_child
 
         aggregate_failures do
           params = last_inline_create_request_params
@@ -52,12 +52,12 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
           expect(params["#{config[:root_type]}_id"]).to eq(root_record.id.to_s)
           expect(params["#{config[:child_type]}_id"]).to be_nil
 
-          within('#infinite-tree-container') do
+          within('#tree-container') do
             expect(page).to have_css(
-              "li##{child_form_prefix}_new.js-itree-synthetic-new.current"
+              "li##{child_form_prefix}_new.js-tree-synthetic-new.current"
             )
           end
-          within('#infinite-tree-record-pane') do
+          within('#tree-record-pane') do
             expect(page).to have_css("##{child_form_prefix}_form")
             expect(page).to have_button(
               I18n.t("#{child_form_prefix}._frontend.action.save"),
@@ -69,21 +69,21 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
       end
 
       it 'returns to the anchor record edit when Cancel is clicked' do
-        click_infinite_tree_toolbar_add_child
-        cancel_infinite_tree_record_pane_form
+        click_tree_toolbar_add_child
+        cancel_tree_record_pane_form
 
         aggregate_failures do
-          within('#infinite-tree-record-pane') do
+          within('#tree-record-pane') do
             expect(page).to have_css("#form_#{root_form_prefix}")
             expect(page).to have_css('h2', text: root_record.title)
           end
           expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
           expect(page).to have_css(
-            infinite_tree_current_node_selector(root_record),
+            tree_current_node_selector(root_record),
             visible: :all
           )
           expect(page).to have_no_css(
-            "li##{child_form_prefix}_new.js-itree-synthetic-new",
+            "li##{child_form_prefix}_new.js-tree-synthetic-new",
             visible: :all
           )
         end
@@ -94,12 +94,12 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
       before do
         nested_child_record
         visit "#{edit_path}#{nested_child_record_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
         install_inline_create_fetch_capture
       end
 
       it 'opens a new child record form with a synthetic tree row' do
-        click_infinite_tree_toolbar_add_child
+        click_tree_toolbar_add_child
 
         aggregate_failures do
           params = last_inline_create_request_params
@@ -107,13 +107,13 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
           expect(params["#{config[:root_type]}_id"]).to eq(root_record.id.to_s)
           expect(params["#{config[:child_type]}_id"]).to eq(nested_child_record.id.to_s)
 
-          within('#infinite-tree-container') do
+          within('#tree-container') do
             expect(page).to have_css(
-              "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-3"
+              "li##{child_form_prefix}_new.js-tree-synthetic-new.current.indent-level-3"
             )
             expect(page).to have_css('ol.node-children[data-tree-level="3"]')
           end
-          within('#infinite-tree-record-pane') do
+          within('#tree-record-pane') do
             expect(page).to have_css("##{child_form_prefix}_form")
           end
           expect(page.current_url).to include('#new')
@@ -121,11 +121,11 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
       end
 
       it 'returns to the anchor record edit when Cancel is clicked' do
-        click_infinite_tree_toolbar_add_child
-        cancel_infinite_tree_record_pane_form
+        click_tree_toolbar_add_child
+        cancel_tree_record_pane_form
 
         aggregate_failures do
-          within('#infinite-tree-record-pane') do
+          within('#tree-record-pane') do
             expect(page).to have_css("#form_#{child_form_prefix}")
             expect(page).to have_css('h2', text: nested_child_record.title)
           end
@@ -133,11 +133,11 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
             %r{#{Regexp.escape(nested_child_record_hash)}}
           )
           expect(page).to have_css(
-            infinite_tree_current_node_selector(nested_child_record),
+            tree_current_node_selector(nested_child_record),
             visible: :all
           )
           expect(page).to have_no_css(
-            "li##{child_form_prefix}_new.js-itree-synthetic-new",
+            "li##{child_form_prefix}_new.js-tree-synthetic-new",
             visible: :all
           )
         end
@@ -148,12 +148,12 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
   describe 'Add Sibling' do
     before do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       install_inline_create_fetch_capture
     end
 
     it 'opens a new child record form with a synthetic tree row' do
-      click_infinite_tree_toolbar_add_sibling
+      click_tree_toolbar_add_sibling
 
       aggregate_failures do
         params = last_inline_create_request_params
@@ -168,15 +168,15 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
           expect(params["#{config[:child_type]}_id"]).to be_nil
         end
 
-        within('#infinite-tree-container') do
+        within('#tree-container') do
           expect(page).to have_css(
-            "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-1"
+            "li##{child_form_prefix}_new.js-tree-synthetic-new.current.indent-level-1"
           )
           expect(page).to have_css(
-            "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
+            "#tree-container li##{tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
           )
         end
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("##{child_form_prefix}_form")
         end
         expect(page.current_url).to include('#new')
@@ -184,21 +184,21 @@ RSpec.shared_examples 'entering inline create and cancelling' do |config|
     end
 
     it 'returns to the anchor record edit when Cancel is clicked' do
-      click_infinite_tree_toolbar_add_sibling
-      cancel_infinite_tree_record_pane_form
+      click_tree_toolbar_add_sibling
+      cancel_tree_record_pane_form
 
       aggregate_failures do
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("#form_#{child_form_prefix}")
           expect(page).to have_css('h2', text: child_record.title)
         end
         expect(page.current_url).to match(%r{#{Regexp.escape(child_record_hash)}})
         expect(page).to have_css(
-          infinite_tree_current_node_selector(child_record),
+          tree_current_node_selector(child_record),
           visible: :all
         )
         expect(page).to have_no_css(
-          "li##{child_form_prefix}_new.js-itree-synthetic-new",
+          "li##{child_form_prefix}_new.js-tree-synthetic-new",
           visible: :all
         )
       end
@@ -208,7 +208,7 @@ end
 
 RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   let(:now) { Time.now.to_i }
-  before(:all) { @repo = create(:repo, repo_code: "itree_inline_save_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  before(:all) { @repo = create(:repo, repo_code: "tree_inline_save_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
   let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
@@ -232,9 +232,9 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'plain Save from Add Child' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       install_inline_create_submit_capture
-      click_infinite_tree_toolbar_add_child
+      click_tree_toolbar_add_child
     end
 
     it 'creates the record, rebuilds the tree, and shows the success flash' do
@@ -242,7 +242,7 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
       fill_valid_inline_child_fields(child_type: config[:child_type], title: child_title)
 
       save_label = I18n.t("#{child_form_prefix}._frontend.action.save")
-      wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
+      wait_for_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
 
       saved_id = saved_child_id_from_pane
       submit_detail = last_record_pane_submit_success_detail
@@ -253,16 +253,16 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
         expect(last_inline_create_submit_detail['plusOne']).to be(false)
 
         expect(page).to have_css(
-          "#infinite-tree-container li##{child_form_prefix}_#{saved_id}.current",
+          "#tree-container li##{child_form_prefix}_#{saved_id}.current",
           visible: :all
         )
         expect(page).to have_no_css(
-          "li##{child_form_prefix}_new.js-itree-synthetic-new",
+          "li##{child_form_prefix}_new.js-tree-synthetic-new",
           visible: :all
         )
         expect(page.current_url).to include("#tree::#{child_form_prefix}_#{saved_id}")
 
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_no_css('#createPlusOne')
           expect(page).to have_css(
             '.alert.alert-success.with-hide-alert',
@@ -276,24 +276,24 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'invalid Save +1' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       install_inline_create_submit_capture
-      click_infinite_tree_toolbar_add_child
+      click_tree_toolbar_add_child
     end
 
     it 'keeps the new form, synthetic row, and validation errors without advancing' do
       send(config[:fill_invalid_fields], now)
 
-      click_infinite_tree_create_plus_one
+      click_tree_create_plus_one
 
       aggregate_failures do
         expect(page).to have_css(
-          "li##{child_form_prefix}_new.js-itree-synthetic-new",
+          "li##{child_form_prefix}_new.js-tree-synthetic-new",
           visible: :all
         )
         expect(page.current_url).to include('#new')
 
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("##{child_form_prefix}_form")
           expect(page).to have_css('.error')
           expect(page).to have_css('#createPlusOne')
@@ -312,35 +312,35 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'Save +1 from Add Child' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       install_inline_create_submit_capture
-      click_infinite_tree_toolbar_add_child
+      click_tree_toolbar_add_child
     end
 
     it 'saves the record and opens a blank sibling new form with plus-one controls' do
       child_title = "Plus One Child #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: child_title)
 
-      click_infinite_tree_create_plus_one
+      click_tree_create_plus_one
 
       submit_detail = last_record_pane_submit_success_detail
-      saved_node_id = infinite_tree_node_id_for_uri(submit_detail['uri'])
+      saved_node_id = tree_node_id_for_uri(submit_detail['uri'])
 
       aggregate_failures do
         expect(submit_detail['created']).to be(true)
         expect(submit_detail['plusOne']).to be(true)
         expect(last_inline_create_submit_detail['plusOne']).to be(true)
 
-        within('#infinite-tree-container') do
+        within('#tree-container') do
           expect(page).to have_css(
             ".node", text: /#{Regexp.escape(child_title)}/
           )
           expect(page).to have_css(
-            "#infinite-tree-container li##{saved_node_id} + li##{child_form_prefix}_new.js-itree-synthetic-new"
+            "#tree-container li##{saved_node_id} + li##{child_form_prefix}_new.js-tree-synthetic-new"
           )
         end
 
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("##{child_form_prefix}_form")
           expect(page).to have_css('#createPlusOne')
           expect(page).to have_css('.createPlusOneBtn')
@@ -354,14 +354,14 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'consecutive Save +1' do
     before do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
-      click_infinite_tree_toolbar_add_child
+      wait_for_tree_loaded
+      click_tree_toolbar_add_child
     end
 
     it 'creates multiple sibling records in sequence' do
       first_title = "First Plus One #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: first_title)
-      click_infinite_tree_create_plus_one
+      click_tree_create_plus_one
 
       expect(page).to have_content(
         config[:expected_plain_save_flash].call(first_title, root_record.title)
@@ -369,20 +369,20 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
 
       second_title = "Second Plus One #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: second_title)
-      click_infinite_tree_create_plus_one
+      click_tree_create_plus_one
 
       aggregate_failures do
         expect(page).to have_content(
           config[:expected_plain_save_flash].call(second_title, root_record.title)
         )
 
-        within('#infinite-tree-container') do
+        within('#tree-container') do
           expect(page).to have_css('.node', text: /#{Regexp.escape(first_title)}/)
           expect(page).to have_css('.node', text: /#{Regexp.escape(second_title)}/)
-          expect(page).to have_css("li##{child_form_prefix}_new.js-itree-synthetic-new")
+          expect(page).to have_css("li##{child_form_prefix}_new.js-tree-synthetic-new")
         end
 
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("##{child_form_prefix}_form")
           expect(page).to have_css('#createPlusOne')
         end
@@ -393,37 +393,37 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
   describe 'consecutive inline create after plain Save' do
     it 'Add Sibling uses the saved node as anchor on the second create without re-selection' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_loaded
-      click_infinite_tree_toolbar_add_sibling
+      wait_for_tree_loaded
+      click_tree_toolbar_add_sibling
 
       sibling_title = "First Sibling #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: sibling_title)
 
       save_label = I18n.t("#{child_form_prefix}._frontend.action.save")
-      wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
+      wait_for_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
 
       saved_id = saved_child_id_from_pane
 
       aggregate_failures 'saved record is current in tree' do
         expect(page).to have_css(
-          "#infinite-tree-container li##{child_form_prefix}_#{saved_id}.current",
+          "#tree-container li##{child_form_prefix}_#{saved_id}.current",
           visible: :all
         )
       end
 
-      click_infinite_tree_toolbar_add_sibling
+      click_tree_toolbar_add_sibling
 
       aggregate_failures do
-        within('#infinite-tree-container') do
+        within('#tree-container') do
           expect(page).to have_css(
-            "#infinite-tree-container li##{child_form_prefix}_#{saved_id} + li##{child_form_prefix}_new"
+            "#tree-container li##{child_form_prefix}_#{saved_id} + li##{child_form_prefix}_new"
           )
           expect(page).to have_no_css(
-            "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
+            "#tree-container li##{tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
           )
         end
         expect(page.current_url).to include('#new')
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("##{child_form_prefix}_form")
         end
       end
@@ -431,34 +431,34 @@ RSpec.shared_examples 'saving inline creates with Save and Save +1' do |config|
 
     it 'Add Child uses the saved child as parent on the second create without re-selection' do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
-      click_infinite_tree_toolbar_add_child
+      wait_for_tree_loaded
+      click_tree_toolbar_add_child
 
       child_title = "First Child #{now}"
       fill_valid_inline_child_fields(child_type: config[:child_type], title: child_title)
 
       save_label = I18n.t("#{child_form_prefix}._frontend.action.save")
-      wait_for_infinite_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
+      wait_for_tree_record_pane_submit { find('button', text: save_label, match: :first).click }
 
       saved_id = saved_child_id_from_pane
 
       aggregate_failures 'saved child is current in tree' do
         expect(page).to have_css(
-          "#infinite-tree-container li##{child_form_prefix}_#{saved_id}.current",
+          "#tree-container li##{child_form_prefix}_#{saved_id}.current",
           visible: :all
         )
       end
 
-      click_infinite_tree_toolbar_add_child
+      click_tree_toolbar_add_child
 
       aggregate_failures do
-        within('#infinite-tree-container') do
+        within('#tree-container') do
           expect(page).to have_css(
-            "li##{child_form_prefix}_#{saved_id} > ol.node-children li##{child_form_prefix}_new.js-itree-synthetic-new"
+            "li##{child_form_prefix}_#{saved_id} > ol.node-children li##{child_form_prefix}_new.js-tree-synthetic-new"
           )
         end
         expect(page.current_url).to include('#new')
-        within('#infinite-tree-record-pane') do
+        within('#tree-record-pane') do
           expect(page).to have_css("##{child_form_prefix}_form")
         end
       end

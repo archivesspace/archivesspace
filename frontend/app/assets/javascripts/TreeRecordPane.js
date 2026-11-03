@@ -1,7 +1,7 @@
-//= require InfiniteTreeIds
+//= require TreeIds
 
 (function (exports) {
-  class InfiniteTreeRecordPane {
+  class TreeRecordPane {
     /**
      * Incremented by every pane load (record, new child/sibling/duplicate form).
      * A load renders and unblocks the pane only while its number is still the
@@ -18,12 +18,11 @@
     #inflightRecordLoad = null;
 
     constructor() {
-      this.container = document.querySelector('#infinite-tree-record-pane');
-      this.treeContainerEl = document.querySelector('#infinite-tree-container');
+      this.container = document.querySelector('#tree-record-pane');
+      this.treeContainerEl = document.querySelector('#tree-container');
 
       this.isReadOnly =
-        document.querySelector('#infinite-tree-component').dataset
-          .isReadOnly === 'true';
+        document.querySelector('#tree-component').dataset.isReadOnly === 'true';
       this.form = null;
       this.isDirty = false;
       /** @type {HTMLElement|null} Anchor tree node when the pane shows a child new_inline form (Cancel restores this record). */
@@ -32,43 +31,40 @@
        * Set when the user clicks a Save +1 (.btn-plus-one) control; cleared after each
        * submit attempt. Inline tree partials (_new_inline, _sidebar) keep plus-one as
        * type="button" for the shared inline-form contract (click → flag → manual submit);
-       * InfiniteTree mirrors that with this flag rather than SubmitEvent.submitter.
+       * Tree mirrors that with this flag rather than SubmitEvent.submitter.
        * @type {boolean}
        */
       this._createPlusOne = false;
 
-      // Respond to current-node changes (skip when InfiniteTree already loaded this record and only syncs chrome)
-      this.container.addEventListener('infiniteTree:currentNodeChanged', e => {
+      // Respond to current-node changes (skip when Tree already loaded this record and only syncs chrome)
+      this.container.addEventListener('tree:currentNodeChanged', e => {
         if (e.detail && e.detail.suppressPaneReload) return;
 
         this.loadRecord(e.detail.node);
       });
 
       // Dirty-guard Save flow: programmatic submit only — never plus-one (_createPlusOne stays false).
-      this.container.addEventListener(
-        'infiniteTreeRouter:requestSubmit',
-        () => {
-          this.submitActiveForm();
-        }
-      );
+      this.container.addEventListener('treeRouter:requestSubmit', () => {
+        this.submitActiveForm();
+      });
 
-      this.container.addEventListener('infiniteTree:showRecordNotFound', () => {
+      this.container.addEventListener('tree:showRecordNotFound', () => {
         this.#showRecordNotFound();
       });
 
       if (this.treeContainerEl && !this.isReadOnly) {
         this.treeContainerEl.addEventListener(
-          'infiniteTreeToolbar:addChildRequested',
+          'treeToolbar:addChildRequested',
           e => this.#onAddChildRequested(e)
         );
 
         this.treeContainerEl.addEventListener(
-          'infiniteTreeToolbar:addSiblingRequested',
+          'treeToolbar:addSiblingRequested',
           e => this.#onAddSiblingRequested(e)
         );
 
         this.treeContainerEl.addEventListener(
-          'infiniteTreeToolbar:addDuplicateRequested',
+          'treeToolbar:addDuplicateRequested',
           e => this.#onAddDuplicateRequested(e)
         );
       }
@@ -82,23 +78,20 @@
 
       // After inline Save +1 create, rebuild the tree and load a sibling new form.
       // Record pane must not loadRecord for the created node first —
-      // InfiniteTree.js suppresses that via notifyPane: false on plus-one redisplay.
-      this.container.addEventListener(
-        'infiniteTreeRouter:plusOneAfterCreate',
-        e => {
-          const { uri } = (e && e.detail) || {};
+      // Tree.js suppresses that via notifyPane: false on plus-one redisplay.
+      this.container.addEventListener('treeRouter:plusOneAfterCreate', e => {
+        const { uri } = (e && e.detail) || {};
 
-          if (!uri || !this.treeContainerEl) return;
+        if (!uri || !this.treeContainerEl) return;
 
-          const savedNode = this.treeContainerEl.querySelector(
-            `li.node[data-uri="${CSS.escape(uri)}"]`
-          );
+        const savedNode = this.treeContainerEl.querySelector(
+          `li.node[data-uri="${CSS.escape(uri)}"]`
+        );
 
-          if (savedNode) {
-            void this.#loadNewSiblingRecord(savedNode);
-          }
+        if (savedNode) {
+          void this.#loadNewSiblingRecord(savedNode);
         }
-      );
+      });
     }
 
     /**
@@ -111,7 +104,7 @@
       const liveCurrent =
         this.treeContainerEl &&
         this.treeContainerEl.querySelector(
-          'li.node.current:not(.js-itree-synthetic-new)'
+          'li.node.current:not(.js-tree-synthetic-new)'
         );
 
       if (liveCurrent && liveCurrent.isConnected) {
@@ -151,7 +144,7 @@
       if (!node) return;
 
       const uri = node.getAttribute('data-uri');
-      const parts = InfiniteTreeIds.uriToParts(uri);
+      const parts = TreeIds.uriToParts(uri);
       const childType = this.#childType();
 
       if (!parts || !childType || parts.type !== childType) return;
@@ -170,7 +163,7 @@
       if (!node) return;
 
       const uri = node.getAttribute('data-uri');
-      const parts = InfiniteTreeIds.uriToParts(uri);
+      const parts = TreeIds.uriToParts(uri);
 
       if (!parts || parts.type !== 'archival_object') return;
 
@@ -184,7 +177,7 @@
      * @returns {URLSearchParams|null}
      */
     #buildNewChildQuery(rootUri, parentParts) {
-      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const rootMeta = TreeIds.rootUriToParts(rootUri);
       if (!rootMeta || !parentParts) return null;
 
       const { type: rootType, id: rootId, childType } = rootMeta;
@@ -211,7 +204,7 @@
      * @returns {URLSearchParams|null}
      */
     #buildSiblingPlacementQuery(rootUri, anchorNode) {
-      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const rootMeta = TreeIds.rootUriToParts(rootUri);
       if (!rootMeta || !anchorNode) return null;
 
       const { type: rootType, id: rootId, childType } = rootMeta;
@@ -249,7 +242,7 @@
     /**
      * Nested duplicate source params for GET new (child-type specific).
      * @param {URLSearchParams} qs
-     * @param {{ childType?: string }} rootMeta - from InfiniteTreeIds.rootUriToParts
+     * @param {{ childType?: string }} rootMeta - from TreeIds.rootUriToParts
      * @param {string} sourceUri - URI of the record to duplicate
      * @returns {boolean} false when this tree/child type has no duplicate contract yet
      */
@@ -268,11 +261,11 @@
     }
 
     /**
-     * @param {string} childType - from InfiniteTreeIds.rootUriToParts(...).childType
+     * @param {string} childType - from TreeIds.rootUriToParts(...).childType
      * @returns {string|null} path segment under app prefix, e.g. archival_objects/new
      */
     #newChildFormPath(childType) {
-      const hierarchy = InfiniteTreeIds.hierarchyForChildType(childType);
+      const hierarchy = TreeIds.hierarchyForChildType(childType);
 
       return hierarchy ? hierarchy.newFormPath : null;
     }
@@ -281,7 +274,7 @@
      * @returns {string|null} configured child record type for this tree
      */
     #childType() {
-      const component = document.querySelector('#infinite-tree-component');
+      const component = document.querySelector('#tree-component');
 
       return (component && component.dataset.childType) || null;
     }
@@ -290,7 +283,7 @@
       if (!this.treeContainerEl) return;
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTree:showSyntheticNewChild', {
+        new CustomEvent('tree:showSyntheticNewChild', {
           bubbles: true,
           detail: { parentNode },
         })
@@ -301,7 +294,7 @@
       if (!this.treeContainerEl) return;
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTree:removeSyntheticNewChild', {
+        new CustomEvent('tree:removeSyntheticNewChild', {
           bubbles: true,
         })
       );
@@ -314,7 +307,7 @@
       if (!this.treeContainerEl) return;
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTreeRouter:replaceHash', {
+        new CustomEvent('treeRouter:replaceHash', {
           bubbles: true,
           detail: { targetHash: '#new' },
         })
@@ -331,10 +324,10 @@
       const uri = anchorNode.getAttribute('data-uri');
       if (!uri) return;
 
-      const hash = InfiniteTreeIds.treeLinkUrl(uri);
+      const hash = TreeIds.treeLinkUrl(uri);
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTreeRouter:replaceHash', {
+        new CustomEvent('treeRouter:replaceHash', {
           bubbles: true,
           detail: { targetHash: hash },
         })
@@ -355,7 +348,7 @@
       }
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTree:showSyntheticNewSibling', {
+        new CustomEvent('tree:showSyntheticNewSibling', {
           bubbles: true,
           detail,
         })
@@ -367,13 +360,13 @@
      * @param {HTMLElement} parentNode
      */
     async #loadNewChildRecord(parentNode) {
-      const component = document.querySelector('#infinite-tree-component');
+      const component = document.querySelector('#tree-component');
       const rootUri = component && component.dataset.rootUri;
       const uri = parentNode.getAttribute('data-uri');
-      const parentParts = InfiniteTreeIds.uriToParts(uri);
+      const parentParts = TreeIds.uriToParts(uri);
 
       const qs = this.#buildNewChildQuery(rootUri, parentParts);
-      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const rootMeta = TreeIds.rootUriToParts(rootUri);
       const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
 
       if (!qs || !path) return;
@@ -393,11 +386,11 @@
      * @param {HTMLElement} anchorNode
      */
     async #loadNewSiblingRecord(anchorNode) {
-      const component = document.querySelector('#infinite-tree-component');
+      const component = document.querySelector('#tree-component');
       const rootUri = component && component.dataset.rootUri;
 
       const qs = this.#buildNewSiblingQuery(rootUri, anchorNode);
-      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const rootMeta = TreeIds.rootUriToParts(rootUri);
       const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
 
       if (!qs || !path) return;
@@ -417,9 +410,9 @@
      * @param {HTMLElement} anchorNode
      */
     async #loadNewDuplicateRecord(anchorNode) {
-      const component = document.querySelector('#infinite-tree-component');
+      const component = document.querySelector('#tree-component');
       const rootUri = component && component.dataset.rootUri;
-      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const rootMeta = TreeIds.rootUriToParts(rootUri);
       const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
       const sourceUri = anchorNode.getAttribute('data-uri');
 
@@ -552,10 +545,10 @@
     #requestCurrentNodeSync(node) {
       if (!this.treeContainerEl || !node) return;
 
-      if (node.classList.contains('js-itree-synthetic-new')) return;
+      if (node.classList.contains('js-tree-synthetic-new')) return;
 
       this.treeContainerEl.dispatchEvent(
-        new CustomEvent('infiniteTree:syncCurrentNode', {
+        new CustomEvent('tree:syncCurrentNode', {
           bubbles: true,
           detail: { node },
         })
@@ -649,7 +642,7 @@
     #isChildTypeCreateSubmission(form) {
       const childType = this.#childType();
       const hierarchy = childType
-        ? InfiniteTreeIds.hierarchyForChildType(childType)
+        ? TreeIds.hierarchyForChildType(childType)
         : null;
 
       if (!hierarchy) return false;
@@ -700,8 +693,8 @@
       // Also listen for legacy jQuery-based form change event used across the app
       // Some components emit formchanged.aspace on the document with the $form as an argument
       // Reset any prior namespaced handler to avoid duplicates after pane re-renders
-      $(document).off('formchanged.aspace.infiniteTreePane');
-      $(document).on('formchanged.aspace.infiniteTreePane', (_event, $ctx) => {
+      $(document).off('formchanged.aspace.treePane');
+      $(document).on('formchanged.aspace.treePane', (_event, $ctx) => {
         try {
           const ctxEl = $ctx && $ctx.length ? $ctx[0] : null;
           if (!ctxEl || ctxEl === this.form || this.form.contains(ctxEl)) {
@@ -755,7 +748,7 @@
       // Save +1 (.btn-plus-one) in inline tree forms is type="button", not type="submit".
       // Standalone "new record" pages use type="submit" name="plus_one" instead, so do not
       // assume that pattern for the shared inline-form templates.
-      // Because plus-one does not fire the form submit event, InfiniteTree binds clicks
+      // Because plus-one does not fire the form submit event, Tree binds clicks
       // explicitly. Capture runs before legacy form.js listeners on .createPlusOneBtn.
       this.form.addEventListener(
         'click',
@@ -804,7 +797,7 @@
       // Append plus_one manually (inline tree plus-one buttons are type="button", so they
       // are not included in FormData the way type="submit" name="plus_one" would be on
       // standalone create forms). Server uses this for flash[:success] vs flash.now and
-      // for create messaging; shouldPlusOne also drives InfiniteTreeRouter post-create flow.
+      // for create messaging; shouldPlusOne also drives TreeRouter post-create flow.
       if (shouldPlusOne) {
         formData.append('plus_one', 'true');
       }
@@ -813,7 +806,7 @@
       const method = (this.form.getAttribute('method') || 'POST').toUpperCase();
 
       // Notify start
-      this.#dispatch('infiniteTreeRecordPane:submitStart', {});
+      this.#dispatch('treeRecordPane:submitStart', {});
 
       try {
         const response = await fetch(action, {
@@ -856,21 +849,21 @@
 
           if (submitButton) submitButton.removeAttribute('disabled');
 
-          this.#dispatch('infiniteTreeRecordPane:submitSuccess', {
+          this.#dispatch('treeRecordPane:submitSuccess', {
             uri: savedUri,
             created: isCreateSubmission,
             plusOne: shouldPlusOne,
           });
 
-          this.#dispatch('infiniteTreeRecordPane:submitted', { success: true });
+          this.#dispatch('treeRecordPane:submitted', { success: true });
         } else {
           if (!superseded) this.#setDirty(true);
 
-          this.#dispatch('infiniteTreeRecordPane:submitError', {
+          this.#dispatch('treeRecordPane:submitError', {
             status: response.status,
           });
 
-          this.#dispatch('infiniteTreeRecordPane:submitted', {
+          this.#dispatch('treeRecordPane:submitted', {
             success: false,
           });
         }
@@ -882,11 +875,11 @@
           this.#setDirty(true);
         }
 
-        this.#dispatch('infiniteTreeRecordPane:submitError', {
+        this.#dispatch('treeRecordPane:submitError', {
           error: String(error),
         });
 
-        this.#dispatch('infiniteTreeRecordPane:submitted', { success: false });
+        this.#dispatch('treeRecordPane:submitted', { success: false });
       } finally {
         // Only unblock and re-enable if not already done in success case, and
         // never while a newer load owns the pane
@@ -910,9 +903,9 @@
 
       if (changed) {
         if (this.isDirty) {
-          this.#dispatch('infiniteTreeRecordPane:dirty', {});
+          this.#dispatch('treeRecordPane:dirty', {});
         } else {
-          this.#dispatch('infiniteTreeRecordPane:clean', {});
+          this.#dispatch('treeRecordPane:clean', {});
         }
       }
     }
@@ -988,7 +981,7 @@
     #loadErrorMessageFragment(error) {
       const errorFrag = new DocumentFragment();
       const errorTemplate = document
-        .getElementById('infinite-tree-record-pane-load-error-template')
+        .getElementById('tree-record-pane-load-error-template')
         .content.cloneNode(true);
       const errorSlot = errorTemplate.querySelector('pre');
 
@@ -1004,7 +997,7 @@
      */
     #showRecordNotFound() {
       const template = document.getElementById(
-        'infinite-tree-record-pane-record-not-found-template'
+        'tree-record-pane-record-not-found-template'
       );
 
       this.container.replaceChildren(template.content.cloneNode(true));
@@ -1013,5 +1006,5 @@
     }
   }
 
-  exports.InfiniteTreeRecordPane = InfiniteTreeRecordPane;
+  exports.TreeRecordPane = TreeRecordPane;
 })(window);

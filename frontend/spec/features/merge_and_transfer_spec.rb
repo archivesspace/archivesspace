@@ -100,7 +100,7 @@ describe 'Merge and Transfer', js: true do
 
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Resource(s) Merged')
 
-    elements = all('#infinite-tree-container .root.node .node')
+    elements = all('#tree-container .root.node .node')
     expect(elements.length).to eq 20
 
     ids = archival_objects_source.map { |entry| "archival_object_#{entry.id}" }

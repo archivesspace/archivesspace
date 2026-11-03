@@ -1,16 +1,16 @@
-//= require InfiniteTreeIds
-//= require InfiniteTreeFetch
-//= require InfiniteTreeMarkup
+//= require TreeIds
+//= require TreeFetch
+//= require TreeMarkup
 
 (function (exports) {
   /**
    * How far the batch-loading zone extends above and below the container, as a
    * fraction of its height.
    */
-  const ITREE_BATCH_ZONE_RATIO = 0.5;
+  const TREE_BATCH_ZONE_RATIO = 0.5;
 
   /**
-   * Public (PUI) InfiniteTree. One core used by three consumers:
+   * Public (PUI) Tree. One core used by three consumers:
    * - Collection organization: `#tree::` hash links, title clicks handled by
    *   InfiniteRecords, current node synced through an InfiniteCoordinator,
    *   initial node from the URI fragment
@@ -19,7 +19,7 @@
    * - Classification search subgroups: record links, no current node,
    *   several independent instances per page
    */
-  class InfiniteTree {
+  class Tree {
     /**
      * @param {Object} options
      * @param {HTMLElement} options.container - Element the tree renders into;
@@ -60,7 +60,7 @@
       expandCurrent = false,
       scroll = 'center',
     }) {
-      const root = InfiniteTreeIds.parseUri(rootUri);
+      const root = TreeIds.parseUri(rootUri);
 
       this.container = container;
       this.rootUri = rootUri;
@@ -75,9 +75,9 @@
       this.expandCurrent = expandCurrent;
       this.scroll = scroll;
 
-      this.fetch = new InfiniteTreeFetch(fetchPrefix, rootUri);
+      this.fetch = new TreeFetch(fetchPrefix, rootUri);
 
-      this.markup = new InfiniteTreeMarkup({
+      this.markup = new TreeMarkup({
         rootUri,
         batchSize: this.BATCH_SIZE,
         i18n,
@@ -91,7 +91,7 @@
         },
         {
           root: this.container,
-          rootMargin: `${Math.round(ITREE_BATCH_ZONE_RATIO * 100)}% 0px`,
+          rootMargin: `${Math.round(TREE_BATCH_ZONE_RATIO * 100)}% 0px`,
           threshold: 0,
         }
       );
@@ -144,15 +144,15 @@
 
     /**
      * Boots a record-linked tree (show-page sidebar or search subgroups) from
-     * a container rendered by `shared/_infinite_tree_record_container`
+     * a container rendered by `shared/_tree_record_container`
      * @param {HTMLElement} container - The container with its data attributes
-     * @returns {InfiniteTree} - The tree
+     * @returns {Tree} - The tree
      */
     static fromRecordContainer(container) {
       const data = container.dataset;
       const currentUri = data.currentUri || null;
 
-      return new InfiniteTree({
+      return new Tree({
         container,
         rootUri: data.rootUri,
         currentUri,
@@ -166,7 +166,7 @@
           collapse: data.collapseLabel,
         },
         titleRules: 'record',
-        linkFor: InfiniteTree.recordLink,
+        linkFor: Tree.recordLink,
         expandCurrent: currentUri !== null,
         scroll: 'container',
       });
@@ -190,13 +190,13 @@
     initialTargetUri() {
       if (this.pageCurrentUri) return this.pageCurrentUri;
 
-      const hash = InfiniteTreeIds.parseLocationHash(this.uriFragment);
+      const hash = TreeIds.parseLocationHash(this.uriFragment);
 
       if (!hash) return null;
 
-      if (InfiniteTreeIds.isRootType(hash.type)) return this.rootUri;
+      if (TreeIds.isRootType(hash.type)) return this.rootUri;
 
-      return InfiniteTreeIds.childUri(this.rootUri, hash.id);
+      return TreeIds.childUri(this.rootUri, hash.id);
     }
 
     /**
@@ -208,7 +208,7 @@
       const targetUri = this.initialTargetUri();
 
       if (targetUri && targetUri !== this.rootUri) {
-        const targetId = InfiniteTreeIds.parseUri(targetUri).id;
+        const targetId = TreeIds.parseUri(targetUri).id;
         let ancestorBatches = null;
 
         try {
@@ -220,7 +220,7 @@
         if (ancestorBatches) {
           await this.renderAncestorsAndShow(
             ancestorBatches,
-            InfiniteTreeIds.uriToElementId(targetUri)
+            TreeIds.uriToElementId(targetUri)
           );
           return;
         }
@@ -240,7 +240,7 @@
       const rootData = await this.getNodeData();
 
       if (!rootData) {
-        console.error('InfiniteTree could not fetch the tree root');
+        console.error('Tree could not fetch the tree root');
         return;
       }
 
@@ -534,9 +534,7 @@
           )
         ),
         batches: {},
-        ancestorHtmlId: InfiniteTreeIds.uriToElementId(
-          isRoot ? this.rootUri : nodeUri
-        ),
+        ancestorHtmlId: TreeIds.uriToElementId(isRoot ? this.rootUri : nodeUri),
       };
 
       /**
@@ -760,7 +758,7 @@
      */
     loadSkippedBatches(fromScrollTop, toScrollTop) {
       const rootRect = this.container.getBoundingClientRect();
-      const margin = rootRect.height * ITREE_BATCH_ZONE_RATIO;
+      const margin = rootRect.height * TREE_BATCH_ZONE_RATIO;
       const sweptTop = fromScrollTop - margin;
       const sweptBottom = toScrollTop + rootRect.height + margin;
       const toContent = y => y - rootRect.top + this.container.scrollTop;
@@ -924,5 +922,5 @@
     }
   }
 
-  exports.InfiniteTree = InfiniteTree;
+  exports.Tree = Tree;
 })(window);

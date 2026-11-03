@@ -1,15 +1,14 @@
-//= require InfiniteTreeIds
+//= require TreeIds
 
 (function (exports) {
-  class InfiniteTreeFetch {
+  class TreeFetch {
     /**
      * @constructor
      * @param {string} rootRecordUri - The backend URI of the root record, e.g. "/repositories/1/resources/3"
      */
     constructor(rootRecordUri) {
-      const baseUrl =
-        InfiniteTreeIds.backendUriToFrontendUri(rootRecordUri) + '/tree';
-      const rootParts = InfiniteTreeIds.rootUriToParts(rootRecordUri);
+      const baseUrl = TreeIds.backendUriToFrontendUri(rootRecordUri) + '/tree';
+      const rootParts = TreeIds.rootUriToParts(rootRecordUri);
 
       this.rootUrl = baseUrl + '/root';
       this.nodeUrl = baseUrl + '/node';
@@ -82,7 +81,7 @@
      */
     async acceptChildren(parentUri, childUris, index) {
       const target =
-        InfiniteTreeIds.backendUriToFrontendUri(parentUri) + '/accept_children';
+        TreeIds.backendUriToFrontendUri(parentUri) + '/accept_children';
       const body = new URLSearchParams();
 
       childUris.forEach(uri => body.append('children[]', uri));
@@ -147,5 +146,5 @@
     }
   }
 
-  exports.InfiniteTreeFetch = InfiniteTreeFetch;
+  exports.TreeFetch = TreeFetch;
 })(window);

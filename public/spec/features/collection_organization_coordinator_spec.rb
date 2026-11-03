@@ -26,11 +26,11 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     @records_container = find('#infinite-records-container')
     @ao1_record = @records_container.find("[data-uri='#{@ao1.uri}']")
     @ao2_record = @records_container.find("[data-uri='#{@ao2.uri}']")
-    @tree_container = find('#infinite-tree-container')
+    @tree_container = find('#tree-container')
     @ao2_expand_btn = @tree_container.find("[data-uri='#{@ao2.uri}'] .node-expand")
   end
 
-  describe 'shares current record state between InfiniteTree and InfiniteRecords' do
+  describe 'shares current record state between Tree and InfiniteRecords' do
     it 'should change the current tree node when the current record changes via scroll' do
       expect(@tree_container).to have_css('.root.current')
       @records_container.scroll_to(@ao1_record, align: :top)

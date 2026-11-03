@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-# Cut/Paste button enable/disable rules live in infinite_tree_toolbar_spec.rb
+# Cut/Paste button enable/disable rules live in tree_toolbar_spec.rb
 # under reorder mode > Cut and paste controls. This file covers paste execution,
 # accept_children API verification, and effective move-set deduping.
 
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Cut/Paste', js: true do
+describe 'Tree Cut/Paste', js: true do
   context 'Resources' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:resources)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:resources)
 
     it_behaves_like 'cutting and pasting in reorder mode'
 
@@ -18,9 +18,9 @@ describe 'Infinite Tree Cut/Paste', js: true do
       enable_reorder_mode
 
       select_tree_row(child_record)
-      click_infinite_tree_toolbar_cut
+      click_tree_toolbar_cut
 
-      find('.js-itree-toolbar-paste').click
+      find('.js-tree-toolbar-paste').click
       wait_for_reorder_idle
 
       aggregate_failures do
@@ -40,20 +40,20 @@ describe 'Infinite Tree Cut/Paste', js: true do
 
       it 'disables Paste when the current record is a descendant of a cut record' do
         select_tree_row(sibling2)
-        click_infinite_tree_toolbar_cut
+        click_tree_toolbar_cut
         expect(page).to have_css("li.node.cut[data-uri='#{sibling2.uri}']")
 
         select_tree_row(nested_under_sibling2)
 
-        expect_infinite_tree_toolbar_paste_enabled(false)
+        expect_tree_toolbar_paste_enabled(false)
       end
 
       it 'does not call accept_children when Paste is clicked on a descendant of a cut record' do
         select_tree_row(sibling2)
-        click_infinite_tree_toolbar_cut
+        click_tree_toolbar_cut
         select_tree_row(nested_under_sibling2)
 
-        find('.js-itree-toolbar-paste').click
+        find('.js-tree-toolbar-paste').click
         wait_for_reorder_idle
 
         aggregate_failures do
@@ -74,11 +74,11 @@ describe 'Infinite Tree Cut/Paste', js: true do
         wait_for_reorder_mode_ready
 
         select_tree_row(child_record)
-        click_infinite_tree_toolbar_cut
+        click_tree_toolbar_cut
         expect(page).to have_css("li.node.cut[data-uri='#{child_record.uri}']")
 
         select_tree_row(sibling3)
-        expect_infinite_tree_toolbar_paste_enabled(true)
+        expect_tree_toolbar_paste_enabled(true)
 
         # nested_under_sibling2 has never been expanded into view, so this hash goes
         # through loadNodeWithAncestors -> #renderAncestorsAndShow(replace: true),
@@ -87,9 +87,9 @@ describe 'Infinite Tree Cut/Paste', js: true do
         expect(page).to have_css("li.node.current[data-uri='#{nested_under_sibling2.uri}']")
 
         cut_uris = page
-          .all('#infinite-tree-container li.node.cut', visible: :all)
+          .all('#tree-container li.node.cut', visible: :all)
           .map { |node| node['data-uri'] }
-        paste_enabled = page.has_no_css?('.js-itree-toolbar-paste.disabled[disabled]')
+        paste_enabled = page.has_no_css?('.js-tree-toolbar-paste.disabled[disabled]')
 
         aggregate_failures do
           # Either the rebuild cleared the cut, or it re-applied the markers.
@@ -102,13 +102,13 @@ describe 'Infinite Tree Cut/Paste', js: true do
   end
 
   context 'Digital Objects' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:digital_objects)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:digital_objects)
 
     it_behaves_like 'cutting and pasting in reorder mode'
   end
 
   context 'Classifications' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:classifications)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:classifications)
 
     it_behaves_like 'cutting and pasting in reorder mode'
   end

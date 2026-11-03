@@ -1,6 +1,6 @@
 (function (exports) {
   /**
-   * A tree is an ordered list, represented in the DOM as `ol.infinite-tree`.
+   * A tree is an ordered list, represented in the DOM as `ol.tree`.
    * The tree has exactly one list item which is the root node.
    * The root node has zero or more child nodes,
    * each of which have zero or more child nodes,
@@ -28,7 +28,7 @@
    */
   const TITLE_RULES = ['collection-organization', 'record'];
 
-  class InfiniteTreeMarkup {
+  class TreeMarkup {
     /**
      * @constructor
      * @param {Object} options
@@ -45,20 +45,19 @@
      * for a node's title link given its data; defaults to a `#tree::` hash
      */
     constructor({ rootUri, batchSize, i18n, titleRules, linkFor }) {
-      const root = InfiniteTreeIds.parseUri(rootUri);
+      const root = TreeIds.parseUri(rootUri);
 
       this.rootUri = rootUri;
       this.repoId = root.repoId;
-      this.rootElementId = InfiniteTreeIds.uriToElementId(rootUri);
+      this.rootElementId = TreeIds.uriToElementId(rootUri);
       this.BATCH_SIZE = batchSize;
       this.i18n = i18n;
       if (!TITLE_RULES.includes(titleRules)) {
-        throw new Error(`Unknown InfiniteTree titleRules: ${titleRules}`);
+        throw new Error(`Unknown Tree titleRules: ${titleRules}`);
       }
 
       this.titleRules = titleRules;
-      this.linkFor =
-        linkFor || (data => InfiniteTreeIds.uriToLocationHash(data.uri));
+      this.linkFor = linkFor || (data => TreeIds.uriToLocationHash(data.uri));
     }
 
     /**
@@ -93,7 +92,7 @@
     rootList() {
       const listFrag = new DocumentFragment();
 
-      listFrag.appendChild(this.#template('infinite-tree-root-list-template'));
+      listFrag.appendChild(this.#template('tree-root-list-template'));
 
       return listFrag;
     }
@@ -106,7 +105,7 @@
     rootNode(data) {
       const title = this.title(data, true);
       const rootFrag = new DocumentFragment();
-      const rootTemplate = this.#template('infinite-tree-root-node-template');
+      const rootTemplate = this.#template('tree-root-node-template');
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
       const link = rootTemplate.querySelector('.node-title');
@@ -130,7 +129,7 @@
      */
     nodeList(parentElementId, level, numBatches) {
       const listFrag = new DocumentFragment();
-      const listTemplate = this.#template('infinite-tree-node-list-template');
+      const listTemplate = this.#template('tree-node-list-template');
       const listElement = listTemplate.querySelector('ol');
       const listElementId = `${parentElementId}-children`;
 
@@ -140,9 +139,7 @@
       listElement.setAttribute('data-total-child-batches', numBatches);
 
       for (let i = 0; i < numBatches; i++) {
-        const itemTemplate = this.#template(
-          'infinite-tree-batch-placeholder-template'
-        );
+        const itemTemplate = this.#template('tree-batch-placeholder-template');
         const itemElement = itemTemplate.querySelector('li');
 
         itemElement.setAttribute('data-batch-placeholder', i);
@@ -168,10 +165,10 @@
      * @returns {DocumentFragment} - A <li>
      */
     node(data, level, shouldObserve, parentId = null, offset = null) {
-      const nodeElementId = InfiniteTreeIds.uriToElementId(data.uri);
+      const nodeElementId = TreeIds.uriToElementId(data.uri);
       const title = this.title(data);
       const nodeFrag = new DocumentFragment();
-      const nodeTemplate = this.#template('infinite-tree-node-template');
+      const nodeTemplate = this.#template('tree-node-template');
       const nodeElement = nodeTemplate.querySelector('li');
       const contentWrapper = nodeTemplate.querySelector('.node-body');
       const indentation = nodeTemplate.querySelector('.node-indentation');
@@ -192,7 +189,7 @@
 
       if (shouldObserve) {
         const parentUri = parentId
-          ? InfiniteTreeIds.elementIdToParentRef(parentId, this.repoId)
+          ? TreeIds.elementIdToParentRef(parentId, this.repoId)
           : '';
 
         nodeElement.setAttribute('data-observe-next-batch', 'true');
@@ -230,9 +227,7 @@
      */
     expandButton(title, childListId) {
       const btnFrag = new DocumentFragment();
-      const btnTemplate = this.#template(
-        'infinite-tree-expand-button-template'
-      );
+      const btnTemplate = this.#template('tree-expand-button-template');
       const btn = btnTemplate.querySelector('.node-expand');
       const expandLabel = btn.querySelector(
         '.node-expand-label[data-when="collapsed"]'
@@ -396,5 +391,5 @@
     }
   }
 
-  exports.InfiniteTreeMarkup = InfiniteTreeMarkup;
+  exports.TreeMarkup = TreeMarkup;
 })(window);

@@ -60,8 +60,8 @@ When 'the user selects {string} as the current repository' do |repository_name|
 end
 
 When 'the user clicks on {string}' do |string|
-  if infinite_tree_toolbar_click?(string)
-    click_infinite_tree_toolbar_button(string)
+  if tree_toolbar_click?(string)
+    click_tree_toolbar_button(string)
   else
     click_on_string string
 

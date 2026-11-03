@@ -35,42 +35,42 @@ Given 'a Resource with two Archival Objects has been created' do
   url_parts.pop
   @resource_id = url_parts.pop
 
-  within '#infinite-tree-toolbar' do
+  within '#tree-toolbar' do
     click_on 'Add Child'
   end
-  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
+  wait_for_tree_inline_new_form(form_prefix: 'archival_object')
 
   fill_in 'archival_object_title_', with: "Archival Object 1 #{@uuid}"
   select 'Class', from: 'archival_object_level_'
   find('button', text: 'Save Archival Object', match: :first).click
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'archival_object')
 
   aggregate_failures do
     expect(page).to have_text "Archival Object Archival Object 1 #{@uuid} on Resource Resource #{@uuid} created"
-    expect(page).to have_css('.infinite-tree .node.current', text: "Archival Object 1 #{@uuid}")
-    expect(page).to have_no_css('#infinite-tree-toolbar .js-itree-toolbar-add-child.disabled')
+    expect(page).to have_css('.tree .node.current', text: "Archival Object 1 #{@uuid}")
+    expect(page).to have_no_css('#tree-toolbar .js-tree-toolbar-add-child.disabled')
   end
 
-  within '#infinite-tree-toolbar' do
+  within '#tree-toolbar' do
     click_on 'Add Child'
   end
-  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
+  wait_for_tree_inline_new_form(form_prefix: 'archival_object')
 
   fill_in 'archival_object_title_', with: "Archival Object 2 #{@uuid}"
   select 'Class', from: 'archival_object_level_'
   find('button', text: 'Save Archival Object', match: :first).click
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'archival_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'archival_object')
 
   aggregate_failures do
     expect(page).to have_text "Archival Object Archival Object 2 #{@uuid} created as child of Archival Object 1 #{@uuid} on Resource Resource #{@uuid}"
-    expect(page).to have_css('.infinite-tree .node', text: "Archival Object 2 #{@uuid}")
+    expect(page).to have_css('.tree .node', text: "Archival Object 2 #{@uuid}")
   end
 end
 
 Then 'the Resource is displayed as the top level of the navigation tree' do
-  expect(page).to have_css ".infinite-tree > .root.node#resource_#{@resource_id}:only-child"
+  expect(page).to have_css ".tree > .root.node#resource_#{@resource_id}:only-child"
 
-  rows = all('.infinite-tree .node', visible: true)
+  rows = all('.tree .node', visible: true)
 
   aggregate_failures do
     expect(rows.length).to eq 2
@@ -79,7 +79,7 @@ Then 'the Resource is displayed as the top level of the navigation tree' do
 end
 
 Then 'the Resource is current in the tree' do
-  rows = all('.infinite-tree .node')
+  rows = all('.tree .node')
 
   aggregate_failures do
     expect(rows.length).to eq 2
@@ -89,7 +89,7 @@ Then 'the Resource is current in the tree' do
 end
 
 Given 'only the first-level Archival Objects are displayed' do
-  rows = all('.infinite-tree .node')
+  rows = all('.tree .node')
 
   aggregate_failures do
     expect(rows.length).to eq 2
@@ -98,7 +98,7 @@ Given 'only the first-level Archival Objects are displayed' do
 end
 
 Then 'the expand arrows are disabled' do
-  arrows = all('#infinite-tree-container li.node:not(.root) > .node-row .node-expand')
+  arrows = all('#tree-container li.node:not(.root) > .node-row .node-expand')
 
   aggregate_failures do
     expect(arrows.length).to eq 1
@@ -111,7 +111,7 @@ Then 'the expand arrows are disabled' do
 end
 
 Then 'all Archival Objects are displayed' do
-  rows = all('.infinite-tree .node')
+  rows = all('.tree .node')
 
   aggregate_failures do
     expect(rows.length).to eq 3
@@ -122,30 +122,30 @@ end
 
 Then 'only the top-level Archival Objects are displayed' do
   aggregate_failures do
-    expect(page).to have_css('.infinite-tree .node', count: 2)
-    expect(page).to have_css('.infinite-tree .node', text: "Archival Object 1 #{@uuid}")
-    expect(page).to have_no_css('.infinite-tree .node', text: "Archival Object 2 #{@uuid}")
+    expect(page).to have_css('.tree .node', count: 2)
+    expect(page).to have_css('.tree .node', text: "Archival Object 1 #{@uuid}")
+    expect(page).to have_no_css('.tree .node', text: "Archival Object 2 #{@uuid}")
   end
 end
 
 Given 'all levels of hierarchy in the tree are expanded' do
-  click_infinite_tree_toolbar_enable_auto_expand
+  click_tree_toolbar_enable_auto_expand
   aggregate_failures do
-    expect(page).to have_css('#infinite-tree-container.expand-all')
+    expect(page).to have_css('#tree-container.expand-all')
     expect(page).to have_css(
-      '#infinite-tree-container li.node:not(.root) > .node-row .node-expand.disabled'
+      '#tree-container li.node:not(.root) > .node-row .node-expand.disabled'
     )
     expect(page).to have_css(
-      '#infinite-tree-toolbar .js-itree-toolbar-expand-mode.btn-success',
+      '#tree-toolbar .js-tree-toolbar-expand-mode.btn-success',
       visible: true,
       text: 'Disable Auto-Expand'
     )
-    expect(page).to have_css('.infinite-tree .node', text: "Archival Object 2 #{@uuid}")
+    expect(page).to have_css('.tree .node', text: "Archival Object 2 #{@uuid}")
   end
 end
 
 Then 'the expand arrows are enabled' do
-  arrows = all('#infinite-tree-container li.node:not(.root) > .node-row .node-expand')
+  arrows = all('#tree-container li.node:not(.root) > .node-row .node-expand')
 
   arrows.each do |arrow|
     expect(arrow[:class]).to_not include 'disabled'

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module InfiniteTreeHierarchy
+module TreeHierarchy
   ROOT_TO_CHILD_TYPE = {
     'resource' => 'archival_object',
     'digital_object' => 'digital_object_component',

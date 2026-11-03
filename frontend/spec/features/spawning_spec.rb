@@ -43,7 +43,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
     select_repository(@repo)
   end
 
-  let(:menu_selector) { '#linkResourceModal ul.infinite-tree-parent-picker__menu[role="menu"]' }
+  let(:menu_selector) { '#linkResourceModal ul.tree-parent-picker__menu[role="menu"]' }
   let(:placeholder_selector) { '#linkResourceModal li.spawn-placeholder' }
   let(:root_list_selector) { '#linkResourceModal li.root.node > ol.node-children' }
   let(:confirm_label) { I18n.t('archival_object._frontend.action.select_parent_and_position') }
@@ -69,7 +69,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
 
     spawned_id = save_spawned_component(@nesting_resource)
     expect(page).to have_css(
-      "#infinite-tree-container li##{infinite_tree_node_id_for(@nesting_parent)} > ol.node-children > " \
+      "#tree-container li##{tree_node_id_for(@nesting_parent)} > ol.node-children > " \
       "li#archival_object_#{spawned_id}:first-child",
       text: @accession.title
     )
@@ -83,21 +83,21 @@ describe 'Spawning an Archival Object from an Accession', js: true do
     context 'when it opens' do
       before { open_parent_picker(@resource) }
 
-      it 'shows the Resource in a browse-only InfiniteTree' do
+      it 'shows the Resource in a browse-only Tree' do
         within '#linkResourceModal' do
           aggregate_failures do
             expect(page).to have_css(
-              "#infinite-tree-component.infinite-tree-parent-picker[data-root-uri='#{@resource.uri}']"
+              "#tree-component.tree-parent-picker[data-root-uri='#{@resource.uri}']"
             )
             expect(page).to have_css(
-              'ol.infinite-tree[role="tree"] > li.root.node > .node-row .record-title:not([href])',
+              'ol.tree[role="tree"] > li.root.node > .node-row .record-title:not([href])',
               text: @resource.title
             )
             expect(page).to have_css(
-              "li##{infinite_tree_node_id_for(@first)} > .node-row a.record-title",
+              "li##{tree_node_id_for(@first)} > .node-row a.record-title",
               text: @first.title
             )
-            expect(page).to have_no_css('#infinite-tree-record-pane, #infinite-tree-toolbar, [data-resize-handle]')
+            expect(page).to have_no_css('#tree-record-pane, #tree-toolbar, [data-resize-handle]')
             expect(page).to have_no_css('li.node.spawn-anchor, li.spawn-placeholder', visible: :all)
             expect(page).to have_button(confirm_label, disabled: true)
           end
@@ -204,7 +204,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
         it 'shows the placeholder before the current component' do
           aggregate_failures do
             expect(page).to have_css(
-              "#{root_list_selector} > li.spawn-placeholder.indent-level-1 + li##{infinite_tree_node_id_for(@parent)}"
+              "#{root_list_selector} > li.spawn-placeholder.indent-level-1 + li##{tree_node_id_for(@parent)}"
             )
             expect(page).to have_no_css(picker_node_selector(@parent, '.spawn-anchor'))
             expect(page).to have_css(
@@ -232,7 +232,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
           choose_placement(@parent, :after)
 
           expect(page).to have_css(
-            "#{root_list_selector} > li##{infinite_tree_node_id_for(@parent)} + li.spawn-placeholder.indent-level-1"
+            "#{root_list_selector} > li##{tree_node_id_for(@parent)} + li.spawn-placeholder.indent-level-1"
           )
 
           confirm_placement
@@ -247,7 +247,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
 
           expect(page).to have_css(
             "#{picker_node_selector(@parent, "[aria-expanded='true']")} > ol.node-children > " \
-            "li.spawn-placeholder.indent-level-2:first-child + li##{infinite_tree_node_id_for(@nested_first)}"
+            "li.spawn-placeholder.indent-level-2:first-child + li##{tree_node_id_for(@nested_first)}"
           )
 
           confirm_placement
@@ -262,8 +262,8 @@ describe 'Spawning an Archival Object from an Accession', js: true do
           choose_placement(@nested_second, :before)
 
           expect(page).to have_css(
-            "li##{infinite_tree_node_id_for(@nested_first)} + li.spawn-placeholder.indent-level-2 + " \
-            "li##{infinite_tree_node_id_for(@nested_second)}"
+            "li##{tree_node_id_for(@nested_first)} + li.spawn-placeholder.indent-level-2 + " \
+            "li##{tree_node_id_for(@nested_second)}"
           )
 
           confirm_placement
@@ -285,7 +285,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
 
           aggregate_failures do
             expect(page).to have_css(
-              "#{root_list_selector} > li.spawn-placeholder + li##{infinite_tree_node_id_for(@last)}"
+              "#{root_list_selector} > li.spawn-placeholder + li##{tree_node_id_for(@last)}"
             )
             expect(page).to have_no_css("#{leaf} > ol.node-children")
             expect(page).to have_no_css("#{leaf}[aria-expanded]")
@@ -300,7 +300,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
 
         aggregate_failures do
           expect(page).to have_css(placeholder_selector, count: 1)
-          expect(page).to have_css("#{root_list_selector} > li##{infinite_tree_node_id_for(@first)} + li.spawn-placeholder")
+          expect(page).to have_css("#{root_list_selector} > li##{tree_node_id_for(@first)} + li.spawn-placeholder")
           expect(page).to have_no_css('#linkResourceModal li.node.spawn-anchor')
           expect(page).to have_no_css(picker_node_selector(@first, '.spawn-anchor'))
           expect(page).to have_no_css(menu_selector)
@@ -340,7 +340,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
         page.send_keys(:enter)
 
         aggregate_failures do
-          expect(page).to have_css("#{root_list_selector} > li##{infinite_tree_node_id_for(@first)} + li.spawn-placeholder")
+          expect(page).to have_css("#{root_list_selector} > li##{tree_node_id_for(@first)} + li.spawn-placeholder")
           expect(page).to have_css('#linkResourceModal #addSelectedButton:not([disabled])', focused: true)
         end
       end
@@ -442,7 +442,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
       expect_spawn_placement(parent: nil, position: 1)
 
       spawned_id = save_spawned_component(@ordering_resource)
-      expect(page).to have_css("#infinite-tree-container li#archival_object_#{spawned_id}.current")
+      expect(page).to have_css("#tree-container li#archival_object_#{spawned_id}.current")
 
       expect(root_child_uris).to eq(
         [
@@ -469,7 +469,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
   end
 
   def wait_for_parent_picker
-    expect(page).to have_css('#linkResourceModal .infinite-tree-parent-picker li.root.node')
+    expect(page).to have_css('#linkResourceModal .tree-parent-picker li.root.node')
   end
 
   def choose_resource(resource)
@@ -478,7 +478,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
   end
 
   def picker_node_selector(record, state = '')
-    "#linkResourceModal #infinite-tree-container li##{infinite_tree_node_id_for(record)}#{state}"
+    "#linkResourceModal #tree-container li##{tree_node_id_for(record)}#{state}"
   end
 
   def title_of(record)
@@ -516,7 +516,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
     expect(page).to have_current_path(
       %r{/resources/#{resource.id}/edit#tree::archival_object_\d+\z}, url: true
     )
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     page.current_url[/archival_object_(\d+)\z/, 1]
   end
@@ -546,7 +546,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
   end
 
   # DOCUMENTED EXCEPTION: there is no DOM signal for a disconnected
-  # IntersectionObserver, so count InfiniteTree observers (rooted at the tree
+  # IntersectionObserver, so count Tree observers (rooted at the tree
   # container) as they are created, disconnected, and reused.
   def install_tree_observer_spy
     page.execute_script(<<~JS)
@@ -557,7 +557,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
         window.IntersectionObserver = class extends NativeIntersectionObserver {
           constructor(callback, options) {
             super(callback, options);
-            this.isTreeObserver = !!(options && options.root && options.root.id === 'infinite-tree-container');
+            this.isTreeObserver = !!(options && options.root && options.root.id === 'tree-container');
             if (this.isTreeObserver) stats.created += 1;
           }
 

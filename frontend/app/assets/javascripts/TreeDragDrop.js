@@ -1,17 +1,16 @@
-class InfiniteTreeDragDrop {
-  static EVENT_DROP_INTENT = 'infiniteTreeDragDrop:dropIntent';
+class TreeDragDrop {
+  static EVENT_DROP_INTENT = 'treeDragDrop:dropIntent';
   static DRAG_PREVIEW_CURSOR_OFFSET = 12;
   static DRAG_PREVIEW_SNAPBACK_DURATION = 300;
   static DRAG_PREVIEW_SNAPBACK_HOLD = 75;
   static DRAG_PREVIEW_SNAPBACK_FADE = 125;
 
   constructor() {
-    this.treeComponentEl = document.getElementById('infinite-tree-component');
+    this.treeComponentEl = document.getElementById('tree-component');
     if (!this.treeComponentEl) return;
 
-    this.treeContainerEl = this.treeComponentEl.querySelector(
-      '#infinite-tree-container'
-    );
+    this.treeContainerEl =
+      this.treeComponentEl.querySelector('#tree-container');
     if (!this.treeContainerEl) return;
 
     this.rootUri = this.treeComponentEl.getAttribute('data-root-uri') || '';
@@ -37,15 +36,15 @@ class InfiniteTreeDragDrop {
 
   #bindEvents() {
     this.treeContainerEl.addEventListener(
-      'infiniteTreeToolbar:reorderModeChanged',
+      'treeToolbar:reorderModeChanged',
       this.#onReorderModeChanged.bind(this)
     );
     this.treeContainerEl.addEventListener(
-      InfiniteTreeMultiSelection.EVENT_CHANGED,
+      TreeMultiSelection.EVENT_CHANGED,
       this.#onSelectionChanged.bind(this)
     );
     this.treeContainerEl.addEventListener(
-      InfiniteTreeMultiSelection.EVENT_CLEARED,
+      TreeMultiSelection.EVENT_CLEARED,
       this.#onSelectionCleared.bind(this)
     );
     this.treeContainerEl.addEventListener(
@@ -87,7 +86,7 @@ class InfiniteTreeDragDrop {
 
   #refreshDraggables() {
     const rows = this.treeContainerEl.querySelectorAll(
-      'li.node:not(.root):not(.js-itree-synthetic-new) > .node-row'
+      'li.node:not(.root):not(.js-tree-synthetic-new) > .node-row'
     );
 
     rows.forEach(row => {
@@ -141,7 +140,7 @@ class InfiniteTreeDragDrop {
       }
     }
     if (event.dataTransfer) {
-      event.dataTransfer.setData('text/plain', 'infinite-tree-drag');
+      event.dataTransfer.setData('text/plain', 'tree-drag');
     }
 
     const explicit = this.explicitSelectionNodes.filter(
@@ -161,7 +160,7 @@ class InfiniteTreeDragDrop {
 
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', 'infinite-tree-drag');
+      event.dataTransfer.setData('text/plain', 'tree-drag');
       event.dataTransfer.setDragImage(this.#getEmptyDragImage(), 0, 0);
     }
 
@@ -178,7 +177,7 @@ class InfiniteTreeDragDrop {
   #getEmptyDragImage() {
     if (!this.emptyDragImage) {
       const template = document
-        .querySelector('#infinite-tree-empty-drag-image-template')
+        .querySelector('#tree-empty-drag-image-template')
         .content.cloneNode(true);
 
       this.emptyDragImage = template.querySelector('div');
@@ -197,7 +196,7 @@ class InfiniteTreeDragDrop {
     if (!this.isDragging || !this.dragPreviewEl) return;
     event.preventDefault();
 
-    const offset = InfiniteTreeDragDrop.DRAG_PREVIEW_CURSOR_OFFSET;
+    const offset = TreeDragDrop.DRAG_PREVIEW_CURSOR_OFFSET;
     this.dragPreviewEl.style.left = `${event.clientX + offset}px`;
     this.dragPreviewEl.style.top = `${event.clientY + offset}px`;
   }
@@ -222,7 +221,7 @@ class InfiniteTreeDragDrop {
     if (!row) return;
 
     const targetLi = row.closest('li.node');
-    if (!targetLi || targetLi.classList.contains('js-itree-synthetic-new'))
+    if (!targetLi || targetLi.classList.contains('js-tree-synthetic-new'))
       return;
     if (
       targetLi.hasAttribute('data-batch-placeholder') ||
@@ -232,7 +231,7 @@ class InfiniteTreeDragDrop {
     }
 
     const blocked = this.#isBlockedTarget(targetLi);
-    const edge = InfiniteTreeDropHitbox.standardHitbox(
+    const edge = TreeDropHitbox.standardHitbox(
       { x: event.clientX, y: event.clientY },
       row.getBoundingClientRect()
     );
@@ -302,7 +301,7 @@ class InfiniteTreeDragDrop {
       sourceParentUris.every(uri => uri === targetPosition.parentUri);
 
     this.treeContainerEl.dispatchEvent(
-      new CustomEvent(InfiniteTreeDragDrop.EVENT_DROP_INTENT, {
+      new CustomEvent(TreeDragDrop.EVENT_DROP_INTENT, {
         bubbles: true,
         detail: {
           sourceNodes: this.dragSelectionNodes.slice(),
@@ -375,16 +374,16 @@ class InfiniteTreeDragDrop {
       return;
     }
 
-    const moveDuration = InfiniteTreeDragDrop.DRAG_PREVIEW_SNAPBACK_DURATION;
-    const holdDuration = InfiniteTreeDragDrop.DRAG_PREVIEW_SNAPBACK_HOLD;
-    const fadeDuration = InfiniteTreeDragDrop.DRAG_PREVIEW_SNAPBACK_FADE;
+    const moveDuration = TreeDragDrop.DRAG_PREVIEW_SNAPBACK_DURATION;
+    const holdDuration = TreeDragDrop.DRAG_PREVIEW_SNAPBACK_HOLD;
+    const fadeDuration = TreeDragDrop.DRAG_PREVIEW_SNAPBACK_FADE;
 
     preview.style.transition = `left ${moveDuration}ms ease-out, top ${moveDuration}ms ease-out`;
 
     // Force a reflow so the transition applies from the current position.
     void preview.offsetWidth;
 
-    const offset = InfiniteTreeDragDrop.DRAG_PREVIEW_CURSOR_OFFSET;
+    const offset = TreeDragDrop.DRAG_PREVIEW_CURSOR_OFFSET;
     preview.style.left = `${this.dragStartPoint.x + offset}px`;
     preview.style.top = `${this.dragStartPoint.y + offset}px`;
 
@@ -436,12 +435,12 @@ class InfiniteTreeDragDrop {
   #buildDragPreview(selectedNodes) {
     const MAX_VISIBLE_ITEMS = 20;
     const containerTemplate = document
-      .querySelector('#infinite-tree-drag-preview-template')
+      .querySelector('#tree-drag-preview-template')
       .content.cloneNode(true);
     const containerEl = containerTemplate.querySelector('div');
     const listEl = containerEl.querySelector('ol');
     const itemTemplate = document.querySelector(
-      '#infinite-tree-drag-preview-item-template'
+      '#tree-drag-preview-item-template'
     );
     const visibleNodes = selectedNodes.slice(0, MAX_VISIBLE_ITEMS);
 
@@ -461,7 +460,7 @@ class InfiniteTreeDragDrop {
 
     if (remainingCount > 0) {
       const badgeTemplate = document
-        .querySelector('#infinite-tree-drag-preview-count-template')
+        .querySelector('#tree-drag-preview-count-template')
         .content.cloneNode(true);
       const badgeEl = badgeTemplate.querySelector('div');
 
@@ -506,7 +505,7 @@ class InfiniteTreeDragDrop {
         ? parseInt(childCountAttr, 10)
         : list
           ? list.querySelectorAll(
-              ':scope > li.node:not(.js-itree-synthetic-new)'
+              ':scope > li.node:not(.js-tree-synthetic-new)'
             ).length
           : 0;
 
@@ -518,7 +517,7 @@ class InfiniteTreeDragDrop {
 
     const siblings = Array.from(
       targetLi.parentElement.querySelectorAll(
-        ':scope > li.node:not(.js-itree-synthetic-new)'
+        ':scope > li.node:not(.js-tree-synthetic-new)'
       )
     );
     let index = siblings.indexOf(targetLi);

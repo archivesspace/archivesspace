@@ -1,10 +1,10 @@
 //= require MixedContentHelper
-//= require InfiniteTreeI18n
-//= require InfiniteTreeIds
+//= require TreeI18n
+//= require TreeIds
 
 (function (exports) {
   /**
-   * A tree is an ordered list, represented in the DOM as `ol.infinite-tree`.
+   * A tree is an ordered list, represented in the DOM as `ol.tree`.
    * The tree has exactly one list item which is the root node.
    * The root node has zero or more child nodes,
    * each of which have zero or more child nodes,
@@ -22,7 +22,7 @@
    * next sibling of `.node-row`, containing each child as `li.node`.
    */
 
-  class InfiniteTreeMarkup {
+  class TreeMarkup {
     /**
      * @constructor
      * @param {string} rootUri - The URI of the root record
@@ -33,15 +33,14 @@
      * @param {Object} i18n.enumerations - The enumeration translations object
      */
     constructor(rootUri, batchSize, i18n) {
-      const { repoId, type, id, childType } =
-        InfiniteTreeIds.rootUriToParts(rootUri);
+      const { repoId, type, id, childType } = TreeIds.rootUriToParts(rootUri);
       this.rootUri = rootUri;
       this.repoId = repoId;
       this.rootType = type;
       this.rootId = id;
       this.childType = childType;
       this.BATCH_SIZE = batchSize;
-      this.i18n = new InfiniteTreeI18n(i18n);
+      this.i18n = new TreeI18n(i18n);
     }
 
     /**
@@ -51,7 +50,7 @@
     rootList() {
       const listFrag = new DocumentFragment();
       const listTemplate = document
-        .querySelector('#infinite-tree-root-list-template')
+        .querySelector('#tree-root-list-template')
         .content.cloneNode(true);
 
       listTemplate
@@ -71,7 +70,7 @@
     rootNode(data) {
       const rootFrag = new DocumentFragment();
       const rootTemplate = document
-        .querySelector('#infinite-tree-root-node-template')
+        .querySelector('#tree-root-node-template')
         .content.cloneNode(true);
       const rootElement = rootTemplate.querySelector('li');
       const rootBody = rootTemplate.querySelector('.node-body');
@@ -95,7 +94,7 @@
     nodeList(parentElementId, level, numBatches) {
       const listFrag = new DocumentFragment();
       const listTemplate = document
-        .querySelector('#infinite-tree-node-list-template')
+        .querySelector('#tree-node-list-template')
         .content.cloneNode(true);
       const listElement = listTemplate.querySelector('ol');
 
@@ -105,7 +104,7 @@
 
       for (let i = 0; i < numBatches; i++) {
         const itemTemplate = document
-          .querySelector('#infinite-tree-batch-placeholder-template')
+          .querySelector('#tree-batch-placeholder-template')
           .content.cloneNode(true);
         const itemElement = itemTemplate.querySelector('li');
 
@@ -134,7 +133,7 @@
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
-        .querySelector('#infinite-tree-node-template')
+        .querySelector('#tree-node-template')
         .content.cloneNode(true);
       const nodeElement = nodeTemplate.querySelector('li');
       const nodeBody = nodeTemplate.querySelector('.node-body');
@@ -164,13 +163,13 @@
      */
     nodeBody(data, uri, currentNode = null) {
       // Determine which template to use based on URI
-      const parts = InfiniteTreeIds.uriToParts(uri);
+      const parts = TreeIds.uriToParts(uri);
       const isRoot = parts.type === this.rootType;
 
       // Get the appropriate template
       const templateId = isRoot
-        ? '#infinite-tree-root-node-template'
-        : '#infinite-tree-node-template';
+        ? '#tree-root-node-template'
+        : '#tree-node-template';
 
       const template = document
         .querySelector(templateId)
@@ -237,7 +236,7 @@
       parentId = null,
       offset = null
     ) {
-      const uriParts = InfiniteTreeIds.uriToParts(data.uri);
+      const uriParts = TreeIds.uriToParts(data.uri);
       const nodeElementId = `${uriParts.type}_${uriParts.id}`;
 
       nodeElement.id = nodeElementId;
@@ -270,7 +269,7 @@
         let parentUri = '';
 
         if (parentId) {
-          const parentParts = InfiniteTreeIds.parseTreeId(parentId);
+          const parentParts = TreeIds.parseTreeId(parentId);
           const parentIsRoot = parentParts?.type === this.rootType;
 
           if (!parentIsRoot)
@@ -332,7 +331,7 @@
 
         switch (colName) {
           case 'title': {
-            const uriParts = InfiniteTreeIds.uriToParts(data.uri);
+            const uriParts = TreeIds.uriToParts(data.uri);
             const href = `#tree::${uriParts.type}_${uriParts.id}`;
             const titleHelper = this.#titleHelper(data);
 
@@ -349,7 +348,7 @@
 
             if (data.suppressed) {
               const suppressedBadge = document
-                .querySelector('#infinite-tree-suppressed-template')
+                .querySelector('#tree-suppressed-template')
                 .content.cloneNode(true);
               titleEl.prepend(suppressedBadge);
             }
@@ -442,7 +441,7 @@
     #expandButton(title) {
       const btnFrag = new DocumentFragment();
       const btnTemplate = document
-        .querySelector('#infinite-tree-expand-button-template')
+        .querySelector('#tree-expand-button-template')
         .content.cloneNode(true);
       const btn = btnTemplate.querySelector('.node-expand');
       const text = new DOMParser().parseFromString(title, 'text/html')
@@ -610,5 +609,5 @@
     }
   }
 
-  exports.InfiniteTreeMarkup = InfiniteTreeMarkup;
+  exports.TreeMarkup = TreeMarkup;
 })(window);

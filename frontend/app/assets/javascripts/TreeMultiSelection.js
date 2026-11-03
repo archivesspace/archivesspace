@@ -1,7 +1,7 @@
 /**
- * InfiniteTreeMultiSelection
+ * TreeMultiSelection
  *
- * Owns reorder-mode multi-selection state for the InfiniteTree.
+ * Owns reorder-mode multi-selection state for the Tree.
  *
  * Selection semantics use CLICK-ORDER (the sequence in which rows are selected
  * determines their order in move/paste operations) under AEDI (Ancestor-Exclusive,
@@ -23,7 +23,7 @@
  *     implicit), (4) append in-range rows + endpoint in anchor→endpoint order.
  *   - Plain click on a record title replaces multiselection with the single
  *     clicked row (#replaceWithSingle) for cut/drag workflows, then bubbles to
- *     InfiniteTree's record-title router so URL hash updates (updates
+ *     Tree's record-title router so URL hash updates (updates
  *     `.current` for Paste and navigation).
  *   - Plain mousedown on a non-link row: if the row is already in selected,
  *     preserve multiselection (group drag); otherwise #replaceWithSingle so
@@ -58,26 +58,24 @@
  *   - effectiveMoveSet(...) filter in downstream consumers (Cut/Paste/DragDrop)
  *     dedupes any remaining redundancy before sending to accept_children
  *
- * Emits on #infinite-tree-container:
- *   - infiniteTreeMultiSelection:changed { selectedNodes: HTMLElement[], anchorNode: HTMLElement|null }
- *   - infiniteTreeMultiSelection:cleared { detail: {} }
+ * Emits on #tree-container:
+ *   - treeMultiSelection:changed { selectedNodes: HTMLElement[], anchorNode: HTMLElement|null }
+ *   - treeMultiSelection:cleared { detail: {} }
  *
- * Selection ordering is mirrored to #infinite-tree-container[data-selection-uris="uri1,uri2,..."]
+ * Selection ordering is mirrored to #tree-container[data-selection-uris="uri1,uri2,..."]
  * in click order for manual verification and feature specs.
  */
-class InfiniteTreeMultiSelection {
-  static EVENT_CHANGED = 'infiniteTreeMultiSelection:changed';
-  static EVENT_CLEARED = 'infiniteTreeMultiSelection:cleared';
+class TreeMultiSelection {
+  static EVENT_CHANGED = 'treeMultiSelection:changed';
+  static EVENT_CLEARED = 'treeMultiSelection:cleared';
 
   constructor() {
-    this.componentEl = document.getElementById('infinite-tree-component');
+    this.componentEl = document.getElementById('tree-component');
     if (!this.componentEl) return;
 
-    this.containerEl = this.componentEl.querySelector(
-      '#infinite-tree-container'
-    );
-    this.toolbarEl = this.componentEl.querySelector('#infinite-tree-toolbar');
-    this.resizerEl = this.componentEl.querySelector('#infinite-tree-resizer');
+    this.containerEl = this.componentEl.querySelector('#tree-container');
+    this.toolbarEl = this.componentEl.querySelector('#tree-toolbar');
+    this.resizerEl = this.componentEl.querySelector('#tree-resizer');
 
     if (!this.containerEl || !this.toolbarEl) return;
 
@@ -91,7 +89,7 @@ class InfiniteTreeMultiSelection {
 
   #bindEvents() {
     this.containerEl.addEventListener(
-      'infiniteTreeToolbar:reorderModeChanged',
+      'treeToolbar:reorderModeChanged',
       this.#onReorderModeChanged.bind(this)
     );
 
@@ -114,22 +112,22 @@ class InfiniteTreeMultiSelection {
 
     // Listen for lazy-load events to apply implicit selection classes to new descendants
     this.containerEl.addEventListener(
-      'infiniteTree:didInsertBatch',
+      'tree:didInsertBatch',
       this.#onBatchInserted.bind(this)
     );
 
     this.containerEl.addEventListener(
-      'infiniteTree:didExpand',
+      'tree:didExpand',
       this.#onNodeExpanded.bind(this)
     );
 
     // Listen for full rebuilds to reset selection
     this.containerEl.addEventListener(
-      'infiniteTree:rebuildAndReopenComplete',
+      'tree:rebuildAndReopenComplete',
       this.#onTreeRedisplayed.bind(this)
     );
     this.containerEl.addEventListener(
-      'infiniteTree:rebuildAndShowComplete',
+      'tree:rebuildAndShowComplete',
       this.#onTreeRedisplayed.bind(this)
     );
   }
@@ -158,7 +156,7 @@ class InfiniteTreeMultiSelection {
    * Capture-phase handler. Intercepts only modifier-key clicks (Cmd/Ctrl/Shift)
    * to drive multi-selection without routing. Plain record-title clicks replace
    * multiselection with the single clicked row (#replaceWithSingle) so the row
-   * acts as the paste destination, then fall through to InfiniteTree's
+   * acts as the paste destination, then fall through to Tree's
    * bubble-phase router so navigation still occurs in reorder mode (required
    * for Cut and Move workflows and `.current` navigation). Plain non-link click selection state
    * is managed by the mousedown handler.
@@ -531,14 +529,14 @@ class InfiniteTreeMultiSelection {
     this.containerEl
       .querySelectorAll('.node.implicitly-multiselected .selection-order-badge')
       .forEach(badge => {
-        badge.textContent = InfiniteTreeMultiSelection.IMPLICIT_SELECTION_MARK;
+        badge.textContent = TreeMultiSelection.IMPLICIT_SELECTION_MARK;
         badge.classList.add('implicit-mark');
       });
   }
 
   #emitChanged() {
     this.containerEl.dispatchEvent(
-      new CustomEvent(InfiniteTreeMultiSelection.EVENT_CHANGED, {
+      new CustomEvent(TreeMultiSelection.EVENT_CHANGED, {
         bubbles: true,
         detail: {
           selectedNodes: this.selected.slice(),
@@ -553,7 +551,7 @@ class InfiniteTreeMultiSelection {
 
   #emitCleared() {
     this.containerEl.dispatchEvent(
-      new CustomEvent(InfiniteTreeMultiSelection.EVENT_CLEARED, {
+      new CustomEvent(TreeMultiSelection.EVENT_CLEARED, {
         bubbles: true,
         detail: {},
       })
@@ -637,7 +635,7 @@ class InfiniteTreeMultiSelection {
   }
 
   /**
-   * Handle batch insertion event from InfiniteTree.
+   * Handle batch insertion event from Tree.
    * Applies implicit selection classes to newly-loaded descendants.
    * @param {CustomEvent} e - Event with detail.parentNode
    */
@@ -650,7 +648,7 @@ class InfiniteTreeMultiSelection {
   }
 
   /**
-   * Handle node expansion event from InfiniteTree.
+   * Handle node expansion event from Tree.
    * Applies implicit selection classes to newly-loaded descendants.
    * @param {CustomEvent} e - Event with detail.node
    */

@@ -3,18 +3,18 @@
 require 'spec_helper'
 require 'rails_helper'
 
-# Covers InfiniteTreeMultiSelection selection state, badges, ancestry locking,
+# Covers TreeMultiSelection selection state, badges, ancestry locking,
 # shift-range collapsing, outside-click clearing, and collapse/expand persistence.
-# Plain mousedown → drag behavior is tested in infinite_tree_dragdrop_spec.rb.
+# Plain mousedown → drag behavior is tested in tree_dragdrop_spec.rb.
 
-describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true do
+describe 'Tree Multi-Selection (reorder-mode multi-select)', js: true do
   context 'Resources' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:resources)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:resources)
 
     it_behaves_like 'selecting multiple records in reorder mode'
 
     # Scroll the tree container so IntersectionObserver loads a child batch
-    # (same pattern as infinite_tree_base_shared_examples).
+    # (same pattern as tree_base_shared_examples).
     def scroll_to_load_child_batch(parent_uri, batch_offset)
       parent_li = tree_node(parent_uri)
       child_list = parent_li.find(':scope > ol.node-children')
@@ -52,10 +52,10 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
     context 'when reorder mode is off' do
       it 'plain clicks retain router navigation behavior' do
-        within '#infinite-tree-container' do
+        within '#tree-container' do
           click_link child_record.title
         end
-        wait_for_infinite_tree_current_node(child_record.uri)
+        wait_for_tree_current_node(child_record.uri)
 
         expect(page.current_url).to include(child_record_hash)
         expect(data_selection_uris).to be_nil
@@ -65,14 +65,14 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         meta_click_row(child_record.uri)
 
         expect(data_selection_uris).to be_nil
-        expect(page).to have_no_css('#infinite-tree-container .node.multiselected')
+        expect(page).to have_no_css('#tree-container .node.multiselected')
       end
     end
 
     context 'when reorder mode is on' do
       before do |example|
         # Deferred-visit examples load the tree themselves; see the note in the
-        # 'infinite tree reorder hierarchy setup' shared context.
+        # 'tree reorder hierarchy setup' shared context.
         next if example.metadata[:defer_initial_tree_visit]
 
         enable_reorder_mode
@@ -247,7 +247,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
         before do
           visit "#{edit_path}#{root_hash}"
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
           enable_reorder_mode
           wait_for_reorder_mode_ready
 
@@ -373,16 +373,16 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       describe 'plain click on record links' do
         # Record-title clicks in reorder mode serve as navigation AND destination
         # pick. A plain click replaces any existing multi-selection with the
-        # single clicked row (.multiselected), then routes through InfiniteTree.
+        # single clicked row (.multiselected), then routes through Tree.
         it 'navigates and replaces multiselect with the clicked destination row' do
           ctrl_click_row(child_record.uri)
           ctrl_click_row(sibling3.uri)
           expect(data_selection_uris).to eq("#{child_record.uri},#{sibling3.uri}")
 
-          within '#infinite-tree-container' do
+          within '#tree-container' do
             click_link sibling2.title
           end
-          wait_for_infinite_tree_current_node(sibling2.uri)
+          wait_for_tree_current_node(sibling2.uri)
 
           expect(page.current_url).to include("##{tree_hash_for(sibling2.uri)}")
           expect(data_selection_uris).to eq(sibling2.uri)
@@ -390,7 +390,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
             "li.node[data-uri='#{sibling2.uri}'].current.multiselected"
           )
           expect(page).to have_css(
-            '#infinite-tree-container .node.current',
+            '#tree-container .node.current',
             count: 1,
             visible: :all
           )
@@ -417,7 +417,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
           expect(data_selection_uris).to eq(child_record.uri)
 
           page.execute_script(<<~JS)
-            document.querySelector('#infinite-tree-toolbar')
+            document.querySelector('#tree-toolbar')
               .dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
           JS
 
@@ -464,9 +464,9 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
           meta_click_row(child_record.uri)
           expect(data_selection_uris).to eq(child_record.uri)
 
-          find('.js-itree-toolbar-reorder-toggle').click
+          find('.js-tree-toolbar-reorder-toggle').click
 
-          expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
+          expect(page).to have_no_css('#tree-container.reorder-mode')
           expect(data_selection_uris).to be_nil
         end
       end
@@ -496,7 +496,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
       end
 
       describe 'lazy-loaded implicit selection', :defer_initial_tree_visit do
-        let(:tree_batch_size) { Rails.configuration.infinite_tree_batch_size }
+        let(:tree_batch_size) { Rails.configuration.tree_batch_size }
 
         let!(:a_ao) do
           create(:archival_object, resource: { 'ref' => root_record.uri }, title: "A #{now}")
@@ -550,7 +550,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
         before do
           visit "#{edit_path}#{root_hash}"
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
           enable_reorder_mode
           wait_for_reorder_mode_ready
 
@@ -624,8 +624,8 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
 
         it 'does not apply implicit selection when reorder mode is off' do
           # Exit reorder mode
-          find('.js-itree-toolbar-reorder-toggle').click
-          expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
+          find('.js-tree-toolbar-reorder-toggle').click
+          expect(page).to have_no_css('#tree-container.reorder-mode')
 
           # Expand BB (no selection active, reorder mode off)
           expand_tree_node(bb_ao.uri)
@@ -657,7 +657,7 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         page.evaluate_script(<<~JS)
           (function() {
             var li = document.querySelector(
-              '#infinite-tree-container li.node[data-uri="#{uri}"]'
+              '#tree-container li.node[data-uri="#{uri}"]'
             );
             var col = li.querySelector(
               ':scope > .node-row > .node-body > [data-column="drag-handle"]'
@@ -673,20 +673,20 @@ describe 'Infinite Tree Multi-Selection (reorder-mode multi-select)', js: true d
         enable_reorder_mode
         wait_for_reorder_mode_ready
 
-        expect(page).to have_css('#infinite-tree-container.reorder-mode')
+        expect(page).to have_css('#tree-container.reorder-mode')
         expect(handle_display(child_record.uri)).not_to eq('none')
       end
     end
   end
 
   context 'Digital Objects' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:digital_objects)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:digital_objects)
 
     it_behaves_like 'selecting multiple records in reorder mode'
   end
 
   context 'Classifications' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:classifications)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:classifications)
 
     it_behaves_like 'selecting multiple records in reorder mode'
   end

@@ -3,13 +3,13 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree edit view coverage', js: true do
+describe 'Tree edit view coverage', js: true do
   context 'Resources' do
     it_behaves_like 'covering edit view tree behavior',
-                    InfiniteTreeHierarchyConfigs::RESOURCE.merge(supports_suppression: true)
+                    TreeHierarchyConfigs::RESOURCE.merge(supports_suppression: true)
 
     describe 'a duplicated record' do
-      include_context 'infinite tree integration setup'
+      include_context 'tree integration setup'
 
       let(:edit_path) { "/resources/#{resource.id}/edit" }
       let(:child_form_prefix) { 'archival_object' }
@@ -36,11 +36,11 @@ describe 'Infinite Tree edit view coverage', js: true do
         )
       end
 
-      ROOT_CHILD_SELECTOR = '#infinite-tree-container .root.node > .node-children > li.node'
+      ROOT_CHILD_SELECTOR = '#tree-container .root.node > .node-children > li.node'
 
       before do
         visit edit_path
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
       end
 
       def root_child_titles
@@ -56,7 +56,7 @@ describe 'Infinite Tree edit view coverage', js: true do
       end
 
       def expect_form_to_have_values_copied_from(original)
-        within '#infinite-tree-record-pane' do
+        within '#tree-record-pane' do
           aggregate_failures do
             expect(find('#archival_object_component_id_').value).to eq original.component_id
             expect(find('#archival_object_level_').value).to eq original.level
@@ -82,7 +82,7 @@ describe 'Infinite Tree edit view coverage', js: true do
         duplicate_title = "[Duplicated] #{ao.title}"
 
         select_tree_row_by_id(ao)
-        click_infinite_tree_toolbar_add_duplicate
+        click_tree_toolbar_add_duplicate
 
         expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /duplicated from/)
         expect(page.current_url).to include('#new')
@@ -92,10 +92,10 @@ describe 'Infinite Tree edit view coverage', js: true do
           form_prefix: child_form_prefix
         )
 
-        expect(page).to have_css('#infinite-tree-container .record-title', text: duplicate_title)
+        expect(page).to have_css('#tree-container .record-title', text: duplicate_title)
 
         visit edit_path
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
 
         original_index = root_child_index_for(ao.title)
         duplicate_index = root_child_index_for(duplicate_title)
@@ -105,29 +105,29 @@ describe 'Infinite Tree edit view coverage', js: true do
         end
 
         select_tree_row_by_id(ao)
-        wait_for_infinite_tree_inline_edit_form(form_prefix: child_form_prefix)
-        within '#infinite-tree-record-pane' do
+        wait_for_tree_inline_edit_form(form_prefix: child_form_prefix)
+        within '#tree-record-pane' do
           expect(page).to have_css('h2', text: ao.title)
           click_on 'Delete'
         end
         within '#confirmChangesModal' do
           click_on 'Delete'
         end
-        expect(page).to have_no_css("#infinite-tree-container li##{infinite_tree_node_id_for(ao)}", visible: :all)
+        expect(page).to have_no_css("#tree-container li##{tree_node_id_for(ao)}", visible: :all)
 
         visit edit_path
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
 
         aggregate_failures do
           expect(root_child_index_for(duplicate_title)).not_to be_nil
           expect(root_child_index_for(ao.title)).to be_nil
         end
 
-        within '#infinite-tree-container' do
+        within '#tree-container' do
           click_link duplicate_title
         end
-        wait_for_infinite_tree_inline_edit_form(form_prefix: child_form_prefix)
-        within '#infinite-tree-record-pane' do
+        wait_for_tree_inline_edit_form(form_prefix: child_form_prefix)
+        within '#tree-record-pane' do
           expect(page).to have_field('archival_object_title_', with: duplicate_title)
         end
         expect_form_to_have_values_copied_from(ao)
@@ -136,10 +136,10 @@ describe 'Infinite Tree edit view coverage', js: true do
   end
 
   context 'Digital Objects' do
-    it_behaves_like 'covering edit view tree behavior', InfiniteTreeHierarchyConfigs::DIGITAL_OBJECT
+    it_behaves_like 'covering edit view tree behavior', TreeHierarchyConfigs::DIGITAL_OBJECT
   end
 
   context 'Classifications' do
-    it_behaves_like 'covering edit view tree behavior', InfiniteTreeHierarchyConfigs::CLASSIFICATION
+    it_behaves_like 'covering edit view tree behavior', TreeHierarchyConfigs::CLASSIFICATION
   end
 end

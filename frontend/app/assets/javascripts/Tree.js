@@ -1,23 +1,22 @@
-//= require InfiniteTreeFetch
-//= require InfiniteTreeMarkup
-//= require InfiniteTreeResizer
-//= require InfiniteTreeIds
+//= require TreeFetch
+//= require TreeMarkup
+//= require TreeResizer
+//= require TreeIds
 
 (function (exports) {
-  const ITREE_SCROLL_DELAY_MS = 100;
-  const ITREE_THRESHOLD_EMS = 300;
+  const TREE_SCROLL_DELAY_MS = 100;
+  const TREE_THRESHOLD_EMS = 300;
   /**
    * How far the batch-loading zone extends above and below the container, as a
    * fraction of its height. Used by both the batch observer and the scroll check.
    */
-  const ITREE_BATCH_ZONE_RATIO = 0.5;
+  const TREE_BATCH_ZONE_RATIO = 0.5;
 
-  class InfiniteTree {
-    static EVENT_TYPE_CURRENT_NODE_CHANGED = 'infiniteTree:currentNodeChanged';
-    static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
-    static EVENT_TYPE_SYNC_CURRENT_NODE = 'infiniteTree:syncCurrentNode';
-    static EVENT_TYPE_TREE_CONTENT_REPLACED =
-      'infiniteTree:treeContentReplaced';
+  class Tree {
+    static EVENT_TYPE_CURRENT_NODE_CHANGED = 'tree:currentNodeChanged';
+    static EVENT_TYPE_TITLE_CLICK = 'tree:titleClick';
+    static EVENT_TYPE_SYNC_CURRENT_NODE = 'tree:syncCurrentNode';
+    static EVENT_TYPE_TREE_CONTENT_REPLACED = 'tree:treeContentReplaced';
 
     #autoExpandEnabled = false;
     #autoExpandLocked = false;
@@ -42,14 +41,14 @@
      * @param {string} i18n.bulk - The date type bulk label
      * @param {Object} i18n.enumerations - The enumeration translations object
      * @param {Object} [host] - Host elements for compositions other than the
-     * full-page `shared/_infinite_tree` partial, such as a modal picker
+     * full-page `shared/_tree` partial, such as a modal picker
      * @param {HTMLElement} [host.componentEl] - Component boundary and configuration
-     * host; defaults to `#infinite-tree-component`
+     * host; defaults to `#tree-component`
      * @param {HTMLElement} [host.containerEl] - Scrollable tree container; defaults
-     * to `#infinite-tree-container` within the component
+     * to `#tree-container` within the component
      * @param {HTMLElement} [host.recordPaneEl] - Record pane; defaults to
-     * `#infinite-tree-record-pane` within the component and may be absent
-     * @param {boolean} [host.resizable=true] - Whether to construct InfiniteTreeResizer
+     * `#tree-record-pane` within the component and may be absent
+     * @param {boolean} [host.resizable=true] - Whether to construct TreeResizer
      *
      * Reads `rootUri` and `batchSize` from the component's dataset.
      */
@@ -63,28 +62,26 @@
       } = {}
     ) {
       this.componentEl =
-        componentEl || document.querySelector('#infinite-tree-component');
+        componentEl || document.querySelector('#tree-component');
 
       const { rootUri, batchSize } = this.componentEl.dataset;
 
       this.BATCH_SIZE = Number(batchSize);
       this.rootMeta = {
         uri: rootUri,
-        ...InfiniteTreeIds.uriToParts(rootUri),
+        ...TreeIds.uriToParts(rootUri),
       };
 
       this.container =
-        containerEl ||
-        this.componentEl.querySelector('#infinite-tree-container');
+        containerEl || this.componentEl.querySelector('#tree-container');
       this.recordPaneEl =
-        recordPaneEl ||
-        this.componentEl.querySelector('#infinite-tree-record-pane');
+        recordPaneEl || this.componentEl.querySelector('#tree-record-pane');
 
-      this.fetch = new InfiniteTreeFetch(rootUri);
+      this.fetch = new TreeFetch(rootUri);
 
-      this.markup = new InfiniteTreeMarkup(rootUri, batchSize, i18n);
+      this.markup = new TreeMarkup(rootUri, batchSize, i18n);
 
-      if (resizable) new InfiniteTreeResizer(this.container);
+      if (resizable) new TreeResizer(this.container);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -92,19 +89,19 @@
         },
         {
           root: this.container,
-          rootMargin: `${ITREE_BATCH_ZONE_RATIO * 100}% 0px`,
+          rootMargin: `${TREE_BATCH_ZONE_RATIO * 100}% 0px`,
           threshold: 0,
         }
       );
 
       this.#listen(
         this.container,
-        'infiniteTreeToolbar:expandModeChanged',
+        'treeToolbar:expandModeChanged',
         this.#onToolbarExpandModeChanged.bind(this)
       );
       this.#listen(
         this.container,
-        'infiniteTreeToolbar:collapseTreeRequested',
+        'treeToolbar:collapseTreeRequested',
         this.#onToolbarCollapseTreeRequested.bind(this)
       );
 
@@ -144,7 +141,7 @@
       this.#listen(this.container, 'click', e => {
         if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
         else if (e.target.closest('.record-title')) {
-          // Intercept navigation; dispatch titleClick for InfiniteTreeRouter.
+          // Intercept navigation; dispatch titleClick for TreeRouter.
           e.preventDefault();
           e.stopPropagation();
 
@@ -152,107 +149,88 @@
         }
       });
 
-      this.#listen(
-        this.container,
-        'infiniteTreeRouter:setCurrentNode',
-        async e => {
-          const { targetHash } = e.detail;
+      this.#listen(this.container, 'treeRouter:setCurrentNode', async e => {
+        const { targetHash } = e.detail;
 
-          const nodeElementId =
-            InfiniteTreeIds.locationHashToHtmlId(targetHash);
+        const nodeElementId = TreeIds.locationHashToHtmlId(targetHash);
 
-          // Defensive guard in case a malformed hash slips through router validation
-          if (!InfiniteTreeIds.parseTreeId(nodeElementId)) {
-            await this.renderRoot();
+        // Defensive guard in case a malformed hash slips through router validation
+        if (!TreeIds.parseTreeId(nodeElementId)) {
+          await this.renderRoot();
 
-            return;
-          }
-
-          const currentNode = this.container.querySelector(`#${nodeElementId}`);
-
-          if (currentNode) {
-            this.setCurrentNode(currentNode);
-
-            return;
-          }
-
-          // Treat this event as the initial page load
-          if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
-            const rootNode = await this.renderRoot();
-
-            this.setCurrentNode(rootNode);
-          } else {
-            this.loadNodeWithAncestors(targetHash);
-          }
+          return;
         }
-      );
 
-      this.#listen(
-        this.container,
-        'infiniteTreeRouter:rebuildAndShow',
-        async e => {
-          const { targetHash, plusOne, notifyPane = true } = e.detail;
+        const currentNode = this.container.querySelector(`#${nodeElementId}`);
 
-          try {
-            await this.rebuildAndShow(targetHash, {
-              plusOne: !!plusOne,
-              notifyPane,
-            });
-          } finally {
-            this.container.dispatchEvent(
-              new CustomEvent('infiniteTree:rebuildAndShowComplete', {
-                detail: {},
-              })
-            );
-          }
+        if (currentNode) {
+          this.setCurrentNode(currentNode);
+
+          return;
         }
-      );
+
+        // Treat this event as the initial page load
+        if (targetHash === TreeIds.treeLinkUrl(this.rootMeta.uri)) {
+          const rootNode = await this.renderRoot();
+
+          this.setCurrentNode(rootNode);
+        } else {
+          this.loadNodeWithAncestors(targetHash);
+        }
+      });
+
+      this.#listen(this.container, 'treeRouter:rebuildAndShow', async e => {
+        const { targetHash, plusOne, notifyPane = true } = e.detail;
+
+        try {
+          await this.rebuildAndShow(targetHash, {
+            plusOne: !!plusOne,
+            notifyPane,
+          });
+        } finally {
+          this.container.dispatchEvent(
+            new CustomEvent('tree:rebuildAndShowComplete', {
+              detail: {},
+            })
+          );
+        }
+      });
 
       // Rebuild the tree, restore current-record context, and reveal a separate target.
-      this.#listen(
-        this.container,
-        'infiniteTreeRouter:rebuildAndReopen',
-        async e => {
-          const detail = e.detail || {};
-          let succeeded = true;
+      this.#listen(this.container, 'treeRouter:rebuildAndReopen', async e => {
+        const detail = e.detail || {};
+        let succeeded = true;
 
-          try {
-            await this.rebuildAndReopen(detail);
-          } catch (error) {
-            succeeded = false;
-            console.error('Error in rebuildAndReopen:', error);
+        try {
+          await this.rebuildAndReopen(detail);
+        } catch (error) {
+          succeeded = false;
+          console.error('Error in rebuildAndReopen:', error);
 
-            if (detail.revealUri) {
-              await this.rebuildAndShow(
-                InfiniteTreeIds.treeLinkUrl(detail.revealUri)
-              );
-            }
-          } finally {
-            this.container.dispatchEvent(
-              new CustomEvent('infiniteTree:rebuildAndReopenComplete', {
-                detail: {
-                  currentUri: detail.currentUri || null,
-                  revealUri: detail.revealUri || null,
-                  succeeded,
-                },
-              })
-            );
+          if (detail.revealUri) {
+            await this.rebuildAndShow(TreeIds.treeLinkUrl(detail.revealUri));
           }
+        } finally {
+          this.container.dispatchEvent(
+            new CustomEvent('tree:rebuildAndReopenComplete', {
+              detail: {
+                currentUri: detail.currentUri || null,
+                revealUri: detail.revealUri || null,
+                succeeded,
+              },
+            })
+          );
         }
-      );
+      });
 
       // Refresh a node’s visible data after a save
-      this.#listen(
-        this.container,
-        'infiniteTreeRouter:refreshNode',
-        async e => {
-          const { uri } = e.detail || {};
+      this.#listen(this.container, 'treeRouter:refreshNode', async e => {
+        const { uri } = e.detail || {};
 
-          if (!uri) return;
+        if (!uri) return;
 
-          await this.refreshNodeByUri(uri);
-        }
-      );
+        await this.refreshNodeByUri(uri);
+      });
 
       const onShowSyntheticNewChild = async e => {
         const parentNode = e.detail && e.detail.parentNode;
@@ -263,7 +241,7 @@
 
       this.#listen(
         this.container,
-        'infiniteTree:showSyntheticNewChild',
+        'tree:showSyntheticNewChild',
         onShowSyntheticNewChild
       );
 
@@ -273,7 +251,7 @@
 
       this.#listen(
         this.container,
-        'infiniteTree:removeSyntheticNewChild',
+        'tree:removeSyntheticNewChild',
         onRemoveSyntheticNewChild
       );
 
@@ -291,26 +269,22 @@
 
       this.#listen(
         this.container,
-        'infiniteTree:showSyntheticNewSibling',
+        'tree:showSyntheticNewSibling',
         onShowSyntheticNewSibling
       );
 
-      this.#listen(
-        this.container,
-        InfiniteTree.EVENT_TYPE_SYNC_CURRENT_NODE,
-        e => {
-          const n = e.detail && e.detail.node;
-          if (!n || n.classList.contains('js-itree-synthetic-new')) return;
+      this.#listen(this.container, Tree.EVENT_TYPE_SYNC_CURRENT_NODE, e => {
+        const n = e.detail && e.detail.node;
+        if (!n || n.classList.contains('js-tree-synthetic-new')) return;
 
-          this.setCurrentNode(n, { notifyPane: false });
+        this.setCurrentNode(n, { notifyPane: false });
 
-          this.recordPaneEl?.dispatchEvent(
-            new CustomEvent(InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED, {
-              detail: { node: n, suppressPaneReload: true },
-            })
-          );
-        }
-      );
+        this.recordPaneEl?.dispatchEvent(
+          new CustomEvent(Tree.EVENT_TYPE_CURRENT_NODE_CHANGED, {
+            detail: { node: n, suppressPaneReload: true },
+          })
+        );
+      });
     }
 
     /**
@@ -408,8 +382,8 @@
      * @param {string} locationHash - The location hash representing the node to render
      */
     loadNodeWithAncestors(locationHash) {
-      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(locationHash);
-      const parsed = InfiniteTreeIds.parseTreeId(nodeElementId);
+      const nodeElementId = TreeIds.locationHashToHtmlId(locationHash);
+      const parsed = TreeIds.parseTreeId(nodeElementId);
 
       if (!parsed) {
         this.renderRoot();
@@ -435,7 +409,7 @@
           await this.renderRoot();
 
           this.recordPaneEl?.dispatchEvent(
-            new CustomEvent('infiniteTree:showRecordNotFound')
+            new CustomEvent('tree:showRecordNotFound')
           );
         });
     }
@@ -448,7 +422,7 @@
     setCurrentNode(node, options = {}) {
       const notifyPane = options.notifyPane !== false;
 
-      if (!node.classList.contains('js-itree-synthetic-new')) {
+      if (!node.classList.contains('js-tree-synthetic-new')) {
         this.#removeSyntheticNewChild();
       }
 
@@ -532,7 +506,7 @@
       const parentNode = list.closest('li.node');
       if (parentNode) {
         this.container.dispatchEvent(
-          new CustomEvent('infiniteTree:didInsertBatch', {
+          new CustomEvent('tree:didInsertBatch', {
             bubbles: true,
             detail: { parentNode },
           })
@@ -761,7 +735,7 @@
 
       this.#replaceContainerChildren();
 
-      if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
+      if (fragment === TreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
         this.setCurrentNode(rootNodeElement, { notifyPane });
         rootNodeElement.scrollIntoView({
@@ -774,8 +748,8 @@
       }
 
       // Non-root: reuse ancestor batching logic
-      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(fragment);
-      const nodeId = InfiniteTreeIds.parseTreeId(nodeElementId).id;
+      const nodeElementId = TreeIds.locationHashToHtmlId(fragment);
+      const nodeId = TreeIds.parseTreeId(nodeElementId).id;
 
       try {
         const data = await this.#fetchAncestorBatches(nodeId);
@@ -827,7 +801,7 @@
           await this.renderRoot();
         } else {
           const revealNodeId = revealUri
-            ? InfiniteTreeIds.uriToTreeId(revealUri)
+            ? TreeIds.uriToTreeId(revealUri)
             : contextBatches[0].ancestorHtmlId;
 
           await this.#renderAncestorsAndShow(contextBatches, revealNodeId, {
@@ -848,7 +822,7 @@
     async #fetchMergedAncestorBatches(uris) {
       const contexts = await Promise.all(
         this.#uniqueUris(uris).map(async uri => {
-          const parts = InfiniteTreeIds.uriToParts(uri);
+          const parts = TreeIds.uriToParts(uri);
 
           if (!parts) return [];
 
@@ -1092,7 +1066,7 @@
     #nodeByUri(uri) {
       if (!uri) return null;
 
-      const treeId = InfiniteTreeIds.uriToTreeId(uri);
+      const treeId = TreeIds.uriToTreeId(uri);
 
       return this.container.querySelector(`#${treeId}`);
     }
@@ -1107,7 +1081,7 @@
     #replaceContainerChildren(...nodes) {
       this.container.replaceChildren(...nodes);
       this.container.dispatchEvent(
-        new CustomEvent(InfiniteTree.EVENT_TYPE_TREE_CONTENT_REPLACED, {
+        new CustomEvent(Tree.EVENT_TYPE_TREE_CONTENT_REPLACED, {
           bubbles: true,
           detail: {},
         })
@@ -1124,7 +1098,7 @@
      */
     async refreshNodeByUri(uri) {
       try {
-        const parts = InfiniteTreeIds.uriToParts(uri);
+        const parts = TreeIds.uriToParts(uri);
 
         if (!parts) {
           this.#dispatchRefreshComplete(uri, false);
@@ -1140,12 +1114,12 @@
           data = await this.fetch.node(id);
         }
 
-        const treeId = InfiniteTreeIds.uriToTreeId(uri);
+        const treeId = TreeIds.uriToTreeId(uri);
         const el = this.container.querySelector(`#${treeId}`);
 
         if (!el) {
           try {
-            await this.rebuildAndShow(InfiniteTreeIds.treeLinkUrl(uri));
+            await this.rebuildAndShow(TreeIds.treeLinkUrl(uri));
             this.#dispatchRefreshComplete(uri, true);
           } catch (err) {
             console.error('refreshNodeByUri redisplay fallback error:', err);
@@ -1196,7 +1170,7 @@
 
       // Notify listeners that a node was expanded (for reorder-selection class updates)
       this.container.dispatchEvent(
-        new CustomEvent('infiniteTree:didExpand', {
+        new CustomEvent('tree:didExpand', {
           bubbles: true,
           detail: { node },
         })
@@ -1313,7 +1287,7 @@
     }
 
     /**
-     * Dispatches titleClick on the container for InfiniteTreeRouter (hash navigation).
+     * Dispatches titleClick on the container for TreeRouter (hash navigation).
      * Synthetic new-child/sibling rows are ignored.
      * @param {Event} e - The click event
      */
@@ -1322,7 +1296,7 @@
 
       const node = e.target.closest('.node');
 
-      if (node && node.classList.contains('js-itree-synthetic-new')) {
+      if (node && node.classList.contains('js-tree-synthetic-new')) {
         e.stopPropagation();
 
         return;
@@ -1386,7 +1360,7 @@
      */
     #loadSkippedBatches(fromScrollTop, toScrollTop) {
       const rootRect = this.container.getBoundingClientRect();
-      const margin = rootRect.height * ITREE_BATCH_ZONE_RATIO;
+      const margin = rootRect.height * TREE_BATCH_ZONE_RATIO;
       const sweptTop = fromScrollTop - margin;
       const sweptBottom = toScrollTop + rootRect.height + margin;
 
@@ -1429,21 +1403,21 @@
      * @param {HTMLElement} node - The current node
      */
     #dispatchCurrentNodeChangedEvent(node) {
-      if (node.classList.contains('js-itree-synthetic-new')) {
+      if (node.classList.contains('js-tree-synthetic-new')) {
         return;
       }
 
       if (!this.recordPaneEl) return;
 
       const target = this.recordPaneEl;
-      const type = InfiniteTree.EVENT_TYPE_CURRENT_NODE_CHANGED;
+      const type = Tree.EVENT_TYPE_CURRENT_NODE_CHANGED;
 
       this.#dispatchEvent(target, type, { node });
     }
 
     /**
      * Tree level from indent-level-N on a node li (0 = root).
-     * Matches InfiniteTreeToolbar#getNodeLevel.
+     * Matches TreeToolbar#getNodeLevel.
      * @param {HTMLElement} parentNode
      * @returns {number}
      */
@@ -1464,9 +1438,7 @@
     async #showSyntheticNewChild(parentNode) {
       this.#removeSyntheticNewChild();
 
-      const tmpl = document.querySelector(
-        '#infinite-tree-synthetic-new-node-template'
-      );
+      const tmpl = document.querySelector('#tree-synthetic-new-node-template');
       if (!tmpl) return;
 
       const titleText = this.componentEl.dataset.newChildPlaceholderTitle || '';
@@ -1523,9 +1495,7 @@
     async #showSyntheticNewSibling(anchorNode, placeholderTitle = null) {
       this.#removeSyntheticNewChild();
 
-      const tmpl = document.querySelector(
-        '#infinite-tree-synthetic-new-node-template'
-      );
+      const tmpl = document.querySelector('#tree-synthetic-new-node-template');
       if (!tmpl) return;
 
       const titleText =
@@ -1591,7 +1561,7 @@
      */
     #dispatchTitleClickEvent(node) {
       const target = this.container;
-      const type = InfiniteTree.EVENT_TYPE_TITLE_CLICK;
+      const type = Tree.EVENT_TYPE_TITLE_CLICK;
 
       this.#dispatchEvent(target, type, { node });
     }
@@ -1613,7 +1583,7 @@
      */
     #dispatchRefreshComplete(uri, succeeded) {
       this.container.dispatchEvent(
-        new CustomEvent('infiniteTree:refreshNodeComplete', {
+        new CustomEvent('tree:refreshNodeComplete', {
           detail: { uri, succeeded },
         })
       );
@@ -1639,7 +1609,7 @@
       this.#autoExpandScrollTimer = setTimeout(() => {
         this.#autoExpandScrollTimer = null;
         this.#scheduleConsiderAutoExpandingNext();
-      }, ITREE_SCROLL_DELAY_MS);
+      }, TREE_SCROLL_DELAY_MS);
     }
 
     /**
@@ -1674,7 +1644,7 @@
 
     #dispatchAutoExpandBusy(busy) {
       this.container.dispatchEvent(
-        new CustomEvent('infiniteTree:autoExpandBusy', {
+        new CustomEvent('tree:autoExpandBusy', {
           bubbles: true,
           detail: { busy },
         })
@@ -1710,11 +1680,11 @@
       const emHeight = parseFloat(
         getComputedStyle(document.body).fontSize || '16px'
       );
-      const thresholdPx = emHeight * ITREE_THRESHOLD_EMS;
+      const thresholdPx = emHeight * TREE_THRESHOLD_EMS;
       const containerRect = this.container.getBoundingClientRect();
       const containerTop = containerRect.top;
       const containerHeight = containerRect.height;
-      const rootList = this.container.querySelector('ol.infinite-tree');
+      const rootList = this.container.querySelector('ol.tree');
       const contentHeight = rootList ? rootList.scrollHeight : 1;
       const scrollPercent =
         contentHeight > 0 ? this.container.scrollTop / contentHeight : 0;
@@ -1804,7 +1774,7 @@
         await this.#expandNode(node);
         this.#setNodeExpandButtonsDisabled(true);
       } catch (err) {
-        console.error('InfiniteTree auto-expand failed:', err);
+        console.error('Tree auto-expand failed:', err);
       } finally {
         this.#autoExpandLocked = false;
       }
@@ -1858,5 +1828,5 @@
     }
   }
 
-  exports.InfiniteTree = InfiniteTree;
+  exports.Tree = Tree;
 })(window);

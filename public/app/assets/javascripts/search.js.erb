@@ -143,8 +143,8 @@ function toggle_subgroups(event) {
     } else {
         $tree.show();
 
-        if (!$tree.data('infiniteTree')) {
-            $tree.data('infiniteTree', InfiniteTree.fromRecordContainer($tree[0]));
+        if (!$tree.data('tree')) {
+            $tree.data('tree', Tree.fromRecordContainer($tree[0]));
         }
 
         $button.attr('aria-pressed', 'true').addClass('active');

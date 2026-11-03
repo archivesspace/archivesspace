@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Toolbar', js: true do
-  include_context 'infinite tree integration setup'
+describe 'Tree Toolbar', js: true do
+  include_context 'tree integration setup'
 
   let!(:ao2) do
     create(
@@ -29,25 +29,25 @@ describe 'Infinite Tree Toolbar', js: true do
 
   shared_examples 'showing the Record Pane' do
     it 'shows the Record Pane with the expected title' do
-      expect(page).to have_css('#infinite-tree-record-pane h2', text: expected_title)
+      expect(page).to have_css('#tree-record-pane h2', text: expected_title)
     end
   end
 
   shared_examples 'hiding the Record Pane' do
     it 'hides the Record Pane' do
-      expect(page).to have_css('#infinite-tree-record-pane', visible: :hidden)
+      expect(page).to have_css('#tree-record-pane', visible: :hidden)
     end
   end
 
   context 'show view' do
     before do
       visit show_path
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
     end
 
     it 'is not present' do
-      expect(page).to have_css('#infinite-tree-component')
-      expect(page).not_to have_css('#infinite-tree-toolbar')
+      expect(page).to have_css('#tree-component')
+      expect(page).not_to have_css('#tree-toolbar')
     end
   end
 
@@ -56,27 +56,27 @@ describe 'Infinite Tree Toolbar', js: true do
       context 'when the root node is the current record' do
         before do
           visit edit_path
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
         end
 
         context 'default mode' do
           it 'provides the default root controls' do
-            within '#infinite-tree-toolbar' do
+            within '#tree-toolbar' do
               aggregate_failures do
-                expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.enable_reorder'))
-                expect(page).to have_css('.js-itree-toolbar-expand-mode', text: I18n.t('actions.expand_tree_mode_on'))
-                expect(page).to have_css('.js-itree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
-                expect(page).to have_css('.js-itree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
-                expect(page).to have_css('.js-itree-toolbar-load-bulk', text: I18n.t('resource._frontend.action.load_bulk'))
+                expect(page).to have_css('.js-tree-toolbar-reorder-toggle', text: I18n.t('actions.enable_reorder'))
+                expect(page).to have_css('.js-tree-toolbar-expand-mode', text: I18n.t('actions.expand_tree_mode_on'))
+                expect(page).to have_css('.js-tree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
+                expect(page).to have_css('.js-tree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
+                expect(page).to have_css('.js-tree-toolbar-load-bulk', text: I18n.t('resource._frontend.action.load_bulk'))
                 expect(page).to have_css('#load_via_spreadsheet_help_icon')
-                expect(page).to have_css('.js-itree-toolbar-rde', text: I18n.t('actions.rapid_data_entry'))
-                expect(page).to have_css('.js-itree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
+                expect(page).to have_css('.js-tree-toolbar-rde', text: I18n.t('actions.rapid_data_entry'))
+                expect(page).to have_css('.js-tree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
 
-                expect(page).to have_css('.js-itree-toolbar-cut', visible: :hidden, text: I18n.t('actions.cut'))
-                expect(page).to have_css('.js-itree-toolbar-paste', visible: :hidden, text: I18n.t('actions.paste'))
-                expect(page).to have_css('.js-itree-toolbar-move-toggle', visible: :hidden, text: I18n.t('actions.move'))
-                expect(page).to have_css('.js-itree-toolbar-add-sibling', visible: :hidden, text: I18n.t('archival_object._frontend.action.add_sibling'))
-                expect(page).to have_css('.js-itree-toolbar-add-duplicate', visible: :hidden, text: I18n.t('archival_object._frontend.action.add_duplicate'))
+                expect(page).to have_css('.js-tree-toolbar-cut', visible: :hidden, text: I18n.t('actions.cut'))
+                expect(page).to have_css('.js-tree-toolbar-paste', visible: :hidden, text: I18n.t('actions.paste'))
+                expect(page).to have_css('.js-tree-toolbar-move-toggle', visible: :hidden, text: I18n.t('actions.move'))
+                expect(page).to have_css('.js-tree-toolbar-add-sibling', visible: :hidden, text: I18n.t('archival_object._frontend.action.add_sibling'))
+                expect(page).to have_css('.js-tree-toolbar-add-duplicate', visible: :hidden, text: I18n.t('archival_object._frontend.action.add_duplicate'))
               end
             end
           end
@@ -90,20 +90,20 @@ describe 'Infinite Tree Toolbar', js: true do
           before { enable_reorder_mode }
 
           it 'provides the reorder root controls with Cut, Paste, and Move disabled' do
-            within '#infinite-tree-toolbar' do
+            within '#tree-toolbar' do
               aggregate_failures do
-                expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
-                expect(page).to have_css('.js-itree-toolbar-cut.disabled[disabled]')
-                expect(page).to have_css('.js-itree-toolbar-paste.disabled[disabled]')
-                expect(page).to have_css('.js-itree-toolbar-move-toggle.disabled[disabled]')
-                expect(page).to have_css('.js-itree-toolbar-finish-editing')
+                expect(page).to have_css('.js-tree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
+                expect(page).to have_css('.js-tree-toolbar-cut.disabled[disabled]')
+                expect(page).to have_css('.js-tree-toolbar-paste.disabled[disabled]')
+                expect(page).to have_css('.js-tree-toolbar-move-toggle.disabled[disabled]')
+                expect(page).to have_css('.js-tree-toolbar-finish-editing')
 
-                expect(page).to have_css('.js-itree-toolbar-expand-mode', visible: :hidden)
-                expect(page).to have_css('.js-itree-toolbar-collapse-tree', visible: :hidden)
-                expect(page).to have_css('.js-itree-toolbar-add-child', visible: :hidden)
-                expect(page).to have_css('.js-itree-toolbar-load-bulk', visible: :hidden)
+                expect(page).to have_css('.js-tree-toolbar-expand-mode', visible: :hidden)
+                expect(page).to have_css('.js-tree-toolbar-collapse-tree', visible: :hidden)
+                expect(page).to have_css('.js-tree-toolbar-add-child', visible: :hidden)
+                expect(page).to have_css('.js-tree-toolbar-load-bulk', visible: :hidden)
                 expect(page).to have_css('#load_via_spreadsheet_help_icon', visible: :hidden)
-                expect(page).to have_css('.js-itree-toolbar-rde', visible: :hidden)
+                expect(page).to have_css('.js-tree-toolbar-rde', visible: :hidden)
               end
             end
           end
@@ -115,27 +115,27 @@ describe 'Infinite Tree Toolbar', js: true do
       context 'when a child node is the current record' do
         before do
           visit "#{edit_path}#{ao_hash}"
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
         end
 
         context 'default mode' do
           it 'provides the default root controls plus Add Sibling and Add Duplicate' do
-            within '#infinite-tree-toolbar' do
+            within '#tree-toolbar' do
               aggregate_failures do
-                expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.enable_reorder'))
-                expect(page).to have_css('.js-itree-toolbar-expand-mode', text: I18n.t('actions.expand_tree_mode_on'))
-                expect(page).to have_css('.js-itree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
-                expect(page).to have_css('.js-itree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
-                expect(page).to have_css('.js-itree-toolbar-add-sibling', text: I18n.t('archival_object._frontend.action.add_sibling'))
-                expect(page).to have_css('.js-itree-toolbar-add-duplicate', text: I18n.t('archival_object._frontend.action.add_duplicate'))
-                expect(page).to have_css('.js-itree-toolbar-load-bulk', text: I18n.t('resource._frontend.action.load_bulk'))
+                expect(page).to have_css('.js-tree-toolbar-reorder-toggle', text: I18n.t('actions.enable_reorder'))
+                expect(page).to have_css('.js-tree-toolbar-expand-mode', text: I18n.t('actions.expand_tree_mode_on'))
+                expect(page).to have_css('.js-tree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
+                expect(page).to have_css('.js-tree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
+                expect(page).to have_css('.js-tree-toolbar-add-sibling', text: I18n.t('archival_object._frontend.action.add_sibling'))
+                expect(page).to have_css('.js-tree-toolbar-add-duplicate', text: I18n.t('archival_object._frontend.action.add_duplicate'))
+                expect(page).to have_css('.js-tree-toolbar-load-bulk', text: I18n.t('resource._frontend.action.load_bulk'))
                 expect(page).to have_css('#load_via_spreadsheet_help_icon')
-                expect(page).to have_css('.js-itree-toolbar-rde', text: I18n.t('actions.rapid_data_entry'))
-                expect(page).to have_css('.js-itree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
+                expect(page).to have_css('.js-tree-toolbar-rde', text: I18n.t('actions.rapid_data_entry'))
+                expect(page).to have_css('.js-tree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
 
-                expect(page).to have_css('.js-itree-toolbar-cut', visible: :hidden, text: I18n.t('actions.cut'))
-                expect(page).to have_css('.js-itree-toolbar-paste', visible: :hidden, text: I18n.t('actions.paste'))
-                expect(page).to have_css('.js-itree-toolbar-move-toggle', visible: :hidden, text: I18n.t('actions.move'))
+                expect(page).to have_css('.js-tree-toolbar-cut', visible: :hidden, text: I18n.t('actions.cut'))
+                expect(page).to have_css('.js-tree-toolbar-paste', visible: :hidden, text: I18n.t('actions.paste'))
+                expect(page).to have_css('.js-tree-toolbar-move-toggle', visible: :hidden, text: I18n.t('actions.move'))
               end
             end
           end
@@ -149,12 +149,12 @@ describe 'Infinite Tree Toolbar', js: true do
           before { enable_reorder_mode }
 
           it 'provides the reorder root controls but with Cut and Move enabled' do
-            within '#infinite-tree-toolbar' do
+            within '#tree-toolbar' do
               aggregate_failures do
-                expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
-                expect(page).to have_css('.js-itree-toolbar-cut:not(.disabled[disabled])')
-                expect(page).to have_css('.js-itree-toolbar-paste.disabled[disabled]')
-                expect(page).to have_css('.js-itree-toolbar-move-toggle:not(.disabled[disabled])')
+                expect(page).to have_css('.js-tree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
+                expect(page).to have_css('.js-tree-toolbar-cut:not(.disabled[disabled])')
+                expect(page).to have_css('.js-tree-toolbar-paste.disabled[disabled]')
+                expect(page).to have_css('.js-tree-toolbar-move-toggle:not(.disabled[disabled])')
               end
             end
           end
@@ -233,22 +233,22 @@ describe 'Infinite Tree Toolbar', js: true do
 
         before do
           visit edit_path
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
         end
 
         context 'auto-expand mode' do
           before do
-            expect(page).to have_no_css('#infinite-tree-container.expand-all')
-            expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+            expect(page).to have_no_css('#tree-container.expand-all')
+            expect(page).to have_css('.js-tree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
             expect(page).to have_no_css(expanded_parent_selector)
           end
 
           it 'expands, and disables the expand buttons for, all parent nodes in and near the viewport' do
-            click_infinite_tree_toolbar_enable_auto_expand
+            click_tree_toolbar_enable_auto_expand
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container.expand-all')
-              expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_off'))
+              expect(page).to have_css('#tree-container.expand-all')
+              expect(page).to have_css('.js-tree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_off'))
               expect(page).to have_css(expanded_parent_selector, count: parent_count)
               expect(page).to have_css(disabled_parent_expand_button_selector, count: parent_count)
               expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: :visible)
@@ -266,7 +266,7 @@ describe 'Infinite Tree Toolbar', js: true do
             let(:scroll_trigger_child) { scroll_root_children[129] } # "Scroll Root Child 130 ..."
             let(:penultimate_root_child) { scroll_root_children[150] }
             let(:last_root_child) { scroll_root_children[151] }
-            let(:root_child_selector) { '#infinite-tree-container .root.node > .node-children > li.node.indent-level-1' }
+            let(:root_child_selector) { '#tree-container .root.node > .node-children > li.node.indent-level-1' }
             let!(:scroll_root_children) do
               Array.new(total_root_children) do |i|
                 create(
@@ -298,14 +298,14 @@ describe 'Infinite Tree Toolbar', js: true do
               scroll_root_children
               scroll_nested_chains
               visit edit_path
-              wait_for_infinite_tree_loaded
+              wait_for_tree_loaded
             end
 
             it 'expands parent nodes that are far away when the user scrolls close to them' do
               expect(page).to have_css('.root.node > .node-children[data-total-child-batches="6"]')
               expect(page).to have_css(root_child_selector, count: 30)
 
-              tree_container = find('#infinite-tree-container')
+              tree_container = find('#tree-container')
               (1..5).each do |offset|
                 observer_node = find("[data-observe-offset='#{offset}']", visible: :all)
                 tree_container.scroll_to(observer_node, align: :center)
@@ -314,10 +314,10 @@ describe 'Infinite Tree Toolbar', js: true do
 
               expect(page).to have_css(root_child_selector, count: total_root_children)
 
-              tree_container.scroll_to(find('#infinite-tree-container .root.node > .node-row'), align: :top)
+              tree_container.scroll_to(find('#tree-container .root.node > .node-row'), align: :top)
 
-              click_infinite_tree_toolbar_enable_auto_expand
-              expect(page).to have_css('#infinite-tree-container.expand-all')
+              click_tree_toolbar_enable_auto_expand
+              expect(page).to have_css('#tree-container.expand-all')
               expect(page).to have_css("#archival_object_#{first_root_child.id}[aria-expanded='true']")
               expect(page).to have_css("#archival_object_#{second_root_child.id}[aria-expanded='true']")
               expect(page).to have_css("#archival_object_#{penultimate_root_child.id}[aria-expanded='false']")
@@ -332,14 +332,14 @@ describe 'Infinite Tree Toolbar', js: true do
 
           context 'when toggled off' do
             before do
-              click_infinite_tree_toolbar_enable_auto_expand
-              click_infinite_tree_toolbar_disable_auto_expand
+              click_tree_toolbar_enable_auto_expand
+              click_tree_toolbar_disable_auto_expand
             end
 
             it 're-enables the expand buttons for all expanded parent nodes in the tree' do
               aggregate_failures do
-                expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
-                expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+                expect(page).to have_css('#tree-container:not(.expand-all)')
+                expect(page).to have_css('.js-tree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
                 expect(page).to have_css(expanded_parent_selector, count: parent_count)
                 expect(page).to have_css(enabled_parent_expand_button_selector, count: parent_count)
                 expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: :visible)
@@ -352,18 +352,18 @@ describe 'Infinite Tree Toolbar', js: true do
 
         describe 'collapse tree behavior' do
           before do
-            click_infinite_tree_toolbar_enable_auto_expand
+            click_tree_toolbar_enable_auto_expand
           end
 
           it 'collapses all expanded parent nodes and turns off auto-expand mode if it is on' do
-            expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+            expect(page).to have_css('.js-tree-toolbar-expand-mode.btn-success')
 
-            click_infinite_tree_toolbar_collapse_tree
+            click_tree_toolbar_collapse_tree
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
-              expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
-              expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
+              expect(page).to have_css('#tree-container:not(.expand-all)')
+              expect(page).to have_css('.js-tree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+              expect(page).to have_no_css('.js-tree-toolbar-expand-mode.btn-success')
               expect(page).to have_css(collapsed_parent_selector, visible: :all, count: parent_count)
               expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: false)
               expect(page).to have_css("#archival_object_#{ao_child_02_child_01_child_01.id}", visible: false)
@@ -375,31 +375,31 @@ describe 'Infinite Tree Toolbar', js: true do
 
       describe 'record creation controls' do
         # Add Child / Add Sibling entry, Save, and cancel flows:
-        # infinite_tree_toolbar_inline_create_spec.rb (all three hierarchies).
+        # tree_toolbar_inline_create_spec.rb (all three hierarchies).
 
         describe 'Add Duplicate' do
           before do
             visit "#{edit_path}#{child_record_hash}"
-            wait_for_infinite_tree_loaded
+            wait_for_tree_loaded
           end
 
           it 'opens a new child record form with a synthetic tree row' do
-            click_infinite_tree_toolbar_add_duplicate
+            click_tree_toolbar_add_duplicate
 
             aggregate_failures do
-              within('#infinite-tree-container') do
+              within('#tree-container') do
                 expect(page).to have_css(
-                  "li##{child_form_prefix}_new.js-itree-synthetic-new.current.indent-level-1"
+                  "li##{child_form_prefix}_new.js-tree-synthetic-new.current.indent-level-1"
                 )
                 expect(page).to have_css(
-                  "#infinite-tree-container li##{infinite_tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
+                  "#tree-container li##{tree_node_id_for(child_record)} + li##{child_form_prefix}_new"
                 )
                 expect(page).to have_css(
                   '.record-title',
                   text: I18n.t("#{child_form_prefix}._frontend.tree.duplicated_record_title")
                 )
               end
-              within('#infinite-tree-record-pane') do
+              within('#tree-record-pane') do
                 expect(page).to have_css("##{child_form_prefix}_form")
                 expect(page).to have_button(
                   I18n.t("#{child_form_prefix}._frontend.action.save"),
@@ -414,25 +414,25 @@ describe 'Infinite Tree Toolbar', js: true do
             source_load_url = "/archival_objects/#{child_record.id}/edit?inline=true"
             hold_fetches(source_load_url)
 
-            within('#infinite-tree-container') { click_link root_record.title }
-            wait_for_infinite_tree_pane_ready
+            within('#tree-container') { click_link root_record.title }
+            wait_for_tree_pane_ready
 
-            within('#infinite-tree-container') { click_link child_record.title }
+            within('#tree-container') { click_link child_record.title }
             wait_for_held_fetch(source_load_url)
 
-            find('.js-itree-toolbar-add-duplicate').click
-            wait_for_infinite_tree_pane_ready
+            find('.js-tree-toolbar-add-duplicate').click
+            wait_for_tree_pane_ready
 
             release_held_fetch(source_load_url)
 
             aggregate_failures do
-              expect(page).to have_no_css('#infinite-tree-record-pane.blocked')
+              expect(page).to have_no_css('#tree-record-pane.blocked')
               expect(page.current_url).to include('#new')
               expect(page).to have_css(
-                "li##{child_form_prefix}_new.js-itree-synthetic-new.current"
+                "li##{child_form_prefix}_new.js-tree-synthetic-new.current"
               )
 
-              within('#infinite-tree-record-pane') do
+              within('#tree-record-pane') do
                 expect(page).to have_css("##{child_form_prefix}_form")
                 expect(page).to have_css(
                   '.alert.alert-success.with-hide-alert',
@@ -445,9 +445,9 @@ describe 'Infinite Tree Toolbar', js: true do
           it 'shows the duplicated-from flash and the created flash after Save' do
             nested_child_record
             visit "#{edit_path}#{nested_child_record_hash}"
-            wait_for_infinite_tree_loaded
+            wait_for_tree_loaded
 
-            click_infinite_tree_toolbar_add_duplicate
+            click_tree_toolbar_add_duplicate
 
             expect(page).to have_css(
               '.alert.alert-success.with-hide-alert',
@@ -464,17 +464,17 @@ describe 'Infinite Tree Toolbar', js: true do
           end
 
           it 'returns to the anchor record edit when Cancel is clicked' do
-            click_infinite_tree_toolbar_add_duplicate
-            cancel_infinite_tree_record_pane_form
+            click_tree_toolbar_add_duplicate
+            cancel_tree_record_pane_form
 
             aggregate_failures do
-              within('#infinite-tree-record-pane') do
+              within('#tree-record-pane') do
                 expect(page).to have_css("#form_#{child_form_prefix}")
                 expect(page).to have_css('h2', text: child_record.title)
               end
               expect(page.current_url).to match(%r{#{Regexp.escape(child_record_hash)}})
               expect(page).to have_css(
-                infinite_tree_current_node_selector(child_record),
+                tree_current_node_selector(child_record),
                 visible: :all
               )
             end
@@ -485,7 +485,7 @@ describe 'Infinite Tree Toolbar', js: true do
       describe 'Modal controls' do
         before do
           visit edit_path
-          wait_for_infinite_tree_inline_edit_form(form_prefix: 'resource')
+          wait_for_tree_inline_edit_form(form_prefix: 'resource')
         end
 
         describe 'Load via Spreadsheet' do
@@ -501,7 +501,7 @@ describe 'Infinite Tree Toolbar', js: true do
 
           it 'links to help documentation for bulk imports' do
             doc_url = 'https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'
-            help_link = find('#infinite-tree-toolbar #load_via_spreadsheet_help_icon')
+            help_link = find('#tree-toolbar #load_via_spreadsheet_help_icon')
             expect(help_link[:href]).to eq(doc_url)
           end
         end
@@ -523,7 +523,7 @@ describe 'Infinite Tree Toolbar', js: true do
     describe 'reorder mode' do
       before do
         visit edit_path
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
 
         enable_reorder_mode
       end
@@ -542,12 +542,12 @@ describe 'Infinite Tree Toolbar', js: true do
         describe 'Cut button' do
           context 'when the root node is the current record' do
             it 'is disabled when there are no multiselected nodes' do
-              expect_infinite_tree_toolbar_cut_enabled(false)
+              expect_tree_toolbar_cut_enabled(false)
             end
 
             it 'is enabled when there is a multiselected node' do
               meta_click_row(child_record.uri)
-              expect_infinite_tree_toolbar_cut_enabled(true)
+              expect_tree_toolbar_cut_enabled(true)
             end
           end
 
@@ -555,28 +555,28 @@ describe 'Infinite Tree Toolbar', js: true do
             before { select_tree_row(child_record) }
 
             it 'is enabled' do
-              expect_infinite_tree_toolbar_cut_enabled(true)
+              expect_tree_toolbar_cut_enabled(true)
             end
           end
 
           context 'while a cut is already active' do
             before do
               select_tree_row(child_record)
-              click_infinite_tree_toolbar_cut
+              click_tree_toolbar_cut
             end
 
             it 'remains enabled so the user can start a new cut' do
-              expect_infinite_tree_toolbar_cut_enabled(true)
+              expect_tree_toolbar_cut_enabled(true)
             end
           end
 
           context 'when Cut is clicked again after a new multiselection' do
             before do
               select_tree_row(child_record)
-              click_infinite_tree_toolbar_cut
+              click_tree_toolbar_cut
               select_tree_row(ao2)
               meta_click_row(ao3.uri)
-              click_infinite_tree_toolbar_cut
+              click_tree_toolbar_cut
             end
 
             it 'clears the previous cut markers and marks the new cut' do
@@ -592,21 +592,21 @@ describe 'Infinite Tree Toolbar', js: true do
         describe 'Paste button' do
           context 'before any cut' do
             it 'is disabled' do
-              expect_infinite_tree_toolbar_paste_enabled(false)
+              expect_tree_toolbar_paste_enabled(false)
             end
           end
 
           context 'after a cut' do
             before do
               select_tree_row(child_record)
-              click_infinite_tree_toolbar_cut
+              click_tree_toolbar_cut
             end
 
             context 'when the cut record is also the current record' do
               it 'stays disabled' do
                 aggregate_failures do
                   expect(page).to have_css(".node.cut.current[data-uri='#{child_record.uri}']")
-                  expect_infinite_tree_toolbar_paste_enabled(false)
+                  expect_tree_toolbar_paste_enabled(false)
                 end
               end
             end
@@ -619,11 +619,11 @@ describe 'Infinite Tree Toolbar', js: true do
               it 'is enabled' do
                 expect(page).to have_css(".node.cut[data-uri='#{child_record.uri}']:not(.current)")
                 expect(page).to have_css(".node.current[data-uri='#{ao3.uri}']")
-                expect_infinite_tree_toolbar_paste_enabled(true)
+                expect_tree_toolbar_paste_enabled(true)
 
                 select_tree_row(root_record)
                 expect(page).to have_css('.root.node.current')
-                expect_infinite_tree_toolbar_paste_enabled(true)
+                expect_tree_toolbar_paste_enabled(true)
               end
 
               context 'when reorder mode is toggled off and back on' do
@@ -636,8 +636,8 @@ describe 'Infinite Tree Toolbar', js: true do
                   aggregate_failures do
                     expect(page).to have_css(".node.current[data-uri='#{ao3.uri}']")
                     expect(page).to have_no_css('.node.cut', visible: :all)
-                    expect_infinite_tree_toolbar_cut_enabled(true)
-                    expect_infinite_tree_toolbar_paste_enabled(false)
+                    expect_tree_toolbar_cut_enabled(true)
+                    expect_tree_toolbar_paste_enabled(false)
                   end
                 end
               end
@@ -699,22 +699,22 @@ describe 'Infinite Tree Toolbar', js: true do
 
         def open_single_child_move_menu
           visit single_child_ao_edit_path
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
           enable_reorder_mode
-          click_infinite_tree_toolbar_move_menu
+          click_tree_toolbar_move_menu
         end
 
         before(:each) do
           visit edit_path
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
           enable_reorder_mode
         end
 
         it 'is disabled when the root node is the current record' do
-          within '#infinite-tree-toolbar' do
+          within '#tree-toolbar' do
             aggregate_failures do
-              expect(page).to have_css('.js-itree-toolbar-move-toggle', visible: :visible)
-              expect(page).to have_css('.js-itree-toolbar-move-toggle.disabled')
+              expect(page).to have_css('.js-tree-toolbar-move-toggle', visible: :visible)
+              expect(page).to have_css('.js-tree-toolbar-move-toggle.disabled')
             end
           end
         end
@@ -722,7 +722,7 @@ describe 'Infinite Tree Toolbar', js: true do
         describe 'Move Up' do
           it 'is only enabled if the current record has a previous sibling' do
             select_tree_row(child_record)
-            click_infinite_tree_toolbar_move_menu
+            click_tree_toolbar_move_menu
 
             aggregate_failures do
               expect(move_menu_has_action?('up', enabled: false)).to be(true)
@@ -746,7 +746,7 @@ describe 'Infinite Tree Toolbar', js: true do
         describe 'Move Down' do
           it 'is only enabled if the current record has a next sibling' do
             select_tree_row(child_record)
-            click_infinite_tree_toolbar_move_menu
+            click_tree_toolbar_move_menu
 
             aggregate_failures do
               expect(move_menu_has_action?('down', enabled: true)).to be(true)
@@ -774,7 +774,7 @@ describe 'Infinite Tree Toolbar', js: true do
         describe 'Move Up a Level' do
           it 'is only enabled when the current record has a child-depth greater than 1' do
             select_tree_row(child_record)
-            click_infinite_tree_toolbar_move_menu
+            click_tree_toolbar_move_menu
 
             aggregate_failures do
               expect(move_menu_has_action?('up-level', enabled: false)).to be(true)
@@ -818,13 +818,13 @@ describe 'Infinite Tree Toolbar', js: true do
 
           before do
             visit edit_path
-            wait_for_infinite_tree_loaded
+            wait_for_tree_loaded
             enable_reorder_mode
           end
 
           it 'is only enabled when the current record has a sibling' do
             select_tree_row(child_record)
-            click_infinite_tree_toolbar_move_menu
+            click_tree_toolbar_move_menu
 
             aggregate_failures do
               expect(move_menu_has_action?('down-into', enabled: true)).to be(true)
@@ -862,7 +862,7 @@ describe 'Infinite Tree Toolbar', js: true do
             end
 
             visit edit_path
-            wait_for_infinite_tree_loaded
+            wait_for_tree_loaded
             enable_reorder_mode
 
             all_uris = root_child_uris
@@ -870,7 +870,7 @@ describe 'Infinite Tree Toolbar', js: true do
             current_id = "archival_object_#{current_uri.split('/').last}"
 
             select_tree_row(current_uri)
-            click_infinite_tree_toolbar_move_menu
+            click_tree_toolbar_move_menu
 
             target_uris = down_into_submenu_target_uris
             current_index = all_uris.index(current_uri)
@@ -893,23 +893,23 @@ describe 'Infinite Tree Toolbar', js: true do
     context 'while the record pane is dirty' do
       before do
         visit edit_path
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
         select_tree_row(ao)
       end
 
       it 'disables mutating controls' do
-        within '#infinite-tree-record-pane' do
+        within '#tree-record-pane' do
           fill_in 'archival_object_title_', with: 'Modified Title'
         end
 
         %w[
-          .js-itree-toolbar-reorder-toggle
-          .js-itree-toolbar-add-child
-          .js-itree-toolbar-add-sibling
-          .js-itree-toolbar-add-duplicate
-          .js-itree-toolbar-load-bulk
-          .js-itree-toolbar-rde
-          .js-itree-toolbar-finish-editing
+          .js-tree-toolbar-reorder-toggle
+          .js-tree-toolbar-add-child
+          .js-tree-toolbar-add-sibling
+          .js-tree-toolbar-add-duplicate
+          .js-tree-toolbar-load-bulk
+          .js-tree-toolbar-rde
+          .js-tree-toolbar-finish-editing
         ].each do |selector|
           expect(page).to have_css("#{selector}.disabled")
         end
@@ -926,39 +926,39 @@ describe 'Infinite Tree Toolbar', js: true do
     after { set_admin_locale_preference(:en) }
 
     def click_reorder_toggle
-      find('.js-itree-toolbar-reorder-toggle').click
-      expect(page).to have_css('#infinite-tree-container.reorder-mode')
+      find('.js-tree-toolbar-reorder-toggle').click
+      expect(page).to have_css('#tree-container.reorder-mode')
     end
 
     it 'renders the initial reorder toggle label in the active locale' do
-      expect(find('.js-itree-toolbar-reorder-toggle').text)
+      expect(find('.js-tree-toolbar-reorder-toggle').text)
         .to eq(I18n.t('actions.enable_reorder', locale: :fr))
     end
 
     it 'renders the toggled reorder label in the active locale' do
       click_reorder_toggle
 
-      expect(find('.js-itree-toolbar-reorder-toggle').text)
+      expect(find('.js-tree-toolbar-reorder-toggle').text)
         .to eq(I18n.t('actions.reorder_active', locale: :fr))
     end
 
     it 'renders the auto-expand toggle labels in the active locale' do
-      expect(find('.js-itree-toolbar-expand-mode').text)
+      expect(find('.js-tree-toolbar-expand-mode').text)
         .to eq(I18n.t('actions.expand_tree_mode_on', locale: :fr))
 
-      click_infinite_tree_toolbar_enable_auto_expand
+      click_tree_toolbar_enable_auto_expand
 
-      expect(find('.js-itree-toolbar-expand-mode').text)
+      expect(find('.js-tree-toolbar-expand-mode').text)
         .to eq(I18n.t('actions.expand_tree_mode_off', locale: :fr))
     end
 
     it 'renders the Move menu item labels in the active locale' do
       click_reorder_toggle
       select_tree_row(ao)
-      click_infinite_tree_toolbar_move_menu
+      click_tree_toolbar_move_menu
 
       labels = page
-        .all('.js-itree-toolbar-move-menu button[data-move-action]:not([data-target-node-id])')
+        .all('.js-tree-toolbar-move-menu button[data-move-action]:not([data-target-node-id])')
         .map { |button| button.text.strip }
 
       expect(labels).to include(
@@ -973,19 +973,19 @@ describe 'Infinite Tree Toolbar', js: true do
   describe 'reorder toggle while the record pane is dirty' do
     before do
       visit edit_path
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       select_tree_row(ao)
-      within '#infinite-tree-record-pane' do
+      within '#tree-record-pane' do
         fill_in 'archival_object_title_', with: "Dirty title #{now}"
       end
     end
 
     it 'disables the reorder toggle and does not enter reorder mode' do
       aggregate_failures do
-        expect(page).to have_css('.js-itree-toolbar-reorder-toggle.disabled')
-        expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
+        expect(page).to have_css('.js-tree-toolbar-reorder-toggle.disabled')
+        expect(page).to have_no_css('#tree-container.reorder-mode')
         expect(page).to have_css(
-          '.js-itree-toolbar-reorder-toggle',
+          '.js-tree-toolbar-reorder-toggle',
           text: I18n.t('actions.enable_reorder')
         )
       end

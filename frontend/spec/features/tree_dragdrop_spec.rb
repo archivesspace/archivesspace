@@ -3,9 +3,9 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
+describe 'Tree Drag and Drop (drop intent layer)', js: true do
   context 'Resources' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:resources)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:resources)
 
     it_behaves_like 'dragging and dropping in reorder mode'
 
@@ -16,8 +16,8 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       def row_in_tree_viewport?(uri)
         page.evaluate_script(<<~JS)
           (function() {
-            var tree = document.querySelector('#infinite-tree-container');
-            var node = document.querySelector("#infinite-tree-container li.node[data-uri='#{uri}'] > .node-row");
+            var tree = document.querySelector('#tree-container');
+            var node = document.querySelector("#tree-container li.node[data-uri='#{uri}'] > .node-row");
             if (!tree || !node) return false;
             var treeRect = tree.getBoundingClientRect();
             var nodeRect = node.getBoundingClientRect();
@@ -27,13 +27,13 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       end
 
       def drag_preview_item_texts
-        page.all('.infinite-tree-drag-preview__item', visible: :all).map { |el| el.text(:all) }
+        page.all('.tree-drag-preview__item', visible: :all).map { |el| el.text(:all) }
       end
 
       def drag_preview_snapback_state
         page.evaluate_script(<<~JS)
           (function() {
-            const preview = document.querySelector('.infinite-tree-drag-preview');
+            const preview = document.querySelector('.tree-drag-preview');
             if (!preview) return null;
 
             return {
@@ -47,7 +47,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       end
 
       def expect_drag_preview_snapback_started
-        expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+        expect(page).to have_css('.tree-drag-preview', visible: :all)
 
         state = drag_preview_snapback_state
         aggregate_failures 'snapback move transition' do
@@ -64,7 +64,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       end
 
       after do
-        wait_for_reorder_idle if page.has_css?('#infinite-tree-container')
+        wait_for_reorder_idle if page.has_css?('#tree-container')
       end
 
       it 'maps standardHitbox boundaries at 25% and 75%' do
@@ -73,9 +73,9 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
           (function() {
             var box = { top: 100, bottom: 200, height: 100 };
             return {
-              topBoundary: InfiniteTreeDropHitbox.standardHitbox({ x: 0, y: 125 }, box),
-              middle: InfiniteTreeDropHitbox.standardHitbox({ x: 0, y: 150 }, box),
-              bottomBoundary: InfiniteTreeDropHitbox.standardHitbox({ x: 0, y: 175 }, box)
+              topBoundary: TreeDropHitbox.standardHitbox({ x: 0, y: 125 }, box),
+              middle: TreeDropHitbox.standardHitbox({ x: 0, y: 150 }, box),
+              bottomBoundary: TreeDropHitbox.standardHitbox({ x: 0, y: 175 }, box)
             };
           })();
         JS
@@ -88,8 +88,8 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       it 'makes the entire row draggable in reorder mode' do
         draggable_state = page.evaluate_script(<<~JS)
           (function() {
-            var row = document.querySelector("#infinite-tree-container li.node[data-uri='#{child_record.uri}'] > .node-row");
-            var handle = document.querySelector("#infinite-tree-container li.node[data-uri='#{child_record.uri}'] .node-column[data-column='drag-handle']");
+            var row = document.querySelector("#tree-container li.node[data-uri='#{child_record.uri}'] > .node-row");
+            var handle = document.querySelector("#tree-container li.node[data-uri='#{child_record.uri}'] .node-column[data-column='drag-handle']");
             return {
               rowDraggable: row && row.getAttribute('draggable'),
               handleDraggable: handle && handle.getAttribute('draggable'),
@@ -124,7 +124,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       it 'preserves a current record that is different from the first moved row' do
         expect(page).to have_css('.record-title', text: sibling2.title)
         click_link sibling2.title
-        wait_for_infinite_tree_current_node(sibling2.uri)
+        wait_for_tree_current_node(sibling2.uri)
 
         drag_into(source_uri: child_record.uri, target_uri: sibling3.uri, pause_ms: 0)
         wait_for_reorder_idle
@@ -149,7 +149,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
         aggregate_failures do
           expect(accept_children_request_count).to eq(before_requests)
-          expect(reorder_events('infiniteTreeReorder:moveSkipped').last['reason']).to eq('noop')
+          expect(reorder_events('treeReorder:moveSkipped').last['reason']).to eq('noop')
           expect(root_child_uris).to eq(before_order)
         end
       end
@@ -197,10 +197,10 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
         meta_click_row(sibling2.uri)
         expect(selection_uris).to eq([child_record.uri, sibling2.uri])
 
-        within '#infinite-tree-container' do
+        within '#tree-container' do
           click_link sibling3.title
         end
-        wait_for_infinite_tree_current_node(sibling3.uri)
+        wait_for_tree_current_node(sibling3.uri)
 
         expect(selection_uris).to eq([sibling3.uri])
         expect(page.current_url).to include("##{tree_hash_for(sibling3.uri)}")
@@ -213,10 +213,10 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
         expect(current_uri).to eq(root_record.uri)
         expect(page).to have_css("li.node[data-uri='#{root_record.uri}'].current")
 
-        within '#infinite-tree-container' do
+        within '#tree-container' do
           click_link sibling2.title
         end
-        wait_for_infinite_tree_current_node(sibling2.uri)
+        wait_for_tree_current_node(sibling2.uri)
 
         aggregate_failures do
           expect(current_uri).to eq(sibling2.uri)
@@ -225,10 +225,10 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
           expect(page.current_url).to include("##{tree_hash_for(sibling2.uri)}")
         end
 
-        within '#infinite-tree-container' do
+        within '#tree-container' do
           click_link sibling3.title
         end
-        wait_for_infinite_tree_current_node(sibling3.uri)
+        wait_for_tree_current_node(sibling3.uri)
 
         aggregate_failures do
           expect(current_uri).to eq(sibling3.uri)
@@ -277,7 +277,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
           aggregate_failures do
             expect(drag_preview_item_texts).to eq([sibling2.title])
-            expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+            expect(page).to have_no_css('.tree-drag-preview__count', visible: :all)
           end
 
           dispatch_dragend(sibling2.uri)
@@ -327,7 +327,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
         blocked = page.evaluate_script(<<~JS)
           (function() {
-            var row = document.querySelector("#infinite-tree-container li.node[data-uri='#{nested_under_sibling2.uri}'] > .node-row");
+            var row = document.querySelector("#tree-container li.node[data-uri='#{nested_under_sibling2.uri}'] > .node-row");
             return {
               blockedAttr: row.getAttribute('data-drop-blocked')
             };
@@ -347,9 +347,9 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
         state = page.evaluate_script(<<~JS)
           (function() {
             return {
-              draggedCount: document.querySelectorAll('#infinite-tree-container li.node.is-being-dragged').length,
-              edgeCount: document.querySelectorAll('#infinite-tree-container .node-row[data-drop-edge]').length,
-              blockedCount: document.querySelectorAll('#infinite-tree-container .node-row[data-drop-blocked]').length
+              draggedCount: document.querySelectorAll('#tree-container li.node.is-being-dragged').length,
+              edgeCount: document.querySelectorAll('#tree-container .node-row[data-drop-edge]').length,
+              blockedCount: document.querySelectorAll('#tree-container .node-row[data-drop-blocked]').length
             };
           })();
         JS
@@ -406,7 +406,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
         def root_drop_edge
           page.evaluate_script(<<~JS)
-            document.querySelector('#infinite-tree-container li.node.root > .node-row').getAttribute('data-drop-edge')
+            document.querySelector('#tree-container li.node.root > .node-row').getAttribute('data-drop-edge')
           JS
         end
 
@@ -466,18 +466,18 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       describe 'custom drag preview system' do
         describe 'empty drag image element' do
           it 'is appended to the DOM on the first drag event' do
-            expect(page).to have_no_css('.infinite-tree-empty-drag-image', visible: :all)
+            expect(page).to have_no_css('.tree-empty-drag-image', visible: :all)
 
             dragstart_from(child_record.uri)
 
             aggregate_failures do
               expect(page).to have_css(
-                'body > .infinite-tree-drag-preview + .infinite-tree-empty-drag-image', visible: :all
+                'body > .tree-drag-preview + .tree-empty-drag-image', visible: :all
               )
 
               positioning = page.evaluate_script(<<~JS)
                 (function() {
-                  const el = document.body.querySelector('.infinite-tree-empty-drag-image');
+                  const el = document.body.querySelector('.tree-empty-drag-image');
                   const style = window.getComputedStyle(el);
                   return {
                     position: style.position,
@@ -496,22 +496,22 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
           it 'is reused across multiple drag events' do
             dragstart_from(child_record.uri)
             expect(page).to have_css(
-                'body > .infinite-tree-drag-preview + .infinite-tree-empty-drag-image', visible: :all
+                'body > .tree-drag-preview + .tree-empty-drag-image', visible: :all
               )
             dragstart_from(sibling2.uri)
             expect(page).to have_css(
-                'body > .infinite-tree-empty-drag-image + .infinite-tree-drag-preview', visible: :all
+                'body > .tree-empty-drag-image + .tree-drag-preview', visible: :all
               )
           end
         end
 
         describe 'drag preview' do
           it 'is created on dragstart' do
-            expect(page).to have_no_css('body > .infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_no_css('body > .tree-drag-preview', visible: :all)
 
             dragstart_from(child_record.uri)
 
-            expect(page).to have_css('body > .infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_css('body > .tree-drag-preview', visible: :all)
           end
 
           context 'when there are 20 or less multi-selected nodes' do
@@ -520,7 +520,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
               aggregate_failures do
                 expect(drag_preview_item_texts).to eq([child_record.title])
-                expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+                expect(page).to have_no_css('.tree-drag-preview__count', visible: :all)
               end
             end
 
@@ -533,14 +533,14 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
               aggregate_failures do
                 expect(drag_preview_item_texts).to eq([child_record.title, sibling2.title, sibling3.title])
-                expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+                expect(page).to have_no_css('.tree-drag-preview__count', visible: :all)
               end
             end
 
             it 'does not show a remaining count badge' do
               dragstart_from(child_record.uri)
 
-              expect(page).to have_no_css('.infinite-tree-drag-preview__count', visible: :all)
+              expect(page).to have_no_css('.tree-drag-preview__count', visible: :all)
             end
           end
 
@@ -568,8 +568,8 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
               dragstart_from(selected_records.first.uri)
 
               aggregate_failures do
-                expect(page).to have_css('.infinite-tree-drag-preview__item', count: 20, visible: :all)
-                expect(page.find('.infinite-tree-drag-preview__count', visible: :all).text(:all)).to eq('+2')
+                expect(page).to have_css('.tree-drag-preview__item', count: 20, visible: :all)
+                expect(page.find('.tree-drag-preview__count', visible: :all).text(:all)).to eq('+2')
                 expect(drag_preview_item_texts).to eq(selected_records.first(20).map(&:title))
               end
             end
@@ -579,19 +579,19 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
         describe 'drag preview removal' do
           it 'happens after a valid drop' do
             dragstart_from(child_record.uri)
-            expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_css('.tree-drag-preview', visible: :all)
 
             dragover_row(sibling3.uri, 0.5)
             drop_row(sibling3.uri, 0.5)
 
-            expect(page).to have_no_css('.infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_no_css('.tree-drag-preview', visible: :all)
           end
 
           it 'happens after the snapback animation from an invalid drop on a selection-locked node' do
             expand_tree_node(sibling2.uri)
 
             dragstart_from(sibling2.uri)
-            expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_css('.tree-drag-preview', visible: :all)
 
             dragover_row(nested_under_sibling2.uri, 0.5)
             drop_row(nested_under_sibling2.uri, 0.5)
@@ -599,14 +599,14 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
             expect_drag_preview_snapback_started
 
             using_wait_time(2) do
-              expect(page).to have_no_css('.infinite-tree-drag-preview', visible: :all)
+              expect(page).to have_no_css('.tree-drag-preview', visible: :all)
             end
           end
 
           it 'happens after the snapback animation from an invalid drop outside the tree' do
-            toolbar = page.find('#infinite-tree-toolbar')
+            toolbar = page.find('#tree-toolbar')
             dragstart_from(sibling2.uri)
-            expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_css('.tree-drag-preview', visible: :all)
 
             rect = toolbar.native.rect
             client_x = rect.x + (rect.width / 2)
@@ -639,19 +639,19 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
             expect_drag_preview_snapback_started
 
             using_wait_time(2) do
-              expect(page).to have_no_css('.infinite-tree-drag-preview', visible: :all)
+              expect(page).to have_no_css('.tree-drag-preview', visible: :all)
             end
           end
 
           it 'happens from cancellation by the ESC key' do
             dragstart_from(child_record.uri)
-            expect(page).to have_css('.infinite-tree-drag-preview', visible: :all)
+            expect(page).to have_css('.tree-drag-preview', visible: :all)
             page.driver.browser.action.send_keys(:escape).perform
             # After the programmatic ESC key press, for some reason the preview is hidden but remains
             # in the DOM unlike the invalid drop specs. Also, expect_drag_preview_snapback_started
             # fails, unlike the invalid drop specs. Manual headful browser observation confirms that
             # the snapback and removal happen visually as expected, so only expect the hidden preview.
-            expect(page).to have_css('.infinite-tree-drag-preview', visible: :false)
+            expect(page).to have_css('.tree-drag-preview', visible: :false)
           end
         end
       end
@@ -667,10 +667,10 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
         # safe check once the UI is localized.
         # TODO is the above comment still relevant?
         def ensure_reorder_mode
-          return if page.has_css?('#infinite-tree-container.reorder-mode', wait: 2)
+          return if page.has_css?('#tree-container.reorder-mode', wait: 2)
 
-          find('.js-itree-toolbar-reorder-toggle').click
-          expect(page).to have_css('#infinite-tree-container.reorder-mode')
+          find('.js-tree-toolbar-reorder-toggle').click
+          expect(page).to have_css('#tree-container.reorder-mode')
         end
 
         def drag_row_labels
@@ -700,13 +700,13 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
   end
 
   context 'Digital Objects' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:digital_objects)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:digital_objects)
 
     it_behaves_like 'dragging and dropping in reorder mode'
   end
 
   context 'Classifications' do
-    include_context 'infinite tree reorder hierarchy setup', InfiniteTreeHierarchyConfigs::REORDER.fetch(:classifications)
+    include_context 'tree reorder hierarchy setup', TreeHierarchyConfigs::REORDER.fetch(:classifications)
 
     it_behaves_like 'dragging and dropping in reorder mode'
   end

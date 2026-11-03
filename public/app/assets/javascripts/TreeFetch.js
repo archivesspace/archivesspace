@@ -1,5 +1,5 @@
 (function (exports) {
-  class InfiniteTreeFetch {
+  class TreeFetch {
     /**
      * @constructor
      * @param {string} fetchPrefix - Prefix prepended to the tree endpoints,
@@ -27,7 +27,7 @@
         const response = await fetch(url);
 
         if (!response.ok) {
-          console.error(`InfiniteTreeFetch: ${response.status} for ${url}`);
+          console.error(`TreeFetch: ${response.status} for ${url}`);
           return null;
         }
 
@@ -92,5 +92,5 @@
     }
   }
 
-  exports.InfiniteTreeFetch = InfiniteTreeFetch;
+  exports.TreeFetch = TreeFetch;
 })(window);

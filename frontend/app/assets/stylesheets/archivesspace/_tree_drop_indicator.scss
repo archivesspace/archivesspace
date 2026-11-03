@@ -4,7 +4,7 @@
 // - packages/react-drop-indicator/src/border.tsx
 // The variable geometry model is intentionally preserved.
 
-#infinite-tree-container.reorder-mode {
+#tree-container.reorder-mode {
   --drop-stroke-color: var(--green-600);
   --drop-stroke-color-blocked: #ae2a19;
   --drop-stroke-width: 2px;
@@ -13,7 +13,7 @@
   --drop-indent: 0;
 }
 
-#infinite-tree-container.reorder-mode .node-row {
+#tree-container.reorder-mode .node-row {
   &[data-drop-blocked='true'] {
     --drop-stroke-color: var(--drop-stroke-color-blocked);
   }
@@ -114,40 +114,35 @@
   }
 }
 
-#infinite-tree-container.reorder-mode
-  .node:not(.root)
-  > .node-row[draggable='true'] {
+#tree-container.reorder-mode .node:not(.root) > .node-row[draggable='true'] {
   cursor: grab;
 }
 
-#infinite-tree-container.reorder-mode
+#tree-container.reorder-mode
   .node:not(.root)
   > .node-row[draggable='true']:active {
   cursor: grabbing;
 }
 
-#infinite-tree-container.reorder-mode
+#tree-container.reorder-mode
   .node:not(.root, .multiselected)
   > .node-row[draggable='true']:hover
   .node-body {
   background-color: var(--tree-reorder-row-hover-bg);
 }
 
-#infinite-tree-container.reorder-mode
+#tree-container.reorder-mode
   .node.multiselected
   > .node-row[draggable='true']:hover
   .node-body {
   background-color: #a8d4ee;
 }
 
-#infinite-tree-container.reorder-mode
-  .node.is-being-dragged
-  > .node-row
-  > .node-body {
+#tree-container.reorder-mode .node.is-being-dragged > .node-row > .node-body {
   opacity: 0.4;
 }
 
-.infinite-tree-drag-preview {
+.tree-drag-preview {
   position: fixed;
   top: -1000px;
   left: -1000px;
@@ -160,20 +155,20 @@
   box-shadow: 0 2px 8px rgba(9, 30, 66, 0.25);
 }
 
-.infinite-tree-drag-preview__list {
+.tree-drag-preview__list {
   margin: 0;
   padding: 0;
   list-style: decimal inside;
 }
 
-.infinite-tree-drag-preview__item {
+.tree-drag-preview__item {
   max-width: 28rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.infinite-tree-drag-preview__count {
+.tree-drag-preview__count {
   margin-top: 0.25rem;
   border-radius: 999px;
   background: #0a6aa1;
@@ -184,7 +179,7 @@
   width: fit-content;
 }
 
-.infinite-tree-empty-drag-image {
+.tree-empty-drag-image {
   position: fixed;
   top: -1000px;
   left: -1000px;

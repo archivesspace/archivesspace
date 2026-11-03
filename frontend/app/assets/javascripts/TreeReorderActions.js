@@ -1,18 +1,16 @@
-//= require InfiniteTreeFetch
+//= require TreeFetch
 
-class InfiniteTreeReorderActions {
-  static EVENT_MOVE_START = 'infiniteTreeReorder:moveStart';
-  static EVENT_MOVE_SUCCESS = 'infiniteTreeReorder:moveSuccess';
-  static EVENT_MOVE_ERROR = 'infiniteTreeReorder:moveError';
-  static EVENT_MOVE_SKIPPED = 'infiniteTreeReorder:moveSkipped';
+class TreeReorderActions {
+  static EVENT_MOVE_START = 'treeReorder:moveStart';
+  static EVENT_MOVE_SUCCESS = 'treeReorder:moveSuccess';
+  static EVENT_MOVE_ERROR = 'treeReorder:moveError';
+  static EVENT_MOVE_SKIPPED = 'treeReorder:moveSkipped';
 
   constructor() {
-    this.componentEl = document.getElementById('infinite-tree-component');
+    this.componentEl = document.getElementById('tree-component');
     if (!this.componentEl) return;
 
-    this.containerEl = this.componentEl.querySelector(
-      '#infinite-tree-container'
-    );
+    this.containerEl = this.componentEl.querySelector('#tree-container');
     if (!this.containerEl) return;
 
     this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
@@ -22,8 +20,8 @@ class InfiniteTreeReorderActions {
     this.moveErrorMessage =
       this.componentEl.getAttribute('data-error-move-records-message') ||
       'The records could not be moved. Please refresh the page and try again.';
-    this.rootParts = InfiniteTreeIds.rootUriToParts(this.rootUri);
-    this.fetch = new InfiniteTreeFetch(this.rootUri);
+    this.rootParts = TreeIds.rootUriToParts(this.rootUri);
+    this.fetch = new TreeFetch(this.rootUri);
     this.inFlight = false;
     this.pendingHighlightUris = [];
     this.activeOverlay = null;
@@ -33,20 +31,20 @@ class InfiniteTreeReorderActions {
 
   #bindEvents() {
     this.containerEl.addEventListener(
-      InfiniteTreeDragDrop.EVENT_DROP_INTENT,
+      TreeDragDrop.EVENT_DROP_INTENT,
       this.#onDropIntent.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeCutPaste.EVENT_PASTE_INTENT,
+      TreeCutPaste.EVENT_PASTE_INTENT,
       this.#onDropIntent.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeMove.EVENT_MOVE_INTENT,
+      TreeMove.EVENT_MOVE_INTENT,
       this.#onDropIntent.bind(this)
     );
 
     this.containerEl.addEventListener(
-      'infiniteTree:rebuildAndReopenComplete',
+      'tree:rebuildAndReopenComplete',
       this.#onRebuildAndReopenComplete.bind(this)
     );
   }
@@ -56,14 +54,14 @@ class InfiniteTreeReorderActions {
 
     const move = this.#moveFromIntent(event.detail || {});
     if (!move) {
-      this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_SKIPPED, {
+      this.#dispatch(TreeReorderActions.EVENT_MOVE_SKIPPED, {
         reason: 'invalid',
       });
       return;
     }
 
     if (this.#isNoopMove(move)) {
-      this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_SKIPPED, {
+      this.#dispatch(TreeReorderActions.EVENT_MOVE_SKIPPED, {
         reason: 'noop',
         move,
       });
@@ -73,7 +71,7 @@ class InfiniteTreeReorderActions {
     this.inFlight = true;
     this.containerEl.classList.add('reorder-move-in-flight');
     this.containerEl.setAttribute('data-reorder-move-in-flight', 'true');
-    this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_START, move);
+    this.#dispatch(TreeReorderActions.EVENT_MOVE_START, move);
 
     try {
       const recovery = this.#recoveryStateForMove(move);
@@ -84,21 +82,21 @@ class InfiniteTreeReorderActions {
         move.adjustedIndex
       );
 
-      this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_SUCCESS, {
+      this.#dispatch(TreeReorderActions.EVENT_MOVE_SUCCESS, {
         ...move,
         response,
       });
 
       this.#rebuildAndReopen(recovery);
     } catch (error) {
-      console.error('InfiniteTree reorder move failed:', error);
+      console.error('Tree reorder move failed:', error);
       this.#removeSnapshotOverlay();
       this.#showMoveError();
-      this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_ERROR, {
+      this.#dispatch(TreeReorderActions.EVENT_MOVE_ERROR, {
         ...move,
         error: String(error),
       });
-      this.#dispatch('infiniteTree:error', {
+      this.#dispatch('tree:error', {
         type: 'reorder_move_failed',
         message: String(error),
         context: move,
@@ -183,7 +181,7 @@ class InfiniteTreeReorderActions {
       .filter(Boolean);
     const expandedParentUris = Array.from(
       this.containerEl.querySelectorAll(
-        'li.node[aria-expanded="true"]:not(.js-itree-synthetic-new)'
+        'li.node[aria-expanded="true"]:not(.js-tree-synthetic-new)'
       )
     )
       .map(node => node.getAttribute('data-uri'))
@@ -210,19 +208,19 @@ class InfiniteTreeReorderActions {
       return;
     }
 
-    const currentHash = InfiniteTreeIds.treeLinkUrl(
+    const currentHash = TreeIds.treeLinkUrl(
       recovery.currentUri || this.rootUri
     );
     this.pendingHighlightUris = recovery.highlightUris.slice();
 
     this.containerEl.dispatchEvent(
-      new CustomEvent('infiniteTreeRouter:replaceHash', {
+      new CustomEvent('treeRouter:replaceHash', {
         detail: { targetHash: currentHash },
       })
     );
 
     this.containerEl.dispatchEvent(
-      new CustomEvent('infiniteTreeRouter:rebuildAndReopen', {
+      new CustomEvent('treeRouter:rebuildAndReopen', {
         detail: recovery,
       })
     );
@@ -256,8 +254,8 @@ class InfiniteTreeReorderActions {
   #uriFromHash(hash) {
     if (!hash || !this.rootParts) return null;
 
-    const treeId = InfiniteTreeIds.locationHashToHtmlId(hash);
-    const parts = InfiniteTreeIds.parseTreeId(treeId);
+    const treeId = TreeIds.locationHashToHtmlId(hash);
+    const parts = TreeIds.parseTreeId(treeId);
 
     if (!parts) return null;
     if (parts.type === this.rootParts.type && parts.id === this.rootParts.id) {
@@ -276,7 +274,7 @@ class InfiniteTreeReorderActions {
     const fadeDurationMs = 1500;
 
     uris.forEach(uri => {
-      const id = InfiniteTreeIds.uriToTreeId(uri);
+      const id = TreeIds.uriToTreeId(uri);
       const node = this.containerEl.querySelector(`#${id}`);
 
       if (!node) return;
@@ -312,7 +310,7 @@ class InfiniteTreeReorderActions {
       .querySelectorAll('[id]')
       .forEach(node => node.removeAttribute('id'));
     overlay.removeAttribute('id');
-    overlay.classList.add('infinite-tree-snapshot-overlay');
+    overlay.classList.add('tree-snapshot-overlay');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.style.position = 'fixed';
     overlay.style.top = `${sourceRect.top}px`;
@@ -373,7 +371,7 @@ class InfiniteTreeReorderActions {
 
     const siblings = Array.from(
       node.parentElement.querySelectorAll(
-        ':scope > li.node:not(.js-itree-synthetic-new)'
+        ':scope > li.node:not(.js-tree-synthetic-new)'
       )
     );
     const position = siblings.indexOf(node);

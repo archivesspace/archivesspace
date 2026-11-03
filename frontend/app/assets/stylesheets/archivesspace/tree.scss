@@ -1,5 +1,5 @@
-@import 'infinite_tree_drop_indicator';
-@import 'infinite_tree_parent_picker';
+@import 'tree_drop_indicator';
+@import 'tree_parent_picker';
 
 :root {
   --tree-indent-width: 1.5rem;
@@ -90,7 +90,7 @@
   --tree-toolbar-gradient-end: var(--gray-225);
 }
 
-#infinite-tree-container {
+#tree-container {
   height: 100px;
   margin: 0 1rem;
   border: 1px solid var(--tree-container-border);
@@ -98,24 +98,24 @@
   overflow-y: auto;
 }
 
-.infinite-tree-snapshot-overlay {
+.tree-snapshot-overlay {
   opacity: 1;
   transition: opacity 160ms ease-out;
   box-sizing: border-box;
 }
 
-.infinite-tree-snapshot-overlay.is-removing {
+.tree-snapshot-overlay.is-removing {
   opacity: 0;
 }
 
-.infinite-tree,
+.tree,
 .node-children {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.infinite-tree {
+.tree {
   font-size: 1rem;
   background-color: var(--tree-bg-default);
 
@@ -425,8 +425,8 @@
   }
 }
 
-#infinite-tree-container.reorder-mode,
-.infinite-tree-snapshot-overlay.reorder-mode {
+#tree-container.reorder-mode,
+.tree-snapshot-overlay.reorder-mode {
   user-select: none;
   -webkit-user-select: none;
 
@@ -736,7 +736,7 @@
   }
 }
 
-#infinite-tree-resizer {
+#tree-resizer {
   position: relative;
   height: 0.5rem;
 
@@ -814,7 +814,7 @@
   }
 }
 
-#infinite-tree-record-pane {
+#tree-record-pane {
   &.blocked {
     position: relative;
 
@@ -832,7 +832,7 @@
   }
 }
 
-#infinite-tree-toolbar {
+#tree-toolbar {
   margin-bottom: 0.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -850,11 +850,11 @@
 
   // Load via Spreadsheet + help: same hover background as .btn-default:hover on both
   // when the primary button is hovered; hovering only the help link does not restyle the button.
-  .js-itree-toolbar-load-bulk-group:has(
-    .js-itree-toolbar-load-bulk:not(.disabled):hover
+  .js-tree-toolbar-load-bulk-group:has(
+    .js-tree-toolbar-load-bulk:not(.disabled):hover
   ) {
-    .js-itree-toolbar-load-bulk,
-    .js-itree-load-via-spreadsheet-help {
+    .js-tree-toolbar-load-bulk,
+    .js-tree-load-via-spreadsheet-help {
       color: var(--bs-text-body);
       background-color: $gray-200;
     }

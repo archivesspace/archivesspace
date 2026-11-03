@@ -97,8 +97,8 @@ describe 'Archival objects', js: true do
     visit "resources/#{resource.id}/edit"
 
     aggregate_failures do
-      expect(page).to have_css('.infinite-tree .root.node')
-      expect(page).to have_css('#infinite-tree-record-pane h2', text: "Resource Title #{now}")
+      expect(page).to have_css('.tree .root.node')
+      expect(page).to have_css('#tree-record-pane h2', text: "Resource Title #{now}")
     end
 
     click_on 'Add Child'
@@ -125,7 +125,7 @@ describe 'Archival objects', js: true do
       expect(page).to have_text "Archival Object Archival Object Title #{month} #{now} on Resource Resource Title #{now} created"
     end
 
-    elements = all('#infinite-tree-container .node.indent-level-1').map { |li| li.text.strip }
+    elements = all('#tree-container .node.indent-level-1').map { |li| li.text.strip }
 
     %w[January February December].each do |month|
       expect(elements.any? { |element| element =~ /#{month}/ }).to be_truthy
@@ -140,16 +140,16 @@ describe 'Archival objects', js: true do
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
-    within '#infinite-tree-container' do
+    within '#tree-container' do
       click_on archival_object.title
     end
 
-    expect(page).to have_css '#infinite-tree-resizer > .resize-handle'
+    expect(page).to have_css '#tree-resizer > .resize-handle'
 
     fill_in 'archival_object_component_id_', with: 'unimportant change'
 
 
-    within '#infinite-tree-container' do
+    within '#tree-container' do
       click_on resource.title
     end
 

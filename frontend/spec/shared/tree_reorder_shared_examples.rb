@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# Shared setup and cross-hierarchy reorder parity examples for Infinite Tree.
+# Shared setup and cross-hierarchy reorder parity examples for Tree.
 # Resources, Digital Objects, and Classifications all run these adapter contracts.
 # Deep tree-engine edge cases (multiselection ancestry, drag previews, etc.) stay
 # in the feature specs under Resources as representative coverage.
-RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
-  include_context 'infinite tree integration hierarchy setup', config
+RSpec.shared_context 'tree reorder hierarchy setup' do |config|
+  include_context 'tree integration hierarchy setup', config
 
   let(:sibling2) do
     create(
@@ -58,22 +58,22 @@ RSpec.shared_context 'infinite tree reorder hierarchy setup' do |config|
     next if example.metadata[:defer_initial_tree_visit]
 
     visit "#{edit_path}#{root_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
   end
 end
 
 RSpec.shared_examples 'toggling reorder mode' do
   it 'enters and exits reorder mode on the tree container' do
-    expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
+    expect(page).to have_no_css('#tree-container.reorder-mode')
 
     enable_reorder_mode
     wait_for_reorder_mode_ready
 
-    expect(page).to have_css('#infinite-tree-container.reorder-mode')
+    expect(page).to have_css('#tree-container.reorder-mode')
 
     disable_reorder_mode
 
-    expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
+    expect(page).to have_no_css('#tree-container.reorder-mode')
   end
 end
 
@@ -98,7 +98,7 @@ RSpec.shared_examples 'moving records in reorder mode' do
 
     it 'moves a nested child up a level' do
       visit "#{edit_path}#{nested_child_record_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       enable_reorder_mode
 
       before_order = root_child_uris
@@ -118,7 +118,7 @@ RSpec.shared_examples 'moving records in reorder mode' do
       open_move_menu_for_node(child_record)
       click_move_menu_action(
         'down-into',
-        target_node_id: infinite_tree_node_id_for(sibling2)
+        target_node_id: tree_node_id_for(sibling2)
       )
       wait_for_reorder_idle
 
@@ -143,7 +143,7 @@ RSpec.shared_examples 'moving records in reorder mode' do
         expect(page).to have_css("li.node[data-uri='#{sibling3.uri}'].multiselected")
       end
 
-      click_infinite_tree_toolbar_move_menu
+      click_tree_toolbar_move_menu
       click_move_menu_action('up')
       wait_for_reorder_idle
 
@@ -173,7 +173,7 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
   it 'cuts the current row and enables paste' do
     enable_reorder_mode
     select_tree_row(child_record)
-    click_infinite_tree_toolbar_cut
+    click_tree_toolbar_cut
 
     aggregate_failures do
       expect(page).to have_css(
@@ -181,7 +181,7 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
         visible: :all
       )
       select_tree_row(sibling3)
-      expect_infinite_tree_toolbar_paste_enabled(true)
+      expect_tree_toolbar_paste_enabled(true)
     end
   end
 
@@ -190,11 +190,11 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
     child_uri = child_record.uri
 
     select_tree_row(child_record)
-    click_infinite_tree_toolbar_cut
+    click_tree_toolbar_cut
     expect(page).to have_css("li.node.cut[data-uri='#{child_uri}']", visible: :all)
 
     select_tree_row(root_record)
-    click_infinite_tree_toolbar_cut
+    click_tree_toolbar_cut
 
     aggregate_failures do
       expect(page).to have_no_css("li.node.root.cut[data-uri='#{root_record.uri}']", visible: :all)
@@ -208,8 +208,8 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
 
     select_tree_row(child_record)
     click_tree_row(sibling3.uri)
-    click_infinite_tree_toolbar_cut
-    click_infinite_tree_toolbar_paste
+    click_tree_toolbar_cut
+    click_tree_toolbar_paste
 
     request = accept_children_requests.last
     expect(request).not_to be_nil
@@ -225,13 +225,13 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
   it 'pastes cut rows as children of the root using the root accept_children path' do
     install_accept_children_capture
     visit "#{edit_path}#{child_record_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
 
     enable_reorder_mode
-    click_infinite_tree_toolbar_cut
+    click_tree_toolbar_cut
 
     select_tree_row(root_record)
-    click_infinite_tree_toolbar_paste
+    click_tree_toolbar_paste
 
     request = accept_children_requests.last
     expect(request).not_to be_nil
@@ -251,12 +251,12 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
     expand_tree_node(sibling2.uri)
 
     # Parent/child explicit multiselection is intentionally blocked in reorder mode
-    # by InfiniteTreeMultiSelection ancestry-lock rules. Seed that explicit selection
+    # by TreeMultiSelection ancestry-lock rules. Seed that explicit selection
     # directly via JS (documented exception) so this example still exercises
     # cut/paste effective-set deduping.
     page.execute_script(<<~JS)
       (function() {
-        var container = document.querySelector('#infinite-tree-container');
+        var container = document.querySelector('#tree-container');
         var parent = document.querySelector("li.node[data-uri='#{sibling2.uri}']");
         var child = document.querySelector("li.node[data-uri='#{nested_under_sibling2.uri}']");
         if (!container || !parent || !child) throw new Error('required nodes missing');
@@ -264,7 +264,7 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
         parent.classList.add('multiselected');
         child.classList.add('multiselected');
 
-        container.dispatchEvent(new CustomEvent('infiniteTreeMultiSelection:changed', {
+        container.dispatchEvent(new CustomEvent('treeMultiSelection:changed', {
           bubbles: true,
           detail: {
             selectedNodes: [parent, child],
@@ -273,10 +273,10 @@ RSpec.shared_examples 'cutting and pasting in reorder mode' do
         }));
       })();
     JS
-    click_infinite_tree_toolbar_cut
+    click_tree_toolbar_cut
 
     select_tree_row(sibling3)
-    click_infinite_tree_toolbar_paste
+    click_tree_toolbar_paste
 
     request = accept_children_requests.last
     expect(request).not_to be_nil
@@ -302,7 +302,7 @@ RSpec.shared_examples 'dragging and dropping in reorder mode' do
   end
 
   after do
-    wait_for_reorder_idle if page.has_css?('#infinite-tree-container')
+    wait_for_reorder_idle if page.has_css?('#tree-container')
   end
 
   it 'persists a same-parent top-edge drop with adjusted index' do
@@ -364,14 +364,14 @@ RSpec.shared_examples 'selecting multiple records in reorder mode' do
       drag_into(source_uri: child_record.uri, target_uri: sibling3.uri, pause_ms: 0)
       wait_for_reorder_idle
 
-      expect(page).to have_no_css('#infinite-tree-container .node.multiselected')
+      expect(page).to have_no_css('#tree-container .node.multiselected')
 
       meta_click_row(sibling2.uri)
 
       aggregate_failures do
         expect(selection_uris).to eq([sibling2.uri])
         expect(page).to have_css(
-          '#infinite-tree-container .node.multiselected',
+          '#tree-container .node.multiselected',
           count: 1,
           visible: :all
         )
@@ -386,9 +386,9 @@ RSpec.shared_examples 'selecting multiple records in reorder mode' do
       wait_for_reorder_idle
 
       meta_click_row(sibling2.uri)
-      click_infinite_tree_toolbar_cut
+      click_tree_toolbar_cut
       select_tree_row(sibling3)
-      click_infinite_tree_toolbar_paste
+      click_tree_toolbar_paste
       wait_for_reorder_idle
 
       expect(last_accept_children_params['children']).to eq([sibling2.uri])

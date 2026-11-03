@@ -79,7 +79,7 @@ Then 'the Digital Object is opened in the edit mode' do
   wait_for_ajax
   expect(current_url).to include 'edit'
   expect(@digital_object_id).to eq current_url[%r{/digital_objects/(\d+)}, 1]
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 Given 'the Digital Object is opened in the view mode' do
@@ -89,7 +89,7 @@ end
 Given 'the Digital Object is opened in edit mode' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 Then 'the Digital Object Title field has the original value' do
@@ -125,7 +125,7 @@ Given 'the user has added a File Version to the Digital Object with the followin
   end
 
   find('button', text: 'Save Digital Object', match: :first).click
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'digital_object')
   expect(page).to have_css('.alert.alert-success', text: /Digital Object.*updated/i)
   expect(page).to have_css('#digital_object_file_versions_ .subrecord-form-remove', wait: 10)
 
@@ -133,7 +133,7 @@ Given 'the user has added a File Version to the Digital Object with the followin
 end
 
 Then 'the File Version is removed from the Digital Object' do
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'digital_object')
   subrecords = all('#digital_object_file_versions_ .subrecord-form-list li')
 
   expect(subrecords.length).to eq @digital_object_number_of_file_versions - 1
@@ -163,13 +163,13 @@ end
 Then 'the Digital Object Component with Label {string} is saved as a child of the Digital Object' do |text|
   wait_for_digital_object_component_create_settled
 
-  components = all('#infinite-tree-container .node:not(.root)')
+  components = all('#tree-container .node:not(.root)')
 
   expect(components.length).to eq 1
   expect(components[0][:class]).to include 'indent-level-1 current'
   expect(page).to have_css '.node.current', text: text
 
-  within '#infinite-tree-container .root.node > .node-children' do
+  within '#tree-container .root.node > .node-children' do
     expect(page).to have_css ":scope > #digital_object_component_#{@created_record_id}.node.current"
   end
 end
@@ -177,34 +177,34 @@ end
 Then 'the Digital Object Component with Title {string} is saved as the next sibling of the previously selected Digital Object Component' do |title|
   wait_for_digital_object_component_create_settled
 
-  components = all('#infinite-tree-container .node:not(.root)')
+  components = all('#tree-container .node:not(.root)')
 
   expect(components.length).to eq 2
   expect(components[0][:class]).to include 'indent-level-1'
   expect(components[1][:class]).to include 'indent-level-1 current'
   expect(page).to have_css '.node.current', text: title
 
-  within '#infinite-tree-container .root.node > .node-children' do
+  within '#tree-container .root.node > .node-children' do
     expect(page).to have_css ":scope > .node + #digital_object_component_#{@created_record_id}.node.current"
   end
 end
 
 Given 'a Digital Object with a Digital Object Component has been created' do
   create_digital_object(@uuid)
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
+  wait_for_tree_inline_edit_form(form_prefix: 'digital_object')
 
   add_digital_object_component_via_toolbar("Digital Object Component Label #{@uuid}")
 end
 
 And(/^the user selects the Digital Object Component in (edit|view) mode$/) do |mode|
-  within '#infinite-tree-container' do
+  within '#tree-container' do
     click_link "Digital Object Component Label #{@uuid}"
   end
 
   if mode == 'edit'
-    wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object_component')
+    wait_for_tree_inline_edit_form(form_prefix: 'digital_object_component')
   else
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
   end
 end
 

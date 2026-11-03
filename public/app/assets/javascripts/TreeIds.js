@@ -2,10 +2,10 @@
   /**
    * Public-app helpers for translating between record URIs, tree node HTML
    * ids, and the hierarchy each tree root type owns. Modeled on the staff
-   * `InfiniteTreeIds` but scoped to what the PUI needs; the two codebases are
+   * `TreeIds` but scoped to what the PUI needs; the two codebases are
    * intentionally separate.
    */
-  class InfiniteTreeIds {
+  class TreeIds {
     static #uriPattern = /^\/repositories\/([0-9]+)\/([a-z_]+)\/([0-9]+)$/;
 
     /**
@@ -111,5 +111,5 @@
     }
   }
 
-  exports.InfiniteTreeIds = InfiniteTreeIds;
+  exports.TreeIds = TreeIds;
 })(window);

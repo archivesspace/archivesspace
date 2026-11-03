@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# Shared setup and examples for Infinite Tree integration specs.
+# Shared setup and examples for Tree integration specs.
 # Examples are parameterized by view (show vs edit) and scenario.
 
-RSpec.shared_context 'infinite tree integration hierarchy setup' do |config|
+RSpec.shared_context 'tree integration hierarchy setup' do |config|
   let(:now) { Time.now.to_i }
-  before(:all) { @repo = create(:repo, repo_code: "infinite_tree_integration_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+  before(:all) { @repo = create(:repo, repo_code: "tree_integration_#{config[:root_type]}_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
   let(:repo) { @repo }
   let(:root_record) { create(config[:root_factory], title: "Root #{now}") }
   let(:child_record) do
@@ -41,8 +41,8 @@ RSpec.shared_context 'infinite tree integration hierarchy setup' do |config|
   end
 end
 
-RSpec.shared_context 'infinite tree integration setup' do
-  include_context 'infinite tree integration hierarchy setup',
+RSpec.shared_context 'tree integration setup' do
+  include_context 'tree integration hierarchy setup',
                   root_type: 'resource',
                   child_type: 'archival_object',
                   root_factory: :resource,
@@ -60,17 +60,17 @@ RSpec.shared_examples 'adds root hash and displays root on load' do |path_let, v
   it "adds root hash and displays root (#{view_type})" do
     path = send(path_let)
     visit path
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(path)}#tree::#{root_type}_})
-      expect(page).to have_css('#infinite-tree-container .root.current')
+      expect(page).to have_css('#tree-container .root.current')
       expect(page).to have_css(
-        '#infinite-tree-container .node.current',
+        '#tree-container .node.current',
         count: 1,
         visible: :all
       )
-      within('#infinite-tree-record-pane') do
+      within('#tree-record-pane') do
         expect(page).to have_css('h2', text: root_record.title)
         case view_type
         when :show
@@ -92,17 +92,17 @@ RSpec.shared_examples 'keeps hash and displays record on load' do |path_let, has
     hash = send(hash_let)
     record = send(record_let)
     visit "#{path}#{hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(path)}#{Regexp.escape(hash)}})
-      expect(page).to have_css(infinite_tree_current_node_selector(record))
+      expect(page).to have_css(tree_current_node_selector(record))
       expect(page).to have_css(
-        '#infinite-tree-container .node.current',
+        '#tree-container .node.current',
         count: 1,
         visible: :all
       )
-      within('#infinite-tree-record-pane') do
+      within('#tree-record-pane') do
         expect(page).to have_css('h2', text: record.title)
         case view_type
         when :show
@@ -126,20 +126,20 @@ RSpec.shared_examples 'tree node title click updates pane and URL when no unsave
     expected_hash = send(expected_hash_let)
     expected_record = node
     visit "#{path}#{start_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
 
-    within('#infinite-tree-container') { click_link node.title }
-    wait_for_infinite_tree_current_node(node.uri)
+    within('#tree-container') { click_link node.title }
+    wait_for_tree_current_node(node.uri)
 
     aggregate_failures do
       expect(page.current_url).to match(%r{#{Regexp.escape(expected_hash)}})
-      expect(page).to have_css(infinite_tree_current_node_selector(expected_record))
+      expect(page).to have_css(tree_current_node_selector(expected_record))
       expect(page).to have_css(
-        '#infinite-tree-container .node.current',
+        '#tree-container .node.current',
         count: 1,
         visible: :all
       )
-      within('#infinite-tree-record-pane') do
+      within('#tree-record-pane') do
         expect(page).to have_css('h2', text: expected_record.title)
         case view_type
         when :show
@@ -153,7 +153,7 @@ RSpec.shared_examples 'tree node title click updates pane and URL when no unsave
 end
 
 RSpec.shared_examples 'navigating the edit view with integrated router and pane' do |config|
-  include_context 'infinite tree integration hierarchy setup', config
+  include_context 'tree integration hierarchy setup', config
 
   describe 'on initial load' do
     context 'when the URL has no record hash' do
@@ -171,15 +171,15 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       it 'displays the tree root and Record Not Found in the pane' do
         nonexistent_id = child_record.id + 999
         visit "#{edit_path}#tree::#{child_type}_#{nonexistent_id}"
-        expect(page).to have_css('#infinite-tree-record-pane h2', text: 'Record Not Found')
+        expect(page).to have_css('#tree-record-pane h2', text: 'Record Not Found')
 
         aggregate_failures do
-          expect(page).to have_css('#infinite-tree-container .root')
+          expect(page).to have_css('#tree-container .root')
           expect(page).not_to have_css(
-            '#infinite-tree-container .current',
+            '#tree-container .current',
             visible: :all
           )
-          within('#infinite-tree-record-pane') do
+          within('#tree-record-pane') do
             expect(page).to have_css('h2', text: 'Record Not Found')
             expect(page).to have_text("The record you've tried to access may no longer exist or you may not have permission to view it.")
           end
@@ -199,14 +199,14 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     context 'via record hash change' do
       it 'updates the pane and URL to the target record' do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
 
         page.execute_script("window.location.hash = 'tree::#{child_type}_#{child_record.id}'")
-        wait_for_infinite_tree_current_node(child_record.uri)
+        wait_for_tree_current_node(child_record.uri)
 
         aggregate_failures do
           expect(page.current_url).to match(%r{#{child_record_hash}})
-          within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
+          within('#tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
         end
       end
     end
@@ -215,9 +215,9 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   describe 'when navigating with unsaved changes' do
     it 'guard shows modal on hash change and reverts the hash' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       fill_in config[:child_dirty_field], with: 'unsaved change'
-      wait_for_infinite_tree_record_pane_dirty
+      wait_for_tree_record_pane_dirty
 
       page.execute_script("window.location.hash = 'tree::#{root_type}_#{root_record.id}'")
 
@@ -232,38 +232,38 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
     it 'guard shows modal on tree title click' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
       fill_in config[:child_dirty_field], with: 'unsaved change'
-      wait_for_infinite_tree_record_pane_dirty
+      wait_for_tree_record_pane_dirty
 
-      within('#infinite-tree-container') { click_link root_record.title }
+      within('#tree-container') { click_link root_record.title }
 
       expect(page).to have_css('#saveYourChangesModal', visible: true)
-      within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
+      within('#tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
     end
 
     describe 'Revert Changes' do
       context 'for root' do
         it 'dismisses unsaved changes and reloads selected root record' do
           visit "#{edit_path}#{root_hash}"
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
 
           initial_title = find_field(config[:root_dirty_field]).value
 
           fill_in config[:root_dirty_field], with: "#{initial_title} "
 
-          expect(page).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+          expect(page).to have_css('#tree-record-pane .record-toolbar.formchanged')
 
-          within('#infinite-tree-record-pane .record-toolbar') do
+          within('#tree-record-pane .record-toolbar') do
             click_link 'Revert Changes'
           end
 
           aggregate_failures do
-            within('#infinite-tree-record-pane') do
+            within('#tree-record-pane') do
               expect(page).to have_css("#form_#{root_form_prefix}")
               expect(page).to have_field(config[:root_dirty_field], with: initial_title)
             end
-            expect(page).to have_no_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+            expect(page).to have_no_css('#tree-record-pane .record-toolbar.formchanged')
             expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
           end
         end
@@ -272,24 +272,24 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       context 'for child' do
         it 'dismisses unsaved changes and reloads selected child record' do
           visit "#{edit_path}#{child_record_hash}"
-          wait_for_infinite_tree_loaded
+          wait_for_tree_loaded
 
           initial_title = find_field(config[:child_revert_field]).value
 
           fill_in config[:child_revert_field], with: "#{initial_title} "
 
-          expect(page).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+          expect(page).to have_css('#tree-record-pane .record-toolbar.formchanged')
 
-          within('#infinite-tree-record-pane .record-toolbar') do
+          within('#tree-record-pane .record-toolbar') do
             click_link 'Revert Changes'
           end
 
           aggregate_failures do
-            within('#infinite-tree-record-pane') do
+            within('#tree-record-pane') do
               expect(page).to have_css("#form_#{child_form_prefix}")
               expect(page).to have_field(config[:child_revert_field], with: initial_title)
             end
-            expect(page).to have_no_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+            expect(page).to have_no_css('#tree-record-pane .record-toolbar.formchanged')
             expect(page.current_url).to match(%r{#{Regexp.escape(child_record_hash)}})
           end
         end
@@ -299,80 +299,80 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     describe 'modal actions' do
       it 'Save submits form, closes modal, and navigates to new record' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
         fill_in config[:child_save_field], with: config[:child_save_value]
-        wait_for_infinite_tree_record_pane_dirty
-        within('#infinite-tree-container') { click_link root_record.title }
+        wait_for_tree_record_pane_dirty
+        within('#tree-container') { click_link root_record.title }
 
         within('#saveYourChangesModal') { click_on 'Save Changes' }
-        wait_for_infinite_tree_current_node(root_record.uri)
+        wait_for_tree_current_node(root_record.uri)
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
           expect(page.current_url).to match(%r{#{root_hash}})
-          within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
+          within('#tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
         end
       end
 
       it 'Dismiss discards changes, closes modal, and navigates to new record' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
         fill_in config[:child_dirty_field], with: 'unsaved change'
-        wait_for_infinite_tree_record_pane_dirty
-        within('#infinite-tree-container') { click_link root_record.title }
+        wait_for_tree_record_pane_dirty
+        within('#tree-container') { click_link root_record.title }
 
         within('#saveYourChangesModal') { click_on 'Dismiss Changes' }
-        wait_for_infinite_tree_current_node(root_record.uri)
+        wait_for_tree_current_node(root_record.uri)
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
           expect(page.current_url).to match(%r{#{root_hash}})
-          within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
+          within('#tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
         end
       end
 
       it 'Cancel closes modal and stays on current record' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
         fill_in config[:child_dirty_field], with: 'unsaved change'
-        wait_for_infinite_tree_record_pane_dirty
-        within('#infinite-tree-container') { click_link root_record.title }
+        wait_for_tree_record_pane_dirty
+        within('#tree-container') { click_link root_record.title }
 
         within('#saveYourChangesModal') { click_on 'Cancel' }
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
           expect(page.current_url).to match(%r{#{child_record_hash}})
-          within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
+          within('#tree-record-pane') { expect(page).to have_css('h2', text: child_record.title) }
         end
       end
 
       it 'Save with validation errors closes modal and stays on the invalid form' do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
 
-        click_infinite_tree_toolbar_add_child
-        wait_for_infinite_tree_pane_ready
+        click_tree_toolbar_add_child
+        wait_for_tree_pane_ready
 
-        within('#infinite-tree-container') { click_link child_record.title }
+        within('#tree-container') { click_link child_record.title }
 
         expect(page).to have_css('#saveYourChangesModal', visible: true)
 
         within('#saveYourChangesModal') { click_on 'Save Changes' }
-        wait_for_infinite_tree_pane_ready
+        wait_for_tree_pane_ready
 
         aggregate_failures do
           expect(page).not_to have_css('#saveYourChangesModal', visible: true)
           expect(page.current_url).to match(/#new/)
-          within('#infinite-tree-record-pane') do
+          within('#tree-record-pane') do
             expect(page).to have_css('.error')
           end
-          within('#infinite-tree-container') do
-            expect(page).to have_css('li.js-itree-synthetic-new')
+          within('#tree-container') do
+            expect(page).to have_css('li.js-tree-synthetic-new')
           end
         end
 
-        within('#infinite-tree-container') { click_link child_record.title }
+        within('#tree-container') { click_link child_record.title }
         expect(page).to have_css('#saveYourChangesModal', visible: true)
         within('#saveYourChangesModal') { click_on 'Cancel' }
       end
@@ -382,11 +382,11 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   describe 'after successful save' do
     it 'form has no unsaved changes; navigation proceeds without modal' do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
 
       updated_title = "Updated Title #{now}"
       fill_in config[:child_post_save_field], with: updated_title
-      within('#infinite-tree-container') { click_link root_record.title }
+      within('#tree-container') { click_link root_record.title }
 
       aggregate_failures do
         expect(page).to have_css('#saveYourChangesModal', visible: true)
@@ -395,24 +395,24 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
         find('button', text: child_save_label, match: :first).click
         expect(page).to have_text(updated_title)
 
-        within('#infinite-tree-container') { click_link root_record.title }
+        within('#tree-container') { click_link root_record.title }
         expect(page).not_to have_css('#saveYourChangesModal', visible: true)
-        within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
+        within('#tree-record-pane') { expect(page).to have_css('h2', text: root_record.title) }
       end
     end
 
     it 'refreshes the root row in the tree with the saved root data' do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
+      wait_for_tree_loaded
 
       updated_title = "Updated Root #{now}"
       fill_in config[:root_dirty_field], with: updated_title
 
-      wait_for_infinite_tree_record_pane_submit do
+      wait_for_tree_record_pane_submit do
         find('button', text: I18n.t("#{config[:root_type]}._frontend.action.save"), match: :first).click
       end
 
-      root_title = find('#infinite-tree-container li.node.root > .node-row .record-title')
+      root_title = find('#tree-container li.node.root > .node-row .record-title')
 
       aggregate_failures do
         expect(root_title).to have_text(updated_title)
@@ -427,11 +427,11 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       target_hash = nested_child_record_hash
 
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_loaded
-      install_tree_event_capture('infiniteTreeRouter:setCurrentNode')
+      wait_for_tree_loaded
+      install_tree_event_capture('treeRouter:setCurrentNode')
 
       fill_in config[:child_dirty_field], with: 'unsaved change'
-      wait_for_infinite_tree_record_pane_dirty
+      wait_for_tree_record_pane_dirty
 
       navigate_tree_hash(target_hash)
       expect(page).to have_css('#saveYourChangesModal', visible: true)
@@ -439,12 +439,12 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       within('#saveYourChangesModal') { click_on 'Dismiss Changes' }
 
       expect(page).to have_css(
-        "#infinite-tree-container li.node.current[data-uri='#{nested_child_record.uri}']"
+        "#tree-container li.node.current[data-uri='#{nested_child_record.uri}']"
       )
 
       aggregate_failures do
         expect(page.current_url).to match(/#{Regexp.escape(target_hash)}/)
-        expect(tree_event_count('infiniteTreeRouter:setCurrentNode')).to eq(1)
+        expect(tree_event_count('treeRouter:setCurrentNode')).to eq(1)
       end
     end
   end
@@ -454,28 +454,28 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   describe 'when a newer pane load starts before an earlier one finishes' do
     let(:root_load_url) { "#{edit_path}?inline=true" }
     let(:child_load_url) { "/#{child_type}s/#{child_record.id}/edit?inline=true" }
-    let(:pane) { '#infinite-tree-record-pane' }
+    let(:pane) { '#tree-record-pane' }
 
     before do
       visit "#{edit_path}#{child_record_hash}"
       wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_tree_pane_ready
     end
 
     it 'keeps the newer record when the earlier response arrives last' do
       hold_fetches(root_load_url)
 
-      within('#infinite-tree-container') { click_link root_record.title }
+      within('#tree-container') { click_link root_record.title }
       wait_for_held_fetch(root_load_url)
 
-      within('#infinite-tree-container') { click_link child_record.title }
-      expect(page).to have_css(infinite_tree_current_node_selector(child_record))
-      wait_for_infinite_tree_pane_ready
+      within('#tree-container') { click_link child_record.title }
+      expect(page).to have_css(tree_current_node_selector(child_record))
+      wait_for_tree_pane_ready
 
       release_held_fetch(root_load_url)
 
       aggregate_failures do
-        expect(page).to have_css(infinite_tree_current_node_selector(child_record))
+        expect(page).to have_css(tree_current_node_selector(child_record))
         expect(page.current_url).to match(/#{Regexp.escape(child_record_hash)}/)
         expect(page).to have_no_css("#{pane}.blocked")
         within(pane) do
@@ -489,10 +489,10 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     it 'keeps the pane blocked until the latest load finishes' do
       hold_fetches(root_load_url, child_load_url)
 
-      within('#infinite-tree-container') { click_link root_record.title }
+      within('#tree-container') { click_link root_record.title }
       wait_for_held_fetch(root_load_url)
 
-      within('#infinite-tree-container') { click_link child_record.title }
+      within('#tree-container') { click_link child_record.title }
       wait_for_held_fetch(child_load_url)
 
       release_held_fetch(root_load_url)
@@ -506,7 +506,7 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
       aggregate_failures do
         expect(page).to have_no_css("#{pane}.blocked")
-        expect(page).to have_css(infinite_tree_current_node_selector(child_record))
+        expect(page).to have_css(tree_current_node_selector(child_record))
         within(pane) { expect(page).to have_css('h2', text: child_record.title) }
       end
     end
@@ -514,11 +514,11 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     it 'keeps an Add Child form when the earlier record response arrives last' do
       hold_fetches(root_load_url)
 
-      within('#infinite-tree-container') { click_link root_record.title }
+      within('#tree-container') { click_link root_record.title }
       wait_for_held_fetch(root_load_url)
-      expect(page).to have_css(infinite_tree_current_node_selector(root_record))
+      expect(page).to have_css(tree_current_node_selector(root_record))
 
-      click_infinite_tree_toolbar_add_child
+      click_tree_toolbar_add_child
       expect(page).to have_css("#{pane} form[action$='/#{child_type}s']")
 
       release_held_fetch(root_load_url)
@@ -526,7 +526,7 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       aggregate_failures do
         expect(page).to have_no_css("#{pane}.blocked")
         expect(page).to have_css("#{pane} form[action$='/#{child_type}s']")
-        expect(page).to have_css("#infinite-tree-container li##{child_type}_new.js-itree-synthetic-new")
+        expect(page).to have_css("#tree-container li##{child_type}_new.js-tree-synthetic-new")
         within(pane) { expect(page).to have_no_css('h2', text: root_record.title) }
       end
     end
@@ -534,15 +534,15 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
     it 'keeps an Add Sibling form when the earlier record response arrives last' do
       hold_fetches(child_load_url)
 
-      within('#infinite-tree-container') { click_link root_record.title }
-      wait_for_infinite_tree_pane_ready
+      within('#tree-container') { click_link root_record.title }
+      wait_for_tree_pane_ready
 
-      within('#infinite-tree-container') { click_link child_record.title }
+      within('#tree-container') { click_link child_record.title }
       wait_for_held_fetch(child_load_url)
-      expect(page).to have_css(infinite_tree_current_node_selector(child_record))
+      expect(page).to have_css(tree_current_node_selector(child_record))
 
-      find('.js-itree-toolbar-add-sibling').click
-      wait_for_infinite_tree_pane_ready
+      find('.js-tree-toolbar-add-sibling').click
+      wait_for_tree_pane_ready
       expect(page).to have_css("#{pane} form[action$='/#{child_type}s']")
 
       release_held_fetch(child_load_url)
@@ -550,7 +550,7 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       aggregate_failures do
         expect(page).to have_no_css("#{pane}.blocked")
         expect(page).to have_css("#{pane} form[action$='/#{child_type}s']")
-        expect(page).to have_css("#infinite-tree-container li##{child_type}_new.js-itree-synthetic-new")
+        expect(page).to have_css("#tree-container li##{child_type}_new.js-tree-synthetic-new")
         within(pane) { expect(page).to have_no_css('h2', text: child_record.title) }
       end
     end
@@ -560,11 +560,11 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
   # navigate on a clean form, then release the save.
   describe 'when navigation starts while a save request is still in flight' do
     let(:child_save_url) { "/#{child_type}s/#{child_record.id}" }
-    let(:pane) { '#infinite-tree-record-pane' }
+    let(:pane) { '#tree-record-pane' }
 
     before do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_pane_ready
+      wait_for_tree_pane_ready
     end
 
     it 'keeps the navigated record when the save response arrives last' do
@@ -573,14 +573,14 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
       find('button', text: child_save_label, match: :first).click
       wait_for_held_fetch(child_save_url)
 
-      within('#infinite-tree-container') { click_link root_record.title }
-      expect(page).to have_css(infinite_tree_current_node_selector(root_record))
-      wait_for_infinite_tree_pane_ready
+      within('#tree-container') { click_link root_record.title }
+      expect(page).to have_css(tree_current_node_selector(root_record))
+      wait_for_tree_pane_ready
 
       release_held_fetch(child_save_url)
 
       aggregate_failures do
-        expect(page).to have_css(infinite_tree_current_node_selector(root_record))
+        expect(page).to have_css(tree_current_node_selector(root_record))
         expect(page.current_url).to match(/#{Regexp.escape(root_hash)}/)
         expect(page).to have_no_css("#{pane}.blocked")
         within(pane) do

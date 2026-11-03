@@ -1,7 +1,7 @@
 //= require LocalStorage
 
 (function (exports) {
-  class InfiniteTreeResizer {
+  class TreeResizer {
     static #MIN_HEIGHT = 60;
     static #MAXIMIZED_MARGIN_BOTTOM = 50;
 
@@ -13,8 +13,8 @@
       this.isResizing = false;
       this.startY = undefined;
       this.startHeight = undefined;
-      this.minHeight = InfiniteTreeResizer.#MIN_HEIGHT;
-      this.maximizedMarginBottom = InfiniteTreeResizer.#MAXIMIZED_MARGIN_BOTTOM;
+      this.minHeight = TreeResizer.#MIN_HEIGHT;
+      this.maximizedMarginBottom = TreeResizer.#MAXIMIZED_MARGIN_BOTTOM;
       this.handle = document.querySelector('[data-resize-handle]');
       this.toggleBtn = document.querySelector('[data-resize-toggle]');
 
@@ -222,5 +222,5 @@
     }
   }
 
-  exports.InfiniteTreeResizer = InfiniteTreeResizer;
+  exports.TreeResizer = TreeResizer;
 })(window);

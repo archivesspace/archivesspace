@@ -1,15 +1,13 @@
-class InfiniteTreeCutPaste {
-  static EVENT_CUT_PERFORMED = 'infiniteTreeCutPaste:cutPerformed';
-  static EVENT_CUT_CLEARED = 'infiniteTreeCutPaste:cutCleared';
-  static EVENT_PASTE_INTENT = 'infiniteTreeCutPaste:pasteIntent';
+class TreeCutPaste {
+  static EVENT_CUT_PERFORMED = 'treeCutPaste:cutPerformed';
+  static EVENT_CUT_CLEARED = 'treeCutPaste:cutCleared';
+  static EVENT_PASTE_INTENT = 'treeCutPaste:pasteIntent';
 
   constructor() {
-    this.componentEl = document.getElementById('infinite-tree-component');
+    this.componentEl = document.getElementById('tree-component');
     if (!this.componentEl) return;
 
-    this.containerEl = this.componentEl.querySelector(
-      '#infinite-tree-container'
-    );
+    this.containerEl = this.componentEl.querySelector('#tree-container');
     if (!this.containerEl) return;
 
     this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
@@ -24,31 +22,31 @@ class InfiniteTreeCutPaste {
 
   #bindEvents() {
     this.containerEl.addEventListener(
-      'infiniteTreeToolbar:reorderModeChanged',
+      'treeToolbar:reorderModeChanged',
       this.#onReorderModeChanged.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeMultiSelection.EVENT_CHANGED,
+      TreeMultiSelection.EVENT_CHANGED,
       this.#onSelectionChanged.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeMultiSelection.EVENT_CLEARED,
+      TreeMultiSelection.EVENT_CLEARED,
       this.#onSelectionCleared.bind(this)
     );
     this.containerEl.addEventListener(
-      'infiniteTreeToolbar:cutRequested',
+      'treeToolbar:cutRequested',
       this.#onCutRequested.bind(this)
     );
     this.containerEl.addEventListener(
-      'infiniteTreeToolbar:pasteRequested',
+      'treeToolbar:pasteRequested',
       this.#onPasteRequested.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTreeReorderActions.EVENT_MOVE_SUCCESS,
+      TreeReorderActions.EVENT_MOVE_SUCCESS,
       this.#onMoveSuccess.bind(this)
     );
     this.containerEl.addEventListener(
-      InfiniteTree.EVENT_TYPE_TREE_CONTENT_REPLACED,
+      Tree.EVENT_TYPE_TREE_CONTENT_REPLACED,
       this.#onTreeContentReplaced.bind(this)
     );
   }
@@ -97,7 +95,7 @@ class InfiniteTreeCutPaste {
     this.cutUris = effectiveUris.slice();
     this.cutNodes.forEach(node => node.classList.add('cut'));
 
-    this.#dispatch(InfiniteTreeCutPaste.EVENT_CUT_PERFORMED, {
+    this.#dispatch(TreeCutPaste.EVENT_CUT_PERFORMED, {
       cutNodes: this.cutNodes.slice(),
       cutUris: this.cutUris.slice(),
     });
@@ -132,7 +130,7 @@ class InfiniteTreeCutPaste {
       sourceParentUris.length > 0 &&
       sourceParentUris.every(uri => uri === targetUri);
 
-    this.#dispatch(InfiniteTreeCutPaste.EVENT_PASTE_INTENT, {
+    this.#dispatch(TreeCutPaste.EVENT_PASTE_INTENT, {
       sourceNodes: this.cutNodes.slice(),
       sourceUris: this.cutNodes
         .map(node => node.getAttribute('data-uri'))
@@ -171,7 +169,7 @@ class InfiniteTreeCutPaste {
     this.cutUris = [];
 
     if (hadCutState) {
-      this.#dispatch(InfiniteTreeCutPaste.EVENT_CUT_CLEARED, {});
+      this.#dispatch(TreeCutPaste.EVENT_CUT_CLEARED, {});
     }
   }
 
@@ -189,7 +187,7 @@ class InfiniteTreeCutPaste {
 
   /**
    * Resolve the paste destination from the `.current` row, including root,
-   * when it is not part of a cut subtree. Mirrors InfiniteTreeDragDrop#isBlockedTarget:
+   * when it is not part of a cut subtree. Mirrors TreeDragDrop#isBlockedTarget:
    * a cut source and any of its descendants are invalid paste destinations.
    * @returns {HTMLElement|null}
    */
@@ -223,9 +221,8 @@ class InfiniteTreeCutPaste {
     const list = node.querySelector(':scope > .node-children');
     if (!list) return 0;
 
-    return list.querySelectorAll(
-      ':scope > li.node:not(.js-itree-synthetic-new)'
-    ).length;
+    return list.querySelectorAll(':scope > li.node:not(.js-tree-synthetic-new)')
+      .length;
   }
 
   #parentUriForNode(node) {
