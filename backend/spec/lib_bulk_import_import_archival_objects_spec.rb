@@ -1710,7 +1710,7 @@ describe "Import Archival Objects" do
   end
 
   # Imports one archival object row from the CSV template with the given cells, plus any extra columns
-  def import_row(cells, extra_columns = [])
+  def import_row(cells, extra_columns = [], validate_only = false)
     csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_template.csv")
     columns = csv_data[0] + extra_columns
     row = columns.to_h { |column| [column, nil] }
@@ -1722,7 +1722,8 @@ describe "Import Archival Objects" do
     File.write(csv_path, CSV.generate { |csv| csv << columns << (csv_data[1] + extra_columns) << row.values })
 
     opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => csv_filename,
-             :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "" }
+             :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "",
+             :validate => validate_only }
     ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
   end
 
@@ -1824,6 +1825,13 @@ describe "Import Archival Objects" do
       expect(::ArchivalObject.count).to eq archival_object_count_before
       note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
       expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+
+    it 'reports the blank note text in validate-only mode' do
+      report = import_row({ 't_accessrestrict_1' => 'RestrictedSpecColl' }, [], true)
+
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].errors).to eq([note_error])
     end
 
     it 'reports every filled column for every note whose text is blank' do
