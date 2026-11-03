@@ -21,27 +21,44 @@ class AgentHandler < Handler
   def self.supplied_differences(supplied, existing, path = [])
     case supplied
     when Hash
+      # a record the existing agent lacks, or has with another type, is reported by its values, not its type
+      existing = nil unless existing.is_a?(Hash) && existing["jsonmodel_type"] == supplied["jsonmodel_type"]
       supplied.flat_map do |key, value|
-        # a record the existing agent lacks is reported by its values, not its type
-        next [] if key == "jsonmodel_type" && !existing.is_a?(Hash)
+        next [] if key == "jsonmodel_type" && existing.nil?
 
-        supplied_differences(value, existing.is_a?(Hash) ? existing[key] : nil, path + [key])
+        supplied_differences(value, existing && existing[key], path + [key])
       end
     when Array
-      # order-insensitive: pair exact matches anywhere, then compare the rest in order
-      remaining = existing.is_a?(Array) ? existing.dup : []
-      unmatched = supplied.each_index.reject do |index|
-        found = remaining.index { |candidate| supplied_differences(supplied[index], candidate).empty? }
-        remaining.delete_at(found) unless found.nil?
-        found
-      end
-      unmatched.each_with_index.flat_map do |index, position|
-        supplied_differences(supplied[index], remaining[position], path + [index])
+      existing = existing.is_a?(Array) ? existing : []
+      partners = exact_partners(supplied, existing)
+      leftover = existing.each_index.reject { |index| partners.value?(index) }.map { |index| existing[index] }
+      supplied.each_index.reject { |index| partners.key?(index) }.each_with_index.flat_map do |index, position|
+        supplied_differences(supplied[index], leftover[position], path + [index])
       end
     else
       supplied == existing ? [] : [{ :path => path, :supplied => supplied, :existing => existing }]
     end
   end
+
+  # supplied index => existing index for as many exact matches as possible (augmenting paths), whatever the order
+  def self.exact_partners(supplied, existing)
+    fits = supplied.map { |value| existing.each_index.select { |index| supplied_differences(value, existing[index]).empty? } }
+    owner = {}
+    claim = lambda do |index, seen|
+      fits[index].any? do |candidate|
+        next false if seen.include?(candidate)
+
+        seen << candidate
+        next false unless owner[candidate].nil? || claim.call(owner[candidate], seen)
+
+        owner[candidate] = index
+        true
+      end
+    end
+    supplied.each_index { |index| claim.call(index, []) }
+    owner.invert
+  end
+  private_class_method :exact_partners
 
   def initialize(current_user, validate_only = false)
     super

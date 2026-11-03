@@ -1132,32 +1132,34 @@ describe "Import Digital Objects Agents" do
       expect(digital_object_count).to eq(0)
     end
 
-    [false, true].each do |validate_only|
-      it "links an existing Agent whose telephone and fax are stored in another order (validate-only: #{validate_only})" do
-        existing = AgentPerson.create_from_json(JSONModel(:agent_person).from_hash(
-          "names" => [{ "primary_name" => "Created Person #{@now}", "name_order" => "direct", "sort_name_auto_generate" => true }],
-          "agent_contacts" => [{
-            "name" => "Contact #{@now}",
-            "telephones" => [
-              { "number" => "555-0199", "number_type" => "fax" },
-              { "number" => "555-0100", "number_type" => "home" },
-            ],
-          }]
-        ))
-        original_count = AgentPerson.count
+    { "different numbers" => "555-0199", "the same number" => "555-0100" }.each do |numbers, fax_number|
+      [false, true].each do |validate_only|
+        it "links an existing Agent whose telephone and fax, with #{numbers}, are stored in another order (validate-only: #{validate_only})" do
+          existing = AgentPerson.create_from_json(JSONModel(:agent_person).from_hash(
+            "names" => [{ "primary_name" => "Created Person #{@now}", "name_order" => "direct", "sort_name_auto_generate" => true }],
+            "agent_contacts" => [{
+              "name" => "Contact #{@now}",
+              "telephones" => [
+                { "number" => fax_number, "number_type" => "fax" },
+                { "number" => "555-0100", "number_type" => "home" },
+              ],
+            }]
+          ))
+          original_count = AgentPerson.count
 
-        report = run_agent_import(
-          person_group(
-            "agent_1_agent_contact_1_name" => "Contact #{@now}",
-            "agent_1_agent_contact_1_telephone_1_number" => "555-0100",
-            "agent_1_agent_contact_1_fax_1_number" => "555-0199"
-          ),
-          validate_only
-        )
+          report = run_agent_import(
+            person_group(
+              "agent_1_agent_contact_1_name" => "Contact #{@now}",
+              "agent_1_agent_contact_1_telephone_1_number" => "555-0100",
+              "agent_1_agent_contact_1_fax_1_number" => fax_number
+            ),
+            validate_only
+          )
 
-        expect(report.rows[0].errors).to eq([])
-        expect(AgentPerson.count).to eq(original_count)
-        expect(imported_digital_object.linked_agents.map { |link| link["ref"] }).to eq([existing.uri]) unless validate_only
+          expect(report.rows[0].errors).to eq([])
+          expect(AgentPerson.count).to eq(original_count)
+          expect(imported_digital_object.linked_agents.map { |link| link["ref"] }).to eq([existing.uri]) unless validate_only
+        end
       end
     end
 
@@ -1173,6 +1175,38 @@ describe "Import Digital Objects Agents" do
         errors = report.rows[0].errors.join(" ")
         expect(errors).not_to include("no implicit conversion")
         expect(errors).not_to include("jsonmodel_type")
+      end
+      expect(AgentPerson.count).to eq(original_count)
+      expect(digital_object_count).to eq(0)
+    end
+
+    it "names the note column, without comparing the notes, when an authority ID match has a note of another type" do
+      existing = AgentPerson.create_from_json(JSONModel(:agent_person).from_hash(
+        "names" => [{
+          "primary_name" => "Created Person #{@now}", "name_order" => "direct", "sort_name_auto_generate" => true,
+          "authority_id" => "context-#{@now}", "source" => "naf"
+        }],
+        "notes" => [{
+          "jsonmodel_type" => "note_general_context",
+          "subnotes" => [{ "jsonmodel_type" => "note_text", "content" => "Context #{@now}" }],
+        }]
+      ))
+      original_count = AgentPerson.count
+
+      [false, true].each do |validate_only|
+        report = run_agent_import(
+          person_group(
+            "agent_1_agent_name_1_authority_id" => "context-#{@now}",
+            "agent_1_agent_name_1_source" => "naf",
+            "agent_1_note_1_content" => "Born #{@now}"
+          ),
+          validate_only
+        )
+
+        expect_mismatch(report, existing.uri, "agent_1_note_1_content", "Born #{@now}")
+        errors = report.rows[0].errors.join(" ")
+        expect(errors).not_to include("jsonmodel_type")
+        expect(errors).not_to include("Context #{@now}")
       end
       expect(AgentPerson.count).to eq(original_count)
       expect(digital_object_count).to eq(0)

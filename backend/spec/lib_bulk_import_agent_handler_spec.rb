@@ -286,6 +286,13 @@ describe "Agent Handler" do
       expect(AgentHandler.supplied_differences(supplied, existing)).to eq([])
     end
 
+    it "finds an exact match for every record when the first fit would take another record's match" do
+      supplied = { "telephones" => [{ "number" => "555-0100" }, { "number" => "555-0100", "number_type" => "fax" }] }
+      existing = { "telephones" => [{ "number" => "555-0100", "number_type" => "fax" }, { "number" => "555-0100", "number_type" => "home" }] }
+
+      expect(AgentHandler.supplied_differences(supplied, existing)).to eq([])
+    end
+
     it "compares an unmatched record with the existing record left over, not the one at its position" do
       supplied = { "telephones" => [{ "number" => "555-0100" }, { "number" => "555-0199", "number_type" => "fax" }] }
       existing = { "telephones" => [{ "number" => "555-0199", "number_type" => "fax" }, { "number" => "555-0111" }] }
@@ -309,12 +316,13 @@ describe "Agent Handler" do
       ])
     end
 
-    it "reports a different jsonmodel_type on a record both sides have" do
-      expect(AgentHandler.supplied_differences(
-        { "notes" => [{ "jsonmodel_type" => "note_bioghist" }] },
-        { "notes" => [{ "jsonmodel_type" => "note_general_context" }] }
-      )).to eq([
-        { :path => ["notes", 0, "jsonmodel_type"], :supplied => "note_bioghist", :existing => "note_general_context" },
+    it "reports a record the existing agent has with another type by its values, without comparing the two" do
+      subnotes = [{ "jsonmodel_type" => "note_text", "content" => "x" }]
+      supplied = { "notes" => [{ "jsonmodel_type" => "note_bioghist", "subnotes" => subnotes }] }
+      existing = { "notes" => [{ "jsonmodel_type" => "note_general_context", "subnotes" => subnotes }] }
+
+      expect(AgentHandler.supplied_differences(supplied, existing)).to eq([
+        { :path => ["notes", 0, "subnotes", 0, "content"], :supplied => "x", :existing => nil },
       ])
     end
   end
