@@ -53,18 +53,14 @@ describe 'Collection Organization Load All with a JSON error response', js: true
 
     page.find('.load-all__label-toggle').click
 
-    # Let Load All finish: on current code the dialog closes because every
-    # record element exists, even though each holds only "undefined"
-    expect(page).to have_css('body[data-load-all-dialog-closed]', wait: 15)
-
-    undefined_records = page.all(
-      '#infinite-records-container .infinite-record-record',
-      exact_text: 'undefined',
-      visible: :all,
-      wait: 0
-    )
-    expect(undefined_records.length).to eq(0),
-      "expected no records to render 'undefined', found #{undefined_records.length}"
+    aggregate_failures do
+      expect(page).to have_css('body[data-load-all-dialog-closed]')
+      expect(page).not_to have_css(
+        '#infinite-records-container .infinite-record-record',
+        exact_text: 'undefined',
+        visible: :all
+      )
+    end
 
     # Waypoints whose fetch failed should stay empty so they can be fetched again
     populated_after = page.evaluate_script(<<~JS)
@@ -85,6 +81,7 @@ describe 'Collection Organization Load All with a JSON error response', js: true
     it 'does not render "undefined" records or mark failed waypoints populated' do
       visit_and_fail_later_waypoint_requests(@res_10wp)
       expect_no_undefined_records_after_load_all
+      expect(page).to have_css('#load-all-error', visible: true)
     end
   end
 end

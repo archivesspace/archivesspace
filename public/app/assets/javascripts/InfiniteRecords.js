@@ -254,6 +254,12 @@
 
       try {
         const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(
+            `Waypoint ${wpNum} request failed with status ${response.status}`
+          );
+        }
+
         const records = await response.json();
         return { wpNum, records };
       } catch (err) {
