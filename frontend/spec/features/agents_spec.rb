@@ -330,6 +330,29 @@ describe 'Agents', js: true do
         expect(elements[0]).to have_text "External Document Location #{now}"
       end
 
+      it 'provides screen reader context for linked record headings' do
+        agent = create(:agent_person, title: 'Agent for events')
+
+        visit "agents/agent_person/#{agent.id}"
+
+        expect(page).to have_css('h2 .sr-only', text: 'Agent record:', visible: :all)
+
+        within '#linked_agents' do
+          expect(page).to have_css('h3', text: 'Linked Records')
+          expect(page).to have_css('.sr-only', text: 'related to this agent', visible: :all)
+        end
+
+        within '#linked_via_rights_statements' do
+          expect(page).to have_css('h3', text: 'Linked Records via Rights Statement')
+          expect(page).to have_css('.sr-only', text: 'related to this agent', visible: :all)
+        end
+
+        within '#events' do
+          expect(page).to have_css('h3', text: 'Events')
+          expect(page).to have_css('.sr-only', text: 'related to this agent', visible: :all)
+        end
+      end
+
       it 'can add a date of existence to an Agent' do
         now = Time.now.to_i
 

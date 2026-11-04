@@ -206,9 +206,11 @@ describe 'Classifications', js: true do
     visit "classifications/#{classification.id}"
     wait_for_ajax
     expect(page).to have_text resource.title
+    expect(page).to have_css('#classifications h3 .sr-only', text: 'related to this classification', visible: :all)
     tree_element = find("#classification_term_#{classification_term.id} a.record-title")
     tree_element.click
     expect(page).to have_text accession.title
+    expect(page).to have_css('#classifications h3 .sr-only', text: 'related to this classification term', visible: :all)
   end
 
   context 'index view' do

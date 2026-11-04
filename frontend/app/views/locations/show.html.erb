@@ -56,6 +56,7 @@
         :record => @location,
         :filter_term => {"location_uris" => @location.uri, 'primary_type' => 'top_container'}.to_json,
         :heading_text => t("location._frontend.section.search_embedded"),
+        :heading_sr_only_text => t("location._frontend.section.search_embedded_related_text"),
         :section_id => 'location_containers'} %>
 
       <%= readonly_context :location, @location do |readonly| %>
