@@ -167,8 +167,6 @@ pl:
     in_repository: ' w <strong>%{name}</strong>'
     notes_contain: <strong>Notatka</strong> zawiera <span class='searchterm'>%{kw}</span>
   search-limit: Ogranicz do %{limit}
-  search-limiting: ograniczone do %{limit}
-  searched-field: wyszukiwanie w polu %{field}
   search_sorting:
     title_sort: Tytuł
     identifier: Identyfikator
