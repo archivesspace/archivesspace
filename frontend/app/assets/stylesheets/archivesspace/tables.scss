@@ -76,14 +76,23 @@ table.table-sortable {
       padding: 0;
       position: relative;
 
-      > a {
+      > form {
+        margin: 0;
+      }
+
+      > form > button {
+        background: transparent;
+        border: 0;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
         padding: 0.75rem;
         height: 100%;
         width: 100%;
         display: flex;
         align-items: center;
         gap: 4px;
-        text-decoration: none !important;
+        text-align: left;
 
         &::after {
           content: '';
@@ -101,7 +110,7 @@ table.table-sortable {
     th.sort-desc {
       @include vertical(#f0f7fa, #dcf1fa);
 
-      > a {
+      > form > button {
         &::after {
           visibility: visible;
           @include opacity(60);
@@ -111,7 +120,7 @@ table.table-sortable {
     th.sort-asc {
       @include vertical(#f0f7fa, #dcf1fa);
 
-      > a {
+      > form > button {
         &::after {
           visibility: visible;
           @include opacity(60);
