@@ -4,6 +4,12 @@
 
 (function (exports) {
   /**
+   * How far the batch-loading zone extends above and below the container, as a
+   * fraction of its height.
+   */
+  const ITREE_BATCH_ZONE_RATIO = 0.5;
+
+  /**
    * Public (PUI) InfiniteTree. One core used by three consumers:
    * - Collection organization: `#tree::` hash links, title clicks handled by
    *   InfiniteRecords, current node synced through an InfiniteCoordinator,
@@ -85,9 +91,33 @@
         },
         {
           root: this.container,
-          rootMargin: '-30% 0px -30% 0px', // middle 40% of container
+          rootMargin: `${Math.round(ITREE_BATCH_ZONE_RATIO * 100)}% 0px`,
           threshold: 0,
         }
+      );
+
+      this.skipCheckQueued = false;
+      this.lastScrollTop = 0;
+
+      // Catch any intersections missed by the observer from a fast scroll
+      this.container.addEventListener(
+        'scroll',
+        () => {
+          if (this.skipCheckQueued) return;
+
+          this.skipCheckQueued = true;
+          requestAnimationFrame(() => {
+            this.skipCheckQueued = false;
+
+            const scrollTop = this.container.scrollTop;
+            this.loadSkippedBatches(
+              Math.min(this.lastScrollTop, scrollTop),
+              Math.max(this.lastScrollTop, scrollTop)
+            );
+            this.lastScrollTop = scrollTop;
+          });
+        },
+        { passive: true }
       );
 
       this.container.addEventListener('click', e => this.clickHandler(e));
@@ -450,12 +480,13 @@
           row.getBoundingClientRect().top -
           this.container.getBoundingClientRect().top;
 
-        // Mirror LargeTree: put the node near the top of the tree, never
-        // scrolling the page itself
         this.container.scrollTop += offset - 50;
       } else {
         node.scrollIntoView({ behavior: 'instant', block: 'center' });
       }
+
+      // Don't count this as the user scrolling; avoids a skipped batch check
+      this.lastScrollTop = this.container.scrollTop;
     }
 
     /**
@@ -645,6 +676,19 @@
           const siblingList = node.closest('.node-children');
           const batchOffset = Number(node.getAttribute('data-observe-offset'));
 
+          // The observer and the scroll check, or the trigger nodes on both sides
+          // of one placeholder, can fire for the same batch; load it only once
+          const placeholderEl = siblingList.querySelector(
+            `:scope > li[data-batch-placeholder="${batchOffset}"]`
+          );
+          if (
+            !placeholderEl ||
+            placeholderEl.hasAttribute('data-batch-loading')
+          ) {
+            return;
+          }
+          placeholderEl.setAttribute('data-batch-loading', '');
+
           node.removeAttribute('data-observe-next-batch');
           node.removeAttribute('data-parent-uri');
           node.removeAttribute('data-observe-offset');
@@ -653,6 +697,7 @@
           const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
           if (!batchData) {
+            placeholderEl.removeAttribute('data-batch-loading');
             console.error('batchObserverHandler failed to fetch batch');
             return;
           }
@@ -704,6 +749,39 @@
           }
         }
       });
+    }
+
+    /**
+     * Loads the batch for any trigger that passed through the zone between
+     * the two scroll positions. The observer samples once per frame, so a
+     * fast scroll can carry a trigger across the zone unseen.
+     * @param {number} fromScrollTop - The lower scrollTop of the range
+     * @param {number} toScrollTop - The higher scrollTop of the range
+     */
+    loadSkippedBatches(fromScrollTop, toScrollTop) {
+      const rootRect = this.container.getBoundingClientRect();
+      const margin = rootRect.height * ITREE_BATCH_ZONE_RATIO;
+      const sweptTop = fromScrollTop - margin;
+      const sweptBottom = toScrollTop + rootRect.height + margin;
+      const toContent = y => y - rootRect.top + this.container.scrollTop;
+
+      this.container
+        .querySelectorAll('[data-observe-next-batch]')
+        .forEach(node => {
+          if (node.getClientRects().length === 0) return; // inside a collapsed node
+
+          const rect = node.getBoundingClientRect();
+
+          if (
+            toContent(rect.bottom) >= sweptTop &&
+            toContent(rect.top) <= sweptBottom
+          ) {
+            this.batchObserverHandler(
+              [{ isIntersecting: true, target: node }],
+              this.batchObserver
+            );
+          }
+        });
     }
 
     /**

@@ -206,9 +206,9 @@ describe 'Collection Organization', js: true do
           end
 
           context 'and the target node is in the fourth batch' do
-            let(:expected_node_count_on_page_load) { 61 }
-            let(:expected_populated_batches) { [0, 2, 3] }
-            let(:expected_batch_placeholders) { [1] }
+            let(:expected_node_count_on_page_load) { 91 }
+            let(:expected_populated_batches) { [0, 1, 2, 3] }
+            let(:expected_batch_placeholders) { [] }
             let(:node_position) { 91 }
 
             it_behaves_like 'uri fragment batch rendering'
@@ -224,12 +224,12 @@ describe 'Collection Organization', js: true do
         end
 
         let(:parent_list) { node.find('& > .node-children') }
-        let(:expected_populated_batches) { [0] }
 
         context 'when the root node has 1 batch of child nodes' do
           let(:resource_id) { @resource.id }
           let(:parent) { 'resource' }
           let(:expected_node_count_on_page_load) { 7 }
+          let(:expected_populated_batches) { [0] }
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
@@ -238,8 +238,9 @@ describe 'Collection Organization', js: true do
         context 'when the root node has 2 batches of child nodes' do
           let(:resource_id) { @resource2.id }
           let(:parent) { 'resource2' }
-          let(:expected_node_count_on_page_load) { 30 }
-          let(:expected_batch_placeholders) { [1] }
+          let(:expected_node_count_on_page_load) { 31 }
+          let(:expected_populated_batches) { [0, 1] }
+          let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
         end
@@ -247,8 +248,9 @@ describe 'Collection Organization', js: true do
         context 'when the root node has 3 batches of child nodes' do
           let(:resource_id) { @resource3.id }
           let(:parent) { 'resource3' }
-          let(:expected_node_count_on_page_load) { 30 }
-          let(:expected_batch_placeholders) { [1, 2] }
+          let(:expected_node_count_on_page_load) { 60 }
+          let(:expected_populated_batches) { [0, 1] }
+          let(:expected_batch_placeholders) { [2] }
 
           it_behaves_like 'uri fragment batch rendering'
         end
