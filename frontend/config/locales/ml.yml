@@ -1,1 +1,4 @@
 ml:
+  actions:
+    collapse_node: '%{title} ചുരുക്കുക'
+    expand_node: '%{title} വികസിപ്പിക്കുക'
