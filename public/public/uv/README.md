@@ -71,3 +71,18 @@ ArchivesSpace integration reworked, not the warning silenced.
 
 Review the diff and run the IIIF feature specs afterwards - a major release can
 change the viewer's appearance or behaviour even when it installs cleanly.
+
+## Local patches
+
+The update task patches the package before installing it, for upstream fixes
+that no Universal Viewer release ships yet (`:patches` in
+`scripts/tasks/iiif_viewers.rb`). If a patch no longer applies, the task only
+continues when the release already contains the fix, and asks for the patch to
+be removed.
+
+- OpenSeadragon, which Universal Viewer bundles in `umd/`, fails to open an
+  image whose IIIF `info.json` has an empty `sizes` array: the viewer shows the
+  record's label but spins forever. Fixed in OpenSeadragon 6.1.1
+  (openseadragon/openseadragon#2963); Universal Viewer 4.4.4 still bundles
+  6.0.2 (reported as UniversalViewer/universalviewer#1944). The chunk keeps
+  its content-hashed name, which UV loads without an integrity check.

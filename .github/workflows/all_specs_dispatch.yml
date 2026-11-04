@@ -81,6 +81,9 @@ jobs:
           common:
             - '.github/workflows/common.yml'
             - 'common/**'
+            - 'scripts/tasks/iiif_viewers.rb'
+            - 'frontend/public/uv/**'
+            - 'public/public/uv/**'
 
   frontend:
     needs: changes
