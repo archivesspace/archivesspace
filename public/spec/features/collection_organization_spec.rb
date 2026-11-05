@@ -409,6 +409,56 @@ describe 'Collection Organization', js: true do
       JS
     end
 
+    # Wait for the initial waypoints, then make every later waypoints request
+    # return a JSON error body with a 429, as a rate-limiting proxy might
+    def visit_and_fail_later_waypoint_requests(resource)
+      visit "/repositories/#{@repo.id}/resources/#{resource.id}/collection_organization"
+
+      aggregate_failures do
+        expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="0"]')
+        expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
+        expect(page).not_to have_css('#records-loading-dialog[open]', visible: :all)
+      end
+
+      allow_any_instance_of(ResourcesController).to receive(:waypoints) do |controller|
+        controller.render json: { error: 'Too Many Requests' }, status: 429
+      end
+    end
+
+    def expect_no_undefined_records_after_load_all
+      # Waypoint 2 may have loaded on its own before the stub, so note which
+      # waypoints are populated when Load All starts
+      populated_before = page.evaluate_script(<<~JS)
+        Array.from(document.querySelectorAll('#infinite-records-container .waypoint.populated'))
+          .map(wp => wp.dataset.waypointNumber)
+      JS
+
+      # There is no dialog 'open' event, so mark the page when it closes
+      page.execute_script(<<~JS)
+        document.querySelector('#records-loading-dialog').addEventListener('close', () => {
+          document.body.dataset.loadAllDialogClosed = 'true';
+        }, { once: true });
+      JS
+
+      page.find('.load-all__label-toggle').click
+
+      aggregate_failures do
+        expect(page).to have_css('body[data-load-all-dialog-closed]')
+        expect(page).not_to have_css(
+          '#infinite-records-container .infinite-record-record',
+          exact_text: 'undefined',
+          visible: :all
+        )
+      end
+
+      # Waypoints whose fetch failed should stay empty so they can be fetched again
+      populated_after = page.evaluate_script(<<~JS)
+        Array.from(document.querySelectorAll('#infinite-records-container .waypoint.populated'))
+          .map(wp => wp.dataset.waypointNumber)
+      JS
+      expect(populated_after).to match_array(populated_before)
+    end
+
     it 'is not shown for a resource with less than 3 waypoints of records' do
       visit "/repositories/#{@repo.id}/resources/#{@res_1wp.id}/collection_organization"
       expect(page).not_to have_css('#load-all-section')
@@ -635,6 +685,36 @@ describe 'Collection Organization', js: true do
 
         expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i, wait: 30)
         expect(page).not_to have_css('#load-all-error', visible: true)
+      end
+    end
+
+    context 'when waypoint requests return a JSON error' do
+      context 'when the remaining waypoints load on the main thread' do
+        it 'does not render "undefined" records or mark failed waypoints populated' do
+          visit_and_fail_later_waypoint_requests(@res_5wp)
+
+          aggregate_failures do
+            expect_no_undefined_records_after_load_all
+            expect(page).to have_css('#load-all-error', visible: :visible)
+            expect(page.evaluate_script(
+              "document.querySelector('#records-loading-dialog').open"
+            )).to be(false)
+          end
+        end
+      end
+
+      context 'when the remaining waypoints load in the web worker' do
+        it 'does not render "undefined" records or mark failed waypoints populated' do
+          visit_and_fail_later_waypoint_requests(@res_10wp)
+
+          aggregate_failures do
+            expect_no_undefined_records_after_load_all
+            expect(page).to have_css('#load-all-error', visible: :visible)
+            expect(page.evaluate_script(
+              "document.querySelector('#records-loading-dialog').open"
+            )).to be(false)
+          end
+        end
       end
     end
   end

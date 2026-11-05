@@ -466,7 +466,13 @@
         waypointNums.length <= this.MAIN_MAX_CONCURRENT_FETCHES;
 
       if (shouldUseMainThread) {
-        this.renderWaypoints(waypointNums, null, false);
+        this.renderWaypoints(waypointNums, null, false, false)
+          .catch(err => {
+            console.error(err);
+          })
+          .then(() => {
+            this.finishLoadAllPass(numRecordsAtStart);
+          });
       } else {
         const worker = new Worker(this.workerPath);
         const waypointTuples = waypointNums.map(wpNum => [
@@ -488,36 +494,43 @@
             this.populateWaypoints(e.data.data, true);
           } else if (e.data.done) {
             worker.terminate();
-
-            const numPresentRecords = this.container.querySelectorAll(
-              '.infinite-record-record'
-            ).length;
-
-            if (numPresentRecords < this.NUM_TOTAL_RECORDS) {
-              // Some records still missing (network fail, rate limit, bot
-              // challenge?) so retry after a delay that doubles with each
-              // pass that loads nothing, and give up after too many
-              if (numPresentRecords > numRecordsAtStart) {
-                this.loadAllFailedPasses = 0;
-              } else {
-                this.loadAllFailedPasses++;
-              }
-
-              if (this.loadAllFailedPasses >= this.LOAD_ALL_MAX_FAILED_PASSES) {
-                this.showLoadAllError();
-                return;
-              }
-
-              setTimeout(
-                () => {
-                  this.populateAllWaypoints(this.modal.isOpen ? false : true);
-                },
-                1000 * 2 ** this.loadAllFailedPasses
-              );
-            }
+            this.finishLoadAllPass(numRecordsAtStart);
           }
         };
       }
+    }
+
+    /**
+     * Close the modal if every record is present, else retry after a delay that doubles
+     * with each pass that loads nothing (network fail, rate limit, bot challenge?), and give up after
+     * too many.
+     * @param {number} numRecordsAtStart - Number of records before this pass
+     */
+    finishLoadAllPass(numRecordsAtStart) {
+      const numPresentRecords = this.container.querySelectorAll(
+        '.infinite-record-record'
+      ).length;
+
+      if (numPresentRecords === this.NUM_TOTAL_RECORDS) {
+        if (this.modal.isOpen) this.modal.toggle();
+        return;
+      }
+
+      if (numPresentRecords > numRecordsAtStart) {
+        this.loadAllFailedPasses = 0;
+      } else {
+        this.loadAllFailedPasses++;
+      }
+
+      if (this.loadAllFailedPasses >= this.LOAD_ALL_MAX_FAILED_PASSES) {
+        this.showLoadAllError();
+        return;
+      }
+
+      setTimeout(
+        () => this.populateAllWaypoints(!this.modal.isOpen),
+        1000 * 2 ** this.loadAllFailedPasses
+      );
     }
 
     /**
