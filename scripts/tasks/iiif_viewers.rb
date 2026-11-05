@@ -59,7 +59,22 @@ module IIIFViewers
 
     # IIIF.viewer_url builds the embed URL as uv.html#?manifest=<uri>, which
     # uv.html reads through UV's IIIFURLAdapter.
-    :requires => { 'dist/uv.html' => ['IIIFURLAdapter'] }
+    :requires => { 'dist/uv.html' => ['IIIFURLAdapter'] },
+
+    # Upstream fixes the release does not ship yet, applied to the minified
+    # source in :tree. `fixed` recognises a release that already has the fix.
+    :patches => [
+      {
+        # OpenSeadragon 6.0.x throws on an info.json with an empty `sizes`
+        # array, leaving the viewer spinning. Fixed in OpenSeadragon 6.1.1,
+        # pending a UV release (UniversalViewer/universalviewer#1944).
+        :description => 'OpenSeadragon empty IIIF sizes array (openseadragon/openseadragon#2963)',
+        :tree => 'dist/umd',
+        :pattern => /if\(this\.sizes\)\{let (\w+)=this\.sizes\.length/,
+        :replacement => 'if(this.sizes&&this.sizes.length>0){let \1=this.sizes.length',
+        :fixed => /if\(this\.sizes&&(?:0<this\.sizes\.length|this\.sizes\.length>0)\)/
+      }
+    ]
   }.freeze
 
   def self.update(viewer, version: nil)
@@ -74,6 +89,7 @@ module IIIFViewers
 
     files = extract(tarball, viewer)
     check_compatibility!(viewer, files)
+    apply_patches!(viewer, files)
 
     viewer[:destination_directories].each { |dir| install(viewer, dir, files, version) }
 
@@ -167,6 +183,30 @@ module IIIFViewers
 
       incompatible!(viewer, "#{path} no longer mentions #{absent.join(', ')}, which the " \
                             'ArchivesSpace embed URL relies on')
+    end
+  end
+
+  # Rewrites the extracted files in place. A patch that matches nothing is only
+  # accepted when the release already has the fix.
+  def self.apply_patches!(viewer, files)
+    viewer.fetch(:patches, []).each do |patch|
+      sources = files.select { |path, _| path.start_with?("#{patch[:tree]}/") && path.end_with?('.js') }
+      targets = sources.select { |_, content| content.match?(patch[:pattern]) }
+
+      if targets.empty?
+        unless sources.each_value.any? { |content| content.match?(patch[:fixed]) }
+          incompatible!(viewer, "the patch for #{patch[:description]} no longer applies " \
+                                'and the release does not contain the fix')
+        end
+
+        puts "  NOTE: the release already fixes #{patch[:description]}, remove this patch"
+        next
+      end
+
+      targets.each do |path, content|
+        files[path] = content.gsub(patch[:pattern], patch[:replacement])
+        puts "  patched #{path}: #{patch[:description]}"
+      end
     end
   end
 
