@@ -569,4 +569,4 @@ ja:
       location_archival_object: コレクションの目録の作成中にエラーが発生しました。
       location_footer: フッターの作成中にエラーが発生しました。
     additional_info:
-      invalid_markup: このエラーは、注記またはサブレコードに無効なマークアップが含まれている場合に発生することがありま
+      invalid_markup: このエラーは、注記またはサブレコードに無効なマークアップが含まれている場合に発生することがあります。
