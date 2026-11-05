@@ -2954,7 +2954,7 @@ fr:
       agent_match_difference: "%{field} vaut '%{supplied}' ici et '%{existing}' pour cet agent"
       agent_authority_id_collision: "L'agent %{num} n'a pas été créé : un agent existant utilise déjà cet identifiant d'autorité. Pour utiliser cet agent, liez-le par identifiant d'enregistrement ou URI"
       process_error: "Traitement d'erreur %{type} %{num}: %{why}"
-      unrecognized_boolean: "La colonne %{column} requiert une valeur booléenne ; valeur reçue : '%{value}'"
+      unrecognized_boolean: "La colonne %{column} requiert une valeur booléenne ; reçu '%{value}', doit être l’un des suivants : 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, ou vide pour utiliser la valeur par défaut"
       invalid_user_defined_integer: "Entier défini par l'utilisateur non valide : %{value}"
       invalid_file_version_size: "La colonne %{column} requiert un nombre entier d'octets ; valeur reçue : '%{value}'"
       invalid_user_defined_real: "Réel défini par l'utilisateur non valide : %{value}"

@@ -2793,7 +2793,7 @@ de:
       agent_match_difference: "%{field} ist hier '%{supplied}' und bei diesem Agenten '%{existing}'"
       agent_authority_id_collision: "Agent %{num} wurde nicht erstellt: Ein vorhandener Agent verwendet diese Normdaten-ID bereits. Um diesen Agenten zu verwenden, verknüpfen Sie ihn über Datensatz-ID oder URI"
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
-      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}'"
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oder leer, um den Standardwert zu verwenden"
       invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
       invalid_file_version_size: "Spalte %{column} erfordert eine ganze Zahl von Bytes; erhalten '%{value}'"
       invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
