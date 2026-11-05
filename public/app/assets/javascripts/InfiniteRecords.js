@@ -40,6 +40,8 @@
       this.workerPath = workerPath;
       this.MAIN_MAX_CONCURRENT_FETCHES = mainMaxFetches;
       this.WORKER_MAX_CONCURRENT_FETCHES = workerMaxFetches;
+      this.LOAD_ALL_MAX_FAILED_PASSES = 3;
+      this.loadAllFailedPasses = 0;
 
       this.wpQueue = [];
       this.wpQueueIsEmpty = () => this.wpQueue.length === 0;
@@ -252,6 +254,12 @@
 
       try {
         const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(
+            `Waypoint ${wpNum} request failed with status ${response.status}`
+          );
+        }
+
         const records = await response.json();
         return { wpNum, records };
       } catch (err) {
@@ -450,12 +458,21 @@
       const waypointNums = Array.from(
         this.container.querySelectorAll('.waypoint:not(.populated)')
       ).map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
+      const numRecordsAtStart = this.container.querySelectorAll(
+        '.infinite-record-record'
+      ).length;
       const shouldUseMainThread =
         waypointNums.length > 0 &&
         waypointNums.length <= this.MAIN_MAX_CONCURRENT_FETCHES;
 
       if (shouldUseMainThread) {
-        this.renderWaypoints(waypointNums, null, false);
+        this.renderWaypoints(waypointNums, null, false, false)
+          .catch(err => {
+            console.error(err);
+          })
+          .then(() => {
+            this.finishLoadAllPass(numRecordsAtStart);
+          });
       } else {
         const worker = new Worker(this.workerPath);
         const waypointTuples = waypointNums.map(wpNum => [
@@ -476,17 +493,53 @@
           if (e.data.data) {
             this.populateWaypoints(e.data.data, true);
           } else if (e.data.done) {
-            const numPresentRecords = this.container.querySelectorAll(
-              '.infinite-record-record'
-            ).length;
-
-            if (numPresentRecords < this.NUM_TOTAL_RECORDS) {
-              // Some records still missing (network fail?) so recurse
-              this.populateAllWaypoints(this.modal.isOpen ? false : true);
-            }
+            worker.terminate();
+            this.finishLoadAllPass(numRecordsAtStart);
           }
         };
       }
+    }
+
+    /**
+     * Close the modal if every record is present, else retry after a delay that doubles
+     * with each pass that loads nothing (network fail, rate limit, bot challenge?), and give up after
+     * too many.
+     * @param {number} numRecordsAtStart - Number of records before this pass
+     */
+    finishLoadAllPass(numRecordsAtStart) {
+      const numPresentRecords = this.container.querySelectorAll(
+        '.infinite-record-record'
+      ).length;
+
+      if (numPresentRecords === this.NUM_TOTAL_RECORDS) {
+        if (this.modal.isOpen) this.modal.toggle();
+        return;
+      }
+
+      if (numPresentRecords > numRecordsAtStart) {
+        this.loadAllFailedPasses = 0;
+      } else {
+        this.loadAllFailedPasses++;
+      }
+
+      if (this.loadAllFailedPasses >= this.LOAD_ALL_MAX_FAILED_PASSES) {
+        this.showLoadAllError();
+        return;
+      }
+
+      setTimeout(
+        () => this.populateAllWaypoints(!this.modal.isOpen),
+        1000 * 2 ** this.loadAllFailedPasses
+      );
+    }
+
+    /**
+     * Stop the loading modal and tell the user that Load All failed
+     */
+    showLoadAllError() {
+      if (this.modal.isOpen) this.modal.toggle();
+
+      document.querySelector('#load-all-error')?.classList.remove('d-none');
     }
 
     /**
