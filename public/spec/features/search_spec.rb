@@ -422,8 +422,8 @@ describe 'Search', js: true do
         end
 
         it 'does not include the record in the search results' do
-          expect(find_all('h2 .record-title').to_a).to be_empty
           expect(page).to have_text('No Records Found')
+          expect(page).to have_no_css('h2 .record-title')
         end
       end
     end

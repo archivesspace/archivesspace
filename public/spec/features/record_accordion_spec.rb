@@ -9,7 +9,7 @@ describe 'Accordion of additional record information blocks', js: true do
     resource = first("a.record-title")
     visit(resource['href'])
 
-    $panels = page.all('.upper-record-details + .acc_holder div.panel.panel-default')
+    $panels = page.all('.upper-record-details + .acc_holder .accordion-item', minimum: 1)
   end
 
   it 'should be found after the upper record details of a resource page' do

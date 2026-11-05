@@ -294,8 +294,8 @@ describe 'Collection Organization', js: true do
       end
 
       it 'are collapsed by default' do
-        num_first_level_nodes = page.all('#infinite-tree .root.node > .node-children > .node').count
-        num_all_nodes = page.all('#infinite-tree .root.node .node').count
+        num_first_level_nodes = page.all('#infinite-tree-container .root.node > .node-children > .node', minimum: 1).count
+        num_all_nodes = page.all('#infinite-tree-container .root.node .node').count
         expect(num_first_level_nodes).to eq num_all_nodes
 
         [@ao3, @ao4, @ao5, @ao6].each do |parent|
