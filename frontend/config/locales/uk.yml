@@ -971,6 +971,10 @@ uk:
     aria_label: Розділи запису
     system_info_aria_label: Розділи інформації про систему
 
+  thumbnails:
+    download_file: Завантажити файл
+    opens_in_new_window: Відкривається в новому вікні
+
   errors:
     sidebar_label: Помилки та попередження
     error_403: Не вдається отримати доступ до сторінки

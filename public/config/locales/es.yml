@@ -64,7 +64,6 @@ es:
   search-button:
     label: Buscar
   search-limit: "Límite a %{limit}"
-  search-limiting: "limitado a %{limit}"
   search-limits:
     all: todos los tipos de registro
     repository: repositorios
@@ -78,7 +77,6 @@ es:
     agent: creador de contenidos
     agents: creadores de contenido
   search-field: Campo de búsqueda
-  searched-field: "buscando %{field}"
 
   pagination:
     controls: Controles de paginación
@@ -607,3 +605,5 @@ es:
   thumbnails:
     view_digital_object: Ver objeto digital
     view_digital_material: Ver material digital
+    download_file: Descargar archivo
+    opens_in_new_window: Se abre en una ventana nueva

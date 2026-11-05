@@ -5,6 +5,7 @@
   # Link of the generic icon shown when the browser cannot display the image (ANW-3001)
   fallback_link_url = (thumbnail['image_url'] if image_link_url.nil? && FileURI.allowed_scheme?(thumbnail['image_url']))
   fallback_link_options = FileURI.download_only?(fallback_link_url) ? {:download => ''} : {:target => '_blank', :rel => 'noopener'}
+  fallback_link_sr_label = t(FileURI.download_only?(fallback_link_url) ? 'thumbnails.download_file' : 'thumbnails.opens_in_new_window') if fallback_link_url
   icon_class = "digital-object-thumbnail-icon #{thumbnail_icon_class(thumbnail['digital_object_type'])}"
   icon_label = strip_tags(image_alt_text.to_s)
   # In a search or browse table the thumbnail links to the row's own record, like the row's View
@@ -24,7 +25,10 @@
         'aria-label' => icon_label
       }) %>
       <% if fallback_link_url %>
-        <%= link_to fallback_icon, fallback_link_url, fallback_link_options.merge(:class => 'digital-object-thumbnail-fallback-link', :style => 'display: none;') %>
+        <%= link_to fallback_link_url, fallback_link_options.merge(:class => 'digital-object-thumbnail-fallback-link', :style => 'display: none;') do %>
+          <span class="sr-only"><%= fallback_link_sr_label %></span>
+          <%= fallback_icon %>
+        <% end %>
       <% else %>
         <%= fallback_icon %>
       <% end %>

@@ -473,9 +473,10 @@ class ApplicationController < ActionController::Base
   end
 
 
+  # Whole-second timestamps: a refresh in the same second as a change may have read the old preferences.
   def refresh_preferences
     if session[:last_preference_refresh] &&
-        session[:last_preference_refresh] < MemoryLeak::Resources.get(:preferences_system_mtime)
+        session[:last_preference_refresh] <= MemoryLeak::Resources.get(:preferences_system_mtime)
 
       session[:preferences] = nil
     end

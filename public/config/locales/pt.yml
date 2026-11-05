@@ -139,7 +139,6 @@ pt:
   search-button:
     label: Procurar
   search-limit: Limite a %{limit}
-  search-limiting: limitado a %{limit}
   search-limits:
     all: todos os tipos de registro
     repository: repositórios
@@ -153,7 +152,6 @@ pt:
     agent: criador de conteúdo
     agents: criadores de conteúdo
   search-field: Campo de pesquisa
-  searched-field: pesquisando %{field}
 
   resource:
     load_records:

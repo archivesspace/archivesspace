@@ -313,7 +313,7 @@ describe 'Collection Organization', js: true do
       it 'are expanded and collapsed by clicking the "expand" button' do
         @ao3_node.find('.node-expand').click
         aggregate_failures do
-          expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: true)
+          expect(@ao3_node).to have_css('& > .node-children > .node', count: 60, visible: true)
           expect(@ao3_node).to match_css('[data-is-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[aria-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[data-has-expanded="true"]')
@@ -326,30 +326,29 @@ describe 'Collection Organization', js: true do
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[aria-expanded="false"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand[data-has-expanded="true"]')
           expect(@ao3_node).to have_css('.node-body:first-child .node-expand-icon:not(.expanded)')
-          expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: false)
+          expect(@ao3_node).to have_css('& > .node-children > .node', count: 60, visible: false)
         end
       end
 
       it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
         @ao3_node.find('.node-expand').click
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 34, visible: :all)
-        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 30, visible: true)
-        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+4)[data-batch-placeholder]', count: 4, visible: false)
+        # The second batch's trigger is within the observer zone as soon as the node expands
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 63, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 60, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+3)[data-batch-placeholder]', count: 3, visible: false)
 
         observer_node = @ao3_node.find('[data-observe-next-batch="true"]')
         @container.scroll_to(observer_node, align: :center)
 
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 63, visible: :all)
-        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 60, visible: true)
-        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+3)[data-batch-placeholder]', count: 3, visible: false)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 92, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 90, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+2)[data-batch-placeholder]', count: 2, visible: false)
       end
 
       it 'hide all children when collapsed' do
         @ao3_node.find('.node-expand').click
 
-        observer_node_1 = @ao3_node.find('[data-observe-offset="1"]')
-        @container.scroll_to(observer_node_1, align: :center)
-        observer_node_2 = @ao3_node.find('[data-observe-offset="2"]')
+        observer_node_2 = @ao3_node.find('[data-observe-offset="2"]') # Batch 1 loads on expand
         @container.scroll_to(observer_node_2, align: :center)
         observer_node_3 = @ao3_node.find('[data-observe-offset="3"]')
         @container.scroll_to(observer_node_3, align: :center)

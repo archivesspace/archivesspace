@@ -1020,6 +1020,10 @@ pl:
     aria_label: Sekcje rekordu
     system_info_aria_label: Sekcje informacji o systemie
 
+  thumbnails:
+    download_file: Pobierz plik
+    opens_in_new_window: Otwiera się w nowym oknie
+
   errors:
     sidebar_label: Błędy i ostrzeżenia
     error_403: Nie można uzyskać dostępu do strony.
