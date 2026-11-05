@@ -243,8 +243,6 @@ describe 'Archival objects', js: true do
       find('.token-input-delete-token').click
     end
 
-    run_index_round
-
     fill_in 'token-input-archival_object_subjects__0__ref_', with: "Test Term 1 #{now}"
     find('li.token-input-dropdown-item2').click
 
