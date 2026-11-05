@@ -15,14 +15,11 @@
                 <% sort_params = build_search_params(
                      "sort" => @search_data.sort_filter_for(col.sort_by)
                    ) %>
-                <%= form_tag(request.path, method: :get) do %>
-                  <% sort_params.each do |parameter, value| %>
-                    <% field_name = value.is_a?(Array) ? "#{parameter}[]" : parameter %>
-                    <% Array(value).each do |parameter_value| %>
-                      <%= hidden_field_tag field_name, parameter_value %>
-                    <% end %>
+                <%= button_to request.path, method: :get, params: sort_params do %>
+                  <%= col.label %>
+                  <% unless @search_data.sorted_by === col.sort_by %>
+                    <span class="sort-indicator" aria-hidden="true"></span>
                   <% end %>
-                  <%= button_tag col.label, type: "submit" %>
                 <% end %>
               <% else %>
                 <%= col.label %>

@@ -94,13 +94,38 @@ table.table-sortable {
         gap: 4px;
         text-align: left;
 
+        .sort-indicator {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-left: auto;
+          opacity: 0.6;
+
+          &::before,
+          &::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+          }
+
+          &::before {
+            border-bottom: 4px solid #000;
+          }
+
+          &::after {
+            border-top: 4px solid #000;
+          }
+        }
+
         &::after {
           content: '';
           margin-left: auto;
           border-width: 0 4px 4px;
           border-style: solid;
           border-color: #000 transparent;
-          visibility: hidden;
+          display: none;
         }
       }
       &:hover {
@@ -112,7 +137,7 @@ table.table-sortable {
 
       > form > button {
         &::after {
-          visibility: visible;
+          display: block;
           @include opacity(60);
         }
       }
@@ -122,7 +147,7 @@ table.table-sortable {
 
       > form > button {
         &::after {
-          visibility: visible;
+          display: block;
           @include opacity(60);
 
           border-bottom: none !important;

@@ -132,6 +132,10 @@ RSpec.shared_examples 'results table sorting' do
     verify_initial_sort_state
   end
 
+  it 'shows a sort indicator on unsorted sortable columns' do
+    expect(page).to have_css('thead th.sortable:not(.sort-asc):not(.sort-desc) .sort-indicator')
+  end
+
   context 'sortable columns' do
     it 'toggle between ascending and descending sort on repeated clicks' do
       verify_sortable_columns_behavior
