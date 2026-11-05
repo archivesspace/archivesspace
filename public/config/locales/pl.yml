@@ -515,3 +515,5 @@ pl:
   thumbnails:
     view_digital_object: Zobacz obiekt cyfrowy
     view_digital_material: Zobacz Materiały Cyfrowe
+    download_file: Pobierz plik
+    opens_in_new_window: Otwiera się w nowym oknie

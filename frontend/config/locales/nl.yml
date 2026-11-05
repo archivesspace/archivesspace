@@ -89,6 +89,9 @@ nl:
       target='_blank'>Feedback of vragen</a>
   user:
     is_pui_viewer: PUI-viewer
+  thumbnails:
+    download_file: Bestand downloaden
+    opens_in_new_window: Opent in een nieuw venster
   rde:
     actions:
       add_row: Regel toevoegen

@@ -605,3 +605,5 @@ es:
   thumbnails:
     view_digital_object: Ver objeto digital
     view_digital_material: Ver material digital
+    download_file: Descargar archivo
+    opens_in_new_window: Se abre en una ventana nueva
