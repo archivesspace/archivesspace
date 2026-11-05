@@ -386,6 +386,7 @@ it:
     telephone: Telefono
     telephone_ext: Estensione
     fax: Fax
+    email: E-mail
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
@@ -2035,3 +2036,102 @@ it:
   related_resource:
     _singular: Risorsa correlata
     _plural: Risorse correlate
+  location_profile:
+    new_title: Nuovo profilo della sede
+  container_profile:
+    new_title: Nuovo profilo contenitore
+    title: '%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] estensione misurata da %{extent_dimension}'
+  arks:
+    ark_editor_errors:
+      ark_format_error: Uno degli ARK forniti non era un ARK valido.
+      ark_collision: Uno degli ARK forniti è già in uso.
+    only_current_ark_can_be_external: L'ARK corrente non può essere sostituito finché è 
+      contrassegnato come esterno.
+    unsubmitted_input: Hai inserito dei dati non ancora inviati
+    actions: Azioni
+    modal_title: Modifica gli ARK per il record corrente
+    no_changes: Nessuna modifica da salvare
+    save: Salva gli ARK
+    set_current: Imposta come corrente
+    add_new: Aggiungi nuovo ARK
+    remove_ark: Rimuovere
+    current: attuale
+    edit: Modifica ARK
+    ark: ARCA
+  user_mtime: Modificato
+  create_time: Creata
+  last_modified_by: Ultima modifica a cura di
+  created_by: Creato da
+  groups:
+    _plural: Gruppi
+  owner_repo:
+    _plural: Riservato a
+  creator:
+    _plural: Creatrici
+  formats:
+    _plural: Formati
+  reviewer:
+    _plural: Revisore
+  surveyed_by:
+    _plural: Esaminato da
+  conservation_issues:
+    _plural: Questioni legate alla conservazione
+  ratings:
+    _plural: Valutazioni
+  metadata_rights_declaration:
+    last_verified_date_tooltip: |
+      <p>Data ultima, oppure data e ora, in cui è stata verificata la risorsa collegata tramite l'URI associato.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Titolo delle risorse remote collegate nell'URI associato, che può essere utilizzato come didascalia.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Indica dove deve essere visualizzata la risorsa remota collegata nell'URI associato.</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Indica se l'URI associato debba essere risolto al momento della visualizzazione del record dell'agente.</p>
+    file_uri_tooltip: |
+      <p>Un URI che indica la collocazione online della licenza o di altre informazioni pubblicate in merito alle condizioni alle quali i metadati sono disponibili per l'uso e il riutilizzo. Esempio: https://creativecommons.org/licenses/by/4.0/</p>
+    descriptive_note_tooltip: |
+      <p>Informazioni non strutturate relative alle condizioni in cui i metadati sono disponibili per l'uso e il riutilizzo. Esempi:</p>
+      <p>i. Copyright Smith College, 1985</p>
+      <p>ii. Questo strumento di ricerca può essere riprodotto per qualsiasi finalità.</p>
+      <p>iii. Quest'opera è stata dedicata al pubblico dominio; ciò significa che è possibile copiarla, modificarla, distribuirla ed eseguirla, anche a fini commerciali, senza dover richiedere alcun permesso.</p>
+      <p>iv. La nota biografica è protetta da copyright di Ted Smith, 2015. Tutti gli altri metadati sono concessi in licenza secondo i termini della licenza CC BY 4.0.</p>
+    license_tooltip: |
+      <p>Nome della licenza (se presente) che disciplina le condizioni alle quali i metadati sono resi disponibili per l'uso e il riutilizzo. Esempi:</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Universal 1.0 Public Domain Dedication.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NonCommercial 4.0 International.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NoDerivatives 4.0 International.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.</p>
+  top_container_linker:
+    log_creating_and_linking: Creazione e collegamento dei contenitori principali...
+    log_validating: Convalida dei dati del foglio di calcolo...
+    log_skipping_due_to_errors: Creazione e collegamento dei contenitori principali saltati a causa 
+      di errori.
+    log_validate_only: La creazione e il collegamento dei contenitori principali vengono saltati 
+      poiché è attiva l'opzione di sola convalida.
+    log_creating_linker: 'Creazione di un nuovo linker per contenitori di primo livello per il repository:
+      %{repo_id}'
+    error:
+      job_file_empty: Nessun file da elaborare per il collegamento del contenitore principale
+      resources_do_not_match: 'La risorsa nel foglio di calcolo %{spreadsheet_resource} (ID EAD: %{ead_id})
+        non corrisponde alla risorsa corrente %{current_resource} nella riga %{row_num}'
+      resource_not_in_db: Impossibile trovare la risorsa %{ead_id} nel database nella riga 
+        %{row_num}
+      tc_record_no_missing: "Impossibile trovare l'ID contenitore principale: %{tc_id} (vedere %{ref_id}
+        nella riga %{row_num})"
+      ead_id_miss: 'A questa riga manca un ID EAD: (vedi %{ref_id} alla riga %{row_num})'
+      error_linking_tc_to_ao: "Si è verificato un problema nel collegare l'Oggetto d'archivio al Contenitore
+        principale: %{why}"
+      problem_setting_container_profile: "Problema nell'impostazione del profilo del contenitore (vedi
+        %{ref_id} nella riga %{row_num}): [%{why}]"
+      problem_adding_current_location: "Problema durante l'aggiunta della posizione corrente (vedi %{ref_id}
+        alla riga %{row_num}): [%{why}]"
+      no_tc: 'Impossibile creare il contenitore principale (vedi %{ref_id} alla riga %{row_num}): [%{why}]'
+      cp_not_in_db: L'ID del profilo contenitore specificato, %{cp_id}, non è stato trovato nel 
+        database (vedere %{ref_id} alla riga %{row_num}).
+      loc_not_in_db: L'ID posizione specificato, %{loc_id}, non è stato trovato nel database (si 
+        veda %{ref_id} alla riga %{row_num}).
