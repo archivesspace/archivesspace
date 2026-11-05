@@ -5,6 +5,7 @@ it:
     agent_would_link_earlier_row: "L'agente %{num} verrebbe collegato all'agente %{name}, che verrebbe creato in %{row}"
     error:
       unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}'"
+      note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando una di queste colonne contiene un valore: %{columns}"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
       dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto digitale"
       invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
