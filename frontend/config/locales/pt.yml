@@ -1,3 +1,6 @@
 pt:
   user:
     is_pui_viewer: Visualizador de PUI
+  thumbnails:
+    download_file: Transferir ficheiro
+    opens_in_new_window: Abre numa nova janela

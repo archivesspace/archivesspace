@@ -168,7 +168,6 @@ it:
   search-button:
     label: Cerca
   search-limit: Limita a %{limit}
-  search-limiting: limitato a %{limit}
   search-limits:
     all: tutti i tipi di unità archivistica
     repositories: depositi
@@ -182,7 +181,6 @@ it:
     repository: deposito
     digital: materiali digitali
   search-field: Campo di ricerca
-  searched-field: cercando %{field}
   inherit:
     collection: Collezione
     series: Serie
@@ -557,3 +555,5 @@ it:
   thumbnails:
     view_digital_object: Visualizza l'oggetto digitale
     view_digital_material: Visualizza il materiale digitale
+    download_file: Scarica file
+    opens_in_new_window: Si apre in una nuova finestra

@@ -434,11 +434,14 @@ describe 'Thumbnails', js: true do
       expect_fallback_icon(@dobj_with_unreachable_thumbnail, unreachable_image)
       expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'][target='_blank'][rel='noopener'] .pui-thumbnail-fallback", visible: true)
       expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'] .pui-thumbnail-help-text", text: 'View Digital Material', visible: true)
+      expect(page).to have_css(".pui-thumbnail a[href='#{unreachable_image}'] .sr-only", text: 'Opens in new window', visible: :all)
     end
 
     it 'links the fallback icon of a thumbnail in a data: uri to download its file (ANW-3001)' do
       expect_fallback_icon(@dobj_with_tiff_thumbnail, tiff_image)
       expect(page).to have_css(".pui-thumbnail a[href='#{tiff_image}'][download]:not([target]) .pui-thumbnail-fallback", visible: true)
+      expect(page).to have_css(".pui-thumbnail a[href*='image/tiff'] .pui-thumbnail-help-text", text: 'View Digital Material', visible: true)
+      expect(page).to have_css(".pui-thumbnail a[href*='image/tiff'] .sr-only", text: 'Download file', visible: :all)
     end
 
     it 'gives the fallback icon an accessible name' do

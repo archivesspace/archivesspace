@@ -62,7 +62,6 @@ nl:
   search-button:
     label: Zoeken
   search-limit: Beperk tot %{limit}
-  search-limiting: beperkt tot %{limit}
   search-limits:
     all: alle soorten records
     repository: collectiebeherende instellingen
@@ -76,7 +75,6 @@ nl:
     agent: maker van de inhoud
     agents: makers van de inhoud
   search-field: Zoekveld
-  searched-field: zoeken in %{field}
   search_results:
     highlighting:
       found_in: Gevonden in
@@ -554,3 +552,5 @@ nl:
   thumbnails:
     view_digital_object: Digitaal object bekijken
     view_digital_material: Digitaal materiaal bekijken
+    download_file: Bestand downloaden
+    opens_in_new_window: Opent in een nieuw venster

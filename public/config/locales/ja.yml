@@ -57,7 +57,6 @@ ja:
   search-button:
     label: 検索
   search-limit: "%{limit} に限定"
-  search-limiting: "%{limit} に限定"
   search-limits:
     all: すべてのレコードの種類
     repository: リポジトリ
@@ -71,7 +70,6 @@ ja:
     agent: 作成者
     agents: 作成者
   search-field: 検索フィールド
-  searched-field: '%{field} を検索'
   pagination:
     controls: ページネーションコントロール
     top_controls: 上部のページネーションコントロール
@@ -553,6 +551,8 @@ ja:
   thumbnails:
     view_digital_object: デジタルオブジェクトを見る
     view_digital_material: デジタル資料を見る
+    download_file: ファイルをダウンロード
+    opens_in_new_window: 新しいウィンドウで開く
   pdf_error:
     title: この PDF を作成する際にエラーが発生しました。
     description: 申し訳ありません。この PDF 形式の検索手段を作成する際にエラーが発生しました。原因を調べる手がかりとなる情報を、以下に表示します。

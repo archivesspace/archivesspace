@@ -296,40 +296,6 @@ module Searchable
     facet_fields
   end
 
-
-  def search_terms(params)
-    terms = ''
-    queries = params.fetch(:q, nil)
-    if queries
-      ops = params.fetch(:op, [])
-      field = params.fetch(:field, [])
-      from_year = params.fetch(:from_year, [])
-      to_year = params.fetch(:to_year, [])
-      limit = params.fetch(:limit, '')
-      queries.each_with_index do |query, i|
-        if i == 0
-          terms = query
-          unless limit.blank?
-            limit_term = limit == 'resource'? 'resources' : 'digital'
-            terms += ' ' + I18n.t('search-limiting', :limit => I18n.t("search-limits.#{limit_term}"))
-          end
-        else
-          terms += ' ' + ops[i] + ' ' + query
-        end
-        unless field[i].blank?
-          field_term = (field[i] == 'creators_text'? I18n.t('search_results.filter.creators') : I18n.t("search_results.filter.#{field[i]}"))
-          terms += ' ' + I18n.t('searched-field', :field => field_term)
-        end
-        unless from_year[i].blank? && to_year[i].blank?
-          terms += ' ' + I18n.t('search_results.filter.from_to',
-                                :begin =>(from_year[i].blank? || from_year[i] == '*' ? I18n.t('search_results.filter_year_begin') : from_year[i]),
-                                :end => (to_year[i].blank? || to_year[i] == '*' ? I18n.t('search_results.filter.year_now') : to_year[i]) )
-        end
-      end
-    end
-    terms
-  end
-
   def default_search_opts(default = {})
     opts = {}
     default.each do |k, v|
@@ -361,8 +327,9 @@ module Searchable
   def set_search_statement
     rid = defined?(@repo_id) ? @repo_id : nil
 #    Pry::ColorPrinter.pp @search
-    l = @search[:limit].blank? ? 'all' : @search[:limit]
-    type = "<strong> #{I18n.t("search-limits.#{l}")}</strong>"
+    l = @search[:limit]
+    l = 'all' if l.blank? || !I18n.exists?("search-limits.#{l}")
+    type = "<strong> #{CGI::escapeHTML(I18n.t("search-limits.#{l}"))}</strong>"
     type += I18n.t('search_results.in_repository', :name => CGI::escapeHTML(get_pretty_facet_value('repository', "/repositories/#{rid}"))) if rid
 
     Rails.logger.debug("TYPE: #{type}")
@@ -376,12 +343,13 @@ module Searchable
       else
         condition += I18n.t("search_results.op.#{@search[:op][i]}", :default => "").downcase
       end
-      f = @search[:field][i].blank? ? 'keyword' : @search[:field][i]
+      f = @search[:field][i]
+      f = 'keyword' if f.blank? || !I18n.exists?("search_results.#{f}_contain")
       condition += ' ' + I18n.t("search_results.#{f}_contain", :kw => CGI::escapeHTML((q == '*' ? I18n.t('search_results.anything') : q)) )
       unless @search[:from_year][i].blank? && @search[:to_year][i].blank?
         from_year = @search[:from_year][i].blank? ? I18n.t('search_results.filter.year_begin') : @search[:from_year][i]
         to_year = @search[:to_year][i].blank? ? I18n.t('search_results.filter.year_now') : @search[:to_year][i]
-        condition += ' ' + I18n.t('search_results.filter.from_to', :begin => "<strong>#{from_year}</strong>", :end => "<strong>#{to_year}</strong>")
+        condition += ' ' + I18n.t('search_results.filter.from_to', :begin => "<strong>#{CGI::escapeHTML(from_year)}</strong>", :end => "<strong>#{CGI::escapeHTML(to_year)}</strong>")
       end
       condition += '</li>'
       Rails.logger.debug("Condition: #{condition}")

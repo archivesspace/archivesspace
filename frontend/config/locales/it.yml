@@ -704,6 +704,10 @@ it:
     aria_label: Sezioni del record
     system_info_aria_label: Sezioni delle informazioni di sistema
 
+  thumbnails:
+    download_file: Scarica file
+    opens_in_new_window: Si apre in una nuova finestra
+
   errors:
     merge_restricted_contact_details: Questa unione non può essere completata 
       perché uno o più degli agents ha dettagli di contatto a cui non hai il 

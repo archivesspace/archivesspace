@@ -84,7 +84,6 @@ fr:
   search-button:
     label: Chercher
   search-limit: "Limité à %{limit}"
-  search-limiting: "Limité à %{limit}"
   search-limits:
     all: tous types de notices
     repository: services d'archives
@@ -98,7 +97,6 @@ fr:
     agent: créateur de contenu
     agents: créateurs de contenu
   search-field: Champ chercher
-  searched-field: "En cherchant %{field}"
 
   pagination:
     controls: Contrôles de pagination
@@ -659,3 +657,5 @@ fr:
   thumbnails:
     view_digital_object: Voir l'objet numérique
     view_digital_material: Voir le matériel numérique
+    download_file: Télécharger le fichier
+    opens_in_new_window: S'ouvre dans une nouvelle fenêtre

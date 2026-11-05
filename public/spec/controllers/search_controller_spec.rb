@@ -245,6 +245,40 @@ describe SearchController, type: :controller do
     end
   end
 
+  describe 'search statement' do
+    render_views
+
+    it "falls back to all record types for an unknown limit" do
+      get(:search, params: {
+            :rid => 2,
+            :q => ['*'],
+            :op => [''],
+            :field => [''],
+            :limit => 'resource,<b id="marker">X</b>'
+          })
+
+      expect(response).to have_http_status(200)
+      page = Capybara.string(response.body)
+      expect(page).not_to have_css('#marker')
+      expect(page.find('.searchstatement')).to have_text('all record types')
+      expect(page.find('.searchstatement')).not_to have_text('marker')
+    end
+
+    it "falls back to keyword for an unknown field" do
+      get(:search, params: {
+            :rid => 2,
+            :q => ['*', '*'],
+            :op => ['', 'OR'],
+            :field => ['', '<b id="marker">X</b>']
+          })
+
+      expect(response).to have_http_status(200)
+      page = Capybara.string(response.body)
+      expect(page).not_to have_css('#marker')
+      expect(page.find('.searchstatement')).to have_css('li', text: 'keyword(s)', count: 2)
+    end
+  end
+
   describe 'highlighting' do
     context 'when searching for a resource title' do
       let(:now) { Time.now.to_i }

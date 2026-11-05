@@ -950,6 +950,10 @@ de:
     aria_label: Datensatzabschnitte
     system_info_aria_label: Abschnitte der System-Information
 
+  thumbnails:
+    download_file: Datei herunterladen
+    opens_in_new_window: Öffnet in neuem Fenster
+
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen

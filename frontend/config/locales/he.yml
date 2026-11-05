@@ -1,3 +1,6 @@
 he:
   user:
     is_pui_viewer: מציג PUI
+  thumbnails:
+    download_file: הורדת קובץ
+    opens_in_new_window: נפתח בחלון חדש
