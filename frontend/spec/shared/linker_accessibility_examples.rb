@@ -23,6 +23,7 @@ RSpec.shared_examples 'linker accessibility states' do
   context 'when linker is empty' do
     before do
       navigate_to_empty_linker.call
+      wait_for_linker_ready
     end
 
     it 'is axe clean' do
@@ -35,6 +36,7 @@ RSpec.shared_examples 'linker accessibility states' do
   context 'when dropdown menu is expanded' do
     before do
       navigate_to_empty_linker.call
+      wait_for_linker_ready
       open_linker_dropdown
     end
 
@@ -50,6 +52,7 @@ RSpec.shared_examples 'linker accessibility states' do
       searchable_record
       run_index_round
       navigate_to_empty_linker.call
+      wait_for_linker_ready
       trigger_search_results
     end
 
@@ -71,6 +74,7 @@ RSpec.shared_examples 'linker accessibility states' do
     before do
       record_with_link
       navigate_to_linked_record.call
+      wait_for_linker_ready
     end
 
     it 'is axe clean' do
@@ -95,6 +99,27 @@ RSpec.shared_examples 'linker accessibility states' do
       within(linker_container_selector, &block)
     else
       yield
+    end
+  end
+
+  # The linker is only ready for axe once tokeninput has set it up (linker.js
+  # adds role=searchbox in a setTimeout) and, for a newly added subrecord, once
+  # subrecord.crud's fadeIn has finished. Selenium counts a partly faded-in
+  # element as visible, and axe's color-contrast rule factors in its opacity.
+  # The searchbox check uses visible: :all because tokeninput hides the search
+  # input once a linker has reached its token limit (e.g. an existing link).
+  def wait_for_linker_ready
+    within_linker_container do
+      expect(page).to have_css(
+        "#{linker_wrapper_selector} input[role='searchbox']",
+        visible: :all
+      )
+    end
+
+    page.document.synchronize do
+      unless page.evaluate_script('jQuery(":animated").length === 0')
+        raise Capybara::ExpectationNotMet, 'linker subrecord is still animating'
+      end
     end
   end
 
