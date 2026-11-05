@@ -16,7 +16,7 @@ describe 'Accessions', js: true do
 
   before(:each) do
     login_user(user)
-    run_all_indexers
+    set_repo(repo)
     select_repository(repo)
   end
 

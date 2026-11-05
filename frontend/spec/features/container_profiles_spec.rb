@@ -7,8 +7,7 @@ describe 'Container Profiles', js: true do
   before(:all) do
     @repository = create(:repo, repo_code: "container_profiles_test_#{Time.now.to_i}", publish: true)
     @user = create_user(@repository => ['repository-archivists'])
-
-    run_all_indexers
+    set_repo(@repository)
   end
 
   before(:each) do

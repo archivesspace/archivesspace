@@ -8,8 +8,7 @@ describe 'User Preferences', js: true do
     now = Time.now.to_i
     repository_name = "user_preferences_test_#{now}"
     @repository = create(:repo, repo_code: repository_name)
-
-    run_all_indexers
+    set_repo(@repository)
   end
 
   before(:each) do
@@ -158,8 +157,6 @@ describe 'User Preferences (unprivileged)', js: true do
     repository_name = "user_preferences_test_#{now}"
     @repository = create(:repo, repo_code: repository_name)
     @repository_user = create_user(@repository => ['repository-viewers'])
-
-    run_all_indexers
   end
 
   it "allows access to global preferences for unprivileged users" do
