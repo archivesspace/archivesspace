@@ -15,10 +15,7 @@ describe 'AdvancedSearchDates', js: true do
     login_user_and_select_repository(@user, @repository)
     visit '/'
 
-    # Open the dropdown only if its not already open
-    if !page.has_css?('.advanced-search-add-row-dropdown')
-      first('button[title="Show Advanced Search"]').click
-    end
+    first('button[title="Show Advanced Search"]').click
 
     first('.advanced-search-add-row-dropdown').click
     first('.advanced-search-add-date-row').click
