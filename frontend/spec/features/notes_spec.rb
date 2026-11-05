@@ -473,9 +473,7 @@ describe 'Notes', js: true do
 
     find('#digital_object_notes_ .collapse-subrecord-toggle').click
 
-    element = find('#digital_object_notes__0__content__0_')
-    element.text
-    expect(element.text).to include "Content\nSummary Content #{now}"
+    expect(find('#digital_object_notes__0__content__0_')).to have_text "Content\nSummary Content #{now}"
   end
 
   it 'shows a validation error when note content is empty' do

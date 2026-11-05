@@ -17,6 +17,7 @@ describe 'Thumbnail accessibility', js: true do
 
   before(:each) do
     login_admin_and_select_repository(@repository)
+    visit '/'
   end
 
   it 'gives the generic icon an accessible name, so that its link is not empty' do

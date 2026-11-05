@@ -91,6 +91,7 @@ RSpec.shared_examples 'linker accessibility states' do
   end
 
   def within_linker_container(&block)
+    wait_for_animations
     if respond_to?(:linker_container_selector)
       within(linker_container_selector, &block)
     else

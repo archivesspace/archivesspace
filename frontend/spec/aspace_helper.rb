@@ -123,6 +123,17 @@ module ASpaceHelpers
     end
   end
 
+  # axe measures contrast through ancestors' opacity, so a fade in progress fails it.
+  def wait_for_animations
+    page.document.synchronize do
+      running = page.evaluate_script(<<~JS)
+        (window.jQuery ? jQuery.timers.length : 0) +
+          document.getAnimations().filter(a => a.effect.getTiming().iterations !== Infinity).length
+      JS
+      raise Capybara::ExpectationNotMet, "#{running} animations running" unless running.zero?
+    end
+  end
+
   def finished_all_ajax_requests?
     page.evaluate_script("typeof window.jQuery != 'undefined'") &&
       page.evaluate_script('window.jQuery !== undefined') &&
