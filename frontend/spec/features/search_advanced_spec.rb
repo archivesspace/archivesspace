@@ -24,13 +24,13 @@ describe 'Advanced Search', js: true do
   end
 
   before(:each) do
-    login_user(@viewer_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@viewer_user, @repository)
+    visit '/'
   end
 
   describe 'Accessibility' do
     before(:each) do
-      login_admin
+      login_admin_and_select_repository(@repository)
     end
 
     it 'sets the expanded state on advanced search dropdown' do

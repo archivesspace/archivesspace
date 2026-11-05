@@ -927,8 +927,7 @@ describe 'Accessions', js: true do
     end
 
     before(:each) do
-      login_admin
-      select_repository(@tc_repo)
+      login_admin_and_select_repository(@tc_repo)
     end
 
     it 'opens from the accession edit toolbar and shows linked containers' do
@@ -962,8 +961,7 @@ describe 'Accessions (view-only permissions)', js: true do
   end
 
   before(:each) do
-    login_user(@view_only_user)
-    select_repository(@view_only_repo)
+    login_user_and_select_repository(@view_only_user, @view_only_repo)
   end
 
   it 'sees only the View Published button on accession show page' do

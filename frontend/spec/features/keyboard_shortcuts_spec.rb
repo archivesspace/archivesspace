@@ -6,7 +6,7 @@ require 'rails_helper'
 describe 'Keyboard Shortcuts', js: true do
   context 'available globally' do
     before(:each) do
-      login_admin
+      login_admin_and_select_repository(repo)
       visit '/'
       expect(page).not_to have_css('#ASModal', visible: :all)
     end
@@ -43,8 +43,10 @@ describe 'Keyboard Shortcuts', js: true do
     end
   end
 
+  before(:all) { @repo = create(:repo, repo_code: "keyboard_shortcuts_test_#{Time.now.to_i}") }
+
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "keyboard_shortcuts_test_#{now}") }
+  let(:repo) { @repo }
   let(:accession) { create(:accession, title: "Accession #{now}") }
 
   context 'available for any record in edit mode' do
@@ -53,8 +55,7 @@ describe 'Keyboard Shortcuts', js: true do
     before do
       set_repo repo
       accession
-      login_admin
-      select_repository(repo)
+      login_admin_and_select_repository(repo)
       visit "/accessions/#{accession.id}/edit"
     end
 

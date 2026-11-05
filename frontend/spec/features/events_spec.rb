@@ -31,8 +31,7 @@ describe 'Events', js: true do
   end
 
   it 'retains the linked record when adding additional events via +1 button' do
-    login_admin
-    select_repository @repository
+    login_admin_and_select_repository(@repository)
     visit "/resources/#{@resource.id}"
     expect(page).to have_selector('h2', visible: true)
     expect(find('h2').text).to eq "#{@resource.title} Resource"
@@ -65,8 +64,8 @@ describe 'Events', js: true do
   end
 
   it 'adds an event via +1 button when using Create -> Event without a previously linked record' do
-    login_admin
-    select_repository @repository
+    login_admin_and_select_repository(@repository)
+    visit '/'
 
     click_button 'Create'
     click_on 'Event'
@@ -94,8 +93,8 @@ describe 'Events', js: true do
   it 'creates an event and links it to an agent and an agent as a source' do
     now = Time.now.to_i
 
-    login_user @manager_user
-    select_repository @repository
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
 
     click_on 'Create'
     click_on 'Event'
@@ -141,8 +140,8 @@ describe 'Events', js: true do
   it 'creates an event and links it to an agent and accession' do
     now = Time.now.to_i
 
-    login_user @manager_user
-    select_repository @repository
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
 
     click_on 'Create'
     click_on 'Event'
@@ -172,8 +171,8 @@ describe 'Events', js: true do
   it 'can add an external document to an Event' do
     now = Time.now.to_i
 
-    login_user @manager_user
-    select_repository @repository
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
 
     click_on 'Create'
     click_on 'Event'
@@ -216,8 +215,8 @@ describe 'Events', js: true do
   it 'should be searchable' do
     now = Time.now.to_i
 
-    login_user @manager_user
-    select_repository @repository
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
 
     click_on 'Create'
     click_on 'Event'
@@ -258,8 +257,8 @@ describe 'Events', js: true do
   it 'can export a csv of browse list Events that includes record link names' do
     now = Time.now.to_i
 
-    login_user @manager_user
-    select_repository @repository
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
 
     # Delete any existing CSV files
     csv_files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
@@ -305,8 +304,8 @@ describe 'Events', js: true do
     it 'can create a new event event type value and use it in an event form' do
       new_event_type_value = "new_event_type_#{Time.now.to_i}"
 
-      login_user @manager_user
-      select_repository @repository
+      login_user_and_select_repository(@manager_user, @repository)
+      visit '/'
 
       select_enum 'Event Event Type (event_event_type)'
       create_enum_value(new_event_type_value)
@@ -343,7 +342,7 @@ describe 'Events', js: true do
 
   describe 'Linked Agents is_primary behavior' do
     before :each do
-      login_admin
+      login_admin_and_select_repository($repo)
     end
 
     let(:record_type) { 'event' }

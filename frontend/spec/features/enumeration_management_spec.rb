@@ -10,8 +10,8 @@ describe 'Enumeration Management', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
+    visit '/'
     @now = Time.now.to_i
   end
 

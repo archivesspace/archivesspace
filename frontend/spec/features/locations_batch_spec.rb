@@ -17,8 +17,8 @@ describe 'Location batch', js: true do
   end
 
   before(:each) do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
   end
 
   it 'displays error messages upon invalid batch' do

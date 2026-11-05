@@ -12,9 +12,8 @@ describe 'AdvancedSearchDates', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-
-    ensure_repository_access
+    login_user_and_select_repository(@user, @repository)
+    visit '/'
 
     # Open the dropdown only if its not already open
     if !page.has_css?('.advanced-search-add-row-dropdown')

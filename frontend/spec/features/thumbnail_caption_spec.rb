@@ -16,8 +16,7 @@ describe 'Thumbnail caption', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
   end
 
   it 'shows only the text of a caption containing markup' do

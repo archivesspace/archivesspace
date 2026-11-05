@@ -14,11 +14,8 @@ describe 'Notes', js: true do
   end
 
   before(:each) do
-    login_user(@archivist_user)
-
-    ensure_repository_access
-
-    select_repository(@repository)
+    login_user_and_select_repository(@archivist_user, @repository)
+    visit '/'
   end
 
   it 'can attach notes to resources and confirms before removing a note entry' do

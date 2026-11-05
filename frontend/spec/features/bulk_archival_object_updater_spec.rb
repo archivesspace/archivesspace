@@ -12,9 +12,7 @@ describe 'Bulk Archival Object Updater', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-    ensure_repository_access
-    select_repository(@repository)
+    login_user_and_select_repository(@user, @repository)
   end
 
   it 'has the generate bulk archival object link included in the more dropdown menu on both the show and edit pages' do
@@ -176,8 +174,7 @@ describe 'Bulk Archival Object Updater', js: true do
   end
 
   it 'successfully uploads a bulk archival object spreadsheet and creates a job' do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
 
     now = Time.now.to_i
 

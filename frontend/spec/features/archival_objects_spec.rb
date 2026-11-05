@@ -11,8 +11,8 @@ describe 'Archival objects', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-    select_repository(@repository)
+    login_user_and_select_repository(@user, @repository)
+    visit '/'
   end
 
   it 'can have a lot of associated records that do not show in the field but are not lost' do

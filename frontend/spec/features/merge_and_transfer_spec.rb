@@ -11,14 +11,13 @@ describe 'Merge and Transfer', js: true do
   end
 
   before(:each) do
-    login_admin
+    login_admin_and_select_repository(@repository_source)
   end
 
   it 'can transfer a resource to another repository and open it for editing' do
     now = Time.now.to_i
 
     set_repo @repository_source
-    select_repository(@repository_source)
 
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -60,7 +59,6 @@ describe 'Merge and Transfer', js: true do
     now = Time.now.to_i
 
     set_repo @repository_source
-    select_repository(@repository_source)
 
     resource_source = create(:resource, title: "Resource Title Source #{now}")
     resource_target = create(:resource, title: "Resource Title Target #{now}")
@@ -113,7 +111,6 @@ describe 'Merge and Transfer', js: true do
     now = Time.now.to_i
 
     set_repo @repository_source
-    select_repository(@repository_source)
 
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
@@ -149,7 +146,6 @@ describe 'Merge and Transfer', js: true do
     now = Time.now.to_i
 
     set_repo @repository_source
-    select_repository(@repository_source)
 
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
@@ -183,7 +179,6 @@ describe 'Merge and Transfer', js: true do
     now = Time.now.to_i
 
     set_repo @repository_source
-    select_repository(@repository_source)
     digital_object_source = create(:digital_object, title: "Digital Object Source Title #{now}")
     digital_object_target = create(:digital_object, title: "Digital Object Target Title #{now}")
 

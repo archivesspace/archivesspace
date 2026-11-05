@@ -74,8 +74,7 @@ describe 'Mixed Content in title fields', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
   end
 
   describe 'should render as HTML' do
