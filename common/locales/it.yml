@@ -2,45 +2,69 @@ it:
   bulk_import:
     agent_linked_existing: "Agente %{num} collegato all'agente esistente %{name}: %{uri}"
     agent_would_link_existing: "L'agente %{num} verrebbe collegato all'agente esistente %{name}: %{uri}"
-    agent_would_link_earlier_row: "L'agente %{num} verrebbe collegato all'agente %{name}, che verrebbe creato in %{row}"
+    agent_would_link_earlier_row: "L'agente %{num} verrebbe collegato all'agente %{name}, che verrebbe
+      creato in %{row}"
     error:
       unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}'"
       note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando una di queste colonne contiene un valore: %{columns}"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
-      dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto digitale"
+      dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto
+        digitale"
       invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
       invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
       subject_missing_identity: "Il soggetto %{num} richiede un ID record o un termine"
       agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"
       agent_missing_type: "L'agente %{num} richiede un tipo di agente"
-      agent_unsupported_type: "L'agente %{num} ha un tipo di agente non supportato. Valori accettati: %{accepted}"
+      agent_unsupported_type: "L'agente %{num} ha un tipo di agente non supportato. Valori accettati:
+        %{accepted}"
       agent_required_field: "L'agente %{num}, campo %{field}, è obbligatorio"
       agent_invalid_value: "L'agente %{num}, campo %{field}, non è un valore esistente: '%{value}'"
-      agent_unrecognized_boolean: "L'agente %{num}, campo %{field}, richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oppure vuoto per usare il valore predefinito"
-      agent_incompatible_field: "L'agente %{num}, campo %{field}, non è valido per il tipo di agente '%{agent_type}'. Nessun agente è stato creato o collegato"
-      agent_mode_conflict: "L'agente %{num}, campo %{field}, non può essere combinato con i campi di creazione dell'agente (%{creation_fields}). Nessun agente è stato creato o collegato"
-      agent_invalid_record_id: "L'agente %{num}, campo %{field}, richiede un ID numerico positivo o un URI canonico dell'agente; ricevuto '%{value}'"
-      agent_type_with_uri: "L'agente %{num}, campo %{field}, deve essere vuoto quando l'ID record è un URI; ricevuto '%{value}'"
-      agent_unsupported_uri: "L'agente %{num}, campo %{field}, è un URI di un tipo di agente che non può essere usato qui. Valori accettati: %{accepted}"
+      agent_unrecognized_boolean: "L'agente %{num}, campo %{field}, richiede un valore booleano; ricevuto
+        '%{value}', deve essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oppure vuoto per usare
+        il valore predefinito"
+      agent_incompatible_field: "L'agente %{num}, campo %{field}, non è valido per il tipo di agente '%{agent_type}'.
+        Nessun agente è stato creato o collegato"
+      agent_mode_conflict: "L'agente %{num}, campo %{field}, non può essere combinato con i campi di creazione
+        dell'agente (%{creation_fields}). Nessun agente è stato creato o collegato"
+      agent_invalid_record_id: "L'agente %{num}, campo %{field}, richiede un ID numerico positivo o un
+        URI canonico dell'agente; ricevuto '%{value}'"
+      agent_type_with_uri: "L'agente %{num}, campo %{field}, deve essere vuoto quando l'ID record è un
+        URI; ricevuto '%{value}'"
+      agent_unsupported_uri: "L'agente %{num}, campo %{field}, è un URI di un tipo di agente che non può
+        essere usato qui. Valori accettati: %{accepted}"
       agent_not_found: "L'agente %{num}, campo %{field}, non corrisponde a nessun agente esistente: '%{value}'"
-      agent_uri_header_conflict: "L'agente %{num}, campi %{record_field} e %{header_field}, non possono essere usati insieme quando l'ID record è un URI. Nessun agente è stato collegato"
-      agent_fingerprint_collision: "L'agente %{num} non è stato creato: un agente esistente ha gli stessi dati identificativi. Per usare quell'agente, collegalo tramite ID record o URI"
-      agent_match_mismatch: "L'agente %{num} corrisponde all'agente %{name} (%{where}), ma questi valori sono diversi: %{differences}. Per usare quell'agente, collegalo tramite ID record o URI"
-      agent_match_mismatch_earlier_row: "L'agente %{num} corrisponde all'agente %{name}, che verrebbe creato in %{row}, ma questi valori sono diversi: %{differences}. Rendi questi valori uguali in entrambe le righe"
+      agent_uri_header_conflict: "L'agente %{num}, campi %{record_field} e %{header_field}, non possono
+        essere usati insieme quando l'ID record è un URI. Nessun agente è stato collegato"
+      agent_fingerprint_collision: "L'agente %{num} non è stato creato: un agente esistente ha gli stessi
+        dati identificativi. Per usare quell'agente, collegalo tramite ID record o URI"
+      agent_match_mismatch: "L'agente %{num} corrisponde all'agente %{name} (%{where}), ma questi valori
+        sono diversi: %{differences}. Per usare quell'agente, collegalo tramite ID record o URI"
+      agent_match_mismatch_earlier_row: "L'agente %{num} corrisponde all'agente %{name}, che verrebbe
+        creato in %{row}, ma questi valori sono diversi: %{differences}. Rendi questi valori uguali in
+        entrambe le righe"
       agent_match_difference: "%{field} è '%{supplied}' qui e '%{existing}' in quell'agente"
-      agent_authority_id_collision: "L'agente %{num} non è stato creato: un agente esistente usa già questo ID di autorità. Per usare quell'agente, collegalo tramite ID record o URI"
+      agent_authority_id_collision: "L'agente %{num} non è stato creato: un agente esistente usa già questo
+        ID di autorità. Per usare quell'agente, collegalo tramite ID record o URI"
       event_validation: "Impossibile creare il gruppo evento %{group} (%{type}): %{err}"
-      invalid_event_type: "Il gruppo evento %{group}, campo %{field}, non è un tipo di evento esistente: '%{value}'"
-      invalid_event_outcome: "Il gruppo evento %{group}, campo %{field}, non è un esito di evento esistente: '%{value}'"
+      invalid_event_type: "Il gruppo evento %{group}, campo %{field}, non è un tipo di evento esistente:
+        '%{value}'"
+      invalid_event_outcome: "Il gruppo evento %{group}, campo %{field}, non è un esito di evento esistente:
+        '%{value}'"
       event_required_field: "Il gruppo evento %{group}, campo %{field}, è obbligatorio"
       invalid_event_date: "Il gruppo evento %{group}, campo %{field}, non è una data evento valida: '%{value}'"
-      invalid_event_date_label: "Il gruppo evento %{group}, campo %{field}, non è un'etichetta di data esistente: '%{value}'"
+      invalid_event_date_label: "Il gruppo evento %{group}, campo %{field}, non è un'etichetta di data
+        esistente: '%{value}'"
       event_date_label_without_date: "Il gruppo evento %{group}, campo %{field}, richiede una data: '%{value}'"
-      event_agent_type_with_uri: "Il gruppo evento %{group}, campo %{field}, deve essere vuoto quando %{record_field} è un URI: '%{value}'"
-      event_agent_unsupported_type: "Il gruppo evento %{group}, campo %{field}, non è un tipo di agente supportato. Valori accettati: %{accepted}"
-      invalid_event_agent_role: "Il gruppo evento %{group}, campo %{field}, non è un ruolo di agente evento esistente: '%{value}'"
-      invalid_event_agent_record_id: "Il gruppo evento %{group}, campo %{field}, deve essere un ID numerico o un URI agente canonico: '%{value}'"
-      event_agent_not_found: "Il gruppo evento %{group}, campo %{field}, non corrisponde a un agente esistente: '%{value}'"
+      event_agent_type_with_uri: "Il gruppo evento %{group}, campo %{field}, deve essere vuoto quando
+        %{record_field} è un URI: '%{value}'"
+      event_agent_unsupported_type: "Il gruppo evento %{group}, campo %{field}, non è un tipo di agente
+        supportato. Valori accettati: %{accepted}"
+      invalid_event_agent_role: "Il gruppo evento %{group}, campo %{field}, non è un ruolo di agente evento
+        esistente: '%{value}'"
+      invalid_event_agent_record_id: "Il gruppo evento %{group}, campo %{field}, deve essere un ID numerico
+        o un URI agente canonico: '%{value}'"
+      event_agent_not_found: "Il gruppo evento %{group}, campo %{field}, non corrisponde a un agente esistente:
+        '%{value}'"
     agent: Agente
     event_created: "Gruppo evento %{group} creato: %{type}"
     event_would_be_created: "Gruppo evento %{group} verrebbe creato: %{type}"
@@ -352,6 +376,18 @@ it:
     address_2_tooltip: |
       <p>L'indirizzo postale o l'indirizzo stradale del repository.</p>
     city: Città
+    district: Stato o regione
+    country: Paese
+    country_tooltip: |
+      <p>Il Paese in cui si trova il repository, tratto dall'elenco dei codici ISO 3166.</p>
+    description: Descrizione
+    description_tooltip: |
+      <p>Una sezione informativa o un riepilogo descrittivo per il repository.</p>
+    post_code: Codice Postale
+    telephone: Telefono
+    telephone_ext: Estensione
+    fax: Fax
+    email: E-mail
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
@@ -1251,7 +1287,8 @@ it:
     mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
       &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
       a contenuto misto."
-    display_thumbnail_must_be_published: Deve essere pubblicato per essere la miniatura di visualizzazione
+    display_thumbnail_must_be_published: Deve essere pubblicato per essere la miniatura di 
+      visualizzazione
     display_link_must_be_published: Deve essere pubblicato per essere il link di visualizzazione
   lang_material:
     _plural: Lingue
@@ -2000,3 +2037,102 @@ it:
   related_resource:
     _singular: Risorsa correlata
     _plural: Risorse correlate
+  location_profile:
+    new_title: Nuovo profilo della sede
+  container_profile:
+    new_title: Nuovo profilo contenitore
+    title: '%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] estensione misurata da %{extent_dimension}'
+  arks:
+    ark_editor_errors:
+      ark_format_error: Uno degli ARK forniti non era un ARK valido.
+      ark_collision: Uno degli ARK forniti è già in uso.
+    only_current_ark_can_be_external: L'ARK corrente non può essere sostituito finché è 
+      contrassegnato come esterno.
+    unsubmitted_input: Hai inserito dei dati non ancora inviati
+    actions: Azioni
+    modal_title: Modifica gli ARK per il record corrente
+    no_changes: Nessuna modifica da salvare
+    save: Salva gli ARK
+    set_current: Imposta come corrente
+    add_new: Aggiungi nuovo ARK
+    remove_ark: Rimuovere
+    current: attuale
+    edit: Modifica ARK
+    ark: ARCA
+  user_mtime: Modificato
+  create_time: Creata
+  last_modified_by: Ultima modifica a cura di
+  created_by: Creato da
+  groups:
+    _plural: Gruppi
+  owner_repo:
+    _plural: Riservato a
+  creator:
+    _plural: Creatrici
+  formats:
+    _plural: Formati
+  reviewer:
+    _plural: Revisore
+  surveyed_by:
+    _plural: Esaminato da
+  conservation_issues:
+    _plural: Questioni legate alla conservazione
+  ratings:
+    _plural: Valutazioni
+  metadata_rights_declaration:
+    last_verified_date_tooltip: |
+      <p>Data ultima, oppure data e ora, in cui è stata verificata la risorsa collegata tramite l'URI associato.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Tipo o natura della risorsa remota collegata nell'URI associato.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Titolo delle risorse remote collegate nell'URI associato, che può essere utilizzato come didascalia.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Indica dove deve essere visualizzata la risorsa remota collegata nell'URI associato.</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Indica se l'URI associato debba essere risolto al momento della visualizzazione del record dell'agente.</p>
+    file_uri_tooltip: |
+      <p>Un URI che indica la collocazione online della licenza o di altre informazioni pubblicate in merito alle condizioni alle quali i metadati sono disponibili per l'uso e il riutilizzo. Esempio: https://creativecommons.org/licenses/by/4.0/</p>
+    descriptive_note_tooltip: |
+      <p>Informazioni non strutturate relative alle condizioni in cui i metadati sono disponibili per l'uso e il riutilizzo. Esempi:</p>
+      <p>i. Copyright Smith College, 1985</p>
+      <p>ii. Questo strumento di ricerca può essere riprodotto per qualsiasi finalità.</p>
+      <p>iii. Quest'opera è stata dedicata al pubblico dominio; ciò significa che è possibile copiarla, modificarla, distribuirla ed eseguirla, anche a fini commerciali, senza dover richiedere alcun permesso.</p>
+      <p>iv. La nota biografica è protetta da copyright di Ted Smith, 2015. Tutti gli altri metadati sono concessi in licenza secondo i termini della licenza CC BY 4.0.</p>
+    license_tooltip: |
+      <p>Nome della licenza (se presente) che disciplina le condizioni alle quali i metadati sono resi disponibili per l'uso e il riutilizzo. Esempi:</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Universal 1.0 Public Domain Dedication.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NonCommercial 4.0 International.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NoDerivatives 4.0 International.</p>
+      <p>Questo record è reso disponibile secondo i termini della licenza Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.</p>
+  top_container_linker:
+    log_creating_and_linking: Creazione e collegamento dei contenitori principali...
+    log_validating: Convalida dei dati del foglio di calcolo...
+    log_skipping_due_to_errors: Creazione e collegamento dei contenitori principali saltati a causa 
+      di errori.
+    log_validate_only: La creazione e il collegamento dei contenitori principali vengono saltati 
+      poiché è attiva l'opzione di sola convalida.
+    log_creating_linker: 'Creazione di un nuovo linker per contenitori di primo livello per il repository:
+      %{repo_id}'
+    error:
+      job_file_empty: Nessun file da elaborare per il collegamento del contenitore principale
+      resources_do_not_match: 'La risorsa nel foglio di calcolo %{spreadsheet_resource} (ID EAD: %{ead_id})
+        non corrisponde alla risorsa corrente %{current_resource} nella riga %{row_num}'
+      resource_not_in_db: Impossibile trovare la risorsa %{ead_id} nel database nella riga 
+        %{row_num}
+      tc_record_no_missing: "Impossibile trovare l'ID contenitore principale: %{tc_id} (vedere %{ref_id}
+        nella riga %{row_num})"
+      ead_id_miss: 'A questa riga manca un ID EAD: (vedi %{ref_id} alla riga %{row_num})'
+      error_linking_tc_to_ao: "Si è verificato un problema nel collegare l'Oggetto d'archivio al Contenitore
+        principale: %{why}"
+      problem_setting_container_profile: "Problema nell'impostazione del profilo del contenitore (vedi
+        %{ref_id} nella riga %{row_num}): [%{why}]"
+      problem_adding_current_location: "Problema durante l'aggiunta della posizione corrente (vedi %{ref_id}
+        alla riga %{row_num}): [%{why}]"
+      no_tc: 'Impossibile creare il contenitore principale (vedi %{ref_id} alla riga %{row_num}): [%{why}]'
+      cp_not_in_db: L'ID del profilo contenitore specificato, %{cp_id}, non è stato trovato nel 
+        database (vedere %{ref_id} alla riga %{row_num}).
+      loc_not_in_db: L'ID posizione specificato, %{loc_id}, non è stato trovato nel database (si 
+        veda %{ref_id} alla riga %{row_num}).
