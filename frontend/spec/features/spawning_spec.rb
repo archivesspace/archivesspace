@@ -35,7 +35,7 @@ describe 'Spawning an Archival Object from an Accession', js: true do
     @ordering_first = create_component(@ordering_resource, "Ordering First #{@now}")
     @ordering_second = create_component(@ordering_resource, "Ordering Second #{@now}")
 
-    run_all_indexers
+    run_index_round
   end
 
   before(:each) do

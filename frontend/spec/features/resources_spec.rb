@@ -489,8 +489,6 @@ describe 'Resources', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    run_index_round
-
     expect(page).to have_text "Resource #{resource.title} updated"
 
     run_periodic_index

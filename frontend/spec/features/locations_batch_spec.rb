@@ -12,8 +12,6 @@ describe 'Location batch', js: true do
 
     @manager_user = create_user(@repository => ['repository-managers'])
     @archivist_user = create_user(@repository => ['repository-archivists'])
-
-    run_index_round
   end
 
   before(:each) do

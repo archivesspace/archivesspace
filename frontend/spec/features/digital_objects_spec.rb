@@ -118,7 +118,6 @@ describe 'Digital Objects', js: true do
   it 'reports errors if adding a child with no title to a Digital Object' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -141,7 +140,6 @@ describe 'Digital Objects', js: true do
   it 'can populate the digital object component tree' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}", dates: [], extents: [])
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -187,7 +185,6 @@ describe 'Digital Objects', js: true do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
     digital_object_child = create(:digital_object_component, title: "Child #{now}", digital_object: { ref: digital_object.uri })
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -286,8 +283,6 @@ describe 'Digital Objects', js: true do
       ]
     )
 
-    run_index_round
-
     visit "digital_objects/#{digital_object.id}"
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
@@ -344,8 +339,6 @@ describe 'Digital Objects', js: true do
         }
       ]
     )
-
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/##{tree_hash_for(digital_object_component.uri)}"
     wait_for_ajax

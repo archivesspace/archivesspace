@@ -252,7 +252,7 @@ describe 'Detailed Merging of Agents', js: true do
 
       visit 'logout'
 
-      run_periodic_index
+      run_index_round
 
       login_user(user)
 

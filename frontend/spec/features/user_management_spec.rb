@@ -87,8 +87,6 @@ describe 'User management', js: true do
     element.click
     expect(page).to have_text "User Created: username_#{now}"
 
-    run_index_round
-
     # Logout admin user
     element = find('#user-menu-dropdown')
     element.click
@@ -154,8 +152,6 @@ describe 'User management', js: true do
       element.click
       expect(page).to have_text "User Created: username_#{now}"
 
-      run_index_round
-
       # Logout admin user and login as the newly created user
       login_user(OpenStruct.new( username: "username_#{now}", password: 'password'))
 
@@ -201,8 +197,6 @@ describe 'User management', js: true do
       element = find('button', text: 'Create Account', match: :first)
       element.click
       expect(page).to have_text "User Created: username_#{now}"
-
-      run_index_round
 
       # Logout admin user and login as the newly created user
       login_user(OpenStruct.new( username: "username_#{now}", password: 'password'))
@@ -257,8 +251,6 @@ describe 'User management', js: true do
     element = find('button', text: 'Create Account', match: :first)
     element.click
     expect(page).to have_text "User Created: username_#{now}"
-
-    run_index_round
 
     # Logout admin user
     element = find('#user-menu-dropdown')
