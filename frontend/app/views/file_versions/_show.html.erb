@@ -22,10 +22,6 @@
         </div>
         <div id="<%= section_id %>_file_version_<%= index %>" class="accordion-body collapse">
           <div class="form-horizontal">
-            <% if can_embed?(file_version) %>
-              <% alt_text = file_version['caption'] ? file_version['caption'] : title %>
-              <%= render_aspace_partial :partial => "file_versions/image", :locals => {:file => file_version, :alt_text => alt_text } %>
-            <% end %>
             <% if IIIF.manifest?(file_version) %>
               <%= render_aspace_partial :partial => "file_versions/iiif_embed", :locals => {:manifest => file_version} %>
             <% end %>
