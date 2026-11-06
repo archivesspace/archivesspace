@@ -32,6 +32,18 @@ describe SubjectsController, type: :controller do
       expect(JSON.parse(response.body).map {|t| t["term"]}).to include(term)
     end
 
+    it "doesn't write the session back for background requests" do
+      login_with_permissions(["view_repository", "manage_subject_record"])
+      get :terms_complete, params: {query: term[0..-3]}, xhr: true
+      expect(request.session_options[:skip]).to be true
+    end
+
+    it "writes the session back for page requests" do
+      login_with_permissions(["view_repository", "manage_subject_record"])
+      get :terms_complete, params: {query: term[0..-3]}
+      expect(request.session_options[:skip]).to be_falsey
+    end
+
     it "won't return terms to users who cannot update subjects" do
       login_with_permissions(["view_repository"])
       get :terms_complete, params: {query: term[0..-3]}

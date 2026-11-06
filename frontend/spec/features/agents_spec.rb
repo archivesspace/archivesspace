@@ -741,8 +741,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        # The term typeahead's request can overlap the save and overwrite the session cookie holding the flash.
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -779,7 +778,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -823,7 +822,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -869,7 +868,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -906,7 +905,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
         wait_for_ajax
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -949,7 +948,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -994,7 +993,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1030,7 +1029,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1074,7 +1073,7 @@ describe 'Agents', js: true do
         # Click on save
         click_button('Save Subject', match: :first)
         wait_for_ajax
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1119,7 +1118,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1155,7 +1154,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1199,7 +1198,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
         wait_for_ajax
-        expect(page).to have_css('h2', text: "Subject Term #{now}")
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
