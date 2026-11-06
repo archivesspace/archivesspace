@@ -9,10 +9,4 @@ module ASpaceHelpers
     batch_create_tree_children(:archival_object, count, root_key: :resource, root: resource, parent: parent,
                                publish: true, **values, &block)
   end
-
-  def finished_all_ajax_requests?
-    page.evaluate_script("typeof window.jQuery !== 'undefined' && jQuery.active === 0")
-  rescue Selenium::WebDriver::Error::JavascriptError
-    false
-  end
 end

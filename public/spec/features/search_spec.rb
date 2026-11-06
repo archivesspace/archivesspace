@@ -6,7 +6,6 @@ describe 'Search', js: true do
     visit('/')
     click_link 'Search The Archives'
     expect(current_path).to eq ('/search')
-    finished_all_ajax_requests?
     within '.search[role="search"]' do
       expect(page).to have_css('h1', text: 'Search The Archives')
     end
