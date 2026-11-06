@@ -728,7 +728,6 @@ ja:
   file_version:
     _plural: ファイルバージョン
     _singular: ファイルのバージョン
-    file: ファイル
     file_uri: ファイルURI
     file_uri_tooltip: "<p>ウェブ上またはファイルディレクトリ内でアクセス可能なデジタルオブジェクトに関連付けられたファイルの識別子。 </p>"
     publish: 公開しますか？

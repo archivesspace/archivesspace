@@ -1072,7 +1072,6 @@ it:
       web o in una file directory.</p>\n"
     _plural: Versioni dei file
     _singular: Versione del file
-    file: File
     file_uri: URI del file
     publish: Pubblicare?
     publish_tooltip: |

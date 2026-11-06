@@ -920,7 +920,6 @@ es:
   file_version:
     _plural: Versiones de archivo
     _singular: Versión de archivo
-    file: Archivo
     file_uri: URI Archivo
     file_uri_tooltip: |
       <p>Un identificador para un archivo asociado a un objeto digital, accesible en la web o en un directorio de archivos.</p>

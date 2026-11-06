@@ -946,7 +946,6 @@ fr:
   file_version:
     _plural: Versions du fichier
     _singular: Version du fichier
-    file: Fichier
     file_uri: URI du fichier
     file_uri_tooltip: |
       <p>Un identifiant pour un fichier associé à un objet numérique, accessible sur le web ou dans un répertoire.</p>
