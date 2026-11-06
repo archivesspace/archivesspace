@@ -730,7 +730,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_place' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -767,7 +767,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_place' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -811,7 +811,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_place' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -857,7 +857,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_occupation' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -893,7 +893,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_occupation' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -937,7 +937,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_occupation' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -982,7 +982,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_function' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1018,7 +1018,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_function' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1061,7 +1061,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_function' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1107,7 +1107,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_topic' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1143,7 +1143,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_topic' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1186,7 +1186,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_topic' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
