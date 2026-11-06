@@ -257,7 +257,7 @@ RSpec.shared_examples 'results table sorting' do
     return if multi_record_search_initial_sort?(is_initial_sort)
 
     expect(page).to have_css(
-      "thead th.sortable.sort-#{current_direction} a[href*='#{sort_key}+#{next_direction}']",
+      "thead th.sortable.sort-#{current_direction}[aria-sort='#{current_direction.to_s == 'asc' ? 'ascending' : 'descending'}'] a[href*='#{sort_key}+#{next_direction}']",
       text: heading
     )
   end

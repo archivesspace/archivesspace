@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <% @columns.each do |col| %>
-            <th class="<%= col.class %>">
+            <th class="<%= col.class %>"<%= col.aria_sort %>>
               <% if col.sortable? %>
                 <%= link_to col.label, build_search_params("sort" => @search_data.sort_filter_for(col.sort_by)) %>
               <% else %>
