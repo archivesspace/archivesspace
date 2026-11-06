@@ -22,10 +22,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Background GETs carry the session cookie from when they were sent. Writing it
-  # back could overwrite a concurrent save's session, e.g. its flash message.
-  prepend_before_action { request.session_options[:skip] = true if request.get? && request.xhr? }
-
   # Note: This should be first!
   before_action :store_user_session, unless: -> { params[:login] && !session[:user] }
 
