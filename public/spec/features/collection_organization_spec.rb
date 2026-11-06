@@ -33,12 +33,12 @@ describe 'Collection Organization', js: true do
   end
 
   def sidebar_left_coordinate
-    sidebar = find('.infinite-tree-sidebar')
+    sidebar = find('.tree-sidebar')
     page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
   end
 
   def sidebar_right_coordinate
-    sidebar = find('.infinite-tree-sidebar')
+    sidebar = find('.tree-sidebar')
     page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
   end
 
@@ -59,7 +59,7 @@ describe 'Collection Organization', js: true do
     find('.resizable-sidebar-handle')
     page.evaluate_script(<<~JS)
       (() => {
-        const sidebar = document.querySelector('.infinite-tree-sidebar').getBoundingClientRect();
+        const sidebar = document.querySelector('.tree-sidebar').getBoundingClientRect();
         const content = document.querySelector('.resizable-content-pane').getBoundingClientRect();
         return { sidebar_left: sidebar.left, sidebar_right: sidebar.right,
                  content_left: content.left, content_right: content.right };
@@ -87,7 +87,7 @@ describe 'Collection Organization', js: true do
     expect(edges['sidebar_right']).to be > edges['content_right']
   end
 
-  describe 'Infinite Tree sidebar' do
+  describe 'Tree sidebar' do
     before(:all) do
       set_repo(@repo)
 
@@ -102,17 +102,17 @@ describe 'Collection Organization', js: true do
     it 'should handle titles with mixed content appropriately' do
       visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
-      resource = find(".infinite-tree-sidebar #resource_#{@resource.id}")
+      resource = find(".tree-sidebar #resource_#{@resource.id}")
       expect(resource).to have_css('.node-body[title="This is a mixed content title"]')
       resource_mixed_content_span = resource.find('.root.node > .node-row span.emph.render-italic')
       expect(resource_mixed_content_span).to have_content('a mixed content')
 
-      ao1 = find(".infinite-tree-sidebar #archival_object_#{@ao1.id}")
+      ao1 = find(".tree-sidebar #archival_object_#{@ao1.id}")
       expect(ao1).to have_css("#archival_object_#{@ao1.id} > .node-row > .node-body[title='This is another mixed content title']")
       ao1_mixed_content_span = ao1.find("#archival_object_#{@ao1.id} > .node-row span.emph.render-italic")
       expect(ao1_mixed_content_span).to have_content('another mixed content')
 
-      ao2 = find(".infinite-tree-sidebar #archival_object_#{@ao2.id}")
+      ao2 = find(".tree-sidebar #archival_object_#{@ao2.id}")
       ao2_title = ao2.find("#archival_object_#{@ao2.id} > .node-row .node-title")
       expect(ao2_title).to_not have_css('span.emph.render-italic')
       expect(ao2_title).to have_content('This is not a mixed content title')
@@ -143,7 +143,7 @@ describe 'Collection Organization', js: true do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
         wait_for_records_to_load
 
-        sidebar = find('.infinite-tree-sidebar')
+        sidebar = find('.tree-sidebar')
         sidebar_handle = find('.resizable-sidebar-handle')
         content = find('.infinite-records-container')
 
@@ -226,7 +226,7 @@ describe 'Collection Organization', js: true do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
         wait_for_records_to_load
 
-        sidebar = find('.infinite-tree-sidebar')
+        sidebar = find('.tree-sidebar')
         sidebar_handle = find('.resizable-sidebar-handle')
         content = find('.infinite-records-container')
 
@@ -250,7 +250,7 @@ describe 'Collection Organization', js: true do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
         wait_for_records_to_load
 
-        sidebar = find('.infinite-tree-sidebar')
+        sidebar = find('.tree-sidebar')
         sidebar_handle = find('.resizable-sidebar-handle')
         content = find('.infinite-records-container')
 
@@ -289,13 +289,13 @@ describe 'Collection Organization', js: true do
     describe 'parent nodes' do
       before(:each) do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        @container = page.find('#infinite-tree-container')
+        @container = page.find('#tree-container')
         @ao3_node = page.find("#archival_object_#{@ao3.id}")
       end
 
       it 'are collapsed by default' do
-        num_first_level_nodes = page.all('#infinite-tree .root.node > .node-children > .node').count
-        num_all_nodes = page.all('#infinite-tree .root.node .node').count
+        num_first_level_nodes = page.all('#tree .root.node > .node-children > .node').count
+        num_all_nodes = page.all('#tree .root.node .node').count
         expect(num_first_level_nodes).to eq num_all_nodes
 
         [@ao3, @ao4, @ao5, @ao6].each do |parent|

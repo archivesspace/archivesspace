@@ -7,8 +7,8 @@ describe 'RDE', js: true do
   let(:user) { create_user(repo => ['repository-archivists']) }
   let(:repo) { create(:repo, repo_code: "accession_test_#{Time.now.to_i}") }
 
-  def expect_infinite_tree_level(title, expected_level)
-    link = find("#infinite-tree-container a.record-title", text: title)
+  def expect_tree_level(title, expected_level)
+    link = find("#tree-container a.record-title", text: title)
     level_cell = link.find(:xpath, "./ancestor::li[@role='treeitem'][1]//*[@data-column='level']")
     expect(level_cell.text).to eq expected_level
   end
@@ -76,7 +76,7 @@ describe 'RDE', js: true do
     click_on 'Save Rows'
     wait_for_ajax
 
-    expect_infinite_tree_level("Children Title #{now}", 'Item')
+    expect_tree_level("Children Title #{now}", 'Item')
   end
 
   it 'can access the RDE form when editing an archival object' do
@@ -100,28 +100,28 @@ describe 'RDE', js: true do
 
     # Wait for RDE's success reload before navigating — the new tree node is the reliable signal.
     expect(page).to have_css(
-      "#infinite-tree-container .node.indent-level-1 a.record-title",
+      "#tree-container .node.indent-level-1 a.record-title",
       text: child_title,
       wait: 20
     )
 
     # Let the post-reload resource pane finish its initial loadRecord before selecting the child.
-    expect(page).to have_css('#infinite-tree-record-pane #form_resource', wait: 20)
+    expect(page).to have_css('#tree-record-pane #form_resource', wait: 20)
     wait_for_ajax
 
-    within('#infinite-tree-container') do
+    within('#tree-container') do
       click_link child_title
     end
     wait_for_ajax
 
-    within('#infinite-tree-record-pane') do
+    within('#tree-record-pane') do
       expect(page).to have_css('#form_archival_object', wait: 20)
       expect(page).to have_css('h2', text: "#{child_title}, 2013 Archival Object")
     end
 
     expect(find('#archival_object_title_', visible: false).text).to eq child_title
 
-    find('.js-itree-toolbar-rde').click
+    find('.js-tree-toolbar-rde').click
     expect(page).to have_css '#rapidDataEntryModal'
   end
 
@@ -156,8 +156,8 @@ describe 'RDE', js: true do
     click_on 'Save Rows'
     wait_for_ajax
 
-    expect_infinite_tree_level('Child 1', 'Fonds')
-    expect_infinite_tree_level('Child 2', 'Fonds')
+    expect_tree_level('Child 1', 'Fonds')
+    expect_tree_level('Child 2', 'Fonds')
   end
 
   it 'can add multiple rows in one action and can perform a basic fill and a sequence fill' do

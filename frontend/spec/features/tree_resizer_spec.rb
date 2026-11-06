@@ -1,0 +1,65 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+require 'rails_helper'
+
+describe 'Tree Resizer', js: true do
+  context 'Resources' do
+    before do
+      login_admin_and_select_repository($repo)
+      visit '/resources/1'
+    end
+
+    include_context 'tree resizer page setup'
+
+    it_behaves_like 'resizing the tree pane'
+  end
+
+  context 'Digital Objects' do
+    let(:now) { Time.now.to_i }
+    before(:all) { @repo = create(:repo, repo_code: "tree_resizer_do_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+    let(:repo) { @repo }
+    let(:root_record) do
+      create(
+        :digital_object,
+        title: "Resizer DO #{now}",
+        digital_object_type: 'mixed_materials',
+        publish: true
+      )
+    end
+
+    before do
+      set_repo(repo)
+      login_admin_and_select_repository(repo)
+      visit "/digital_objects/#{root_record.id}"
+    end
+
+    include_context 'tree resizer page setup'
+
+    it_behaves_like 'resizing the tree pane'
+  end
+
+  context 'Classifications' do
+    let(:now) { Time.now.to_i }
+    before(:all) { @repo = create(:repo, repo_code: "tree_resizer_class_#{Time.now.to_i}_#{SecureRandom.hex(2)}") }
+    let(:repo) { @repo }
+    let(:root_record) do
+      create(
+        :classification,
+        title: "Resizer Class #{now}",
+        identifier: "RESIZER-#{now}",
+        publish: true
+      )
+    end
+
+    before do
+      set_repo(repo)
+      login_admin_and_select_repository(repo)
+      visit "/classifications/#{root_record.id}"
+    end
+
+    include_context 'tree resizer page setup'
+
+    it_behaves_like 'resizing the tree pane'
+  end
+end
