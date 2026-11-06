@@ -156,6 +156,8 @@ describe 'Notes', js: true do
     find('button', text: 'Save Resource', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
+    # The reloaded form starts with the note collapsed; the pre-save one does not.
+    expect(page).to have_css('#resource_notes_ li.collapsed')
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
     expect(find('input#resource_notes__0__subnotes__1__items__0_').value).to eq "Item 1 #{now}"
@@ -176,8 +178,8 @@ describe 'Notes', js: true do
     find('button', text: 'Save Resource', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
-    wait_for_ajax
-
+    # The reloaded form starts with the note collapsed; the pre-save one does not.
+    expect(page).to have_css('#resource_notes_ li.collapsed')
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
     expect(find('input#resource_notes__0__subnotes__1__items__0_').value).to eq "Item 1 #{now}"

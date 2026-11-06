@@ -66,7 +66,7 @@ describe 'Mixed Content in title fields', js: true do
       ]
     )
 
-    run_index_round
+    run_indexer
 
     @emph_selector = '.emph.render-none'
     @emph_italic_selector = '.emph.render-italic'
