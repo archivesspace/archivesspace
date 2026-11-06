@@ -30,8 +30,6 @@ describe 'Accordion of additional record information blocks', js: true do
     $panels.each do |panel|
       expect(panel).to have_no_css('.note_panel.show', visible: :all)
     end
-    # Bootstrap ignores show() while the hide transition is still running.
-    expect(page).to have_no_css('.acc_holder .collapsing', visible: :all)
 
     accordion_toggle_btn.click
 

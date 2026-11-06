@@ -30,7 +30,6 @@ describe 'Request feature', js: true do
       before :each do
         click_button 'Request'
         expect(page).to have_css('#request_modal')
-        wait_for_animations
       end
 
       it 'the modal becomes visible' do
