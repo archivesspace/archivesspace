@@ -9,4 +9,15 @@ module ASpaceHelpers
     batch_create_tree_children(:archival_object, count, root_key: :resource, root: resource, parent: parent,
                                publish: true, **values, &block)
   end
+
+  # Bootstrap ignores show() and hide() while a transition is still running.
+  def wait_for_animations
+    page.document.synchronize do
+      running = page.evaluate_script(<<~JS)
+        (window.jQuery ? jQuery.timers.length : 0) +
+          document.getAnimations().filter(a => a.effect.getTiming().iterations !== Infinity).length
+      JS
+      raise Capybara::ExpectationNotMet, "#{running} animations running" unless running.zero?
+    end
+  end
 end
