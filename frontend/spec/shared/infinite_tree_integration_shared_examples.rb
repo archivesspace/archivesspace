@@ -353,6 +353,8 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
         click_infinite_tree_toolbar_add_child
         wait_for_infinite_tree_pane_ready
+        # The new form turns dirty after it loads; the toolbar disables its actions once it is.
+        expect(page).to have_css('.js-itree-toolbar-add-child.disabled', visible: :all)
 
         within('#infinite-tree-container') { click_link child_record.title }
 
@@ -458,8 +460,7 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
     before do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_ajax
-      wait_for_infinite_tree_pane_ready
+      wait_for_infinite_tree_current_node(child_record.uri)
     end
 
     it 'keeps the newer record when the earlier response arrives last' do
