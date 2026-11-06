@@ -254,7 +254,6 @@ RSpec.configure do |config|
     JSONModel::init(:client_mode => true,
                     :url => AppConfig[:backend_url],
                     :priority => :high)
-    TestUtils::SpecIndexing.scan_written_repositories_only
 
     require_relative 'factories'
     AspaceFactories.init

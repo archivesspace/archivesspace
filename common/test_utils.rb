@@ -171,86 +171,14 @@ module TestUtils
       end
     end
 
-    # A periodic round queries every record type in every repository, so rounds
-    # slow down as a run creates repositories. Once enabled, a round only scans
-    # the repositories written to through JSONModel::HTTP since that indexer's
-    # last round, plus the first one (global types are indexed with it), or all
-    # of them after a write outside a repository. A skipped repository keeps its
-    # indexer mtimes, so its next scan still picks up everything since.
-    module WrittenRepositories
-      @lock = Mutex.new
-      @pending = Hash.new { |h, k| h[k] = :all }
-
-      class << self
-        attr_accessor :enabled
-
-        def record_write(path)
-          repo_id = path[%r{\A/repositories/(\d+)/}, 1]
-          return if repo_id.nil? && path.start_with?('/users/')
-
-          @lock.synchronize do
-            @pending.each do |indexer, scope|
-              if scope == :all
-                next
-              elsif repo_id
-                scope << repo_id.to_i
-              else
-                @pending[indexer] = :all
-              end
-            end
-          end
-        end
-
-        def scan(indexer)
-          return yield unless enabled
-
-          scope = @lock.synchronize do
-            taken = @pending[indexer]
-            @pending[indexer] = Set.new
-            taken
-          end
-          Thread.current[:spec_index_repository_scope] = scope
-          yield
-        ensure
-          Thread.current[:spec_index_repository_scope] = nil
-        end
-      end
-
-      module HTTPHook
-        def do_http_request(url, req, &block)
-          WrittenRepositories.record_write(url.path) unless req.is_a?(Net::HTTP::Get)
-          super
-        end
-      end
-
-      module RepositoryListFilter
-        def all(*args)
-          repositories = super
-          scope = Thread.current[:spec_index_repository_scope]
-          return repositories if scope.nil? || scope == :all
-
-          repositories.select.with_index { |repository, i| i.zero? || scope.include?(repository.id) }
-        end
-      end
-    end
-
-    def self.scan_written_repositories_only
-      require 'set'
-      JSONModel::HTTP.singleton_class.prepend(WrittenRepositories::HTTPHook)
-      JSONModel(:repository).singleton_class.prepend(WrittenRepositories::RepositoryListFilter)
-      WrittenRepositories.enabled = true
-    end
-
     module Methods
       def run_indexer
-        indexer = SpecIndexing.get_indexer
-        WrittenRepositories.scan(:staff) { indexer.run_index_round }
+        SpecIndexing.get_indexer.run_index_round
       end
 
       def run_indexers
-        run_indexer
-        indexer = SpecIndexing.get_pui_indexer
-        WrittenRepositories.scan(:pui) { indexer.run_index_round }
+        SpecIndexing.get_indexer.run_index_round
+        SpecIndexing.get_pui_indexer.run_index_round
       end
     end
   end
