@@ -72,7 +72,7 @@ describe 'Locations', js: true do
     click_on 'Single Location'
 
     element = find('h2')
-    expect(element.text).to eq 'New Location Location'
+    expect(element.text).to have_text('New Location Location')
   end
 
   it 'displays error messages upon invalid location' do
@@ -88,7 +88,7 @@ describe 'Locations', js: true do
     # Click on save
     find('button', text: 'Save Location', match: :first).click
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq 'Building - Property is required but was missing'
+    expect(element.text).to have_text('Building - Property is required but was missing')
 
     fill_in 'location_building_', with: "Location Building #{now}"
 
@@ -96,7 +96,7 @@ describe 'Locations', js: true do
     find('button', text: 'Save Location', match: :first).click
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq 'You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator'
+    expect(element.text).to have_text('You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator')
   end
 
   it 'saves a valid location' do

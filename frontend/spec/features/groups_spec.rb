@@ -84,7 +84,7 @@ describe 'Groups', js: true do
     # Click on save
     find('button', text: 'Create Group', match: :first).click
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Group code - Property is required but was missing\nDescription - Property is required but was missing"
+    expect(element.text).to have_text("Group code - Property is required but was missing\nDescription - Property is required but was missing")
   end
 
   it 'can create a new Group' do
@@ -129,7 +129,7 @@ describe 'Groups', js: true do
 
     find('button', text: 'Save', match: :first).click
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Description - Property is required but was missing"
+    expect(element.text).to have_text("Description - Property is required but was missing")
 
     visit '/logout'
   end

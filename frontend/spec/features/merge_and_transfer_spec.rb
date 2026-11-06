@@ -85,6 +85,15 @@ describe 'Merge and Transfer', js: true do
     expect(page).to have_selector('#form_merge', visible: true)
 
     within '#form_merge' do
+      click_on 'Merge'
+    end
+
+    missing_ref = find('#form_merge .missing-ref-message', visible: true)
+    expect(missing_ref[:role]).to eq('alert')
+    expect(missing_ref[:tabindex]).to eq('-1')
+    expect_focus_on(missing_ref)
+
+    within '#form_merge' do
       fill_in 'token-input-merge_ref_', with: resource_source.title
 
       wait_for_ajax
@@ -107,6 +116,35 @@ describe 'Merge and Transfer', js: true do
     ids += archival_objects_target.map { |entry| "archival_object_#{entry.id}" }
     ids_from_dom = elements.map { |element| element[:id] }
     expect(ids.sort == ids_from_dom.sort).to eq true
+  end
+
+  it 'updates the agent merge dropdown expanded state' do
+    agent = create(:agent_person, title: 'Agent to merge')
+
+    visit "agents/agent_person/#{agent.id}/edit"
+
+    merge_button = find('#merge-dropdown .merge-action')
+    expect(merge_button.tag_name).to eq 'button'
+
+    merge_button.click
+
+    expect(find('#merge-dropdown .merge-action')[:'aria-expanded']).to eq 'true'
+    expect(page).to have_selector('#form_merge', visible: true)
+
+    within '#form_merge' do
+      click_on 'Merge'
+    end
+
+    missing_ref = find('#form_merge .missing-ref-message', visible: true)
+    expect(missing_ref[:role]).to eq('alert')
+    expect(missing_ref[:tabindex]).to eq('-1')
+    expect_focus_on(missing_ref)
+
+    within '#form_merge' do
+      click_on 'Cancel'
+    end
+
+    expect(page).to have_no_selector('#form_merge .missing-ref-message', visible: true)
   end
 
   it 'can transfer an archival object to another resource' do
@@ -169,11 +207,16 @@ describe 'Merge and Transfer', js: true do
       click_on 'Transfer'
     end
 
-    expect(page).to have_css('.missing-ref-message', visible: true)
+    missing_ref = find('#ao-transfer-dropdown .missing-ref-message', visible: true)
+    expect(missing_ref[:role]).to eq('alert')
+    expect(missing_ref[:tabindex]).to eq('-1')
+    expect_focus_on(missing_ref)
 
     within '#ao-transfer-dropdown' do
       click_on 'Cancel'
     end
+
+    expect(page).to have_no_selector('#ao-transfer-dropdown .missing-ref-message', visible: true)
 
     expect(page).to have_no_selector('#ao-transfer-dropdown .dropdown-menu.transfer-form', visible: true)
     expect(find('#ao-transfer-dropdown > .dropdown-toggle')['aria-expanded']).to eq('false')

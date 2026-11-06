@@ -6,6 +6,7 @@ $(function () {
     $("#merge-dropdown .linker:not(.initialised)").linker();
 
     $('.merge-form .btn-cancel').on('click', function () {
+      AS.hideAlert($('.missing-ref-message', '.merge-form'));
       $('.merge-action').trigger("click");
     });
 
@@ -72,12 +73,12 @@ $(function () {
       }
 
       if (!formvals["merge[ref][]"]) {
-        $(".missing-ref-message", ".merge-form").show();
+        AS.showAndFocusAlert($(".missing-ref-message", ".merge-form"));
         event.preventDefault();
         event.stopImmediatePropagation();
         return false;
       } else {
-        $(".missing-ref-message", ".merge-form").hide();
+        AS.hideAlert($(".missing-ref-message", ".merge-form"));
         $(this).data("form-data", {"refs": formvals["merge[ref][]"]});
       }
     });
