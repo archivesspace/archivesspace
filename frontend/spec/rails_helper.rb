@@ -129,6 +129,13 @@ RSpec.configure do |config|
   end
 
   config.append_after(:each, js: true) do
+    # reset_sessions! drops cookies while the page is still open, so its background
+    # requests get a 403 and the update monitor redirects to AppConfig[:frontend_url].
+    begin
+      page.driver.browser.navigate.to('about:blank')
+    rescue Selenium::WebDriver::Error::UnexpectedAlertOpenError
+      # an unload prompt; reset_sessions! accepts it
+    end
     Capybara.reset_sessions!
 
     # Make sure all browser windows except one are closed
