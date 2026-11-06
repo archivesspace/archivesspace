@@ -3095,7 +3095,7 @@ en:
       agent_match_difference: "%{field} is '%{supplied}' here and '%{existing}' on that agent"
       agent_authority_id_collision: "Agent %{num} was not created: an existing agent already uses this authority ID. To use that agent, link it by record ID or URI"
       process_error: "Error processing %{type} %{num}: %{why}"
-      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}'"
+      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}', must be one of: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, or blank to use the default"
       invalid_user_defined_integer: "Invalid User Defined integer: %{value}"
       invalid_file_version_size: "Column %{column} requires a whole number of bytes; received '%{value}'"
       invalid_user_defined_real: "Invalid User Defined real: %{value}"

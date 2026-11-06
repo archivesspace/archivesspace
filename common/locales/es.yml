@@ -2853,7 +2853,7 @@ es:
       agent_match_difference: "%{field} es '%{supplied}' aquí y '%{existing}' en ese agente"
       agent_authority_id_collision: "El agente %{num} no se creó: un agente existente ya usa este ID de autoridad. Para usar ese agente, vincúlelo por ID de registro o URI"
       process_error: "Procesamiento de Error %{type} %{num}: %{why}"
-      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}'"
+      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}', debe ser uno de: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vacío para usar el valor predeterminado"
       invalid_user_defined_integer: "Entero definido por el usuario no válido: %{value}"
       invalid_file_version_size: "La columna %{column} requiere un número entero de bytes; se recibió '%{value}'"
       invalid_user_defined_real: "Real definido por el usuario no válido: %{value}"

@@ -4,7 +4,7 @@ he:
     agent_would_link_existing: "סוכן %{num} יקושר לסוכן הקיים %{name}: %{uri}"
     agent_would_link_earlier_row: "סוכן %{num} יקושר לסוכן %{name}, שייווצר ב-%{row}"
     error:
-      unrecognized_boolean: "העמודה %{column} דורשת ערך בוליאני; התקבל '%{value}'"
+      unrecognized_boolean: "העמודה %{column} מחייבת ערך בוליאני; התקבל '%{value}', חייב להיות אחד מתוך: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, או ריק כדי להשתמש בברירת המחדל"
       note_text_missing: "%{note_column} ריק, אך הוא נדרש כאשר באחת מהעמודות הבאות יש ערך: %{columns}"
       invalid_user_defined_integer: "מספר שלם לא חוקי המוגדר על ידי המשתמש: %{value}"
       dig_row_not_saved: "דבר משורה זו לא נשמר, מכיוון שלא ניתן היה ליצור את האובייקט הדיגיטלי"
