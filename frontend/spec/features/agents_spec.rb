@@ -741,7 +741,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        # The flash can be lost when the update monitor's poll overwrites the session cookie.
+        # The term typeahead's request can overlap the save and overwrite the session cookie holding the flash.
         expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
