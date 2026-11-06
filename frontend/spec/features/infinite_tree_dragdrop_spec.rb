@@ -499,9 +499,11 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
                 'body > .infinite-tree-drag-preview + .infinite-tree-empty-drag-image', visible: :all
               )
             dragstart_from(sibling2.uri)
+            # Form typeaheads can append their menus to body in between.
             expect(page).to have_css(
-                'body > .infinite-tree-empty-drag-image + .infinite-tree-drag-preview', visible: :all
+                'body > .infinite-tree-empty-drag-image ~ .infinite-tree-drag-preview', visible: :all
               )
+            expect(page).to have_css('body > .infinite-tree-empty-drag-image', count: 1, visible: :all)
           end
         end
 

@@ -185,6 +185,8 @@ end
 Capybara.server = :as_puma
 
 Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 20).to_i
+# Bootstrap ignores show() and hide() while a transition runs, so actions mid-transition were lost.
+Capybara.disable_animation = true
 
 cp_logger = Logger.new(File.join(ASUtils.find_base_directory, "ci_logs", "childprocess_gem.out"))
 cp_logger.level = Logger::DEBUG

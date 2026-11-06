@@ -90,7 +90,6 @@ jobs:
       env:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
-        RSPEC_RETRIES: 2
 
     - name: Upload the ci logs
       if: failure()

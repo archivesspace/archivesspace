@@ -9,7 +9,7 @@ describe 'Accordion of additional record information blocks', js: true do
     resource = first("a.record-title")
     visit(resource['href'])
 
-    $panels = page.all('.upper-record-details + .acc_holder div.panel.panel-default')
+    $panels = page.all('.upper-record-details + .acc_holder .accordion-item', minimum: 1)
   end
 
   it 'should be found after the upper record details of a resource page' do
@@ -28,7 +28,7 @@ describe 'Accordion of additional record information blocks', js: true do
     accordion_toggle_btn.click
 
     $panels.each do |panel|
-      expect(panel).to_not have_css('.note_panel.show', visible: :hidden)
+      expect(panel).to have_no_css('.note_panel.show', visible: :all)
     end
 
     accordion_toggle_btn.click

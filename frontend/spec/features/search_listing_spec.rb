@@ -37,8 +37,8 @@ describe 'Search Listing', js: true do
   end
 
   before(:each) do
-    login_user(@admin)
-    select_repository(@repository)
+    login_user_and_select_repository(@admin, @repository)
+    visit '/'
   end
 
   describe 'search results' do

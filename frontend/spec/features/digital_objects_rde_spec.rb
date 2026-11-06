@@ -4,20 +4,22 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Digital Object RDE', js: true do
-  let(:user) { create_user(repo => ['repository-archivists']) }
-  let(:repo) { create(:repo, repo_code: "digital_object_rde_#{Time.now.to_i}") }
+  before(:all) do
+    @repo = create(:repo, repo_code: "digital_object_rde_#{Time.now.to_i}")
+    @user = create_user(@repo => ['repository-archivists'])
+  end
+
+  let(:user) { @user }
+  let(:repo) { @repo }
 
   before(:each) do
     set_repo repo
-    login_user(user)
-    run_indexer
-    select_repository(repo)
+    login_user_and_select_repository(user, repo)
   end
 
   it 'can review error messages on an invalid entry' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
 
@@ -55,7 +57,6 @@ describe 'Digital Object RDE', js: true do
     now = Time.now.to_i
     child_title = "Children Title #{now}"
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -80,7 +81,6 @@ describe 'Digital Object RDE', js: true do
     now = Time.now.to_i
     child_title = "Children Title nav #{now}"
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -120,7 +120,6 @@ describe 'Digital Object RDE', js: true do
   it 'can add multiple children and sticky columns stick' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -160,7 +159,6 @@ describe 'Digital Object RDE', js: true do
   it 'can add multiple rows in one action and can perform a basic fill and a sequence fill' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready

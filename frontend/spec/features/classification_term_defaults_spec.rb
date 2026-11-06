@@ -6,7 +6,7 @@ require 'rails_helper'
 describe 'Classification Term Defaults', js: true do
   describe 'Basic Information subform' do
     it 'can link to an agent' do
-      login_admin
+      login_admin_and_select_repository($repo)
       visit '/classification_terms/defaults'
       expect(page).not_to have_css('#classification_term_creator__ref__combobox .token-input-token', visible: :all)
 

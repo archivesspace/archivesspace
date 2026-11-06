@@ -275,8 +275,9 @@ module InfiniteTreeInteractionHelpers
   # (drag preview, blocked targets, etc.)
 
   def dragstart_from(uri)
-    row = tree_row(uri)
-    tree_container.scroll_to(row, align: :center)
+    tree_container.scroll_to(tree_row(uri), align: :center)
+    # Scrolling can re-render the row; dragstart is only handled on a live, draggable one.
+    row = tree_node(uri).find(":scope > .node-row[draggable='true']")
 
     page.execute_script(<<~JS, row)
       const source = arguments[0];

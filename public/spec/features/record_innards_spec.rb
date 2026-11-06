@@ -7,7 +7,6 @@ describe 'Record innards', js: true do
     resource = first("a[class='record-title']", text: 'Resource with scope note')
     visit(resource['href'])
     click_link 'Collection Organization'
-    finished_all_ajax_requests?
     res = first("div[data-record-number='0']")
     res_href = res.first("a")['href']
     first_ao = first("div[data-record-number='1']")

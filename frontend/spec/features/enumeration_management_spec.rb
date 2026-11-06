@@ -6,12 +6,12 @@ require 'rails_helper'
 describe 'Enumeration Management', js: true do
   before(:all) do
     @repository = create(:repo, repo_code: "enum_test_#{Time.now.to_i}")
-    run_indexer
+    set_repo(@repository)
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
+    visit '/'
     @now = Time.now.to_i
   end
 

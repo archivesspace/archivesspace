@@ -11,9 +11,9 @@ describe 'Assessments', js: true do
   end
 
   before(:each) do
-    login_user(@manager_user)
+    login_user_and_select_repository(@manager_user, @repository)
     set_repo(@repository)
-    select_repository(@repository)
+    visit '/'
   end
 
   it 'can add repository assessment attribute definitions and can delete them' do
@@ -173,9 +173,8 @@ describe 'Assessments', js: true do
     # Click on save
     find('button', text: 'Save Assessment', match: :first).click
 
-    run_index_round
-
     expect(page).to have_text 'Assessment Created'
+    run_index_round
     expect(page).to have_text accession.title
     expect(page).to have_text digital_object.title
     expect(page).to have_text archival_object.title

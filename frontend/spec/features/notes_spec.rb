@@ -14,17 +14,13 @@ describe 'Notes', js: true do
   end
 
   before(:each) do
-    login_user(@archivist_user)
-
-    ensure_repository_access
-
-    select_repository(@repository)
+    login_user_and_select_repository(@archivist_user, @repository)
+    visit '/'
   end
 
   it 'can attach notes to resources and confirms before removing a note entry' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
 
@@ -63,7 +59,6 @@ describe 'Notes', js: true do
   it 'can edit an existing resource note to add subparts after saving' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -121,7 +116,6 @@ describe 'Notes', js: true do
   it 'can create an ordered list subnote and list items maintain proper order' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
 
@@ -162,6 +156,8 @@ describe 'Notes', js: true do
     find('button', text: 'Save Resource', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
+    # The reloaded form starts with the note collapsed; the pre-save one does not.
+    expect(page).to have_css('#resource_notes_ li.collapsed')
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
     expect(find('input#resource_notes__0__subnotes__1__items__0_').value).to eq "Item 1 #{now}"
@@ -182,8 +178,8 @@ describe 'Notes', js: true do
     find('button', text: 'Save Resource', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
-    wait_for_ajax
-
+    # The reloaded form starts with the note collapsed; the pre-save one does not.
+    expect(page).to have_css('#resource_notes_ li.collapsed')
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
     expect(find('input#resource_notes__0__subnotes__1__items__0_').value).to eq "Item 1 #{now}"
@@ -198,7 +194,6 @@ describe 'Notes', js: true do
   it 'can add a top-level bibliography too' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -240,7 +235,6 @@ describe 'Notes', js: true do
   it 'can wrap note content text with EAD mark up' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -290,7 +284,6 @@ describe 'Notes', js: true do
   it 'can add a deaccession record' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -315,7 +308,6 @@ describe 'Notes', js: true do
   it 'types for rights statements are correct' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -476,15 +468,12 @@ describe 'Notes', js: true do
 
     find('#digital_object_notes_ .collapse-subrecord-toggle').click
 
-    element = find('#digital_object_notes__0__content__0_')
-    element.text
-    expect(element.text).to include "Content\nSummary Content #{now}"
+    expect(find('#digital_object_notes__0__content__0_')).to have_text "Content\nSummary Content #{now}"
   end
 
   it 'shows a validation error when note content is empty' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -515,7 +504,6 @@ describe 'Notes', js: true do
           build(:json_note_singlepart, content: ['<emph>Emph wrapped</emph> text'], publish: true)
         ]
       )
-      run_index_round
     end
 
     context 'in a show view' do

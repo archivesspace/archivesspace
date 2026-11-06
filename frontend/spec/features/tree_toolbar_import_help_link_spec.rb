@@ -15,13 +15,10 @@ describe 'Tree toolbar import help link', js: true do
            :resource => {'ref' => @resource.uri},
            :parent => {'ref' => parent.uri},
            :title => "Child 1")
-
-    run_indexer
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
     edit_resource(@resource)
   end
 
