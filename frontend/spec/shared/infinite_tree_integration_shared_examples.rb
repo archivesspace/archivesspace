@@ -460,7 +460,9 @@ RSpec.shared_examples 'navigating the edit view with integrated router and pane'
 
     before do
       visit "#{edit_path}#{child_record_hash}"
-      wait_for_infinite_tree_current_node(child_record.uri)
+      # Holding fetches before the initial load finishes would hold that load too.
+      expect(page).to have_css("#{pane} h2", text: child_record.title)
+      wait_for_infinite_tree_pane_ready
     end
 
     it 'keeps the newer record when the earlier response arrives last' do
