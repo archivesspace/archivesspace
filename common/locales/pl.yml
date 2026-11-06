@@ -1535,6 +1535,8 @@ pl:
       hier_miss: Brak hierarchii – musi to być liczba większa od 0.
       title_and_date: Brak tytułu ORAZ prawidłowej definicji daty.
       note_text_missing: "%{note_column} jest puste, ale jest wymagane, gdy którakolwiek z tych kolumn zawiera wartość: %{columns}"
+      restriction_date_format: "Nieprawidłowa data (%{column}: '%{value}' nie jest prawidłową datą w formacie RRRR-MM-DD)"
+      restriction_date_order: "Nieprawidłowa data (%{column}: data końcowa '%{end_date}' nie może być wcześniejsza niż data początkowa '%{begin_date}')"
       title: Brak tytułu
       uri_mismatch: Podany identyfikator URI zasobu [%{res_uri}] nie zgadza się z identyfikatorem 
         URI wiersza [%{row_uri}].
