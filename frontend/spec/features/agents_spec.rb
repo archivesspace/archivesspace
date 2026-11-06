@@ -1298,9 +1298,8 @@ describe 'Agents', js: true do
 
         visit '/agents?filter_term[]={"primary_type":"agent_person"}&sort=create_time+desc'
 
-        elements = all('#tabledSearchResults tbody tr')
-        expect(elements.length > 0).to eq true
-        expect(elements[0]).to have_text agent.names.first['primary_name']
+        # create_time has second resolution, so a same-second agent can sort first.
+        expect(page).to have_css('#tabledSearchResults tbody tr', text: agent.names.first['primary_name'])
       end
 
       it 'returns agents in search results and shows their types correctly' do
