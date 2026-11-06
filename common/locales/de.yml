@@ -1452,7 +1452,6 @@ de:
     checksum_tooltip: "<p>Eine digitale Signatur zur Überwachung der Integrität und Authentizität einer
       digitalen Datei.</p>\n"
     _plural: Dateiversionen
-    file: Datei
     xlink_actuate_attribute_tooltip: "<p>Ein XLink-Attribut, das beim Export verwendet wird, um anzugeben,
       wie das digitale Objekt angezeigt werden soll (z.B. ob der Link automatisch erfolgt oder vom Benutzer
       angefordert werden muss). Es wird in Verbindung mit dem XLink Show-Attribut verwendet.</p>\n"
