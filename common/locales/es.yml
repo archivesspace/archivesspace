@@ -2773,6 +2773,8 @@ es:
       title: Falta el título
       title_and_date: Falta el título y la fecha definición válida
       note_text_missing: "%{note_column} está vacío, pero es obligatorio cuando alguna de estas columnas tiene un valor: %{columns}"
+      restriction_date_format: "Fecha no válida (%{column}: '%{value}' no es una fecha AAAA-MM-DD válida)"
+      restriction_date_order: "Fecha no válida (%{column}: la fecha de fin '%{end_date}' no puede ser anterior a la fecha de inicio '%{begin_date}')"
       hier_miss: Missing jerarquía - debe ser un número mayor que 0
       hier_zero: Jerarquía debe ser mayor que 0
       hier_wrong: Jerarquía no no puede haber más de un nivel más profundo que la fila anterior

@@ -3020,6 +3020,8 @@ en:
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
       note_text_missing: "%{note_column} is blank, but it is required when any of these columns has a value: %{columns}"
+      restriction_date_format: "Invalid date (%{column}: '%{value}' is not a valid YYYY-MM-DD date)"
+      restriction_date_order: "Invalid date (%{column}: end date '%{end_date}' cannot be prior to begin date '%{begin_date}')"
       hier_miss: Missing hierachy -- must be a number greater than 0
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row

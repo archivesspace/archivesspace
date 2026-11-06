@@ -6,6 +6,8 @@ he:
     error:
       unrecognized_boolean: "העמודה %{column} דורשת ערך בוליאני; התקבל '%{value}'"
       note_text_missing: "%{note_column} ריק, אך הוא נדרש כאשר באחת מהעמודות הבאות יש ערך: %{columns}"
+      restriction_date_format: "תאריך לא חוקי (%{column}: '%{value}' אינו תאריך YYYY-MM-DD חוקי)"
+      restriction_date_order: "תאריך לא חוקי (%{column}: תאריך הסיום '%{end_date}' אינו יכול להיות לפני תאריך ההתחלה '%{begin_date}')"
       invalid_user_defined_integer: "מספר שלם לא חוקי המוגדר על ידי המשתמש: %{value}"
       dig_row_not_saved: "דבר משורה זו לא נשמר, מכיוון שלא ניתן היה ליצור את האובייקט הדיגיטלי"
       invalid_file_version_size: "העמודה %{column} דורשת מספר שלם של בתים; התקבל '%{value}'"
