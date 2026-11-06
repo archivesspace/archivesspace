@@ -2,14 +2,6 @@ module ASpaceHelpers
   include Capybara::DSL
   include TestUtils::SpecBatchCreate
 
-  # The grace period covers requests that start after the triggering action.
-  def wait_for_jquery
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 0.4
-      sleep 0.1 until finished_all_ajax_requests?
-    end
-  end
-
   # Creates `count` published archival objects under `parent` (or at the top
   # level of `resource`) with a single batch import request.  See
   # TestUtils::SpecBatchCreate#batch_create_tree_children.

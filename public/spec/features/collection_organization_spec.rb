@@ -629,7 +629,7 @@ describe 'Collection Organization', js: true do
       it 'stops retrying and shows an error message' do
         visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-        wait_for_jquery
+        expect(page).to have_css('#infinite-records-container .waypoint.populated')
 
         num_empty_waypoints = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
 
@@ -658,7 +658,7 @@ describe 'Collection Organization', js: true do
       it 'retries and loads all records' do
         visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-        wait_for_jquery
+        expect(page).to have_css('#infinite-records-container .waypoint.populated')
 
         total_records = page.find('#infinite-records-container')['data-total-records']
 
