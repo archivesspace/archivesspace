@@ -307,8 +307,11 @@ describe 'Bulk Archival Object Updater', js: true do
       job_status = element['data-current-status']
     end
 
-    elements = all('#jobRecordsSpool .subrecord-form-fields a')
-    expect(elements.length).to eq 2
+    # The linked digital object can be listed too when the job saves it.
+    within('#jobRecordsSpool') do
+      expect(page).to have_link("Updated Archival Object Title 1 #{now}")
+      expect(page).to have_link("Updated Archival Object Title 2 #{now}")
+    end
 
     visit "resources/#{resource.id}/edit"
 
