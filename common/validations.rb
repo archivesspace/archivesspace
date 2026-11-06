@@ -172,6 +172,10 @@ module JSONModel::Validations
     end
   end
 
+  def self.parse_strict_date(s)
+    Date.strptime(s, '%Y-%m-%d')
+  end
+
 
   def self.check_date(hash)
     errors = []
@@ -704,13 +708,13 @@ module JSONModel::Validations
 
     if (rr = hash['rights_restriction'])
       begin
-        begin_date = Date.strptime(rr['begin'], '%Y-%m-%d') if rr['begin']
+        begin_date = parse_strict_date(rr['begin']) if rr['begin']
       rescue ArgumentError => e
         errors << ["rights_restriction__begin", "must be in YYYY-MM-DD format"]
       end
 
       begin
-        end_date = Date.strptime(rr['end'], '%Y-%m-%d') if rr['end']
+        end_date = parse_strict_date(rr['end']) if rr['end']
       rescue ArgumentError => e
         errors << ["rights_restriction__end", "must be in YYYY-MM-DD format"]
       end
