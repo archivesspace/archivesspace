@@ -194,6 +194,38 @@ it:
   subject:
     _singular: Soggetto
     _plural: Soggetti
+    authority_id: ID autorità
+    authority_id_tooltip: |
+      <p>L'identificativo univoco del record all'interno della fonte da cui è stato acquisito (ad esempio, un numero LCSH). L'identificativo può essere rappresentato sotto forma di URI.</p>
+    source: Fonte
+    subject_source: Fonte dell'argomento
+    source_tooltip: |
+      <p>Il vocabolario da cui è tratto un termine consolidato.</p>
+      <p>I valori presenti in questo elenco di valori controllati possono essere modificati.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Medical Subject Headings (MeSH)</li>
+      <li>Library of Congress Subject Headings (LCSH)</li>
+      </ul>
+    scope_note: Nota di ambito
+    scope_note_tooltip: |
+      <p>Una nota che spiega e chiarisce cosa si intende, e cosa non si intende, nella definizione del termine e nel suo utilizzo come intestazione di soggetto.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Qui sono registrate le opere che trattano studi biologici sui batteri. Le opere che riguardano la disciplina scientifica sono registrate sotto l'intestazione Batteriologia.</li>
+      <li>"Il diritto alla sicurezza e alla riservatezza nella propria abitazione." – Black, Law Dictionary, 4ª ed., 1951.</li>
+      </ul>
+    terms: Termini
+    terms_tooltip: |
+      <p>SOTTORECORD OBBLIGATORIO. Utilizzato per gestire ciascun termine o suddivisione all'interno di una determinata intestazione di soggetto. Ogni record di soggetto deve avere almeno un termine ad esso associato.</p>
+    external_documents_tooltip: |
+      <p>Consente di inserire collegamenti a documentazione esterna, ad esempio su come debba essere utilizzato un determinato titolo.</p>
+    heading: Intestazione dell'oggetto
+    new_title: Nuovo oggetto
+    linker:
+      browse: Esplora gli argomenti
+      create: Crea oggetto
+      link_title: Link all'argomento
   classification:
     creator: Creatore
     identifier: Identificatore
@@ -387,6 +419,23 @@ it:
     telephone_ext: Estensione
     fax: Fax
     email: E-mail
+    email_signature: Firma e-mail
+    url: URL della home page
+    url_tooltip: |
+      <p>Un URL per la pagina web del repository.</p>
+    contact_persons: Persone di riferimento
+    image_url: URL dell'immagine di branding
+    image_url_tooltip: |
+      <p>Un URL remoto o il percorso di un file locale contenente un'immagine identificativa (come un logo o un emblema) da utilizzare negli strumenti di ricerca online del repository. Tale immagine viene visualizzata nei PDF destinati al pubblico, nei PDF a uso interno e nella pagina dedicata al repository.</p>
+    new_title: Nuovo repository
+    publish: Pubblicare?
+    publish_tooltip: |
+      <p>Determina se questo repository e tutti i record in esso contenuti verranno pubblicati sulle interfacce pubbliche (utente).</p>
+    linker:
+      browse: Esplora i repository
+      create: Crea repository
+      link_title: Link al repository
+    position: Posizione
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
@@ -2135,3 +2184,192 @@ it:
         database (vedere %{ref_id} alla riga %{row_num}).
       loc_not_in_db: L'ID posizione specificato, %{loc_id}, non è stato trovato nel database (si 
         veda %{ref_id} alla riga %{row_num}).
+  term:
+    term: Termine
+    term_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Un descrittore relativo a una parte di un'intestazione di soggetto. A un'intestazione di soggetto deve essere associato almeno un termine.</p>
+    term_type: Tipo
+    term_type_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Un indicatore per esprimere il tipo o la categoria di un termine soggetto.</p>
+    _singular: Termine
+    _plural: Termini
+  user:
+    username: Nome utente
+    username_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il nome utente dell'account che l'utente utilizzerà per autenticarsi nell'applicazione. I caratteri consentiti includono a-z, A-Z, @, numeri, trattini e punti.</p>
+    name: Nome e cognome
+    name_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il nome completo dell'utente associato al nome utente.</p>
+    password: Password
+    password_tooltip: |
+      <p>La password utilizzata insieme al nome utente per autenticarsi nell'applicazione.</p>
+    confirm_password: Conferma password
+    confirm_password_tooltip: |
+      <p>Un secondo campo utilizzato per confermare la corrispondenza con la password inserita nel primo campo.</p>
+    email: E-mail
+    email_tooltip: |
+      <p>L'indirizzo e-mail dell'utente.</p>
+    first_name: Nome di battesimo
+    first_name_tooltip: |
+      <p>Il nome dell'utente.</p>
+    last_name: Cognome
+    last_name_tooltip: |
+      <p>Il cognome dell'utente.</p>
+    telephone: Telefono
+    telephone_tooltip: |
+      <p>Il numero di telefono dell'utente.</p>
+    title: Titolo
+    title_tooltip: |
+      <p>La qualifica professionale dell'utente.</p>
+    department: Dipartimento
+    department_tooltip: |
+      <p>Il dipartimento dell'utente.</p>
+    additional_contact: Ulteriori informazioni di contatto
+    additional_contact_tooltip: |
+      <p>Ulteriori informazioni di contatto dell'utente, oppure informazioni come l'orario di lavoro dell'utente.</p>
+    is_admin: Concedi i privilegi di amministratore di sistema
+    is_admin_tooltip: |
+      <p>Utilizzato per indicare se l'utente debba disporre di privilegi amministrativi completi sull'applicazione.</p>
+    create_time: Creata
+    user_mtime: Aggiornata
+    admin: Amministratore
+    _singular: Utente
+    _plural: Utenti
+    reset_password: Reimposta password
+  collection_management:
+    cataloged_note: Nota catalogata
+    cataloged_note_tooltip: |
+      <p>Una nota relativa alla catalogazione dell'unità archivistica (acquisizione, risorsa, oggetto digitale), che include l'indicazione degli identificativi della scheda di catalogo.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Numero della scheda di catalogo: 21345672</li>
+      </ul>
+    processing_hours_per_foot_estimate: Stima delle ore di lavorazione per unità
+    processing_hours_per_foot_estimate_tooltip: |
+      <p>Il tempo che un istituto di conservazione stima sia necessario per trattare un'unità di materiale archivistico (ad esempio, un piede lineare o, nel caso di oggetti digitali, un singolo elemento). Tale stima può includere o meno la redazione di strumenti di ricerca, schede catalografiche e altri strumenti che consentono l'accesso al materiale.</p>
+    processing_total_extent: Elaborazione dell'estensione totale
+    processing_total_extent_tooltip: |
+      <p>Un'espressione numerica per l'estensione totale (piedi cubi, piedi lineari, articoli, ecc.) elaborata. È necessario fornire un tipo di estensione insieme a questo campo.</p>
+    processing_total_extent_type: Tipo di estensione
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness_values_tooltip": '<ul><li><b>Valutazione 1</b>: I materiali risulterebbero
+        estremamente difficili da riformattare. Potrebbero presentare gravi problemi di conservazione,
+        essere in un formato del tutto obsoleto o comportare questioni di proprietà intellettuale che
+        ne limitano la riformattazione. I metadati potrebbero essere assenti o incompleti.</li><li><b>Valutazione
+        2</b>: I materiali risulterebbero difficili da riformattare. Potrebbero presentare problemi di
+        conservazione, essere in un formato obsoleto o comportare alcune questioni di proprietà intellettuale.
+        I metadati potrebbero essere assenti o incompleti.</li><li><b>Valutazione 3</b>: I materiali risulterebbero
+        moderatamente facili da riformattare. Potrebbero presentare alcuni problemi di conservazione,
+        essere in un formato obsoleto o comportare questioni di proprietà intellettuale di lieve entità.
+        I metadati sono presenti o possono essere creati facilmente.</li><li><b>Valutazione 4</b>: I materiali
+        risulterebbero relativamente facili da riformattare. I problemi di conservazione sono di lieve
+        entità, i formati non sono del tutto obsoleti e le questioni di proprietà intellettuale sono minime.
+        I metadati sono presenti.</li><li><b>Valutazione 5</b>: I materiali possono essere riformattati
+        senza alcuna difficoltà. Non vi sono problemi di conservazione, i formati sono recenti e non sussistono
+        questioni di proprietà intellettuale. I metadati sono presenti e completi.</li></ul>'
+      "Physical Condition_values_tooltip": "<ul><li><b>Valutazione 1</b>: Scarso: Danni/deterioramento
+        significativi che rendono la collezione di difficile utilizzo.</li><li><b>Valutazione 2</b>: Discreto:
+        Deterioramento leggermente superiore alle aspettative, con possibilità di un ulteriore peggioramento.</li><li><b>Valutazione
+        3</b>: Buono: Deterioramento previsto, con possibilità di un ulteriore peggioramento.</li><li><b>Valutazione
+        4</b>: Molto buono: Danni lievi, con possibilità di un ulteriore peggioramento dovuto alla qualità
+        eterogenea del materiale.</li><li><b>Valutazione 5</b>: Eccellente: Danni lievi; non si prevede
+        un ulteriore peggioramento, data l'elevata qualità del materiale.</li></ul>"
+      "Interest_values_tooltip": '<ul><li><b>Valutazione 1</b>: Trascurabile</li><li><b>Valutazione 2</b>:
+        Lieve</li><li><b>Valutazione 3</b>: Moderata</li><li><b>Valutazione 4</b>: Elevata</li><li><b>Valutazione
+        5</b>: Molto elevata</li></ul>'
+      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Valutazione 1</b>: Il ricercatore
+        non ha alcun accesso alla collezione: l'unica descrizione disponibile è costituita da documentazione
+        interna, come un fascicolo del donatore, un registro di controllo o una scheda di acquisizione
+        sintetica (e non accessibile). Sebbene tale documentazione interna possa variare per quantità
+        e qualità, per sua natura non è consultabile dai ricercatori.</li><li><b>Valutazione 2</b>: Il
+        ricercatore ha uno scarso accesso alla collezione: la collezione è priva di uno strumento di ricerca
+        (finding aid) o ne possiede uno di qualità insufficiente. Può essere presente un catalogo a schede
+        cartacee o un altro tipo di descrizione a livello di collezione non disponibile online, ma manca
+        un record MARC (a livello di collezione) nell'OPAC dell'istituto o in un catalogo bibliografico
+        nazionale. In alternativa, pur essendo presente un record MARC nell'OPAC o in un catalogo nazionale,
+        l'accesso risulta comunque inadeguato a causa delle dimensioni o della complessità della collezione.
+        In entrambi i casi, sebbene esistano altre fonti (online o offline) che descrivono la collezione,
+        queste non garantiscono un accesso sufficiente, a causa della complessità del materiale o dell'inadeguatezza
+        delle fonti stesse.</li><li><b>Valutazione 3</b>: Il ricercatore ha un accesso discreto alla collezione:
+        lo strumento di ricerca è di qualità insufficiente o del tutto assente. È tuttavia presente un
+        record MARC a livello di collezione nell'OPAC dell'istituto e/o in un catalogo bibliografico nazionale
+        (come OCLC). In mancanza di un record MARC completo, è disponibile un altro tipo di descrizione
+        online a livello di collezione. Grazie alle dimensioni ridotte o alla semplicità della collezione,
+        la descrizione fornita tramite le fonti disponibili (online o offline) risulta sufficiente per
+        consentire l'accesso.</li><li><b>Valutazione 4</b>: Il ricercatore ha un buon accesso alla collezione:
+        è disponibile un valido strumento di ricerca, sebbene non consultabile online, ed è presente un
+        record MARC a livello di collezione nell'OPAC dell'istituto e/o in un catalogo bibliografico nazionale
+        (come OCLC). In alternativa, pur mancando un record MARC nell'OPAC o in un catalogo nazionale,
+        è disponibile un valido strumento di ricerca (online o offline) che, data la sua qualità, garantisce
+        di per sé un buon accesso alla collezione. In entrambi i casi, il fondo può essere descritto anche
+        in altre fonti, online o offline, a disposizione dei ricercatori.</li><li><b>Valutazione 5</b>:
+        Il ricercatore dispone di un ottimo accesso al fondo: esiste un valido strumento di ricerca online
+        (in formato EAD, HTML, PDF o altro). È presente una scheda bibliografica in formato MARC a livello
+        di fondo nell'OPAC dell'istituto e/o in un catalogo bibliografico nazionale, come ad esempio OCLC.
+        Il fondo può inoltre essere descritto in altre fonti, online o offline, accessibili ai ricercatori
+        (come, ad esempio, una guida ai fondi, disponibile in versione cartacea o online).</li></ul>"
+      "Housing Quality_values_tooltip": "<ul><li><b>Valutazione 1</b>: Collezione conservata in contenitori
+        non idonei all'uso archivistico; alcuni documenti potrebbero trovarsi sfusi sullo scaffale. La
+        maggior parte del materiale non è inserita in cartelline e/o i contenitori risultano eccessivamente
+        pieni o, al contrario, troppo vuoti. Per quanto riguarda i volumi rilegati, la legatura è in cattive
+        condizioni: mancano i piatti o il blocco del testo risulta compromesso.</li><li><b>Valutazione
+        2</b>: Collezione conservata in contenitori e cartelline non idonei all'uso archivistico. Un numero
+        significativo di contenitori e cartelline può contenere una quantità sproporzionata di materiale,
+        oppure non essere della dimensione o della tipologia adatta a ciò che vi è riposto. Per quanto
+        riguarda i volumi rilegati, la legatura è in condizioni mediocri (i piatti potrebbero essere staccati).</li><li><b>Valutazione
+        3</b>: Collezione conservata in contenitori e cartelline non idonei all'uso archivistico, ma comunque
+        in buone condizioni. La maggior parte dei contenitori e delle cartelline contiene una quantità
+        adeguata di materiale ed è di dimensioni e tipologia corrette per il contenuto. Per quanto riguarda
+        i volumi rilegati, la legatura è in buone condizioni (sebbene mostri segni di usura, rimane integra).</li><li><b>Valutazione
+        4</b>: Collezione conservata parzialmente in contenitori e cartelline privi di acidi (acid-free)
+        e in buone condizioni. La maggior parte dei contenitori e delle cartelline contiene una quantità
+        adeguata di materiale ed è di dimensioni e tipologia corrette per il contenuto. Per quanto riguarda
+        i volumi rilegati, la legatura è in ottime condizioni (con i normali segni di usura previsti).</li><li><b>Valutazione
+        5</b>: Collezione conservata interamente in contenitori e cartelline privi di acidi (acid-free)
+        e in buone condizioni. I contenitori e le cartelline contengono una quantità adeguata di materiale
+        e sono di dimensioni e tipologia corrette per il contenuto. Per quanto riguarda i volumi rilegati,
+        la legatura è in condizioni eccellenti.</li></ul>"
+      "Documentation Quality_values_tooltip": '<ul><li><b>Valutazione 1</b>: Lieve</li><li><b>Valutazione
+        2</b>: Di valore occasionale</li><li><b>Valutazione 3</b>: Moderatamente ricco</li><li><b>Valutazione
+        4</b>: Ricco</li><li><b>Valutazione 5</b>: Molto ricco</li></ul>'
+      "Documentation Quality_tooltip": <p>Una valutazione da 1 a 5 che si riferisce alla ricchezza e
+        alla profondità della documentazione disponibile in una collezione. L'interesse e la qualità
+        della documentazione determinano il punteggio di "valore di ricerca".</p>
+      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Livello 1</b>: Completamente non ordinato;
+        molti documenti, a volte la maggior parte, non sono ancora stati estratti dalle buste, né spiegati
+        o spianati. Risultano del tutto inaccessibili ai ricercatori.</li><li><b>Livello 2</b>: Ordinamento
+        parziale o superficiale e/o sistemi di conservazione ed etichettatura non standardizzati rendono
+        difficile la consultazione, che richiede necessariamente l'assistenza del personale.</li><li><b>Livello
+        3</b>: Ordinamento di massima basato su data, tipologia documentale, funzione, provenienza o altre
+        caratteristiche; i documenti non sono stati esaminati in modo approfondito, sebbene siano stati
+        spiegati e spianati. Le serie e i fascicoli non sono pienamente definiti; spesso i ricercatori
+        devono esaminare una grande quantità di materiale estraneo per individuare i documenti pertinenti.
+        I singoli volumi potrebbero essere stati utilizzati per scopi diversi, contenere documenti incollati
+        al loro interno o presentarsi, in generale, in modo piuttosto disorganizzato.</li><li><b>Livello
+        4</b>: Ordinamento organizzato in serie e fascicoli. All'interno dei fascicoli, il materiale è
+        generalmente ben ordinato. I singoli volumi si presentano in modo ordinato (ad esempio, un registro
+        contabile organizzato alfabeticamente o un album di ritagli strutturato per temi).</li><li><b>Livello
+        5</b>: Ordinamento completo fino al singolo documento, organizzato in serie ed eventualmente in
+        sottoserie. I singoli volumi sono ordinati e dotati di indice (ad esempio, registri contabili
+        in ordine cronologico corredati da un indice dei nomi).</li></ul>"
+      "Documentation Quality_note_tooltip": Ulteriori informazioni sulla qualità della 
+        documentazione dei materiali.
+      "Housing Quality_note_tooltip": Indica aspetti particolarmente critici per quanto riguarda la 
+        conservazione della collezione.
+      "Intellectual Access_note_tooltip": Ulteriori informazioni sull'accesso intellettuale ai 
+        materiali e sulla loro descrizione.
+      "Interest_note_tooltip": Ulteriori informazioni sull'interesse per i materiali.
+      "Physical Access_note_tooltip": Ulteriori informazioni sull'accesso fisico ai materiali e 
+        sulla loro disposizione.
+      "Physical Condition_note_tooltip": Indica aspetti particolarmente critici per quanto riguarda 
+        lo stato di conservazione della collezione.
+      "Reformatting Readiness_note_tooltip": 'Indica aspetti critici riguardo alla potenziale digitalizzazione
+        o ad altre forme di riconversione del formato dei materiali. '
+    format:
+      "Architectural Materials": Materiali architettonici
+      "Art Originals": Opere d'arte originali
+      "Artifacts": Manufatti
+      "Audio Materials": Materiali audio
+      "Biological Specimens": Campioni biologici
+      "Botanical Specimens": Esemplari botanici
