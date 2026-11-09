@@ -67,6 +67,12 @@ When 'the user fills in and selects the Agent B in the merge dropdown form' do
   dropdown_items.first.click
 end
 
+Then 'the merge preview shows the Agent A' do
+  within '#mergePreviewModal' do
+    expect(page).to have_text "Agent A #{@uuid}"
+  end
+end
+
 Then 'the Agent B is deleted' do
   visit "#{STAFF_URL}/resources/#{@agent_second_id}"
 

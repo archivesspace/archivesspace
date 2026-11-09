@@ -106,6 +106,8 @@ class ApplicationController < ActionController::Base
         obj.update(instance)
       end
 
+      JSONModel.allow_suppressed_enum_values = obj['lock_version'].present?
+
       if opts[:required_fields]
         opts[:required_fields].add_errors(obj)
       end
@@ -132,7 +134,12 @@ class ApplicationController < ActionController::Base
         id = obj.save
       end
 
+      warning = suppressed_enum_values_warning(obj, model.schema)
+      flash.now[:suppressed_enum_values] = warning if warning
+
       opts[:on_valid].call(id)
+
+      flash.keep(:suppressed_enum_values) if warning && response.redirect?
     rescue ConflictException
       instance_variable_set(:"@record_is_stale".intern, true)
       opts[:on_invalid].call
@@ -140,7 +147,42 @@ class ApplicationController < ActionController::Base
       # Throw the form back to the user to display error messages.
       instance_variable_set("@exceptions".intern, obj._exceptions)
       opts[:on_invalid].call
+    ensure
+      JSONModel.allow_suppressed_enum_values = false
     end
+  end
+
+
+  def suppressed_enum_values_warning(obj, schema)
+    return unless JSONModel.any_enum_suppressed_values?
+
+    held = suppressed_enum_values_in(obj.to_hash(:raw), schema).map {|enum_name, value|
+      "#{t("enumeration_names.#{enum_name}", :default => enum_name)}: #{t("enumerations.#{enum_name}.#{value}", :default => value)}"
+    }.uniq
+
+    t("enumeration._frontend.messages.saved_with_suppressed_values", :values => held.join(", ")) unless held.empty?
+  end
+
+
+  def suppressed_enum_values_in(record, schema)
+    found = []
+
+    collect = proc do |hash, level_schema|
+      level_schema['properties'].each do |property, definition|
+        enum_name = definition['dynamic_enum'] || (definition['items'].is_a?(Hash) && definition['items']['dynamic_enum'])
+        next unless enum_name
+
+        (Array(hash[property]) & JSONModel.enum_suppressed_values(enum_name)).each do |value|
+          found << [enum_name, value]
+        end
+      end
+
+      hash
+    end
+
+    JSONSchemaUtils.map_hash_with_schema(record, schema, [collect])
+
+    found
   end
 
 

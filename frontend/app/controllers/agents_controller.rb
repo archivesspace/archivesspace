@@ -284,7 +284,7 @@ class AgentsController < ApplicationController
       else
         merge_response = ASUtils.json_parse(response.body)
 
-        @agent = JSONModel(@agent_type).from_hash(merge_response['result'], find_opts)
+        @agent = JSONModel(@agent_type).from_hash(merge_response['result'], true, true)
         render_aspace_partial partial: 'agents/merge_preview', locals: { object: @agent }
       end
     else
