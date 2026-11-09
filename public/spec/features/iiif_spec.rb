@@ -37,6 +37,15 @@ describe "IIIF integration" do
                        publish: true
     )
 
+    @accession = create(:accession,
+                        title: 'IIIF test accession',
+                        publish: true,
+                        instances: [build(:instance_digital,
+                                          digital_object: { ref: @do.uri },
+                                          is_representative: true
+                                    )]
+    )
+
     @ao = create(:archival_object,
                  publish: true,
                  title: 'IIIF test archival object',
@@ -150,6 +159,12 @@ describe "IIIF integration" do
         expect(record.iiif_manifest.fetch('file_uri')).to eq(@manifest_url)
       end
 
+      it "finds the accession IIIF manifest" do
+        record = ArchivesSpaceClient.instance.get_record(@accession.uri)
+        expect(record.iiif_manifest).to_not be_nil
+        expect(record.iiif_manifest.fetch('file_uri')).to eq(@manifest_url)
+      end
+
       it "finds the digital object IIIF manifest" do
         record = ArchivesSpaceClient.instance.get_record(@do.uri)
         expect(record.iiif_manifest).to_not be_nil
@@ -196,6 +211,17 @@ describe "IIIF integration" do
 
       it "renders the iframe when the archival object has an IIIF manifest" do
         visit @ao.uri
+
+        expect(page).to have_css('.iiif-embed')
+        expect(page).to have_css('.iiif-embed iframe')
+
+        iiif_iframe = find('.iiif-embed iframe')
+        expect(CGI.unescape(iiif_iframe['src'])).to eq(@viewer_url + @manifest_url)
+        expect(iiif_iframe['allow']).to eq('fullscreen')
+      end
+
+      it "renders the iframe when the accession has an IIIF manifest" do
+        visit @accession.uri
 
         expect(page).to have_css('.iiif-embed')
         expect(page).to have_css('.iiif-embed iframe')
