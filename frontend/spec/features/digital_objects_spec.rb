@@ -284,6 +284,27 @@ describe 'Digital Objects', js: true do
     expect(accordion).to have_no_css('img', visible: :all)
   end
 
+  it 'does not render images for jpeg or gif Digital Object Component file versions' do
+    digital_object = create(:digital_object, title: "Digital Object Title #{Time.now.to_i}")
+    digital_object_component = create(
+      :digital_object_component,
+      digital_object: { ref: digital_object.uri },
+      title: "Digital Object Component Title #{Time.now.to_i}",
+      file_versions: [
+        { file_uri: 'http://example.com/image.jpg', file_format_name: 'jpeg' },
+        { file_uri: 'http://example.com/image.gif', file_format_name: 'gif' }
+      ]
+    )
+
+    visit "digital_objects/#{digital_object.id}/##{tree_hash_for(digital_object_component.uri)}"
+    wait_for_ajax
+    wait_for_infinite_tree_pane_ready
+
+    accordion = find('#digital_object_component_file_versions__accordion')
+    expect(accordion).to have_css('.card', count: 2)
+    expect(accordion).to have_no_css('img', visible: :all)
+  end
+
   describe 'title field mixed content validation' do
     let(:digital_object) { create(:digital_object, title: 'Digital Object') }
 
