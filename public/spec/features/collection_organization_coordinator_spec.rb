@@ -42,6 +42,36 @@ describe 'Collection Organization Infinite Coordinator', js: true do
       expect(@tree_container).to have_css('.current', count: 1)
     end
 
+    it 'should mark the current record set before the tree renders' do
+      # A second tree whose coordinator already has a current record, as when
+      # the records' observer fires while the tree is still rendering
+      page.execute_script(<<~JS, @resource.uri, Rails.configuration.infinite_tree_batch_size, AppConfig[:public_proxy_url])
+        const [rootUri, batchSize, fetchPrefix] = arguments;
+        const container = document.createElement('div');
+        container.id = 'late-tree-container';
+        document.body.appendChild(container);
+
+        const coordinator = new InfiniteCoordinator();
+        coordinator.currentRecord = rootUri;
+
+        new InfiniteTree({
+          container,
+          rootUri,
+          batchSize,
+          fetchPrefix,
+          i18n: { sep: '-', bulk: 'bulk', expand: 'expand', collapse: 'collapse' },
+          titleRules: 'collection-organization',
+          coordinator,
+        });
+        coordinator.updateCurrentTreeNode();
+      JS
+
+      late_tree = find('#late-tree-container')
+      expect(late_tree).to have_css('.node', minimum: 2)
+      expect(late_tree).to have_css("[data-uri='#{@resource.uri}'].current")
+      expect(late_tree).to have_css('.current', count: 1)
+    end
+
     describe 'helps identify the current tree node' do
       it 'when its batch is initially rendered on parent expansion' do
         ao1_of_ao2_record = @records_container.find("[data-uri='#{@children_of_ao2.first.uri}']")
