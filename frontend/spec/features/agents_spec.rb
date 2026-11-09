@@ -378,7 +378,6 @@ describe 'Agents', js: true do
         expect(page).to have_current_path("/agents/agent_person/#{agent.id}")
       end
 
->>>>>>> a2948bf81 (Handle GET sort forms in embedded search results)
       it 'can add a date of existence to an Agent' do
         now = Time.now.to_i
 
