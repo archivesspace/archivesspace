@@ -507,9 +507,12 @@ module JSONModel
       def self.fetch_enumerations
         enumerations = {}
         enumerations[:defaults] = {}
+        enumerations[:suppressed] = {}
         JSONModel::JSONModel(:enumeration).all.each do |enumeration|
           enumerations[enumeration.name] = enumeration.values
           enumerations[:defaults][enumeration.name] = enumeration.default_value
+          suppressed = enumeration.enumeration_values.select {|v| v['suppressed']}.map {|v| v['value']}
+          enumerations[:suppressed][enumeration.name] = suppressed unless suppressed.empty?
         end
 
         enumerations
@@ -522,12 +525,21 @@ module JSONModel
 
 
       def valid?(name, value)
-        values_for(name).include?(value)
+        values_for(name).include?(value) ||
+          (JSONModel.allow_suppressed_enum_values? && suppressed_values_for(name).include?(value))
       end
 
 
       def values_for(name)
         @enumerations.fetch(name)
+      end
+
+      def suppressed_values_for(name)
+        @enumerations[:suppressed].fetch(name, [])
+      end
+
+      def any_suppressed_values?
+        !@enumerations[:suppressed].empty?
       end
 
       def default_value_for(name)

@@ -11,7 +11,8 @@ class ClientEnumSource
 
 
   def valid?(name, value)
-    values_for(name).include?(value)
+    values_for(name).include?(value) ||
+      (JSONModel.allow_suppressed_enum_values? && suppressed_values_for(name).include?(value))
   end
 
   def editable?(name)
@@ -25,6 +26,14 @@ class ClientEnumSource
 
   def values_for(name)
     MemoryLeak::Resources.get(:enumerations).fetch(name)
+  end
+
+  def suppressed_values_for(name)
+    MemoryLeak::Resources.get(:enumerations)[:suppressed].fetch(name, [])
+  end
+
+  def any_suppressed_values?
+    !MemoryLeak::Resources.get(:enumerations)[:suppressed].empty?
   end
 
   def default_value_for(name)

@@ -19,6 +19,18 @@ Feature: Subject Edit
        Examples:
          | Field        | NewValue        |
          | Scope Note   | Test Scope Note |
+  Scenario: Subject keeps a suppressed source when saved
+    Given a value has been added to the 'Subject Source (subject_source)' controlled value list
+      And the Subject is opened in edit mode
+      And the user selects the added controlled value from 'Source' in the 'Basic Information' form
+      And the user clicks on 'Save'
+      And the 'Subject' saved message is displayed
+      And the added controlled value is suppressed
+     When the Subject is opened in edit mode
+     Then the 'Source' has the suppressed controlled value selected in the 'Basic Information' form
+     When the user clicks on 'Save'
+     Then the 'Subject' saved message is displayed
+      And the suppressed controlled value warning is displayed for 'Subject Source'
   Scenario: Subject is not updated
     Given the Subject is opened in edit mode
      When the user clears 'Source' in the 'Basic Information' form
