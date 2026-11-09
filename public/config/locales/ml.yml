@@ -25,6 +25,9 @@ ml:
     cilpboard_cite_item_description: രേഖാ വിവരണത്തിന്റെ ഉദ്ധരണി ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക
     search_add_row: തിരയാൻ ഒരു വരി കൂടെ ചേർക്കുക
     search_remove_row: താഴെയുള്ള വരി നീക്കം ചെയ്യുക
+    staff_link: ജീവനക്കാർക്ക് മാത്രം
+    next: അടുത്തത്
+    previous: മുമ്പത്തെ
   brand:
     title: ആർക്കൈവ് സ്പേസ് പൊതു ഇൻറർഫെയ്സ്
     title_link_text: ആർക്കൈവ്സ്സ്പെയ്സ് ഹോംപേജിലേക്ക് മടങ്ങുക
@@ -32,3 +35,20 @@ ml:
     welcome_message: |
       <p>ഞങ്ങളുടെ ശേഖരങ്ങൾ, ഡിജിറ്റൽ മെറ്റീരിയലുകൾ എന്നിവയും അതിലേറെയും തിരയുക.</p>
     welcome_page_title: ആർക്കൈവ് സ്പേസ് പൊതു ഇൻറർഫെയ്സ്
+  pagination:
+    controls: പേജിനേഷൻ നിയന്ത്രണം
+  request:
+    email_header: നിങ്ങളുടെ അഭ്യർത്ഥനയ്ക്ക് നന്ദി.
+    required: ആവശ്യമായത്
+    user_name: നിങ്ങളുടെ പേര്
+    user_email: നിങ്ങളുടെ ഇമെയിൽ അഡ്രസ്സ്വി/ലാസം
+    date: പ്രതീക്ഷിത ആഗമന/വരവ് തീയതി
+    note: ജീവനക്കാർക്കുള്ള കുറിപ്പ്
+  search_results:
+    highlighting:
+      agents_text: ഏജന്റ്/പ്രതിനിധി/ഘടകം
+      subjects_text: വിഷയം/പ്രമേയം
+      creators_text: സ്രഷ്ടാവ്/ രചയിതാവ്
+      dates: തീയതികൾ
+      acquisition_type: കെെക്കൊള്ളൽ തരം
+      notes_published: കുറിപ്പുകൾ
