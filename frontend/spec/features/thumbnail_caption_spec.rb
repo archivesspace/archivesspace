@@ -23,7 +23,7 @@ describe 'Thumbnail caption', js: true do
   it 'shows only the text of a caption containing markup' do
     visit "digital_objects/#{@digital_object.id}"
 
-    within '#infinite-tree-record-pane' do
+    within '#tree-record-pane' do
       expect(page).to have_css('.digital-object-thumbnail-caption', text: 'Markup caption')
       expect(page).not_to have_css('.digital-object-thumbnail-caption *', visible: :all)
     end

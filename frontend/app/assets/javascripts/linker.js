@@ -373,10 +373,8 @@ $(function () {
             idMatches &&
             (onResource || onArchivalObject)
           ) {
-            // On resources/:id/edit the record form lives in the InfiniteTree record pane.
-            const currentForm = $('#infinite-tree-record-pane')
-              .find('form')
-              .first();
+            // On resources/:id/edit the record form lives in the Tree record pane.
+            const currentForm = $('#tree-record-pane').find('form').first();
             if (onResource) {
               return [
                 {

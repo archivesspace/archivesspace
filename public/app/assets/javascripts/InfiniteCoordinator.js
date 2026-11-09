@@ -1,6 +1,6 @@
 (function (exports) {
   /**
-   * Shares the current record between InfiniteRecords and InfiniteTree on the
+   * Shares the current record between InfiniteRecords and Tree on the
    * collection organization page
    */
   class InfiniteCoordinator {
@@ -21,8 +21,8 @@
     }
 
     /**
-     * Called by InfiniteTree so current-node updates are scoped to that tree
-     * @param {InfiniteTree} tree - The tree instance
+     * Called by Tree so current-node updates are scoped to that tree
+     * @param {Tree} tree - The tree instance
      */
     registerTree(tree) {
       this.tree = tree;

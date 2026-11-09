@@ -15,24 +15,24 @@
   /**
    * @returns {{ type: string, id: string }|null}
    */
-  function spawnPartsFromInfiniteTree() {
-    const container = document.querySelector('#infinite-tree-container');
-    const { InfiniteTreeIds } = window;
-    if (!container || !InfiniteTreeIds) {
+  function spawnPartsFromTree() {
+    const container = document.querySelector('#tree-container');
+    const { TreeIds } = window;
+    if (!container || !TreeIds) {
       return null;
     }
 
     const node = container.querySelector(
-      'li.node.current:not(.js-itree-synthetic-new)'
+      'li.node.current:not(.js-tree-synthetic-new)'
     );
     if (!node) {
       return null;
     }
 
     const uri = node.getAttribute('data-uri');
-    let parts = uri ? InfiniteTreeIds.uriToParts(uri) : null;
+    let parts = uri ? TreeIds.uriToParts(uri) : null;
     if (!parts && node.id) {
-      parts = InfiniteTreeIds.parseTreeId(node.id);
+      parts = TreeIds.parseTreeId(node.id);
     }
 
     if (!parts || !SPAWN_TYPES.has(parts.type)) {
@@ -69,7 +69,7 @@
         return;
       }
 
-      const parts = spawnPartsFromInfiniteTree();
+      const parts = spawnPartsFromTree();
       if (!parts) {
         return;
       }

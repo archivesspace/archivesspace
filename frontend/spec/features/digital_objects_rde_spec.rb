@@ -19,9 +19,9 @@ describe 'Digital Object RDE', js: true do
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
     run_indexer
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
-    open_infinite_tree_rapid_data_entry_modal
+    open_tree_rapid_data_entry_modal
     expect(page).to have_css '#digital_record_children_children__0__title_'
 
     click_on 'Save Rows'
@@ -58,9 +58,9 @@ describe 'Digital Object RDE', js: true do
     run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
-    open_infinite_tree_rapid_data_entry_modal
+    open_tree_rapid_data_entry_modal
 
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
     fill_in 'digital_record_children_children__0__title_', with: child_title
@@ -70,7 +70,7 @@ describe 'Digital Object RDE', js: true do
     wait_for_ajax
 
     expect(page).to have_css(
-      "#infinite-tree-container .node.indent-level-1 a.record-title",
+      "#tree-container .node.indent-level-1 a.record-title",
       text: child_title,
       wait: 20
     )
@@ -83,9 +83,9 @@ describe 'Digital Object RDE', js: true do
     run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
-    open_infinite_tree_rapid_data_entry_modal
+    open_tree_rapid_data_entry_modal
 
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
     fill_in 'digital_record_children_children__0__title_', with: child_title
@@ -94,27 +94,27 @@ describe 'Digital Object RDE', js: true do
     click_on 'Save Rows'
 
     expect(page).to have_css(
-      "#infinite-tree-container .node.indent-level-1 a.record-title",
+      "#tree-container .node.indent-level-1 a.record-title",
       text: child_title,
       wait: 20
     )
 
-    expect(page).to have_css('#infinite-tree-record-pane #form_digital_object', wait: 20)
+    expect(page).to have_css('#tree-record-pane #form_digital_object', wait: 20)
     wait_for_ajax
 
-    within('#infinite-tree-container') do
+    within('#tree-container') do
       click_link child_title
     end
     wait_for_ajax
 
-    within('#infinite-tree-record-pane') do
+    within('#tree-record-pane') do
       expect(page).to have_css('#form_digital_object_component', wait: 20)
       expect(page).to have_css('h2', text: "#{child_title}, 2013 Digital Object Component")
     end
 
     expect(find('#digital_object_component_title_', visible: false).text).to eq child_title
 
-    open_infinite_tree_rapid_data_entry_modal
+    open_tree_rapid_data_entry_modal
   end
 
   it 'can add multiple children and sticky columns stick' do
@@ -123,9 +123,9 @@ describe 'Digital Object RDE', js: true do
     run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
-    open_infinite_tree_rapid_data_entry_modal
+    open_tree_rapid_data_entry_modal
 
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
     find('#digital_record_children_children__0__publish_').click
@@ -146,12 +146,12 @@ describe 'Digital Object RDE', js: true do
     wait_for_ajax
 
     expect(page).to have_css(
-      "#infinite-tree-container a.record-title",
+      "#tree-container a.record-title",
       text: 'Child 1',
       wait: 20
     )
     expect(page).to have_css(
-      "#infinite-tree-container a.record-title",
+      "#tree-container a.record-title",
       text: 'Child 2',
       wait: 20
     )
@@ -163,9 +163,9 @@ describe 'Digital Object RDE', js: true do
     run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
-    open_infinite_tree_rapid_data_entry_modal
+    open_tree_rapid_data_entry_modal
 
     find('#digital_record_children_children__0__publish_').click
 

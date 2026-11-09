@@ -5,15 +5,15 @@
   Locals: heading_text, root_node_uri, current_node_uri
 %>
 <h2><%= heading_text %></h2>
-<%= render partial: 'shared/infinite_tree_record_container', locals: {
+<%= render partial: 'shared/tree_record_container', locals: {
   id: 'record-tree-container',
   root_uri: root_node_uri,
   current_uri: current_node_uri
 } %>
-<%= infinite_tree_templates %>
+<%= tree_templates %>
 
 <script>
-  InfiniteTree.fromRecordContainer(
+  Tree.fromRecordContainer(
     document.querySelector('#record-tree-container')
   );
 </script>

@@ -40,7 +40,7 @@ describe 'Classification search results subgroups', js: true do
     @classifications.each do |records|
       row = row_for(records[:classification])
 
-      expect(row).not_to have_css('.classification-subgroups-tree .infinite-tree')
+      expect(row).not_to have_css('.classification-subgroups-tree .tree')
 
       row.find('button.subgroup-toggle').click
 
@@ -54,7 +54,7 @@ describe 'Classification search results subgroups', js: true do
       end
     end
 
-    expect(page).to have_css('template#infinite-tree-node-template', visible: :all, count: 1)
+    expect(page).to have_css('template#tree-node-template', visible: :all, count: 1)
   end
 
   it 'hides and shows the tree without re-rendering it' do
@@ -62,7 +62,7 @@ describe 'Classification search results subgroups', js: true do
     toggle = row.find('button.subgroup-toggle')
 
     toggle.click
-    expect(row).to have_css('.classification-subgroups-tree .infinite-tree', count: 1)
+    expect(row).to have_css('.classification-subgroups-tree .tree', count: 1)
     expect(toggle['aria-pressed']).to eq 'true'
 
     toggle.click
@@ -70,6 +70,6 @@ describe 'Classification search results subgroups', js: true do
     expect(toggle['aria-pressed']).to eq 'false'
 
     toggle.click
-    expect(row).to have_css('.classification-subgroups-tree .infinite-tree', count: 1)
+    expect(row).to have_css('.classification-subgroups-tree .tree', count: 1)
   end
 end
