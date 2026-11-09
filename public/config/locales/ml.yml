@@ -52,3 +52,20 @@ ml:
       dates: തീയതികൾ
       acquisition_type: കെെക്കൊള്ളൽ തരം
       notes_published: കുറിപ്പുകൾ
+      four_part_id: ഐഡന്റിഫയർ
+      finding_aid_title: രേഖാസൂചികയുടെ ശീർഷകം
+    result: ഫലം
+    results: ഫലങ്ങൾ
+    error: അപ്രതീക്ഷിതമായ ഒരു പിഴവ് കാരണം നിങ്ങളുടെ തിരച്ചിൽ പൂർത്തിയാക്കാൻ സാധിച്ചില്ല
+    no_results: രേഖകളൊന്നും കണ്ടെത്തിയില്ല
+    more_facets: കൂടുതൽ
+    fewer_facets: കുറവായി
+    op:
+      AND: പിന്നെ
+      OR: അല്ലെങ്കിൽ
+    op_first_row:
+      NOT: അല്ല
+    filter:
+      head: ഫലങ്ങൾ ഫിൽട്ടർ ചെയ്യുക
+      creators: സ്രഷ്ടാവ്/രചയിതാവ്
+      fullrecord: സൂചകപദം/കീവേർഡ്
