@@ -47,6 +47,76 @@ describe "IIIF integration" do
                              )]
     )
 
+    @unpublished_do = create(:digital_object,
+                             publish: false,
+                             file_versions: [
+                               build(:file_version,
+                                     file_format_name: 'iiif',
+                                     use_statement: 'text-json',
+                                     xlink_show_attribute: 'embed',
+                                     file_uri: @manifest_url,
+                                     publish: true)
+                             ])
+
+    @resource_non_representative = create(:resource,
+                                          title: 'IIIF test resource with a non-representative manifest',
+                                          publish: true,
+                                          instances: [build(:instance_digital,
+                                                            digital_object: { ref: @do.uri },
+                                                            is_representative: false)])
+
+    @ao_non_representative = create(:archival_object,
+                                    publish: true,
+                                    title: 'IIIF test archival object with a non-representative manifest',
+                                    resource: {'ref' => @resource.uri},
+                                    instances: [build(:instance_digital,
+                                                      digital_object: { ref: @do.uri },
+                                                      is_representative: false)])
+
+    unpublished_representative_instances = -> {
+      [build(:instance_digital, digital_object: { ref: @unpublished_do.uri }, is_representative: true),
+       build(:instance_digital, digital_object: { ref: @do.uri }, is_representative: false)]
+    }
+
+    @resource_unpublished_representative = create(:resource,
+                                                  title: 'IIIF test resource with an unpublished representative manifest',
+                                                  publish: true,
+                                                  instances: unpublished_representative_instances.call)
+
+    @ao_unpublished_representative = create(:archival_object,
+                                            publish: true,
+                                            title: 'IIIF test archival object with an unpublished representative manifest',
+                                            resource: {'ref' => @resource.uri},
+                                            instances: unpublished_representative_instances.call)
+
+    suppressed_do = create(:digital_object,
+                           publish: true,
+                           file_versions: [
+                             build(:file_version,
+                                   file_format_name: 'iiif',
+                                   use_statement: 'text-json',
+                                   xlink_show_attribute: 'embed',
+                                   file_uri: @manifest_url,
+                                   publish: true)
+                           ])
+
+    @resource_suppressed_representative = create(:resource,
+                                                 title: 'IIIF test resource with a suppressed representative manifest',
+                                                 publish: true,
+                                                 instances: [build(:instance_digital,
+                                                                   digital_object: { ref: suppressed_do.uri },
+                                                                   is_representative: true)])
+
+    @ao_suppressed_representative = create(:archival_object,
+                                           publish: true,
+                                           title: 'IIIF test archival object with a suppressed representative manifest',
+                                           resource: {'ref' => @resource.uri},
+                                           instances: [build(:instance_digital,
+                                                             digital_object: { ref: suppressed_do.uri },
+                                                             is_representative: true)])
+
+    suppressed_do.set_suppressed(true)
+
     run_indexers
   end
 
@@ -84,6 +154,30 @@ describe "IIIF integration" do
         record = ArchivesSpaceClient.instance.get_record(@do.uri)
         expect(record.iiif_manifest).to_not be_nil
         expect(record.iiif_manifest.fetch('file_uri')).to eq(@manifest_url)
+      end
+
+      it "ignores a IIIF manifest on a non-representative resource instance" do
+        expect(ArchivesSpaceClient.instance.get_record(@resource_non_representative.uri).iiif_manifest).to be_nil
+      end
+
+      it "ignores a IIIF manifest on a non-representative archival object instance" do
+        expect(ArchivesSpaceClient.instance.get_record(@ao_non_representative.uri).iiif_manifest).to be_nil
+      end
+
+      it "ignores the resource IIIF manifests when its representative digital object is unpublished" do
+        expect(ArchivesSpaceClient.instance.get_record(@resource_unpublished_representative.uri).iiif_manifest).to be_nil
+      end
+
+      it "ignores the archival object IIIF manifests when its representative digital object is unpublished" do
+        expect(ArchivesSpaceClient.instance.get_record(@ao_unpublished_representative.uri).iiif_manifest).to be_nil
+      end
+
+      it "ignores the resource IIIF manifest when its representative digital object is suppressed" do
+        expect(ArchivesSpaceClient.instance.get_record(@resource_suppressed_representative.uri).iiif_manifest).to be_nil
+      end
+
+      it "ignores the archival object IIIF manifest when its representative digital object is suppressed" do
+        expect(ArchivesSpaceClient.instance.get_record(@ao_suppressed_representative.uri).iiif_manifest).to be_nil
       end
     end
 
@@ -125,6 +219,48 @@ describe "IIIF integration" do
       it "doesn't render an iframe when there is no IIIF manifest" do
         visit @resource_without_iiif.uri
 
+        expect(page).to_not have_css('.iiif-embed')
+      end
+
+      it "doesn't render an iframe for a IIIF manifest on a non-representative resource instance" do
+        visit @resource_non_representative.uri
+
+        expect(page).to have_css('h1', text: 'IIIF test resource with a non-representative manifest')
+        expect(page).to_not have_css('.iiif-embed')
+      end
+
+      it "doesn't render an iframe for a IIIF manifest on a non-representative archival object instance" do
+        visit @ao_non_representative.uri
+
+        expect(page).to have_css('h1', text: 'IIIF test archival object with a non-representative manifest')
+        expect(page).to_not have_css('.iiif-embed')
+      end
+
+      it "doesn't render an iframe when the resource's representative digital object is unpublished" do
+        visit @resource_unpublished_representative.uri
+
+        expect(page).to have_css('h1', text: 'IIIF test resource with an unpublished representative manifest')
+        expect(page).to_not have_css('.iiif-embed')
+      end
+
+      it "doesn't render an iframe when the archival object's representative digital object is unpublished" do
+        visit @ao_unpublished_representative.uri
+
+        expect(page).to have_css('h1', text: 'IIIF test archival object with an unpublished representative manifest')
+        expect(page).to_not have_css('.iiif-embed')
+      end
+
+      it "doesn't render an iframe when the resource's representative digital object is suppressed" do
+        visit @resource_suppressed_representative.uri
+
+        expect(page).to have_css('h1', text: 'IIIF test resource with a suppressed representative manifest')
+        expect(page).to_not have_css('.iiif-embed')
+      end
+
+      it "doesn't render an iframe when the archival object's representative digital object is suppressed" do
+        visit @ao_suppressed_representative.uri
+
+        expect(page).to have_css('h1', text: 'IIIF test archival object with a suppressed representative manifest')
         expect(page).to_not have_css('.iiif-embed')
       end
     end
