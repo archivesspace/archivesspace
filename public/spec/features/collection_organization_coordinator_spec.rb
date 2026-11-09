@@ -17,6 +17,11 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     )
 
     @children_of_ao2 = batch_create_archival_objects(61, resource: @resource, parent: @ao2) # 3 batches
+    @late_tree_resource = create(:resource, title: "Late tree resource #{@now}", publish: true)
+    create(:archival_object,
+      resource: {'ref' => @late_tree_resource.uri},
+      publish: true
+    )
 
     run_indexers
   end
@@ -45,7 +50,7 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     it 'should mark the current record set before the tree renders' do
       # A second tree whose coordinator already has a current record, as when
       # the records' observer fires while the tree is still rendering
-      page.execute_script(<<~JS, @resource.uri, Rails.configuration.infinite_tree_batch_size, AppConfig[:public_proxy_url])
+      page.execute_script(<<~JS, @late_tree_resource.uri, Rails.configuration.infinite_tree_batch_size, AppConfig[:public_proxy_url])
         const [rootUri, batchSize, fetchPrefix] = arguments;
         const container = document.createElement('div');
         container.id = 'late-tree-container';
@@ -68,7 +73,7 @@ describe 'Collection Organization Infinite Coordinator', js: true do
 
       late_tree = find('#late-tree-container')
       expect(late_tree).to have_css('.node', minimum: 2)
-      expect(late_tree).to have_css("[data-uri='#{@resource.uri}'].current")
+      expect(late_tree).to have_css("[data-uri='#{@late_tree_resource.uri}'].current")
       expect(late_tree).to have_css('.current', count: 1)
     end
 
