@@ -212,7 +212,7 @@ class AgentLinker
       @report.add_errors(I18n.t("bulk_import.error.agent_unsupported_type", :num => num, :accepted => accepted_agent_types))
     when :invalid
       key = attribute == :publish ? "agent_unrecognized_boolean" : "agent_invalid_value"
-      @report.add_errors(I18n.t("bulk_import.error.#{key}", :num => num, :field => field, :value => error[:value]))
+      @report.add_errors(I18n.t("bulk_import.error.#{key}", :num => num, :field => field, :value => error[:value], :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
     when :incompatible
       @report.add_errors(I18n.t("bulk_import.error.agent_incompatible_field", :num => num, :field => field, :agent_type => agent_type))
     else

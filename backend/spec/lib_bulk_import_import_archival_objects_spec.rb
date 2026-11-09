@@ -1764,7 +1764,8 @@ describe "Import Archival Objects" do
       report = import_row('file_version_file_uri_1' => 'http://example.com/1', 'file_version_is_display_thumbnail_1' => 'maybe')
 
       expect(report.terminal_error).to be_nil
-      expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'file_version_is_display_thumbnail_1', :value => 'maybe'))
+      expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'file_version_is_display_thumbnail_1', :value => 'maybe', :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
+      expect(report.rows[0].errors.join).to include('1, T, Y, YES, TRUE, 0, F, N, NO, FALSE')
     end
 
     describe 'digital_object_is_representative' do
@@ -1799,7 +1800,8 @@ describe "Import Archival Objects" do
       it 'reports a value that is not a boolean' do
         report = import_row(published_thumbnail.merge('digital_object_is_representative' => 'maybe'))
 
-        expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'digital_object_is_representative', :value => 'maybe'))
+        expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'digital_object_is_representative', :value => 'maybe', :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
+        expect(report.rows[0].errors.join).to include('1, T, Y, YES, TRUE, 0, F, N, NO, FALSE')
       end
     end
 

@@ -130,7 +130,7 @@ module RowFieldBuilders
   def digital_object_boolean(column)
     ASpaceImport::Utils.normalize_boolean.call(@row_hash[column])
   rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
-    raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value))
+    raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value, :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
   end
 
   def file_version_file_size_bytes(column, value)

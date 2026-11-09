@@ -4,7 +4,7 @@ it:
     agent_would_link_existing: "L'agente %{num} verrebbe collegato all'agente esistente %{name}: %{uri}"
     agent_would_link_earlier_row: "L'agente %{num} verrebbe collegato all'agente %{name}, che verrebbe creato in %{row}"
     error:
-      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vuoto per usare il valore predefinito"
+      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: %{accepted}, o vuoto per usare il valore predefinito"
       note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando una di queste colonne contiene un valore: %{columns}"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
       dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto digitale"
@@ -16,7 +16,7 @@ it:
       agent_unsupported_type: "L'agente %{num} ha un tipo di agente non supportato. Valori accettati: %{accepted}"
       agent_required_field: "L'agente %{num}, campo %{field}, è obbligatorio"
       agent_invalid_value: "L'agente %{num}, campo %{field}, non è un valore esistente: '%{value}'"
-      agent_unrecognized_boolean: "L'agente %{num}, campo %{field}, richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oppure vuoto per usare il valore predefinito"
+      agent_unrecognized_boolean: "L'agente %{num}, campo %{field}, richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: %{accepted}, oppure vuoto per usare il valore predefinito"
       agent_incompatible_field: "L'agente %{num}, campo %{field}, non è valido per il tipo di agente '%{agent_type}'. Nessun agente è stato creato o collegato"
       agent_mode_conflict: "L'agente %{num}, campo %{field}, non può essere combinato con i campi di creazione dell'agente (%{creation_fields}). Nessun agente è stato creato o collegato"
       agent_invalid_record_id: "L'agente %{num}, campo %{field}, richiede un ID numerico positivo o un URI canonico dell'agente; ricevuto '%{value}'"
@@ -1866,7 +1866,7 @@ it:
       agent_type_uri_mismatch: "Il gruppo Agente %{index} ha un tipo di Agente %{agent_type} che non corrisponde
         all’URI del record %{record_id}"
       unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve
-        essere uno tra: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vuoto per usare il valore predefinito"
+        essere uno tra: %{accepted}, o vuoto per usare il valore predefinito"
       unconfigured_headers: "Intestazioni CSV non riconosciute: %{columns}"
       bad_headers: "Intestazioni CSV non valide: %{columns}"
       duplicate_file_version_headers: "Colonne di Versione File duplicate: %{columns}"
