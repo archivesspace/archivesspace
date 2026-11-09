@@ -330,6 +330,55 @@ describe 'Agents', js: true do
         expect(elements[0]).to have_text "External Document Location #{now}"
       end
 
+      it 'provides screen reader context for linked record headings' do
+        agent = create(:agent_person, title: 'Agent for events')
+
+        visit "agents/agent_person/#{agent.id}"
+
+        expect(page).to have_css('h2 .sr-only', text: 'Agent record:', visible: :all)
+
+        within '#linked_agents' do
+          expect(page).to have_css('h3', text: 'Linked Records')
+          expect(page).to have_css('.sr-only', text: 'related to this agent', visible: :all)
+        end
+
+        within '#linked_via_rights_statements' do
+          expect(page).to have_css('h3', text: 'Linked Records via Rights Statement')
+          expect(page).to have_css('.sr-only', text: 'related to this agent', visible: :all)
+        end
+
+        within '#events' do
+          expect(page).to have_css('h3', text: 'Events')
+          expect(page).to have_css('.sr-only', text: 'related to this agent', visible: :all)
+        end
+      end
+
+      it 'sorts embedded linked records without navigating to a JavaScript response' do
+        agent = create(:agent_person, title: 'Agent for sorting')
+        visit "agents/agent_person/#{agent.id}"
+
+        within '#linked_agents' do
+          form_html = <<~HTML
+            <form action="/search" method="get">
+              <input type="hidden" name="format" value="js">
+              <input type="hidden" name="listing_only" value="true">
+              <input type="hidden" name="filter_term[]" value='{"agent_uris":"/agents/people/does-not-exist"}'>
+              <input type="hidden" name="sort" value="title_sort asc">
+              <button type="submit">Title</button>
+            </form>
+          HTML
+          execute_script(
+            "document.querySelector('#linked_agents .embedded-search').innerHTML = arguments[0]",
+            form_html
+          )
+          click_button 'Title'
+          expect(page).to have_text 'No records found'
+        end
+
+        expect(page).to have_current_path("/agents/agent_person/#{agent.id}")
+      end
+
+>>>>>>> a2948bf81 (Handle GET sort forms in embedded search results)
       it 'can add a date of existence to an Agent' do
         now = Time.now.to_i
 
