@@ -129,6 +129,11 @@ RSpec.configure do |config|
   end
 
   config.append_after(:each, js: true) do
+    begin
+      page.driver.browser.navigate.to('about:blank')
+    rescue Selenium::WebDriver::Error::WebDriverError, Net::ReadTimeout
+      nil
+    end
     Capybara.reset_sessions!
 
     # Make sure all browser windows except one are closed

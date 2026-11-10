@@ -730,7 +730,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_place' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -741,7 +741,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -767,7 +767,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_place' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -778,7 +778,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -811,7 +811,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_place' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -822,7 +822,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -857,7 +857,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_occupation' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -868,7 +868,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -893,7 +893,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_occupation' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -905,7 +905,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
         wait_for_ajax
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -937,7 +937,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_occupation' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -948,7 +948,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -982,7 +982,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_function' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -993,7 +993,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -1018,7 +1018,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_function' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1029,7 +1029,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -1061,7 +1061,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_function' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1073,7 +1073,7 @@ describe 'Agents', js: true do
         # Click on save
         click_button('Save Subject', match: :first)
         wait_for_ajax
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -1107,7 +1107,7 @@ describe 'Agents', js: true do
       end
 
       it 'can create an agent_topic' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1118,7 +1118,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -1143,7 +1143,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a date to an agent_topic' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1154,7 +1154,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -1186,7 +1186,7 @@ describe 'Agents', js: true do
       end
 
       it 'can add a note to an agent_topic' do
-        now = Time.now.to_i
+        now = "#{Time.now.to_i}#{SecureRandom.hex(2)}"
 
         click_on 'Create'
         click_on 'Subject'
@@ -1198,7 +1198,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
         wait_for_ajax
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
+        expect(page).to have_css('h2', text: "Subject Term #{now}")
 
         run_index_round
 
@@ -1297,9 +1297,7 @@ describe 'Agents', js: true do
 
         visit '/agents?filter_term[]={"primary_type":"agent_person"}&sort=create_time+desc'
 
-        elements = all('#tabledSearchResults tbody tr')
-        expect(elements.length > 0).to eq true
-        expect(elements[0]).to have_text agent.names.first['primary_name']
+        expect(page).to have_css('#tabledSearchResults tbody tr', text: agent.names.first['primary_name'])
       end
 
       it 'returns agents in search results and shows their types correctly' do

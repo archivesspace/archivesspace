@@ -156,6 +156,7 @@ describe 'Notes', js: true do
     find('button', text: 'Save Resource', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
+    expect(page).to have_css('#resource_notes_ li.collapsed')
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
     expect(find('input#resource_notes__0__subnotes__1__items__0_').value).to eq "Item 1 #{now}"
@@ -176,8 +177,7 @@ describe 'Notes', js: true do
     find('button', text: 'Save Resource', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
-    wait_for_ajax
-
+    expect(page).to have_css('#resource_notes_ li.collapsed')
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
     expect(find('input#resource_notes__0__subnotes__1__items__0_').value).to eq "Item 1 #{now}"
@@ -466,9 +466,7 @@ describe 'Notes', js: true do
 
     find('#digital_object_notes_ .collapse-subrecord-toggle').click
 
-    element = find('#digital_object_notes__0__content__0_')
-    element.text
-    expect(element.text).to include "Content\nSummary Content #{now}"
+    expect(find('#digital_object_notes__0__content__0_')).to have_text "Content\nSummary Content #{now}"
   end
 
   it 'shows a validation error when note content is empty' do

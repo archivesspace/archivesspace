@@ -51,9 +51,7 @@ describe 'Subjects', js: true do
     element = find('button', text: 'Save', match: :first)
     element.click
 
-    expect(page).to have_text 'Subject Created'
-    element = find('.record-pane h2')
-    expect(element).to have_text "First Term #{now} -- Second Term #{now}"
+    expect(page).to have_css('.record-pane h2', text: "First Term #{now} -- Second Term #{now}")
   end
 
   it 'does not create a new subject if there is another identical subject' do
@@ -71,7 +69,7 @@ describe 'Subjects', js: true do
     element = find('button', text: 'Save', match: :first)
     element.click
 
-    expect(page).to have_text 'Subject Created'
+    expect(page).to have_css('.record-pane h2', text: "Subject Term #{now}")
     element = find('.record-pane h2')
 
     split_url = current_url.split('/')
@@ -128,9 +126,7 @@ describe 'Subjects', js: true do
     element = find('button', text: 'Save', match: :first)
     element.click
 
-    expect(page).to have_text 'Subject Created'
-    element = find('.record-pane h2')
-    expect(element).to have_text "First Term #{now} -- Second Term #{now}"
+    expect(page).to have_css('.record-pane h2', text: "First Term #{now} -- Second Term #{now}")
 
     first_element = find('#subject_terms__0_ .drag-handle')
     second_element = find('#subject_terms__1_ .drag-handle')
@@ -172,11 +168,10 @@ describe 'Subjects', js: true do
     element = find('#createPlusOne')
     element.click
 
-    expect(page).to have_text 'Subject Created'
+    expect(page).to have_field('subject_terms__0__term_', with: '')
     expect(page).to have_text 'New Subject'
 
     expect(find('#subject_source_').value).to eq('')
-    expect(find('#subject_terms__0__term_').value).to eq('')
     expect(find('#subject_terms__0__term_type_').value).to eq('')
   end
 

@@ -564,7 +564,8 @@ describe 'Collection Organization', js: true do
 
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
-      expect(page).to have_css('#records-loading-dialog', visible: false)
+      expect(page).to have_css('#infinite-records-container .waypoint.populated')
+      expect(page).to have_no_css('#records-loading-dialog[open]', visible: :all)
       toggle = page.find('.load-all__label-toggle')
       total_records = page.find('#infinite-records-container')['data-total-records'].to_i
 

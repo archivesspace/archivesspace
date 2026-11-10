@@ -79,11 +79,11 @@ describe 'Enumeration Management', js: true do
     create_enum_value(enumeration_a)
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
     expect(page).to have_css '.enumeration-list tr', text: enumeration_a
+    page.execute_script("document.querySelectorAll('.alert-success').forEach(el => el.remove())")
 
     create_enum_value(enumeration_b)
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
-
-    wait_for_ajax
+    expect(page).to have_css '.enumeration-list tr', text: enumeration_b
 
     within('.enumeration-list tr', text: enumeration_b) do
       click_on 'Merge'
