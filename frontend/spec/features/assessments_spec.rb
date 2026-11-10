@@ -11,9 +11,9 @@ describe 'Assessments', js: true do
   end
 
   before(:each) do
-    login_user(@manager_user)
+    login_user_and_select_repository(@manager_user, @repository)
     set_repo(@repository)
-    select_repository(@repository)
+    visit '/'
   end
 
   it 'can add repository assessment attribute definitions and can delete them' do

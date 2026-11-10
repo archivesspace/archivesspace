@@ -13,8 +13,8 @@ describe 'Classifications', js: true do
   end
 
   before(:each) do
-    login_user(@admin)
-    select_repository(@repository)
+    login_user_and_select_repository(@admin, @repository)
+    visit '/'
   end
 
   it 'allows you to create a classification tree' do

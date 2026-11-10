@@ -20,8 +20,7 @@ describe 'Tree toolbar import help link', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
     edit_resource(@resource)
   end
 

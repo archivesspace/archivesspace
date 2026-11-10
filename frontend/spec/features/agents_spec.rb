@@ -9,7 +9,8 @@ describe 'Agents', js: true do
   end
 
   before(:each) do
-    login_user(@admin)
+    login_user_and_select_repository(@admin, $repo)
+    visit '/'
   end
 
   describe "agents record CRUD" do
@@ -1638,8 +1639,7 @@ describe 'Agents', js: true do
     end
 
     before(:each) do
-      login_user(@data_entry_user)
-      select_repository(@repository)
+      login_user_and_select_repository(@data_entry_user, @repository)
       visit '/agents/agent_person/new'
     end
 

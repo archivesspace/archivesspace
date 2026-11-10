@@ -10,8 +10,8 @@ describe 'Jobs', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
+    visit '/'
   end
 
   it 'does not offer creating hidden jobs' do

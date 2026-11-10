@@ -12,11 +12,9 @@ describe 'Resources Form', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
 
     @resource = create(:resource)
-    run_index_round
   end
 
   describe 'search dropdown and subject selection' do

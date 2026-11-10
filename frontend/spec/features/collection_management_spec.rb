@@ -12,8 +12,8 @@ describe 'Collection Management', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-    select_repository(@repo)
+    login_user_and_select_repository(@user, @repository)
+    visit '/'
   end
 
 

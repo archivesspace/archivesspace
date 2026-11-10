@@ -12,16 +12,13 @@ describe 'Resources', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-    ensure_repository_access
-    select_repository(@repository)
+    login_user_and_select_repository(@user, @repository)
+    visit '/'
   end
 
   describe 'accessibility' do
     before(:each) do
-      login_admin
-      ensure_repository_access
-      select_repository(@repository)
+      login_admin_and_select_repository(@repository)
     end
 
     let(:resource) { create(:resource, title: "Resource Title #{Time.now.to_i}") }
@@ -289,8 +286,7 @@ describe 'Resources', js: true do
   end
 
   it 'can duplicate a resource from another resource with all the archival objects' do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
 
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -1345,8 +1341,7 @@ describe 'Resources', js: true do
 
     before do
       set_repo @repository
-      login_admin
-      select_repository(@repository)
+      login_admin_and_select_repository(@repository)
     end
 
     it_behaves_like 'supporting is_primary on top-level linked agents'
@@ -1935,9 +1930,7 @@ describe 'Resources', js: true do
     end
 
     before(:each) do
-      login_user(@view_only_user)
-      ensure_repository_access
-      select_repository(@view_only_repo)
+      login_user_and_select_repository(@view_only_user, @view_only_repo)
     end
 
     it 'sees only the View Published button on resource show page' do

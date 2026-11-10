@@ -18,8 +18,7 @@ describe 'File Version File URI', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
   end
 
   it 'links only file URIs with an http, https or data: scheme' do

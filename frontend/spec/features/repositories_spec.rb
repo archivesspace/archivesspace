@@ -25,7 +25,8 @@ describe 'Repositories', js: true do
   end
 
   before(:each) do
-    login_admin
+    login_admin_and_select_repository($repo)
+    visit '/'
   end
 
   after(:all) do

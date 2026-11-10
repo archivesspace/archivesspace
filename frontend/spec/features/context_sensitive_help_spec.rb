@@ -5,7 +5,7 @@ require 'rails_helper'
 
 describe 'Context Sensitive Help', js: true do
   before(:each) do
-    login_admin
+    login_admin_and_select_repository($repo)
   end
 
   it 'displays a clickable tooltip for a field label' do

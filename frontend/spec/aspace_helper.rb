@@ -25,30 +25,46 @@ module ASpaceHelpers
   # This logs in once per repository, saves the session cookie (the frontend
   # keeps the backend session and the selected repository in it) and restores
   # it on later calls instead.
-  def login_admin_and_select_repository(repo)
-    cookies = ASpaceHelpers.admin_session_cookies[repo.repo_code]
+  def login_user_and_select_repository(user, repo)
+    key = [user.username, repo.repo_code]
+    cookies = ASpaceHelpers.saved_session_cookies[key]
+
+    visit '/robots.txt' # cookies can only be added for the current domain
+    page.driver.browser.manage.delete_all_cookies
 
     if cookies
-      visit '/robots.txt' # cookies can only be added for the current domain
       cookies.each { |cookie| page.driver.browser.manage.add_cookie(cookie) }
     else
-      login_admin
+      visit '/'
+      submit_login_form(user)
       select_repository(repo)
       expect(page).to have_css('.current-repository-id', exact_text: repo.repo_code)
 
-      ASpaceHelpers.admin_session_cookies[repo.repo_code] =
+      ASpaceHelpers.saved_session_cookies[key] =
         page.driver.browser.manage.all_cookies.map { |cookie| cookie.slice(:name, :value, :path) }
     end
   end
 
-  def self.admin_session_cookies
-    @admin_session_cookies ||= {}
+  def login_admin_and_select_repository(repo)
+    login_user_and_select_repository(OpenStruct.new(username: 'admin', password: 'admin'), repo)
+  end
+
+  def self.saved_session_cookies
+    @saved_session_cookies ||= {}
+  end
+
+  # Logging out expires the backend session that saved cookies refer to.
+  def logout
+    ASpaceHelpers.saved_session_cookies.clear
+    visit '/logout'
   end
 
   def login_user(user)
-    # Logging out expires the backend session that saved cookies refer to.
-    ASpaceHelpers.admin_session_cookies.clear
-    visit '/logout' # ensure we are logged out before trying to login
+    logout # ensure we are logged out before trying to login
+    submit_login_form(user)
+  end
+
+  def submit_login_form(user)
     page.has_xpath? '//input[@id="login"]'
 
     within "form.login" do

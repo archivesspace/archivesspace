@@ -14,8 +14,8 @@ describe 'Digital Objects', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-    select_repository(@repository)
+    login_user_and_select_repository(@user, @repository)
+    visit '/'
   end
 
   it 'reports errors and warnings when creating an invalid Digital Object' do
@@ -543,8 +543,7 @@ describe 'Digital Objects', js: true do
 
     before do
       set_repo @repository
-      login_admin
-      select_repository(@repository)
+      login_admin_and_select_repository(@repository)
     end
 
     context 'for a parent Digital Object' do

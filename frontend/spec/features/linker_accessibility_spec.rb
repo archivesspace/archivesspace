@@ -27,8 +27,7 @@ describe 'Linker Accessibility by Variant', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
   end
 
   def go_to_resource_new_linker(section_name, add_button_text)

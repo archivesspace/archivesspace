@@ -6,7 +6,7 @@ require 'rails_helper'
 describe 'Custom Reports', js: true do
 
   before(:each) do
-    login_admin
+    login_admin_and_select_repository($repo)
   end
 
   context 'Index' do

@@ -4,12 +4,14 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Subjects', js: true do
-  let(:repository) { create(:repo, repo_code: "subjects_#{Time.now.to_i}") }
-  let(:archivist_user) { create_user(repository => ['repository-archivists']) }
+  before(:all) do
+    @repository = create(:repo, repo_code: "subjects_#{Time.now.to_i}")
+    @archivist_user = create_user(@repository => ['repository-archivists'])
+  end
 
   before(:each) do
-    login_user(archivist_user)
-    select_repository(repository)
+    login_user_and_select_repository(@archivist_user, @repository)
+    visit '/'
   end
 
   it 'reports errors and warnings when creating an invalid Subject' do
