@@ -76,14 +76,48 @@ table.table-sortable {
       padding: 0;
       position: relative;
 
-      > a {
+      > form {
+        margin: 0;
+      }
+
+      > form > button {
+        background: transparent;
+        border: 0;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
         padding: 0.75rem;
         height: 100%;
         width: 100%;
         display: flex;
         align-items: center;
         gap: 4px;
-        text-decoration: none !important;
+        text-align: left;
+
+        .sort-indicator {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-left: auto;
+          opacity: 0.6;
+
+          &::before,
+          &::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+          }
+
+          &::before {
+            border-bottom: 4px solid #000;
+          }
+
+          &::after {
+            border-top: 4px solid #000;
+          }
+        }
 
         &::after {
           content: '';
@@ -91,7 +125,7 @@ table.table-sortable {
           border-width: 0 4px 4px;
           border-style: solid;
           border-color: #000 transparent;
-          visibility: hidden;
+          display: none;
         }
       }
       &:hover {
@@ -101,9 +135,9 @@ table.table-sortable {
     th.sort-desc {
       @include vertical(#f0f7fa, #dcf1fa);
 
-      > a {
+      > form > button {
         &::after {
-          visibility: visible;
+          display: block;
           @include opacity(60);
         }
       }
@@ -111,9 +145,9 @@ table.table-sortable {
     th.sort-asc {
       @include vertical(#f0f7fa, #dcf1fa);
 
-      > a {
+      > form > button {
         &::after {
-          visibility: visible;
+          display: block;
           @include opacity(60);
 
           border-bottom: none !important;

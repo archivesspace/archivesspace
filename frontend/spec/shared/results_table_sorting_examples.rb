@@ -23,7 +23,7 @@ RSpec.shared_examples 'results table sorting' do
   # @param heading [String] The column heading to click
   def click_column_heading(heading)
     within '#tabledSearchResults thead' do
-      click_link heading
+      click_button heading
     end
   end
 
@@ -130,6 +130,10 @@ RSpec.shared_examples 'results table sorting' do
 
   it 'has the correct initial sort state' do
     verify_initial_sort_state
+  end
+
+  it 'shows a sort indicator on unsorted sortable columns' do
+    expect(page).to have_css('thead th.sortable:not(.sort-asc):not(.sort-desc) .sort-indicator')
   end
 
   context 'sortable columns' do
@@ -257,7 +261,7 @@ RSpec.shared_examples 'results table sorting' do
     return if multi_record_search_initial_sort?(is_initial_sort)
 
     expect(page).to have_css(
-      "thead th.sortable.sort-#{current_direction} a[href*='#{sort_key}+#{next_direction}']",
+      "thead th.sortable.sort-#{current_direction}[aria-sort='#{current_direction.to_s == 'asc' ? 'ascending' : 'descending'}'] button",
       text: heading
     )
   end
