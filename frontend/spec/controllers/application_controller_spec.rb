@@ -47,6 +47,24 @@ describe ApplicationController, type: :controller do
       expect(session[:preferences]).to eq('locale' => 'en')
     end
   end
+
+  describe '#actions_column_position' do
+    def position_for(stored)
+      allow(controller).to receive(:browse_columns).and_return('accession_actions_column_position' => stored)
+      controller.send(:actions_column_position, 'accession')
+    end
+
+    it 'returns a stored start or end position' do
+      expect(position_for('start')).to eq 'start'
+      expect(position_for('end')).to eq 'end'
+    end
+
+    it 'falls back to start when no valid position is stored' do
+      expect(position_for(nil)).to eq 'start'
+      expect(position_for('')).to eq 'start'
+      expect(position_for('left')).to eq 'start'
+    end
+  end
 end
 
 describe GenericRecordController, type: :controller do

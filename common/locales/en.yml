@@ -2421,6 +2421,11 @@ en:
     sort_column_tooltip: The default field for sorting results.
     sort_direction: Default Sort Direction
     sort_direction_tooltip: Default direction to sort results.
+    actions_column_position: Action Buttons (View/Edit) Position
+    actions_column_position_tooltip: Whether the View and Edit buttons appear on the left or the right of each row in a results table.
+    actions_column_position_options:
+      start: Left
+      end: Right
     locale: Language Selection
     search_browse_columns: Search and Browse Column Preferences
     accession_browse_section: Accession Browse Columns

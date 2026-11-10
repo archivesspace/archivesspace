@@ -2046,6 +2046,11 @@ es:
     sort_column_tooltip: El campo predeterminado para ordenar los resultados.
     sort_direction: Dirección de clasificación predeterminada
     sort_direction_tooltip: Dirección predeterminada para ordenar los resultados.
+    actions_column_position: Posición de los botones de acción (Ver/Editar)
+    actions_column_position_tooltip: Si los botones Ver y Editar aparecen a la izquierda o a la derecha de cada fila de una tabla de resultados.
+    actions_column_position_options:
+      start: Izquierda
+      end: Derecha
     locale: Selección de idioma
     search_browse_columns: Preferencias de columna de búsqueda y exploración
     accession_browse_section: Navegar columnas de entrada

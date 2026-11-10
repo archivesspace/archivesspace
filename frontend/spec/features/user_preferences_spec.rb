@@ -42,7 +42,7 @@ describe 'User Preferences', js: true do
     click_on 'Browse'
     click_on 'Accessions'
 
-    element = all('table thead tr th')
+    element = all('table thead tr th:not(.table-record-actions)')
     expect(element[1]).to have_text 'Title'
     expect(element[2]).to have_text 'Acquisition Type'
     expect(element[3]).to have_text 'Restrictions Apply'
@@ -123,7 +123,7 @@ describe 'User Preferences', js: true do
     click_on 'Browse'
     click_on 'Accessions'
 
-    element = all('table thead tr th')
+    element = all('table thead tr th:not(.table-record-actions)')
     expect(element[4]).to have_text 'Dates'
     expect(element[5]).to have_text 'Extent'
   end
