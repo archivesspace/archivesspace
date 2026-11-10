@@ -6,7 +6,6 @@ describe 'Search', js: true do
     visit('/')
     click_link 'Search The Archives'
     expect(current_path).to eq ('/search')
-    finished_all_ajax_requests?
     within '.search[role="search"]' do
       expect(page).to have_css('h1', text: 'Search The Archives')
     end
@@ -422,8 +421,8 @@ describe 'Search', js: true do
         end
 
         it 'does not include the record in the search results' do
-          expect(find_all('h2 .record-title').to_a).to be_empty
           expect(page).to have_text('No Records Found')
+          expect(page).to have_no_css('h2 .record-title')
         end
       end
     end

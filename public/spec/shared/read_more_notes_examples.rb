@@ -58,7 +58,8 @@ module ReadMoreNotesInteractionHelpers
     langmaterial_notes = all('.upper-record-details .langmaterial.single_note')
 
     expect(langmaterial_notes.length).to eq(block_count)
-    expect(langmaterial_notes.count { |note| note.has_css?(readmore_toggle_selector) }).to eq(toggle_count)
+    expect(page).to have_css(".upper-record-details .langmaterial.single_note #{readmore_toggle_selector}", count: toggle_count)
+    expect(langmaterial_notes.count { |note| note.has_css?(readmore_toggle_selector, wait: 0) }).to eq(toggle_count)
   end
 end
 

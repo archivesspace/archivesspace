@@ -15,7 +15,6 @@ describe 'Request feature', js: true do
     before :each do
       allow(AppConfig).to receive(:[]).with(:pui_page_actions_request) { true }
       visit(@resource.uri)
-      wait_for_jquery
     end
 
     it 'shows the request button' do
@@ -43,7 +42,6 @@ describe 'Request feature', js: true do
       it 'shows Bootstrap validation feedback when required fields are empty' do
         within '#request_modal' do
           find('#request_btn').click
-          wait_for_jquery
 
           aggregate_failures do
             expect(page).to have_css('#request_form.was-validated')
@@ -62,7 +60,6 @@ describe 'Request feature', js: true do
           fill_in 'user_name', with: 'Test User'
           fill_in 'user_email', with: 'not-an-email'
           find('#request_btn').click
-          wait_for_jquery
 
           aggregate_failures do
             expect(page).to have_css('#request_form.was-validated')
@@ -78,7 +75,6 @@ describe 'Request feature', js: true do
       it 'clears previous validation state when the modal is reopened' do
         within '#request_modal' do
           find('#request_btn').click
-          wait_for_jquery
           expect(page).to have_css('#request_form.was-validated')
         end
 
@@ -88,7 +84,7 @@ describe 'Request feature', js: true do
         expect(page).to have_css('#request_modal', visible: :hidden)
 
         find('button.page_action.request').click
-        wait_for_jquery
+        expect(page).to have_css('#request_modal.show')
 
         within '#request_modal' do
           expect(page).not_to have_css('#request_form.was-validated')

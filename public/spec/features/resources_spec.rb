@@ -50,7 +50,6 @@ describe 'Resources', js: true do
     expect(current_path).to eq ("#{first_href}/collection_organization")
     page.go_back
     expect(current_path).to eq (first_href)
-    finished_all_ajax_requests?
     expect(page).not_to(
       have_content(
         'Your request could not be completed due to an unexpected error'
