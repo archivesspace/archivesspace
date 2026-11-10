@@ -229,6 +229,8 @@ describe 'Archival objects', js: true do
       click_on 'Create and Link'
     end
 
+    expect(page).to have_css('#archival_object_subjects__0__ref__combobox .token-input-token', text: "Test Term 1 #{now}")
+
     run_index_round
 
     within '#archival_object_subjects__0__ref__combobox' do
