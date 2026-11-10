@@ -55,7 +55,7 @@ ml:
       email: ദയവായി ഇമെയിൽ വിലാസം എൻറർ ചെയ്യുക
   search_results:
     highlighting:
-      agents_text: ഏജന്റ്/പ്രതിനിധി/ഘടകം
+      agents_text: <strong>ഏജന്റ്/പ്രതിനിധി/ഘടകം
       subjects_text: വിഷയം/പ്രമേയം
       creators_text: സ്രഷ്ടാവ്/ രചയിതാവ്
       dates: തീയതികൾ
@@ -87,6 +87,19 @@ ml:
       form: ഫലങ്ങൾ  തിരയുന്നു
       show_fewer: ഏതാനും എണ്ണം മാത്രം കാണിക്കുക
       show_more: കുറച്ചുകൂടി കാണിക്കുക
+      query: ടെക്സ്റ്റ്
+      subjects: വിഷയം
+      primary_type: തരം
+      repository: റിപ്പോസിറ്ററി
+      used_within_published_repository: റിപ്പോസിറ്ററി
+      subjects_text: വിഷയം
+      title: ശീർഷകം
+      creators_text: സ്രഷ്ടാവ്
+      scope: വ്യാപ്തി
+      notes: കുറിപ്പുകൾ
+      identifier: തിരിച്ചറിയുന്നതിനുള്ള ഘടകം
+      source: ഉത്പത്തിസ്ഥാനം
+      published_agents: പേരുകൾ
     search_term: സേർച്ച് വാക്ക്
     filter_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്യുക
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
