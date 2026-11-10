@@ -1510,6 +1510,11 @@ ja:
     sort_column_tooltip: 結果をソートするための既定のフィールド。
     sort_direction: 既定のソート方向
     sort_direction_tooltip: 結果をソートする既定の方向。
+    actions_column_position: アクションボタン（表示/編集）の位置
+    actions_column_position_tooltip: 結果テーブルの各行で表示ボタンと編集ボタンを配置する側。
+    actions_column_position_options:
+      start: 左
+      end: 右
     locale: 言語選択
     search_browse_columns: 検索・一覧表示の列設定
     accession_browse_section: 受入一覧の列

@@ -284,6 +284,16 @@ module SearchHelper
       :class => 'actions table-record-actions'})
   end
 
+  ACTIONS_COLUMN_POSITIONS = ['start', 'end'].freeze
+  DEFAULT_ACTIONS_COLUMN_POSITION = 'start'.freeze
+
+  # Where the View/Edit actions column goes for a record type's results table:
+  # 'start' (just after any selection column) or 'end' (after the last column).
+  def actions_column_position(type)
+    position = browse_columns["#{type}_actions_column_position"]
+    ACTIONS_COLUMN_POSITIONS.include?(position) ? position : DEFAULT_ACTIONS_COLUMN_POSITION
+  end
+
   def add_linker_column
     add_column(sr_only('Linker'), {},
       proc { |record|
@@ -301,14 +311,18 @@ module SearchHelper
   end
 
   def add_columns
+    show_actions = !params[:linker] || params[:linker] === 'false'
+
     if @search_data
       return if @columns
       type = @search_data.get_type
       type = 'agent' if type.include? 'agent'
       type = 'classification' if type == 'classification_term'
+      actions_at_start = actions_column_position(type) == 'start'
 
       add_multiselect_column if can_delete_search_results?(type) && !(request.path =~ /\/(advanced_)*search/)
       add_linker_column if params[:linker]==='true'
+      add_actions_column if show_actions && actions_at_start
 
       if params[:include_components]
         case type
@@ -322,7 +336,7 @@ module SearchHelper
       end
     end
 
-    add_actions_column if !params[:linker] || params[:linker] === 'false'
+    add_actions_column if show_actions && !actions_at_start
   end
 
   def deleted(record)

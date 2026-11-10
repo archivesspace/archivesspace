@@ -331,21 +331,21 @@ describe 'Assessments', js: true do
     visit "accessions/#{accession.id}"
     within '#linked_assessments #tabledSearchResults' do
       expect(page).to have_css('tbody tr', count: 1)
-      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
+      expect(page).to have_css('tbody tr td.assessment_id', text: assessment.id.to_s)
     end
 
     # Check for linked assessments on the archival object page
     visit "/resolve/readonly?uri=#{archival_object.uri}"
     within '#linked_assessments #tabledSearchResults' do
       expect(page).to have_css('tbody tr', count: 1)
-      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
+      expect(page).to have_css('tbody tr td.assessment_id', text: assessment.id.to_s)
     end
 
     # Check for linked assessments on the digital object page
     visit "/resolve/readonly?uri=#{digital_object.uri}"
     within '#linked_assessments #tabledSearchResults' do
       expect(page).to have_css('tbody tr', count: 1)
-      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
+      expect(page).to have_css('tbody tr td.assessment_id', text: assessment.id.to_s)
     end
 
     visit '/'
@@ -366,7 +366,7 @@ describe 'Assessments', js: true do
     element = all('#linked_assessments_surveyed_by #tabledSearchResults tbody tr')
     expect(element.length).to eq(1)
     within element[0] do
-      cells = all('td')
+      cells = all('td:not(.table-record-actions)')
       expect(cells[1]).to have_text(assessment.id)
     end
   end

@@ -1832,6 +1832,11 @@ uk:
     sort_column_tooltip: Поле за замовчуванням для сортування результатів.
     sort_direction: Напрямок сортування за замовчуванням
     sort_direction_tooltip: Напрямок сортування результатів за замовчуванням.
+    actions_column_position: Розташування кнопок дій (Переглянути/Редагувати)
+    actions_column_position_tooltip: Бік кожного рядка результатів, на якому відображаються кнопки «Переглянути» та «Редагувати».
+    actions_column_position_options:
+      start: Ліворуч
+      end: Праворуч
     locale: Вибір мови
     search_browse_columns: Параметри стовпців пошуку та перегляду
     accession_browse_section: Огляд колонок доступу

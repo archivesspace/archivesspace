@@ -2148,6 +2148,11 @@ fr:
     sort_column_tooltip: Champ par défaut pour le tri des résultats.
     sort_direction: Direction de tri par défaut
     sort_direction_tooltip: Direction par défaut pour trier les résultats.
+    actions_column_position: Position des boutons d'action (Affichage/Editer)
+    actions_column_position_tooltip: Le côté de chaque ligne de résultats où apparaissent les boutons Affichage et Editer.
+    actions_column_position_options:
+      start: Gauche
+      end: Droite
     locale: Sélection de la langue
     search_browse_columns: Rechercher et parcourir les préférences de colonne
     accession_browse_section: Colonnes d'exploration des entrées

@@ -366,7 +366,8 @@ class ApplicationController < ActionController::Base
               JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
             end
     session[:preferences] = prefs.reject { |k, _v|
-      k.include? 'browse_column' or k.include? 'sort_column' or k.include? 'sort_direction'} if prefs
+      k.include? 'browse_column' or k.include? 'sort_column' or k.include? 'sort_direction' or
+      k.include? 'actions_column_position'} if prefs
   end
 
 

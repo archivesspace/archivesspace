@@ -17,6 +17,20 @@ module BrowseColumnPreferencesHelpers
   # @param scope [Symbol] The preference scope: :global, :repository (default), or :default_repository
   def set_browse_column_preferences(record_type, columns, scope: :repository)
     record_type = record_type.pluralize if record_type == 'repository'
+
+    selections = columns.each_with_object({}) do |(column_number, column_value), prefs|
+      prefs["#{record_type}_browse_column_#{column_number}"] = column_value
+    end
+
+    set_preference_selections(selections, scope: scope)
+  end
+
+  # Sets any preference <select>s on the preferences page for the given scope
+  #
+  # @param selections [Hash{String => String}] A hash mapping preference keys
+  #   (e.g. 'accession_sort_column') to the option display value to select
+  # @param scope [Symbol] The preference scope: :global, :repository (default), or :default_repository
+  def set_preference_selections(selections, scope: :repository)
     selector = PREFERENCE_SCOPE_SELECTORS.fetch(scope) do
       raise ArgumentError, "Invalid scope: #{scope.inspect}. Must be one of: #{PREFERENCE_SCOPE_SELECTORS.keys.join(', ')}"
     end
@@ -24,11 +38,40 @@ module BrowseColumnPreferencesHelpers
     find('#user-menu-dropdown').click
     find(selector, visible: true).click
 
-    columns.each do |column_number, column_value|
-      select column_value, from: "preference_defaults__#{record_type}_browse_column_#{column_number}_"
+    selections.each do |preference_key, option_label|
+      select option_label, from: "preference_defaults__#{preference_key}_"
     end
 
     click_on 'Save Preferences'
+  end
+
+  # Temporarily sets preference <select>s for the duration of a block, then
+  # restores them to "Default".
+  #
+  # @param selections [Hash{String => String}] See #set_preference_selections
+  # @param scope [Symbol] The preference scope: :global, :repository (default), or :default_repository
+  def with_preference_selections(selections, scope: :repository)
+    set_preference_selections(selections, scope: scope)
+    yield
+  ensure
+    set_preference_selections(selections.transform_values { 'Default' }, scope: scope)
+  end
+
+  # Sets the Action Buttons (View/Edit) Position preference for a record type
+  #
+  # @param record_type [String] The record type (e.g. 'accession', 'multi', 'top_container_mgmt')
+  # @param position_label [String] 'Left', 'Right', or 'Default'
+  # @param scope [Symbol] The preference scope: :global, :repository (default), or :default_repository
+  def set_actions_column_position(record_type, position_label, scope: :repository)
+    record_type = record_type.pluralize if record_type == 'repository'
+    set_preference_selections({ "#{record_type}_actions_column_position" => position_label }, scope: scope)
+  end
+
+  # Temporarily sets the Action Buttons (View/Edit) Position preference for a
+  # record type for the duration of a block, then restores it to "Default".
+  def with_actions_column_position(record_type, position_label, scope: :repository, &block)
+    record_type = record_type.pluralize if record_type == 'repository'
+    with_preference_selections({ "#{record_type}_actions_column_position" => position_label }, scope: scope, &block)
   end
 
   # Sets a single browse column preference for a given record type and scope

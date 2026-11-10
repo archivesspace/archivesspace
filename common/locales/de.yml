@@ -1965,6 +1965,11 @@ de:
     default_values_tooltip: Ob neue Eingangs- und Ressourcenaufzeichnungen mit Standardwerten 
       vorbefüllt werden sollen.
     sort_direction_tooltip: Standardrichtung zum Sortieren der Ergebnisse.
+    actions_column_position: Position der Aktionsschaltflächen (Ansehen/Bearbeiten)
+    actions_column_position_tooltip: Die Seite jeder Ergebniszeile, auf der die Schaltflächen Ansehen und Bearbeiten erscheinen.
+    actions_column_position_options:
+      start: Links
+      end: Rechts
     classification_browse_section: Spalten der Klassifizerung beim Blättern
     repositories_browse_section: Spalten des Aufbewahrungsorts beim Blättern
     locale: Sprachauswahl
