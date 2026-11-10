@@ -98,31 +98,33 @@ describe 'Search', js: true do
 
     describe 'by title' do
       context 'without finding aid filing title' do
-        let(:now) { Time.now.to_i }
+        before(:all) do
+          @now = Time.now.to_i
 
-        before(:each) do
           create(:resource,
-                 :title => "AAAA #{now}",
-                 :id_0 => "AAAA #{now}",
+                 :title => "AAAA #{@now}",
+                 :id_0 => "AAAA #{@now}",
                  :publish => true)
 
           create(:resource,
-                 :title => "BBBB  #{now}",
-                 :id_0 => "BBBB #{now}",
+                 :title => "BBBB  #{@now}",
+                 :id_0 => "BBBB #{@now}",
                  :publish => true)
 
           create(:resource,
-                 :title => "CCCC  #{now}",
-                 :id_0 => "CCCC #{now}",
+                 :title => "CCCC  #{@now}",
+                 :id_0 => "CCCC #{@now}",
                  :publish => true)
 
           create(:resource,
-                 :title => "DDDD  #{now}",
+                 :title => "DDDD  #{@now}",
                  :publish => true,
-                 :id_0 => "DDDD #{now}")
+                 :id_0 => "DDDD #{@now}")
 
           run_indexers
         end
+
+        let(:now) { @now }
 
         context 'descending' do
           it "sorts the results as expected" do
@@ -156,35 +158,37 @@ describe 'Search', js: true do
       end
 
       context 'with finding aid filing title' do
-        let(:now) { Time.now.to_i }
+        before(:all) do
+          @now = Time.now.to_i
 
-        before(:each) do
           create(:resource,
-                 :title => "AAAA #{now}",
-                 :id_0 => "AAAA #{now}",
+                 :title => "AAAA #{@now}",
+                 :id_0 => "AAAA #{@now}",
                  :publish => true,
                  :finding_aid_filing_title => "ZZZZ")
 
           create(:resource,
-                 :title => "BBBB  #{now}",
-                 :id_0 => "BBBB #{now}",
+                 :title => "BBBB  #{@now}",
+                 :id_0 => "BBBB #{@now}",
                  :publish => true,
                  :finding_aid_filing_title => "YYYY")
 
           create(:resource,
-                 :title => "CCCC  #{now}",
-                 :id_0 => "CCCC #{now}",
+                 :title => "CCCC  #{@now}",
+                 :id_0 => "CCCC #{@now}",
                  :publish => true,
                  :finding_aid_filing_title => "XXXX")
 
           create(:resource,
-                 :title => "DDDD  #{now}",
+                 :title => "DDDD  #{@now}",
                  :publish => true,
-                 :id_0 => "DDDD #{now}",
+                 :id_0 => "DDDD #{@now}",
                  :finding_aid_filing_title => "WWWW")
 
           run_indexers
         end
+
+        let(:now) { @now }
 
         context 'descending' do
           it "sorts the results using the finding aid filing title, instead of the title" do
@@ -429,30 +433,28 @@ describe 'Search', js: true do
   end
 
   describe 'container summary on results' do
-    let(:now) { Time.now.to_i }
-    let(:repository) { create(:repo, :repo_code => "container_search_test_#{now}", publish: true) }
-    let(:top_container) { create(:json_top_container, indicator: "#{now}", type: 'box', barcode: "barcode_#{now}") }
-    let(:ao) do
-      create(:archival_object,
-             title: "Container Summary AO #{now}",
-             publish: true,
-             resource: { 'ref' => create(:resource, publish: true).uri },
-             instances: [build(:json_instance, {
-               instance_type: 'text',
-               sub_container: build(:json_sub_container, {
-                 top_container: { ref: top_container.uri },
-                 type_2: 'folder',
-                 indicator_2: '3',
-                 barcode_2: "child_barcode_#{now}"
-               })
-             })])
-    end
-
-    before :each do
-      set_repo repository
-      ao
+    before(:all) do
+      @now = Time.now.to_i
+      set_repo create(:repo, :repo_code => "container_search_test_#{@now}", publish: true)
+      top_container = create(:json_top_container, indicator: "#{@now}", type: 'box', barcode: "barcode_#{@now}")
+      @ao = create(:archival_object,
+                   title: "Container Summary AO #{@now}",
+                   publish: true,
+                   resource: { 'ref' => create(:resource, publish: true).uri },
+                   instances: [build(:json_instance, {
+                     instance_type: 'text',
+                     sub_container: build(:json_sub_container, {
+                       top_container: { ref: top_container.uri },
+                       type_2: 'folder',
+                       indicator_2: '3',
+                       barcode_2: "child_barcode_#{@now}"
+                     })
+                   })])
       run_indexers
     end
+
+    let(:now) { @now }
+    let(:ao) { @ao }
 
     it 'shows the top container type and indicator but not the barcode' do
       allow(AppConfig).to receive(:[]).and_call_original
