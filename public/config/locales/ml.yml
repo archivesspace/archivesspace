@@ -108,6 +108,10 @@ ml:
       to_year: ഈ വർഷത്തേക്ക്
       years: വർഷങ്ങൾ
       from: നിന്ന്
+      to: ലേക്ക്
+      years_include: ഉൾപ്പെടുത്തേണ്ട വർഷങ്ങൾ
+      year_now: ഇപ്പോൾ
+      year_begin: തുടക്കം
     search_term: സേർച്ച് വാക്ക്
     filter_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്യുക
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
