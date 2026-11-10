@@ -319,7 +319,7 @@ describe 'Archival objects', js: true do
 
     row = find('tr', text: archival_object.component_id)
     within row do
-      elements = all('td')
+      elements = all('td:not(.table-record-actions)')
       expect(elements[1].text).to eq 'Archival Object'
       expect(elements[3].text).to eq "Component Id #{now}"
     end
@@ -350,7 +350,7 @@ describe 'Archival objects', js: true do
 
     row = find('tr', text: archival_object.component_id)
     within row do
-      elements = all('td')
+      elements = all('td:not(.table-record-actions)')
       expect(elements[0].text).to eq archival_object.title
       expect(elements[2].text).to eq "Component Id #{now}"
     end

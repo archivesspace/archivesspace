@@ -295,6 +295,17 @@ class ApplicationController < ActionController::Base
                         end
   end
 
+  ACTIONS_COLUMN_POSITIONS = ['start', 'end'].freeze
+  DEFAULT_ACTIONS_COLUMN_POSITION = 'start'.freeze
+
+  # Where the View/Edit actions column goes for a record type's results table:
+  # 'start' (just after any selection column) or 'end' (after the last column).
+  helper_method :actions_column_position
+  def actions_column_position(type)
+    position = browse_columns["#{type}_actions_column_position"]
+    ACTIONS_COLUMN_POSITIONS.include?(position) ? position : DEFAULT_ACTIONS_COLUMN_POSITION
+  end
+
   def user_repository_cookie
     cookies[user_repository_cookie_key]
   end
@@ -366,7 +377,8 @@ class ApplicationController < ActionController::Base
               JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
             end
     session[:preferences] = prefs.reject { |k, _v|
-      k.include? 'browse_column' or k.include? 'sort_column' or k.include? 'sort_direction'} if prefs
+      k.include? 'browse_column' or k.include? 'sort_column' or k.include? 'sort_direction' or
+      k.include? 'actions_column_position'} if prefs
   end
 
 

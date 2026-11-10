@@ -60,13 +60,9 @@ table {
     overflow-wrap: normal;
   }
   .table-record-actions {
-    .btn-group {
-      float: right;
-    }
-
-    .btn {
-      white-space: nowrap;
-    }
+    // Shrink to fit the buttons so the column looks the same at the start or end of the row
+    width: 1%;
+    white-space: nowrap;
   }
 }
 
