@@ -309,8 +309,16 @@ class TopContainersController < ApplicationController
   def get_browse_col_prefs
     # this sets things up to make the sortable table on this view work with the standard column prefs
     @pref_cols = browse_columns.select {|k, v| k.include? "top_container_mgmt_browse_column" }.values
-    @default_sort_col = @pref_cols.find_index(browse_columns['top_container_mgmt_sort_column'])
+    # The default sort is identified by column key; the JS resolves it to whichever
+    # rendered column carries that key, and applies no sort if it isn't displayed.
+    @default_sort_key = browse_columns['top_container_mgmt_sort_column']
     @default_sort_dir = browse_columns['top_container_mgmt_sort_direction'] == 'asc' ? 0 : 1
+    actions_position = browse_columns['top_container_mgmt_actions_column_position']
+    @actions_position = if SearchHelper::ACTIONS_COLUMN_POSITIONS.include?(actions_position)
+                          actions_position
+                        else
+                          SearchHelper::DEFAULT_ACTIONS_COLUMN_POSITION
+                        end
   end
 
 

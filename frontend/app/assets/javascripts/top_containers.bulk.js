@@ -137,6 +137,11 @@ BulkContainerSearch.prototype.setup_results_list = function (docs) {
   });
 
   self.$results_container.on('click', 'td', function (event) {
+    // Let the View/Edit buttons work without also toggling the row selection
+    if ($(event.target).closest('.table-record-actions').length > 0) {
+      return;
+    }
+
     $(this).closest('tr').find(':checkbox').trigger('click');
   });
 };
@@ -236,31 +241,121 @@ BulkContainerSearch.prototype.setup_table_sorter = function () {
     return valueArray.toString();
   }
 
+  const SORT_STORAGE_KEY = 'top_container_sort';
+  const $table = this.$results_container.find('table');
+  const $headers = $table.find('thead tr.sortable-columns th');
+
+  // Columns are identified by their data-sort-key so that a saved or default
+  // sort follows its column when columns are reordered or the actions column
+  // moves. Headers without a key (selection, actions) are not sortable.
+
+  /**
+   * Find the rendered column for a sort key
+   * @param {string} key - the column's data-sort-key
+   * @returns {number} the column index, or -1 when the column is not displayed
+   */
+  function columnIndexForKey(key) {
+    if (typeof key !== 'string' || key.length === 0) {
+      return -1;
+    }
+
+    return $headers.index(
+      $headers.filter(function () {
+        return $(this).attr('data-sort-key') === key;
+      })
+    );
+  }
+
+  /**
+   * @param {*} direction - a tablesorter sort direction
+   * @returns {boolean} true for 0 (ascending) or 1 (descending)
+   */
+  function isValidDirection(direction) {
+    return direction === 0 || direction === 1;
+  }
+
+  /**
+   * Load the sort saved in session storage as [[sortKey, direction], ...].
+   * Anything else, including the legacy [[columnIndex, direction]] format, is
+   * discarded. Saved columns that are not displayed are dropped.
+   * @returns {Array<Array<number>>} a tablesorter sortList, possibly empty
+   */
+  function loadSavedSort() {
+    let saved;
+
+    try {
+      saved = JSON.parse(sessionStorage.getItem(SORT_STORAGE_KEY));
+    } catch {
+      saved = null;
+    }
+
+    if (saved === null) {
+      return [];
+    }
+
+    const isValid =
+      Array.isArray(saved) &&
+      saved.every(function (entry) {
+        return (
+          Array.isArray(entry) &&
+          entry.length === 2 &&
+          typeof entry[0] === 'string' &&
+          isValidDirection(entry[1])
+        );
+      });
+
+    if (!isValid) {
+      sessionStorage.removeItem(SORT_STORAGE_KEY);
+      return [];
+    }
+
+    return saved
+      .map(function (entry) {
+        return [columnIndexForKey(entry[0]), entry[1]];
+      })
+      .filter(function (entry) {
+        return entry[0] > -1;
+      });
+  }
+
+  /**
+   * Build the default sort from the table's data-default-sort-key and
+   * data-default-sort-dir attributes
+   * @returns {Array<Array<number>>} a tablesorter sortList, empty when the
+   *   default sort column is not displayed
+   */
+  function defaultSort() {
+    const index = columnIndexForKey($table.attr('data-default-sort-key'));
+    const direction = parseInt($table.attr('data-default-sort-dir'), 10);
+
+    if (index < 0) {
+      return [];
+    }
+
+    return [[index, isValidDirection(direction) ? direction : 0]];
+  }
+
   let currentSort = [];
   // only load a sort if we've hit some results
-  if ($('.table-search-results tr').length > 1) {
-    // Get the most recent sort, if it exists
-    currentSort = sessionStorage.getItem('top_container_sort');
-    if (currentSort == null || currentSort == undefined) {
-      // use default sort (the +1 to the column index is to account for the checkbox column)
-      currentSort = [
-        [
-          parseInt($('#default_sort_col')[0]['value']) + 1,
-          parseInt($('#default_sort_dir')[0]['value']),
-        ],
-      ];
-    } else {
-      currentSort = JSON.parse(currentSort);
+  if ($table.find('tr').length > 1) {
+    currentSort = loadSavedSort();
+    if (currentSort.length === 0) {
+      currentSort = defaultSort();
     }
   }
+
+  const headersOpts = {};
+  $headers.each(function (index) {
+    if (!$(this).attr('data-sort-key')) {
+      headersOpts[index] = { sorter: false };
+    }
+  });
 
   var tablesorter_opts = {
     // only sort on the second row of header columns
     selectorHeaders: 'thead tr.sortable-columns th',
-    // disable sort on the checkbox column
-    headers: {
-      0: { sorter: false },
-    },
+    // disable sort on the selection and actions columns
+    headers: headersOpts,
     sortList: currentSort,
     // customise text extraction to pull only the first collection/series
     textExtraction: function (node) {
@@ -288,15 +383,18 @@ BulkContainerSearch.prototype.setup_table_sorter = function () {
       return $node.text().trim();
     },
   };
-  this.$results_container
-    .find('table')
-    .tablesorter(tablesorter_opts)
-    .bind('sortEnd', function () {
-      //Store the sort in the session storage so it resorts the same way
-      //when navigating and refreshing.
-      currentSort = this.config.sortList;
-      sessionStorage.setItem('top_container_sort', JSON.stringify(currentSort));
-    });
+  $table.tablesorter(tablesorter_opts).bind('sortEnd', function () {
+    //Store the sort in the session storage so it resorts the same way
+    //when navigating and refreshing.
+    const sortByKey = this.config.sortList
+      .map(function (entry) {
+        return [$headers.eq(entry[0]).attr('data-sort-key'), entry[1]];
+      })
+      .filter(function (entry) {
+        return typeof entry[0] === 'string';
+      });
+    sessionStorage.setItem(SORT_STORAGE_KEY, JSON.stringify(sortByKey));
+  });
 };
 
 BulkContainerSearch.prototype.get_selection = function () {
