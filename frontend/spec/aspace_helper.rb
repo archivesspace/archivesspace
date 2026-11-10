@@ -111,16 +111,13 @@ module ASpaceHelpers
 
   def wait_for_ajax
     Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 1
-      loop until finished_all_ajax_requests?
+      sleep 0.4
+      sleep 0.1 until finished_all_ajax_requests?
     end
   end
 
   def finished_all_ajax_requests?
-    page.evaluate_script("typeof window.jQuery != 'undefined'") &&
-      page.evaluate_script('window.jQuery !== undefined') &&
-      page.evaluate_script('jQuery.active !== undefined') &&
-      page.evaluate_script('jQuery.active')&.zero?
+    page.evaluate_script("typeof window.jQuery !== 'undefined' && jQuery.active === 0")
   rescue Selenium::WebDriver::Error::JavascriptError
     false
   end
