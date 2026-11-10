@@ -5,3 +5,6 @@ ml:
   actions:
     collapse_node: '%{title} ചുരുക്കുക'
     expand_node: '%{title} വികസിപ്പിക്കുക'
+    close: അടയ്ക്കുക
+  search_results:
+    filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
