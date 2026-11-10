@@ -70,7 +70,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_selector('#bulk_operation_results tbody tr', count: 5)
 
     # Now sort by indicator
-    find('#bulk_operation_results th:nth-child(5)').click
+    find("#bulk_operation_results th[data-sort-key='indicator']").click
     expect(find('#bulk_operation_results tbody tr:first-child td.top-container-indicator').text).to eq('Letter A')
 
     find('#bulk_operation_results tbody tr:first-child td:first-child input').click
@@ -85,7 +85,7 @@ describe 'Top Containers and Instances', js: true do
     expect(modal.find('div.alert-success').text).to match(/Top .+ updated/)
 
     modal.find('.modal-footer button').click
-    find('#bulk_operation_results tbody tr:first-child td:last-child a:first-child').click
+    find('#bulk_operation_results tbody tr:first-child td.table-record-actions a:first-child').click
     expect(find('.form-group', text: 'ILS Holding ID').find('div').text).to eq('xyzpdq')
   end
 
