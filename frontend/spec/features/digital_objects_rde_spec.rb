@@ -17,7 +17,6 @@ describe 'Digital Object RDE', js: true do
   it 'can review error messages on an invalid entry' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
 
@@ -55,7 +54,6 @@ describe 'Digital Object RDE', js: true do
     now = Time.now.to_i
     child_title = "Children Title #{now}"
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -80,7 +78,6 @@ describe 'Digital Object RDE', js: true do
     now = Time.now.to_i
     child_title = "Children Title nav #{now}"
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -120,7 +117,6 @@ describe 'Digital Object RDE', js: true do
   it 'can add multiple children and sticky columns stick' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -160,7 +156,6 @@ describe 'Digital Object RDE', js: true do
   it 'can add multiple rows in one action and can perform a basic fill and a sequence fill' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_indexer
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready

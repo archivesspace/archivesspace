@@ -6,9 +6,10 @@ require 'rails_helper'
 describe 'Resources Form', js: true do
   before(:all) do
     @repository = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
+    set_repo(@repository)
     create_subjects
 
-    run_all_indexers
+    run_index_round
   end
 
   before(:each) do

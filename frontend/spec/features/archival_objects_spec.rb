@@ -48,8 +48,6 @@ describe 'Archival objects', js: true do
                       instances: instances,
                       classifications: classifications.map { |c| { ref: c.uri } })
 
-    run_index_round
-
     visit "resources/#{resource.id}/edit"
 
     click_on 'Add Extent'
@@ -93,7 +91,6 @@ describe 'Archival objects', js: true do
   it 'can populate the archival object tree' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
     visit "resources/#{resource.id}/edit"
 
     aggregate_failures do
@@ -136,7 +133,6 @@ describe 'Archival objects', js: true do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
@@ -165,7 +161,6 @@ describe 'Archival objects', js: true do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
@@ -188,7 +183,6 @@ describe 'Archival objects', js: true do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
@@ -213,7 +207,6 @@ describe 'Archival objects', js: true do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
@@ -242,8 +235,6 @@ describe 'Archival objects', js: true do
     within '#archival_object_subjects__0__ref__combobox' do
       find('.token-input-delete-token').click
     end
-
-    run_index_round
 
     fill_in 'token-input-archival_object_subjects__0__ref_', with: "Test Term 1 #{now}"
     find('li.token-input-dropdown-item2').click
@@ -298,7 +289,6 @@ describe 'Archival objects', js: true do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
@@ -376,7 +366,6 @@ describe 'Archival objects', js: true do
       component_id: "Component Id #{now}",
       resource: { 'ref' => resource.uri }
     )
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
 

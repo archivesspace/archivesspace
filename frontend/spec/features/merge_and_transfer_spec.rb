@@ -148,7 +148,6 @@ describe 'Merge and Transfer', js: true do
 
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
     expect(page).to have_selector('h2', visible: true)

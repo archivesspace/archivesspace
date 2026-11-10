@@ -16,7 +16,7 @@ describe 'Repositories', js: true do
       publish: true)
     set_repo(@repo)
 
-    run_indexer
+    run_index_round
 
     @test_repo_code_1 = "repo_repositories_spec_test_create_#{Time.now.to_i}"
     @test_repo_name_1 = "test create repository 1 - #{Time.now.utc}"
@@ -143,8 +143,6 @@ describe 'Repositories', js: true do
     # make sure it contains some stuff
     create(:accession)
     create(:resource)
-
-    run_indexer
 
     visit("#{throwaway_repo.uri}/edit")
     click_button('Delete')

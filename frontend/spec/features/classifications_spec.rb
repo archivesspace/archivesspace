@@ -8,8 +8,9 @@ describe 'Classifications', js: true do
     @repository = create(:repo, repo_code: "classification_test_A_#{Time.now.to_i}", publish: true)
     @agent = create(:agent_person)
     @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
+    set_repo(@repository)
 
-    run_all_indexers
+    run_index_round
   end
 
   before(:each) do
@@ -163,7 +164,7 @@ describe 'Classifications', js: true do
       :linked_records => [{ ref: linked_resource.uri }]
     )
 
-    run_all_indexers
+    run_index_round
 
     click_on 'Create'
     click_on 'Accession'

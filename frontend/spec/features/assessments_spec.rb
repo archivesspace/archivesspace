@@ -173,9 +173,8 @@ describe 'Assessments', js: true do
     # Click on save
     find('button', text: 'Save Assessment', match: :first).click
 
-    run_index_round
-
     expect(page).to have_text 'Assessment Created'
+    run_index_round
     expect(page).to have_text accession.title
     expect(page).to have_text digital_object.title
     expect(page).to have_text archival_object.title

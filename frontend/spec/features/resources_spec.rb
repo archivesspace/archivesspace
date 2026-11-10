@@ -173,7 +173,7 @@ describe 'Resources', js: true do
       it "has role and aria attributes for the merge dropdown combobox" do
         visit "resources/#{resource.id}"
         second_resource = create(:resource, title: "Resource 2 Title #{Time.now.to_i}")
-        run_periodic_index
+        run_index_round
         wait_for_ajax
 
         expect(page).to have_selector('div#merge-dropdown', visible: true)
@@ -244,7 +244,7 @@ describe 'Resources', js: true do
       # 523686, 523750, 523684,523683
       it "has acceptable color contrast in the linkers" do
         agent = create(:agent_person)
-        run_periodic_index
+        run_index_round
 
         visit "resources/#{resource.id}/edit"
         wait_for_ajax
@@ -489,8 +489,6 @@ describe 'Resources', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    run_index_round
-
     expect(page).to have_text "Resource #{resource.title} updated"
 
     run_periodic_index
@@ -510,7 +508,7 @@ describe 'Resources', js: true do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     agent = create(:agent_person)
-    run_periodic_index
+    run_index_round
 
     visit "resources/#{resource.id}/edit"
 

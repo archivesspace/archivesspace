@@ -112,7 +112,7 @@ describe 'Top Containers and Instances', js: true do
       click_button('Update 5 records')
     end
 
-    run_all_indexers
+    run_periodic_index
 
     # need to reload to see results of indexing
     visit '/top_containers'
@@ -289,7 +289,7 @@ describe 'Top Containers and Instances', js: true do
 
   it 'can find the top container that was created using the typeahead feature for this record' do
     second_linker = '#accession_instances__1__sub_container__top_container__ref__combobox'
-    run_all_indexers
+    run_periodic_index
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     fill_in('token-input-accession_instances__1__sub_container__top_container__ref_', with: 'oof')

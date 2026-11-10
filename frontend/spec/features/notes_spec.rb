@@ -21,7 +21,6 @@ describe 'Notes', js: true do
   it 'can attach notes to resources and confirms before removing a note entry' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
 
@@ -60,7 +59,6 @@ describe 'Notes', js: true do
   it 'can edit an existing resource note to add subparts after saving' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -118,7 +116,6 @@ describe 'Notes', js: true do
   it 'can create an ordered list subnote and list items maintain proper order' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
 
@@ -195,7 +192,6 @@ describe 'Notes', js: true do
   it 'can add a top-level bibliography too' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -237,7 +233,6 @@ describe 'Notes', js: true do
   it 'can wrap note content text with EAD mark up' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -287,7 +282,6 @@ describe 'Notes', js: true do
   it 'can add a deaccession record' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -312,7 +306,6 @@ describe 'Notes', js: true do
   it 'types for rights statements are correct' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -481,7 +474,6 @@ describe 'Notes', js: true do
   it 'shows a validation error when note content is empty' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -512,7 +504,6 @@ describe 'Notes', js: true do
           build(:json_note_singlepart, content: ['<emph>Emph wrapped</emph> text'], publish: true)
         ]
       )
-      run_index_round
     end
 
     context 'in a show view' do
