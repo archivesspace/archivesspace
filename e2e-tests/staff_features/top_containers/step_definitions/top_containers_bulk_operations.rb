@@ -226,7 +226,7 @@ Given 'the two Top Containers are selected' do
   rows = all('#bulk_operation_results tbody tr')
 
   rows.each do |row|
-    row.all('td')[1].click
+    row.find('td:first-child input[type="checkbox"]').click
   end
 
   tries = 0
