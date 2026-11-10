@@ -64,8 +64,9 @@ ml:
       four_part_id: ഐഡന്റിഫയർ
       finding_aid_title: രേഖാസൂചികയുടെ ശീർഷകം
       found_in: ഇതിൽ കാണപ്പെടുന്നു
-      role_enum_s: കര്‍ത്തവ്യങ്ങൾ
-      linked_agent_roles: ഇണക്കപ്പെട്ട ഏജന്റ് റോളുകൾ
+      role_enum_s: കർത്തവ്യതകൾ
+      linked_agent_roles: <span class='searchterm'><span class='searchterm'><span 
+        class='searchterm'>ഇണക്കപ്പെട്ട ഏജന്റ് റോളുകൾ
       instance_type_enum_s: ഇൻസ്റ്റൻസ് തരം
     result: ഫലം
     results: ഫലങ്ങൾ
@@ -76,7 +77,7 @@ ml:
     op:
       AND: പിന്നെ
       OR: അല്ലെങ്കിൽ
-      NOT: ഇതല്ല
+      NOT: അതും അല്ല
     op_first_row:
       NOT: അല്ല
     filter:
@@ -100,6 +101,13 @@ ml:
       identifier: തിരിച്ചറിയുന്നതിനുള്ള ഘടകം
       source: ഉത്പത്തിസ്ഥാനം
       published_agents: പേരുകൾ
+      agents_text: പേരുകൾ
+      classification_uri: വർഗ്ഗീകരണം
+      linked_agent_roles: കർത്തവ്യത
+      from_year: ഈ വർഷം മുതൽ
+      to_year: ഈ വർഷത്തേക്ക്
+      years: വർഷങ്ങൾ
+      from: നിന്ന്
     search_term: സേർച്ച് വാക്ക്
     filter_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്യുക
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
