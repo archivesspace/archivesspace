@@ -17,6 +17,11 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     )
 
     @children_of_ao2 = batch_create_archival_objects(61, resource: @resource, parent: @ao2) # 3 batches
+    @late_tree_resource = create(:resource, title: "Late tree resource #{@now}", publish: true)
+    create(:archival_object,
+      resource: {'ref' => @late_tree_resource.uri},
+      publish: true
+    )
 
     run_indexers
   end
@@ -40,6 +45,36 @@ describe 'Collection Organization Infinite Coordinator', js: true do
       @records_container.scroll_to(@ao2_record, align: :top)
       expect(@tree_container).to have_css("[data-uri='#{@ao2.uri}'].current")
       expect(@tree_container).to have_css('.current', count: 1)
+    end
+
+    it 'should mark the current record set before the tree renders' do
+      # A second tree whose coordinator already has a current record, as when
+      # the records' observer fires while the tree is still rendering
+      page.execute_script(<<~JS, @late_tree_resource.uri, Rails.configuration.infinite_tree_batch_size, AppConfig[:public_proxy_url])
+        const [rootUri, batchSize, fetchPrefix] = arguments;
+        const container = document.createElement('div');
+        container.id = 'late-tree-container';
+        document.body.appendChild(container);
+
+        const coordinator = new InfiniteCoordinator();
+        coordinator.currentRecord = rootUri;
+
+        new InfiniteTree({
+          container,
+          rootUri,
+          batchSize,
+          fetchPrefix,
+          i18n: { sep: '-', bulk: 'bulk', expand: 'expand', collapse: 'collapse' },
+          titleRules: 'collection-organization',
+          coordinator,
+        });
+        coordinator.updateCurrentTreeNode();
+      JS
+
+      late_tree = find('#late-tree-container')
+      expect(late_tree).to have_css('.node', minimum: 2)
+      expect(late_tree).to have_css("[data-uri='#{@late_tree_resource.uri}'].current")
+      expect(late_tree).to have_css('.current', count: 1)
     end
 
     describe 'helps identify the current tree node' do
