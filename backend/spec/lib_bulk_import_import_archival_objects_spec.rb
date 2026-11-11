@@ -1923,4 +1923,39 @@ describe "Import Archival Objects" do
       end
     end
   end
+
+  describe 'validate-only with a rejected parent row' do
+    def validate_rows(rows)
+      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_template.csv")
+      columns = csv_data[0]
+      values = rows.map do |cells|
+        row = columns.to_h { |column| [column, nil] }
+        row.merge!('res_uri' => @resource.uri, 'title' => 'Archival Object', 'level' => 'class')
+        row.merge!(cells).values
+      end
+
+      csv_filename = "bulk_import_template_#{SecureRandom.uuid}.csv"
+      csv_path = File.join(Dir.tmpdir, csv_filename)
+      File.write(csv_path, CSV.generate { |csv| csv << columns << csv_data[1]; values.each { |v| csv << v } })
+
+      opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => csv_filename,
+               :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "",
+               :validate => true }
+      ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+    end
+
+    {
+      'a blank note text' => { 't_accessrestrict_1' => 'RestrictedSpecColl' },
+      'an invalid restriction date' => { 'n_userestrict' => 'Ask first', 'b_userestrict' => '2030' },
+    }.each do |problem, parent_cells|
+      it "still reports the child row's own errors when the parent has #{problem}" do
+        report = validate_rows([parent_cells.merge('hierarchy' => '1'),
+                                { 'hierarchy' => '2', 'level' => 'not_a_level' }])
+
+        child_errors = report.rows[1].errors
+        expect(child_errors).not_to include(a_string_including(I18n.t('bulk_import.error.hier_below_error_level')))
+        expect(child_errors).to include(a_string_including('not_a_level'))
+      end
+    end
+  end
 end
