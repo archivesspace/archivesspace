@@ -47,6 +47,7 @@ describe "Import Digital Objects digital_object_is_representative" do
   end
 
   let(:not_representative) { I18n.t('bulk_import.error.dig_not_representative') }
+  let(:not_saved) { I18n.t('bulk_import.error.dig_row_not_saved') }
 
   it 'makes the instance representative, so the archival object shows the thumbnail of its digital object' do
     report = import_rows(representative_row('http://example.com/first.jpg'))
@@ -129,11 +130,14 @@ describe "Import Digital Objects digital_object_is_representative" do
       end
     end
 
-    it 'lets a later row make the instance representative' do
-      report = import_rows(representative_row('http://example.com/first.jpg'),
-                           representative_row('http://example.com/second.jpg'))
+    it 'saves nothing from that row and lets a later row make the instance representative' do
+      report = nil
+      expect {
+        report = import_rows(representative_row('http://example.com/first.jpg'),
+                             representative_row('http://example.com/second.jpg'))
+      }.to change { DigitalObject.count }.by(1)
 
-      expect(report.rows.map(&:errors)).to eq([[I18n.t('bulk_import.error.dig_unassoc', :msg => 'save failed')], []])
+      expect(report.rows.map(&:errors)).to eq([[I18n.t('bulk_import.error.dig_unassoc', :msg => 'save failed'), not_saved], []])
       expect(archival_object['instances'].map { |instance| instance['is_representative'] }).to eq([true])
       expect(archival_object['thumbnail']['image_url']).to eq('http://example.com/second.jpg')
     end

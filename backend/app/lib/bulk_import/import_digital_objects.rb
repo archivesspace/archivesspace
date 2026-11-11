@@ -83,17 +83,18 @@ class ImportDigitalObjects < BulkImportParser
       ao.instances << dig_instance
       begin
         ao = ao_save(ao)
-        @report.add_info(I18n.t("bulk_import.dig_assoc"))
-        prepared_events.each do |prepared|
-          event_uri = @event_handler.create(
-            event_builder: prepared[:event_builder],
-            group: prepared[:group],
-            digital_object_uri: dig_instance.digital_object["ref"],
-            report: @report)
-          @created_refs << event_uri if event_uri
-        end
       rescue BulkImportException => ee
         @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
+        return nil
+      end
+      @report.add_info(I18n.t("bulk_import.dig_assoc"))
+      prepared_events.each do |prepared|
+        event_uri = @event_handler.create(
+          event_builder: prepared[:event_builder],
+          group: prepared[:group],
+          digital_object_uri: dig_instance.digital_object["ref"],
+          report: @report)
+        @created_refs << event_uri if event_uri
       end
     end
     dig_instance
