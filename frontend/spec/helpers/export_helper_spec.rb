@@ -189,6 +189,46 @@ describe ExportHelper do
       expect(lines[1]).to eq('box,Test Container,1')
     end
 
+    context 'when extended CSV export is enabled' do
+      let(:extended_csv) do
+        "jsonmodel_type,uri,title,dates::0::begin,extents::0::number,instances::0::instance_type\n" \
+        "resource,/repositories/2/resources/1,Test Collection,1900,5,mixed_materials\n"
+      end
+
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:extended_csv_export_enabled).and_return(true)
+        allow(JSONModel::HTTP).to receive(:stream).and_yield(double(body: extended_csv))
+      end
+
+      it 'returns the extended CSV untouched when the visible columns are passed as fields[]' do
+        params = {
+          'fields[]' => ['primary_type', 'title', 'identifier', 'context'],
+          'q' => 'photograph*',
+          'page' => '1'
+        }
+
+        result = helper.csv_export_with_mappings("/repositories/2/search", params)
+
+        expect(result).to eq(extended_csv)
+      end
+
+      it 'still applies header mappings when the Solr writer is requested' do
+        allow(JSONModel::HTTP).to receive(:stream)
+          .and_yield(double(body: "type_enum_s,indicator_u_icusort\nbox,1\n"))
+
+        params = {
+          'fields[]' => ['type', 'indicator'],
+          'q' => '*',
+          'csv_export_use_solr_writer' => true
+        }
+
+        result = helper.csv_export_with_mappings("/repositories/2/search", params)
+
+        expect(result.split("\n")).to eq(['Type,Indicator', 'box,1'])
+      end
+    end
+
     it 'properly duplicates params to avoid side effects' do
       original_params = {
         'fields[]' => ['type', 'indicator'],
@@ -198,7 +238,7 @@ describe ExportHelper do
 
       # Mock the HTTP stream
       mock_csv_response = "type_enum_s,indicator_u_icusort\nbox,1\n"
-      allow(JSONModel::HTTP).to receive(:stream) do |uri, params|
+      allow(JSONModel::HTTP).to receive(:stream) do |uri, params, &block|
         # Verify that backend fields are mapped correctly
         expect(params['fields[]']).to eq(['type_enum_s', 'indicator_u_icusort'])
         # Verify dt=csv is added
@@ -206,7 +246,7 @@ describe ExportHelper do
         # Verify other params are preserved
         expect(params['other_param']).to eq('value')
 
-        double(body: mock_csv_response)
+        block.call(double(body: mock_csv_response))
       end
 
       helper.csv_export_with_mappings("/repositories/1/search", original_params)
