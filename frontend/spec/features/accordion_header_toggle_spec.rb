@@ -10,8 +10,7 @@ describe 'Read-only accordion header toggles', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
   end
 
   describe 'agent name forms (summary and badges)' do

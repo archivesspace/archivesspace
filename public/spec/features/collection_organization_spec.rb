@@ -294,8 +294,8 @@ describe 'Collection Organization', js: true do
       end
 
       it 'are collapsed by default' do
-        num_first_level_nodes = page.all('#infinite-tree .root.node > .node-children > .node').count
-        num_all_nodes = page.all('#infinite-tree .root.node .node').count
+        num_first_level_nodes = page.all('#infinite-tree-container .root.node > .node-children > .node', minimum: 1).count
+        num_all_nodes = page.all('#infinite-tree-container .root.node .node').count
         expect(num_first_level_nodes).to eq num_all_nodes
 
         [@ao3, @ao4, @ao5, @ao6].each do |parent|
@@ -564,7 +564,8 @@ describe 'Collection Organization', js: true do
 
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
-      expect(page).to have_css('#records-loading-dialog', visible: false)
+      expect(page).to have_css('#infinite-records-container .waypoint.populated')
+      expect(page).to have_no_css('#records-loading-dialog[open]', visible: :all)
       toggle = page.find('.load-all__label-toggle')
       total_records = page.find('#infinite-records-container')['data-total-records'].to_i
 
@@ -629,7 +630,7 @@ describe 'Collection Organization', js: true do
       it 'stops retrying and shows an error message' do
         visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-        wait_for_jquery
+        expect(page).to have_css('#infinite-records-container .waypoint.populated')
 
         num_empty_waypoints = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
 
@@ -637,11 +638,13 @@ describe 'Collection Organization', js: true do
         # in front of the app would
         lock = Mutex.new
         waypoint_requests = 0
+        counting = false
         allow_any_instance_of(ResourcesController).to receive(:waypoints) do |controller|
-          lock.synchronize { waypoint_requests += 1 }
+          lock.synchronize { waypoint_requests += 1 if counting }
           controller.render plain: 'Forbidden', status: 403
         end
 
+        lock.synchronize { counting = true }
         page.find('.load-all__label-toggle').click
 
         expect(page).to have_css('#load-all-error', visible: true, wait: 30)
@@ -658,7 +661,7 @@ describe 'Collection Organization', js: true do
       it 'retries and loads all records' do
         visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-        wait_for_jquery
+        expect(page).to have_css('#infinite-records-container .waypoint.populated')
 
         total_records = page.find('#infinite-records-container')['data-total-records']
 

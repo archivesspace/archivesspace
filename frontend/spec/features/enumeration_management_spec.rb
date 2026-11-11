@@ -6,12 +6,12 @@ require 'rails_helper'
 describe 'Enumeration Management', js: true do
   before(:all) do
     @repository = create(:repo, repo_code: "enum_test_#{Time.now.to_i}")
-    run_indexer
+    set_repo(@repository)
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
+    visit '/'
     @now = Time.now.to_i
   end
 
@@ -79,11 +79,11 @@ describe 'Enumeration Management', js: true do
     create_enum_value(enumeration_a)
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
     expect(page).to have_css '.enumeration-list tr', text: enumeration_a
+    page.execute_script("document.querySelectorAll('.alert-success').forEach(el => el.remove())")
 
     create_enum_value(enumeration_b)
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
-
-    wait_for_ajax
+    expect(page).to have_css '.enumeration-list tr', text: enumeration_b
 
     within('.enumeration-list tr', text: enumeration_b) do
       click_on 'Merge'

@@ -5,7 +5,7 @@ describe 'AgentSoftware', js: true do
   let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:each) do
-    login_user(admin)
+    login_user_and_select_repository(admin, $repo)
   end
 
   context 'Merge', js: true do

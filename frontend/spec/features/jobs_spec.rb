@@ -10,8 +10,8 @@ describe 'Jobs', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
+    visit '/'
   end
 
   it 'does not offer creating hidden jobs' do
@@ -27,7 +27,7 @@ describe 'Jobs', js: true do
   it 'can create a find and replace job' do
     resource = create(:resource)
 
-    run_indexer
+    run_index_round
 
     sleep 5.seconds
 
@@ -55,7 +55,7 @@ describe 'Jobs', js: true do
   it 'can create a print to pdf job' do
     resource = create(:resource)
 
-    run_indexer
+    run_index_round
 
     click_button('Repository settings')
     click_link('Background Jobs')

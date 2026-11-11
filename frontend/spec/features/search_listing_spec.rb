@@ -37,8 +37,8 @@ describe 'Search Listing', js: true do
   end
 
   before(:each) do
-    login_user(@admin)
-    select_repository(@repository)
+    login_user_and_select_repository(@admin, @repository)
+    visit '/'
   end
 
   describe 'search results' do
@@ -144,7 +144,10 @@ describe 'Search Listing', js: true do
       elements_from_browse = elements.collect { |col| col.text }.reject { |header| header.empty? }
 
       find('#global-search-button').click
-      click_on 'Resource'
+
+      within('.search-listing-filter') do
+        click_link 'Resource'
+      end
       elements = all('#tabledSearchResults th')
       elements_from_search = elements.collect { |col| col.text }.reject { |header| header.empty? }
 
