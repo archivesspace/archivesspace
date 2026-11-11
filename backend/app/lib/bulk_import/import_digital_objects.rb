@@ -24,7 +24,7 @@ class ImportDigitalObjects < BulkImportParser
     @date_certainty = CvList.new("date_certainty", @current_user)
     @extent_types = CvList.new("extent_extent_type", @current_user)
     @extent_portions = CvList.new("extent_portion", @current_user)
-    @representative_ao_uris = Set.new
+    @representative_row_by_ao_uri = {}
   end
 
   def create_instance(ao)
@@ -44,6 +44,11 @@ class ImportDigitalObjects < BulkImportParser
       subjects, subjects_failed = process_subjects
       linker = agent_linker
       linked_agents = linker.link_agents(@row_hash)
+      conflict = representative_conflict_error_message(ao) if is_representative
+      if conflict
+        @report.add_errors(conflict)
+        return nil
+      end
       return nil if subjects_failed || linker.failed?
 
       dig_instance = @digital_object_handler.create(
@@ -64,7 +69,7 @@ class ImportDigitalObjects < BulkImportParser
         lang_materials: create_lang_materials,
         user_defined: create_user_defined,
         collection_management: create_collection_management)
-      make_representative(dig_instance, ao) if dig_instance && ao && is_representative
+      dig_instance.is_representative = true if dig_instance && is_representative
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -168,7 +173,7 @@ class ImportDigitalObjects < BulkImportParser
       [ao.uri, digital_instance.digital_object['ref']]
     ) if ao && digital_instance && !@validate_only
     # A validation run saves nothing: count only the rows an import would not reject before saving (no errs).
-    @representative_ao_uris << ao.uri if @validate_only && errs.empty? && digital_instance&.is_representative
+    @representative_row_by_ao_uri[ao.uri] = @counter if errs.empty? && digital_instance&.is_representative
     digital_instance
   end
 
@@ -231,12 +236,13 @@ class ImportDigitalObjects < BulkImportParser
 
   private
 
-  def make_representative(dig_instance, ao)
-    if ao.instances.any? { |instance| instance['is_representative'] } || @representative_ao_uris.include?(ao.uri)
-      @report.add_errors(I18n.t("bulk_import.error.dig_not_representative"))
-    else
-      dig_instance.is_representative = true
-    end
+  def representative_conflict_error_message(ao)
+    return unless ao
+
+    row = @representative_row_by_ao_uri[ao.uri]
+    return I18n.t("bulk_import.error.dig_representative_earlier_row", :row => row) if row
+
+    I18n.t("bulk_import.error.dig_representative_existing") if ao.instances.any? { |instance| instance['is_representative'] }
   end
 
   def valid_column_codes
