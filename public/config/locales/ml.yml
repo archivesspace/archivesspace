@@ -115,6 +115,11 @@ ml:
       child_container_u_sstr: ഉപ പാത്രകം
       grand_child_container_u_sstr: ഉപ- ഉപപത്രകം
       type_enum_s: ഇനം
+      published_series_title_u_sstr: ശ്രേണി
+      instance_type_enum_s: സ്ഥിതിസ്ഥാന തരം
+      langcode: ഭാഷ
+      digital_object_type_enum_s: ഇനം
+      extent_type_enum_s: വ്യാപ്തി
     search_term: സേർച്ച് വാക്ക്
     filter_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്യുക
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
@@ -142,3 +147,18 @@ ml:
     agent: കൺടെന്റ് സ്രഷ്ടാവ്
     agents: കൺടെന്റ് സ്രഷ്ടാക്കൾ
   search-field: സേർച്ച് ഫീൽഡ്
+  search_sorting:
+    sort_by: ഇങ്ങനെ തരം തിരിക്കുക
+    sort: തരം തിരിക്കുക
+    asc: ആരോഹണ ക്രമം
+    desc: അവരോഹണ ക്രമം
+    relevance: പ്രസക്ത
+    title_sort: ശീർഷകം
+    identifier: തിരിച്ചറിയുന്നതിനുള്ള ഘടകം
+    year_sort: വർഷം
+    classification_identifier: തിരിച്ചറിയുന്നതിനുള്ള ഘടകം
+  inherit:
+    collection: ശേഖരം
+    series: ശ്രേണി
+    sub-series: ഉപശ്രണി
+    class: തരം
