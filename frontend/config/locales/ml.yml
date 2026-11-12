@@ -8,3 +8,5 @@ ml:
     close: അടയ്ക്കുക
   search_results:
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
+  search_sorting:
+    sort_by: ഇങ്ങനെ തരം തിരിക്കുക
