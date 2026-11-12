@@ -112,6 +112,9 @@ ml:
       years_include: ഉൾപ്പെടുത്തേണ്ട വർഷങ്ങൾ
       year_now: ഇപ്പോൾ
       year_begin: തുടക്കം
+      child_container_u_sstr: ഉപ പാത്രകം
+      grand_child_container_u_sstr: ഉപ- ഉപപത്രകം
+      type_enum_s: ഇനം
     search_term: സേർച്ച് വാക്ക്
     filter_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്യുക
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
