@@ -85,6 +85,7 @@ class ImportArchivalObjects < BulkImportParser
       note_columns_missing_text.each do |note_column, columns|
         err_arr.push I18n.t("bulk_import.error.note_text_missing", :note_column => note_column, :columns => columns.join(", "))
       end
+      err_arr.concat(restriction_date_errors.values)
     rescue StopBulkImportException => se
       raise se
     rescue Exception => e
@@ -112,6 +113,28 @@ class ImportArchivalObjects < BulkImportParser
     end
   end
 
+  def restriction_date_errors
+    errors = {}
+    dates = {}
+    @row_hash.keys.compact.grep(/\A[be]_./).each do |column|
+      value = @row_hash[column].to_s.strip
+      next if value.empty?
+      dates[column] = JSONModel::Validations.parse_strict_date(value)
+    rescue ArgumentError
+      errors[column] = I18n.t("bulk_import.error.restriction_date_format", :column => column, :value => value)
+    end
+    dates.each do |column, end_date|
+      next unless column.start_with?("e_")
+      begin_column = "b_#{column.delete_prefix('e_')}"
+      begin_date = dates[begin_column]
+      next unless begin_date && end_date < begin_date
+      errors[column] = I18n.t("bulk_import.error.restriction_date_order", :column => column,
+                              :end_date => @row_hash[column].to_s.strip,
+                              :begin_date => @row_hash[begin_column].to_s.strip)
+    end
+    errors
+  end
+
   def process_row(row_hash = nil)
     ao = nil
     ret_str = ""
@@ -125,11 +148,7 @@ class ImportArchivalObjects < BulkImportParser
       ret_str = check_row
     end
     if !ret_str.empty?
-      if @validate_only
-        @report.add_errors(ret_str)
-      else
-        raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str))
-      end
+      raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str))
     end
     parent_uri = @parents.parent_for(@row_hash["hierarchy"].to_i)
     begin

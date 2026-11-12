@@ -2103,6 +2103,8 @@ ja:
       title: タイトルがありません
       title_and_date: タイトルと有効な日付定義がありません
       note_text_missing: "%{note_column} は空欄ですが、次のいずれかの列に値がある場合は必須です: %{columns}"
+      restriction_date_format: "無効な日付 (%{column}: '%{value}' は有効な YYYY-MM-DD 形式の日付ではありません)"
+      restriction_date_order: "無効な日付 (%{column}: 終了日 '%{end_date}' を開始日 '%{begin_date}' より前にすることはできません)"
       hier_miss: 階層がありません -- 0より大きい数値である必要があります
       hier_zero: 階層は0より大きくなければなりません
       hier_wrong: 階層を前の行より2レベル以上深くすることはできません

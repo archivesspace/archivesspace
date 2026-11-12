@@ -2874,6 +2874,8 @@ fr:
       title: titre manquant
       title_and_date: Titre manquant et la définition de date valide
       note_text_missing: "%{note_column} est vide, mais il est obligatoire lorsque l'une de ces colonnes contient une valeur : %{columns}"
+      restriction_date_format: "Date non valide (%{column} : '%{value}' n'est pas une date AAAA-MM-JJ valide)"
+      restriction_date_order: "Date non valide (%{column} : la date de fin '%{end_date}' ne peut pas être antérieure à la date de début '%{begin_date}')"
       hier_miss: Manquant hierachy - doit être un nombre supérieur à 0
       hier_zero: Hiérarchie doit être supérieure à 0
       hier_wrong: Hiérarchie ne peut pas être plus d'un niveau plus profond que la ligne précédente

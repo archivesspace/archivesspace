@@ -1831,7 +1831,8 @@ describe "Import Archival Objects" do
       report = import_row({ 't_accessrestrict_1' => 'RestrictedSpecColl' }, [], true)
 
       note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
-      expect(report.rows[0].errors).to eq([note_error])
+      expect(report.rows[0].archival_object_id).to be_nil
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
     end
 
     it 'reports every filled column for every note whose text is blank' do
@@ -1865,6 +1866,61 @@ describe "Import Archival Objects" do
       expect(::ArchivalObject.count).to eq archival_object_count_before
       note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
       expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+
+    describe 'restriction dates' do
+      it 'rejects the row when a begin date is not a full YYYY-MM-DD date' do
+        archival_object_count_before = ::ArchivalObject.count
+
+        report = import_row('n_accessrestrict' => 'Closed', 'b_accessrestrict' => '2030')
+
+        expect(::ArchivalObject.count).to eq archival_object_count_before
+        date_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'b_accessrestrict', :value => '2030')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => date_error)])
+      end
+
+      it 'rejects the row when an end date is not a real date' do
+        report = import_row('n_userestrict' => 'Ask first', 'e_userestrict' => '2030-13-45')
+
+        date_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'e_userestrict', :value => '2030-13-45')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => date_error)])
+      end
+
+      it 'rejects the row when the end date is before the begin date' do
+        report = import_row('n_userestrict' => 'Ask first', 'b_userestrict' => '2030-01-01', 'e_userestrict' => '2029-12-31')
+
+        date_error = I18n.t('bulk_import.error.restriction_date_order', :column => 'e_userestrict',
+                                                                        :end_date => '2029-12-31', :begin_date => '2030-01-01')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => date_error)])
+      end
+
+      it 'reports both a blank note text and a bad date in the same row' do
+        report = import_row('b_userestrict' => 'soon')
+
+        note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 'b_userestrict', :note_column => 'n_userestrict')
+        date_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'b_userestrict', :value => 'soon')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{note_error}; #{date_error}")])
+      end
+
+      it 'reports bad dates in validate-only mode and does not build the row' do
+        report = import_row({ 'n_accessrestrict' => 'Closed', 'b_accessrestrict' => '2030',
+                              'n_userestrict' => 'Ask first', 'b_userestrict' => '2030-01-01', 'e_userestrict' => '2029-12-31' }, [], true)
+
+        format_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'b_accessrestrict', :value => '2030')
+        order_error = I18n.t('bulk_import.error.restriction_date_order', :column => 'e_userestrict',
+                                                                         :end_date => '2029-12-31', :begin_date => '2030-01-01')
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{format_error}; #{order_error}")])
+      end
+
+      it 'imports valid begin and end dates into the note' do
+        report = import_row('n_accessrestrict' => 'Closed', 'b_accessrestrict' => '2030-01-01', 'e_accessrestrict' => '2031-01-01')
+
+        expect(report.rows[0].errors).to eq([])
+        archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+        note = archival_object['notes'].find { |n| n['type'] == 'accessrestrict' }
+        expect(note['rights_restriction'].slice('begin', 'end')).to eq('begin' => '2030-01-01', 'end' => '2031-01-01')
+      end
     end
   end
 end

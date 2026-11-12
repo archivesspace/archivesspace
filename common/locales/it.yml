@@ -7,6 +7,8 @@ it:
     error:
       unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}'"
       note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando una di queste colonne contiene un valore: %{columns}"
+      restriction_date_format: "Data non valida (%{column}: '%{value}' non è una data AAAA-MM-GG valida)"
+      restriction_date_order: "Data non valida (%{column}: la data di fine '%{end_date}' non può essere precedente alla data di inizio '%{begin_date}')"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
       dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto
         digitale"
