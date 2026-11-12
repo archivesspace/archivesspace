@@ -12,6 +12,7 @@ nl:
       invalid_user_defined_integer: "Ongeldig gebruikergedefinieerd geheel getal: %{value}"
       dig_row_not_saved: "Niets uit deze rij is opgeslagen omdat het digitale object niet kon worden aangemaakt"
       invalid_file_version_size: "Kolom %{column} vereist een geheel aantal bytes; ontvangen '%{value}'"
+      file_version_display_flag_unpublished: "Kolom %{column} is TRUE maar %{publish_column} is niet TRUE; een bestandsversie moet gepubliceerd zijn om de weergaveminiatuur of weergavelink te zijn"
       invalid_user_defined_real: "Ongeldig gebruikergedefinieerd reëel getal: %{value}"
       subject_missing_identity: "Onderwerp %{num} vereist een record-ID of term"
       agent_missing_identity: "Agent %{num} vereist een record-ID of koptekst"

@@ -1452,6 +1452,7 @@ pl:
       unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}', musi być jedną z: %{accepted}, lub pusta, aby użyć wartości domyślnej"
       invalid_user_defined_integer: "Nieprawidłowa liczba całkowita zdefiniowana przez użytkownika: %{value}"
       invalid_file_version_size: "Kolumna %{column} wymaga całkowitej liczby bajtów; otrzymano '%{value}'"
+      file_version_display_flag_unpublished: "Kolumna %{column} ma wartość TRUE, ale %{publish_column} nie ma wartości TRUE; wersja pliku musi być opublikowana, aby była miniaturą lub linkiem wyświetlania"
       invalid_user_defined_real: "Nieprawidłowa liczba rzeczywista zdefiniowana przez użytkownika: %{value}"
       script_code: Nie można zweryfikować skryptu językowego (%{script}).
       lang_code: Nie można zweryfikować języka (%{lang})

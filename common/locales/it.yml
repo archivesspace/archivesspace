@@ -13,6 +13,7 @@ it:
       dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto
         digitale"
       invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
+      file_version_display_flag_unpublished: "La colonna %{column} è TRUE ma %{publish_column} non è TRUE; una versione del file deve essere pubblicata per essere la miniatura o il link di visualizzazione"
       invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
       subject_missing_identity: "Il soggetto %{num} richiede un ID record o un termine"
       agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"

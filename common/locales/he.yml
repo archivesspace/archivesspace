@@ -11,6 +11,7 @@ he:
       invalid_user_defined_integer: "מספר שלם לא חוקי המוגדר על ידי המשתמש: %{value}"
       dig_row_not_saved: "דבר משורה זו לא נשמר, מכיוון שלא ניתן היה ליצור את האובייקט הדיגיטלי"
       invalid_file_version_size: "העמודה %{column} דורשת מספר שלם של בתים; התקבל '%{value}'"
+      file_version_display_flag_unpublished: "העמודה %{column} היא TRUE אך %{publish_column} אינה TRUE; גרסת קובץ חייבת להיות מפורסמת כדי לשמש כתמונה הממוזערת או כקישור התצוגה"
       invalid_user_defined_real: "מספר ממשי לא חוקי המוגדר על ידי המשתמש: %{value}"
       subject_missing_identity: "נושא %{num} דורש מזהה רשומה או מונח"
       agent_missing_identity: "סוכן %{num} דורש מזהה רשומה או כותרת"

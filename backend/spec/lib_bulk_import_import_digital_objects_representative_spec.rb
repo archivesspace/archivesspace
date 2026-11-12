@@ -20,6 +20,7 @@ describe "Import Digital Objects digital_object_is_representative" do
       'digital_object_publish' => 'TRUE',
       'digital_object_is_representative' => 'TRUE',
       'file_version_1_file_uri' => image_url,
+      'file_version_1_publish' => 'TRUE',
       'file_version_1_is_display_thumbnail' => 'TRUE' }.merge(values)
   end
 
