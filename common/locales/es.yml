@@ -2807,7 +2807,8 @@ es:
       has_dig_obj: "Objeto Archivo ya tiene un objeto digital asociada"
       dig_unassoc: "No se puede guardar objeto de archivo con el objeto digital asociada: %{msg}"
       dig_row_not_saved: "No se guardó nada de esta fila porque no se pudo crear el objeto digital"
-      dig_not_representative: "La instancia del objeto digital no se hizo representativa: el objeto de archivo ya tenía una instancia representativa antes de la importación, o una fila anterior hace representativa a otra"
+      dig_representative_existing: "La instancia del objeto digital no puede hacerse representativa: el objeto de archivo ya tiene una instancia representativa"
+      dig_representative_earlier_row: "La instancia del objeto digital no puede hacerse representativa: la fila %{row} hace representativa a otra instancia del objeto de archivo"
       ref_id_miss: No Ref ID especificado
       dig_info_miss: Ni el objeto URN Digital o la miniatura URN se especifica
       dig_validation: "No se puede crear el objeto digital %{err}"

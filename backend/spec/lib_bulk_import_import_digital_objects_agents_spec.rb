@@ -1515,17 +1515,15 @@ describe "Import Digital Objects Agents" do
       expect(linked_agent_records(imported_digital_object).map(&:title)).to eq(["Created Person #{@now}"])
     end
 
-    it "keeps the Digital Object and its Agent when the Archival Object cannot be saved" do
+    it "rolls back the Digital Object and its Agent when the Archival Object cannot be saved" do
       allow_any_instance_of(ImportDigitalObjects).to receive(:ao_save).and_raise(BulkImportException.new("attach failed #{@now}"))
 
       report = run_agent_import(person_group)
 
       expect(report.rows[0].errors).to eq(
-        [I18n.t("bulk_import.error.dig_unassoc", :msg => "attach failed #{@now}")]
+        [I18n.t("bulk_import.error.dig_unassoc", :msg => "attach failed #{@now}"), I18n.t("bulk_import.error.dig_row_not_saved")]
       )
-      expect(AgentPerson.count).to eq(@original_people + 1)
-      expect(linked_agent_records(imported_digital_object).map(&:title)).to eq(["Created Person #{@now}"])
-      expect(@importer.record_uris).to include(imported_digital_object.linked_agents.first["ref"])
+      expect_row_rolled_back(report)
     end
   end
 end

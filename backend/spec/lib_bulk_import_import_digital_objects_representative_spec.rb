@@ -46,7 +46,10 @@ describe "Import Digital Objects digital_object_is_representative" do
     ArchivalObject.to_jsonmodel(record.id)
   end
 
-  let(:not_representative) { I18n.t('bulk_import.error.dig_not_representative') }
+  let(:already_representative) { I18n.t('bulk_import.error.dig_representative_existing') }
+  let(:not_saved) { I18n.t('bulk_import.error.dig_row_not_saved') }
+  # the first data row, after the template's two header rows
+  let(:row_3_representative) { I18n.t('bulk_import.error.dig_representative_earlier_row', :row => 3) }
 
   it 'makes the instance representative, so the archival object shows the thumbnail of its digital object' do
     report = import_rows(representative_row('http://example.com/first.jpg'))
@@ -73,28 +76,52 @@ describe "Import Digital Objects digital_object_is_representative" do
     expect(archival_object['instances']).to eq([])
   end
 
-  it 'makes only the first of several rows marked for the same archival object representative' do
-    report = import_rows(representative_row('http://example.com/first.jpg'),
-                         representative_row('http://example.com/second.jpg'),
-                         representative_row('http://example.com/third.jpg'))
+  it 'saves only the first of several rows marked representative for the same archival object' do
+    report = nil
+    expect {
+      report = import_rows(representative_row('http://example.com/first.jpg'),
+                           representative_row('http://example.com/second.jpg'),
+                           representative_row('http://example.com/third.jpg'))
+    }.to change { DigitalObject.count }.by(1)
 
-    expect(report.rows.map(&:errors)).to eq([[], [not_representative], [not_representative]])
-    expect(report.rows[1].info).to include(I18n.t('bulk_import.dig_assoc'))
-    expect(archival_object['instances'].map { |instance| instance['is_representative'] }).to eq([true, false, false])
+    expect(report.rows.map(&:errors)).to eq([[], [row_3_representative, not_saved], [row_3_representative, not_saved]])
+    expect(archival_object['instances'].map { |instance| instance['is_representative'] }).to eq([true])
     expect(archival_object['thumbnail']['image_url']).to eq('http://example.com/first.jpg')
   end
 
-  it 'keeps the representative instance the archival object already has' do
+  it 'rolls back the agents and subjects created by a row rejected for a representative conflict' do
+    new_agent_and_subject = {
+      'agent_1_agent_type' => 'person',
+      'agent_1_agent_name_1_primary_name' => "Conflict Person #{@now}",
+      'agent_1_agent_name_1_name_order' => 'direct',
+      'subject_1_term' => "Conflict Subject #{@now}",
+      'subject_1_type' => 'topical',
+      'subject_1_source' => 'local'
+    }
+
+    report = nil
+    expect {
+      report = import_rows(representative_row('http://example.com/first.jpg'),
+                           representative_row('http://example.com/second.jpg', new_agent_and_subject))
+    }.not_to change { [AgentPerson.count, Subject.count] }
+
+    expect(report.rows.map(&:errors)).to eq([[], [row_3_representative, not_saved]])
+    expect(archival_object['instances'].map { |instance| instance['is_representative'] }).to eq([true])
+  end
+
+  it 'saves nothing from a row marked representative for an archival object that has a representative instance' do
     existing = digital_object_with([image_file_version(:file_uri => 'http://example.com/existing.jpg', :is_display_thumbnail => true)])
     record = create(:json_archival_object, :resource => { :ref => @resource.uri }, :instances => [representative_instance(existing)])
 
-    report = import_rows(representative_row('http://example.com/first.jpg', 'ao_uri' => record.uri))
+    report = nil
+    expect {
+      report = import_rows(representative_row('http://example.com/first.jpg', 'ao_uri' => record.uri))
+    }.not_to change { DigitalObject.count }
 
-    expect(report.rows[0].errors).to eq([not_representative])
-    expect(report.rows[0].info).to include(I18n.t('bulk_import.dig_assoc'))
+    expect(report.rows[0].errors).to eq([already_representative, not_saved])
     instances = archival_object(record)['instances']
-    expect(instances.map { |instance| [instance['digital_object']['ref'] == existing.uri, instance['is_representative']] })
-      .to eq([[true, true], [false, false]])
+    expect(instances.map { |instance| [instance['digital_object']['ref'], instance['is_representative']] })
+      .to eq([[existing.uri, true]])
     expect(archival_object(record)['thumbnail']['image_url']).to eq('http://example.com/existing.jpg')
   end
 
@@ -129,26 +156,45 @@ describe "Import Digital Objects digital_object_is_representative" do
       end
     end
 
-    it 'lets a later row make the instance representative' do
-      report = import_rows(representative_row('http://example.com/first.jpg'),
-                           representative_row('http://example.com/second.jpg'))
+    it 'saves nothing from that row and lets a later row make the instance representative' do
+      report = nil
+      expect {
+        report = import_rows(representative_row('http://example.com/first.jpg'),
+                             representative_row('http://example.com/second.jpg'))
+      }.to change { DigitalObject.count }.by(1)
 
-      expect(report.rows.map(&:errors)).to eq([[I18n.t('bulk_import.error.dig_unassoc', :msg => 'save failed')], []])
+      expect(report.rows.map(&:errors)).to eq([[I18n.t('bulk_import.error.dig_unassoc', :msg => 'save failed'), not_saved], []])
       expect(archival_object['instances'].map { |instance| instance['is_representative'] }).to eq([true])
       expect(archival_object['thumbnail']['image_url']).to eq('http://example.com/second.jpg')
     end
   end
 
   context 'when only validating' do
-    it 'reports the rows that would not be made representative' do
+    let(:not_created) { I18n.t('bulk_import.object_not_created_be', :what => I18n.t('bulk_import.dig')) }
+
+    it 'reports the rows that would not be saved' do
       expect {
         report = import_rows(representative_row('http://example.com/first.jpg'),
                              representative_row('http://example.com/second.jpg'),
                              validate_only: true)
 
-        expect(report.rows.map(&:errors)).to eq([[], [not_representative]])
+        expect(report.rows.map(&:errors)).to eq([[], [row_3_representative, not_created]])
       }.not_to change { DigitalObject.count }
       expect(archival_object['instances']).to eq([])
+    end
+
+    it 'reports a row marked representative for an archival object that has a representative instance' do
+      existing = digital_object_with([image_file_version(:file_uri => 'http://example.com/existing.jpg', :is_display_thumbnail => true)])
+      record = create(:json_archival_object, :resource => { :ref => @resource.uri }, :instances => [representative_instance(existing)])
+
+      report = nil
+      expect {
+        report = import_rows(representative_row('http://example.com/first.jpg', 'ao_uri' => record.uri), validate_only: true)
+      }.not_to change { DigitalObject.count }
+
+      expect(report.rows[0].errors).to eq([already_representative, not_created])
+      expect(archival_object(record)['instances'].map { |instance| [instance['digital_object']['ref'], instance['is_representative']] })
+        .to eq([[existing.uri, true]])
     end
 
     it 'matches rows that identify the archival object by ao_ref_id' do
@@ -157,7 +203,7 @@ describe "Import Digital Objects digital_object_is_representative" do
                            validate_only: true)
 
       expect(report.rows[1].archival_object_id).to eq(@archival_object.uri)
-      expect(report.rows.map(&:errors)).to eq([[], [not_representative]])
+      expect(report.rows.map(&:errors)).to eq([[], [row_3_representative, not_created]])
     end
 
     it 'does not count a row the import would reject' do
