@@ -5,3 +5,17 @@ ml:
   actions:
     collapse_node: '%{title} ചുരുക്കുക'
     expand_node: '%{title} വികസിപ്പിക്കുക'
+    close: അടയ്ക്കുക
+  search_results:
+    filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
+  search_sorting:
+    sort_by: ഇങ്ങനെ തരം തിരിക്കുക
+  login:
+    login_please: ദയവായി സൈൻ ഇൻ ചെയ്യുക
+    login: സൈൻ ഇൻ ചെയ്യുക
+    username_placeholder: ഉപയോക്തൃ നാമം
+    password_placeholder: രഹസ്യകോഡ്
+    username_aria_label: ഉപയോക്തൃ നാമം
+    password_aria_label: ഉപയോക്തൃ രഹസ്യകോഡ്
+  navbar:
+    toggle_navigation: നാവിഗേഷൻ ടോഗിൾ ചെയ്യുക
