@@ -92,7 +92,6 @@ module RowFieldBuilders
   end
 
   def resolve_publish(hash, column, default_publish)
-    normalize_boolean_column(hash, column)
     hash[column].nil? ? default_publish : hash[column]
   end
 
@@ -103,17 +102,11 @@ module RowFieldBuilders
 
     fv = columns.to_h { |field, column| [field.to_sym, @row_hash[column]] }
     %w[publish is_display_thumbnail is_display_link].each do |field|
-      fv[field.to_sym] = digital_object_boolean(columns[field]) if columns.key?(field)
+      fv[field.to_sym] = row_boolean(columns[field]) if columns.key?(field)
     end
     fv[:publish] = true if fv[:is_display_thumbnail] || fv[:is_display_link]
     fv[:file_size_bytes] = file_version_file_size_bytes(columns['file_size_bytes'], fv[:file_size_bytes])
     fv
-  end
-
-  def normalize_boolean_column(row_hash, column)
-    return if row_hash[column].nil?
-    return if [TrueClass, FalseClass].include? row_hash[column].class
-    row_hash[column] = ['t', '1', 'true'].include? row_hash[column].to_s.strip.downcase
   end
 
   private
@@ -127,7 +120,7 @@ module RowFieldBuilders
     end
   end
 
-  def digital_object_boolean(column)
+  def row_boolean(column)
     ASpaceImport::Utils.normalize_boolean.call(@row_hash[column])
   rescue ASpaceImport::Utils::UnrecognizedBooleanValue => e
     raise BulkImportException.new(I18n.t("bulk_import.error.unrecognized_boolean", :column => column, :value => e.value, :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))

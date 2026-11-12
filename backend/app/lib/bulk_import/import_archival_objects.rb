@@ -94,11 +94,18 @@ class ImportArchivalObjects < BulkImportParser
       @row_hash.each do |k, v|
         @row_hash[k] = v.strip if !v.nil?
       end
-
-      normalize_boolean_column(@row_hash, 'publish')
-      normalize_boolean_column(@row_hash, 'restrictions_flag')
     end
+    read_boolean_cells(err_arr)
     err_arr.join("; ")
+  end
+
+  def read_boolean_cells(err_arr)
+    (['publish', 'restrictions_flag'] + @row_hash.keys.compact.grep(/\Ap_/)).each do |column|
+      @row_hash[column] = row_boolean(column)
+    rescue BulkImportException => e
+      err_arr.push e.message
+      @row_hash[column] = nil
+    end
   end
 
   def note_columns_missing_text
@@ -263,12 +270,12 @@ class ImportArchivalObjects < BulkImportParser
     unless [@row_hash["digital_object_title"], @row_hash["digital_object_id"], *@row_hash.values_at(*file_uri_columns)].compact.empty?
 
       begin
-        normalize_boolean_column(@row_hash, 'digital_object_publish')
-        is_representative = digital_object_boolean('digital_object_is_representative')
+        publish = row_boolean('digital_object_publish')
+        is_representative = row_boolean('digital_object_is_representative')
         dig_instance = @doh.create(
           title: @row_hash["digital_object_title"],
           id: @row_hash["digital_object_id"],
-          publish: @row_hash["digital_object_publish"],
+          publish: publish,
           level: nil,
           digital_object_type: nil,
           restrictions: nil,
@@ -436,8 +443,6 @@ class ImportArchivalObjects < BulkImportParser
     cntr = 1
     substr = ""
     until @row_hash["l_lang#{substr}"].nil? && @row_hash["l_langscript#{substr}"].nil? && @row_hash["n_langmaterial#{substr}"].nil?
-      normalize_boolean_column(@row_hash, "p_langmaterial#{substr}")
-
       pubnote = @row_hash["p_langmaterial#{substr}"]
 
       # ΝΟΤE: Publish is inherited from the archival object if not provided

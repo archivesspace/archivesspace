@@ -1727,6 +1727,14 @@ describe "Import Archival Objects" do
     ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
   end
 
+  def imported_archival_object(report)
+    ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+  end
+
+  def boolean_error(column, value)
+    I18n.t('bulk_import.error.unrecognized_boolean', :column => column, :value => value, :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES)
+  end
+
   describe 'digital object file version columns' do
     def imported_digital_object(report)
       archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
@@ -1764,15 +1772,10 @@ describe "Import Archival Objects" do
       report = import_row('file_version_file_uri_1' => 'http://example.com/1', 'file_version_is_display_thumbnail_1' => 'maybe')
 
       expect(report.terminal_error).to be_nil
-      expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'file_version_is_display_thumbnail_1', :value => 'maybe', :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
-      expect(report.rows[0].errors.join).to include('1, T, Y, YES, TRUE, 0, F, N, NO, FALSE')
+      expect(report.rows[0].errors).to include(boolean_error('file_version_is_display_thumbnail_1', 'maybe'))
     end
 
     describe 'digital_object_is_representative' do
-      def imported_archival_object(report)
-        ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
-      end
-
       let(:published_thumbnail) {
         { 'digital_object_publish' => 'TRUE',
           'file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
@@ -1800,8 +1803,7 @@ describe "Import Archival Objects" do
       it 'reports a value that is not a boolean' do
         report = import_row(published_thumbnail.merge('digital_object_is_representative' => 'maybe'))
 
-        expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'digital_object_is_representative', :value => 'maybe', :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
-        expect(report.rows[0].errors.join).to include('1, T, Y, YES, TRUE, 0, F, N, NO, FALSE')
+        expect(report.rows[0].errors).to include(boolean_error('digital_object_is_representative', 'maybe'))
       end
     end
 
@@ -1867,6 +1869,51 @@ describe "Import Archival Objects" do
       expect(::ArchivalObject.count).to eq archival_object_count_before
       note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
       expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+  end
+
+  describe 'boolean columns' do
+    it 'imports Y in publish as true' do
+      report = import_row('publish' => 'Y')
+
+      expect(report.rows[0].errors).to eq([])
+      expect(imported_archival_object(report)['publish']).to be true
+    end
+
+    it 'rejects the row when publish is not a boolean' do
+      archival_object_count_before = ::ArchivalObject.count
+
+      report = import_row('publish' => 'maybe')
+
+      expect(::ArchivalObject.count).to eq archival_object_count_before
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('publish', 'maybe'))])
+    end
+
+    it 'rejects the row when a note publish column is not a boolean' do
+      report = import_row('n_scopecontent' => 'Scope', 'p_scopecontent' => 'maybe')
+
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('p_scopecontent', 'maybe'))])
+    end
+
+    it 'rejects the row when a language publish column is not a boolean' do
+      report = import_row('l_lang' => 'eng', 'n_langmaterial' => 'In English', 'p_langmaterial' => 'maybe')
+
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('p_langmaterial', 'maybe'))])
+    end
+
+    it 'creates no digital object when digital_object_publish is not a boolean' do
+      report = import_row('file_version_file_uri_1' => 'http://example.com/1', 'digital_object_publish' => 'maybe')
+
+      expect(report.rows[0].errors).to include(boolean_error('digital_object_publish', 'maybe'))
+      expect(imported_archival_object(report)['instances']).to eq([])
+    end
+
+    it 'reports a publish value that is not a boolean in validate-only mode, with the row\'s other errors' do
+      report = import_row({ 'publish' => 'maybe', 't_accessrestrict_1' => 'RestrictedSpecColl' }, [], true)
+
+      expect(report.terminal_error).to be_nil
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].errors).to eq(["#{note_error}; #{boolean_error('publish', 'maybe')}"])
     end
   end
 end

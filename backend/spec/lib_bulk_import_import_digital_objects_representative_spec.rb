@@ -69,7 +69,7 @@ describe "Import Digital Objects digital_object_is_representative" do
       report = import_rows(representative_row('http://example.com/first.jpg', 'digital_object_is_representative' => 'maybe'))
 
       expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'digital_object_is_representative', :value => 'maybe', :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))
-      expect(report.rows[0].errors.join).to include('1, T, Y, YES, TRUE, 0, F, N, NO, FALSE')
+      expect(report.rows[0].errors.join).to include(ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES)
     }.not_to change { DigitalObject.count }
     expect(archival_object['instances']).to eq([])
   end
