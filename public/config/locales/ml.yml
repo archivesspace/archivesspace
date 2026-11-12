@@ -130,6 +130,10 @@ ml:
       അസൗകര്യത്തിൽ ഞങ്ങൾ ക്ഷമ ചോദിക്കുന്നു. ദയവായി അല്പം കഴിഞ്ഞ് വീണ്ടും ശ്രമിക്കുക.
     unexpected_error: അപ്രതീക്ഷിതമായ ഒരു പിശക്/പിഴവ് കാരണം നിങ്ങളുടെ അഭ്യർത്ഥന പൂർത്തിയാക്കാൻ 
       സാധിച്ചില്ല.
+    error_404: രേഖ കണ്ടെത്തിയില്ല
+    error_404_message: നിങ്ങൾ ആക്‌സസ് ചെയ്യാൻ ശ്രമിച്ച റെക്കോർഡ് നിലവിലില്ല, അല്ലെങ്കിൽ അത് നീക്കം 
+      ചെയ്യപ്പെട്ടിട്ടുണ്ടാകാം.
+    backend_down: ഡാറ്റാബേസുമായി ബന്ധപ്പെടാൻ സാധിക്കുന്നില്ല
   page_actions: പേജ് കർമ്മം
   search-button:
     label: സേർച്ച്
@@ -162,3 +166,33 @@ ml:
     series: ശ്രേണി
     sub-series: ഉപശ്രണി
     class: തരം
+    file: ഫയൽ
+    fonds: വിതാനം
+    item: ഇനം
+    otherlevel: വേറെ തലം
+    recordgrp: രേഖ ഗണം
+    subfonds: ഉപവിതാനം
+    subgrp: ഉപ-ഗണം
+  boolean:
+    "true": അതേ
+    "false": അല്ല
+  login:
+    login_please: ദയവായി സൈൻ ഇൻ ചെയ്യുക
+    login: സൈൻ ഇൻ ചെയ്യുക
+    logout: ലോഗ് ഔട്ട്
+    username_placeholder: ഉപയോക്തൃ നാമം
+    password_placeholder: രഹസ്യകോഡ്
+    username_aria_label: ഉപയോക്തൃ നാമം
+    password_aria_label: ഉപയോക്തൃ രഹസ്യകോഡ്
+    required: ആവശ്യമായ
+    login_failed: ലോഗിൻ പരാജയപ്പെട്ടു. ദയവായി നിങ്ങളുടെ ഉപയോക്തൃനാമവും രഹസ്യകോഡ്ഡും പരിശോധിക്കുക.
+  navbar:
+    search_placeholder: നിങ്ങളുടെ സേർച്ച് പദങ്ങൾ നൽകുക
+    error_no_term: സേർച്ച് പദങ്ങളൊന്നും നൽകിയിട്ടില്ല.
+    toggle_navigation: നാവിഗേഷൻ ടോഗിൾ ചെയ്യുക
+  navigation:
+    hierarchical: സ്ഥാനശ്രേണിബദ്ധമായ നാവിഗേഷൻ
+    top_level: അഗ്രഗണ്യ നാവിഗേഷൻ
+    mobile_menu: ചെറിയ ഉപകരണങ്ങൾക്കായുള്ള നാവിഗേഷൻ മെനു
+  internal_links:
+    main: പ്രധാന ഖണ്ഡങ്ങൾ
