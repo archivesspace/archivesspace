@@ -3,6 +3,7 @@ require "spec_helper"
 require_relative "../app/lib/bulk_import/import_archival_objects.rb"
 
 require 'rubyXL/convenience_methods/cell'
+require 'rubyXL/convenience_methods/workbook'
 
 describe "Import Archival Objects" do
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
@@ -1923,6 +1924,37 @@ describe "Import Archival Objects" do
         expect(report.rows[0].errors).to eq([])
         archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
         note = archival_object['notes'].find { |n| n['type'] == 'accessrestrict' }
+        expect(note['rights_restriction'].slice('begin', 'end')).to eq('begin' => '2030-01-01', 'end' => '2031-01-01')
+      end
+
+      it 'imports dates that Excel stores as date cells in an xlsx file' do
+        excel_file = RubyXL::Parser.parse(TEMPLATES_DIR + "/bulk_import_template.xlsx")
+        sheet = excel_file['Data']
+        column_names = sheet[3].cells.map(&:value)
+        column_names.each_index { |column_index| sheet.add_cell(5, column_index, nil) }
+
+        { 'res_uri' => @resource.uri, 'title' => 'Archival Object', 'hierarchy' => '1', 'level' => 'class',
+          'n_accessrestrict' => 'Closed' }.each do |column, value|
+          sheet[5][column_names.index(column)].change_contents(value)
+        end
+        { 'b_accessrestrict' => Date.new(2030, 1, 1), 'e_accessrestrict' => Date.new(2031, 1, 1) }.each do |column, date|
+          cell = sheet[5][column_names.index(column)]
+          cell.change_contents(date)
+          cell.set_number_format('m/d/yyyy')
+        end
+
+        xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
+        xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
+        excel_file.save(xlsx_path)
+        saved_cell = RubyXL::Parser.parse(xlsx_path)['Data'][5][column_names.index('b_accessrestrict')]
+        expect(saved_cell.value).to be_a(DateTime)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => xlsx_filename,
+                 :filepath => xlsx_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "" }
+        report = ImportArchivalObjects.new(opts[:filepath], "xlsx", @current_user, opts).run
+
+        expect(report.rows[0].errors).to eq([])
+        note = imported_archival_object(report)['notes'].find { |n| n['type'] == 'accessrestrict' }
         expect(note['rights_restriction'].slice('begin', 'end')).to eq('begin' => '2030-01-01', 'end' => '2031-01-01')
       end
     end
