@@ -1967,9 +1967,9 @@ describe "Import Archival Objects" do
     it 'reports a publish value that is not a boolean in validate-only mode, with the row\'s other errors' do
       report = import_row({ 'publish' => 'maybe', 't_accessrestrict_1' => 'RestrictedSpecColl' }, [], true)
 
-      expect(report.terminal_error).to be_nil
       note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
-      expect(report.rows[0].errors).to eq(["#{note_error}; #{boolean_error('publish', 'maybe')}"])
+      expect(report.rows[0].archival_object_id).to be_nil
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{note_error}; #{boolean_error('publish', 'maybe')}")])
     end
   end
 end
