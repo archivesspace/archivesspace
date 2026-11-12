@@ -96,7 +96,7 @@ module RowFieldBuilders
   end
 
   # columns: { file_version field => column code } for one file version. Returns nil when every
-  # cell is blank. A display flag makes the file version published, as it must be.
+  # cell is blank.
   def build_file_version(columns)
     return nil if columns.values.all? { |column| @row_hash[column].nil? }
 
@@ -104,7 +104,11 @@ module RowFieldBuilders
     %w[publish is_display_thumbnail is_display_link].each do |field|
       fv[field.to_sym] = row_boolean(columns[field]) if columns.key?(field)
     end
-    fv[:publish] = true if fv[:is_display_thumbnail] || fv[:is_display_link]
+    display_flag = %w[is_display_thumbnail is_display_link].find { |field| fv[field.to_sym] }
+    if display_flag && !fv[:publish]
+      raise BulkImportException.new(I18n.t("bulk_import.error.file_version_display_flag_unpublished",
+                                            :column => columns[display_flag], :publish_column => columns['publish']))
+    end
     fv[:file_size_bytes] = file_version_file_size_bytes(columns['file_size_bytes'], fv[:file_size_bytes])
     fv
   end

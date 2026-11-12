@@ -2625,6 +2625,7 @@ uk:
       unrecognized_boolean: "Стовпець %{column} потребує логічного значення; отримано '%{value}', має бути одним із: %{accepted}, або порожнім, щоб використати значення за замовчуванням"
       invalid_user_defined_integer: "Неприпустиме ціле число, визначене користувачем: %{value}"
       invalid_file_version_size: "Стовпець %{column} вимагає цілого числа байтів; отримано '%{value}'"
+      file_version_display_flag_unpublished: "Стовпець %{column} має значення TRUE, але %{publish_column} не має значення TRUE; версія файлу має бути опублікованою, щоб бути мініатюрою або посиланням для показу"
       invalid_user_defined_real: "Неприпустиме дійсне число, визначене користувачем: %{value}"
       bad_ao_uri: ' з uri %{uri}'
       bad_accession_uri: 'Доступ не знайдено з uri %{uri}'

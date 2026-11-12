@@ -1743,8 +1743,10 @@ describe "Import Archival Objects" do
 
     it 'creates the file versions marked as display thumbnail and display link' do
       report = import_row('file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+                          'file_version_publish_1' => 'TRUE',
                           'file_version_is_display_thumbnail_1' => 'TRUE',
                           'file_version_file_uri_2' => 'http://example.com/record',
+                          'file_version_publish_2' => 'TRUE',
                           'file_version_is_display_link_2' => 'TRUE')
 
       expect(report.terminal_error).to be_nil
@@ -1753,7 +1755,35 @@ describe "Import Archival Objects" do
       expect(file_versions.map { |fv| fv['file_uri'] }).to eq(['http://example.com/thumbnail.jpg', 'http://example.com/record'])
       expect(file_versions.map { |fv| fv['is_display_thumbnail'] }).to eq([true, false])
       expect(file_versions.map { |fv| fv['is_display_link'] }).to eq([false, true])
-      expect(file_versions.map { |fv| fv['publish'] }).to eq([true, true])
+    end
+
+    describe 'a display thumbnail file version with a blank publish cell' do
+      let(:unpublished_thumbnail) {
+        { 'file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+          'file_version_is_display_thumbnail_1' => 'TRUE' }
+      }
+      let(:error) {
+        I18n.t('bulk_import.error.file_version_display_flag_unpublished',
+               :column => 'file_version_is_display_thumbnail_1', :publish_column => 'file_version_publish_1')
+      }
+
+      it 'fails the row without saving the archival object' do
+        record_counts = -> { [::ArchivalObject.count, ::DigitalObject.count] }
+        counts_before = record_counts.call
+
+        report = import_row(unpublished_thumbnail)
+
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => error)])
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(record_counts.call).to eq(counts_before)
+      end
+
+      it 'fails the row with its other errors in a validation run' do
+        report = import_row(unpublished_thumbnail.merge('publish' => 'maybe'), [], true)
+
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{boolean_error('publish', 'maybe')}; #{error}")])
+      end
     end
 
     it 'creates more file versions from added columns' do
@@ -1768,17 +1798,18 @@ describe "Import Archival Objects" do
       expect(file_versions.map { |fv| [fv['file_uri'], fv['caption']] }).to eq([['http://example.com/1', nil], ['http://example.com/3', 'The third']])
     end
 
-    it 'reports a file version flag that is not a boolean' do
+    it 'fails the row for a file version flag that is not a boolean' do
       report = import_row('file_version_file_uri_1' => 'http://example.com/1', 'file_version_is_display_thumbnail_1' => 'maybe')
 
-      expect(report.terminal_error).to be_nil
-      expect(report.rows[0].errors).to include(boolean_error('file_version_is_display_thumbnail_1', 'maybe'))
+      expect(report.rows[0].archival_object_id).to be_nil
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('file_version_is_display_thumbnail_1', 'maybe'))])
     end
 
     describe 'digital_object_is_representative' do
       let(:published_thumbnail) {
         { 'digital_object_publish' => 'TRUE',
           'file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+          'file_version_publish_1' => 'TRUE',
           'file_version_is_display_thumbnail_1' => 'TRUE' }
       }
 

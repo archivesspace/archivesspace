@@ -2798,6 +2798,7 @@ de:
       unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: %{accepted}, oder leer, um den Standardwert zu verwenden"
       invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
       invalid_file_version_size: "Spalte %{column} erfordert eine ganze Zahl von Bytes; erhalten '%{value}'"
+      file_version_display_flag_unpublished: "Spalte %{column} ist TRUE, aber %{publish_column} ist nicht TRUE; eine Dateiversion muss veröffentlicht sein, um das Anzeige-Vorschaubild oder der Anzeige-Link zu sein"
       invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
       bad_ao_uri: ' mit URI %{uri}'
       bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'

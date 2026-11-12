@@ -201,4 +201,41 @@ describe RowFieldBuilders do
     expect(note['rights_restriction']['local_access_restriction_type'])
       .to eq(['RestrictedSpecColl'])
   end
+
+  describe '#build_file_version' do
+    let(:columns) do
+      %w[file_uri publish is_display_thumbnail is_display_link].to_h { |field| [field, "file_version_1_#{field}"] }
+    end
+
+    def fill_row(values)
+      @row_hash = columns.values.to_h { |column| [column, nil] }
+      values.each { |field, value| @row_hash[columns[field]] = value }
+    end
+
+    %w[is_display_thumbnail is_display_link].each do |flag|
+      it "keeps a published file version marked #{flag}" do
+        fill_row('file_uri' => 'http://example.com/fv', 'publish' => 'TRUE', flag => 'TRUE')
+
+        expect(build_file_version(columns)).to include(:publish => true, flag.to_sym => true)
+      end
+
+      { 'FALSE' => 'FALSE', 'blank' => nil }.each do |label, publish|
+        it "rejects a file version marked #{flag} with a #{label} publish cell" do
+          fill_row('file_uri' => 'http://example.com/fv', 'publish' => publish, flag => 'TRUE')
+
+          expect { build_file_version(columns) }.to raise_error(
+            BulkImportException,
+            "Column file_version_1_#{flag} is TRUE but file_version_1_publish is not TRUE; " \
+            "a file version must be published to be the display thumbnail or display link"
+          )
+        end
+      end
+    end
+
+    it 'keeps an unpublished file version that is neither display thumbnail nor display link' do
+      fill_row('file_uri' => 'http://example.com/fv', 'publish' => 'FALSE', 'is_display_thumbnail' => 'FALSE')
+
+      expect(build_file_version(columns)[:publish]).to be false
+    end
+  end
 end
