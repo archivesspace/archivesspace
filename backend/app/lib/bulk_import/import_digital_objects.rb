@@ -35,9 +35,9 @@ class ImportDigitalObjects < BulkImportParser
     @lang_handler = LangHandler.new(@current_user)
 
     begin
-      publish = digital_object_boolean('digital_object_publish')
-      is_representative = digital_object_boolean('digital_object_is_representative')
-      restrictions = digital_object_boolean('restrictions')
+      publish = row_boolean('digital_object_publish')
+      is_representative = row_boolean('digital_object_is_representative')
+      restrictions = row_boolean('restrictions')
       dates = create_dates
       notes = create_notes
       extents = process_extents
@@ -437,7 +437,7 @@ class ImportDigitalObjects < BulkImportParser
       field = col.sub(/\Acollection_management_/, "")
       cm[field] =
         if field == "rights_determined"
-          digital_object_boolean(col)
+          row_boolean(col)
         else
           value
         end
@@ -457,7 +457,7 @@ class ImportDigitalObjects < BulkImportParser
       field = col.sub(/\Auser_defined_/, "")
       ud[field] =
         if %w[boolean_1 boolean_2 boolean_3].include?(field)
-          digital_object_boolean(col)
+          row_boolean(col)
         elsif field.start_with?("integer_")
           normalize_user_defined_integer(value)
         elsif field.start_with?("real_")
@@ -505,7 +505,7 @@ class ImportDigitalObjects < BulkImportParser
         type,
         label,
         content,
-        digital_object_boolean(publish_column),
+        row_boolean(publish_column),
         true
       )
       notes << note if note
