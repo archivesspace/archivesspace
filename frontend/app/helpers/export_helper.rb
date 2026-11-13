@@ -39,24 +39,28 @@ module ExportHelper
     backend_fields
   end
 
-  # Enhanced CSV export that handles header mapping and field transformations
+  # Extended CSV already has the flattened JSONModel headers we want, so it's
+  # returned as-is. Everything else gets Solr-field header mapping.
   def csv_export_with_mappings(request_uri, params = {})
+    params = params.merge('dt' => 'csv')
+    return stream_csv_body(request_uri, params) if extended_csv_export?(params)
+
     requested_fields = params['fields[]'] || []
+    params['fields[]'] = map_fields_for_backend(requested_fields) if requested_fields.any?
 
-    backend_fields = map_fields_for_backend(requested_fields)
+    old_csv = CSV.parse(stream_csv_body(request_uri, params))
+    new_csv = CSVMappingConverter.new(requested_fields).build_csv_with_mappings(old_csv)
+    new_csv.map { |row| CSV.generate_line(row) }.join
+  end
 
-    params = params.dup
-    params['fields[]'] = backend_fields if requested_fields.any?
-    params["dt"] = "csv"
+  def extended_csv_export?(params)
+    AppConfig[:extended_csv_export_enabled] && params['csv_export_use_solr_writer'].to_s != 'true'
+  end
 
-    result = nil
-    JSONModel::HTTP::stream(request_uri, params) do |response|
-      old_csv = CSV.parse(response.body)
-      new_csv = CSVMappingConverter.new(requested_fields).build_csv_with_mappings old_csv
-
-      result = new_csv.map { |row| CSV.generate_line(row) }.join
-    end
-    result
+  def stream_csv_body(request_uri, params)
+    body = nil
+    JSONModel::HTTP.stream(request_uri, params) { |response| body = response.body }
+    body
   end
 
   # Handles header mapping and field transformations for Top ContainerCSV exports
