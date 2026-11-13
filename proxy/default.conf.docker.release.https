@@ -1,0 +1,77 @@
+upstream app_api {
+  server app:8089;
+}
+
+upstream app_oai {
+  server app:8082;
+}
+
+upstream app_public {
+  server app:8081;
+}
+
+upstream app_staff {
+  server app:8080;
+}
+
+# HTTP: answer Let's Encrypt checks, send everything else to HTTPS
+server {
+  listen 80;
+  server_name _;
+
+  location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+  }
+
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+
+server {
+  listen 443 ssl;
+  server_name _;
+
+  ssl_certificate     /etc/letsencrypt/live/archivesspace/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/archivesspace/privkey.pem;
+
+  ssl_session_cache   shared:SSL:10m;
+  ssl_session_timeout 10m;
+  ssl_protocols       TLSv1.2 TLSv1.3;
+  ssl_ciphers         ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+  ssl_prefer_server_ciphers off;
+
+  charset utf-8;
+  client_max_body_size 16M;
+
+  access_log /dev/stdout;
+  error_log /dev/stdout info;
+
+  proxy_buffer_size       128k;
+  proxy_buffers           4 256k;
+  proxy_busy_buffers_size 256k;
+  proxy_http_version 1.1;
+
+  proxy_set_header        Host               $host;
+  proxy_set_header        X-Forwarded-For    $proxy_add_x_forwarded_for;
+  proxy_set_header        X-Forwarded-Host   $host;
+  proxy_set_header        X-Forwarded-Server $host;
+  proxy_set_header        X-Forwarded-Proto  $scheme;
+  proxy_set_header        X-Real-IP          $remote_addr;
+
+  location / {
+    proxy_pass http://app_public;
+  }
+
+  # location /oai {
+  #   proxy_pass http://app_oai/;
+  # }
+
+  location /staff/ {
+    proxy_pass http://app_staff;
+  }
+
+  # location /staff/api/ {
+  #   proxy_pass http://app_api/;
+  # }
+}
