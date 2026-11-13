@@ -19,6 +19,18 @@ Feature: Resource Edit
        Examples:
          | Field | NewValue              |
          | Title | Updated Test Resource |
+  Scenario: Resource keeps a suppressed date label when saved
+    Given a value has been added to the 'Date Label (date_label)' controlled value list
+      And the Resource is opened in edit mode
+      And the user selects the added controlled value from 'Label' in the 'Dates' form
+      And the user clicks on 'Save'
+      And the 'Resource' updated message is displayed
+      And the added controlled value is suppressed
+     When the Resource is opened in edit mode
+     Then the 'Label' has the suppressed controlled value selected in the 'Dates' form
+     When the user clicks on 'Save'
+     Then the 'Resource' updated message is displayed
+      And the suppressed controlled value warning is displayed for 'Date Label'
   Scenario: Resource is not updated after changes are reverted
     Given the Resource is opened in edit mode
      When the user changes the 'Title' field

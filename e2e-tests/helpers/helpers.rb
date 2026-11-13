@@ -436,6 +436,10 @@ def expect_record_to_not_be_in_search_results(search_term)
   expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'No records found')
 end
 
+def form_section(form_title)
+  find('h3', text: form_title).find(:xpath, './ancestor::section[1]')
+end
+
 def click_on_string(string)
   click_on string
 rescue Capybara::Ambiguous

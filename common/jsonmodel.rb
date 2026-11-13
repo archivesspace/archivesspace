@@ -323,6 +323,14 @@ module JSONModel
         enum_source.default_value_for(name)
       end
 
+      def enum_wrapper.suppressed_values_for(name)
+        enum_source.suppressed_values_for(name)
+      end
+
+      def enum_wrapper.any_suppressed_values?
+        enum_source.any_suppressed_values?
+      end
+
       @@init_args[:enum_source] = enum_wrapper
     end
 
@@ -343,6 +351,26 @@ module JSONModel
 
   def self.enum_default_value(name)
     @@init_args[:enum_source].default_value_for(name)
+  end
+
+
+  def self.enum_suppressed_values(name)
+    @@init_args[:enum_source].suppressed_values_for(name)
+  end
+
+
+  def self.any_enum_suppressed_values?
+    @@init_args[:enum_source].any_suppressed_values?
+  end
+
+
+  def self.allow_suppressed_enum_values=(allowed)
+    Thread.current[:allow_suppressed_enum_values] = allowed
+  end
+
+
+  def self.allow_suppressed_enum_values?
+    !!Thread.current[:allow_suppressed_enum_values]
   end
 
 

@@ -8,6 +8,11 @@
     <%= flash[:warning].force_encoding("UTF-8") %>
   </div>
 <% end %>
+<% if flash[:suppressed_enum_values] %>
+  <div class="alert alert-warning">
+    <%= flash[:suppressed_enum_values].force_encoding("UTF-8") %>
+  </div>
+<% end %>
 <% if flash[:error] %>
   <div class="alert alert-danger">
     <%= flash[:error].force_encoding("UTF-8") %>

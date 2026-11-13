@@ -27,16 +27,17 @@
       </div>
     <% end %>
   <% else %>
+    <% restriction_type_options = form.with_suppressed_options(local_access_restriction_types_for_options, "restriction_type", form.obj['local_access_restriction_type']) %>
     <div class="control-group">
       <%= form.label("local_access_restriction_type") %>
       <div class="controls">
         <%= select_tag(form.path("local_access_restriction_type[]"),
-                       options_for_select(local_access_restriction_types_for_options, form.obj['local_access_restriction_type']),
+                       options_for_select(restriction_type_options, form.obj['local_access_restriction_type']),
                        {
                          :id => form.id_for("local_access_restriction_type"),
                          :multiple => "multiple",
                          :class => "span12",
-                         :size => local_access_restriction_types_for_options.length
+                         :size => restriction_type_options.length
                        })
         %>
         <span class="help-inline"><%= t("rights_restriction.local_access_restriction_type_inline_help") %></span>
