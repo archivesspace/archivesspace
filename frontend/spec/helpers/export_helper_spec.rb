@@ -213,6 +213,18 @@ describe ExportHelper do
         expect(result).to eq(extended_csv)
       end
 
+      it "returns the extended CSV untouched when csv_export_use_solr_writer is the string 'false'" do
+        params = {
+          'fields[]' => ['primary_type', 'title'],
+          'q' => '*',
+          'csv_export_use_solr_writer' => 'false'
+        }
+
+        result = helper.csv_export_with_mappings("/repositories/2/search", params)
+
+        expect(result).to eq(extended_csv)
+      end
+
       it 'still applies header mappings when the Solr writer is requested' do
         allow(JSONModel::HTTP).to receive(:stream)
           .and_yield(double(body: "type_enum_s,indicator_u_icusort\nbox,1\n"))

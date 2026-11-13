@@ -54,7 +54,7 @@ module ExportHelper
   end
 
   def extended_csv_export?(params)
-    AppConfig[:extended_csv_export_enabled] && !params['csv_export_use_solr_writer']
+    AppConfig[:extended_csv_export_enabled] && params['csv_export_use_solr_writer'].to_s != 'true'
   end
 
   def stream_csv_body(request_uri, params)
