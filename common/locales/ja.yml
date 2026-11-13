@@ -2186,6 +2186,7 @@ ja:
       unrecognized_boolean: "列 %{column} にはブール値が必要です。受け取った値: '%{value}'、次のいずれかである必要があります: %{accepted}、または既定値を使用する場合は空欄"
       invalid_user_defined_integer: "無効なユーザー定義の整数: %{value}"
       invalid_file_version_size: "列 %{column} にはバイト単位の整数が必要です。受け取った値: '%{value}'"
+      file_version_display_flag_unpublished: "列 %{column} は TRUE ですが、%{publish_column} は TRUE ではありません。表示サムネイルまたは表示リンクにするには、ファイルバージョンが公開されている必要があります"
       invalid_user_defined_real: "無効なユーザー定義の実数: %{value}"
       bad_ao_uri: "URIを持つ%{uri}"
       bad_accession_uri: "URI %{uri} の受入が見つかりません"

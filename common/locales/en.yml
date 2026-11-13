@@ -3100,6 +3100,7 @@ en:
       unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}', must be one of: %{accepted}, or blank to use the default"
       invalid_user_defined_integer: "Invalid User Defined integer: %{value}"
       invalid_file_version_size: "Column %{column} requires a whole number of bytes; received '%{value}'"
+      file_version_display_flag_unpublished: "Column %{column} is TRUE but %{publish_column} is not TRUE; a file version must be published to be the display thumbnail or display link"
       invalid_user_defined_real: "Invalid User Defined real: %{value}"
       bad_ao_uri: " with uri %{uri}"
       bad_accession_uri: "Accession not found with uri %{uri}"
