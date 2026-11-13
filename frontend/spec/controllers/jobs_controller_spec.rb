@@ -69,6 +69,41 @@ describe JobsController, type: :controller do
       expect(result).to eq("xlsx")
     end
 
+    {
+      'ead_xml' => 'xml',
+      'eac_xml' => 'xml',
+      'marcxml' => 'xml',
+      'marcxml_accession' => 'xml',
+      'marcxml_subjects_and_agents' => 'xml',
+      'marcxml_auth_agent' => 'xml',
+      'accession_csv' => 'csv',
+      'assessment_csv' => 'csv',
+      'digital_object_csv' => 'csv',
+      'subject_csv' => 'csv',
+      'location_csv' => 'csv'
+    }.each do |import_type, expected_ext|
+      it "returns #{expected_ext} for an import job of type #{import_type}" do
+        allow(controller).to receive(:params).and_return({})
+        allow(import_job).to receive(:job).and_return({ 'jsonmodel_type' => 'import_job', 'import_type' => import_type })
+        controller.instance_variable_set(:@job, import_job)
+
+        result = controller.send(:download_file_format, import_job)
+
+        expect(result).to eq(expected_ext)
+      end
+    end
+
+    it 'returns xlsx for bulk archival object updater jobs' do
+      updater_job = JSONModel(:job).from_hash({uri: "/jobs/1", job_type: "bulk_archival_object_updater_job"})
+      allow(controller).to receive(:params).and_return({})
+      allow(updater_job).to receive(:job).and_return({ 'jsonmodel_type' => 'bulk_archival_object_updater_job' })
+      controller.instance_variable_set(:@job, updater_job)
+
+      result = controller.send(:download_file_format, updater_job)
+
+      expect(result).to eq("xlsx")
+    end
+
     it 'defaults to pdf when neither ext, format, nor content_type provided' do
       allow(controller).to receive(:params).and_return({})
       allow(import_job).to receive(:job).and_return({})

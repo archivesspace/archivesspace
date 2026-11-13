@@ -145,14 +145,26 @@ class JobsController < ApplicationController
 
   def download_file_format(job)
     if params[:ext]
-      format = params[:ext].delete_prefix('.')
-    elsif @job.job.has_key?("format") && !@job.job["format"].blank?
-      format = @job.job["format"]
-    elsif @job.job.has_key?("content_type") && !@job.job["content_type"].blank?
-      format = @job.job["content_type"]
+      params[:ext].delete_prefix('.')
+    elsif job.job.has_key?("format") && !job.job["format"].blank?
+      job.job["format"]
+    elsif job.job.has_key?("content_type") && !job.job["content_type"].blank?
+      job.job["content_type"]
+    elsif job.job["import_type"].present?
+      import_file_extension(job.job["import_type"])
+    elsif job["job_type"] == "bulk_archival_object_updater_job"
+      "xlsx"
     else
-      format = "pdf"
+      "pdf"
     end
+  end
+
+  # This assumes every import type is either CSV (name ends in _csv) or XML. This
+  # is true of all current converters as of ANW-3116, but brittle. A new importer
+  # that ingests a file type in any other format (e.g. _tsv, _json) would be given
+  # an xml extension.
+  def import_file_extension(import_type)
+    import_type.to_s.end_with?("_csv") ? "csv" : "xml"
   end
 
   def selected_page
