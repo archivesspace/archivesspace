@@ -97,7 +97,20 @@ class ImportArchivalObjects < BulkImportParser
       end
     end
     read_boolean_cells(err_arr)
+    read_digital_object_file_versions(err_arr)
     err_arr.join("; ")
+  end
+
+  def read_digital_object_file_versions(err_arr)
+    @digital_object_file_versions = creates_digital_object? ? file_versions : nil
+  rescue BulkImportException => e
+    err_arr.push e.message
+    @digital_object_file_versions = nil
+  end
+
+  def creates_digital_object?
+    file_uri_columns = @row_hash.keys.compact.grep(/\Afile_version_file_uri_[1-9]\d*\z/)
+    ![@row_hash["digital_object_title"], @row_hash["digital_object_id"], *@row_hash.values_at(*file_uri_columns)].compact.empty?
   end
 
   def read_boolean_cells(err_arr)
@@ -285,8 +298,7 @@ class ImportArchivalObjects < BulkImportParser
 
     ao.instances = create_top_container_instances
     dig_instance = nil
-    file_uri_columns = @row_hash.keys.grep(/\Afile_version_file_uri_[1-9]\d*\z/)
-    unless [@row_hash["digital_object_title"], @row_hash["digital_object_id"], *@row_hash.values_at(*file_uri_columns)].compact.empty?
+    if creates_digital_object?
 
       begin
         publish = row_boolean('digital_object_publish')
@@ -305,7 +317,7 @@ class ImportArchivalObjects < BulkImportParser
           linked_agents: [],
           archival_object: ao,
           report: @report,
-          file_versions: file_versions)
+          file_versions: @digital_object_file_versions)
         dig_instance.is_representative = true if dig_instance && is_representative
       rescue Exception => e
         @report.add_errors(e.message)
