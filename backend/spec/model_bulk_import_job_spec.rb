@@ -193,4 +193,58 @@ describe 'Bulk Import Jobs' do
       expect(ao1.instances[0]['digital_object']['_resolved']['file_versions'][1]['is_display_link']).to be true
     end
   end
+
+  describe "archival object spreadsheet imports with an unknown controlled value" do
+
+    let(:resource) do
+      create(:json_resource)
+    end
+
+    def run_restriction_type_import(restriction_type, validate_only)
+      template = CSV.read(File.join(File.dirname(__FILE__), "../", "../", "frontend", "public", "bulk_import_templates", "bulk_import_template.csv"))
+      columns = template[0]
+      row = columns.to_h { |column| [column, nil] }
+      row.merge!('res_uri' => resource.uri, 'title' => 'Restricted Archival Object', 'hierarchy' => '1', 'level' => 'file',
+                 'n_accessrestrict' => 'Closed until 2030', 't_accessrestrict_1' => restriction_type)
+
+      tmp = ASUtils.tempfile("bulk-import-unknown-restriction-type-#{Time.now.to_i}")
+      tmp.write(CSV.generate { |csv| csv << columns << template[1] << row.values })
+      tmp.rewind
+
+      json = build(:json_job,
+                   :job_type => 'bulk_import_job',
+                   :job_params => {rid: resource.id}.to_json,
+                   :job => JSONModel(:bulk_import_job).new({
+                                                             resource_id: resource.id.to_s,
+                                                             filename: 'unknown-restriction-type.csv',
+                                                             load_type: 'ao',
+                                                             content_type: 'csv',
+                                                             format: 'csv',
+                                                             only_validate: validate_only.to_s
+                                                           }))
+      job = Job.create_from_json(json, :repo_id => $repo_id, :user => User.find(:username => 'admin'))
+      job.add_file(tmp)
+
+      BackgroundJobQueue.new.run_pending_job
+      job.reload
+    end
+
+    it "adds the unknown value to the controlled value list during a real import", :disable_database_transaction do
+      restriction_type = "ZZRealImport#{SecureRandom.hex(4)}"
+
+      job = run_restriction_type_import(restriction_type, false)
+
+      expect(job.status).to eq('completed')
+      expect(BackendEnumSource.values_for('restriction_type', true)).to include(restriction_type)
+    end
+
+    it "does not add the unknown value to the controlled value list during a validate-only run", :disable_database_transaction do
+      restriction_type = "ZZValidateOnly#{SecureRandom.hex(4)}"
+
+      job = run_restriction_type_import(restriction_type, true)
+
+      expect(job.status).to eq('completed')
+      expect(BackendEnumSource.values_for('restriction_type', true)).not_to include(restriction_type)
+    end
+  end
 end
