@@ -159,10 +159,10 @@ class JobsController < ApplicationController
     end
   end
 
-  # This assumes every import type is either CSV (name ends in _csv) or XML. This
-  # is true of all current converters as of ANW-3116, but brittle. A new importer
-  # that ingests a file type in any other format (e.g. _tsv, _json) would be given
-  # an xml extension.
+  # Fallback for import files whose uploaded filename has no extension, since the
+  # download link then has none to pass. Assumes every import type is CSV (_csv)
+  # or XML, so a file from a new importer in any other format would fall back to
+  # being labeled xml.
   def import_file_extension(import_type)
     import_type.to_s.end_with?("_csv") ? "csv" : "xml"
   end

@@ -12,6 +12,18 @@ Given 'the user fills in and selects the Resource from the search field' do
   dropdown_item.click
 end
 
+Then 'a {word} file is downloaded for the job' do |extension|
+  job_id = current_url[%r{/jobs/(\d+)}, 1]
+  expect(job_id).to_not eq nil
+
+  downloads = File.join(Dir.tmpdir, "job_#{job_id}_file_*")
+  downloaded_file = Dir.glob("#{downloads}.#{extension.downcase}").first
+
+  expect(downloaded_file).to_not(eq(nil), "expected a .#{extension.downcase} download, found: #{Dir.glob(downloads)}")
+ensure
+  Dir.glob(downloads).each { |file| FileUtils.rm_f(file) } if downloads
+end
+
 Then 'the job completes' do
   tries = 0
 
