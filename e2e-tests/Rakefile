@@ -2,6 +2,7 @@
 
 require 'rake'
 require_relative 'lib/feature_formatter'
+require_relative 'lib/shard_planner'
 
 def feature_paths_for(env_files)
   files = (env_files || '').split(',').map(&:strip).reject(&:empty?)
@@ -43,6 +44,18 @@ namespace :format do
       warn 'Run `bundle exec rake format:features` to fix.'
       exit 1
     end
+  end
+end
+
+namespace :shard do
+  desc 'Print the feature files of CI shard INDEX (1-based) of TOTAL, balanced by feature_durations.json'
+  task :files, [:total, :index] do |_task, args|
+    puts ShardPlanner.shard(__dir__, Integer(args[:total]), Integer(args[:index])).join(' ')
+  end
+
+  desc 'Rewrite feature_durations.json from the cucumber JSON reports of a full run: REPORTS=path[,path...]'
+  task :record_durations do
+    ShardPlanner.record_durations(ENV.fetch('REPORTS').split(','))
   end
 end
 
