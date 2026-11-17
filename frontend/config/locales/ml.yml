@@ -19,3 +19,8 @@ ml:
     password_aria_label: ഉപയോക്തൃ രഹസ്യകോഡ്
   navbar:
     toggle_navigation: നാവിഗേഷൻ ടോഗിൾ ചെയ്യുക
+  advanced_search:
+    operator:
+      AND: കൂടാതെ
+      OR: അല്ലെങ്കിൽ
+      NOT: അല്ല
