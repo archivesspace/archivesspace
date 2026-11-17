@@ -7,7 +7,7 @@ Given 'a Container Instance for the Archival Object has been created' do
   within '#archival_object_instances__0__sub_container__top_container__ref__combobox' do
     click_on 'Create'
   end
-  fill_in 'Indicator', with: "Indicator A #{@uuid}"
+  fill_in 'top_container_indicator_', with: "Indicator A #{@uuid}"
   click_on 'Add Location'
   fill_in 'token-input-top_container_container_locations__0__ref_', with: 'test_location'
   all('li.token-input-dropdown-item2').first.click
