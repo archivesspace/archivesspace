@@ -144,7 +144,7 @@ describe 'Search Listing', js: true do
       elements_from_browse = elements.collect { |col| col.text }.reject { |header| header.empty? }
 
       find('#global-search-button').click
-      click_on 'Resource'
+      find("a[href*='filter_term'][href*='resource']", text: /^Resource /).click
       elements = all('#tabledSearchResults th')
       elements_from_search = elements.collect { |col| col.text }.reject { |header| header.empty? }
 

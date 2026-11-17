@@ -491,8 +491,8 @@ describe 'Accessions', js: true do
 
       # Sort by descending accession date
       within '#tabledSearchResults' do
-        click_link 'Accession Date'
-        click_link 'Accession Date'
+        click_button 'Accession Date'
+        click_button 'Accession Date'
       end
 
       # Select first and second entry

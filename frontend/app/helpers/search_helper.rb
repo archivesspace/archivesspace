@@ -432,5 +432,11 @@ module SearchHelper
       result
     end
 
+    def aria_sort
+      return '' unless sortable? && @search_data.sorted_by === @sort_by
+
+      " aria-sort=\"#{@search_data.current_sort_direction == 'asc' ? 'ascending' : 'descending'}\"".html_safe
+    end
+
   end
 end

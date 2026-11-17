@@ -241,10 +241,17 @@ $(function () {
                     }
                   );
                 } else {
-                  $linkerBrowseContainer.load(
-                    $form.attr('action') + '.js?' + $form.serialize(),
-                    initBrowseFormInputs
-                  );
+                  var url = $form.attr('action');
+                  if (!/\.js(?:\?|$)/.test(url)) {
+                    url = url.replace(/(\?.*)?$/, '.js$1');
+                  }
+
+                  var formData = $form.serialize();
+                  if (formData) {
+                    url += (url.indexOf('?') === -1 ? '?' : '&') + formData;
+                  }
+
+                  $linkerBrowseContainer.load(url, initBrowseFormInputs);
                 }
               });
 

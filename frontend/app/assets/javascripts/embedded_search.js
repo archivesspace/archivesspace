@@ -15,6 +15,18 @@ $(function () {
       loadSearchResults(event.target.href);
     });
 
+    $this.on('submit', 'form[method="get"]', function (event) {
+      event.preventDefault();
+
+      var url = this.action;
+      var formData = $(this).serialize();
+      if (formData) {
+        url += (url.indexOf('?') === -1 ? '?' : '&') + formData;
+      }
+
+      loadSearchResults(url);
+    });
+
     var loadSearchResults = function (url) {
       $this.load(url, function (html) {
         $this.html(html);
