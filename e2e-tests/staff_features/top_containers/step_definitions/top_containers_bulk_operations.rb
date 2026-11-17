@@ -40,6 +40,7 @@ Given 'a Resource with two Top Containers has been created' do
   dropdown_items.first.click
 
   click_on 'Create and Link'
+  expect_top_containers_linked(1)
 
   sleep 3 # ensure created top container is indexed
 
@@ -58,6 +59,7 @@ Given 'a Resource with two Top Containers has been created' do
   dropdown_items = all('li.token-input-dropdown-item2')
   dropdown_items.first.click
   click_on 'Create and Link'
+  expect_top_containers_linked(2)
 
   find('button', text: 'Save Resource', match: :first).click
 
@@ -306,4 +308,10 @@ end
 
 def wait_for_top_container_bulk_update
   expect(page).to have_css('.alert.alert-success', text: 'Top Containers successfully updated')
+end
+
+# Create and Link fades its modal out after linking the new Top Container
+def expect_top_containers_linked(count)
+  expect(page).to have_css('.top_container', count:)
+  expect(page).to have_no_css('.modal')
 end

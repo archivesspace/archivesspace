@@ -13,6 +13,7 @@ Given 'a Container Instance for the Archival Object has been created' do
   all('li.token-input-dropdown-item2').first.click
 
   click_on 'Create and Link'
+  expect_top_containers_linked(1)
 
   sleep 3 # ensure created top container is indexed
 
