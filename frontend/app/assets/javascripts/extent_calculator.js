@@ -26,16 +26,27 @@ $(function () {
 
       extent_form.find('[id$=__portion_]').val($('#extent_portion_').val());
       extent_form.find('[id$=__number_]').val($('#extent_number_').val());
-      var extent_form_type_select = extent_form.find('[id$=__extent_type_]');
-      if (extent_form_type_select.data('combobox')) {
-        extent_form_type_select
-          .data('combobox')
-          .$element.val($('#extent_extent_type_').val());
-        extent_form_type_select
-          .data('combobox')
-          .$target.val($('#extent_extent_type_').val());
+      var extent_type = $('#extent_extent_type_').val();
+      // A combobox hands the select's id to its text input and renames it *_list.
+      var extent_form_type_select = extent_form.find(
+        'select[id$=__extent_type_], select[id$=__extent_type__list]'
+      );
+      var combobox = extent_form_type_select.data('combobox');
+      if (combobox) {
+        var label = extent_form_type_select
+          .find('option')
+          .filter(function () {
+            return this.value === extent_type;
+          })
+          .first()
+          .text();
+        combobox.$element.val(label);
+        combobox.$target.val(extent_type);
+        extent_form_type_select.val(extent_type);
+        combobox.$container.addClass('combobox-selected');
+        combobox.selected = true;
       } else {
-        extent_form_type_select.val($('#extent_extent_type_').val());
+        extent_form_type_select.val(extent_type);
       }
       extent_form
         .find('[id$=__container_summary_]')
