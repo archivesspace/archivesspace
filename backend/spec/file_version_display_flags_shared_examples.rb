@@ -17,7 +17,7 @@ RSpec.shared_examples "a record with display file versions" do |model, factory|
       expect {
         create_with_file_versions(model, factory, [display_flag_file_version(flag => true),
                                                    display_flag_file_version(flag => true)])
-      }.to raise_error(Sequel::ValidationFailed)
+      }.to raise_error(Sequel::ValidationFailed) { |e| expect(e.errors.keys).to eq(["file_versions/1/#{flag}"]) }
     end
 
     it "doesn't allow an unpublished file_version flagged '#{flag}'" do

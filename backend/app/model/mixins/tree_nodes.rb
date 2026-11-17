@@ -291,9 +291,13 @@ module TreeNodes
         break if finished
 
         DB.attempt {
-          block.call
+          # Without a savepoint, MySQL keeps a failed attempt's rows and the next attempt clashes with them
+          DB.transaction(:savepoint => true) { block.call }
           return
         }.and_if_constraint_fails {|err|
+          # Retries are for position clashes with concurrent updates: a failed validation would fail again
+          raise err if err.is_a?(Sequel::ValidationFailed)
+
           last_error = err
         }
       end

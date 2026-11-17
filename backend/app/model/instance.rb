@@ -17,7 +17,11 @@ class Instance < Sequel::Model(:instance)
                       :contains_references_to_types => proc {[DigitalObject]},
                       :is_array => false)
 
+  def self.owner_types
+    @owner_types ||= Set.new
+  end
+
   def representative_for_types
-    { is_representative: [:resource, :archival_object] }
+    { is_representative: Instance.owner_types }
   end
 end
