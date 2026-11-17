@@ -7,6 +7,7 @@ class PrintToPDFRunner < JobRunner
   register_for_job_type('print_to_pdf_job')
 
   def run
+    image_file = nil
     begin
       RequestContext.open( :repo_id => @job.repo_id) do
         parsed = JSONModel.parse_reference(@json.job["source"])
@@ -24,10 +25,13 @@ class PrintToPDFRunner < JobRunner
           :use_numbered_c_tags => false
         }
 
-        if obj["repository"]["_resolved"]["image_url"]
-          image_for_pdf = obj["repository"]["_resolved"]["image_url"]
-        else
-          image_for_pdf = nil
+        repository = obj["repository"]["_resolved"]
+        image_for_pdf = repository["image_url"]
+
+        if image_for_pdf
+          # ANW-3136: Fetch the logo ourself. Some image hosts reject FOP's default Java User-Agent
+          image_file = ASHTTP.download_image(image_for_pdf, :contact_url => repository["url"])
+          image_for_pdf = "file://#{image_file.path}" if image_file
         end
 
         record = JSONModel(:resource).new(obj)
@@ -61,6 +65,8 @@ class PrintToPDFRunner < JobRunner
       @job.write_output(e.message)
       @job.write_output(e.backtrace)
       raise e
+    ensure
+      image_file.unlink if image_file
     end
   end
 

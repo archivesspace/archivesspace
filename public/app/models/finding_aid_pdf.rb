@@ -1,3 +1,4 @@
+require 'ashttp'
 require 'tempfile'
 
 class PDFRenderErrorHeader < StandardError; end
@@ -43,6 +44,14 @@ class FindingAidPDF
     @short_title || suggested_filename
   end
 
+  def logo_url
+    repository = @resource.resolved_repository
+    return nil if repository.nil? || repository['image_url'].blank?
+
+    @logo_file ||= ASHTTP.download_image(repository['image_url'], :contact_url => repository['url'])
+    @logo_file ? "file://#{@logo_file.path}" : repository['image_url']
+  end
+
   def source_file
     begin
       # We'll use the original controller so we can find and render the PDF
@@ -67,7 +76,7 @@ class FindingAidPDF
       end
 
       begin
-        writer.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => @resource})
+        writer.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => @resource, :logo_url => logo_url})
       rescue => e
         raise PDFRenderErrorTitlePage, "#{e.class};#{e.message}"
       end
@@ -253,5 +262,7 @@ class FindingAidPDF
     out_html.unlink
 
     pdf_file
+  ensure
+    @logo_file.unlink if @logo_file
   end
 end

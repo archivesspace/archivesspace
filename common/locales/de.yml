@@ -282,7 +282,10 @@ de:
     image_url_tooltip: "<p>Eine entfernte URL oder ein Pfad zu einer lokalen Datei, die ein Branding-Bild
       (wie ein Logo oder ein Siegel) enthält, das in den Online-Findmitteln des Aufbewahrungsorts verwendet
       werden soll. Dieses Bild erscheint auf den öffentlichen PDFs, den internen PDFs und auf der Seite
-      des Aufbewahrungsorts.</p>\n"
+      des Aufbewahrungsorts.</p>\n<p>Das Bild muss im Internet frei zugänglich sein und darf keine Anmeldung
+      erfordern. Einige Websites blockieren das Herunterladen ihrer Bilder durch ArchivesSpace. Wenn Ihr
+      Logo auf der Seite des Aufbewahrungsorts erscheint, aber nicht in den PDFs, verwenden Sie ein Bild,
+      das auf Ihrer eigenen Website gespeichert ist.</p>\n"
     publish_tooltip: "<p>Gibt an, ob dieser Aufbewahrungsort und jede darin enthaltene Aufzeichnung auf
       öffentlichen Besucher-Schnittstellen veröffentlicht wird.</p>\n"
     _plural: Aufbewahrungsorte

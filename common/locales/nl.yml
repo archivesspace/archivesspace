@@ -82,6 +82,9 @@ nl:
   repository:
     _singular: Collectiebeherende instelling
     _plural: Collectiebeherende instellingen
+    image_url_tooltip: |
+      <p>Een externe URL of pad naar een lokaal bestand met een huisstijlafbeelding (zoals een logo of zegel) die wordt gebruikt in de online toegangen van de collectiebeherende instelling. Deze afbeelding verschijnt in de PDF's aan de publieke kant, de PDF's aan de medewerkerskant en op de pagina met collectiebeherende instellingen.</p>
+      <p>De afbeelding moet vrij toegankelijk zijn op het web, zonder dat inloggen nodig is. Sommige websites blokkeren het downloaden van hun afbeeldingen door ArchivesSpace. Als uw logo wel op de pagina met collectiebeherende instellingen verschijnt maar niet in PDF's, gebruik dan een afbeelding die op uw eigen website staat.</p>
   subject:
     _singular: Onderwerp
     _plural: Onderwerpen
