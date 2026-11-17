@@ -7,7 +7,6 @@ Given 'a Container Instance for the Archival Object has been created' do
   within '#archival_object_instances__0__sub_container__top_container__ref__combobox' do
     click_on 'Create'
   end
-  wait_for_ajax
   fill_in 'Indicator', with: "Indicator A #{@uuid}"
   click_on 'Add Location'
   fill_in 'token-input-top_container_container_locations__0__ref_', with: 'test_location'
@@ -18,7 +17,6 @@ Given 'a Container Instance for the Archival Object has been created' do
   sleep 3 # ensure created top container is indexed
 
   click_on 'Save'
-  wait_for_ajax
   expect(page).to have_text "Archival Object Archival Object #{@uuid} updated"
 end
 

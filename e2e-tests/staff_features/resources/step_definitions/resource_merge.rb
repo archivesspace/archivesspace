@@ -27,7 +27,6 @@ Given 'two Resources A & B have been created' do
   element.send_keys(:tab)
 
   find('button', text: 'Save Resource', match: :first).click
-  wait_for_ajax
   expect(page).to have_text "Resource Resource A #{@uuid} created"
 
   uri_parts = current_url.split('/')
@@ -85,7 +84,6 @@ Given 'two Resources A & B have been created' do
   dropdown_items.first.click
 
   find('button', text: 'Save Resource', match: :first).click
-  wait_for_ajax
   expect(page).to have_text "Resource Resource B #{@uuid} created"
 
   uri_parts = current_url.split('/')

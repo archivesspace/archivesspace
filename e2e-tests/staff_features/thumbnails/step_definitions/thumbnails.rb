@@ -158,7 +158,6 @@ end
 def thumbnail_visit(record)
   if @thumbnail_interface == :staff
     visit "#{STAFF_URL}#{thumbnail_staff_path(record)}"
-    wait_for_ajax
     expect(page).to have_css('.record-pane h2', text: record[:title])
   else
     visit "#{PUBLIC_URL}#{record_uri(record[:type], record[:id])}"
@@ -191,7 +190,6 @@ def thumbnail_create_digital_object_component(parent_name, name, file_versions, 
   label = "#{name} #{@uuid}"
 
   visit "#{STAFF_URL}/digital_objects/#{parent[:id]}/edit"
-  wait_for_ajax
 
   wait_for_infinite_tree_ready_for_rde
 
@@ -263,7 +261,7 @@ def thumbnail_create_resource(name, digital_object_name)
 
   if digital_object_name
     visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-    wait_for_ajax
+    wait_for_infinite_tree_inline_edit_form(form_prefix: 'resource')
 
     thumbnail_add_digital_object_instance('resource', digital_object_name, representative: true)
 
@@ -279,7 +277,6 @@ Given 'the Resource {string} has an Archival Object {string} with the Digital Ob
   title = "#{name} #{@uuid}"
 
   visit "#{STAFF_URL}/resources/#{resource[:id]}/edit"
-  wait_for_ajax
 
   wait_for_infinite_tree_ready_for_rde
 
@@ -318,7 +315,7 @@ end
 When 'the user opens the {string} in edit mode' do |name|
   record = thumbnail_record(name)
   visit "#{STAFF_URL}/digital_objects/#{record[:id]}/edit"
-  wait_for_ajax
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 When 'the user adds a File Version for {string}' do |file_name|

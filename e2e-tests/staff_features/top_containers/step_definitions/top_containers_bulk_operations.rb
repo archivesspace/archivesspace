@@ -32,7 +32,6 @@ Given 'a Resource with two Top Containers has been created' do
   within '#resource_instances__0__sub_container__top_container__ref__combobox' do
     click_on 'Create'
   end
-  wait_for_ajax
   fill_in 'Indicator', with: "Indicator A #{@uuid}"
 
   click_on 'Add Location'
@@ -62,7 +61,6 @@ Given 'a Resource with two Top Containers has been created' do
 
   find('button', text: 'Save Resource', match: :first).click
 
-  wait_for_ajax
   expect(page).to have_text "Resource Resource #{@uuid} created"
 
   url_parts = current_url.split('/')
@@ -124,10 +122,8 @@ When 'the user selects Location in the modal' do
   fill_in 'filter-text', with: 'test_location'
   find('.search-filter button').click
 
-  wait_for_ajax
-
   within '#tabledSearchResults' do
-    find('input', match: :first).click
+    find('tbody tr', text: 'test_location', match: :first).find('input').click
   end
 end
 
@@ -139,16 +135,12 @@ When 'the user selects Container Profile in the modal' do
   fill_in 'filter-text', with: 'test_container_profile'
   find('.search-filter button').click
 
-  wait_for_ajax
-
   within '#tabledSearchResults' do
-    find('input', match: :first).click
+    find('tbody tr', text: 'test_container_profile', match: :first).find('input').click
   end
 end
 
 When 'the user clicks on {string} in the Browse Container Profiles modal' do |string|
-  wait_for_ajax
-
   within '#container_profile_modal' do
     click_on_string string
   end
@@ -183,8 +175,6 @@ Then 'the Top Container A profile is linked to the created Container Profile' do
 end
 
 When 'the user clicks on {string} in the Browse Locations modal' do |string|
-  wait_for_ajax
-
   within '#location_modal' do
     click_on_string string
   end
@@ -206,13 +196,9 @@ When 'the user fills in {string} with {string} in the Create Location modal' do 
 end
 
 When 'the user clicks on {string} in the Create Location modal' do |string|
-  wait_for_ajax
-
   within '#location_modal' do
     click_on_string string
   end
-
-  wait_for_ajax
 end
 
 Then 'the Top Container profile is linked to the created Location' do

@@ -15,7 +15,5 @@ When 'the user searches and selects the Digital Object in the modal' do
   element.fill_in with: @uuid
   find('.search-filter .btn').click
 
-  wait_for_ajax
-
-  find('#tabledSearchResults input[type="radio"]').click
+  find('#tabledSearchResults tbody tr', text: @uuid).find('input[type="radio"]').click
 end

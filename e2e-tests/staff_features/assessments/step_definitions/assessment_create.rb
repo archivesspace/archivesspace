@@ -35,7 +35,7 @@ When 'the user filters by text with the Agent name in the modal' do
 end
 
 When('the user selects the Agent from the search results in the modal') do
-  wait_for_ajax
+  expect(page).to have_css('#tabledSearchResults tbody tr input', count: 1)
   within '#tabledSearchResults' do
     rows = all('tbody tr input')
     expect(rows.length).to eq 1

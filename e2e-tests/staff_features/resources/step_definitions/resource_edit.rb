@@ -43,21 +43,18 @@ end
 
 Then 'the Resource Title field has the original value' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_ajax
 
   expect(page).to have_field('Title', with: "Resource #{@uuid}", match: :first)
 end
 
 Then 'the Resource Begin field has the original value' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_ajax
 
   expect(page).to have_field('Begin', with: ORIGINAL_RESOURCE_DATE, match: :first)
 end
 
 Then 'the Resource has one Language with the original values' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_ajax
 
   languages = all('#resource_lang_materials_ .subrecord-form-wrapper')
 
@@ -67,7 +64,6 @@ end
 
 Then 'the Resource does not have Notes' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_ajax
 
   expect(page).to have_css('#resource_notes_')
   expect(page).to have_no_css('#resource_notes_ .subrecord-form-wrapper')

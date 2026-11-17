@@ -7,7 +7,6 @@ Given 'two Digital Objects A & B have been created' do
   fill_in 'digital_object_title_', with: "Digital Object A #{@uuid}"
 
   click_on 'Save'
-  wait_for_ajax
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object A #{@uuid} created")
   @digital_object_first_id = current_url[%r{/digital_objects/(\d+)}, 1]
@@ -38,7 +37,6 @@ Given 'two Digital Objects A & B have been created' do
   dropdown_items.first.click
 
   click_on 'Save'
-  wait_for_ajax
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object B #{@uuid} created")
   @digital_object_second_id = current_url[%r{/digital_objects/(\d+)}, 1]

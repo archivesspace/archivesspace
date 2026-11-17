@@ -21,12 +21,9 @@ end
 
 Then 'the Create Digital Object modal is displayed' do
   expect(page).to have_css '#accession_instances__0__digital_object__ref__modal'
-  wait_for_ajax
 end
 
 Then 'the Digital Object title is filled in with the Accession Title' do
-  wait_for_ajax
-
   within '#form_digital_object section#basic_information' do
     expect(page).to have_field('digital_object_title_', with: "Accession Title #{@uuid}")
   end

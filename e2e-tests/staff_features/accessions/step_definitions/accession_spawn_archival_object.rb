@@ -7,9 +7,8 @@ When 'the user selects Resource in the modal' do
       find('button').click
     end
 
-    wait_for_ajax
     within '#tabledSearchResults' do
-      find('tbody tr', match: :first).click
+      find('tbody tr', text: @uuid, match: :first).click
     end
 
     click_on 'Select Resource'
@@ -37,7 +36,6 @@ Then 'the Archival Object publish is set from the Accession publish' do
 end
 
 Then 'the following Archival Object forms have the same values as the Accession' do |linked_record_forms|
-  wait_for_ajax
   linked_record_forms.raw.each do |form_title|
     form_title = form_title[0]
 

@@ -26,8 +26,6 @@ end
 Then 'the Digital Object now is not suppressed' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
 
-  wait_for_ajax
-
   expect(current_url).to include "/digital_objects/#{@digital_object_id}/edit"
 
   expect(page).to have_css('button', text: 'Suppress')

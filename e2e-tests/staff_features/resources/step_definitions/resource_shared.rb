@@ -67,7 +67,7 @@ end
 Given 'the Resource is opened in edit mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Resource')
-  wait_for_ajax # still needed for dropdown menus to become active
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'resource')
 end
 
 Given 'the Resource is published' do

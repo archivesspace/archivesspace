@@ -75,10 +75,9 @@ Given 'the Digital Object appears in the search results list' do
 end
 
 Then 'the Digital Object is opened in the edit mode' do
-  wait_for_ajax
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
   expect(current_url).to include 'edit'
   expect(@digital_object_id).to eq current_url[%r{/digital_objects/(\d+)}, 1]
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 Given 'the Digital Object is opened in the view mode' do

@@ -18,8 +18,6 @@ def login_admin
     click_on 'Sign In'
   end
 
-  wait_for_ajax
-
   expect(page).not_to have_content('Please Sign In')
   expect(page).to have_content 'Welcome to ArchivesSpace'
   expect(page).to have_content 'Your friendly archives management tool.'
@@ -438,22 +436,6 @@ def click_on_string(string)
   end
 end
 
-def wait_for_ajax
-  Timeout.timeout(Capybara.default_max_wait_time) do
-    javascript_error_tries = 0
-
-    begin
-      sleep 1 until page.evaluate_script('jQuery.active')&.zero?
-    rescue Selenium::WebDriver::Error::JavascriptError => e
-      raise e if javascript_error_tries == 5
-
-      javascript_error_tries += 1
-      sleep 3
-      retry
-    end
-  end
-end
-
 # Also the path of the record's public interface page
 def record_uri(type, id)
   "/repositories/#{@repository_id}/#{type}s/#{id}"
@@ -521,8 +503,8 @@ def retry_with_reload(attempts: 20, interval: 3)
   end
 end
 
-# InfiniteTree loads/saves record-pane HTML with fetch (not jQuery.ajax), so wait_for_ajax is
-# not enough. These helpers wait for the pane to finish loading and become interactable.
+# InfiniteTree loads/saves record-pane HTML with fetch. These helpers wait for the pane to finish
+# loading and become interactable.
 # form_prefix is the record type form id prefix (e.g. 'archival_object', 'digital_object_component').
 def wait_for_infinite_tree_inline_edit_form(form_prefix:)
   explicit_form_id = "#{form_prefix}_form"
@@ -634,8 +616,6 @@ def click_infinite_tree_toolbar_button(label)
       click_on_string label
     end
 
-    wait_for_ajax
-
     child_type = find('#infinite-tree-component', visible: :all)['data-child-type']
     wait_for_infinite_tree_inline_new_form(form_prefix: child_type) if child_type
   end
@@ -662,7 +642,6 @@ def wait_for_digital_object_component_create_settled
 end
 
 # InfiniteTree RDE silently no-ops until a current tree node with data-uri exists.
-# wait_for_ajax alone is not enough because tree/root navigation uses fetch.
 def wait_for_infinite_tree_ready_for_rde
   aggregate_failures do
     expect(page).to have_css(
@@ -683,8 +662,6 @@ def open_rapid_data_entry_modal
   within '#infinite-tree-toolbar' do
     find('.js-itree-toolbar-rde:not(.disabled)', visible: true).click
   end
-
-  wait_for_ajax
 
   aggregate_failures do
     expect(page).to have_css('#rapidDataEntryModal', visible: true)
@@ -720,7 +697,6 @@ def select_digital_object_root_in_infinite_tree
     find("#digital_object_#{@digital_object_id} > .node-row a.record-title", match: :first).click
   end
 
-  wait_for_ajax
   expect(page).to have_css("#digital_object_#{@digital_object_id}.current")
   wait_for_infinite_tree_pane_ready
 end
@@ -736,7 +712,6 @@ def select_digital_object_component_in_infinite_tree(component_id, label: nil)
     end
   end
 
-  wait_for_ajax
   expect(page).to have_css("#digital_object_component_#{component_id}.current")
   wait_for_infinite_tree_pane_ready
 end
@@ -771,7 +746,6 @@ def extract_created_record_id(string)
 end
 
 def expect_form_values(form_values_table)
-  wait_for_ajax
   sleep 2
 
   aggregate_failures do

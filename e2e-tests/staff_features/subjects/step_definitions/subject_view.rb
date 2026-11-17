@@ -3,8 +3,6 @@
 Given 'a Subject has been created' do
   visit "#{STAFF_URL}/subjects/new"
 
-  wait_for_ajax
-
   fill_in 'subject_terms__0__term_', with: "subject_term_#{@uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
@@ -12,7 +10,6 @@ Given 'a Subject has been created' do
   @subject_number_of_external_documents = 0
 
   click_on 'Save Subject', match: :first
-  wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "subject_term_#{@uuid}")
   expect_subject_saved
 
@@ -41,12 +38,10 @@ Given 'two Subjects have been created with a common keyword in their term' do
   @subject_b_uuid = SecureRandom.uuid
 
   visit "#{STAFF_URL}/subjects/new"
-  wait_for_ajax
   fill_in 'subject_terms__0__term_', with: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
   click_on 'Save Subject', match: :first
-  wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}")
 
   expect_subject_saved
@@ -55,12 +50,10 @@ Given 'two Subjects have been created with a common keyword in their term' do
   @subject_a_id = uri_parts.pop
 
   visit "#{STAFF_URL}/subjects/new"
-  wait_for_ajax
   fill_in 'subject_terms__0__term_', with: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
   click_on 'Save Subject', match: :first
-  wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}")
   expect_subject_saved
   uri_parts = current_url.split('/')
