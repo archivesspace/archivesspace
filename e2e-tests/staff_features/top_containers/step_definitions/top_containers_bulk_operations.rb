@@ -155,7 +155,7 @@ When 'the user clicks on {string} in the Browse Container Profiles modal' do |st
 end
 
 Then 'the Top Container A profile is linked to the Container Profile' do
-  sleep 3 # ensure the changes are indexed
+  wait_for_top_container_bulk_update
 
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
@@ -175,6 +175,8 @@ When 'the user fills in {string} in the Create Container Profiles modal' do |lab
 end
 
 Then 'the Top Container A profile is linked to the created Container Profile' do
+  wait_for_top_container_bulk_update
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
   expect(page).to have_css('.container_profile', text: @uuid)
@@ -189,7 +191,7 @@ When 'the user clicks on {string} in the Browse Locations modal' do |string|
 end
 
 Then 'the Top Container profile is linked to the Location' do
-  sleep 3 # ensure changes are indexed
+  wait_for_top_container_bulk_update
 
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
@@ -214,7 +216,7 @@ When 'the user clicks on {string} in the Create Location modal' do |string|
 end
 
 Then 'the Top Container profile is linked to the created Location' do
-  sleep 3 # ensure changes are indexed
+  wait_for_top_container_bulk_update
 
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
@@ -246,6 +248,8 @@ Given 'the two Top Containers are selected' do
 end
 
 Then 'the Locations are removed from the Top Containers' do
+  wait_for_top_container_bulk_update
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
   expect(page).to_not have_css '.location'
 
@@ -268,6 +272,8 @@ When 'the user fills in New Barcode for Top Container B' do
 end
 
 Then 'the Top Containers have new Barcodes' do
+  wait_for_top_container_bulk_update
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
   expect(find_field('Barcode').value).to eq @top_container_first_barcode
 
@@ -312,4 +318,8 @@ Then 'the two Top Containers are deleted' do
   visit "#{STAFF_URL}/top_containers/#{@top_container_second_id}/edit"
   expect(page).to have_text 'Record Not Found'
   expect(page).to have_text "The record you've tried to access may no longer exist or you may not have permission to view it."
+end
+
+def wait_for_top_container_bulk_update
+  expect(page).to have_css('.alert.alert-success', text: 'Top Containers successfully updated')
 end

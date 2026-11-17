@@ -10,7 +10,7 @@ Given 'two Subjects A & B have been created' do
 
   find('button', text: 'Save Subject', match: :first).click
   expect(page).to have_selector('h2', visible: true, text: "subject_term_A_#{@uuid}")
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  expect_subject_saved
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -25,7 +25,7 @@ Given 'two Subjects A & B have been created' do
 
   find('button', text: 'Save Subject', match: :first).click
   expect(page).to have_selector('h2', visible: true, text: "subject_term_B_#{@uuid}")
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  expect_subject_saved
 
   uri_parts = current_url.split('/')
   uri_parts.pop

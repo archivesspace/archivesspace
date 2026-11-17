@@ -69,8 +69,8 @@ Then 'the Resource does not have Notes' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   wait_for_ajax
 
-  notes = all('#resource_notes_ .subrecord-form-wrapper')
-  expect(notes.length).to eq 0
+  expect(page).to have_css('#resource_notes_')
+  expect(page).to have_no_css('#resource_notes_ .subrecord-form-wrapper')
 end
 
 Then 'a new Instance is added to the Resource with the following values' do |form_values_table|

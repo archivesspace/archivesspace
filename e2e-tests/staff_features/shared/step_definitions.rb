@@ -5,18 +5,9 @@ Before do
 end
 
 Given 'an administrator user is logged in' do
-  visit "#{STAFF_URL}/logout"
-
   login_admin
 
-  ensure_test_repository_exists
-  ensure_test_user_exists
-  ensure_test_agent_exists
-  ensure_test_subject_exists
-  ensure_test_accession_exists
-  ensure_test_classification_exists
-  ensure_test_location_exists
-  ensure_test_container_profile_exists
+  ensure_test_records_exist
 end
 
 Given 'an archivist user is logged in' do
@@ -32,15 +23,15 @@ Given 'a Repository with name {string} has been created' do |repository_name|
     find('button').click
   end
 
-  begin
-    find('tr', text: repository_name, match: :first)
-  rescue Capybara::ElementNotFound
-    visit "#{STAFF_URL}/repositories/new"
-    fill_in 'Repository Short Name', with: repository_name
-    fill_in 'Repository Name', with: repository_name
+  expect(page).to have_current_path(/[?&]q=/)
+  expect(page).to have_css('#tabledSearchResults tbody tr, .alert.alert-info.with-hide-alert')
+  next if page.has_css?('tr', text: repository_name, wait: 0)
 
-    click_on 'Save'
-  end
+  visit "#{STAFF_URL}/repositories/new"
+  fill_in 'Repository Short Name', with: repository_name
+  fill_in 'Repository Name', with: repository_name
+
+  save_new_record_form
 end
 
 When 'the user waits for the page to update' do

@@ -14,9 +14,7 @@ Given 'a Subject has been created' do
   click_on 'Save Subject', match: :first
   wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "subject_term_#{@uuid}")
-  within '#form_messages' do
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
-  end
+  expect_subject_saved
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -34,24 +32,7 @@ Then 'the two Subjects are displayed sorted by ascending level' do
 end
 
 When 'the user filters by text with the Subject term' do
-  fill_in 'Filter by text', with: "subject_term_#{@uuid}"
-
-  find('#filter-text').send_keys(:enter)
-
-  rows = []
-  checks = 0
-
-  while checks < 5
-    checks += 1
-
-    begin
-      rows = all('tr', text: @uuid)
-    rescue Selenium::WebDriver::Error::JavascriptError
-      sleep 1
-    end
-
-    break if rows.length == 1
-  end
+  filter_listing_by_text("subject_term_#{@uuid}", row_text: @uuid)
 end
 
 Given 'two Subjects have been created with a common keyword in their term' do
@@ -68,9 +49,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}")
 
-  within '#form_messages' do
-    expect(page).to have_css('.alert.alert-success', text: 'Subject Created')
-  end
+  expect_subject_saved
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_a_id = uri_parts.pop
@@ -83,9 +62,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   click_on 'Save Subject', match: :first
   wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}")
-  within '#form_messages' do
-    expect(page).to have_css('.alert.alert-success', text: 'Subject Created')
-  end
+  expect_subject_saved
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_b_id = uri_parts.pop
@@ -131,4 +108,9 @@ end
 Then 'the two Subjects are displayed sorted by ascending modified date' do
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @subject_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @subject_b_uuid)
+end
+
+# The Subject Created message can be lost when the term typeahead's request overlaps the save
+def expect_subject_saved
+  expect(page).to have_current_path(%r{/subjects/\d+/edit})
 end

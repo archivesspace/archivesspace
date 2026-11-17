@@ -97,24 +97,7 @@ Then 'the two Agents are displayed sorted by ascending modified date' do
 end
 
 When 'the user filters by text with the Agent name' do
-  fill_in 'Filter by text', with: @uuid
-
-  find('#filter-text').send_keys(:enter)
-
-  rows = []
-  checks = 0
-
-  while checks < 5
-    checks += 1
-
-    begin
-      rows = all('tr', text: @uuid)
-    rescue Selenium::WebDriver::Error::JavascriptError
-      sleep 1
-    end
-
-    break if rows.length == 1
-  end
+  filter_listing_by_text(@uuid)
 end
 
 Then 'the Agent is in the search results' do

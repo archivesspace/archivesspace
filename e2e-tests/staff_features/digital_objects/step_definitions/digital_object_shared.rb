@@ -38,8 +38,7 @@ Given 'the user is on the Digital Objects page' do
 end
 
 When 'the user filters by text with the Digital Object title' do
-  fill_in 'Filter by text', with: "Digital Object Identifier #{@uuid}"
-  click_button 'Filter by text'
+  filter_listing_by_text("Digital Object Identifier #{@uuid}", row_text: @uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr', count: 1)
 end
 
