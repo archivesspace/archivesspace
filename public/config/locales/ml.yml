@@ -197,3 +197,13 @@ ml:
   internal_links:
     main: പ്രധാന ഖണ്ഡങ്ങൾ
     filter: ഫിൽട്ടർ ചെയ്യുക
+    search_collection: ശേഖരങ്ങൾക്കുള്ളിൽ തിരയുക
+  accordion:
+    expand: എല്ലാം വിശദമാക്കുക
+    collapse: എല്ലാം ചുരുക്കുക
+  advanced_search:
+    operator_label: ഓപ്പറേറ്റർ
+    operator:
+      AND: കൂടാതെ
+      OR: അല്ലെങ്കിൽ
+      NOT: അല്ല
