@@ -4,6 +4,8 @@
   multiselect = true if multiselect.nil?
   show_edit_actions = true if show_edit_actions.nil?
   inline_actions = false if !defined?(inline_actions)
+  actions_at_start = show_edit_actions && @actions_position != 'end'
+  actions_at_end = show_edit_actions && !actions_at_start
   top_containers = results['response']['docs']
   num_found = results['response']["numFound"].to_i
   rows = results['responseHeader']['params']['rows'].to_i
@@ -24,16 +26,21 @@
 <% end %>
 
 <div class="table-responsive">
-  <table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results">
+  <table class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results"
+         data-default-sort-key="<%= @default_sort_key %>"
+         data-default-sort-dir="<%= @default_sort_dir %>">
     <thead>
       <tr class="sortable-columns">
         <th><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
+        <% if actions_at_start %>
+          <%= render_aspace_partial :partial => "top_containers/bulk_operations/results_actions_header" %>
+        <% end %>
         <% @pref_cols.each do |field| %>
           <% next if field == 'no_value' %>
-          <th><%= t("search.top_container_mgmt.#{field}") %></th>
+          <th data-sort-key="<%= field %>"><%= t("search.top_container_mgmt.#{field}") %></th>
         <% end %>
-        <% if show_edit_actions %>
-          <th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th>
+        <% if actions_at_end %>
+          <%= render_aspace_partial :partial => "top_containers/bulk_operations/results_actions_header" %>
         <% end %>
       </tr>
     </thead>
@@ -51,6 +58,10 @@
               <%= radio_button_tag "linker-item", container_json["uri"], false, :"data-object" => container_json.to_json %>
             <% end %>
           </td>
+          <% if actions_at_start %>
+            <%= render_aspace_partial :partial => "top_containers/bulk_operations/results_actions_cell",
+                  :locals => { :container_json => container_json, :can_edit => can_edit, :inline_actions => inline_actions } %>
+          <% end %>
           <% @pref_cols.each do |field| %>
             <% next if field == 'no_value' %>
             <% if field == 'resource_accession' %>
@@ -142,26 +153,12 @@
             <% end %>
           <% end %>
 
-          <% if show_edit_actions %>
-            <td>
-              <div class="btn-group">
-                <%= link_to I18n.t("actions.view"),
-                    {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]},
-                    :class => "btn btn-sm btn-default #{'inline-tc-view-btn' if inline_actions}",
-                    :"data-tc-uri" => (inline_actions ? container_json["uri"] : nil) %>
-                <% if can_edit %>
-                  <%= link_to I18n.t("actions.edit"),
-                      {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]},
-                      :class => "btn btn-sm btn-primary #{'inline-tc-edit-btn' if inline_actions}",
-                      :"data-tc-uri" => (inline_actions ? container_json["uri"] : nil) %>
-                <% end %>
-              </div>
-            </td>
+          <% if actions_at_end %>
+            <%= render_aspace_partial :partial => "top_containers/bulk_operations/results_actions_cell",
+                  :locals => { :container_json => container_json, :can_edit => can_edit, :inline_actions => inline_actions } %>
           <% end %>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-<%= hidden_field_tag :default_sort_col, @default_sort_col %>
-<%= hidden_field_tag :default_sort_dir, @default_sort_dir %>

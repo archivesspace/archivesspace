@@ -24,7 +24,7 @@ class ImportDigitalObjects < BulkImportParser
     @date_certainty = CvList.new("date_certainty", @current_user)
     @extent_types = CvList.new("extent_extent_type", @current_user)
     @extent_portions = CvList.new("extent_portion", @current_user)
-    @representative_ao_uris = Set.new
+    @representative_row_by_ao_uri = {}
   end
 
   def create_instance(ao)
@@ -35,15 +35,20 @@ class ImportDigitalObjects < BulkImportParser
     @lang_handler = LangHandler.new(@current_user)
 
     begin
-      publish = digital_object_boolean('digital_object_publish')
-      is_representative = digital_object_boolean('digital_object_is_representative')
-      restrictions = digital_object_boolean('restrictions')
+      publish = row_boolean('digital_object_publish')
+      is_representative = row_boolean('digital_object_is_representative')
+      restrictions = row_boolean('restrictions')
       dates = create_dates
       notes = create_notes
       extents = process_extents
       subjects, subjects_failed = process_subjects
       linker = agent_linker
       linked_agents = linker.link_agents(@row_hash)
+      conflict = representative_conflict_error_message(ao) if is_representative
+      if conflict
+        @report.add_errors(conflict)
+        return nil
+      end
       return nil if subjects_failed || linker.failed?
 
       dig_instance = @digital_object_handler.create(
@@ -64,7 +69,7 @@ class ImportDigitalObjects < BulkImportParser
         lang_materials: create_lang_materials,
         user_defined: create_user_defined,
         collection_management: create_collection_management)
-      make_representative(dig_instance, ao) if dig_instance && ao && is_representative
+      dig_instance.is_representative = true if dig_instance && is_representative
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -83,17 +88,18 @@ class ImportDigitalObjects < BulkImportParser
       ao.instances << dig_instance
       begin
         ao = ao_save(ao)
-        @report.add_info(I18n.t("bulk_import.dig_assoc"))
-        prepared_events.each do |prepared|
-          event_uri = @event_handler.create(
-            event_builder: prepared[:event_builder],
-            group: prepared[:group],
-            digital_object_uri: dig_instance.digital_object["ref"],
-            report: @report)
-          @created_refs << event_uri if event_uri
-        end
       rescue BulkImportException => ee
         @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
+        return nil
+      end
+      @report.add_info(I18n.t("bulk_import.dig_assoc"))
+      prepared_events.each do |prepared|
+        event_uri = @event_handler.create(
+          event_builder: prepared[:event_builder],
+          group: prepared[:group],
+          digital_object_uri: dig_instance.digital_object["ref"],
+          report: @report)
+        @created_refs << event_uri if event_uri
       end
     end
     dig_instance
@@ -167,7 +173,7 @@ class ImportDigitalObjects < BulkImportParser
       [ao.uri, digital_instance.digital_object['ref']]
     ) if ao && digital_instance && !@validate_only
     # A validation run saves nothing: count only the rows an import would not reject before saving (no errs).
-    @representative_ao_uris << ao.uri if @validate_only && errs.empty? && digital_instance&.is_representative
+    @representative_row_by_ao_uri[ao.uri] = @counter if errs.empty? && digital_instance&.is_representative
     digital_instance
   end
 
@@ -230,12 +236,13 @@ class ImportDigitalObjects < BulkImportParser
 
   private
 
-  def make_representative(dig_instance, ao)
-    if ao.instances.any? { |instance| instance['is_representative'] } || @representative_ao_uris.include?(ao.uri)
-      @report.add_errors(I18n.t("bulk_import.error.dig_not_representative"))
-    else
-      dig_instance.is_representative = true
-    end
+  def representative_conflict_error_message(ao)
+    return unless ao
+
+    row = @representative_row_by_ao_uri[ao.uri]
+    return I18n.t("bulk_import.error.dig_representative_earlier_row", :row => row) if row
+
+    I18n.t("bulk_import.error.dig_representative_existing") if ao.instances.any? { |instance| instance['is_representative'] }
   end
 
   def valid_column_codes
@@ -430,7 +437,7 @@ class ImportDigitalObjects < BulkImportParser
       field = col.sub(/\Acollection_management_/, "")
       cm[field] =
         if field == "rights_determined"
-          digital_object_boolean(col)
+          row_boolean(col)
         else
           value
         end
@@ -450,7 +457,7 @@ class ImportDigitalObjects < BulkImportParser
       field = col.sub(/\Auser_defined_/, "")
       ud[field] =
         if %w[boolean_1 boolean_2 boolean_3].include?(field)
-          digital_object_boolean(col)
+          row_boolean(col)
         elsif field.start_with?("integer_")
           normalize_user_defined_integer(value)
         elsif field.start_with?("real_")
@@ -498,7 +505,7 @@ class ImportDigitalObjects < BulkImportParser
         type,
         label,
         content,
-        digital_object_boolean(publish_column),
+        row_boolean(publish_column),
         true
       )
       notes << note if note

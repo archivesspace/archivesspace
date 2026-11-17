@@ -31,30 +31,39 @@
       <% @types.each do |type| %>
         <h3 id="<%= type %>_browse_section"><%= t "defaults.#{type}_browse_section" %></h3>
         <% (1..AppConfig[:max_search_columns]).to_a.each do |n| %>
-          <div class="form-group">
-            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.browse_column_tooltip", :num => n) %>">
+          <div class="py-1 mb-3">
+            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="px-3 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.browse_column_tooltip", :num => n) %>">
               <%= t("defaults.browse_column", :num => n) %>
             </label>
-            <div class="col-sm-9">
+            <div class="px-3">
               <% default = @inherited_defaults["#{type}_browse_column_#{n}"] %>
               <%= form.select("#{type}_browse_column_#{n}", form.possible_options_for("#{type}_browse_column_#{n}", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default && default != "no_value" ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
             </div>
           </div>
         <% end %>
-        <div class="form-group">
-          <label for="<%= form.id_for("#{type}_sort_column") %>" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.sort_column_tooltip") %>">
+        <div class="py-1 mb-3">
+          <label for="<%= form.id_for("#{type}_actions_column_position") %>" class="px-3 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.actions_column_position_tooltip") %>">
+            <%= t("defaults.actions_column_position") %>
+          </label>
+          <div class="px-3">
+            <% default = @inherited_defaults["#{type}_actions_column_position"] %>
+            <%= form.select("#{type}_actions_column_position", form.possible_options_for("#{type}_actions_column_position", true, {:i18n_prefix => "defaults.actions_column_position_options", :empty_label => "#{def_msg} " + (default ? t("defaults.actions_column_position_options.#{default}") : t("defaults.no_value"))})) %>
+          </div>
+        </div>
+        <div class="py-1 mb-3">
+          <label for="<%= form.id_for("#{type}_sort_column") %>" class="px-3 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.sort_column_tooltip") %>">
             <%= t("defaults.sort_column") %>
           </label>
-          <div class="col-sm-9">
+          <div class="px-3">
             <% default = @inherited_defaults["#{type}_sort_column"] %>
             <%= form.select("#{type}_sort_column", form.possible_options_for("#{type}_sort_column", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
           </div>
         </div>
-        <div class="form-group">
-          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.sort_direction_tooltip") %>">
+        <div class="py-1 mb-3">
+          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="px-3 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.sort_direction_tooltip") %>">
             <%= t("defaults.sort_direction") %>
           </label>
-          <div class="col-sm-9">
+          <div class="px-3">
             <% default = @inherited_defaults["#{type}_sort_direction"] %>
             <%= form.select("#{type}_sort_direction", form.possible_options_for("#{type}_sort_direction", true, {:i18n_prefix => "search_sorting", :empty_label => "#{def_msg} " + (default ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
           </div>

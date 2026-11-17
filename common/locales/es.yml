@@ -920,7 +920,6 @@ es:
   file_version:
     _plural: Versiones de archivo
     _singular: Versión de archivo
-    file: Archivo
     file_uri: URI Archivo
     file_uri_tooltip: |
       <p>Un identificador para un archivo asociado a un objeto digital, accesible en la web o en un directorio de archivos.</p>
@@ -2047,6 +2046,11 @@ es:
     sort_column_tooltip: El campo predeterminado para ordenar los resultados.
     sort_direction: Dirección de clasificación predeterminada
     sort_direction_tooltip: Dirección predeterminada para ordenar los resultados.
+    actions_column_position: Posición de los botones de acción (Ver/Editar)
+    actions_column_position_tooltip: Si los botones Ver y Editar aparecen a la izquierda o a la derecha de cada fila de una tabla de resultados.
+    actions_column_position_options:
+      start: Izquierda
+      end: Derecha
     locale: Selección de idioma
     search_browse_columns: Preferencias de columna de búsqueda y exploración
     accession_browse_section: Navegar columnas de entrada
@@ -2694,7 +2698,7 @@ es:
       invalid_record_id: "El ID de registro en el grupo %{index} debe ser un ID numérico o una URI de registro completa; se recibió %{record_id}"
       unrecognized_record_uri: "URI de registro no reconocida en el grupo %{index}: %{record_id}"
       agent_type_uri_mismatch: "El grupo de Agente %{index} tiene un tipo de Agente %{agent_type} que no coincide con la URI del registro %{record_id}"
-      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}', debe ser uno de: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vacío para usar el valor predeterminado"
+      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}', debe ser uno de: %{accepted}, o vacío para usar el valor predeterminado"
       unconfigured_headers: "Encabezados CSV no reconocidos: %{columns}"
       bad_headers: "Encabezados CSV no válidos: %{columns}"
       duplicate_file_version_headers: "Columnas de Versión de Archivo duplicadas: %{columns}"
@@ -2772,6 +2776,9 @@ es:
       uri_mismatch: "De recursos de entrada URI [%{res_uri}] no coincide con la fila de URIs [%{row_uri}]"
       title: Falta el título
       title_and_date: Falta el título y la fecha definición válida
+      note_text_missing: "%{note_column} está vacío, pero es obligatorio cuando alguna de estas columnas tiene un valor: %{columns}"
+      restriction_date_format: "Fecha no válida (%{column}: '%{value}' no es una fecha AAAA-MM-DD válida)"
+      restriction_date_order: "Fecha no válida (%{column}: la fecha de fin '%{end_date}' no puede ser anterior a la fecha de inicio '%{begin_date}')"
       hier_miss: Missing jerarquía - debe ser un número mayor que 0
       hier_zero: Jerarquía debe ser mayor que 0
       hier_wrong: Jerarquía no no puede haber más de un nivel más profundo que la fila anterior
@@ -2807,7 +2814,8 @@ es:
       has_dig_obj: "Objeto Archivo ya tiene un objeto digital asociada"
       dig_unassoc: "No se puede guardar objeto de archivo con el objeto digital asociada: %{msg}"
       dig_row_not_saved: "No se guardó nada de esta fila porque no se pudo crear el objeto digital"
-      dig_not_representative: "La instancia del objeto digital no se hizo representativa: el objeto de archivo ya tenía una instancia representativa antes de la importación, o una fila anterior hace representativa a otra"
+      dig_representative_existing: "La instancia del objeto digital no puede hacerse representativa: el objeto de archivo ya tiene una instancia representativa"
+      dig_representative_earlier_row: "La instancia del objeto digital no puede hacerse representativa: la fila %{row} hace representativa a otra instancia del objeto de archivo"
       ref_id_miss: No Ref ID especificado
       dig_info_miss: Ni el objeto URN Digital o la miniatura URN se especifica
       dig_validation: "No se puede crear el objeto digital %{err}"
@@ -2838,7 +2846,7 @@ es:
       agent_unsupported_type: "El agente %{num} tiene un tipo de agente no admitido. Valores admitidos: %{accepted}"
       agent_required_field: "El agente %{num}, campo %{field}, es obligatorio"
       agent_invalid_value: "El agente %{num}, campo %{field}, no es un valor existente: '%{value}'"
-      agent_unrecognized_boolean: "El agente %{num}, campo %{field}, requiere un valor booleano; se recibió '%{value}', debe ser uno de: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, o vacío para usar el valor predeterminado"
+      agent_unrecognized_boolean: "El agente %{num}, campo %{field}, requiere un valor booleano; se recibió '%{value}', debe ser uno de: %{accepted}, o vacío para usar el valor predeterminado"
       agent_incompatible_field: "El agente %{num}, campo %{field}, no es válido para el tipo de agente '%{agent_type}'. No se creó ni se vinculó ningún agente"
       agent_mode_conflict: "El agente %{num}, campo %{field}, no se puede combinar con campos de creación de agente (%{creation_fields}). No se creó ni vinculó ningún agente"
       agent_invalid_record_id: "El agente %{num}, campo %{field}, requiere un ID numérico positivo o una URI de agente canónica; se recibió '%{value}'"
@@ -2852,9 +2860,10 @@ es:
       agent_match_difference: "%{field} es '%{supplied}' aquí y '%{existing}' en ese agente"
       agent_authority_id_collision: "El agente %{num} no se creó: un agente existente ya usa este ID de autoridad. Para usar ese agente, vincúlelo por ID de registro o URI"
       process_error: "Procesamiento de Error %{type} %{num}: %{why}"
-      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}'"
+      unrecognized_boolean: "La columna %{column} requiere un valor booleano; se recibió '%{value}', debe ser uno de: %{accepted}, o vacío para usar el valor predeterminado"
       invalid_user_defined_integer: "Entero definido por el usuario no válido: %{value}"
       invalid_file_version_size: "La columna %{column} requiere un número entero de bytes; se recibió '%{value}'"
+      file_version_display_flag_unpublished: "La columna %{column} es TRUE pero %{publish_column} no es TRUE; una versión de archivo debe estar publicada para ser la miniatura o el enlace de visualización"
       invalid_user_defined_real: "Real definido por el usuario no válido: %{value}"
       bad_ao_uri: " con uri %{uri}"
       bad_accession_uri: "Adquisición no encontrada con uri %{uri}"

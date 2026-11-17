@@ -3,7 +3,6 @@
 RSpec.shared_examples 'having two distinct pagination landmarks' do
   it 'labels top and bottom pagination navs uniquely' do
     visit pagination_path
-    finished_all_ajax_requests?
 
     top_label = I18n.t('pagination.top_controls')
     bottom_label = I18n.t('pagination.bottom_controls')
@@ -18,7 +17,6 @@ end
 RSpec.shared_examples 'having one pagination landmark' do
   it 'renders one pagination nav with a generic label' do
     visit pagination_path
-    finished_all_ajax_requests?
 
     controls_label = I18n.t('pagination.controls')
 

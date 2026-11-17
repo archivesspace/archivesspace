@@ -105,7 +105,15 @@ function fetchWaypoint(wpNum, uris, resourceUri) {
   const url = `${baseUrl}${resourceUri}/infinite/waypoints?${query}`;
 
   return fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(
+          `Waypoint ${wpNum} request failed with status ${response.status}`
+        );
+      }
+
+      return response.json();
+    })
     .then(records => ({ wpNum, records }))
     .catch(err => {
       console.error(err);

@@ -20,8 +20,7 @@ describe 'Bulk Import', js: true do
   end
 
   it 'can create a bulk import (load spreadsheet) job' do
-    login_user(admin)
-    select_repository(@repo)
+    login_user_and_select_repository(admin, @repo)
 
     edit_resource(@resource)
     page.has_css? "form#resource_form"
@@ -50,8 +49,7 @@ describe 'Bulk Import', js: true do
   end
 
   it 'creates archival objects with conditions governing access notes and sets the local access restriction type when no dates provided' do
-    login_user(admin)
-    select_repository(@repo)
+    login_user_and_select_repository(admin, @repo)
 
     edit_resource(@resource)
     page.has_css? "form#resource_form"

@@ -3,6 +3,7 @@ require "spec_helper"
 require_relative "../app/lib/bulk_import/import_archival_objects.rb"
 
 require 'rubyXL/convenience_methods/cell'
+require 'rubyXL/convenience_methods/workbook'
 
 describe "Import Archival Objects" do
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
@@ -1709,24 +1710,33 @@ describe "Import Archival Objects" do
     end
   end
 
+  # Imports one archival object row from the CSV template with the given cells, plus any extra columns
+  def import_row(cells, extra_columns = [], validate_only = false)
+    csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_template.csv")
+    columns = csv_data[0] + extra_columns
+    row = columns.to_h { |column| [column, nil] }
+    row.merge!('res_uri' => @resource.uri, 'title' => 'Archival Object', 'hierarchy' => '1', 'level' => 'class')
+    row.merge!(cells)
+
+    csv_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.csv"
+    csv_path = File.join(Dir.tmpdir, csv_filename)
+    File.write(csv_path, CSV.generate { |csv| csv << columns << (csv_data[1] + extra_columns) << row.values })
+
+    opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => csv_filename,
+             :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "",
+             :validate => validate_only }
+    ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
+  end
+
+  def imported_archival_object(report)
+    ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+  end
+
+  def boolean_error(column, value)
+    I18n.t('bulk_import.error.unrecognized_boolean', :column => column, :value => value, :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES)
+  end
+
   describe 'digital object file version columns' do
-    # Imports one archival object row from the CSV template with the given cells, plus any extra columns
-    def import_row(cells, extra_columns = [])
-      csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_template.csv")
-      columns = csv_data[0] + extra_columns
-      row = columns.to_h { |column| [column, nil] }
-      row.merge!('res_uri' => @resource.uri, 'title' => 'Archival Object with file versions', 'hierarchy' => '1', 'level' => 'class')
-      row.merge!(cells)
-
-      csv_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.csv"
-      csv_path = File.join(Dir.tmpdir, csv_filename)
-      File.write(csv_path, CSV.generate { |csv| csv << columns << (csv_data[1] + extra_columns) << row.values })
-
-      opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => csv_filename,
-               :filepath => csv_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "" }
-      ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts).run
-    end
-
     def imported_digital_object(report)
       archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
       ::DigitalObject.to_jsonmodel(archival_object['instances'][0]['digital_object']['ref'].split('/').pop.to_i)
@@ -1734,8 +1744,10 @@ describe "Import Archival Objects" do
 
     it 'creates the file versions marked as display thumbnail and display link' do
       report = import_row('file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+                          'file_version_publish_1' => 'TRUE',
                           'file_version_is_display_thumbnail_1' => 'TRUE',
                           'file_version_file_uri_2' => 'http://example.com/record',
+                          'file_version_publish_2' => 'TRUE',
                           'file_version_is_display_link_2' => 'TRUE')
 
       expect(report.terminal_error).to be_nil
@@ -1744,7 +1756,35 @@ describe "Import Archival Objects" do
       expect(file_versions.map { |fv| fv['file_uri'] }).to eq(['http://example.com/thumbnail.jpg', 'http://example.com/record'])
       expect(file_versions.map { |fv| fv['is_display_thumbnail'] }).to eq([true, false])
       expect(file_versions.map { |fv| fv['is_display_link'] }).to eq([false, true])
-      expect(file_versions.map { |fv| fv['publish'] }).to eq([true, true])
+    end
+
+    describe 'a display thumbnail file version with a blank publish cell' do
+      let(:unpublished_thumbnail) {
+        { 'file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+          'file_version_is_display_thumbnail_1' => 'TRUE' }
+      }
+      let(:error) {
+        I18n.t('bulk_import.error.file_version_display_flag_unpublished',
+               :column => 'file_version_is_display_thumbnail_1', :publish_column => 'file_version_publish_1')
+      }
+
+      it 'fails the row without saving the archival object' do
+        record_counts = -> { [::ArchivalObject.count, ::DigitalObject.count] }
+        counts_before = record_counts.call
+
+        report = import_row(unpublished_thumbnail)
+
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => error)])
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(record_counts.call).to eq(counts_before)
+      end
+
+      it 'fails the row with its other errors in a validation run' do
+        report = import_row(unpublished_thumbnail.merge('publish' => 'maybe'), [], true)
+
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{boolean_error('publish', 'maybe')}; #{error}")])
+      end
     end
 
     it 'creates more file versions from added columns' do
@@ -1759,21 +1799,18 @@ describe "Import Archival Objects" do
       expect(file_versions.map { |fv| [fv['file_uri'], fv['caption']] }).to eq([['http://example.com/1', nil], ['http://example.com/3', 'The third']])
     end
 
-    it 'reports a file version flag that is not a boolean' do
+    it 'fails the row for a file version flag that is not a boolean' do
       report = import_row('file_version_file_uri_1' => 'http://example.com/1', 'file_version_is_display_thumbnail_1' => 'maybe')
 
-      expect(report.terminal_error).to be_nil
-      expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'file_version_is_display_thumbnail_1', :value => 'maybe'))
+      expect(report.rows[0].archival_object_id).to be_nil
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('file_version_is_display_thumbnail_1', 'maybe'))])
     end
 
     describe 'digital_object_is_representative' do
-      def imported_archival_object(report)
-        ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
-      end
-
       let(:published_thumbnail) {
         { 'digital_object_publish' => 'TRUE',
           'file_version_file_uri_1' => 'http://example.com/thumbnail.jpg',
+          'file_version_publish_1' => 'TRUE',
           'file_version_is_display_thumbnail_1' => 'TRUE' }
       }
 
@@ -1798,7 +1835,7 @@ describe "Import Archival Objects" do
       it 'reports a value that is not a boolean' do
         report = import_row(published_thumbnail.merge('digital_object_is_representative' => 'maybe'))
 
-        expect(report.rows[0].errors).to include(I18n.t('bulk_import.error.unrecognized_boolean', :column => 'digital_object_is_representative', :value => 'maybe'))
+        expect(report.rows[0].errors).to include(boolean_error('digital_object_is_representative', 'maybe'))
       end
     end
 
@@ -1812,6 +1849,190 @@ describe "Import Archival Objects" do
       report = import_row({}, ['file_version_colour_1'])
 
       expect(report.terminal_error).to include(I18n.t('bulk_import.error.unknown_columns', :codes => 'file_version_colour_1'))
+    end
+  end
+
+  describe 'note columns' do
+    it 'rejects the row when a local access restriction type is given without the access restriction note' do
+      archival_object_count_before = ::ArchivalObject.count
+
+      report = import_row('t_accessrestrict_1' => 'RestrictedSpecColl')
+
+      expect(::ArchivalObject.count).to eq archival_object_count_before
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+
+    it 'reports the blank note text in validate-only mode' do
+      report = import_row({ 't_accessrestrict_1' => 'RestrictedSpecColl' }, [], true)
+
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].archival_object_id).to be_nil
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+
+    it 'reports every filled column for every note whose text is blank' do
+      report = import_row('p_abstract' => '1', 'l_abstract' => 'Summary', 'b_userestrict' => '2030-01-01')
+
+      abstract_error = I18n.t('bulk_import.error.note_text_missing', :columns => 'p_abstract, l_abstract', :note_column => 'n_abstract')
+      userestrict_error = I18n.t('bulk_import.error.note_text_missing', :columns => 'b_userestrict', :note_column => 'n_userestrict')
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{abstract_error}; #{userestrict_error}")])
+    end
+
+    it 'imports the restriction types when the access restriction note has text' do
+      report = import_row('n_accessrestrict' => 'Closed until 2030', 't_accessrestrict_1' => 'RestrictedSpecColl')
+
+      expect(report.rows[0].errors).to eq([])
+      archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+      note = archival_object['notes'].find { |n| n['type'] == 'accessrestrict' }
+      expect(note['rights_restriction']['local_access_restriction_type']).to eq(['RestrictedSpecColl'])
+    end
+
+    it 'does not treat a column without a matching note column as part of a note' do
+      report = import_row('l_lang' => 'eng')
+
+      expect(report.rows[0].errors).to eq([])
+    end
+
+    it 'still reports a blank note text when a column with a blank header has a value' do
+      archival_object_count_before = ::ArchivalObject.count
+
+      report = import_row({ 't_accessrestrict_1' => 'RestrictedSpecColl', nil => 'stray value' }, [nil])
+
+      expect(::ArchivalObject.count).to eq archival_object_count_before
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => note_error)])
+    end
+
+    describe 'restriction dates' do
+      it 'rejects the row when a begin date is not a full YYYY-MM-DD date' do
+        archival_object_count_before = ::ArchivalObject.count
+
+        report = import_row('n_accessrestrict' => 'Closed', 'b_accessrestrict' => '2030')
+
+        expect(::ArchivalObject.count).to eq archival_object_count_before
+        date_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'b_accessrestrict', :value => '2030')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => date_error)])
+      end
+
+      it 'rejects the row when an end date is not a real date' do
+        report = import_row('n_userestrict' => 'Ask first', 'e_userestrict' => '2030-13-45')
+
+        date_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'e_userestrict', :value => '2030-13-45')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => date_error)])
+      end
+
+      it 'rejects the row when the end date is before the begin date' do
+        report = import_row('n_userestrict' => 'Ask first', 'b_userestrict' => '2030-01-01', 'e_userestrict' => '2029-12-31')
+
+        date_error = I18n.t('bulk_import.error.restriction_date_order', :column => 'e_userestrict',
+                                                                        :end_date => '2029-12-31', :begin_date => '2030-01-01')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => date_error)])
+      end
+
+      it 'reports both a blank note text and a bad date in the same row' do
+        report = import_row('b_userestrict' => 'soon')
+
+        note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 'b_userestrict', :note_column => 'n_userestrict')
+        date_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'b_userestrict', :value => 'soon')
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{note_error}; #{date_error}")])
+      end
+
+      it 'reports bad dates in validate-only mode and does not build the row' do
+        report = import_row({ 'n_accessrestrict' => 'Closed', 'b_accessrestrict' => '2030',
+                              'n_userestrict' => 'Ask first', 'b_userestrict' => '2030-01-01', 'e_userestrict' => '2029-12-31' }, [], true)
+
+        format_error = I18n.t('bulk_import.error.restriction_date_format', :column => 'b_accessrestrict', :value => '2030')
+        order_error = I18n.t('bulk_import.error.restriction_date_order', :column => 'e_userestrict',
+                                                                         :end_date => '2029-12-31', :begin_date => '2030-01-01')
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{format_error}; #{order_error}")])
+      end
+
+      it 'imports valid begin and end dates into the note' do
+        report = import_row('n_accessrestrict' => 'Closed', 'b_accessrestrict' => '2030-01-01', 'e_accessrestrict' => '2031-01-01')
+
+        expect(report.rows[0].errors).to eq([])
+        archival_object = ::ArchivalObject.to_jsonmodel(report.rows[0]['archival_object_id'].split('/').pop.to_i)
+        note = archival_object['notes'].find { |n| n['type'] == 'accessrestrict' }
+        expect(note['rights_restriction'].slice('begin', 'end')).to eq('begin' => '2030-01-01', 'end' => '2031-01-01')
+      end
+
+      it 'imports dates that Excel stores as date cells in an xlsx file' do
+        excel_file = RubyXL::Parser.parse(TEMPLATES_DIR + "/bulk_import_template.xlsx")
+        sheet = excel_file['Data']
+        column_names = sheet[3].cells.map(&:value)
+        column_names.each_index { |column_index| sheet.add_cell(5, column_index, nil) }
+
+        { 'res_uri' => @resource.uri, 'title' => 'Archival Object', 'hierarchy' => '1', 'level' => 'class',
+          'n_accessrestrict' => 'Closed' }.each do |column, value|
+          sheet[5][column_names.index(column)].change_contents(value)
+        end
+        { 'b_accessrestrict' => Date.new(2030, 1, 1), 'e_accessrestrict' => Date.new(2031, 1, 1) }.each do |column, date|
+          cell = sheet[5][column_names.index(column)]
+          cell.change_contents(date)
+          cell.set_number_format('m/d/yyyy')
+        end
+
+        xlsx_filename = "bulk_import_template_#{@now}_#{SecureRandom.uuid}.xlsx"
+        xlsx_path = File.join(Dir.tmpdir, xlsx_filename)
+        excel_file.save(xlsx_path)
+        saved_cell = RubyXL::Parser.parse(xlsx_path)['Data'][5][column_names.index('b_accessrestrict')]
+        expect(saved_cell.value).to be_a(DateTime)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id], :type => "resource", :filename => xlsx_filename,
+                 :filepath => xlsx_path, :load_type => "archival_object", :ref_id => "", :aoid => "", :position => "" }
+        report = ImportArchivalObjects.new(opts[:filepath], "xlsx", @current_user, opts).run
+
+        expect(report.rows[0].errors).to eq([])
+        note = imported_archival_object(report)['notes'].find { |n| n['type'] == 'accessrestrict' }
+        expect(note['rights_restriction'].slice('begin', 'end')).to eq('begin' => '2030-01-01', 'end' => '2031-01-01')
+      end
+    end
+  end
+
+  describe 'boolean columns' do
+    it 'imports Y in publish as true' do
+      report = import_row('publish' => 'Y')
+
+      expect(report.rows[0].errors).to eq([])
+      expect(imported_archival_object(report)['publish']).to be true
+    end
+
+    it 'rejects the row when publish is not a boolean' do
+      archival_object_count_before = ::ArchivalObject.count
+
+      report = import_row('publish' => 'maybe')
+
+      expect(::ArchivalObject.count).to eq archival_object_count_before
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('publish', 'maybe'))])
+    end
+
+    it 'rejects the row when a note publish column is not a boolean' do
+      report = import_row('n_scopecontent' => 'Scope', 'p_scopecontent' => 'maybe')
+
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('p_scopecontent', 'maybe'))])
+    end
+
+    it 'rejects the row when a language publish column is not a boolean' do
+      report = import_row('l_lang' => 'eng', 'n_langmaterial' => 'In English', 'p_langmaterial' => 'maybe')
+
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('p_langmaterial', 'maybe'))])
+    end
+
+    it 'creates no digital object when digital_object_publish is not a boolean' do
+      report = import_row('file_version_file_uri_1' => 'http://example.com/1', 'digital_object_publish' => 'maybe')
+
+      expect(report.rows[0].errors).to include(boolean_error('digital_object_publish', 'maybe'))
+      expect(imported_archival_object(report)['instances']).to eq([])
+    end
+
+    it 'reports a publish value that is not a boolean in validate-only mode, with the row\'s other errors' do
+      report = import_row({ 'publish' => 'maybe', 't_accessrestrict_1' => 'RestrictedSpecColl' }, [], true)
+
+      note_error = I18n.t('bulk_import.error.note_text_missing', :columns => 't_accessrestrict_1', :note_column => 'n_accessrestrict')
+      expect(report.rows[0].archival_object_id).to be_nil
+      expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => "#{note_error}; #{boolean_error('publish', 'maybe')}")])
     end
   end
 end

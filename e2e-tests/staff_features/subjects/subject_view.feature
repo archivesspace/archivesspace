@@ -14,6 +14,16 @@ Feature: Subject View
       And the user filters by text with the Subject term
       And the user clicks on 'View'
      Then the Subject view page is displayed
+  Scenario: View Subject with a suppressed source
+    Given a Subject has been created
+      And a value has been added to the 'Subject Source (subject_source)' controlled value list
+      And the Subject is opened in edit mode
+      And the user selects the added controlled value from 'Source' in the 'Basic Information' form
+      And the user clicks on 'Save'
+      And the 'Subject' saved message is displayed
+      And the added controlled value is suppressed
+     When the Subject is opened in the view mode
+     Then the suppressed controlled value is displayed
   Scenario: Sort Subjects by term
     Given two Subjects have been created with a common keyword in their term
       And the two Subjects are displayed sorted by ascending term

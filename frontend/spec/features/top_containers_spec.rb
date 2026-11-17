@@ -41,8 +41,7 @@ describe 'Top Containers and Instances', js: true do
   end
 
   before :each do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
   end
 
   it 'abides by search and browse column preferences' do
@@ -71,7 +70,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_selector('#bulk_operation_results tbody tr', count: 5)
 
     # Now sort by indicator
-    find('#bulk_operation_results th:nth-child(5)').click
+    find("#bulk_operation_results th[data-sort-key='indicator']").click
     expect(find('#bulk_operation_results tbody tr:first-child td.top-container-indicator').text).to eq('Letter A')
 
     find('#bulk_operation_results tbody tr:first-child td:first-child input').click
@@ -86,7 +85,7 @@ describe 'Top Containers and Instances', js: true do
     expect(modal.find('div.alert-success').text).to match(/Top .+ updated/)
 
     modal.find('.modal-footer button').click
-    find('#bulk_operation_results tbody tr:first-child td:last-child a:first-child').click
+    find('#bulk_operation_results tbody tr:first-child td.table-record-actions a:first-child').click
     expect(find('.form-group', text: 'ILS Holding ID').find('div').text).to eq('xyzpdq')
   end
 
@@ -113,7 +112,7 @@ describe 'Top Containers and Instances', js: true do
       click_button('Update 5 records')
     end
 
-    run_all_indexers
+    run_periodic_index
 
     # need to reload to see results of indexing
     visit '/top_containers'
@@ -290,7 +289,7 @@ describe 'Top Containers and Instances', js: true do
 
   it 'can find the top container that was created using the typeahead feature for this record' do
     second_linker = '#accession_instances__1__sub_container__top_container__ref__combobox'
-    run_all_indexers
+    run_periodic_index
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     fill_in('token-input-accession_instances__1__sub_container__top_container__ref_', with: 'oof')

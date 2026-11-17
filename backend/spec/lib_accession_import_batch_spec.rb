@@ -205,7 +205,8 @@ describe 'Accession import batch' do
         ASpaceImport::CSVConvert::CSVSyntaxException,
         Regexp.new(Regexp.escape(I18n.t('importer.error.unrecognized_boolean',
                                         :column => 'user_defined_boolean_1',
-                                        :value => 'perhaps'))),
+                                        :value => 'perhaps',
+                                        :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))),
       )
 
       expect(Accession.count).to eq(accession_count)
@@ -369,7 +370,8 @@ describe 'Accession import batch' do
         ASpaceImport::CSVConvert::CSVSyntaxException,
         Regexp.new(Regexp.escape(I18n.t('importer.error.unrecognized_boolean',
                                         :column => 'external_document_1_publish',
-                                        :value => 'perhaps'))),
+                                        :value => 'perhaps',
+                                        :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES))),
       )
 
       expect(Accession.count).to eq(accession_count)

@@ -21,6 +21,11 @@ column_opts.keys.each do |type|
     "enum" => ['asc', 'desc'],
     "required" => false
   }
+  browse_columns["#{type}_actions_column_position"] = {
+    "type" => "string",
+    "enum" => ['start', 'end'],
+    "required" => false
+  }
 end
 
 # this one is a special case

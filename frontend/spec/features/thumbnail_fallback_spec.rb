@@ -39,8 +39,7 @@ describe 'Thumbnail image in the browser', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
   end
 
   def expect_fallback_icon(digital_object, image_url)

@@ -3,13 +3,13 @@ require 'rails_helper'
 
 describe 'Help tooltip default placement', js: true do
   it 'should be set to auto' do
-    login_admin
+    login_admin_and_select_repository($repo)
     visit '/resources/new'
     page.should have_css('.global-header a.context-help.has-tooltip.initialised[data-placement="auto"]')
   end
 
   it 'should have rel="noopener noreferrer" to prevent reverse tabnabbing' do
-    login_admin
+    login_admin_and_select_repository($repo)
     visit '/resources/new'
     page.should have_css('.global-header a.context-help[target="_blank"][rel="noopener noreferrer"]')
   end

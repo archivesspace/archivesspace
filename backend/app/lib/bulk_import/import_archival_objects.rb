@@ -82,6 +82,10 @@ class ImportArchivalObjects < BulkImportParser
       # tree hierachy
       level = value_check(@archival_levels, @row_hash["level"], err_arr)
       err_arr.push I18n.t("bulk_import.error.level") if level.nil?
+      note_columns_missing_text.each do |note_column, columns|
+        err_arr.push I18n.t("bulk_import.error.note_text_missing", :note_column => note_column, :columns => columns.join(", "))
+      end
+      err_arr.concat(restriction_date_errors.values)
     rescue StopBulkImportException => se
       raise se
     rescue Exception => e
@@ -91,11 +95,64 @@ class ImportArchivalObjects < BulkImportParser
       @row_hash.each do |k, v|
         @row_hash[k] = v.strip if !v.nil?
       end
-
-      normalize_boolean_column(@row_hash, 'publish')
-      normalize_boolean_column(@row_hash, 'restrictions_flag')
     end
+    read_boolean_cells(err_arr)
+    read_digital_object_file_versions(err_arr)
     err_arr.join("; ")
+  end
+
+  def read_digital_object_file_versions(err_arr)
+    @digital_object_file_versions = creates_digital_object? ? file_versions : nil
+  rescue BulkImportException => e
+    err_arr.push e.message
+    @digital_object_file_versions = nil
+  end
+
+  def creates_digital_object?
+    file_uri_columns = @row_hash.keys.compact.grep(/\Afile_version_file_uri_[1-9]\d*\z/)
+    ![@row_hash["digital_object_title"], @row_hash["digital_object_id"], *@row_hash.values_at(*file_uri_columns)].compact.empty?
+  end
+
+  def read_boolean_cells(err_arr)
+    (['publish', 'restrictions_flag'] + @row_hash.keys.compact.grep(/\Ap_/)).each do |column|
+      @row_hash[column] = row_boolean(column)
+    rescue BulkImportException => e
+      err_arr.push e.message
+      @row_hash[column] = nil
+    end
+  end
+
+  def note_columns_missing_text
+    @row_hash.keys.compact.each_with_object({}) do |column, missing|
+      next if @row_hash[column].to_s.strip.empty?
+      match = column.match(/\A[a-z]_(.+?)(_\d+)?\z/)
+      next if match.nil?
+      note_column = ["n_#{match[1]}#{match[2]}", "n_#{match[1]}"].find { |candidate| @row_hash.key?(candidate) }
+      next if note_column.nil? || !@row_hash[note_column].to_s.strip.empty?
+      (missing[note_column] ||= []) << column
+    end
+  end
+
+  def restriction_date_errors
+    errors = {}
+    dates = {}
+    @row_hash.keys.compact.grep(/\A[be]_./).each do |column|
+      value = @row_hash[column].to_s.strip
+      next if value.empty?
+      dates[column] = JSONModel::Validations.parse_strict_date(value)
+    rescue ArgumentError
+      errors[column] = I18n.t("bulk_import.error.restriction_date_format", :column => column, :value => value)
+    end
+    dates.each do |column, end_date|
+      next unless column.start_with?("e_")
+      begin_column = "b_#{column.delete_prefix('e_')}"
+      begin_date = dates[begin_column]
+      next unless begin_date && end_date < begin_date
+      errors[column] = I18n.t("bulk_import.error.restriction_date_order", :column => column,
+                              :end_date => @row_hash[column].to_s.strip,
+                              :begin_date => @row_hash[begin_column].to_s.strip)
+    end
+    errors
   end
 
   def process_row(row_hash = nil)
@@ -111,11 +168,7 @@ class ImportArchivalObjects < BulkImportParser
       ret_str = check_row
     end
     if !ret_str.empty?
-      if @validate_only
-        @report.add_errors(ret_str)
-      else
-        raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str))
-      end
+      raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str))
     end
     parent_uri = @parents.parent_for(@row_hash["hierarchy"].to_i)
     begin
@@ -245,16 +298,15 @@ class ImportArchivalObjects < BulkImportParser
 
     ao.instances = create_top_container_instances
     dig_instance = nil
-    file_uri_columns = @row_hash.keys.grep(/\Afile_version_file_uri_[1-9]\d*\z/)
-    unless [@row_hash["digital_object_title"], @row_hash["digital_object_id"], *@row_hash.values_at(*file_uri_columns)].compact.empty?
+    if creates_digital_object?
 
       begin
-        normalize_boolean_column(@row_hash, 'digital_object_publish')
-        is_representative = digital_object_boolean('digital_object_is_representative')
+        publish = row_boolean('digital_object_publish')
+        is_representative = row_boolean('digital_object_is_representative')
         dig_instance = @doh.create(
           title: @row_hash["digital_object_title"],
           id: @row_hash["digital_object_id"],
-          publish: @row_hash["digital_object_publish"],
+          publish: publish,
           level: nil,
           digital_object_type: nil,
           restrictions: nil,
@@ -265,7 +317,7 @@ class ImportArchivalObjects < BulkImportParser
           linked_agents: [],
           archival_object: ao,
           report: @report,
-          file_versions: file_versions)
+          file_versions: @digital_object_file_versions)
         dig_instance.is_representative = true if dig_instance && is_representative
       rescue Exception => e
         @report.add_errors(e.message)
@@ -422,8 +474,6 @@ class ImportArchivalObjects < BulkImportParser
     cntr = 1
     substr = ""
     until @row_hash["l_lang#{substr}"].nil? && @row_hash["l_langscript#{substr}"].nil? && @row_hash["n_langmaterial#{substr}"].nil?
-      normalize_boolean_column(@row_hash, "p_langmaterial#{substr}")
-
       pubnote = @row_hash["p_langmaterial#{substr}"]
 
       # ΝΟΤE: Publish is inherited from the archival object if not provided

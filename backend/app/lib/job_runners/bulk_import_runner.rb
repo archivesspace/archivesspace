@@ -63,7 +63,7 @@ class BulkImportRunner < JobRunner
           last_error = e
         end
 
-        if terminal_error
+        if terminal_error || @validate_only
           created_uris = []
           raise Sequel::Rollback
         end

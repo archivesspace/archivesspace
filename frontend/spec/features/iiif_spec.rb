@@ -25,8 +25,7 @@ describe 'IIIF viewer', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repo)
+    login_admin_and_select_repository(@repo)
   end
 
   context 'when using the bundled Universal Viewer' do

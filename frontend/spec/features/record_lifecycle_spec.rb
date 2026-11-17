@@ -20,7 +20,6 @@ describe 'Record Lifecycle', js: true do
   it 'can suppress an Accession' do
     now = Time.now.to_i
     accession = create(:accession, title: "Accession Title #{now}")
-    run_index_round
 
     find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
@@ -45,8 +44,6 @@ describe 'Record Lifecycle', js: true do
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Accession Accession Title #{now} suppressed")
     expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
-    run_index_round
-
     visit '/'
     visit "accessions/#{accession.id}/edit"
 
@@ -56,7 +53,6 @@ describe 'Record Lifecycle', js: true do
   it "an archivist can't see a suppressed Accession" do
     now = Time.now.to_i
     accession = create(:accession, title: "Accession Title #{now}")
-    run_index_round
 
     find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
@@ -110,7 +106,6 @@ describe 'Record Lifecycle', js: true do
     now = Time.now.to_i
     set_repo @repository
     accession = create(:accession, title: "Accession Title #{now}")
-    run_index_round
 
     find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
@@ -137,8 +132,6 @@ describe 'Record Lifecycle', js: true do
 
     expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
-    run_index_round
-
     visit '/'
     visit "accessions/#{accession.id}/edit"
 
@@ -158,7 +151,6 @@ describe 'Record Lifecycle', js: true do
   it 'can delete an Accession' do
     now = Time.now.to_i
     accession = create(:accession, title: "Accession Title #{now}")
-    run_index_round
 
     visit "accessions/#{accession.id}/edit"
 
@@ -183,7 +175,6 @@ describe 'Record Lifecycle', js: true do
     now = Time.now.to_i
     set_repo @repository
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
 
     find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'

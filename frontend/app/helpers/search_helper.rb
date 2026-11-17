@@ -301,14 +301,18 @@ module SearchHelper
   end
 
   def add_columns
+    show_actions = !params[:linker] || params[:linker] === 'false'
+
     if @search_data
       return if @columns
       type = @search_data.get_type
       type = 'agent' if type.include? 'agent'
       type = 'classification' if type == 'classification_term'
+      actions_at_start = actions_column_position(type) == 'start'
 
       add_multiselect_column if can_delete_search_results?(type) && !(request.path =~ /\/(advanced_)*search/)
       add_linker_column if params[:linker]==='true'
+      add_actions_column if show_actions && actions_at_start
 
       if params[:include_components]
         case type
@@ -322,7 +326,7 @@ module SearchHelper
       end
     end
 
-    add_actions_column if !params[:linker] || params[:linker] === 'false'
+    add_actions_column if show_actions && !actions_at_start
   end
 
   def deleted(record)

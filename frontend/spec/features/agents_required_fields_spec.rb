@@ -5,7 +5,7 @@ require 'rails_helper'
 
 describe 'Agents Required Fields', js: true do
   before(:each) do
-    login_admin
+    login_admin_and_select_repository($repo)
   end
 
   let(:all_possible_items) do

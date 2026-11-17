@@ -4,7 +4,7 @@ require 'rails_helper'
 describe 'Help Tooltips', js: true do
   context 'attached to subrecord form headings' do
     before(:each) do
-      login_admin
+      login_admin_and_select_repository($repo)
       visit '/resources/new'
       @body = page.find('body')
       @example_heading = page.find('h3.subrecord-form-heading > span', text: 'Languages')
