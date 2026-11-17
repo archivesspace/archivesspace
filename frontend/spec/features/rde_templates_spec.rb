@@ -166,6 +166,7 @@ describe 'RDE Templates', js: true do
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
+    expect(page).to have_css('#rde_select_template option[value]', visible: :all)
     click_on 'Remove Templates'
     templates = all(:xpath, "//tr[contains(., 'AAA') or contains(., 'BBB') or contains(., 'CCC')]")
     templates.each do |template|
