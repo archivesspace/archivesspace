@@ -119,8 +119,7 @@ When 'the user fills in and selects Container Profile in the modal' do
 end
 
 When 'the user selects Location in the modal' do
-  fill_in 'filter-text', with: 'test_location'
-  find('.search-filter button').click
+  submit_listing_filter('test_location')
 
   within '#tabledSearchResults' do
     find('tbody tr', text: 'test_location', match: :first).find('input').click
@@ -132,8 +131,7 @@ When 'the user clicks on the dropdown in the Bulk Update form' do
 end
 
 When 'the user selects Container Profile in the modal' do
-  fill_in 'filter-text', with: 'test_container_profile'
-  find('.search-filter button').click
+  submit_listing_filter('test_container_profile')
 
   within '#tabledSearchResults' do
     find('tbody tr', text: 'test_container_profile', match: :first).find('input').click

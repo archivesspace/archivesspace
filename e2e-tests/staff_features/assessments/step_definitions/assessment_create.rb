@@ -12,9 +12,7 @@ end
 
 When('the user filters by text with the Digital Object title in the modal') do
   within '.modal-content' do
-    find('.text-filter-field.form-control.rounded-left').fill_in with: @uuid
-
-    find('.search-filter button').click
+    submit_listing_filter(@uuid)
   end
 end
 
@@ -28,19 +26,13 @@ end
 
 When 'the user filters by text with the Agent name in the modal' do
   within '.modal-content' do
-    find('.text-filter-field.form-control.rounded-left').fill_in with: 'test'
-
-    find('.search-filter button').click
+    submit_listing_filter('test')
   end
 end
 
 When('the user selects the Agent from the search results in the modal') do
   expect(page).to have_css('#tabledSearchResults tbody tr input', count: 1)
-  within '#tabledSearchResults' do
-    rows = all('tbody tr input')
-    expect(rows.length).to eq 1
-    rows[0].click
-  end
+  find('#tabledSearchResults tbody tr input').click
 end
 
 When 'the user selects the Resource from the search results in the modal' do
@@ -49,17 +41,13 @@ end
 
 When('the user filters by text with the Resource title in the modal') do
   within '.modal-content' do
-    find('.text-filter-field.form-control.rounded-left').fill_in with: "Resource #{@uuid}"
-
-    find('.search-filter button').click
+    submit_listing_filter("Resource #{@uuid}")
   end
 end
 
 When('the user filters by text with the Archival Object title in the modal') do
   within '.modal-content' do
-    find('.text-filter-field.form-control.rounded-left').fill_in with: "Archival Object #{@uuid}"
-
-    find('.search-filter button').click
+    submit_listing_filter("Archival Object #{@uuid}")
   end
 end
 

@@ -11,9 +11,9 @@ Then 'a new instance with a link to the Digital Object is added to the Resource'
 end
 
 When 'the user searches and selects the Digital Object in the modal' do
-  element = find('#filter-text')
-  element.fill_in with: @uuid
-  find('.search-filter .btn').click
+  within '.modal-content' do
+    submit_listing_filter(@uuid)
+  end
 
   find('#tabledSearchResults tbody tr', text: @uuid).find('input[type="radio"]').click
 end

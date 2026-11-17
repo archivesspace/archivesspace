@@ -476,6 +476,13 @@ def add_file_version(form_prefix)
   all(file_versions, count: existing + 1).last
 end
 
+# The filtered results replace the current ones, which may already list the record
+def submit_listing_filter(text)
+  fill_in 'Filter by text', with: text
+  find('.search-filter button').click
+  expect(page).to have_css('.search-listing-filter .facet-selected', text:)
+end
+
 # Filters a browse listing, reloading it until the indexer has caught up with the record
 def filter_listing_by_text(text, row_text: text)
   fill_in 'Filter by text', with: text

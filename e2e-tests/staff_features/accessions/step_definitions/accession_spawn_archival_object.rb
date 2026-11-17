@@ -2,10 +2,7 @@
 
 When 'the user selects Resource in the modal' do
   within '#linkResourceModal' do
-    fill_in 'filter-text', with: @uuid
-    within '.search-listing-filter' do
-      find('button').click
-    end
+    submit_listing_filter(@uuid)
 
     within '#tabledSearchResults' do
       find('tbody tr', text: @uuid, match: :first).click

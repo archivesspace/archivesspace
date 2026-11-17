@@ -44,23 +44,7 @@ end
 
 When 'the user filters by text with the Subject B title in the modal' do
   within '.modal-content' do
-    fill_in 'Filter by text', with: "subject_term_B_#{@uuid}"
-    find('.search-filter button').click
-
-    rows = []
-    checks = 0
-
-    while checks < 5
-      checks += 1
-
-      begin
-        rows = all('tr', text: "subject_term_B_#{@uuid}")
-      rescue Selenium::WebDriver::Error::JavascriptError
-        sleep 1
-      end
-
-      break if rows.length == 1
-    end
+    submit_listing_filter("subject_term_B_#{@uuid}")
   end
 end
 

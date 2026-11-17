@@ -49,8 +49,7 @@ end
 When 'the user selects the Digital Object B from the search results in the modal' do
   within '.modal-content' do
     within '#tabledSearchResults' do
-      rows = all('tr', text: "Digital Object B #{@uuid}")
-      expect(rows.length).to eq 1
+      expect(page).to have_css('tr', text: "Digital Object B #{@uuid}", count: 1)
 
       find('input[type="radio"]').click
     end
@@ -59,23 +58,7 @@ end
 
 When 'the user filters by text with the Digital Object B title in the modal' do
   within '.modal-content' do
-    fill_in 'Filter by text', with: "Digital Object B #{@uuid}"
-    find('.search-filter button').click
-
-    rows = []
-    checks = 0
-
-    while checks < 5
-      checks += 1
-
-      begin
-        rows = all('tr', text: "Digital Object B #{@uuid}")
-      rescue Selenium::WebDriver::Error::JavascriptError
-        sleep 1
-      end
-
-      break if rows.length == 1
-    end
+    submit_listing_filter("Digital Object B #{@uuid}")
   end
 end
 
