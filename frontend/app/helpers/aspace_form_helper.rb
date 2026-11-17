@@ -1362,6 +1362,14 @@ module AspaceFormHelper
   end
 
 
+  # Tell the close record shortcut where the record's readonly view is if any.
+  def readonly_view_params(url)
+    {
+      :"data-readonly-path" => url
+    }
+  end
+
+
   def error_params(exceptions)
     {
       :"data-form-errors" => (exceptions && exceptions.keys[0])

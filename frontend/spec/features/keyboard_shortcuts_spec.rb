@@ -72,6 +72,35 @@ describe 'Keyboard Shortcuts', js: true do
         expect(page).not_to have_css('.modal.show')
         expect(page).not_to have_text(/Accession .+ updated/)
       end
+
+      it 'does nothing with Shift+Ctrl+X while a linker "create" modal is open' do
+        visit edit_path
+        click_on 'Add Subject'
+        find('#accession_subjects_ .dropdown-toggle').click
+        within('#dropdownMenuSubjects') { click_on 'Create' }
+
+        expect(page).to have_css('.modal.show #createAndLinkButton')
+        fill_in 'Term', with: "Subject term #{now}"
+
+        press_close_shortcut_and_expect_nothing
+
+        aggregate_failures do
+          expect(page).to have_css('.modal.show #createAndLinkButton')
+          expect(page).to have_field('Term', with: "Subject term #{now}")
+        end
+      end
+
+      context 'when creating a new accession' do
+        let(:edit_path) { '/accessions/new' }
+
+        it_behaves_like 'ignoring the close shortcut', field: 'accession_title_'
+      end
+
+      context 'when editing accession default values' do
+        let(:edit_path) { '/accessions/defaults' }
+
+        it_behaves_like 'ignoring the close shortcut', field: 'accession_title_'
+      end
     end
 
     context 'Agents' do
@@ -97,6 +126,17 @@ describe 'Keyboard Shortcuts', js: true do
         expect(element.text).to eq "Source - is required if there is an 'Authority ID'"
         expect(page).to have_button('Save Anyway')
         expect(page).not_to have_text('Agent Created')
+      end
+
+      it 'closes the record to its readonly view with Shift+Ctrl+X after a failed save' do
+        visit edit_path
+        fill_in 'agent_names__0__primary_name_', with: ''
+        press_save_shortcut
+        expect(page).to have_css('.alert-danger', text: 'Primary Part of Name - Property is required but was missing')
+
+        press_close_shortcut
+
+        expect(page).to have_current_path(readonly_path)
       end
     end
 
@@ -244,7 +284,7 @@ describe 'Keyboard Shortcuts', js: true do
       it_behaves_like 'saving the record with the save shortcut',
                       field: 'group_description_',
                       shows_value: true
-      it_behaves_like 'closing a form that has no readonly view', lands_on: '/groups'
+      it_behaves_like 'ignoring the close shortcut', field: 'group_description_'
     end
 
     context 'Preferences' do
@@ -256,7 +296,10 @@ describe 'Keyboard Shortcuts', js: true do
                       value: 'Acquisition Type',
                       select: true,
                       saved_message: 'Preferences updated'
-      it_behaves_like 'closing a form that has no readonly view', lands_on: %r{\A/preferences/\d+\z}
+      it_behaves_like 'ignoring the close shortcut',
+                      field: 'preference_defaults__accession_browse_column_1_',
+                      value: 'Acquisition Type',
+                      select: true
     end
 
     context 'OAI-PMH Settings' do
@@ -267,8 +310,9 @@ describe 'Keyboard Shortcuts', js: true do
                       field: 'oai_config_oai_admin_email_',
                       value: "shortcut-#{Time.now.to_i}@example.com",
                       saved_message: 'OAI-PMH settings successfully updated!'
-      # There is no route for /oai_config.
-      it_behaves_like 'closing a form that has no readonly view', lands_on: '/oai_config'
+      it_behaves_like 'ignoring the close shortcut',
+                      field: 'oai_config_oai_admin_email_',
+                      value: "unsaved-#{Time.now.to_i}@example.com"
     end
 
     context 'Assessment Attributes' do
@@ -287,7 +331,15 @@ describe 'Keyboard Shortcuts', js: true do
         expect(page).to have_field('ratings[][label]', with: "Shortcut rating #{now}")
       end
 
-      it_behaves_like 'reloading a form whose URL has no /edit with the close shortcut'
+      it 'does nothing with Shift+Ctrl+X and keeps unsaved input' do
+        visit edit_path
+        find('.add-repo-attribute[data-type=rating]').click
+        find('#ratings__label', match: :first).fill_in with: "Unsaved rating #{now}"
+
+        press_close_shortcut_and_expect_nothing
+
+        expect(page).to have_field('ratings[][label]', with: "Unsaved rating #{now}")
+      end
     end
   end
 
@@ -311,6 +363,19 @@ describe 'Keyboard Shortcuts', js: true do
         expect(form_submission_count).to eq(1)
         expect(page).to have_css('#infinite-tree-record-pane .alert-success', text: "Shortcut Child #{now}")
         expect(page).not_to have_css('#infinite-tree-record-pane .alert-danger')
+      end
+
+      it 'does nothing with Shift+Ctrl+X while the record pane shows a new child form' do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_infinite_tree_loaded
+        click_infinite_tree_toolbar_add_child
+        expect(page).to have_field(config[:child_post_save_field])
+        expect(page.evaluate_script('window.location.hash')).to eq('#new')
+        fill_in config[:child_post_save_field], with: "Unsaved Child #{now}"
+
+        press_close_shortcut_and_expect_nothing
+
+        expect(page).to have_field(config[:child_post_save_field], with: "Unsaved Child #{now}")
       end
     end
 

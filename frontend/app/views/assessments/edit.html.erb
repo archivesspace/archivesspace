@@ -1,6 +1,6 @@
 <%= setup_context(:object => @assessment, :title => @assessment.display_string) %>
 
-<%= form_for @assessment, :as => "assessment", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "assessment_form"}.merge(update_monitor_params(@assessment)) do |f| %>
+<%= form_for @assessment, :as => "assessment", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "assessment_form"}.merge(update_monitor_params(@assessment)).merge(readonly_view_params(url_for(:controller => :assessments, :action => :show, :id => @assessment.id))) do |f| %>
   <%= form_context :assessment, @assessment do |form| %>
     <div class="d-flex">
       <div class="col-md-3">
