@@ -9,6 +9,9 @@
 <section id="<%= section_id %>" class="subrecord-form-dummy">
   <h3 class="subrecord-form-heading d-flex align-items-center">
     <%= heading_text %>
+    <% if local_assigns[:heading_sr_only_text].present? %>
+      <span class="sr-only"><%= local_assigns[:heading_sr_only_text] %></span>
+    <% end %>
     <%= link_to I18n.t("actions.view_search_results"), html_search_url, :class => "btn btn-sm btn-default ml-auto" %>
   </h3>
   <div class="subrecord-form-container">
