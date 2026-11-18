@@ -53,7 +53,7 @@ namespace :shard do
     puts ShardPlanner.shard(__dir__, Integer(args[:total]), Integer(args[:index])).join(' ')
   end
 
-  desc 'Rewrite feature_durations.json from the cucumber JSON reports of a full run: REPORTS=path[,path...]'
+  desc 'Rewrite feature_durations.json from the cucumber JSON reports of full runs: REPORTS=path[,path...]'
   task :record_durations do
     ShardPlanner.record_durations(ENV.fetch('REPORTS').split(','))
   end

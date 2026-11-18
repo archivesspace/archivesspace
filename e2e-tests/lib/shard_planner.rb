@@ -48,19 +48,27 @@ module ShardPlanner
     File.exist?(DURATIONS_FILE) ? JSON.parse(File.read(DURATIONS_FILE)) : {}
   end
 
-  # From the cucumber JSON reports of a full run, e.g. the e2e-results-shard-* CI artifacts
+  # From the cucumber JSON reports of one or more full runs, e.g. the e2e-results-shard-* CI artifacts;
+  # a feature reported by several runs gets its average duration
   def record_durations(report_paths)
-    durations = Hash.new(0.0)
+    totals = Hash.new(0.0)
+    runs = Hash.new(0)
 
     report_paths.each do |report_path|
       JSON.parse(File.read(report_path)).each do |feature|
-        feature['elements'].to_a.each do |element|
-          results = element['steps'].to_a + element['before'].to_a + element['after'].to_a
-          durations[feature['uri']] += results.sum { |result| result.dig('result', 'duration').to_i } / 1e9
-        end
+        runs[feature['uri']] += 1
+        totals[feature['uri']] += feature_seconds(feature)
       end
     end
 
-    File.write(DURATIONS_FILE, "#{JSON.pretty_generate(durations.sort.to_h { |path, total| [path, total.round] })}\n")
+    durations = totals.sort.to_h { |path, total| [path, (total / runs[path]).round] }
+    File.write(DURATIONS_FILE, "#{JSON.pretty_generate(durations)}\n")
+  end
+
+  def feature_seconds(feature)
+    feature['elements'].to_a.sum do |element|
+      results = element['steps'].to_a + element['before'].to_a + element['after'].to_a
+      results.sum { |result| result.dig('result', 'duration').to_i } / 1e9
+    end
   end
 end
