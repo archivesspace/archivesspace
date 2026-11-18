@@ -31,22 +31,10 @@ $(function () {
       var extent_form_type_select = extent_form.find(
         'select[id$=__extent_type_], select[id$=__extent_type__list]'
       );
+      extent_form_type_select.val(extent_type);
       var combobox = extent_form_type_select.data('combobox');
       if (combobox) {
-        var label = extent_form_type_select
-          .find('option')
-          .filter(function () {
-            return this.value === extent_type;
-          })
-          .first()
-          .text();
-        combobox.$element.val(label);
-        combobox.$target.val(extent_type);
-        extent_form_type_select.val(extent_type);
-        combobox.$container.addClass('combobox-selected');
-        combobox.selected = true;
-      } else {
-        extent_form_type_select.val(extent_type);
+        combobox.refresh();
       }
       extent_form
         .find('[id$=__container_summary_]')
