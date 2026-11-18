@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+# Stub Gemfile used by the VS Code Solargraph extension. The project's
+# real Gemfile evaluates backend/Gemfile, which `require 'asutils'` at
+# parse time - asutils is JRuby-only, so Solargraph (which runs under
+# MRI) crashes when parsing the real Gemfile via Bundler::Dsl. Wired up
+# via the .vscode/solargraph wrapper script which exports BUNDLE_GEMFILE
+# to this path before exec'ing solargraph.
+
+source 'https://rubygems.org'
+
+gem 'solargraph', require: false
