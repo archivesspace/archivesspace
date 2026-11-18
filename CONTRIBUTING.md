@@ -71,6 +71,13 @@ remember everyone is a beginner at first
 - ArchivesSpace Core Committer's Group - ArchivesSpaceCoreCommitters@lyrasis.org
 - ArchivesSpace Program Team - ArchivesSpaceHome@lyrasis.org
 
+## Copyright and licensing
+
+By submitting a contribution to ArchivesSpace, you confirm that:
+
+- You have the legal right to submit the contribution under the project's license.
+- To the best of your knowledge, the contribution does not violate the intellectual property rights of any third party.
+
 ## AI-assisted contributions
 
 You may use large language models and other generative AI tools when working on

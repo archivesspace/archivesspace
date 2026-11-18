@@ -1,10 +1,12 @@
 # ArchivesSpace AI Contribution Policy
 
-# **Values Statement**
+# **Purpose and scope**
 
-This AI Contribution Policy serves to augment our existing guidelines ([Code of Conduct.md](https://github.com/archivesspace/archivesspace/blob/master/CODE_OF_CONDUCT.md), [CONTRIBUTING.md](https://github.com/archivesspace/archivesspace/blob/master/CONTRIBUTING.md), [SECURITY.md](https://github.com/archivesspace/archivesspace/blob/master/SECURITY.md, [Contributor License Agreements](https://github.com/archivesspace/archivesspace/tree/master/contribution_files)), and Code Review Guidelines). It does not supersede our current practices; rather, it provides specific guardrails for the use of Large Language Models (LLMs) and generative AI tools in the development process.
+This AI Contribution Policy serves to augment our existing guidelines ([Code of Conduct.md](https://github.com/archivesspace/archivesspace/blob/master/CODE_OF_CONDUCT.md), [CONTRIBUTING.md](https://github.com/archivesspace/archivesspace/blob/master/CONTRIBUTING.md), [SECURITY.md](https://github.com/archivesspace/archivesspace/blob/master/SECURITY.md), [Contributor License Agreements](https://github.com/archivesspace/archivesspace/tree/master/contribution_files), and Code Review Guidelines). It does not supersede our current practices; rather, it provides specific guardrails for the use of Large Language Models (LLMs) and generative AI tools in the development process.
 
 This is an evolving policy and may be updated as technologies and practices mature.
+
+ArchivesSpace maintainers reserve the right to refuse any contribution they consider low-effort or of low value, without providing a detailed technical critique.
 
 For the purposes of this statement, “Contribution” is understood to mean any of the following:
 
@@ -16,19 +18,20 @@ For the purposes of this statement, “Contribution” is understood to mean any
 * Issue content (on Jira or github issues)
 * Any other content
 
-You MAY use LLMs and generative AI tools when contributing to ArchivesSpace as long as you adhere to the following principles:
+You MAY use LLMs and generative AI tools for any of the contributions listed above, as long as you adhere to the following principles of accountability and transparency:
 
 # **Accountability**
 
 You MUST take the responsibility for your contribution. The human contributor:
 
 1. Must fully understand and be able to explain every bit of the submission.
-2. Is the sole party responsible for the contribution.
-3. Vouches for the quality and license compliance of the submission.
+2. Remains personally responsible and accountable for the contribution, including any code produced with the assistance of AI tools or other collaborators.
+3. Vouches for the quality of the submission.
 4. MAY NOT use AI tools as the sole or final arbiter when performing a code review for another person’s contribution.
    1. An AI agent cannot sign-off on pull requests and automated comments from AI agents may be ignored.
    2. This does not prohibit the use of automated tooling for objective technical validation, such as CI/CD pipelines, automated testing, or spam filtering.   However, the final accountability for accepting a contribution, even if implemented by an automated system, always rests with the human contributor who authorizes the action.
-5. All contributions, whether from a human author or assisted by large language models (LLMs) or other generative AI tools, must meet the project’s standards for inclusion.
+5. MUST NOT give AI tools passwords, API keys, or other credentials, or real data from an ArchivesSpace instance you manage, such as restricted records or personal information.
+6. All contributions, whether from a human author or assisted by large language models (LLMs) or other generative AI tools, must meet the project’s standards for inclusion.
 
 # **Transparency**
 
@@ -37,28 +40,28 @@ If AI was used to generate a significant portion of your contribution you MUST d
 ## Code Contributions
 
 * Code comments:
-  * as LLMs tend to produce verbose In-line code comments, ensure that comments:
-    * avoid verbalism, use dense language
-    * do not try to compensate for poor code readability. Good naming cannot be replaced by comment verbosity
+  * LLMs tend to produce verbose in-line comments. Make sure every comment, including AI-generated ones:
+    * is concise
+    * does not try to make up for unclear code; good naming cannot be replaced by comment verbosity
 
-  * Add a comment to:
-    * Defend a code design choice \- add a ticket reference to give more context
-    * Add a TODO \- which should always refer to specific ticket(s)
+  * Examples of comments worth adding include:
+    * explaining a design choice, with a ticket reference for more context
+    * a TODO, which should always refer to a specific ticket
 
 * Commit Messages could include one or more of the following trailers:
-  * Assisted-by: \<Name of AI agent\> \[Model Used\]\<-- probably most preferable?
+  * Assisted-by: \<Name of AI agent\> \[Model Used\]
   * Generated-by: \<Name of AI agent\> \[Model Used\]
   * Co-authored-by: \<Name of AI agent\> \[Model Used\]
   * Signed-off-by: \<Human Responsible\>
 
 * Pull Requests (PRs) descriptions are encouraged to:
-  * avoid verbalism, use dense language
+  * Be concise
   * Be human-owned
-  * Assert that any AI-generated or assisted code was reviewed for security, efficiency and accuracy, that it complies with all licensing and legal requirements and that it adheres to the project’s coding standards.
+  * Assert that any AI-generated or assisted code was reviewed for security, efficiency and accuracy, and that it adheres to the project’s coding standards.
     Example PR template
     \#\# 🤖 AI Usage Disclosure
 
-    \-\[ \] This PR contains AI-generated code or content. If checked, please specify which parts were generated and how they were validated: \[Briefly describe here\]
+    \- \[ \] This PR contains AI-generated code or content. If checked, please specify which parts were generated and how they were validated: \[Briefly describe here\]
 
     \#\# 🛡️ AI Validation Check
 
@@ -67,40 +70,26 @@ If AI was used to generate a significant portion of your contribution you MUST d
 
 ## Code Reviews
 
-The code reviewer MUST take accountability for the review.
+The code reviewer MUST take accountability for the review. Every review comment must be one you understand and can explain; do not post an AI tool's findings you have not checked yourself.
 
-Review comments MUST list all AI tools used, along with a description of their role in the code review.
+The review summary MUST list all AI tools used, along with a description of their role in the code review.
 
 
 ## Large scale initiatives
 
-The policy does not cover the large scale initiatives which may significantly change the ways the project operates or lead to exponential growth in contributions in some parts of the project. Such initiatives need to be discussed separately with the Fedora Council.
+The policy does not cover the large scale initiatives which may significantly change the ways the project operates or lead to exponential growth in contributions in some parts of the project. Such initiatives need to be discussed separately with the ArchivesSpace Program Team.
 
 # **Copyright & Legal**
 
-By submitting a contribution to ArchivesSpace, you represent and warrant that:
+The copyright and licensing terms in [CONTRIBUTING.md](https://github.com/archivesspace/archivesspace/blob/master/CONTRIBUTING.md) apply to all contributions, including AI-assisted ones. When you use AI tools, take reasonable care that the output can be contributed under the ArchivesSpace license:
 
-* You have the legal right to submit the contribution under the project's (or specific repository) licence.
-* The contribution does not violate the intellectual property rights of any third party.
-* If AI was used, the resulting code does not violate the terms of service of the AI provider and does not include "regurgitated" code from libraries with incompatible licences to the repository you’re submitting it to.
-* If you cannot guarantee the provenance and legal safety of the AI-generated code, do not submit it.
-
-# **Prohibited Uses**
-
-The following are expressly prohibited:
-
-* Contributions initiated by Autonomous AI agents
-* Automated PR Descriptions
-* Submitting issues or PRs for features or bug fixes that don't exist, based on AI hallucinations about the project's capabilities.
-* No sharing of sensitive data or api keys
-
-# **Recommended AI Tools**
-
-\[ Program-specific list, if applicable \]
+* Use AI tools whose terms of service allow you to contribute their output under the ArchivesSpace license.
+* Watch for output that looks copied from an existing project, such as long blocks of familiar code, license headers, or distinctive comments. If you find it, remove it, or credit it if its license is compatible.
+* If your tool has a setting that blocks or flags output matching public code, turn it on.
+* Disclose AI use as described under Transparency, so maintainers can act if a licensing question comes up later.
+* If you have reason to believe AI output reproduces code you are not able to license to ArchivesSpace, do not submit it.
 
 # **Enforcement**
-
-ArchivesSpace maintainers reserve the right to refuse any contribution that appears to be a low-effort AI contribution, without providing a detailed technical critique.
 
 Cases of repeated violations of these (or any of our other contributor guidelines) could result in a ban from our repositories.
 
