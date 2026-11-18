@@ -60,9 +60,11 @@ fr:
     is_slug_auto: Automatically generate Slug?
     is_slug_auto_tooltip: |
       <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
-    autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current
+    autogen_disabled:
+      "A slug cannot be automatically generated from the provided data based on the current
       configuration settings"
-    autogen_repo_slug: "Since a slug was not manually entered the repository slug was automatically generated
+    autogen_repo_slug:
+      "Since a slug was not manually entered the repository slug was automatically generated
       using the repository short name"
 
   content_items:
@@ -432,17 +434,21 @@ fr:
     _singular: Aliénations
 
   agent_name: &agent_name_attributes
-    parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle du nom dans différentes
+    parallel_names_tooltip:
+      "<p>Peut être utilisé pour enregistrer une forme parallèle du nom dans différentes
       langues et / ou scripts ou formes translittérées du nom.</p>\n <p>Voir DACS 10.3.1, ISAAR (CPF)
       5.1.3</p>"
     language: Langue
-    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du nom.</p><p>Voir DACS
+    language_tooltip:
+      "<p>Indique la langue utilisée pour enregistrer la forme du nom.</p><p>Voir DACS
       13.7, ISAAR (CPF) 5.4.7.</p><p>Exemple: russe (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
     script: Scénario
-    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom.</p><p>Voir DACS 13.7,
+    script_tooltip:
+      "<p>Indique le script utilisé pour enregistrer la forme du nom.</p><p>Voir DACS 13.7,
       ISAAR (CPF) 5.4.7.</p><p>Exemple: cyrillique (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
     transliteration: Translitération
-    transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour enregistrer la forme
+    transliteration_tooltip:
+      "<p>Indique le schéma de translittération utilisé pour enregistrer la forme
       du nom.</p>\n"
     authority_id: Identifiant d'autorité
     authority_id_tooltip: |
@@ -558,10 +564,12 @@ fr:
     family_name_tooltip: |
       <p>Le nom de famille ou le surnom, pour une famille, donnant lieu à une appellation du type: "famille untel".</p>
     family_type: Type de famille
-    family_type_tooltip: "<p>Type de famille utilisé comme qualificatif pour distinguer les entrées de
+    family_type_tooltip:
+      "<p>Type de famille utilisé comme qualificatif pour distinguer les entrées de
       nom similaires. Exemples: famille, dynastie, maison royale.</p>\n"
     location: Emplacement
-    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les entrées de nom similaires.
+    location_tooltip:
+      "<p>Emplacement utilisé comme qualificatif pour distinguer les entrées de nom similaires.
       Exemples: Trigg County, Ky. (Pour Cunningham (Family: 1795-: Trigg County, Ky.)), Ambassade du Canada,
       Tokyo (pour la Conférence de jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>\n"
 
@@ -570,10 +578,12 @@ fr:
     jurisdiction: Juridiction?
     jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction légale.</p>\n"
     conference_meeting: Conférence?
-    conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard ou est une conférence,
+    conference_meeting_tooltip:
+      "<p>Indique si l'entité est une personne morale standard ou est une conférence,
       une réunion ou un autre événement nommé.</p>\n"
     location: Emplacement
-    location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les entrées de nom similaires.
+    location_tooltip:
+      "<p>Emplacement utilisé comme qualificatif pour distinguer les entrées de nom similaires.
       Exemples: Trigg County, Ky. (Pour Cunningham (Family: 1795-: Trigg County, Ky.)), Ambassade du Canada,
       Tokyo (pour la Conférence de jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
     subordinate_name_1: Nom subordonné 1
@@ -620,15 +630,19 @@ fr:
 
   structured_date_label: &sdl_attributes
     date_label_tooltip: "<p>Décrit le type d'activité que signifie la date</p>"
-    date_type_structured_tooltip: "<p>Indique le type des informations de date, une date unique ou une
+    date_type_structured_tooltip:
+      "<p>Indique le type des informations de date, une date unique ou une
       plage de dates.</p>"
-    date_certainty_tooltip: "<p>Le niveau de confiance pour les informations données dans une déclaration
+    date_certainty_tooltip:
+      "<p>Le niveau de confiance pour les informations données dans une déclaration
       de date. Ces informations sont facultatives et ne doivent être ajoutées que lorsque les informations
       de date sont qualifiées de potentiellement incertaines en fonction de la description ou des règles
       de catalogage utilisées.</p>"
-    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les dates calculées,
+    date_era_tooltip:
+      <p>Période pendant laquelle les années sont numérotées et les dates calculées,
       comme BC ou CE La valeur "ce" est la valeur par défaut.</p>
-    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien ou le 
+    date_calendar_tooltip:
+      <p>Système de calcul du temps, tel que le calendrier grégorien ou le
       calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
 
   agent_contact:
@@ -751,18 +765,23 @@ fr:
     dates: Dates
     ref: Agent associé
 
-    relationship_type_tooltip: <p>Terme contrôlé décrivant, en termes généraux, la nature de la 
-      relation entre l'agent principal et l'agent associé.</p><p>Voir DACS 12.3.1, ISAAR (CPF) 
+    relationship_type_tooltip:
+      <p>Terme contrôlé décrivant, en termes généraux, la nature de la
+      relation entre l'agent principal et l'agent associé.</p><p>Voir DACS 12.3.1, ISAAR (CPF)
       5.3.2</p>
-    description_tooltip: <p>Une description en texte libre de la nature de la relation.</p><p>Voir 
+    description_tooltip:
+      <p>Une description en texte libre de la nature de la relation.</p><p>Voir
       DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
-    related_agent_tooltip: <p>La personne, la famille ou la personne morale liée à l'agent 
+    related_agent_tooltip:
+      <p>La personne, la famille ou la personne morale liée à l'agent
       principal.</p><p>Voir DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
-    specific_relator_tooltip: <p>Terme contrôlé décrivant plus spécifiquement la nature de la 
-      relation entre l'agent principal et l'agent associé.</p><p>Voir DACS 12.3.2, ISAAR (CPF) 
+    specific_relator_tooltip:
+      <p>Terme contrôlé décrivant plus spécifiquement la nature de la
+      relation entre l'agent principal et l'agent associé.</p><p>Voir DACS 12.3.2, ISAAR (CPF)
       5.3.3</p>
-    relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre 
-      ressource pour les types de relations entre les agents. Principalement utilisé aux fins de 
+    relationship_uri_tooltip:
+      Un URI qui pointe vers une entrée dans une ontologie ou une autre
+      ressource pour les types de relations entre les agents. Principalement utilisé aux fins de
       l'EAC-CPF.
   agent_relationship_parentchild:
     <<: *related_agent_attributes
@@ -827,7 +846,8 @@ fr:
 
   note_index_item:
     value: Valeur
-    value_tooltip: Le contenu de chaque entrée de la bibliographie. Il en faut au moins une pour un 
+    value_tooltip:
+      Le contenu de chaque entrée de la bibliographie. Il en faut au moins une pour un
       index de note.
     type: Type
     type_tooltip: Le type d'entrée indexée.
@@ -1093,7 +1113,6 @@ fr:
     source: Source
     external_id: Identifiant externe
 
-
   rights_statement: &rights_statement_attributes
     identifier: Identifiant
     identifier_tooltip: |
@@ -1169,7 +1188,8 @@ fr:
     date_type: Type
     date_type_tooltip: |
       <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (extrêmes ou de la grosse masse).</p>
-    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates 
+    date_type_message:
+      Sélectionnez un type pour saisir une date ou une fourchette de dates
       normalisée
     expression: Expression
     expression_tooltip: |
@@ -1407,51 +1427,61 @@ fr:
     relator: Cette entrée
     sibling_of: Soeur de
     relator_type: Type de relation
-    bound_with: "\"liée par\" Relationship"
+    bound_with: '"liée par" Relationship'
 
   accession_parts_relationship:
-    _singular: "\"Partie de\" Relationship"
-    part: "\"Partie de\" Relationship"
+    _singular: '"Partie de" Relationship'
+    part: '"Partie de" Relationship'
     relator: Cette entrée
     forms_part_of: Fait partie de
     has_part: Participe de
     relator_type: Type de lien
 
-
   agent: &agent_attributes
     <<: *slug_attributes
     agent_contact_notes_tooltip: "<p>Notes sur les interactions avec l'agent.</p>"
     agent_record_controls_tooltip: "<p>Informations sur l'enregistrement décrivant l'agent.</p>"
-    agent_alternate_sets_tooltip: "<p>Utilisé pour pointer vers des notices d'autorité liées lorsque deux
+    agent_alternate_sets_tooltip:
+      "<p>Utilisé pour pointer vers des notices d'autorité liées lorsque deux
       ou plusieurs notices pour la même entité ont été dérivées de deux ou plusieurs systèmes d'autorité.</p>"
-    agent_conventions_declarations_tooltip: "<p>Une norme de contenu utilisée dans la formulation du contenu
+    agent_conventions_declarations_tooltip:
+      "<p>Une norme de contenu utilisée dans la formulation du contenu
       de l'enregistrement de l'agent.</p><p>Voir DACS 13.3, ISAAR (CPF) 5.4.3. </p><p>Exemple: Décrire
       les archives: une norme de contenu. Ce sous-enregistrement peut être utilisé à la place des entrées
       de règles sur les formulaires de nom individuels.</p>"
-    agent_other_agency_codes_tooltip: "<p>Informations sur les codes alternatifs pour l'agence ou l'organisation
+    agent_other_agency_codes_tooltip:
+      "<p>Informations sur les codes alternatifs pour l'agence ou l'organisation
       responsable de la création ou de la maintenance d'un enregistrement d'agent.</p>"
-    agent_maintenance_histories_tooltip: "<p>Événements associés à la création ou à la maintenance de
+    agent_maintenance_histories_tooltip:
+      "<p>Événements associés à la création ou à la maintenance de
       l'enregistrement de l'agent. </p><p>Voir DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>"
     agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement d'agent.</p>"
-    agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu de l'enregistrement
+    agent_sources_tooltip:
+      "<p>Une source utilisée dans la formulation du contenu de l'enregistrement
       de l'agent. </p><p>Voir DACS 13.8, ISAAR (CPF) 5.4.8</p>"
-    agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les identifiants légaux
+    agent_identifiers_tooltip:
+      "<p>Identifiants associés à une entité, tels que les identifiants légaux
       attribués par une agence faisant autorité. Les exemples incluent un identifiant ORCID pour une personne
       ou un code de référentiel MARC pour une personne morale.</p>"
     agent_genders_tooltip: Sexe du sujet.
-    agent_places_tooltip: <p>Placez les informations associées à l'agent. </p><p>Voir DACS 11.3, 
+    agent_places_tooltip:
+      <p>Placez les informations associées à l'agent. </p><p>Voir DACS 11.3,
       ISAAR (CPF) 5.2.3</p>
-    agent_occupations_tooltip: <p>Information sur la profession associée à l'agent. </p><p>Voir DACS
+    agent_occupations_tooltip:
+      <p>Information sur la profession associée à l'agent. </p><p>Voir DACS
       11.5, ISAAR (CPF) 5.2.5</p>
-    agent_functions_tooltip: <p>Termes utilisés pour identifier les fonctions, processus, tâches, 
+    agent_functions_tooltip:
+      <p>Termes utilisés pour identifier les fonctions, processus, tâches,
       activités ou transactions effectuées par l'agent.</p><p>Voir DACS 11.5, ISAAR (CPF) 5.2.5</p>
     agent_topics_tooltip: Un sujet associé à l'agent.
     agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant pour le compte.</p>"
-    used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
+    used_languages_tooltip: "La ou les langues associées à l'agent. Exemple: anglais."
     agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
-    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec l'agent et 
+    related_agent_tooltip:
+      Utilisé pour lier d'autres agents ayant une relation avec l'agent et
       indiquer la nature de la relation.
-    publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations et publié sur l'interface
+    publish_tooltip:
+      "<p>Indique si l'agent est inclus ou non dans les exportations et publié sur l'interface
       publique (le cas échéant)</p>"
     type: Type d'agent
     type_tooltip: |
@@ -1609,69 +1639,89 @@ fr:
       <p>Membres appartenant à ce groupe.</p>
     permissions: "Les membres peuvent:"
     permission_types:
-      manage_repository: attribuer des <b>utilisateurs</b> à des groupes (dans ce 
-        référentiel)<br/>définir les autorisations <b>de groupe</b> (dans ce 
-        référentiel)<br/>définir les <b>préférences du référentiel</b> ( dans ce 
-        référentiel)<br/>configurer les <b>champs obligatoires et les valeurs par défaut</b> (dans 
-        ce référentiel)<br/>créer et exécuter des <b>tâches de recherche et de remplacement par 
+      manage_repository:
+        attribuer des <b>utilisateurs</b> à des groupes (dans ce
+        référentiel)<br/>définir les autorisations <b>de groupe</b> (dans ce
+        référentiel)<br/>définir les <b>préférences du référentiel</b> ( dans ce
+        référentiel)<br/>configurer les <b>champs obligatoires et les valeurs par défaut</b> (dans
+        ce référentiel)<br/>créer et exécuter des <b>tâches de recherche et de remplacement par
         lots</b> (dans ce référentiel) <br/>créer/mettre à jour/supprimer des <b>emplacements</b> (à
         l'échelle du système)
-      view_agent_contact_record: modifier/afficher la section des coordonnées des <b>agents</b> 
+      view_agent_contact_record:
+        modifier/afficher la section des coordonnées des <b>agents</b>
         (dans ce référentiel)
-      show_full_agents: modifier des sections supplémentaires des <b>agents</b> activés en mode 
+      show_full_agents:
+        modifier des sections supplémentaires des <b>agents</b> activés en mode
         complet (dans ce référentiel)
       update_accession_record: créer/mettre à jour les <b>adhésions</b> (dans ce référentiel)
       update_resource_record: créer/mettre à jour des <b>ressources</b> (dans ce référentiel)
-      update_digital_object_record: créer/mettre à jour des <b>objets numériques</b> (dans ce 
+      update_digital_object_record:
+        créer/mettre à jour des <b>objets numériques</b> (dans ce
         référentiel)
       update_event_record: créer/mettre à jour des <b>événements</b> (dans ce référentiel)
-      view_repository: afficher <b>tous les enregistrements</b> (dans ce référentiel)<br/>afficher 
-        les <b>agents</b> (à l'échelle du système)<br/>afficher les <b>sujets</b> (à l'échelle du 
+      view_repository:
+        afficher <b>tous les enregistrements</b> (dans ce référentiel)<br/>afficher
+        les <b>agents</b> (à l'échelle du système)<br/>afficher les <b>sujets</b> (à l'échelle du
         système)
       view_suppressed: afficher les <b>enregistrements supprimés</b> (dans ce référentiel)
-      suppress_archival_record: supprimer les <b>adhésions, objets d'archives et ressources</b> 
+      suppress_archival_record:
+        supprimer les <b>adhésions, objets d'archives et ressources</b>
         (dans ce référentiel)
-      delete_archival_record: supprimer les <b>adhésions, objets d'archives, objets et ressources 
+      delete_archival_record:
+        supprimer les <b>adhésions, objets d'archives, objets et ressources
         numériques</b> (dans ce référentiel)
       delete_event_record: supprimer les <b>événements</b> (dans ce référentiel)
-      update_classification_record: créer/mettre à jour des <b>classifications</b> (dans ce 
+      update_classification_record:
+        créer/mettre à jour des <b>classifications</b> (dans ce
         référentiel)
       delete_classification_record: supprimer les <b>classifications</b> (dans ce référentiel)
-      merge_agents_and_subjects: fusionner les <b>agents</b> (à l'échelle du système)<br/>fusionner 
+      merge_agents_and_subjects:
+        fusionner les <b>agents</b> (à l'échelle du système)<br/>fusionner
         les <b>sujets</b> (à l'échelle du système)
-      merge_archival_record: fusionner des <b>objets numériques</b> (dans ce 
+      merge_archival_record: fusionner des <b>objets numériques</b> (dans ce
         référentiel)</br>fusionner des <b>ressources</b> (dans ce référentiel)
-      manage_rde_templates: créer/supprimer des <b>modèles de saisie rapide de données</b> (dans ce 
+      manage_rde_templates:
+        créer/supprimer des <b>modèles de saisie rapide de données</b> (dans ce
         référentiel)
-      transfer_repository: transférer <b>l'intégralité du contenu de ce référentiel</b> vers un 
-        autre référentiel (doit également avoir la même autorisation dans le référentiel de 
+      transfer_repository:
+        transférer <b>l'intégralité du contenu de ce référentiel</b> vers un
+        autre référentiel (doit également avoir la même autorisation dans le référentiel de
         destination)
-      transfer_archival_record: transférer des <b>entrées, objets numériques et ressources</b> 
+      transfer_archival_record:
+        transférer des <b>entrées, objets numériques et ressources</b>
         individuels vers un autre référentiel (doit également avoir l'autorisation de créer/mettre à
         jour des enregistrements du type transféré dans les deux référentiels)
-      manage_subject_record: créer/mettre à jour/supprimer des <b>sujets</b> (à l'échelle du 
+      manage_subject_record:
+        créer/mettre à jour/supprimer des <b>sujets</b> (à l'échelle du
         système)
       manage_agent_record: créer/mettre à jour/supprimer des <b>agents</b> (à l'échelle du système)
-      manage_vocabulary_record: créer/mettre à jour/supprimer des <b>vocabulaires</b> (à l'échelle 
+      manage_vocabulary_record:
+        créer/mettre à jour/supprimer des <b>vocabulaires</b> (à l'échelle
         du système)
       import_records: créer/exécuter des <b>tâches d'importation</b> (dans ce référentiel)
       cancel_importer_job: annuler les <b>tâches d'importation</b> (dans ce référentiel)
       update_container_record: créer/mettre à jour les <b>top conteneurs</b> (dans ce référentiel)
-      manage_container_record: supprimer/mettre à jour en masse les <b>principaux conteneurs</b> 
+      manage_container_record:
+        supprimer/mettre à jour en masse les <b>principaux conteneurs</b>
         (dans ce référentiel)
-      manage_container_profile_record: créer/mettre à jour/supprimer des <b>profils de conteneur</b>
+      manage_container_profile_record:
+        créer/mettre à jour/supprimer des <b>profils de conteneur</b>
         (à l'échelle du système)
-      manage_location_profile_record: créer/mettre à jour/supprimer des <b>profils d'emplacement</b>
+      manage_location_profile_record:
+        créer/mettre à jour/supprimer des <b>profils d'emplacement</b>
         (à l'échelle du système)
       create_job: créer/exécuter des <b>tâches en arrière-plan</b> (dans ce référentiel)
       cancel_job: annuler les <b>tâches en arrière-plan</b> (dans ce référentiel)
       update_assessment_record: créer/mettre à jour des <b>évaluations</b> (dans ce référentiel)
       delete_assessment_record: supprimer les <b>évaluations</b> (dans ce référentiel)
-      manage_assessment_attributes: créer/mettre à jour/supprimer des <b>définitions d'attributs 
+      manage_assessment_attributes:
+        créer/mettre à jour/supprimer des <b>définitions d'attributs
         d'évaluation du référentiel</b> (dans ce référentiel)
-      manage_enumeration_record: créer/mettre à jour/supprimer des <b>valeurs contrôlées</b> (à 
+      manage_enumeration_record:
+        créer/mettre à jour/supprimer des <b>valeurs contrôlées</b> (à
         l'échelle du système)
-      manage_custom_report_templates: créer/mettre à jour/supprimer des <b>modèles de rapport 
+      manage_custom_report_templates:
+        créer/mettre à jour/supprimer des <b>modèles de rapport
         personnalisés</b> (dans ce référentiel)
     _singular: Groupe
     _plural: Groupes
@@ -1679,7 +1729,8 @@ fr:
     default_group_names:
       repository_managers: Gestionnaires du service d'archives %{repo_code}
       repository_archivists: Archivistes du service d'archives %{repo_code}
-      advanced_data_entry: Utilisateurs de saisie de données avancée du service d'archives 
+      advanced_data_entry:
+        Utilisateurs de saisie de données avancée du service d'archives
         %{repo_code}
       basic_data_entry: Utilisateurs de saisie de données basique du service d'archives %{repo_code}
       repository_viewers: Téléspectateurs du service d'archives %{repo_code}
@@ -1805,7 +1856,8 @@ fr:
     created_by: Créé par
     create_time: Créé
     new_title: Nouvelle ressource
-    is_finding_aid_status_published_tooltip: "<p>Détermine si le statut de l'instrument à la recherche
+    is_finding_aid_status_published_tooltip:
+      "<p>Détermine si le statut de l'instrument à la recherche
       est exposé publiquement.</p>\n"
     is_finding_aid_status_published: Statut de l'instrument de recherche publié ?
   related_accession:
@@ -1897,7 +1949,6 @@ fr:
     publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce service d'archives et les notices qu'il peut contenir seront publiés sur les interfaces publiques.</p>
-
 
     ark_shoulder: ARK Shoulder (espace de noms local)
     ark_shoulder_tooltip: Chaîne par référentiel à inclure dans les ARK générés
@@ -2065,7 +2116,6 @@ fr:
     _singular: Gestion de collection
     _plural: Gestion de collection
 
-
   enumeration:
     # tooltips not displaying
     name: Nom
@@ -2115,19 +2165,23 @@ fr:
   preference:
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
-    global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à 
+    global_message:
+      Editez ces valeurs pour définir les préférences utilisateur par défaut à
       l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service
       d'archives ou par les préférences propres d'un utilisateur.
     repo: Préférences Service
-    repo_message: Editez ces valeurs pour définir les préférences pour tout utilisateurs pour le 
-      service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un 
+    repo_message:
+      Editez ces valeurs pour définir les préférences pour tout utilisateurs pour le
+      service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un
       utilisateur.
     user_global: Mes préférences globales
-    user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du 
-      système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives 
+    user_global_message:
+      Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du
+      système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives
       ou par vos propres préférences pour un service d'archives.
     user_repo: Valeurs par défauts des préférences utilisateur
-    user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service 
+    user_repo_message:
+      Editez ces valeurs pour définir vos préférences utilisateur pour ce service
       d'archives. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
@@ -2135,12 +2189,14 @@ fr:
   defaults:
     general_section: Configuration générale
     show_suppressed: Montrer les notices bloquées?
-    show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous
+    show_suppressed_tooltip:
+      Faut-il ou non montrer dans l'explorateur les notices bloquées que vous
       avez la permission de voir.
     publish: Publier ?
-    publish_tooltip: Publier ou non par défaut les nouvelles notices.
+    publish_tooltip: Publier ou non par défaut les nouvelles notices. Cette option peut être remplacée par les modèles de valeurs par défaut si la case « Pré-remplir notices? ? » est cochée.
     default_values: Pré-remplir notices?
-    default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des 
+    default_values_tooltip:
+      Pré-remplir ou non une nouvelle notice entrée ou ressource avec des
       valeurs par défaut.
     browse_column: Colonne %{num}
     browse_column_tooltip: Le champ à montrer dans la colonne %{num}.
@@ -2174,14 +2230,15 @@ fr:
     multi_browse_section: Colonnes de recherche
     job_browse_section: Colonnes des travaux d'arrière-plan
     note_order_section: Ordres des notes
-    accept_default_message: '> Accepter défaut:'
-    no_value: '[pas de valeur]'
+    accept_default_message: "> Accepter défaut:"
+    no_value: "[pas de valeur]"
     _singular: Valeurs par défaut
     _plural: Valeurs par défaut
 
     rde_sort_alpha: Afficher les modèles RDE par ordre alphabétique ?
     include_unpublished: Inclure les enregistrements non publiés dans les exportations ?
-    digital_object_spawn: Description de génération pour les instances d'objets numériques à partir 
+    digital_object_spawn:
+      Description de génération pour les instances d'objets numériques à partir
       d'enregistrements liés
     top_container_mgmt_browse_section: Colonnes de navigation des gestion des conteneurs supérieurs
   reports:
@@ -2214,17 +2271,21 @@ fr:
   validation_errors:
     location_and_title_must_have_unique_values_within_a_record: Chaque Document externe doit avoir une combinaison unique de titre et d'emplacement dans cette notice
     or_date_expression_is_required: Les dates doivent spécifier au moins une expression de date
-    must_specify_either_a_single_or_ranged_date: Les dates doivent être spécifiées comme simples ou 
+    must_specify_either_a_single_or_ranged_date:
+      Les dates doivent être spécifiées comme simples ou
       à distance
-    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Les dates normalisées 
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format:
+      Les dates normalisées
       doivent être dans un format normalisé
     generic_validation_error: erreur de validation
-    requires_that_end_dates_are_after_begin_dates: Les dates de fin doivent être postérieures aux 
+    requires_that_end_dates_are_after_begin_dates:
+      Les dates de fin doivent être postérieures aux
       dates de début
-    must_specify_a_primary_subject: 'Information sur la description: il manque un sujet principal à l''enregistrement'
+    must_specify_a_primary_subject: "Information sur la description: il manque un sujet principal à l'enregistrement"
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
-    subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière 
+    subject_heading_identifier_must_be_unique_within_source:
+      L'identifiant de la vedette-matière
       doit être unique dans la source
     conflicting_record: Afficher les enregistrements en conflit
     missing_required_property: Propriété requise qui manquait
@@ -2232,11 +2293,14 @@ fr:
     not_a_valid_date: N'est pas une date valide
     must_not_be_before_begin: ne doit pas précéder début
     must_be_in_yyyy-mm-dd_format: La date doit être au format aaaa-mm-jj
-    is_required_unless_a_begin_or_end_date_is_given: est requis à moins qu'une date de début ou de 
+    is_required_unless_a_begin_or_end_date_is_given:
+      est requis à moins qu'une date de début ou de
       fin ne soit donnée
-    is_required_unless_an_expression_or_an_end_date_is_given: est requis à moins qu'une expression 
+    is_required_unless_an_expression_or_an_end_date_is_given:
+      est requis à moins qu'une expression
       ou date de fin ne soit donnée
-    is_required_unless_an_expression_or_a_begin_date_is_given: est requis à moins qu'une expression 
+    is_required_unless_an_expression_or_a_begin_date_is_given:
+      est requis à moins qu'une expression
       ou date de début ne soit donnée
     must_specify_either_a_date_or_a_timestamp: Il faut spécifier soit une date, soit un horodatage
     did_not_match_regular_expression: Ne correspond pas au modèle attendu %{regexp}
@@ -2255,7 +2319,8 @@ fr:
     password_did_not_match: La valeur saisie ne correspond pas au mot de passe
     group_code_already_in_use: Un code de groupe doit être unique dans un service d'archives
     one_or_more_required_(or_enter_a_title): un ou plus requis (ou bien entrez un titre)
-    must_not_be_an_empty_string_(or_enter_a_date): ne doit pas être une chaîne de caractères vide 
+    must_not_be_an_empty_string_(or_enter_a_date):
+      ne doit pas être une chaîne de caractères vide
       (ou bien entrez une date)
     is_required_when__source__is_blank: est requis quand 'source' est laissé blanc
     is_required_when__rules__is_blank: est requis quand 'règles' est laissé blanc
@@ -2265,35 +2330,46 @@ fr:
       Vous devez spécifier un code-barres ou un classement, ou les deux, comme label
       de coordonnée 1 et indicateur de coordonnée 1
     location_must_be_unique_within_a_record: Doit être unique dans une notice
-    location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou 
-      plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de 
+    location_cannot_be_deleted_if_linked:
+      La notice de localisation est actuellement liée à une ou
+      plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de
       nouvelles localisation avant d'effectuer la suppression.
-    cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la 
+    cannot_be_previous_if_location_is_not_temporary:
+      Impossible de transférer à la précédente si la
       localisation n'est pas temporaire.
     authority_id_must_be_unique: Identifiant d'autorité déjà utilisé
-    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Doit être un nombre ne 
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places:
+      Doit être un nombre ne
       comprenant pas plus de 9 chiffres et 5 décimales.
-    container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous 
+    container_2_requires_both_a_type_and_indicator:
+      Vous devez fournir un indicateur si vous
       fournissez un type
-    container_3_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous 
+    container_3_requires_both_a_type_and_indicator:
+      Vous devez fournir un indicateur si vous
       fournissez un type
-    container_2_is_required_if_container_3_is_provided: Vous devez fournir un conditionnement fils 
+    container_2_is_required_if_container_3_is_provided:
+      Vous devez fournir un conditionnement fils
       si vous fournissez un conditionnement petit-fils
-    a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du service
+    a_barcode_must_be_unique_within_a_repository:
+      Un code-barres doit être unique au sein du service
       d'archives
     container_profile_name_not_unique: Un nom de profil conditionnement doit être unique
     must_be_a_number_with_no_more_than_2_decimal_places: Doit être un nombre à 2 décimales au plus
-    length_must_be_within_the_range_set_in_configuration: La longueur ne doit pas sortir de la 
+    length_must_be_within_the_range_set_in_configuration:
+      La longueur ne doit pas sortir de la
       fourchette définie dans la configuration
     is_required_if_status_is_previous: est requis si 'statut' est 'précédent'
     location_profile_name_not_unique: Un nom de profil localisation doit être unique
     must_be_a_positive_integer: Doit être un entier positif ou zéro
-    must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la 
+    must_be_unique_to_its_level_in_the_tree:
+      Cette valeur doit être unique à ce niveau de la
       hiérarchie
     short_name_already_in_use: Le service d'archives doit être unique dans cet ArchivesSpace
-    custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être 
+    custom_report_template_name_not_unique:
+      Le nom du modèle de rapport personnalisé doit être
       unique.
-    custom_report_must_include_field_or_subreport: Le modèle de rapport personnalisé doit inclure au
+    custom_report_must_include_field_or_subreport:
+      Le modèle de rapport personnalisé doit inclure au
       moins un champ ou sous-rapport.
     must_be_a_valid_email_address: Le champ d'adresse email doit contenir une adresse valide
     oai_set_name_unique: Les noms d'ensemble OAI doivent être uniques parmi les ensembles de référentiels et les ensembles de sponsors
@@ -2301,20 +2377,26 @@ fr:
     is_not_present: Champ obligatoire manquant
     invalid_characters: Contient des caractères non valides
 
-    subrecord_not_allowed_for_agent_software: Les agents logiciels ne peuvent pas avoir de contrôle 
+    subrecord_not_allowed_for_agent_software:
+      Les agents logiciels ne peuvent pas avoir de contrôle
       d'enregistrement ou de sous-enregistrements de relation
-    ark_collision: Un problème est survenu lors de la génération d'une ARK pour cet enregistrement. 
+    ark_collision:
+      Un problème est survenu lors de la génération d'une ARK pour cet enregistrement.
       Veuillez contacter votre administrateur système.
     external_ark_collision: ARK externe déjà utilisé
     ark_format_error: L'une des ARK fournies n'était pas une ARK valide.
-    missing_start_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. 
+    missing_start_filter_date:
+      Les dates de début et de fin sont nécessaires pour filtrer par date.
       Veuillez indiquer une date de début.
-    missing_end_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. 
+    missing_end_filter_date:
+      Les dates de début et de fin sont nécessaires pour filtrer par date.
       Veuillez indiquer une date de fin.
     missing_required_subrecord: Le sous-enregistrement est requis mais manquait
-    mixed_content_invalid_inline_ead: "Balisage EAD non valide : utilisez des guillemets droits (\" ou
-      ') pour les valeurs d'attribut et veillez à ce que les balises soient bien formées."
-    mixed_content_disallowed_tag: "Balise HTML non autorisée détectée. Pour des raisons de sécurité, les
+    mixed_content_invalid_inline_ead:
+      'Balisage EAD non valide : utilisez des guillemets droits (" ou
+      '') pour les valeurs d''attribut et veillez à ce que les balises soient bien formées.'
+    mixed_content_disallowed_tag:
+      "Balise HTML non autorisée détectée. Pour des raisons de sécurité, les
       balises telles que &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; et les éléments de formulaire ne
       sont pas autorisés dans les champs à contenu mixte."
     display_thumbnail_must_be_published: Doit être publié pour être la miniature d'affichage
@@ -2413,20 +2495,25 @@ fr:
       digital: Charge de l'objet numérique
 
   trim_whitespace_job:
-    description: Supprime les espaces blancs de début et de fin des titres des ressources, entrées, 
+    description:
+      Supprime les espaces blancs de début et de fin des titres des ressources, entrées,
       objets numériques, objets d'archivage et composants d'objet numérique.
 
   resource_duplicate_job:
     going_to_duplicate_job: Je vais dupliquer la ressource avec l'identifiant %{resource_id}.
-    success_message: La ressource %{resource_source_id} a été dupliquée avec succès vers la 
+    success_message:
+      La ressource %{resource_source_id} a été dupliquée avec succès vers la
       ressource %{resource_duplicated_id}.
-    resource_failure_message: Échec de la duplication de la ressource à partir de la ressource avec 
+    resource_failure_message:
+      Échec de la duplication de la ressource à partir de la ressource avec
       l'ID %{resource_id} ; Erreur de validation %{message}.
-    archival_object_failure_message: Échec de la duplication de l'objet d'archives avec 
-      l'ID %{archival_object_id} à partir de la ressource avec l'ID %{resource_id} ; Erreur de 
+    archival_object_failure_message:
+      Échec de la duplication de l'objet d'archives avec
+      l'ID %{archival_object_id} à partir de la ressource avec l'ID %{resource_id} ; Erreur de
       validation %{message}.
     source_archival_object: Objet d'archives source %{source_archival_object_inspect}.
-    success_reload_message: Terminé. Veuillez cliquer sur Actualiser pour obtenir un lien vers la 
+    success_reload_message:
+      Terminé. Veuillez cliquer sur Actualiser pour obtenir un lien vers la
       nouvelle ressource.
     job_failed: Le travail a échoué.
     could_not_find_resource: Impossible de trouver la ressource fournie avec l'ID %{resource_id}.
@@ -2491,7 +2578,8 @@ fr:
   oai:
     sample_page:
       title: "%{oai_repository_name} - Sample OAI-PMH requests"
-      introduction: "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting
+      introduction:
+        "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting
         (OAI-PMH v 2.0).</p>"
       form_header: Send a '%{verb}' request
       form_submit: Submit
@@ -2507,11 +2595,13 @@ fr:
     collections: Collections
     control_file: Collection/Fichier de contrôle
     conservation_note: Note de conservation
-    conservation_note_tooltip: <p>Indique des secteurs prioritaires en ce qui concerne la 
+    conservation_note_tooltip:
+      <p>Indique des secteurs prioritaires en ce qui concerne la
       conservation de la collection.</p>
     deed_of_gift: Acte de donation
     existing_description_notes: Notes descriptives existantes
-    existing_description_notes_tooltip: <p>Tout surcroît d'information concernant la description 
+    existing_description_notes_tooltip:
+      <p>Tout surcroît d'information concernant la description
       existante des documents.</p>
     finding_aid_ead: Instrument de recherche (EAD-encoding)
     finding_aid_online: Instrument de recherche (en ligne)
@@ -2520,15 +2610,18 @@ fr:
     finding_aid_spreadsheet: Instrument de recherche (tableur)
     id: ID
     inactive: Inactive?
-    inactive_tooltip: <p>Indique que la notice d'évaluation n'est plus considérée comme “active” et 
+    inactive_tooltip:
+      <p>Indique que la notice d'évaluation n'est plus considérée comme “active” et
       de ce fait ne devrait plus être incluse dans les recherches et les rapports.</p>
     inactive_true: "Oui"
     inactive_false: "Non"
     monetary_value: Valeur marchande
-    monetary_value_tooltip: <p>Evaluation ou estimation du prix des documents évalués (valeur 
+    monetary_value_tooltip:
+      <p>Evaluation ou estimation du prix des documents évalués (valeur
       numérique).</p>
     monetary_value_note: Valeur marchande Note
-    monetary_value_note_tooltip: <p>Indique qui a fourni la valeur marchande, à quelle date, 
+    monetary_value_note_tooltip:
+      <p>Indique qui a fourni la valeur marchande, à quelle date,
       etc.</p>
     surveyed_by: Passé en revue par
     surveyed_by_tooltip: |
@@ -2537,27 +2630,33 @@ fr:
     survey_begin_tooltip: |
       <p>CHAMP OBLIGATOIRE. Date de début du passage en revue, au format aaaa-mm-jj.</p>
     survey_end: Fin du passage en revue
-    survey_end_tooltip: <p>Date à laquelle le passage en revue s'est terminé, au format 
+    survey_end_tooltip:
+      <p>Date à laquelle le passage en revue s'est terminé, au format
       aaaa-mm-jj.</p>
     surveyed_duration: Temps passé au passage en revue complet
-    surveyed_duration_tooltip: <p>Temps passé au passage en revue complet, par incrément d'une 
+    surveyed_duration_tooltip:
+      <p>Temps passé au passage en revue complet, par incrément d'une
       heure.</p>
     surveyed_extent: Quantité passée en revue
-    surveyed_extent_tooltip: <p>Dimensions des documents passés en revue, exprimée en mètres 
+    surveyed_extent_tooltip:
+      <p>Dimensions des documents passés en revue, exprimée en mètres
       linéaires ou cubes.</p>
     related_eac_records: Notice(s) EAC liée(s)
     research_value: Valeur pour la recherche
-    research_value_tooltip: <p>Valeur automatiquement calculée en ajoutant la valeur renseignée dans
+    research_value_tooltip:
+      <p>Valeur automatiquement calculée en ajoutant la valeur renseignée dans
       le champ Qualité de la documentation à celle du champ Intérêt.</p>
     review_required: Passage en revue requis?
-    review_required_tooltip: <p>Indique si le format, le sujet, ou les circonstances, rendent 
+    review_required_tooltip:
+      <p>Indique si le format, le sujet, ou les circonstances, rendent
       nécessaire un passage en revue de la collection.</p>
     review_required_true: "Oui"
     review_required_false: "Non"
     review_note: Note de passage en revue
     review_note_tooltip: <p>Explication des résultats d'un passage en revue.</p>
     reviewer: Qui doit passer en revue
-    reviewer_tooltip: <p>Indique qui doit effectuer le passage en revue. Champ restreint aux 
+    reviewer_tooltip:
+      <p>Indique qui doit effectuer le passage en revue. Champ restreint aux
       personnes ayant ont un compte utilisateur dans ArchivesSpace.</p>
     purpose: But de l'évaluation
     purpose_tooltip: |
@@ -2572,11 +2671,13 @@ fr:
     general_assessment_note: Note d'évaluation globale
     general_assessment_note_tooltip: <p>Toute note supplémentaire concernant une évaluation.</p>
     special_format_note: Note de format spécial
-    special_format_note_tooltip: <p>Information supplémentaire ou explicative concernant les formats
+    special_format_note_tooltip:
+      <p>Information supplémentaire ou explicative concernant les formats
       spéciaux attestés.</p>
     exhibition_value_note: Note d'intérêt pour une expo
-    exhibition_value_note_tooltip: <p>Indique si la collection elle-même ou certains de ses éléments
-      se prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une 
+    exhibition_value_note_tooltip:
+      <p>Indique si la collection elle-même ou certains de ses éléments
+      se prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une
       lettre ou une photographie d'un haut intérêt pour l'histoire.</p>
     rating_attributes_value:
       rating_none: Pas de note
@@ -2595,40 +2696,49 @@ fr:
   assessment_attribute:
     rating:
       "Reformatting Readiness": Aptitude au reformatage
-      "Reformatting Readiness_tooltip": <p>Une note de 1 à 5 pour indiquer la facilité des documents
+      "Reformatting Readiness_tooltip":
+        <p>Une note de 1 à 5 pour indiquer la facilité des documents
         à être reformatés.</p>
       "Housing Quality": Qualité de l'abri
-      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de 
-        la collection est abrité; certains éléments ou groupes d'éléments de la collection peuvent 
+      "Housing Quality_tooltip":
+        <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de
+        la collection est abrité; certains éléments ou groupes d'éléments de la collection peuvent
         bénéficier d'un abri meilleur que celui indiqué par la note.</p>
       "Physical Condition": Etat matériel
-      "Physical Condition_tooltip": <p>Une note de 1 à 5 pour caractériser l'état général des 
-        documents d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés 
+      "Physical Condition_tooltip":
+        <p>Une note de 1 à 5 pour caractériser l'état général des
+        documents d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés
         dans la Note de conservation.</p>
       "Physical Access (arrangement)": Accès physique (classement)
-      "Physical Access (arrangement)_tooltip": <p>Une note de 1 à 5 pour caractériser l'agencement 
+      "Physical Access (arrangement)_tooltip":
+        <p>Une note de 1 à 5 pour caractériser l'agencement
         global d'une collection, en tenant compte de la complexité et de la taille de la collection.
-        Par exemple, une petite collection, relativement homogène et sommairement rangée est en 
-        général plus accessible qu'une collection importante, hétérogène, sommairement rangée, ce 
-        que doit réfléter la note. (Noter qu'un classement au niveau de l'élément n'est pas 
-        souhaitable pour bien des collections; une note de 4 pourrait bien être le maximum 
+        Par exemple, une petite collection, relativement homogène et sommairement rangée est en
+        général plus accessible qu'une collection importante, hétérogène, sommairement rangée, ce
+        que doit réfléter la note. (Noter qu'un classement au niveau de l'élément n'est pas
+        souhaitable pour bien des collections; une note de 4 pourrait bien être le maximum
         souhaitable pour une collection.)</p>
       "Intellectual Access (description)": Accès intellectuel (description)
-      "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la 
+      "Intellectual Access (description)_tooltip":
+        <p>Une note de 1 à 5 pour caractériser la
         description intellectuelle d'une collection et l'accessibilité de cette description pour les
         utilisateurs.</p>
       "Interest": Intérêt
-      "Interest_tooltip": <p>Une note de 1 à 5 qui indique l'intérêt que présentent les documents 
-        pour le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation 
+      "Interest_tooltip":
+        <p>Une note de 1 à 5 qui indique l'intérêt que présentent les documents
+        pour le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation
         déterminent le niveau de "Valeur pour la recherche".</p>
       "Documentation Quality": Qualité de la documentation
-      "Documentation Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la richesse de la 
-        documentation disponible dans une collection. Intérêt + Qualité de la documentation 
+      "Documentation Quality_tooltip":
+        <p>Une note de 1 à 5 pour caractériser la richesse de la
+        documentation disponible dans une collection. Intérêt + Qualité de la documentation
         détermine le niveau de "Valeur pour la recherche".</p>
-      "Documentation Quality_values_tooltip": "<ul><li><b>Note 1</b>: Faible</li><li><b>Note 2</b>: Occasionnellement
+      "Documentation Quality_values_tooltip":
+        "<ul><li><b>Note 1</b>: Faible</li><li><b>Note 2</b>: Occasionnellement
         précieux</li><li><b>Note 3</b>: Assez riche</li><li><b>Note 4</b>: Riche</li><li><b>Note 5</b>:
         Très riche</li></ul>"
-      "Housing Quality_values_tooltip": "<ul><li><b>Note 1</b>: Collection abritée dans boîtes non homologuées,
+      "Housing Quality_values_tooltip":
+        "<ul><li><b>Note 1</b>: Collection abritée dans boîtes non homologuées,
         qui pourraient être instables sur l'étagère. La majeure partie des documents n'est pas rangée
         dans des dossiers et/ou les boîtes sont sur ou sous-remplies. S'agissant des volumes reliés, la
         reliure est en mauvais état, des plats manquent, ce qui compromet le maintien en bloc des papiers.</li><li><b>Note
@@ -2644,7 +2754,8 @@ fr:
         5</b>: Collection entièrement abritée dans des boîtes et des dossiers sans acide en bon état.
         La plupart sont raisonnablement remplis. Boîtes et dossiers sont bien dimensionnés pour leur contenu.
         S'agissant des volumes reliés, la reliure est en excellent état.</li></ul>"
-      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Note 1</b>: Le chercheur n'a pas
+      "Intellectual Access (description)_values_tooltip":
+        "<ul><li><b>Note 1</b>: Le chercheur n'a pas
         accès à la collection: la documentation interne, telle qu'un fichier de donateur, de contrôle,
         ou une notice d'entrée inaccessible, constitue l'unique description de la collecction. Bien qu'une
         documentation interne de ce genre puisse varier en qualité et en quantité, elle reste par nature
@@ -2671,9 +2782,11 @@ fr:
         Il existe une notice MARC pour la collection dans l'OPAC de l'institution et/ou dans une base
         bibliographique nationale. D'autres descriptifs (tels qu'un guide des fonds), en ligne ou non,
         peuvent être accessibles aux chercheurs.</li></ul>"
-      "Interest_values_tooltip": "<ul><li><b>Note 1</b>: Négligeable</li><li><b>Note 2</b>: Faible</li><li><b>Note
+      "Interest_values_tooltip":
+        "<ul><li><b>Note 1</b>: Négligeable</li><li><b>Note 2</b>: Faible</li><li><b>Note
         3</b>: Moyen</li><li><b>Note 4</b>: Haut</li><li><b>Note 5</b>: Très haut</li></ul>"
-      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Note 1</b>: En total désordre; beaucoup,
+      "Physical Access (arrangement)_values_tooltip":
+        "<ul><li><b>Note 1</b>: En total désordre; beaucoup,
         voire la plupart des documents sont encore pliés sous enveloppes. Complètement inaccessible au
         chercheur.</li><li><b>Note 2</b>: Rangement partiel ou grossier et/ou boîtage et marquage non-standard
         décourageant l'utilisation, sauf avec l'assistance exceptionnelle du personnel.</li><li><b>Note
@@ -2687,13 +2800,15 @@ fr:
         un album selon l'ordre thématique).</li><li><b>Note 5</b>: Classement parfait en série et, le
         cas échéant, en sous-série jusqu'au niveau pièce. Les volumes se présentent de façon suivie et
         sont munis d'index (i.e. un registre en ordre chronologique est muni d'un index des noms).</li></ul>"
-      "Physical Condition_values_tooltip": "<ul><li><b>Note 1</b>: Mauvais: détériorations importantes,
+      "Physical Condition_values_tooltip":
+        "<ul><li><b>Note 1</b>: Mauvais: détériorations importantes,
         qui rendent la collection difficilement utilisable.</li><li><b>Note 2</b>: Passable: détérioration
         plus avancée que prévue, susceptible de se poursuivre.</li><li><b>Note 3</b>: Bon: détérioration
         normale, pouvant se poursuivre.</li><li><b>Note 4</b>: Très bon: très peu de dommages, une détérioration
         pourrait se produire en raison de la qualité inégale des documents.</li><li><b>Note 5</b>: Excellent:
         dommage minime, aucune détérioration n'est à craindre en raison de la grande qualité des documents.</li></ul>"
-      "Reformatting Readiness_values_tooltip": "<ul><li><b>Note 1</b>: documents extrêmement difficiles
+      "Reformatting Readiness_values_tooltip":
+        "<ul><li><b>Note 1</b>: documents extrêmement difficiles
         à reformater. Ils peuvent poser de sérieux problèmes de conservation, être dans un format archi-obsolète
         ou être soumis à des restrictions liées à la propriété intellectuelle. Les métadonnées peuvent
         manquer ou être incomplètes.</li><li><b>Note 2</b>: Documents difficiles à reformater. Ils peuvent
@@ -2707,16 +2822,21 @@ fr:
         reformatables. Pas de problèmes de conservation, formats récents, pas de problèmes de propriété
         intellectuelle. Les métadonnées sont présentes et complètes.</li></ul>"
       "Documentation Quality_note_tooltip": "Information supplémentaire sur la qualité de la documentation."
-      "Housing Quality_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne
+      "Housing Quality_note_tooltip":
+        "Signale des zones particulièrement préoccupantes en ce qui concerne
         la mise à l'abri de la collection."
-      "Intellectual Access_note_tooltip": "Information supplémentaire concernant l'accès intellectuel
+      "Intellectual Access_note_tooltip":
+        "Information supplémentaire concernant l'accès intellectuel
         aux documents."
       "Interest_note_tooltip": "Information supplémentaire concernant l'intérêt des documents."
-      "Physical Access_note_tooltip": "Information supplémentaire concernant l'accès physique et le classement
+      "Physical Access_note_tooltip":
+        "Information supplémentaire concernant l'accès physique et le classement
         des documents."
-      "Physical Condition_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui concerne
+      "Physical Condition_note_tooltip":
+        "Signale des zones particulièrement préoccupantes en ce qui concerne
         l'état matériel de la collection."
-      "Reformatting Readiness_note_tooltip": "Signale des zones particulièrement préoccupantes en ce qui
+      "Reformatting Readiness_note_tooltip":
+        "Signale des zones particulièrement préoccupantes en ce qui
         concerne la numérisation ou le reformatage éventuel des documents. "
     format:
       "Architectural Materials": Documents d'architecture
@@ -2848,10 +2968,12 @@ fr:
     object_not_created_be: "%{what} ne serait pas créé"
     date_type_default: Aucun type de date n'a été spécifié. Par défaut sur «inclusif».
     warn:
-      dup: "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'.
+      dup:
+        "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'.
         '%{used}' sera utilisé comme valeur."
       disam: "Correspondance multiple (s) trouvé pour '%{which}'. Création '%{name}' pour disabiguation."
-      disamuse: "Correspondance multiple (s) trouvé pour '%{which}'. En utilisant déjà créé '%{name}'
+      disamuse:
+        "Correspondance multiple (s) trouvé pour '%{which}'. En utilisant déjà créé '%{name}'
         pour disabiguation."
       single_date_end: "Date unique %{date_str} a la date de fin qui sera ignoré."
     error:
@@ -2884,7 +3006,8 @@ fr:
       hier_miss: Manquant hierachy - doit être un nombre supérieur à 0
       hier_zero: Hiérarchie doit être supérieure à 0
       hier_wrong: Hiérarchie ne peut pas être plus d'un niveau plus profond que la ligne précédente
-      hier_wrong_resource: avez-vous l'intention de commencer à traiter avec un objet d'archivage 
+      hier_wrong_resource:
+        avez-vous l'intention de commencer à traiter avec un objet d'archivage
         sélectionné?
       hier_wrong_resource_validation: "ATTENTION: rien en dessous de cette ligne n'aurait été traité"
       hier_below_error_level: L'objet d'archivage mère n'a pas été créé
@@ -2907,10 +3030,12 @@ fr:
       bad_note: "Note %{type} n'est pas wellformed: %{msg}"
       bad_note_type: "Type de note '%{type}' est pas pris en charge"
       bad_relator: "Impossible de créer un lien d'agent: '%{label}' est pas un Relator valide"
-      relator_invalid: "Impossible de créer un lien d'agent en raison de problème avec Relator '%{label}':
+      relator_invalid:
+        "Impossible de créer un lien d'agent en raison de problème avec Relator '%{label}':
         %{why}"
       bad_role: "Impossible de créer un lien d'agent: '%{label}' est pas un rôle valide"
-      role_invalid: "Impossible de créer un lien d'agent en raison de problème avec le rôle '%{label}':
+      role_invalid:
+        "Impossible de créer un lien d'agent en raison de problème avec le rôle '%{label}':
         %{why}"
       has_dig_obj: "Objet d'archive a déjà un objet numérique associé"
       dig_unassoc: "Impossible d'enregistrer l'objet d'archivage avec un objet numérique associé: %{msg}"
@@ -2933,7 +3058,8 @@ fr:
       invalid_event_agent_record_id: "Le groupe d'événement %{group}, champ %{field}, doit être un identifiant numérique ou un URI d'agent canonique : '%{value}'"
       event_agent_not_found: "Le groupe d'événement %{group}, champ %{field}, ne correspond à aucun agent existant : '%{value}'"
       initial_save_error: "Problème initial de sauvegarde %{title} - %{msg}"
-      second_save_error: "Erreur lors de la tentative de re-sauvegarde l'objet d'archivage avec la position
+      second_save_error:
+        "Erreur lors de la tentative de re-sauvegarde l'objet d'archivage avec la position
         'instances' %{title}: %{pos}. Cela signifie que l'objet d'archivage a été créé, mais peut-être
         pas liés à ses instances associées (objet numérique, supérieure.Récipient, sujet, etc. ) [%{what}]"
       ao_validation: "Erreur de validation lors de la tentative d'enregistrement objet d'archivage: %{err}"
@@ -2971,7 +3097,8 @@ fr:
       bad_ao_ref_id: " Avec REF ID %{ref_id}"
       bad_ao: "Impossible de trouver l'objet d'archives %{errs}"
       no_uri_or_ref: Ni un URI objet d'archives ni REF ID n'a été fournie
-      file_too_big: "Ce fichier, à %{file_info}, dépasse la taille et / ou limites de nombre de lignes
+      file_too_big:
+        "Ce fichier, à %{file_info}, dépasse la taille et / ou limites de nombre de lignes
         %{limits}"
       wrong_file_type: "Le fichier n'est ni une feuille de calcul Excel ni un fichier CSV"
       dig_obj_unique: "ID d'objet numérique '%{id}' existe déjà."
@@ -2979,7 +3106,8 @@ fr:
 
       find_tc: Impossible de trouver le conteneur supérieur avec les paramètres : %{where}.
       sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
-      utf8: Cette feuille de calcul contient du texte non valide ou corrompu qui ne peut pas être 
+      utf8:
+        Cette feuille de calcul contient du texte non valide ou corrompu qui ne peut pas être
         traité.
     templates: Modèles d'importation en bloc
   parallel_name_person:
@@ -2994,103 +3122,136 @@ fr:
   parallel_name_software:
     <<: *agent_software_attributes
   agent_record_identifiers:
-    identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.
+    identifier_type_tooltip:
+      "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.
       Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
-    source_tooltip: "<p>Indique le fichier d'autorité d'origine d'un identifiant associé. Exemple: NAF
+    source_tooltip:
+      "<p>Indique le fichier d'autorité d'origine d'un identifiant associé. Exemple: NAF
       (pour nr2003017069). Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
-    record_identifier_tooltip: "<p>Identificateur de l'enregistrement Agent, généralement constitué d'une
+    record_identifier_tooltip:
+      "<p>Identificateur de l'enregistrement Agent, généralement constitué d'une
       chaîne alphanumérique unique. L'identifiant peut provenir d'un fichier d'autorité externe ou être
       généré localement.</p><p>Voir DACS 13.2, ISAAR (CPF) 5.4.1</p>"
     is_primary: Primaire
 
   agent_record_control:
-    maintenance_status_tooltip: "<p>Indique l'état actuel de l'enregistrement.</p><p>Voir DACS 13.4, ISAAR
+    maintenance_status_tooltip:
+      "<p>Indique l'état actuel de l'enregistrement.</p><p>Voir DACS 13.4, ISAAR
       (CPF) 5.4.4</p>"
     publication_status_tooltip: "<p>Indique si un enregistrement d'agent doit être accessible au public.</p>"
-    romanization_tooltip: "<p>Indique si la forme de nom autorisée a été romanisée à partir d'une écriture
+    romanization_tooltip:
+      "<p>Indique si la forme de nom autorisée a été romanisée à partir d'une écriture
       non latine et le type de schéma de romanisation. Exemple: Bibliothèque nationale ou norme d'agence
       bibliographique (pour ALA-LC Romanization Table (par exemple, Kasparov, GK (Garri Kimovich) pour
       Каспаров, Г. К. (Гарри Кимович)).</p>"
-    government_agency_type_tooltip: "<p>Indique le type d'agence ou de juridiction représenté par le formulaire
+    government_agency_type_tooltip:
+      "<p>Indique le type d'agence ou de juridiction représenté par le formulaire
       de nom autorisé.</p>"
-    reference_evaluation_tooltip: "<p>Indique le niveau de cohérence entre le formulaire de nom autorisé
+    reference_evaluation_tooltip:
+      "<p>Indique le niveau de cohérence entre le formulaire de nom autorisé
       et les autres formes de nom dans l'enregistrement Agent. Lorsqu'il n'y a pas de formulaires supplémentaires,
       le champ doit être enregistré comme «Sans objet».</p>"
-    name_type_tooltip: "<p>Indique l'unicité du formulaire de nom autorisé dans le module Agents. Les
+    name_type_tooltip:
+      "<p>Indique l'unicité du formulaire de nom autorisé dans le module Agents. Les
       entrées de nom uniques doivent être enregistrées comme «différenciées», tandis que les enregistrements
       d'agents utilisés pour rassembler plusieurs agents avec des noms identiques doivent être marquées
       comme «indifférenciées».</p>"
-    level_of_detail_tooltip: "<p>Indique l'exhaustivité de l'enregistrement de l'agent conformément aux
+    level_of_detail_tooltip:
+      "<p>Indique l'exhaustivité de l'enregistrement de l'agent conformément aux
       exigences consortiales ou locales.</p><p>Voir DACS 13.5, ISAAR (CPF) 5.4.5</p>"
-    modified_record_tooltip: "<p>Indique si un enregistrement d'agent a été modifié et comment il a été
+    modified_record_tooltip:
+      "<p>Indique si un enregistrement d'agent a été modifié et comment il a été
       modifié.</p>"
-    cataloging_source_tooltip: "<p>Indique l'origine d'un enregistrement d'agent. Les notices produites
+    cataloging_source_tooltip:
+      "<p>Indique l'origine d'un enregistrement d'agent. Les notices produites
       localement qui ne sont pas soumises à un programme de catalogage coopératif doivent être enregistrées
       comme «Autre».</p>"
-    maintenance_agency_tooltip: "<p>Valeur de code pour l'agence ou l'organisation responsable de la création
+    maintenance_agency_tooltip:
+      "<p>Valeur de code pour l'agence ou l'organisation responsable de la création
       ou de la gestion d'un enregistrement d'agent. La valeur du code doit être extraite d'un registre
       et enregistrée selon les conventions ISO 15511.</p><p>Voir DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Exemple:
       US-UPB (pour l'Université Brigham Young, en utilisant le code d'organisation MARC de la Bibliothèque
       du Congrès).</p>"
-    agency_name_tooltip: "<p>Le nom de l'agence ou de l'organisation responsable de la création ou de
+    agency_name_tooltip:
+      "<p>Le nom de l'agence ou de l'organisation responsable de la création ou de
       la gestion d'un enregistrement d'agent. Le nom enregistré doit correspondre à la forme de nom associée
       à la valeur de code dans le registre.</p><p>Voir ISAAR (CPF) 5.4.2.</p><p>Exemple: Université Brigham
       Young, Bibliothèque Harold B. Lee (pour la valeur de code UPB, en utilisant le code d'organisation
       MARC de la Bibliothèque du Congrès).</p>"
-    maintenance_agency_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur l'agence de
+    maintenance_agency_note_tooltip:
+      "<p>Le contenu de la note, fournissant des détails sur l'agence de
       maintenance responsable de la description de l'agent.</p>"
-    language_tooltip: "<p>La langue utilisée dans la préparation de la description de l'agent.</p><p>Voir
+    language_tooltip:
+      "<p>La langue utilisée dans la préparation de la description de l'agent.</p><p>Voir
       DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Exemple: anglais.</p>"
-    script_tooltip: "<p>Le script de texte utilisé dans la préparation de la description de l'agent.</p><p>Voir
+    script_tooltip:
+      "<p>Le script de texte utilisé dans la préparation de la description de l'agent.</p><p>Voir
       DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Exemple: latin.</p>"
-    language_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la langue et les scripts
+    language_note_tooltip:
+      "<p>Le contenu de la note, fournissant des détails sur la langue et les scripts
       utilisés dans la préparation de la description de l'agent.</p>"
 
   agent_alternate_set:
-    set_component_tooltip: "<p>Une légende pour fournir l'identification et l'accès à une notice d'autorité
+    set_component_tooltip:
+      "<p>Une légende pour fournir l'identification et l'accès à une notice d'autorité
       liée équivalente.</p>"
-    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la notice d'autorité
+    descriptive_note_tooltip:
+      "<p>Le contenu de la note, fournissant des détails sur la notice d'autorité
       liée.</p>"
-    file_uri_tooltip: "<p>Un URI pour un enregistrement équivalent dans un fichier d'autorité externe.
+    file_uri_tooltip:
+      "<p>Un URI pour un enregistrement équivalent dans un fichier d'autorité externe.
       Exemple: http://id.loc.gov/authorities/names/n80060393 (pour Library of Congress Linked Data Service
       entry pour Robert W. Service).</p>"
-    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
+    file_version_xlink_actuate_attribute_tooltip:
+      "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
-    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé
+    file_version_xlink_show_attribute_tooltip:
+      "<p>Indique où la ressource distante liée dans l'URI associé
       doit être rendue.</p>"
-    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
+    xlink_title_attribute_tooltip:
+      "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
       être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
+    last_verified_date_tooltip:
+      "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
       associé a été vérifiée.</p>\n"
 
   agent_conventions_declaration:
-    name_rule_tooltip: "<p>Une norme de contenu utilisée dans la formulation du contenu de l'enregistrement
+    name_rule_tooltip:
+      "<p>Une norme de contenu utilisée dans la formulation du contenu de l'enregistrement
       de l'agent. Exemple: Décrire les archives: une norme de contenu.</p>"
-    citation_tooltip: "<p>Citation bibliographique d'une convention utilisée dans la formulation du contenu
+    citation_tooltip:
+      "<p>Citation bibliographique d'une convention utilisée dans la formulation du contenu
       de l'enregistrement de l'agent. Exemple: Society of American Archivists. Décrire les archives: une
       norme de contenu (Chicago: Society of American Archivists, 2013).</p>"
-    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la convention, a
+    descriptive_note_tooltip:
+      "<p>Le contenu de la note, fournissant des détails sur la convention, a
       été utilisé dans la préparation de la description de l'agent. Exemple: utilisé pour formuler le
       contenu de la note d'histoire biographique. (pour la description des archives: une norme de contenu).</p>"
-    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la convention utilisée dans la préparation
+    file_uri_tooltip:
+      "<p>Un URI pour l'emplacement en ligne de la convention utilisée dans la préparation
       de la description de l'agent. Exemple: http://www2.archivists.org/standards/DACS/ (pour Describing
       Archives: A Content Standard).</p>"
-    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
+    file_version_xlink_actuate_attribute_tooltip:
+      "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
-    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé
+    file_version_xlink_show_attribute_tooltip:
+      "<p>Indique où la ressource distante liée dans l'URI associé
       doit être rendue.</p>"
-    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
+    xlink_title_attribute_tooltip:
+      "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
       être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
+    last_verified_date_tooltip:
+      "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
       associé a été vérifiée.</p>\n"
 
   agent_other_agency_codes:
     agency_code_type_tooltip: "<p>La source du code de l'agence de maintenance. Exemple: OCLC.</p>"
-    maintenance_agency_tooltip: "<p>Valeurs de code alternatives pour l'agence ou l'organisation responsable
+    maintenance_agency_tooltip:
+      "<p>Valeurs de code alternatives pour l'agence ou l'organisation responsable
       de la création ou de la gestion d'un enregistrement d'agent. La valeur du code doit être extraite
       d'un registre et enregistrée selon les conventions ISO 15511.</p><p>Voir DACS 13.1, ISAAR (CPF)
       5.4.2. Exemple: OCLC-UBY (pour les États-Unis, Brigham Young University, en utilisant le symbole
@@ -3098,34 +3259,43 @@ fr:
 
   agent_maintenance_histories:
     maintenance_event_type_tooltip: "<p>Indique le type d'événement de maintenance.</p>"
-    maintenance_agent_type_tooltip: "<p>Indique si l'événement de maintenance a été effectué par une personne
+    maintenance_agent_type_tooltip:
+      "<p>Indique si l'événement de maintenance a été effectué par une personne
       ou par un système logiciel.</p>"
     agent_tooltip: "<p>Nom de la personne, de l'agence ou du logiciel responsable de l'événement de maintenance.</p>"
     event_date_tooltip: "<p>Horodatage de l'enregistrement de l'événement de maintenance.</p>"
     descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la maintenance effectuée.</p>"
 
   agent_sources:
-    source_entry_tooltip: "<p>Citation bibliographique d'une source utilisée dans la formulation du contenu
+    source_entry_tooltip:
+      "<p>Citation bibliographique d'une source utilisée dans la formulation du contenu
       de l'enregistrement de l'agent. Exemple: Lockhart, GW Sur les traces de Robert Service (Édimbourg:
       Luath Press, 1991).</p>"
-    descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur le contenu des sources
+    descriptive_note_tooltip:
+      "<p>Le contenu de la note, fournissant des détails sur le contenu des sources
       utilisées dans la préparation de la description de l'agent.</p>"
-    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la source utilisée dans la préparation
+    file_uri_tooltip:
+      "<p>Un URI pour l'emplacement en ligne de la source utilisée dans la préparation
       de la description de l'agent. Exemple: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373
       (pour l'entrée Find-A-Grave pour Robert W. Service).</p>"
-    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
+    file_version_xlink_actuate_attribute_tooltip:
+      "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
-    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé
+    file_version_xlink_show_attribute_tooltip:
+      "<p>Indique où la ressource distante liée dans l'URI associé
       doit être rendue.</p>"
-    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
+    xlink_title_attribute_tooltip:
+      "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
       être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
+    last_verified_date_tooltip:
+      "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
       associé a été vérifiée.</p>\n"
 
   agent_identifiers:
-    entity_identifier_tooltip: "<p>Enregistre les identifiants associés à une entité, tels que les identifiants
+    entity_identifier_tooltip:
+      "<p>Enregistre les identifiants associés à une entité, tels que les identifiants
       légaux attribués par une agence faisant autorité.</p><p>Voir DACS 10.4, ISAAR (CPF) 5.1.6</p>"
     identifier_type_tooltip: "<p>Indique le type ou la source de l'identifiant d'entité enregistré.</p>"
 
@@ -3134,30 +3304,39 @@ fr:
     script_tooltip: "<p>Le script de texte associé à l'agent. Exemple: latin.</p>"
 
   agent_gender:
-    gender_tooltip: "<p>Sexe du sujet.</p></br><p> Les valeurs de cette liste peuvent être ajoutées ou
+    gender_tooltip:
+      "<p>Sexe du sujet.</p></br><p> Les valeurs de cette liste peuvent être ajoutées ou
       modifiées via le menu Système -> Gérer les listes de valeurs contrôlées.</p>"
 
   agent_place:
     place_role_tooltip: "<p>Indique la relation entre l'emplacement géographique et l'agent.</p>"
 
   agent_resource:
-    linked_agent_role_tooltip: "<p>CHAMP REQUIS: Le type de relation d'entité décrite avec la ressource.</p><p>Voir
+    linked_agent_role_tooltip:
+      "<p>CHAMP REQUIS: Le type de relation d'entité décrite avec la ressource.</p><p>Voir
       DACS 14.3, ISAAR (CPF) 6.3</p>"
-    linked_resource_tooltip: "<p>Une ressource liée à l'agent / l'entité.</p><p>Voir DACS 14.1, ISAAR
+    linked_resource_tooltip:
+      "<p>Une ressource liée à l'agent / l'entité.</p><p>Voir DACS 14.1, ISAAR
       (CPF) 6.1</p>"
-    linked_resource_description_tooltip: "<p>Champ de texte libre pour enregistrer des informations bibliographiques,
+    linked_resource_description_tooltip:
+      "<p>Champ de texte libre pour enregistrer des informations bibliographiques,
       des informations de collection associées, etc.</p>"
-    file_uri_tooltip: "<p>Un URI désignant l'emplacement en ligne de la ressource liée à l'agent/entité.</p><p>Voir
+    file_uri_tooltip:
+      "<p>Un URI désignant l'emplacement en ligne de la ressource liée à l'agent/entité.</p><p>Voir
       DACS 14.1, ISAAR (CPF) 6.1</p>"
-    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
+    file_version_xlink_actuate_attribute_tooltip:
+      "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
-    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé
+    file_version_xlink_show_attribute_tooltip:
+      "<p>Indique où la ressource distante liée dans l'URI associé
       doit être rendue.</p>"
-    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
+    xlink_title_attribute_tooltip:
+      "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
       être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
+    last_verified_date_tooltip:
+      "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
       associé a été vérifiée.</p>\n"
 
   subrecord_subject_agent_place:
@@ -3169,7 +3348,8 @@ fr:
     places_tooltip: "<p>Un emplacement géographique associé aux professions.</p>"
 
   subrecord_subject_agent_function:
-    subjects_tooltip: "<p>Termes utilisés pour identifier les fonctions, processus, tâches, activités
+    subjects_tooltip:
+      "<p>Termes utilisés pour identifier les fonctions, processus, tâches, activités
       ou transactions effectuées par l'agent.</p>"
 
   subrecord_subject_agent_function_place:
@@ -3189,27 +3369,37 @@ fr:
   structured_date_label_common_fields:
     <<: *sdl_attributes
   structured_date_single: &sds_attributes
-    date_role_tooltip: "<p>Pour une seule date, utilisé pour indiquer si la date doit être comprise comme
+    date_role_tooltip:
+      "<p>Pour une seule date, utilisé pour indiquer si la date doit être comprise comme
       une date de début ou une date de fin. La valeur par défaut est Begin.</p>"
-    date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la date ou la plage de dates.
+    date_expression_tooltip:
+      "<p>Une expression en langage naturel spécifiant la date ou la plage de dates.
       Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
-    date_standardized_tooltip: "<p>Une expression en langage naturel spécifiant la date ou la plage de
+    date_standardized_tooltip:
+      "<p>Une expression en langage naturel spécifiant la date ou la plage de
       dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
-    date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée reflète la date réelle
+    date_standardized_type_tooltip:
+      "<p>Utilisé pour indiquer si la date normalisée reflète la date réelle
       ou une estimation du premier ou du dernier événement qui aurait pu se produire.</p>"
 
   structured_date_range: &sdr_attributes
-    begin_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant le début d'une plage
+    begin_date_expression_tooltip:
+      "<p>Une expression en langage naturel spécifiant le début d'une plage
       de dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
-    begin_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ) représentant
+    begin_date_standardized_tooltip:
+      "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ) représentant
       une seule date ou la première date d'une plage de dates.</p>"
-    begin_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée de début reflète
+    begin_date_standardized_type_tooltip:
+      "<p>Utilisé pour indiquer si la date normalisée de début reflète
       la date réelle ou une estimation du premier ou du dernier événement qui aurait pu se produire.</p>"
-    end_date_expression_tooltip: "<p>Une expression en langage naturel spécifiant la fin d'une plage de
+    end_date_expression_tooltip:
+      "<p>Une expression en langage naturel spécifiant la fin d'une plage de
       dates. Requis lorsqu'une date normalisée n'est pas enregistrée.</p>"
-    end_date_standardized_tooltip: "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ) représentant la
+    end_date_standardized_tooltip:
+      "<p>Une date (au format AAAA, AAAA-MM ou AAAA-MM-JJ) représentant la
       dernière date d'une plage de dates.</p>"
-    end_date_standardized_type_tooltip: "<p>Utilisé pour indiquer si la date normalisée de fin reflète
+    end_date_standardized_type_tooltip:
+      "<p>Utilisé pour indiquer si la date normalisée de fin reflète
       la date réelle ou une estimation du premier ou du dernier événement qui aurait pu se produire.</p>"
 
   structured_date_single_fields:
@@ -3263,57 +3453,79 @@ fr:
   top_container_linker:
     error:
       ref_id_miss: ID de référence manquant dans la feuille de calcul à la ligne %{row_num} .
-      tc_indicator_and_record_no_exist: Seul un indicateur de conteneur supérieur OU un numéro 
+      tc_indicator_and_record_no_exist:
+        Seul un indicateur de conteneur supérieur OU un numéro
         d'enregistrement TC peut être présent pour %{ref_id} dans la ligne %{row_num}.
-      instance_type_does_not_exist: "Le type d'instance %{instance_type} n'existe pas dans la base de
+      instance_type_does_not_exist:
+        "Le type d'instance %{instance_type} n'existe pas dans la base de
         données (voir la ligne %{row_num} Archival Object %{ref_id}). "
-      tc_indicator_and_record_no_miss: Un indicateur de conteneur supérieur ou un numéro 
+      tc_indicator_and_record_no_miss:
+        Un indicateur de conteneur supérieur ou un numéro
         d’enregistrement TC doit être présent pour %{ref_id} à la ligne %{row_num}.
-      sc_barcode_exists: Le code-barres enfant, %{barcode} existe déjà dans la base de données (voir
+      sc_barcode_exists:
+        Le code-barres enfant, %{barcode} existe déjà dans la base de données (voir
         %{ref_id} à la ligne %{row_num}).
-      tc_record_no_missing: L'ID du conteneur supérieur est introuvable : %{tc_id} (voir %{ref_id} à
+      tc_record_no_missing:
+        L'ID du conteneur supérieur est introuvable : %{tc_id} (voir %{ref_id} à
         la ligne %{row_num})
-      resources_do_not_match: 'La ressource dans la feuille de calcul %{spreadsheet_resource} (ID EAD :
-        %{ead_id}) ne correspond pas à la ressource actuelle %{current_resource} dans la ligne %{row_num}'
-      tc_barcode_exists: Le Top Container Barcode, %{barcode} existe déjà dans la base de données 
+      resources_do_not_match:
+        "La ressource dans la feuille de calcul %{spreadsheet_resource} (ID EAD :
+        %{ead_id}) ne correspond pas à la ressource actuelle %{current_resource} dans la ligne %{row_num}"
+      tc_barcode_exists:
+        Le Top Container Barcode, %{barcode} existe déjà dans la base de données
         (voir %{ref_id} à la ligne %{row_num}).
-      tc_barcode_differs: Le code-barres du conteneur supérieur, %{barcode} est différent d'une 
+      tc_barcode_differs:
+        Le code-barres du conteneur supérieur, %{barcode} est différent d'une
         autre entrée de votre feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne
         %{row_num}).
-      tc_ind_ct_exists: La combinaison Top Container Indicator et Container Type %{tc_type} 
-        %{indicator} existe déjà dans la base de données pour un AO dans la ressource %{ead_id} 
+      tc_ind_ct_exists:
+        La combinaison Top Container Indicator et Container Type %{tc_type}
+        %{indicator} existe déjà dans la base de données pour un AO dans la ressource %{ead_id}
         (voir %{ref_id} dans la ligne %{row_num}).
-      sc_barcode_differs: Le code-barres enfant, %{barcode} est différent d'une autre entrée de 
+      sc_barcode_differs:
+        Le code-barres enfant, %{barcode} est différent d'une autre entrée de
         votre feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne %{row_num}).
-      loc_not_in_db: L'ID d'emplacement donné, %{loc_id} est introuvable dans la base de données 
+      loc_not_in_db:
+        L'ID d'emplacement donné, %{loc_id} est introuvable dans la base de données
         (voir %{ref_id} à la ligne %{row_num}).
-      cp_not_in_db: L'ID de profil de conteneur donné, %{cp_id} est introuvable dans la base de 
+      cp_not_in_db:
+        L'ID de profil de conteneur donné, %{cp_id} est introuvable dans la base de
         données (voir %{ref_id} à la ligne %{row_num}).
-      problem_adding_current_location: 'Problème lors de l’ajout de l’emplacement actuel (voir %{ref_id}
-        dans la ligne %{row_num}) : [%{why}]'
-      problem_setting_container_profile: 'Problème de configuration du profil du conteneur (voir %{ref_id}
-        à la ligne %{row_num}) : [%{why}]'
-      no_tc: 'Impossible de créer le conteneur supérieur (voir %{ref_id} dans la ligne %{row_num}) : [%{why}]'
-      error_linking_tc_to_ao: "Un problème est survenu lors de l'association de l'objet d'archivage au
+      problem_adding_current_location:
+        "Problème lors de l’ajout de l’emplacement actuel (voir %{ref_id}
+        dans la ligne %{row_num}) : [%{why}]"
+      problem_setting_container_profile:
+        "Problème de configuration du profil du conteneur (voir %{ref_id}
+        à la ligne %{row_num}) : [%{why}]"
+      no_tc: "Impossible de créer le conteneur supérieur (voir %{ref_id} dans la ligne %{row_num}) : [%{why}]"
+      error_linking_tc_to_ao:
+        "Un problème est survenu lors de l'association de l'objet d'archivage au
         conteneur supérieur : %{why}"
-      resource_not_in_db: Impossible de trouver la ressource %{ead_id} dans la base de données à la 
+      resource_not_in_db:
+        Impossible de trouver la ressource %{ead_id} dans la base de données à la
         ligne %{row_num}
       job_file_empty: Aucun fichier à traiter pour la liaison du conteneur supérieur
-      ao_not_in_db: Impossible de trouver l’objet d’archivage %{ref_id} dans la base de données de 
+      ao_not_in_db:
+        Impossible de trouver l’objet d’archivage %{ref_id} dans la base de données de
         la ligne %{row_num}.
-      instance_type_miss: "Type d'instance manquant dans la feuille de calcul pour la ligne %{row_num}
+      instance_type_miss:
+        "Type d'instance manquant dans la feuille de calcul pour la ligne %{row_num}
         Objet d'archivage %{ref_id}. "
-      ead_id_miss: 'Il manque un ID EAD à cette ligne : (voir %{ref_id} dans la ligne %{row_num})'
-    log_validate_only: Ignorer la création et la liaison des conteneurs supérieurs puisque l'option 
+      ead_id_miss: "Il manque un ID EAD à cette ligne : (voir %{ref_id} dans la ligne %{row_num})"
+    log_validate_only:
+      Ignorer la création et la liaison des conteneurs supérieurs puisque l'option
       de validation uniquement est activée.
-    log_creating_linker: "Création d'un nouvel éditeur de liens de conteneur supérieur pour le référentiel :
+    log_creating_linker:
+      "Création d'un nouvel éditeur de liens de conteneur supérieur pour le référentiel :
       %{repo_id}"
     log_validating: Validation des données de la feuille de calcul...
-    log_skipping_due_to_errors: Ignorer la création et la liaison des conteneurs supérieurs en 
+    log_skipping_due_to_errors:
+      Ignorer la création et la liaison des conteneurs supérieurs en
       raison d'erreurs.
     log_creating_and_linking: Créer et lier les meilleurs conteneurs...
   metadata_rights_declaration:
-    license_tooltip: "<p>Nom de la licence (le cas échéant) qui régit les conditions dans lesquelles les
+    license_tooltip:
+      "<p>Nom de la licence (le cas échéant) qui régit les conditions dans lesquelles les
       métadonnées sont disponibles pour utilisation et réutilisation. Exemples :</p>\n<p>Cet enregistrement
       est disponible sous une licence Creative Commons Universal 1.0 Public Domain Dedication.</p>\n<p>Cet
       enregistrement est disponible sous une licence Creative Commons Internationale Attribution-NonCommercial
@@ -3322,25 +3534,31 @@ fr:
       licence Creative Commons internationale Attribution-NoDerivatives 4.0.</p>\n<p>Cet enregistrement
       est disponible sous une licence Creative Commons internationale Attribution-NonCommercial-ShareAlike
       4.0.</p>\n"
-    descriptive_note_tooltip: "<p>Informations non structurées sur les conditions dans lesquelles les
+    descriptive_note_tooltip:
+      "<p>Informations non structurées sur les conditions dans lesquelles les
       métadonnées sont disponibles pour une utilisation et une réutilisation. Exemples :</p>\n<p>i. Droit
       d'auteur Smith College, 1985</p>\n<p>ii. Cet instrument de recherche peut être reproduit à n'importe
       quelle fin.</p>\n<p>iii. Cette œuvre a été dédiée au domaine public, ce qui signifie que vous pouvez
       copier, modifier, distribuer et exécuter l'œuvre, même à des fins commerciales, le tout sans demander
       l'autorisation.</p>\n<p>iv. La note biographique est copyright Ted Smith, 2015. Toutes les autres
       métadonnées sont sous licence CC BY 4.0.</p>\n"
-    file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lorsque
+    file_version_xlink_actuate_attribute_tooltip:
+      "<p>Indique si l'URI associé doit être résolu lorsque
       l'enregistrement de l'agent est rendu.</p>\n"
-    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la licence ou d'autres informations publiées
+    file_uri_tooltip:
+      "<p>Un URI pour l'emplacement en ligne de la licence ou d'autres informations publiées
       sur les conditions dans lesquelles les métadonnées sont disponibles pour une utilisation et une
       réutilisation. Exemple : https://creativecommons.org/licenses/by/4.0/</p>\n"
-    file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé
+    file_version_xlink_show_attribute_tooltip:
+      "<p>Indique où la ressource distante liée dans l'URI associé
       doit être rendue.</p>\n"
-    xlink_title_attribute_tooltip: "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
+    xlink_title_attribute_tooltip:
+      "<p>Titre des ressources distantes liées dans l'URI associé, qui peut
       être utilisé comme légende.</p>\n"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>\n"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>\n"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
+    last_verified_date_tooltip:
+      "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
       associé a été vérifiée.</p>\n"
   ratings:
     _plural: Évaluations
@@ -3372,19 +3590,21 @@ fr:
     add_new: Ajouter une nouvelle ARK
     set_current: Définir sur actuel
     unsubmitted_input: Vous avez une entrée non soumise
-    only_current_ark_can_be_external: L'ARK actuelle ne peut pas être remplacée tant qu'elle est 
+    only_current_ark_can_be_external:
+      L'ARK actuelle ne peut pas être remplacée tant qu'elle est
       marquée comme externe.
   bulk_import_template:
     _singular: Modèle d'importation en bloc
     _plural: Modèles d'importation en bloc
   container_profile:
     new_title: Nouvel profils de conditionnements
-    title: '%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] étendue mesurée par %{extent_dimension}'
+    title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] étendue mesurée par %{extent_dimension}"
   location_profile:
     new_title: Nouvel profils de localisations
   ns2_remover_job:
     dry_run: Essai à blanc ?
-    description: "Les EAD de l'ère Toolit des archivistes importés dans ASpace peuvent contenir des références
+    description:
+      "Les EAD de l'ère Toolit des archivistes importés dans ASpace peuvent contenir des références
       d'espace de noms \"ns2\" résiduelles ajoutées au début de divers attributs de balise EAD dans les
       sous-enregistrements de notes. Cela peut entraîner des erreurs de validation lors de l'exportation
       d'EAD depuis ArchivesSpace, car la balise racine <ead> ne déclare pas l'espace de noms \"ns2\".

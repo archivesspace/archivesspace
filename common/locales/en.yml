@@ -43,54 +43,54 @@ en:
   slug: &slug_attributes
     slug: Slug
     slug_tooltip: |
-        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+      <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     public_url: Public URL
     public_url_tooltip: |
-        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
-        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
+      <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+      <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
     is_slug_auto: Automatically Generate Slug?
     is_slug_auto_tooltip: |
-        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+      <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current configuration settings"
     autogen_repo_slug: "Since a slug was not manually entered the repository slug was automatically generated using the repository short name"
 
   content_items:
     content: Content
     content_tooltip: |
-        <p>The content of the note.</p>
+      <p>The content of the note.</p>
 
   section_tooltips: &section_tooltips
     lang_materials_tooltip: |
-        <p>The languages and scripts represented in the material(s) described.</p>
-        <p>See DACS 4.5, ISAD(G) 3.4.3</p>
+      <p>The languages and scripts represented in the material(s) described.</p>
+      <p>See DACS 4.5, ISAD(G) 3.4.3</p>
     dates_tooltip: |
-        <p>Identifies and records the date(s) that pertain to the creation, assembly, accumulation, and/or maintenance and use of the materials being described.</p>
-        <p>See DACS 2.4, ISAD(G) 3.1.3</p>
+      <p>Identifies and records the date(s) that pertain to the creation, assembly, accumulation, and/or maintenance and use of the materials being described.</p>
+      <p>See DACS 2.4, ISAD(G) 3.1.3</p>
     extents_tooltip: |
-        <p>Indicates the extent and the physical nature of the materials being described.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Indicates the extent and the physical nature of the materials being described.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
     linked_agents_tooltip: |
-        <p>Associates agents as a creator, source, or subject of the materials described to provide information about their context.</p>
+      <p>Associates agents as a creator, source, or subject of the materials described to provide information about their context.</p>
     subjects_tooltip: |
-        <p>Used for linking Subjects with the materials described.</p>
+      <p>Used for linking Subjects with the materials described.</p>
     notes_tooltip: |
-        <p>Additional descriptive information about the materials described, usually in the form of text or structured lists.</p>
+      <p>Additional descriptive information about the materials described, usually in the form of text or structured lists.</p>
     external_documents_tooltip: |
-        <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
+      <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
     rights_statements_tooltip: |
-        <p>Information about the rights status of the materials described and whether there are specific restrictions or permissions that have been indicated.</p>
+      <p>Information about the rights status of the materials described and whether there are specific restrictions or permissions that have been indicated.</p>
     metadata_rights_declarations_tooltip: |
-        <p>Based on DACS 8.2 and 13.11</p>
+      <p>Based on DACS 8.2 and 13.11</p>
     instances_tooltip: |
-        <p>Links description to information about physical or digital instantiations of material.</p>
+      <p>Links description to information about physical or digital instantiations of material.</p>
     deaccessions_tooltip: |
-        <p>Records information about materials that may have been separated and discarded, returned to a donor, or transferred to another institution.</p>
+      <p>Records information about materials that may have been separated and discarded, returned to a donor, or transferred to another institution.</p>
     collection_management_tooltip: |
-        <p>Additional, internal-only information about how the materials described will be or have been processed.</p>
+      <p>Additional, internal-only information about how the materials described will be or have been processed.</p>
     classification_tooltip: |
-        <p>Used for linking the materials described to a Classification or a Classification Term (e.g. a record group system) managed within the application.</p>
+      <p>Used for linking the materials described to a Classification or a Classification Term (e.g. a record group system) managed within the application.</p>
     user_defined_tooltip: |
-        <p>User defined fields for recording additional information not captured in other sections of the application.</p>
+      <p>User defined fields for recording additional information not captured in other sections of the application.</p>
 
   digital_object: &digital_object_attributes
     <<: [*section_tooltips, *slug_attributes]
@@ -98,36 +98,36 @@ en:
       <<: *user_defined_attributes
     title: Title
     title_tooltip: |
-        <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
-        <p>The title of the digital object as a whole may be the same as that of the resource or resource component record to which the digital object record is linked. However, it can be different than that expressed in the linked resource record.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Stanley Elkins, grandfather <em>(linked to a resource component record having the title "Family portraits")</em></li>
-        <li>Letter to New Atlantic <em>(linked to a resource component record having the title "Letter to New Atlantic")</em></li>
-        <li>Cedar Fire <em>(linked to a resource component record having the title "Cedar Fire")</em></li>
-        </ul>
+      <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
+      <p>The title of the digital object as a whole may be the same as that of the resource or resource component record to which the digital object record is linked. However, it can be different than that expressed in the linked resource record.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Stanley Elkins, grandfather <em>(linked to a resource component record having the title "Family portraits")</em></li>
+      <li>Letter to New Atlantic <em>(linked to a resource component record having the title "Letter to New Atlantic")</em></li>
+      <li>Cedar Fire <em>(linked to a resource component record having the title "Cedar Fire")</em></li>
+      </ul>
     digital_object_id: Identifier
     digital_object_id_tooltip: |
-        <p>A unique identifier for the digital object as a whole. May be an ARK, HANDLE, a URI, or any string that uniquely identifies the digital object. The field needs to be completed for a valid METS record to be exported.</p>
-        <p>Examples</p>
-        <ul>
-        <li>http://hdl.handle.net/1813/13524</li>
-        </ul>
+      <p>A unique identifier for the digital object as a whole. May be an ARK, HANDLE, a URI, or any string that uniquely identifies the digital object. The field needs to be completed for a valid METS record to be exported.</p>
+      <p>Examples</p>
+      <ul>
+      <li>http://hdl.handle.net/1813/13524</li>
+      </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Digital Object or Component will be published to public (patron) interfaces.</p>
+      <p>Determines whether this Digital Object or Component will be published to public (patron) interfaces.</p>
     level: VRA Core Level
     level_tooltip: |
-        <p>Primarily for use in multi-level VRA Core compliant records in order to indicate description is about a collection, a work, or an image.</p>
+      <p>Primarily for use in multi-level VRA Core compliant records in order to indicate description is about a collection, a work, or an image.</p>
     digital_object_type: Digital Object Type
     digital_object_type_tooltip: |
-        <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
+      <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
-        <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
-        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+      <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
+      <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     file_versions_tooltip: |
-        <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
+      <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
     _singular: Digital Object
     _plural: Digital Objects
     new_title: New Digital Object
@@ -140,17 +140,17 @@ en:
     <<: *digital_object_attributes
     label: Label
     label_tooltip: |
-        <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Audio: Tape 1, Track 1, Section 1, etc.</li>
-        <li>Image: Image 1, Picture 1, etc.</li>
-        <li>Text: Page 1, Leaf 1, First leaf, Chapter 1, Section 1, etc.</li>
-        <li>Video:  Tape 1, Part 1, Section 1, etc.</li>
-        </ul>
+      <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Audio: Tape 1, Track 1, Section 1, etc.</li>
+      <li>Image: Image 1, Picture 1, etc.</li>
+      <li>Text: Page 1, Leaf 1, First leaf, Chapter 1, Section 1, etc.</li>
+      <li>Video:  Tape 1, Part 1, Section 1, etc.</li>
+      </ul>
     component_id: Identifier
     component_id_tooltip: |
-        <p>A unique identifier for the Digital Object Component.</p>
+      <p>A unique identifier for the Digital Object Component.</p>
     dates: Dates
     has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Digital Object Component
@@ -161,48 +161,48 @@ en:
     temporary_question: Temporary?
     temporary: Temporary Type
     temporary_tooltip: |
-        <p>Used to indicate if this Location is a specific type of temporary location (e.g. an exhibition area).</p>
+      <p>Used to indicate if this Location is a specific type of temporary location (e.g. an exhibition area).</p>
     building: Building
     building_tooltip: |
-        <p>REQUIRED FIELD. Used to indicate the building in which a location exists.</p>
+      <p>REQUIRED FIELD. Used to indicate the building in which a location exists.</p>
     floor: Floor
     floor_tooltip: |
-        <p>Used to indicate the floor on which a location exists.</p>
+      <p>Used to indicate the floor on which a location exists.</p>
     room: Room
     room_tooltip: |
-        <p>Used to indicate the room in which a location exists.</p>
+      <p>Used to indicate the room in which a location exists.</p>
     area: Area
     area_tooltip: |
-        <p>Used to indicate the area (e.g. of a room) in which a location exists.</p>
+      <p>Used to indicate the area (e.g. of a room) in which a location exists.</p>
     barcode: Barcode
     barcode_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
-        <p>Used to record the barcode of, e.g., a shelf or range that uniquely identifies a location.</p>
+      <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+      <p>Used to record the barcode of, e.g., a shelf or range that uniquely identifies a location.</p>
     classification: Classification
     classification_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
-        <p>Used to record a classification number that uniquely identifies a location.</p>
+      <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+      <p>Used to record a classification number that uniquely identifies a location.</p>
     coordinates: Coordinates
     coordinate_1_label: Coordinate Label 1
     coordinate_1_label_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
-        <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
+      <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+      <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
     coordinate_1_indicator: Coordinate Indicator 1
     coordinate_1_indicator_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
-        <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
+      <p>CONDITIONALLY REQUIRED FIELD: Either barcode, classification, or Coordinate 1 Label and Coordinate 1 Indicator must contain data.</p>
+      <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     coordinate_2_label: Coordinate Label 2
     coordinate_2_label_tooltip: |
-        <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
+      <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
     coordinate_2_indicator: Coordinate Indicator 2
     coordinate_2_indicator_tooltip: |
-        <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
+      <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     coordinate_3_label: Coordinate Label 3
     coordinate_3_label_tooltip: |
-        <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
+      <p>Used to record a label (e.g. "Shelf", "Range", "Drawer") for a specific location.</p>
     coordinate_3_indicator: Coordinate Indicator 3
     coordinate_3_indicator_tooltip: |
-        <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
+      <p>Used to record an indicator such as a number or letter that uniquely identifies a location in combination with the associated coordinate label.</p>
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
     holdings: Holdings
@@ -249,16 +249,16 @@ en:
   container_location:
     status: Status
     status_tooltip: |
-        <p>REQUIRED FIELD. Indicates whether the location statement for this record is current or refers to a previous location for the described instance.</p>
+      <p>REQUIRED FIELD. Indicates whether the location statement for this record is current or refers to a previous location for the described instance.</p>
     start_date: Start Date
     start_date_tooltip: |
-        <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p>
+      <p>REQUIRED FIELD. Indicates the date at which the described instance was stored at this location, or a known date from which the materials were stored here.</p>
     end_date: End Date
     end_date_tooltip: |
-        <p>Indicates the date at which the described instance was moved from this location.</p>
+      <p>Indicates the date at which the described instance was moved from this location.</p>
     note: Note
     note_tooltip: |
-        <p>Used to record additional information about the instance and its relation to this location.</p>
+      <p>Used to record additional information about the instance and its relation to this location.</p>
     location: Location
     ref: Location
     _singular: Location
@@ -267,7 +267,7 @@ en:
   linked_record:
     role: Role
     role_tooltip: |
-        <p>The role in which the linked record relates to the current record.</p>
+      <p>The role in which the linked record relates to the current record.</p>
     ref: Record
     ref_plural: Records
     _singular: Record Link
@@ -280,22 +280,22 @@ en:
   linked_agent: &linked_agent_attributes
     role: Role
     role_tooltip: |
-        <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p><p>See DACS 14.3, ISAAR (CPF) 6.3</p>
+      <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p><p>See DACS 14.3, ISAAR (CPF) 6.3</p>
     relator: Relator
     relator_tooltip: |
-        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
-        <p>See DACS 14.3, ISAAR (CPF) 6.3 and MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
+      <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+      <p>See DACS 14.3, ISAAR (CPF) 6.3 and MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
-        <p>The Agent related to the material described in the record.</p>
-        <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p>
+      <p>The Agent related to the material described in the record.</p>
+      <p>Agents may be searched using auto-complete, using a browse function, or may be created on demand.</p>
     terms: Terms
     title: Title
     title_tooltip: |
-        <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
-        <p>For example,</p>
-        <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
+      <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
+      <p>For example,</p>
+      <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
     _singular: Agent Link
     _plural: Agent Links
 
@@ -305,20 +305,20 @@ en:
   event_linked_agent:
     role: Role
     role_tooltip: |
-        <p>REQUIRED FIELD. An indication of what function the Agent has in regards to the action described by the event.</p>
+      <p>REQUIRED FIELD. An indication of what function the Agent has in regards to the action described by the event.</p>
     relator: Relator
     relator_tooltip: |
-        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
-        <p>See DACS 14.3, ISAAR (CPF) 6.3 and MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
+      <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+      <p>See DACS 14.3, ISAAR (CPF) 6.3 and MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
     ref: Agent
     ref_tooltip: |
-        <p>REQUIRED FIELD. The person, family, corporate entity, or software that took part in the action described by the event.</p>
+      <p>REQUIRED FIELD. The person, family, corporate entity, or software that took part in the action described by the event.</p>
     terms: Terms
     title: Title
     title_tooltip: |
-        <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
-        <p>For example,</p>
-        <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
+      <p>Optional field: Record here the authoritative title of a work in order to make a Name / Title heading for an agent linked as a creator or a subject:</p>
+      <p>For example,</p>
+      <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
     _singular: Agent Link
     _plural: Agent Links
 
@@ -338,35 +338,35 @@ en:
     <<: *section_tooltips
     event_type: Type
     event_type_tooltip: |
-        <p>A categorization of the nature of the event.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>See PREMIS eventType</p>
+      <p>A categorization of the nature of the event.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>See PREMIS eventType</p>
     outcome: Outcome
     outcome_tooltip: |
-        <p>A categorization of the overall result of the event in terms of success, partial success, or failure. Recommended practice is to use a controlled vocabulary that a system can act upon automatically. More detail about the outcome may be recorded in an Outcome Note. Recommended practice is to define events with sufficient granularity that each event has a single outcome.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>A categorization of the overall result of the event in terms of success, partial success, or failure. Recommended practice is to use a controlled vocabulary that a system can act upon automatically. More detail about the outcome may be recorded in an Outcome Note. Recommended practice is to define events with sufficient granularity that each event has a single outcome.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     outcome_note: Outcome Note
     outcome_note_tooltip: |
-        <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
+      <p>A detailed description of the result or product of the event. This may be used to record all error and warning messages issued by a program involved in the event or to record a pointer to an error log.</p>
     date: Event Date/Time
     date_type: Event type
     timestamp: UTC Timestamp
     timestamp_inline_help: YYYY-MM-DD HH:MM:SS
     timestamp_tooltip: |
-        <p>A specific timestamp, with full date and time information, about when the event occured. By default, the application assumes that the timestamp is in UTC.</p>
+      <p>A specific timestamp, with full date and time information, about when the event occured. By default, the application assumes that the timestamp is in UTC.</p>
     chronotype_label: Date/Time specifier
     chronotype_label_tooltip: |
-        <p>Indicates what type of date is associated with this event.</p>
+      <p>Indicates what type of date is associated with this event.</p>
     chronotype:
       subrecord: Date Subrecord
       timestamp: UTC Timestamp
     date_tooltip: |
-        <p>The single date and time, or date and time range, at or during which the event occurred.</p>
-        <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>
+      <p>The single date and time, or date and time range, at or during which the event occurred.</p>
+      <p>If the single date/time or start or end date/time is unknown, enter "unknown" in the Date Expression field.</p>
     linked_agents_tooltip: |
-        <p>REQUIRED SUBRECORD: Associates one or more Agents as a participant in this Event.</p>
+      <p>REQUIRED SUBRECORD: Associates one or more Agents as a participant in this Event.</p>
     linked_records_tooltip: |
-        <p>REQUIRED SUBRECORD: Associates Accessions, Digital Objects, or Resources with this Event.</p>
+      <p>REQUIRED SUBRECORD: Associates Accessions, Digital Objects, or Resources with this Event.</p>
     types:
       accession: Accession
       accumulation: Accumulation
@@ -412,33 +412,33 @@ en:
     <<: *section_tooltips
     scope: Portion
     scope_tooltip: |
-        <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+      <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
     description: Description
     description_tooltip: |
-        <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Periodicals, newspaper clippings, and family financial records.</li>
-        <li>Trophies awarded at dog shows.</li>
-        </ul>
+      <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Periodicals, newspaper clippings, and family financial records.</li>
+      <li>Trophies awarded at dog shows.</li>
+      </ul>
     reason: Reason
     reason_tooltip: |
-        <p>The reason for deaccessioning the materials described.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Donor did not intend to transfer these materials.</li>
-        </ul>
+      <p>The reason for deaccessioning the materials described.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Donor did not intend to transfer these materials.</li>
+      </ul>
     disposition: Disposition
     disposition_tooltip: |
-        <p>A description indicating what was done with the deaccessioned materials.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Financial records returned to the family.</li>
-        <li>Dog show trophies returned to the donor's wife.</li>
-        </ul>
+      <p>A description indicating what was done with the deaccessioned materials.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Financial records returned to the family.</li>
+      <li>Dog show trophies returned to the donor's wife.</li>
+      </ul>
     notification: Notification Given?
     notification_tooltip: |
-        <p>A checkbox indicating that notification of the deaccession was given.</p>
+      <p>A checkbox indicating that notification of the deaccession was given.</p>
     dates: Deaccession Date
     _plural: Deaccessions
     _singular: Deaccession
@@ -450,119 +450,119 @@ en:
   agent_name: &agent_name_attributes
     authority_id: Authority ID
     authority_id_tooltip: |
-        <p>The unique identifier for the Name Form for an Agent within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>nr92045078 <em>for a LCNAF name heading</em></li>
-        <li>500115393 <em>for a ULAN name heading</em></li>
-        <li>http://viaf.org/viaf/134138653 <em>for a VIAF name heading</em>
-        </ul>
+      <p>The unique identifier for the Name Form for an Agent within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>nr92045078 <em>for a LCNAF name heading</em></li>
+      <li>500115393 <em>for a ULAN name heading</em></li>
+      <li>http://viaf.org/viaf/134138653 <em>for a VIAF name heading</em>
+      </ul>
     source: Source
     source_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>CONDITIONALLY REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     rules: Rules
     rules_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>See DACS 13.3, ISAAR (CPF) 5.4.3</p>
+      <p>CONDITIONALLY REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>See DACS 13.3, ISAAR (CPF) 5.4.3</p>
     name_order: Name Order
     name_order_tooltip: |
-        <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
+      <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
     prefix: Prefix
     prefix_tooltip: |
-        <p>Any term associated with a name that in normative use would precede the entire name.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Mrs.</li>
-        </ul>
+      <p>Any term associated with a name that in normative use would precede the entire name.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Mrs.</li>
+      </ul>
     title: Title
     title_tooltip: |
-        <p>A title that is part of the name.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Sir <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
-        <li>Chief (for Black Foot, Chief, d. 1877)</li>
-        <li>Emperor of the East <em>(for John II Comnenus. Emperor of the East.)</em></li>
-        </ul>
+      <p>A title that is part of the name.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Sir <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
+      <li>Chief (for Black Foot, Chief, d. 1877)</li>
+      <li>Emperor of the East <em>(for John II Comnenus. Emperor of the East.)</em></li>
+      </ul>
     primary_name: Primary Part of Name
     primary_name_tooltip: |
-        <p>The primary part of a name form (e.g. a last name or surname of a person).</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Churchill <em>(for Churchill, Winston, Sir, 1874-1965 [person])</em></i>
-        <li>Black Foot <em>(for Black Foot, Chief, d. 1877 [person])</em></li>
-        <li>International Business Machines <em>(for International Business Machines. Microelectronics Division [corporate entity])</em></li>
-        </ul>
+      <p>The primary part of a name form (e.g. a last name or surname of a person).</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Churchill <em>(for Churchill, Winston, Sir, 1874-1965 [person])</em></i>
+      <li>Black Foot <em>(for Black Foot, Chief, d. 1877 [person])</em></li>
+      <li>International Business Machines <em>(for International Business Machines. Microelectronics Division [corporate entity])</em></li>
+      </ul>
     rest_of_name: Rest of Name
     rest_of_name_tooltip: |
-        <p>The first name element or forename and additional names, e.g, middle names, for the person named in the record.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Winston <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
-        <li>Humphrey <em>(for Ward, Humphrey, Mrs., 1851-1920)</em></li>
-        </ul>
+      <p>The first name element or forename and additional names, e.g, middle names, for the person named in the record.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Winston <em>(for Churchill, Winston, Sir, 1874-1965)</em></li>
+      <li>Humphrey <em>(for Ward, Humphrey, Mrs., 1851-1920)</em></li>
+      </ul>
     suffix: Suffix
     suffix_tooltip: |
-        <p>A term following a name that qualifies the name but is not a title.</p>
-        <p>Examples</p>
-        <ul>
-        <li>Jr.</li>
-        <li>fils</li>
-        </ul>
+      <p>A term following a name that qualifies the name but is not a title.</p>
+      <p>Examples</p>
+      <ul>
+      <li>Jr.</li>
+      <li>fils</li>
+      </ul>
     fuller_form: Fuller Form
     fuller_form_tooltip: |
-        <p>The fuller form of first and middle names, when abbreviated.</p>
-        <p>Examples</p>
-        <ul>
-        <li>Hilda Doolittle <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
-        </ul>
+      <p>The fuller form of first and middle names, when abbreviated.</p>
+      <p>Examples</p>
+      <ul>
+      <li>Hilda Doolittle <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
+      </ul>
     number: Number
     number_tooltip: |
-        <p>A number, sometimes with a term, that qualifies the name. For personal names, often a roman numeral or a roman numeral and a subsequent part of a forename. For corporate names, the number of a part / section or meeting.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em></li>
-        <li>II <em>(for John Paul II)</em></li>
-        <li>97th, 2nd session <em>(for United States Congress, 97th, 2nd session)</em></li>
-        </ul>
+      <p>A number, sometimes with a term, that qualifies the name. For personal names, often a roman numeral or a roman numeral and a subsequent part of a forename. For corporate names, the number of a part / section or meeting.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>II Comnenus <em>(for John II Comnenus, Emperor of the East</em></li>
+      <li>II <em>(for John Paul II)</em></li>
+      <li>97th, 2nd session <em>(for United States Congress, 97th, 2nd session)</em></li>
+      </ul>
     dates: Dates
     dates_tooltip: |
-        <p>Use this field for alignment with MARC authority records. These dates, rather than Dates of Existence, are added to the name entry in the display.</p>
-        <p>Dates of existence for the named entity.</p>
-        <p>Examples:<p>
-        <ul>
-        <li>1886-1961 <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
-        </ul>
+      <p>Use this field for alignment with MARC authority records. These dates, rather than Dates of Existence, are added to the name entry in the display.</p>
+      <p>Dates of existence for the named entity.</p>
+      <p>Examples:<p>
+      <ul>
+      <li>1886-1961 <em>(for H.D., Hilda Doolittle, 1886-1961)</em></li>
+      </ul>
     use_dates: Usage Dates
     use_dates_tooltip: |
-        <p>Dates in which this name was used for the agent.</p>
+      <p>Dates in which this name was used for the agent.</p>
     parallel_names_tooltip: |
-        <p>Can be used to record a parallel form of the name in different languages and/or scripts or transliterated forms of the name.</p>
-        <p>See DACS 10.3.1, ISAAR (CPF) 5.1.3</p>
+      <p>Can be used to record a parallel form of the name in different languages and/or scripts or transliterated forms of the name.</p>
+      <p>See DACS 10.3.1, ISAAR (CPF) 5.1.3</p>
     qualifier: Qualifier
     qualifier_tooltip: |
-        <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Florists <em>(for Smith family (Florists))</em>)</li>
-        <li>Bronx, New York, N.Y. <em>(for St. James Church (Bronx, New York, N.Y.))</em></li>
-        </ul>
+      <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Florists <em>(for Smith family (Florists))</em>)</li>
+      <li>Bronx, New York, N.Y. <em>(for St. James Church (Bronx, New York, N.Y.))</em></li>
+      </ul>
     sort_name: Sort Name
     sort_name_tooltip: |
-        <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
-        <p>The sort name may be edited by unchecking the "Automatically generate" checkbox and then entering the form of the sort name desired.</p>
+      <p>A version of the name concatenating all the parts of the name provided in a given agent record. Used for display purposes in the application and for some exports.</p>
+      <p>The sort name may be edited by unchecking the "Automatically generate" checkbox and then entering the form of the sort name desired.</p>
     authorized: Authorized
     is_display_name: Display Name
     language: Language
     language_tooltip: |
-        <p>Indicates the language used in recording the name form.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Russian (for Каспаров, Г. К. (Гарри Кимович))</p>
+      <p>Indicates the language used in recording the name form.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Russian (for Каспаров, Г. К. (Гарри Кимович))</p>
     script: Script
     script_tooltip: |
-        <p>Indicates the script used in recording the name form.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p>
+      <p>Indicates the script used in recording the name form.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p>
     transliteration: Transliteration
     transliteration_tooltip: |
-        <p>Indicates the transliteration scheme used in recording the name form.</p>
+      <p>Indicates the transliteration scheme used in recording the name form.</p>
     _singular: Name Form
     _plural: Name Forms
 
@@ -578,13 +578,13 @@ en:
     <<: *agent_name_attributes
     family_name: Family Name
     family_name_tooltip: |
-        <p>The last name, or surname, for a family, typically supplemented with the term "family".</p>
+      <p>The last name, or surname, for a family, typically supplemented with the term "family".</p>
     family_type: Family Type
     family_type_tooltip: |
-        <p>Type of family used as a qualifier to distinguish similar name entries. Examples: Family, Dynasty, Royal house.</p>
+      <p>Type of family used as a qualifier to distinguish similar name entries. Examples: Family, Dynasty, Royal house.</p>
     location: Location
     location_tooltip: |
-        <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
+      <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
 
   parallel_name_family:
     <<: *agent_family_attributes
@@ -593,24 +593,24 @@ en:
     <<: *agent_name_attributes
     subordinate_name_1: Subordinate Name 1
     subordinate_name_1_tooltip: |
-        <p>A hierarchical unit with the corporate entity named in the Primary Name field.</p>
-        <p>Examples</p>
-        <ul>
-        <li>Microelectronics Division <em>(for International Business Machines. Microelectronics Division)</em></li>
-        </ul>
+      <p>A hierarchical unit with the corporate entity named in the Primary Name field.</p>
+      <p>Examples</p>
+      <ul>
+      <li>Microelectronics Division <em>(for International Business Machines. Microelectronics Division)</em></li>
+      </ul>
     subordinate_name_2: Subordinate Name 2
     subordinate_name_2_tooltip: |
-        <p>A hierarchical unit with the corporate entity named in the Primary Name field and lower than the unit named in the Subordinate Name 1 field.</p>
+      <p>A hierarchical unit with the corporate entity named in the Primary Name field and lower than the unit named in the Subordinate Name 1 field.</p>
 
     jurisdiction: Jurisdiction?
     jurisdiction_tooltip: |
-        <p>Indicates whether the entity is a legal jurisdiction name entry.</p>
+      <p>Indicates whether the entity is a legal jurisdiction name entry.</p>
     conference_meeting: Conference Meeting?
     conference_meeting_tooltip: |
-        <p>Indicates whether the entity is a standard corporate body, or is a conference, meeting, or other named event.</p>
+      <p>Indicates whether the entity is a standard corporate body, or is a conference, meeting, or other named event.</p>
     location: Location
     location_tooltip: |
-        <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
+      <p>A location used as a qualifier to distinguish similar name entries. Examples: Trigg County, Ky. (for Cunningham (Family : 1795- : Trigg County, Ky.)), Canadian Embassy, Tokyo (for Canada-Japan Twinning Conference (1991 : Canadian Embassy, Tokyo))</p>
 
   parallel_name_corporate_entity:
     <<: *agent_corporate_entity_attributes
@@ -619,227 +619,226 @@ en:
     <<: *agent_name_attributes
     software_name: Software Name
     software_name_tooltip: |
-        <p>The name of a software package.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Photoshop <em>(for Adobe Photoshop CS3)</em></li>
-        <li>Bagger <em>(for Library of Congress Bagger 2.1.2)</em></li>
-        </ul>
+      <p>The name of a software package.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Photoshop <em>(for Adobe Photoshop CS3)</em></li>
+      <li>Bagger <em>(for Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
     version: Version
     version_tooltip: |
-        <p>The version number or other indicator for a specific version of a software package.</p>
-        <p>Examples</p>
-        <ul>
-        <li>CS3 <em>(for Adobe Photoshop CS3)</em></li>
-        <li>2.1.2 <em>(for Library of Congress Bagger 2.1.2)</em></li>
-        </ul>
+      <p>The version number or other indicator for a specific version of a software package.</p>
+      <p>Examples</p>
+      <ul>
+      <li>CS3 <em>(for Adobe Photoshop CS3)</em></li>
+      <li>2.1.2 <em>(for Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
     manufacturer: Manufacturer
     manufacturer_tooltip: |
-        <p>The manufacturer, creator or other responsible party for a software package's distribution, development, or maintenance.</p>
-        <p>Examples</p>
-        <ul>
-        <li>Adobe <em>(for Adobe Photoshop CS3)</em></li>
-        <li>Library of Congress <em>(for Library of Congress Bagger 2.1.2)</em></li>
-        </ul>
+      <p>The manufacturer, creator or other responsible party for a software package's distribution, development, or maintenance.</p>
+      <p>Examples</p>
+      <ul>
+      <li>Adobe <em>(for Adobe Photoshop CS3)</em></li>
+      <li>Library of Congress <em>(for Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
 
   parallel_name_software:
     <<: *agent_software_attributes
 
   agent_record_identifiers:
     identifier_type_tooltip: |
-        <p>Indicates the type or format of the authority record identifier. Values in this Controlled Value List may be modified.</p>
+      <p>Indicates the type or format of the authority record identifier. Values in this Controlled Value List may be modified.</p>
     source_tooltip: |
-        <p>Indicates the originating authority file of an associated identifier. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
+      <p>Indicates the originating authority file of an associated identifier. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
     record_identifier_tooltip: |
-        <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p> <p>See DACS 13.2, ISAAR (CPF) 5.4.1</p>
+      <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p> <p>See DACS 13.2, ISAAR (CPF) 5.4.1</p>
     is_primary: Primary
 
   agent_record_control:
     maintenance_status_tooltip: |
-        <p>Indicates the current state of the record.</p><p>See DACS 13.4, ISAAR (CPF) 5.4.4</p>
+      <p>Indicates the current state of the record.</p><p>See DACS 13.4, ISAAR (CPF) 5.4.4</p>
     publication_status_tooltip: |
-        <p>Indicates whether an Agent record should be publicly available.</p>
+      <p>Indicates whether an Agent record should be publicly available.</p>
     romanization_tooltip: |
-        <p>Indicates whether the authorized name form was romanized from a non-Latin script, and the type of romanization scheme. Example: National library or bibliographic agency standard (for ALA-LC Romanization Table (e.g., Kasparov, G. K. (Garri Kimovich) for Каспаров, Г. К. (Гарри Кимович)).</p>
+      <p>Indicates whether the authorized name form was romanized from a non-Latin script, and the type of romanization scheme. Example: National library or bibliographic agency standard (for ALA-LC Romanization Table (e.g., Kasparov, G. K. (Garri Kimovich) for Каспаров, Г. К. (Гарри Кимович)).</p>
     government_agency_type_tooltip: |
-        <p>Indicates the type of agency or jurisdiction represented by the authorized name form.</p>
+      <p>Indicates the type of agency or jurisdiction represented by the authorized name form.</p>
     reference_evaluation_tooltip: |
-        <p>Indicates the level of consistency between the authorized name form and other name forms in the Agent record. When there are no additional forms, the field should be recorded as "Not applicable".</p>
+      <p>Indicates the level of consistency between the authorized name form and other name forms in the Agent record. When there are no additional forms, the field should be recorded as "Not applicable".</p>
     name_type_tooltip: |
-        <p>Indicates the uniqueness of the authorized name form within the Agents module. Unique name entries should be recorded as "Differentiated", while Agent records used to gather multiple Agents with identical names should be marked as "Undifferentiated".</p>
+      <p>Indicates the uniqueness of the authorized name form within the Agents module. Unique name entries should be recorded as "Differentiated", while Agent records used to gather multiple Agents with identical names should be marked as "Undifferentiated".</p>
     level_of_detail_tooltip: |
-        <p>Indicates the completeness of the Agent record according to consortial or local requirements.</p><p>See DACS 13.5, ISAAR (CPF) 5.4.5</p>
+      <p>Indicates the completeness of the Agent record according to consortial or local requirements.</p><p>See DACS 13.5, ISAAR (CPF) 5.4.5</p>
     modified_record_tooltip: |
-        <p>Indicates whether an Agent record has been modified, and how it has been changed.</p>
+      <p>Indicates whether an Agent record has been modified, and how it has been changed.</p>
     cataloging_source_tooltip: |
-        <p>Indicates where an Agent record originated. Locally produced records not submitted to a cooperative cataloging program should be recorded as "Other".</p>
+      <p>Indicates where an Agent record originated. Locally produced records not submitted to a cooperative cataloging program should be recorded as "Other".</p>
     maintenance_agency_tooltip: |
-        <p>Code value for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions.</p><p>See DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Example: US-UPB (for Brigham Young University, using Library of Congress MARC Organization Code).</p>
+      <p>Code value for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions.</p><p>See DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Example: US-UPB (for Brigham Young University, using Library of Congress MARC Organization Code).</p>
     agency_name_tooltip: |
-        <p>The name of the agency or organization responsible for creating or maintaining an Agent record. Name recorded should correspond with the name form associated in with the code value in the registry.</p><p>See ISAAR (CPF) 5.4.2.</p><p>Example: Brigham Young University, Harold B. Lee Library (for code value UPB, using Library of Congress MARC Organization Code).</p>
+      <p>The name of the agency or organization responsible for creating or maintaining an Agent record. Name recorded should correspond with the name form associated in with the code value in the registry.</p><p>See ISAAR (CPF) 5.4.2.</p><p>Example: Brigham Young University, Harold B. Lee Library (for code value UPB, using Library of Congress MARC Organization Code).</p>
     maintenance_agency_note_tooltip: |
-        <p>The content of the note, providing details about the maintenance agency responsible for the Agent description.</p>
+      <p>The content of the note, providing details about the maintenance agency responsible for the Agent description.</p>
     language_tooltip: |
-        <p>The language used in the preparation of the Agent description.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Example: English.</p>
+      <p>The language used in the preparation of the Agent description.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Example: English.</p>
     script_tooltip: |
-        <p>The text script used in the preparation of the Agent description.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Example: Latin.</p>
+      <p>The text script used in the preparation of the Agent description.</p><p>See DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Example: Latin.</p>
     language_note_tooltip: |
-        <p>The content of the note, providing details about the language and scripts used in the preparation of the Agent description.</p>
+      <p>The content of the note, providing details about the language and scripts used in the preparation of the Agent description.</p>
 
   agent_alternate_set:
     set_component_tooltip: |
-        <p>A caption to provide identification and access to an equivalent linked authority record.</p>
+      <p>A caption to provide identification and access to an equivalent linked authority record.</p>
     descriptive_note_tooltip: |
-        <p>The content of the note, providing details about the linked authority record.</p>
+      <p>The content of the note, providing details about the linked authority record.</p>
     file_uri_tooltip: |
-        <p>A URI for an equivalent record in an external authority file.</p>
-        <p>Example: http://id.loc.gov/authorities/names/n80060393 (for Library of Congress Linked Data Service entry for Robert W. Service).</p>
+      <p>A URI for an equivalent record in an external authority file.</p>
+      <p>Example: http://id.loc.gov/authorities/names/n80060393 (for Library of Congress Linked Data Service entry for Robert W. Service).</p>
     file_version_xlink_actuate_attribute_tooltip: |
-        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+      <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |
-        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+      <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
     xlink_title_attribute_tooltip: |
-        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+      <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
     xlink_role_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
-        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+      <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
   agent_conventions_declaration:
     name_rule_tooltip: |
-        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard.</p>
+      <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard.</p>
     citation_tooltip: |
-        <p>Bibliographic citation for a convention used in the formulation of the Agent record content. Example: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
+      <p>Bibliographic citation for a convention used in the formulation of the Agent record content. Example: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
     descriptive_note_tooltip: |
-        <p>The content of the note, providing details about the convention was used in the preparation of the Agent description. Example: Used for formulating biographical history note content. (for Describing Archives: A Content Standard).</p>
+      <p>The content of the note, providing details about the convention was used in the preparation of the Agent description. Example: Used for formulating biographical history note content. (for Describing Archives: A Content Standard).</p>
     file_uri_tooltip: |
-        <p>A URI for the online location of the convention used in the preparation of the Agent description. Example: http://www2.archivists.org/standards/DACS/ (for Describing Archives: A Content Standard).</p>
+      <p>A URI for the online location of the convention used in the preparation of the Agent description. Example: http://www2.archivists.org/standards/DACS/ (for Describing Archives: A Content Standard).</p>
     file_version_xlink_actuate_attribute_tooltip: |
-        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+      <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |
-        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+      <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
     xlink_title_attribute_tooltip: |
-        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+      <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
     xlink_role_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
-        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+      <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
   agent_other_agency_codes:
     agency_code_type_tooltip: |
-        <p>The source of the maintenance agency code. Example: OCLC.</p>
+      <p>The source of the maintenance agency code. Example: OCLC.</p>
     maintenance_agency_tooltip: |
-        <p>Alternative code values for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: OCLC-UBY (for United States, Brigham Young University, using the OCLC symbol).</p><p>See DACS 13.1, ISAAR (CPF) 5.4.2</p>
+      <p>Alternative code values for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: OCLC-UBY (for United States, Brigham Young University, using the OCLC symbol).</p><p>See DACS 13.1, ISAAR (CPF) 5.4.2</p>
   agent_maintenance_histories:
     maintenance_event_type_tooltip: |
-        <p>Indicates the type of maintenance event.</p>
+      <p>Indicates the type of maintenance event.</p>
     maintenance_agent_type_tooltip: |
-        <p>Indicates whether the maintenance event was performed by a person or by a software system.</p>
+      <p>Indicates whether the maintenance event was performed by a person or by a software system.</p>
     agent_tooltip: |
-        <p>Name of the person, agency, or software responsible for the maintenance event.</p>
+      <p>Name of the person, agency, or software responsible for the maintenance event.</p>
     event_date_tooltip: |
-        <p>Timestamp of the recording of the maintenance event.</p>
+      <p>Timestamp of the recording of the maintenance event.</p>
     descriptive_note_tooltip: |
-        <p>The content of the note, providing details about the maintenance performed.</p>
+      <p>The content of the note, providing details about the maintenance performed.</p>
 
   agent_sources:
     source_entry_tooltip: |
-        <p>Bibliographic citation for a source used in the formulation of the Agent record content. Example: Lockhart, G. W. On the trail of Robert Service (Edinburgh : Luath Press, 1991).</p>
+      <p>Bibliographic citation for a source used in the formulation of the Agent record content. Example: Lockhart, G. W. On the trail of Robert Service (Edinburgh : Luath Press, 1991).</p>
     descriptive_note_tooltip: |
-        <p>The content of the note, providing details about the content of the sources used in preparation of the Agent description.</p>
+      <p>The content of the note, providing details about the content of the sources used in preparation of the Agent description.</p>
     file_uri_tooltip: |
-        <p>A URI for the online location of the source used in the preparation of the Agent description. Example: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (for Find-A-Grave entry for Robert W. Service).</p>
+      <p>A URI for the online location of the source used in the preparation of the Agent description. Example: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (for Find-A-Grave entry for Robert W. Service).</p>
     file_version_xlink_actuate_attribute_tooltip: |
-        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+      <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |
-        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+      <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
     xlink_title_attribute_tooltip: |
-        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+      <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
     xlink_role_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
-        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+      <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
   agent_identifiers:
     entity_identifier_tooltip: |
-        <p>Records identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency.</p><p>See DACS 10.4, ISAAR (CPF) 5.1.6</p>
+      <p>Records identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency.</p><p>See DACS 10.4, ISAAR (CPF) 5.1.6</p>
     identifier_type_tooltip: |
-        <p>Indicates the type or source of the entity identifier recorded.</p>
-
+      <p>Indicates the type or source of the entity identifier recorded.</p>
 
   used_language:
     language_tooltip: |
-        <p>The language(s) associated with the agent. Example: English.</p>
+      <p>The language(s) associated with the agent. Example: English.</p>
     script_tooltip: |
-        <p>The text script associated with the agent. Example: Latin.</p>
+      <p>The text script associated with the agent. Example: Latin.</p>
 
   agent_gender:
     gender_tooltip: |
-        <p>Gender of the subject.</p></br><p>Values for this list can be added or changed via the System -> Manage Controlled Value Lists menu.</p>
+      <p>Gender of the subject.</p></br><p>Values for this list can be added or changed via the System -> Manage Controlled Value Lists menu.</p>
 
   agent_place:
     place_role_tooltip: |
-        <p>Indicates the relationship of the geographic location to the agent.</p>
+      <p>Indicates the relationship of the geographic location to the agent.</p>
 
   agent_resource:
     linked_agent_role_tooltip: |
-        <p>REQUIRED FIELD: The type of relation of entity being described to the resource.</p><p>See DACS 14.3, ISAAR (CPF) 6.3</p>
+      <p>REQUIRED FIELD: The type of relation of entity being described to the resource.</p><p>See DACS 14.3, ISAAR (CPF) 6.3</p>
     linked_resource_tooltip: |
-        <p>A resource related to the agent/entity.</p><p>See DACS 14.1, ISAAR (CPF) 6.1</p>
+      <p>A resource related to the agent/entity.</p><p>See DACS 14.1, ISAAR (CPF) 6.1</p>
     linked_resource_description_tooltip: |
-        <p>Free text field for recording bibliographic information, related collection information, etc.</p>
+      <p>Free text field for recording bibliographic information, related collection information, etc.</p>
     file_uri_tooltip: |
-        <p>A URI for the online location of the source used in the preparation of the Agent description. Example: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (for Find-A-Grave entry for Robert W. Service).</p>
+      <p>A URI for the online location of the source used in the preparation of the Agent description. Example: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (for Find-A-Grave entry for Robert W. Service).</p>
     file_version_xlink_actuate_attribute_tooltip: |
-        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+      <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |
-        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+      <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
     xlink_title_attribute_tooltip: |
-        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+      <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
     xlink_role_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
-        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+      <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
   subrecord_subject_agent_place:
     subjects_tooltip: |
-        <p>A geographic location associated with the agent.</p>
+      <p>A geographic location associated with the agent.</p>
 
   subrecord_subject_agent_occupation:
     subjects_tooltip: |
-        <p>The occupation of the agent.</p>
+      <p>The occupation of the agent.</p>
 
   subrecord_subject_agent_occupation_place:
     places_tooltip: |
-        <p>A geographic location associated with the occupations.</p>
+      <p>A geographic location associated with the occupations.</p>
 
   subrecord_subject_agent_function:
     subjects_tooltip: |
-        <p>Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p>
+      <p>Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p>
 
   subrecord_subject_agent_function_place:
     places_tooltip: |
-        <p>A geographic location associated with the functions.</p>
+      <p>A geographic location associated with the functions.</p>
 
   subrecord_subject_agent_topic:
     subjects_tooltip: |
-        <p>A subject associated with the agent.</p>
+      <p>A subject associated with the agent.</p>
 
   subrecord_subject_agent_topic_place:
     places_tooltip: |
-        <p>A geographic location associated with the subjects.</p>
+      <p>A geographic location associated with the subjects.</p>
 
   subrecord_subject_agent_resource_place:
     places_tooltip: |
-        <p>A geographic location associated with the linked resource.</p>
+      <p>A geographic location associated with the linked resource.</p>
 
   name:
     _singular: Name Form
@@ -847,15 +846,15 @@ en:
 
   structured_date_label: &sdl_attributes
     date_label_tooltip: |
-        <p>Describes what type of activity the date signifies</p>
+      <p>Describes what type of activity the date signifies</p>
     date_type_structured_tooltip: |
-        <p>Indicates the type for date information, either a single date or a date range.</p>
+      <p>Indicates the type for date information, either a single date or a date range.</p>
     date_certainty_tooltip: |
-        <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
+      <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
     date_era_tooltip: |
-        <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
+      <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
     date_calendar_tooltip: |
-        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+      <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
 
   structured_date_label_existence:
     <<: *sdl_attributes
@@ -865,35 +864,35 @@ en:
 
   structured_date_single: &sds_attributes
     date_role_tooltip: |
-        <p>For a single date, used to indicate whether the date should be understood as a beginning date or an ending date. The default is Begin.</p>
+      <p>For a single date, used to indicate whether the date should be understood as a beginning date or an ending date. The default is Begin.</p>
 
     date_expression_tooltip: |
-        <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+      <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
 
     date_standardized_tooltip: |
-        <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
+      <p>A natural language expression specifying the date or date range. Required when a standardized date is not recorded.</p>
 
     date_standardized_type_tooltip: |
-        <p>Used to indicate whether the standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+      <p>Used to indicate whether the standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
 
   structured_date_range: &sdr_attributes
     begin_date_expression_tooltip: |
-        <p>A natural language expression specifying the beginning of a date range. Required when a standardized date is not recorded.</p>
+      <p>A natural language expression specifying the beginning of a date range. Required when a standardized date is not recorded.</p>
 
     begin_date_standardized_tooltip: |
-        <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
+      <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
 
     begin_date_standardized_type_tooltip: |
-        <p>Used to indicate whether the beginning standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+      <p>Used to indicate whether the beginning standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
 
     end_date_expression_tooltip: |
-        <p>A natural language expression specifying the end of a date range. Required when a standardized date is not recorded.</p>
+      <p>A natural language expression specifying the end of a date range. Required when a standardized date is not recorded.</p>
 
     end_date_standardized_tooltip: |
-        <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the last date in a date range.</p>
+      <p>A date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the last date in a date range.</p>
 
     end_date_standardized_type_tooltip: |
-        <p>Used to indicate whether the ending standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
+      <p>Used to indicate whether the ending standardized date reflects the actual date or an estimate of the earliest or latest something could have occurred.</p>
 
   structured_date_single_fields:
     <<: *sds_attributes
@@ -904,47 +903,47 @@ en:
   agent_contact: &agent_contact
     name: Contact Name
     name_tooltip: |
-        <p>Name of the person serving as contact for the entity in the main record.</p>
-        <p>For repository corporate entity agents, a name will be auto-generated by the application when blank.</p>
+      <p>Name of the person serving as contact for the entity in the main record.</p>
+      <p>For repository corporate entity agents, a name will be auto-generated by the application when blank.</p>
     salutation: Salutation
     salutation_tooltip: |
-        <p>Salutation for the contact person.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>Salutation for the contact person.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     address_1: Address 1
     address_1_tooltip: |
-        <p>Address for the contact person.</p>
+      <p>Address for the contact person.</p>
     address_2_tooltip: |
-        <p>A continuation of the address for the contact person.</p>
+      <p>A continuation of the address for the contact person.</p>
     address_3_tooltip: |
-        <p>A continuation of the address for the contact person.</p>
+      <p>A continuation of the address for the contact person.</p>
     address_2: Address 2
     address_3: Address 3
     city: City
     city_tooltip: |
-        <p>City in which the contact person is located.</p>
+      <p>City in which the contact person is located.</p>
     region: State/Region
     region_tooltip: |
-        <p>State or Region in which the City is located</p>
+      <p>State or Region in which the City is located</p>
     country: Country
     country_tooltip: |
-        <p>Country in which the contact person is located.</p>
+      <p>Country in which the contact person is located.</p>
     post_code: Post Code
     post_code_tooltip: |
-        <p>Mail or zip code for the contact person’s address.</p>
+      <p>Mail or zip code for the contact person’s address.</p>
     telephone: Telephone
     telephone_ext: Telephone Extension
     fax: Fax
     fax_tooltip: |
-        <p>Fax number for the contact person.</p>
+      <p>Fax number for the contact person.</p>
     email: E-mail
     email_tooltip: |
-        <p>E-mail address for the contact person.</p>
+      <p>E-mail address for the contact person.</p>
     email_signature: E-mail Signature
     email_signature_tooltip: |
-        <p>E-mail signature for the contact person.</p>
+      <p>E-mail signature for the contact person.</p>
     note: Contact Notes
     note_tooltip: |
-        <p>Additional notes or contact information for the contact person.</p>
+      <p>Additional notes or contact information for the contact person.</p>
     telephones: Telephone Numbers
     _singular: Contact
     _plural: Contact Details
@@ -954,57 +953,57 @@ en:
     number_type: Number Type
     number: Number
     number_tooltip: |
-        <p>Telephone number for the contact person.</p>
+      <p>Telephone number for the contact person.</p>
     ext: Telephone Extension
     ext_tooltip: |
-        <p>Telephone number extension for the contact person.</p>
+      <p>Telephone number extension for the contact person.</p>
     number_type_tooltip: |
-        <p>Indicates the type of telephone number.</p>
+      <p>Indicates the type of telephone number.</p>
 
   telephone_required: &telephone
     _plural: Telephone Numbers
     number_type: Number Type
     number: Number
     number_tooltip: |
-        <p>Telephone number for the contact person.</p>
+      <p>Telephone number for the contact person.</p>
     ext: Telephone Extension
     ext_tooltip: |
-        <p>Telephone number extension for the contact person.</p>
+      <p>Telephone number extension for the contact person.</p>
 
   telephone_merge: &telephone
     _plural: Telephone Numbers
     number_type: Number Type
     number: Number
     number_tooltip: |
-        <p>Telephone number for the contact person.</p>
+      <p>Telephone number for the contact person.</p>
     ext: Telephone Extension
     ext_tooltip: |
-        <p>Telephone number extension for the contact person.</p>
+      <p>Telephone number extension for the contact person.</p>
 
   telephone_merge_target: &telephone
     _plural: Telephone Numbers
     number_type: Number Type
     number: Number
     number_tooltip: |
-        <p>Telephone number for the contact person.</p>
+      <p>Telephone number for the contact person.</p>
     ext: Telephone Extension
     ext_tooltip: |
-        <p>Telephone number extension for the contact person.</p>
+      <p>Telephone number extension for the contact person.</p>
 
   note_attributes: &note_attributes
     label: Label
     label_tooltip: |
-        <p>A label or heading for the specific note. If a label is not used, the note type will be used as the label wherever required.</p>
+      <p>A label or heading for the specific note. If a label is not used, the note type will be used as the label wherever required.</p>
     persistent_id: Persistent ID
     content: Content
     content_tooltip: |
-        <p>The content of the note.</p>
+      <p>The content of the note.</p>
     items: Items
     items_singular: Item
     item_singular: Item
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Note to public (patron) interfaces.</p>
+      <p>Determines whether this Note to public (patron) interfaces.</p>
     title: Title
     title_tooltip: |
       <p>An element for recording a specific label, or title, for the subnote.</p>
@@ -1149,10 +1148,10 @@ en:
   chronology_item:
     event_date: Event Date
     event_date_tooltip: |
-        <p>The date of an event in a chronology list.</p>
+      <p>The date of an event in a chronology list.</p>
     events: Event Items
     events_tooltip: |
-        <p>A description of an event corresponding to the chronology date item.</p>
+      <p>A description of an event corresponding to the chronology date item.</p>
     events_singular: Event Item
     place: Event Place
 
@@ -1163,17 +1162,17 @@ en:
   definedlist_item:
     label: Label
     label_tooltip: |
-        A text string that either contextualizes or is explained by the content in the defined list note item.
+      A text string that either contextualizes or is explained by the content in the defined list note item.
     value: Value
     value_tooltip: |
-        A defined list item in a defined list.
+      A defined list item in a defined list.
 
   note_orderedlist:
     <<: *note_attributes
     option: Ordered List
     enumeration: Enumeration
     enumeration_tooltip: |
-        <p>An attribute for indicating the type of numeration to be applied to the note items</p>
+      <p>An attribute for indicating the type of numeration to be applied to the note items</p>
 
   note_bioghist:
     <<: *note_attributes
@@ -1232,8 +1231,8 @@ en:
     is_representative: Is Representative?
     instance_type: Type
     instance_type_tooltip: |
-        <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     digital_object: Digital Object
     _plural: Instances
     _singular: Instance
@@ -1250,56 +1249,56 @@ en:
     _singular: File Version
     file_uri: File URI
     file_uri_tooltip: |
-        <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
+      <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this File Version is published to public (patron) interfaces.</p>
+      <p>Determines whether this File Version is published to public (patron) interfaces.</p>
     use_statement: Use Statement
     use_statement_tooltip: |
-        <p>A descriptor indicating the use for which the digital file is intended (e.g., a thumbnail).</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>A descriptor indicating the use for which the digital file is intended (e.g., a thumbnail).</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     xlink_actuate_attribute: XLink Actuate Attribute
     xlink_actuate_attribute_tooltip: |
-        <p>An XLink attribute used for export for indicating how the digital object should display (e.g. whether the link occurs automatically or must be requested by the user). It is used in conjunction with the XLink Show attribute.</p>
+      <p>An XLink attribute used for export for indicating how the digital object should display (e.g. whether the link occurs automatically or must be requested by the user). It is used in conjunction with the XLink Show attribute.</p>
     xlink_show_attribute: XLink Show Attribute
     xlink_show_attribute_tooltip: |
-        <p>An XLink attribute used for export for indicating how the target of a link should be displayed. It is used in conjunction with the XLink Actuate attribute.</p>
+      <p>An XLink attribute used for export for indicating how the target of a link should be displayed. It is used in conjunction with the XLink Actuate attribute.</p>
     file_format_name: File Format Name
     file_format_name_tooltip: |
-        <p>The name of the format for the file type.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Audio Interchange File Format (aiff)</li>
-        <li>Audio/Video Interleaved Format (avi)</li>
-        <li>JPEG File Interchange Format (jpeg)</li>
-        <li>MPEG-Audio Layer 3 (mp3)</li>
-        <li>Portable Document Format (pdf)</li>
-        </ul>
+      <p>The name of the format for the file type.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Audio Interchange File Format (aiff)</li>
+      <li>Audio/Video Interleaved Format (avi)</li>
+      <li>JPEG File Interchange Format (jpeg)</li>
+      <li>MPEG-Audio Layer 3 (mp3)</li>
+      <li>Portable Document Format (pdf)</li>
+      </ul>
     file_format_version: File Format Version
     file_format_version_tooltip: |
-        <p>The version of the format for the file type.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>5.0 <em>(for TIFF 5.0)</em></li>
-        </ul>
+      <p>The version of the format for the file type.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>5.0 <em>(for TIFF 5.0)</em></li>
+      </ul>
     file_size_bytes: File Size (Bytes)
     file_size_bytes_tooltip: |
-        <p>The size (in bytes) of the digital file.</p>
+      <p>The size (in bytes) of the digital file.</p>
     checksum: Checksum
     checksum_tooltip: |
-        <p>A digital signature for monitoring the integrity and authenticity of a digital file.</p>
+      <p>A digital signature for monitoring the integrity and authenticity of a digital file.</p>
     checksum_method: Checksum Method
     checksum_method_tooltip: |
-        <p>The algorithm used for generating checksums.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>MD5</li>
-        <li>CRC-32</li>
-        <li>SHA-1</li>
-        <li>SHA-256</li>
-        </ul>
+      <p>The algorithm used for generating checksums.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>MD5</li>
+      <li>CRC-32</li>
+      <li>SHA-1</li>
+      <li>SHA-256</li>
+      </ul>
     identifier: Identifier
     caption: Caption
     is_representative: Representative
@@ -1309,40 +1308,40 @@ en:
   extent: &extent_attributes
     portion: Portion
     portion_tooltip: |
-        <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
-        <p>See DACS 2.5.7</p>
+      <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+      <p>See DACS 2.5.7</p>
     number: Number
     number_tooltip: |
-        <p>REQIURED FIELD: A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>REQIURED FIELD: A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
     extent_type: Type
     extent_type_tooltip: &extent_type_tooltip |
-        <p>REQUIRED FIELD: A term indicating the type of unit used to measure the extent of materials described.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>REQUIRED FIELD: A term indicating the type of unit used to measure the extent of materials described.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Container Summary
     container_summary_tooltip: |
-        <p>A list of container and container types housing the materials described in the component record.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
-        <li>12 shoeboxes.</li>
-        <li>4 archives boxes, 32 tubes.</li>
-        </ul>
+      <p>A list of container and container types housing the materials described in the component record.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
+      <li>12 shoeboxes.</li>
+      <li>4 archives boxes, 32 tubes.</li>
+      </ul>
     physical_details: Physical Details
     physical_details_tooltip: |
-        <p>Other physical details of the materials described, e.g., analog, b&w, negatives.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Other physical details of the materials described, e.g., analog, b&w, negatives.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
     dimensions: Dimensions
     dimensions_tooltip: |
-        <p>Dimensions of the materials described.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
-        <p>Examples:</p>
-        <ul>
-        <li>29 cm</li>
-        <li>7 1/4 x 3 1/2 in.</li>
-        <li>1/2 in. tape</li>
-        </ul>
+      <p>Dimensions of the materials described.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Examples:</p>
+      <ul>
+      <li>29 cm</li>
+      <li>7 1/4 x 3 1/2 in.</li>
+      <li>1/2 in. tape</li>
+      </ul>
     _plural: Extents
     _singular: Extent
 
@@ -1358,12 +1357,12 @@ en:
     <<: *lang_material_attributes
     language: Language
     language_tooltip: &language_language_tooltip |
-        <p>REQUIRED FIELD: The language term and code represented in the material(s) described. Codes drawn from ISO 639-2b: Codes for the Representation of Names of Languages.</p>
-        <p>See DACS 4.5, ISAD(G) 3.4.3</p>
+      <p>REQUIRED FIELD: The language term and code represented in the material(s) described. Codes drawn from ISO 639-2b: Codes for the Representation of Names of Languages.</p>
+      <p>See DACS 4.5, ISAD(G) 3.4.3</p>
     script: Script
     script_tooltip: &language_script_tooltip |
-        <p>The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
-        <p>See DACS 4.5, ISAD(G) 3.4.3</p>
+      <p>The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
+      <p>See DACS 4.5, ISAD(G) 3.4.3</p>
 
   language_note:
     <<: *lang_material_attributes
@@ -1371,18 +1370,18 @@ en:
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |
-        <p>The title of an external document referenced from the record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
+      <p>The title of an external document referenced from the record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
     location_tooltip: |
-        <p>The location of the file, ideally a resolvable URI.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>http://www.archivesspace.org/</li>
-        <li>file:///c:/path/to/the%20file.txt</li>
-        </ul>
+      <p>The location of the file, ideally a resolvable URI.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>http://www.archivesspace.org/</li>
+      <li>file:///c:/path/to/the%20file.txt</li>
+      </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this External Document is published to public (patron) interfaces.</p>
+      <p>Determines whether this External Document is published to public (patron) interfaces.</p>
     document_link: Document Link
     _plural: External Documents
     _singular: External Document
@@ -1391,7 +1390,7 @@ en:
     <<: *external_document_attributes
     identifier_type: Identifier Type
     identifier_type_tooltip: |
-        <p>The identifier type indicates what domain the external document belongs to.</p>
+      <p>The identifier type indicates what domain the external document belongs to.</p>
 
   external_id:
     _plural: External IDs
@@ -1399,56 +1398,55 @@ en:
     source: Source
     external_id: External ID
 
-
   rights_statement: &rights_statement_attributes
     identifier: Identifier
     identifier_tooltip: |
-        <p>Uniquely identifies the rights statement within the repository domain. Rights Statement identifiers are usually auto-generated by the application.</p>
+      <p>Uniquely identifies the rights statement within the repository domain. Rights Statement identifiers are usually auto-generated by the application.</p>
     identifier_auto_generate_message: "-- auto-generated upon save --"
     rights_type: Rights Type
     rights_type_tooltip: |
-        <p>The basis for the rights statement being made.  Four bases are allowed:  Copyright, License, Statute, and Other.  License is for formal and informal licenses, such as donor and purchase agreements.  Statute is for codified laws such as Fair Use or FERPA in the United States.  Other is for institutional policy or other bases other than copyright, license, and statute.  It too may be used for donor and purchase agreements if the repository prefers.</p>
+      <p>The basis for the rights statement being made.  Four bases are allowed:  Copyright, License, Statute, and Other.  License is for formal and informal licenses, such as donor and purchase agreements.  Statute is for codified laws such as Fair Use or FERPA in the United States.  Other is for institutional policy or other bases other than copyright, license, and statute.  It too may be used for donor and purchase agreements if the repository prefers.</p>
     rights_type_message: Please select a Rights Type
     status: Status
     status_tooltip: |
-        <p>A coded designation for the copyright status of the object at the time the rights statement is recorded.</p>
-        <ul>
-          <li>Copyrighted = Under copyright.</li>
-          <li>Public domain = In the public domain.</li>
-          <li>Unknown = Copyright status of the resource is unknown</li>
-        </ul>
+      <p>A coded designation for the copyright status of the object at the time the rights statement is recorded.</p>
+      <ul>
+        <li>Copyrighted = Under copyright.</li>
+        <li>Public domain = In the public domain.</li>
+        <li>Unknown = Copyright status of the resource is unknown</li>
+      </ul>
     license_terms: License Terms
     license_terms_tooltip: |
-        <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
+      <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
     statute_citation: Statute Citation
     statute_citation_tooltip: |
-        <p>A citation, URI, or other reference to the statute related to this Rights Statement.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Freedom of Information and Protection of Privacy Act [RSBC 1996] Chapter 165</li>
-        </ul>
+      <p>A citation, URI, or other reference to the statute related to this Rights Statement.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Freedom of Information and Protection of Privacy Act [RSBC 1996] Chapter 165</li>
+      </ul>
     jurisdiction: Jurisdiction
     jurisdiction_tooltip: |
-        <p>Copyright: The country whose copyright laws apply.</p>
-        <p>Statute: The country or other political body enacting the statute.</p>
-        <p>Conforms to ISO 3166.</p>
+      <p>Copyright: The country whose copyright laws apply.</p>
+      <p>Statute: The country or other political body enacting the statute.</p>
+      <p>Conforms to ISO 3166.</p>
     type_note: Type Note
     type_note_tooltip: |
-        <p>Any additional information about the copyright, license, statute, or institutional policy and/or about its application to the materials described.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Constraint(s) on Use: This work may be protected by copyright law. Use of this work beyond that allowed by the applicable copyright statute requires the written permission of the copyright holder(s). Responsibility for obtaining permissions for any use and distribution of this work rests exclusively with the user and not the UC San Diego Libraries. Inquiries can be made to the Mandeville Special Collections Library (http://libraries.ucsd.edu/locations/mscl/).</li>
-        </ul>
+      <p>Any additional information about the copyright, license, statute, or institutional policy and/or about its application to the materials described.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Constraint(s) on Use: This work may be protected by copyright law. Use of this work beyond that allowed by the applicable copyright statute requires the written permission of the copyright holder(s). Responsibility for obtaining permissions for any use and distribution of this work rests exclusively with the user and not the UC San Diego Libraries. Inquiries can be made to the Mandeville Special Collections Library (http://libraries.ucsd.edu/locations/mscl/).</li>
+      </ul>
     determination_date: Determination Date
     determination_date_tooltip: |
-        <p>Copyright: The date the copyright status recorded in copyright status was determined.</p>
-        <p>Statute: The date that the determination was made that the statute authorized the permission(s) noted.</p>
+      <p>Copyright: The date the copyright status recorded in copyright status was determined.</p>
+      <p>Statute: The date that the determination was made that the statute authorized the permission(s) noted.</p>
     start_date: Start Date
     start_date_tooltip: |
-        <p>The date the rights statement went into effect.</p>
+      <p>The date the rights statement went into effect.</p>
     end_date: End Date
     end_date_tooltip: |
-        <p>The date the rights statement ends.</p>
+      <p>The date the rights statement ends.</p>
     other_rights_basis: Other Rights Basis
     other_rights_basis_tooltip: |
       <p>Rights Type of other rights statements that are not statutes, licenses, or copyright.</p>
@@ -1470,53 +1468,53 @@ en:
   date: &date_attributes
     label: Label
     label_tooltip: |
-        <p>REQUIRED FIELD: Describes what the type of activity the date signifies.</p>
-        <p>See DACS 2.4 and 2.4.3, ISAD(G) 3.1.3</p>
+      <p>REQUIRED FIELD: Describes what the type of activity the date signifies.</p>
+      <p>See DACS 2.4 and 2.4.3, ISAD(G) 3.1.3</p>
     date_type: Type
     date_type_tooltip: |
-        <p>REQUIRED FIELD: Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
+      <p>REQUIRED FIELD: Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     expression_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: A natural language expression specifying the date or date range of the materials. Required when a normalized date is not recorded.</p>
-        <p>See DACS 2.4, ISAD(G) 3.1.3</p>
-        <p>Examples:</p>
-        <ul>
-        <li>1968</li>
-        <li>1979-1993</li>
-        <li>1785-1960, bulk 1916-1958</li>
-        <li>1827, 1952-1978</li>
-        <li>circa 1870-1879</li>
-        <li>1906 March 17</li>
-        <li>undated</li>
-        <li>unknown <em>(for events)</em></li>
-        </ul>
+      <p>CONDITIONALLY REQUIRED FIELD: A natural language expression specifying the date or date range of the materials. Required when a normalized date is not recorded.</p>
+      <p>See DACS 2.4, ISAD(G) 3.1.3</p>
+      <p>Examples:</p>
+      <ul>
+      <li>1968</li>
+      <li>1979-1993</li>
+      <li>1785-1960, bulk 1916-1958</li>
+      <li>1827, 1952-1978</li>
+      <li>circa 1870-1879</li>
+      <li>1906 March 17</li>
+      <li>undated</li>
+      <li>unknown <em>(for events)</em></li>
+      </ul>
     begin: Begin
     begin_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
     begin_tooltip: |
-        <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
-        <p>See DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
-        <p>A.D. years are expressed with four digits.</p>
-        <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
+      <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing a single date or the first date in a date range.</p>
+      <p>See DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
+      <p>A.D. years are expressed with four digits.</p>
+      <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     end: End
     end_inline_help: e.g. YYYY, YYYY-MM, or YYYY-MM-DD
     end_tooltip: |
-        <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the second date in a date range.</p>
-        <p>See DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
-        <p>A.D. years are expressed with four digits.</p>
-        <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
+      <p>A normalized date (in the form YYYY, YYYY-MM, or YYYY-MM-DD) representing the second date in a date range.</p>
+      <p>See DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
+      <p>A.D. years are expressed with four digits.</p>
+      <p>B.C. years are expressed as a negative number, e.g., -214 for 214 B.C.</p>
     certainty: Certainty
     certainty_tooltip: |
-        <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
-        <p>See EAD attribute "certainty".</p>
+      <p>The level of confidence for the information given in a date statement. This information is optional and should only be added when qualifying date information as potentially uncertain based upon the description or cataloging rules in use.</p>
+      <p>See EAD attribute "certainty".</p>
     era: Era
     era_tooltip: |
-        <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
-        <p>See EAD attribute "era".</p>
+      <p>Period during which years are numbered and dates reckoned, such as B.C. or C.E. The value "ce" is the default.</p>
+      <p>See EAD attribute "era".</p>
     calendar: Calendar
     calendar_tooltip: |
-        <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
-        <p>See EAD attribute "calendar" and DACS 2.4.5.</p>
+      <p>System of reckoning time, such as the Gregorian calendar or Julian calendar. The value "gregorian" is the default.</p>
+      <p>See EAD attribute "calendar" and DACS 2.4.5.</p>
     _plural: Dates
     _singular: Date
 
@@ -1559,136 +1557,136 @@ en:
     accession_date_unknown: unknown
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
-        <p>The date the accession took place. It is not
-        necessarily the same date as when the record is created.</p>
+      <p>The date the accession took place. It is not
+      necessarily the same date as when the record is created.</p>
     accession_id: Identifier
     accession_id_tooltip: |
-        <p>The internal database number for a specific accession record.</p>
+      <p>The internal database number for a specific accession record.</p>
     identifier: Identifier
     id_0: Identifier
     id_1: Identifier 2
     id_2: Identifier 3
     id_3: Identifier 4
     id_0_tooltip: |
-        <p>REQUIRED FIELD:  The unique identifier for an accession within a
-        repository.</p>
-        <p>In ArchivesSpace, four fields are provided for parsing out an
-        accession identifier into its component parts. Each segment is
-        limited to 50 characters, or 200 characters total for the identifier.
-        At least the first part must be used for a valid accession record.</p>
-        <p>Default values may be used to populate the component parts that are
-        the same across all accession numbers.</p>
-        <p>See DACS 5.2.5, ISAD(G) 3.2.4</p>
+      <p>REQUIRED FIELD:  The unique identifier for an accession within a
+      repository.</p>
+      <p>In ArchivesSpace, four fields are provided for parsing out an
+      accession identifier into its component parts. Each segment is
+      limited to 50 characters, or 200 characters total for the identifier.
+      At least the first part must be used for a valid accession record.</p>
+      <p>Default values may be used to populate the component parts that are
+      the same across all accession numbers.</p>
+      <p>See DACS 5.2.5, ISAD(G) 3.2.4</p>
     content_description: Content Description
     content_description_tooltip: |
-        <p>A description of the document types and topical contents of the
-        accession.</p>
-        <p>See DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
-        <p>Examples:</p>
-        <p>Ten cartons of materials containing field notes, diaries, and
-        drafts of maps documenting Mr. Smith's 10 years in residence at the
-        Otay Mesa Ranch.</p>
+      <p>A description of the document types and topical contents of the
+      accession.</p>
+      <p>See DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
+      <p>Examples:</p>
+      <p>Ten cartons of materials containing field notes, diaries, and
+      drafts of maps documenting Mr. Smith's 10 years in residence at the
+      Otay Mesa Ranch.</p>
     condition_description: Condition Description
     condition_description_tooltip: |
-        <p>A description of the physical condition of the contents of the
-        accession, including any special handling requirements.</p>
-        <p>Examples:</p>
-        <p>The maps in box 4 are brittle and several are covered with mold.
-        Inhalation guards should be worn during processing.</p>
+      <p>A description of the physical condition of the contents of the
+      accession, including any special handling requirements.</p>
+      <p>Examples:</p>
+      <p>The maps in box 4 are brittle and several are covered with mold.
+      Inhalation guards should be worn during processing.</p>
     disposition: Disposition
     disposition_tooltip: |
-        <p>A note to describe how a particular accession may have been assigned to different resources.</p>
-        <p>Examples:</p>
-        <p>Photographs were separated and assigned to Photographs 025.</p>
-        <p>The letters to William Colton were added to the William Colton correspondence collection, while the maps of local country streams were added to the records of the County River collection.</p>
+      <p>A note to describe how a particular accession may have been assigned to different resources.</p>
+      <p>Examples:</p>
+      <p>Photographs were separated and assigned to Photographs 025.</p>
+      <p>The letters to William Colton were added to the William Colton correspondence collection, while the maps of local country streams were added to the records of the County River collection.</p>
     general_note: General Note
     general_note_tooltip: |
-        <p>A catch all note field for any information that does not fit in any of the more specifically defined fields.</p>
+      <p>A catch all note field for any information that does not fit in any of the more specifically defined fields.</p>
     inventory: Inventory
     inventory_tooltip: |
-        <p>A list of the containers and their contents making up an accession. The box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
-        <p>Example:</p>
-        <ul>
-        <li>Box 1:   Diaries</li>
-        <li>Box 2:   Letters to Mr. Smith's family</li>
-        <li>Box 3:   Personal records for ranch employees</li>
-        <li>Box 4:   Drafts of ranch maps</li>
-        </ul>
+      <p>A list of the containers and their contents making up an accession. The box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
+      <p>Example:</p>
+      <ul>
+      <li>Box 1:   Diaries</li>
+      <li>Box 2:   Letters to Mr. Smith's family</li>
+      <li>Box 3:   Personal records for ranch employees</li>
+      <li>Box 4:   Drafts of ranch maps</li>
+      </ul>
     provenance: Provenance
     provenance_tooltip: |
-       <p>A note that provides provenance information about an accession, such as custodial history, detailed acquisition information, etc.</p>
-       <p>See DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
+      <p>A note that provides provenance information about an accession, such as custodial history, detailed acquisition information, etc.</p>
+      <p>See DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
     retention_rule: Retention Rule
     retention_rule_tooltip: |
-        <p>A note indicating the retention authority or rule for the accession.
-        <p>Examples:</p>
-        <ul>
-        <li>See the Campus Retention Schedule.</li>
-        </ul>
+      <p>A note indicating the retention authority or rule for the accession.
+      <p>Examples:</p>
+      <ul>
+      <li>See the Campus Retention Schedule.</li>
+      </ul>
     restrictions_apply: Restrictions Apply?
     restrictions_apply_tooltip: |
-        <p>Indication if restrictions apply to the accession.</p>
-        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+      <p>Indication if restrictions apply to the accession.</p>
+      <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     resource_type: Resource Type
     resource_type_tooltip: |
-        <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     language: Language of Description
     language_tooltip: |
-        <p>Indicates all the languages present in the record generated from the accession description.</p>
+      <p>Indicates all the languages present in the record generated from the accession description.</p>
     script: Script of Description
     script_tooltip: |
-        <p>Indicates all the scripts present in the record generated from the accession description.<p></p>See DACS 4.5, ISAD(G) 3.4.3</p>
+      <p>Indicates all the scripts present in the record generated from the accession description.<p></p>See DACS 4.5, ISAD(G) 3.4.3</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
-        <p>A checkbox for indicating access to the materials is restricted.</p>
-        <p>See DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
+      <p>A checkbox for indicating access to the materials is restricted.</p>
+      <p>See DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
     access_restrictions_note: Access Restrictions Note
     access_restrictions_note_tooltip: |
-        <p>A statement indicating what materials in the accession have access to them restricted, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
-        <p>See DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Diaries in box ten are restricted by the donor until 2030.</li>
-        </ul>
+      <p>A statement indicating what materials in the accession have access to them restricted, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+      <p>See DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Diaries in box ten are restricted by the donor until 2030.</li>
+      </ul>
     use_restrictions: Use Restrictions?
     use_restrictions_tooltip: |
-        <p>A check box to indicate that there are use restrictions for materials in the accession.</p>
-        <p>See DACS 4.4, ISAD(G) 3.4.2</p>
+      <p>A check box to indicate that there are use restrictions for materials in the accession.</p>
+      <p>See DACS 4.4, ISAD(G) 3.4.2</p>
     use_restrictions_note: Use Restrictions Note
     use_restrictions_note_tooltip: |
-        <p>A statement indicating which materials have use restrictions, how the materials can be used, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
-        <p>See DACS 4.4, ISAD(G) 3.4.2</p>
-        <p>Examples:</p>
-        <p>Manuscripts in box 33 are fragile; photocopies must be used instead.</p>
+      <p>A statement indicating which materials have use restrictions, how the materials can be used, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+      <p>See DACS 4.4, ISAD(G) 3.4.2</p>
+      <p>Examples:</p>
+      <p>Manuscripts in box 33 are fragile; photocopies must be used instead.</p>
     acquisition_type: Acquisition Type
     acquisition_type_tooltip: |
-        <p>A categorical descriptor for the type of acquisition. Repositories
-        may customize the list of data values.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Gift</li>
-        <li>Purchase</li>
-        <li>Transfer</li>
-        </ul>
+      <p>A categorical descriptor for the type of acquisition. Repositories
+      may customize the list of data values.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Gift</li>
+      <li>Purchase</li>
+      <li>Transfer</li>
+      </ul>
     publish: Publish?
     publish_help: Check this if you wish to publish this accession to the public.
     publish_tooltip: |
-        <p>Determines whether this Accession will be published to public (patron) interfaces.</p>
+      <p>Determines whether this Accession will be published to public (patron) interfaces.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
-        <p>Indication if restrictions apply to the accession.</p>
-        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+      <p>Indication if restrictions apply to the accession.</p>
+      <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     title: Title
     title_tooltip: |
-        <p>The title assigned to an accession or resource. The accession title
-        need not be the same as the resource title. Moreover, a title need not
-        be expressed for the accession record, as it can be implicitly
-        inherited from the resource record to which the accession is
-        linked.</p>
-        <p>See DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>
+      <p>The title assigned to an accession or resource. The accession title
+      need not be the same as the resource title. Moreover, a title need not
+      be expressed for the accession record, as it can be implicitly
+      inherited from the resource record to which the accession is
+      linked.</p>
+      <p>See DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>
     related_resources_tooltip: |
-        <p>Used for linking associated Resources with this Accession.</p>
+      <p>Used for linking associated Resources with this Accession.</p>
     relator: Relator
     relator_type: Relator Type
     created_by: Created by
@@ -1712,23 +1710,22 @@ en:
     relator: This Accession
     sibling_of: Sibling of
     relator_type: Relator Type
-    bound_with: "\"Bound with\" Relationship"
+    bound_with: '"Bound with" Relationship'
 
   accession_parts_relationship:
-    _singular: "\"Part of\" Relationship"
-    part: "\"Part of\" Relationship"
+    _singular: '"Part of" Relationship'
+    part: '"Part of" Relationship'
     relator: This Accession
     forms_part_of: Forms Part of
     has_part: Has Part
     relator_type: Relator Type
 
-
   agent: &agent_attributes
     <<: *slug_attributes
     type: Agent Type
     type_tooltip: |
-        <p>The type of entity represented by the Agent record.</p>
-        <p>See DACS 10.2, ISAAR (CPF) 5.1.1, and PREMIS Agent entity</p>
+      <p>The type of entity represented by the Agent record.</p>
+      <p>See DACS 10.2, ISAAR (CPF) 5.1.1, and PREMIS Agent entity</p>
     agent_type:
       agent_family: Family
       agent_person: Person
@@ -1736,27 +1733,27 @@ en:
       agent_software: Software
     is_user: Username
     is_user_tooltip: |
-        <p>If present, this agent record is linked to an application user with the given username.</p>
+      <p>If present, this agent record is linked to an application user with the given username.</p>
     name: Agent Name
     names: Name Forms
     names_tooltip: |
-        <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
-        <p>See DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
+      <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
+      <p>See DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
     agent_contacts: Contact Details
     contacts_tooltip: |
-        <p>Records contact information about a particular Agent.</p>
+      <p>Records contact information about a particular Agent.</p>
     notes: Notes
     notes_tooltip: |
-        <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
+      <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
     agent_contact_notes_tooltip: |
-        <p>Notes about interactions with the agent.</p>
+      <p>Notes about interactions with the agent.</p>
     related_agents_tooltip: |
-        <p>Allows links from this Agent record to another in associative, hierarchical, or parent/child relationships.</p>
+      <p>Allows links from this Agent record to another in associative, hierarchical, or parent/child relationships.</p>
     external_documents_tooltip: |
-        <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent.</p><p>See DACS 14.1, ISAAR (CPF) 6.1</p>
+      <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent.</p><p>See DACS 14.1, ISAAR (CPF) 6.1</p>
     dates_of_existence: Dates of Existence
     dates_of_existence_tooltip: |
-        <p>Dates in which the agent existed.</p><p>See DACS 11.1, ISAAR (CPF) 5.2.1</p>
+      <p>Dates in which the agent existed.</p><p>See DACS 11.1, ISAAR (CPF) 5.2.1</p>
     publish: Publish
     _singular: Agent
     _plural: Agents
@@ -1766,28 +1763,28 @@ en:
       agent_corporate_entity: New Corporate Entity
       agent_software: New Software
     agent_record_controls_tooltip: |
-        <p>Information about the record describing the Agent.</p>
+      <p>Information about the record describing the Agent.</p>
     agent_alternate_sets_tooltip: |
-        <p>Used to point to linked authority records when two or more records for the same entity were derived from two or more authority systems.</p>
+      <p>Used to point to linked authority records when two or more records for the same entity were derived from two or more authority systems.</p>
     agent_conventions_declarations_tooltip: |
-        <p>A content standard used in the formulation of the Agent record content.</p><p>See DACS 13.3, ISAAR (CPF) 5.4.3. Example: Describing Archives: A Content Standard. This sub-record can be used instead of Rules entries on individual name forms.</p>
+      <p>A content standard used in the formulation of the Agent record content.</p><p>See DACS 13.3, ISAAR (CPF) 5.4.3. Example: Describing Archives: A Content Standard. This sub-record can be used instead of Rules entries on individual name forms.</p>
     agent_other_agency_codes_tooltip: |
-        <p>Information on alternative codes for the agency or organization responsible for creating or maintaining an Agent record.</p>
+      <p>Information on alternative codes for the agency or organization responsible for creating or maintaining an Agent record.</p>
     agent_maintenance_histories_tooltip: |
-        <p>Events associated with the creation or maintenance of the Agent record.</p><p>See DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>
+      <p>Events associated with the creation or maintenance of the Agent record.</p><p>See DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>
     agent_record_identifiers_tooltip: |
-        <p>Identifiers associated with the Agent record.</p>
+      <p>Identifiers associated with the Agent record.</p>
     agent_sources_tooltip: |
-        <p>A source used in the formulation of the Agent record content.</p><p>See DACS 13.8, ISAAR (CPF) 5.4.8</p>
+      <p>A source used in the formulation of the Agent record content.</p><p>See DACS 13.8, ISAAR (CPF) 5.4.8</p>
     agent_identifiers_tooltip: |
-        <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
+      <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
     agent_genders_tooltip: Gender of the subject.
-    agent_places_tooltip: Place information associated with the agent.</p><p>See DACS 11.3, ISAAR (CPF) 5.2.3 
+    agent_places_tooltip: Place information associated with the agent.</p><p>See DACS 11.3, ISAAR (CPF) 5.2.3
     agent_occupations_tooltip: Occupation information associated with the agent.</p><p>See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p><p>See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: A subject associated with the agent.
     agent_contacts_tooltip: |
-        <p>Contact information for the agent or a representative working on their behalf.</p>
+      <p>Contact information for the agent or a representative working on their behalf.</p>
     used_languages_tooltip: "The language(s) associated with the agent. Example: English."
     agent_resources_tooltip: Resources and other records associated with the agent.
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
@@ -1831,64 +1828,64 @@ en:
     <<: [*section_tooltips, *slug_attributes]
     title: Title
     title_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
-        <p>See DACS 2.3, ISAD(G) 3.1.2</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Graciany Miranda Archilla papers</li>
-        <li>Love Makes a Family records</li>
-        <li>Cameron family account book</li>
-        <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
-        <li>National Academy of Sciences correspondence</li>
-        <li>Audio and video recordings</li>
-        </ul>
+      <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
+      <p>See DACS 2.3, ISAD(G) 3.1.2</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Graciany Miranda Archilla papers</li>
+      <li>Love Makes a Family records</li>
+      <li>Cameron family account book</li>
+      <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
+      <li>National Academy of Sciences correspondence</li>
+      <li>Audio and video recordings</li>
+      </ul>
     ref_id: Ref ID
     ref_id_tooltip: |
-        <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
+      <p>An automatically provided and updatable reference ID, which can be used as a target for linking, etc. The Ref ID is intended to be generated automatically or imported from an existing system and to remain persistent.</p>
     ref_id_export_prefix: aspace_
     dates: Dates
     dates_tooltip: |
-        <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
+      <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
     extents: Extents
     lang_materials: Languages
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
     component_id_tooltip: |
-        <p>Expresses a unique ID, within the context of the resource description, for the component part.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Series I</li>
-        <li>Subseries 8</li>
-        <li>Accession 2005-M-078</li>
-        </ul>
+      <p>Expresses a unique ID, within the context of the resource description, for the component part.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Series I</li>
+      <li>Subseries 8</li>
+      <li>Accession 2005-M-078</li>
+      </ul>
     level: Level of Description
     level_tooltip: |
-        <p>REQUIRED FIELD. Indicates the hierarchical level of the materials being described.</p>
-        <p>See DACS Chapter 1, ISAD(G) 3.1.4</p>
-        <p>Values are prescribed by the EAD schema.</p>
+      <p>REQUIRED FIELD. Indicates the hierarchical level of the materials being described.</p>
+      <p>See DACS Chapter 1, ISAD(G) 3.1.4</p>
+      <p>Values are prescribed by the EAD schema.</p>
     other_level: Other Level
     other_level_tooltip: |
-        <p>REQUIRED FIELD if "Other Level" is the value selected for Level. Expresses the type of level outside of the values specified in the EAD schema.</p>
+      <p>REQUIRED FIELD if "Other Level" is the value selected for Level. Expresses the type of level outside of the values specified in the EAD schema.</p>
     container_summary: Container Summary
     container_summary_tooltip: |
-        <p>For recording the number and type of containers comprising a resource description. This is considered a textual summary and not identical with the extent subrecords.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
-        <p>Examples:</p>
-        <ul>
-        <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
-        <li>12 shoeboxes.</li>
-        <li>4 archives boxes, 32 tubes.</li>
-        </ul>
+      <p>For recording the number and type of containers comprising a resource description. This is considered a textual summary and not identical with the extent subrecords.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>Examples:</p>
+      <ul>
+      <li>10 record cartons, 6 archives boxes, 3 oversize folders.</li>
+      <li>12 shoeboxes.</li>
+      <li>4 archives boxes, 32 tubes.</li>
+      </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this archival object will be published to public (patron) interfaces.</p>
+      <p>Determines whether this archival object will be published to public (patron) interfaces.</p>
     restrictions_apply: Restrictions Apply?
     restrictions_apply_tooltip: |
-        <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
-        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+      <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+      <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Repository Processing Note
     repository_processing_note_tooltip: |
-         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
+      <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     automate_title: Automatically generate title
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Has Unpublished Ancestor?
@@ -1899,18 +1896,18 @@ en:
   group:
     group_code: Group code
     group_code_tooltip: |
-        <p>A short version of the name of the group.</p>
+      <p>A short version of the name of the group.</p>
     description: Description
     description_tooltip: |
-        <p>A brief textual description of the group.</p>
-        <p>Examples:
-        <ul>
-        <li>Summer 2013 interns</li>
-        <li>Collection management staff</li>
-        </ul>
+      <p>A brief textual description of the group.</p>
+      <p>Examples:
+      <ul>
+      <li>Summer 2013 interns</li>
+      <li>Collection management staff</li>
+      </ul>
     member_usernames: Members
     member_usernames_tooltip: |
-        <p>The members that are part of this group.</p>
+      <p>The members that are part of this group.</p>
     permissions: "Members can:"
     default_group_names:
       repository_managers: "Managers of the %{repo_code} repository"
@@ -1968,114 +1965,114 @@ en:
     id_2: Identifier 3
     id_3: Identifier 4
     id_0_tooltip: |
-        <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository. ISAD(g) rules stipulate that a country code (following the ISO 3166 standard), a repository code, and  a specific local reference code, control number, or other unique identifier must be present for international exchange; country and repository codes may be added here or in the repository record (in the Country and Organization/Agency Code fields).</p>
-        <p>See DACS 2.1, ISAD(G) 3.1.1</p>
-        <p>Examples</p>
-        <ul>
-        <li>R.001 (Two elements "R" + "001")</li>
-        <li>MSS 025 (A single element)</li>
-        <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
-        <li>CA.OTY.F0453 (Three elements "CA" + "OTY" + "F0453"</li>
-        </ul>
+      <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository. ISAD(g) rules stipulate that a country code (following the ISO 3166 standard), a repository code, and  a specific local reference code, control number, or other unique identifier must be present for international exchange; country and repository codes may be added here or in the repository record (in the Country and Organization/Agency Code fields).</p>
+      <p>See DACS 2.1, ISAD(G) 3.1.1</p>
+      <p>Examples</p>
+      <ul>
+      <li>R.001 (Two elements "R" + "001")</li>
+      <li>MSS 025 (A single element)</li>
+      <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
+      <li>CA.OTY.F0453 (Three elements "CA" + "OTY" + "F0453"</li>
+      </ul>
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
     title_tooltip: |
-        <p>REQUIRED FIELD. The title assigned to the resource.</p>
-        <p>See DACS 2.3, ISAD(G) 3.1.2</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Graciany Miranda Archilla papers</li>
-        <li>Love Makes a Family records</li>
-        <li>Cameron family account book</li>
-        <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
-        <li>National Academy of Sciences correspondence</li>
-        <li>Audio and video recordings</li>
-        </ul>
+      <p>REQUIRED FIELD. The title assigned to the resource.</p>
+      <p>See DACS 2.3, ISAD(G) 3.1.2</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Graciany Miranda Archilla papers</li>
+      <li>Love Makes a Family records</li>
+      <li>Cameron family account book</li>
+      <li>Caroline and Erwin Swann collection of caricatures and cartoons</li>
+      <li>National Academy of Sciences correspondence</li>
+      <li>Audio and video recordings</li>
+      </ul>
     resource_type: Resource Type
     resource_type_tooltip: |
-        <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     repository_processing_note: Repository Processing Note
     extents_tooltip: |
-        <p>REQUIRED SUBRECORD: Used for recording the size of the described materials.</p>
-        <p>See DACS 2.5, ISAD(G) 3.1.5</p>
+      <p>REQUIRED SUBRECORD: Used for recording the size of the described materials.</p>
+      <p>See DACS 2.5, ISAD(G) 3.1.5</p>
     related_accessions_tooltip: |
-        <p>Used for linking associated Accessions with this Resource.</p>
+      <p>Used for linking associated Accessions with this Resource.</p>
     publish_tooltip: |
-        <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
+      <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
     restrictions: Restrictions Apply?
     restrictions_tooltip: |
-        <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
-        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
+      <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+      <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note_tooltip: |
-        <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
+      <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID
     ead_id_tooltip: |
-        <p>The identifier for the EAD generated from the resource description, typically a file name. Needs to be unique within the repository context.</p>
+      <p>The identifier for the EAD generated from the resource description, typically a file name. Needs to be unique within the repository context.</p>
     ead_location: EAD Location
     ead_location_tooltip: |
-        <p>The location for the EAD generated from the resource description, either a web URL or a file directory statement. The location typically terminates.</p>
+      <p>The location for the EAD generated from the resource description, either a web URL or a file directory statement. The location typically terminates.</p>
     finding_aid_tooltip: |
-        <p>Used to record administrative data about the archival description instance, usually for when the description is exported into Encoded Archival Description (EAD).</p>
+      <p>Used to record administrative data about the archival description instance, usually for when the description is exported into Encoded Archival Description (EAD).</p>
     finding_aid_title: Finding Aid Title
     finding_aid_title_tooltip: |
-        <p>The (bibliographic) title for the finding aid associated with this Resource.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Register of the Collection of Jason Twirly</li>
-        <li>Inventory of the Papers of the Reese Family</li>
-        <li>List of the Drawings and Models of the Simon and Simon Architectural Firm</li>
-        </ul>
+      <p>The (bibliographic) title for the finding aid associated with this Resource.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Register of the Collection of Jason Twirly</li>
+      <li>Inventory of the Papers of the Reese Family</li>
+      <li>List of the Drawings and Models of the Simon and Simon Architectural Firm</li>
+      </ul>
     finding_aid_subtitle: Finding Aid Subtitle
     finding_aid_filing_title: Finding Aid Filing Title
     finding_aid_filing_title_tooltip: |
-        <p>A modified version of the formal title of the finding aid. Designed to aid browsing and sorting of finding aid title lists.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Wayne (Bruce M.) Papers</li>
-        <li>Rooney Family Papers</li>
-        <li>Communist Party of the United States Records</li>
-        </ul>
+      <p>A modified version of the formal title of the finding aid. Designed to aid browsing and sorting of finding aid title lists.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Wayne (Bruce M.) Papers</li>
+      <li>Rooney Family Papers</li>
+      <li>Communist Party of the United States Records</li>
+      </ul>
     finding_aid_date: Finding Aid Date
     finding_aid_date_tooltip: |
-        <p>The date expression for when  the current finding aid was generated from the resource description.</p>
+      <p>The date expression for when  the current finding aid was generated from the resource description.</p>
     finding_aid_author: Finding Aid Author
     finding_aid_author_tooltip: |
-        <p>The names(s) of the agents responsible for creating the content of the finding aid or its encoding.</p>
+      <p>The names(s) of the agents responsible for creating the content of the finding aid or its encoding.</p>
     finding_aid_description_rules: Description Rules
     finding_aid_description_rules_tooltip: |
-        <p>Indicates the descriptive rules used to guide description of the Resource.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>Indicates the descriptive rules used to guide description of the Resource.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
-        <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
+      <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
     finding_aid_langusage_label: "Description is written in: "
     finding_aid_script: Script of Description
     finding_aid_script_tooltip: |
-        <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
+      <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
     finding_aid_language_note: Language of Description Note
     finding_aid_language_note_tooltip: |
-        <p>Notes on the languages present in the finding aid generated from the resource description.</p>
+      <p>Notes on the languages present in the finding aid generated from the resource description.</p>
     finding_aid_sponsor: Sponsor
     finding_aid_sponsor_tooltip: |
-        <p>Indicates any sponsors that contributed to the description of the finding aid.</p>
+      <p>Indicates any sponsors that contributed to the description of the finding aid.</p>
     finding_aid_edition_statement: Edition Statement
     finding_aid_edition_statement_tooltip: |
-        <p>For recording information about the edition of the finding aid.</p>
+      <p>For recording information about the edition of the finding aid.</p>
     finding_aid_series_statement: Series Statement
     finding_aid_series_statement_tooltip: |
-        <p>Indicates any bibliographic series to which the finding aid belongs.</p>
+      <p>Indicates any bibliographic series to which the finding aid belongs.</p>
     finding_aid_status: Finding Aid Status
     finding_aid_status_tooltip: |
-        <p>Indicates the status of the finding aid.</p>
+      <p>Indicates the status of the finding aid.</p>
 
     is_finding_aid_status_published: Finding Aid Status Published?
     is_finding_aid_status_published_tooltip: |
-        <p>Determines whether Finding Aid Status is exposed publically.</p>
+      <p>Determines whether Finding Aid Status is exposed publically.</p>
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
-        <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
+      <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
     created_by: Created by
     last_modified_by: Last modified by
     create_time: Created
@@ -2097,13 +2094,13 @@ en:
     _plural: Revision Statements
     date: Revision Date
     date_tooltip: |
-        <p>Specifies the date the finding aid was last revised.</p>
+      <p>Specifies the date the finding aid was last revised.</p>
     description: Revision Description
     description_tooltip: |
-        <p>A description of the last revision(s) done to the finding aid.</p>
+      <p>A description of the last revision(s) done to the finding aid.</p>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Revision Statement is published to public (patron) interfaces.</p>
+      <p>Determines whether this Revision Statement is published to public (patron) interfaces.</p>
 
   related_resource:
     _singular: Related Resource
@@ -2113,54 +2110,54 @@ en:
     <<: *slug_attributes
     repo_code: Repository Short Name
     repo_code_tooltip: |
-        <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>YNHSCL <em>(for Your Name Here Special Collections Library)</em></li>
-        <li>MSCL <em>(for Mandeville Special Collections Library)</em></li>
-        <li>Tamwag <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
-        </ul>
+      <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>YNHSCL <em>(for Your Name Here Special Collections Library)</em></li>
+      <li>MSCL <em>(for Mandeville Special Collections Library)</em></li>
+      <li>Tamwag <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+      </ul>
     name: Repository Name
     name_tooltip: |
-        <p>REQUIRED FIELD. The name of the repository which has administrative responsibility for and custody of the materials described in the accession, resource, and digital object modules of the application.</p>
-        <p>See DACS 2.2</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Your Name Here Special Collections Library</li>
-        <li>Mandeville Special Collections Library</li>
-        <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
-        </ul>
+      <p>REQUIRED FIELD. The name of the repository which has administrative responsibility for and custody of the materials described in the accession, resource, and digital object modules of the application.</p>
+      <p>See DACS 2.2</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Your Name Here Special Collections Library</li>
+      <li>Mandeville Special Collections Library</li>
+      <li>Tamiment Library and Robert F. Wagner Labor Archives</li>
+      </ul>
     ark_shoulder: ARK Shoulder (local namespace)
     ark_shoulder_tooltip: Per-repository string to be included in generated ARKs
     org_code: Organization / Agency Code
     org_code_tooltip: |
-        <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
-        <li>IU-Ar <em>(for University of Illinois Archives)</em></li>
-        </ul>
+      <p>A code compliant with ISO/DIS 15511 Information and Documentation International Standard Identifier for Libraries and Related Organizations (ISIL). For United States institutions, this includes codes from the MARC Organization Code list.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+      <li>IU-Ar <em>(for University of Illinois Archives)</em></li>
+      </ul>
     parent_institution_name: Parent Institution Name
     parent_institution_name_tooltip: |
-        <p>The name of the parent institution of which the repository is a part.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>University of Illinois <em>(for University of Illinois Archives)</em></li>
-        <li>New York University <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
-        </ul>
+      <p>The name of the parent institution of which the repository is a part.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>University of Illinois <em>(for University of Illinois Archives)</em></li>
+      <li>New York University <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
+      </ul>
     address_1: Address 1
     address_1_tooltip: &address_tooltip |
-        <p>The postal address or street address for the repository.</p>
+      <p>The postal address or street address for the repository.</p>
     address_2: Address 2
     address_2_tooltip: *address_tooltip
     city: City
     district: State or Region
     country: Country
     country_tooltip: |
-        <p>The country in which the repository is located, taken from the ISO 3166 code list.</p>
+      <p>The country in which the repository is located, taken from the ISO 3166 code list.</p>
     description: Description
     description_tooltip: |
-        <p>An about section or descriptive summary for the repository.</p>
+      <p>An about section or descriptive summary for the repository.</p>
     post_code: Postal Code
     telephone: Telephone
     telephone_ext: Extension
@@ -2169,31 +2166,30 @@ en:
     email_signature: Email Signature
     url: Home Page URL
     url_tooltip: |
-        <p>A URL for the repository's webpage.</p>
+      <p>A URL for the repository's webpage.</p>
     contact_persons: Contact Persons
     image_url: Branding Image URL
     image_url_tooltip: |
-        <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs, staff side PDFs and on the repositories page.</p>
+      <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs, staff side PDFs and on the repositories page.</p>
     _singular: Repository
     _plural: Repositories
     new_title: New Repository
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
+      <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
     linker:
       browse: Browse Repositories
       create: Create Repository
       link_title: Link to repository
     position: Position
 
-  term: &term_attributes
-    # tooltips not displaying
+  term: &term_attributes # tooltips not displaying
     term: Term
     term_tooltip: |
-        <p>REQUIRED FIELD. A descriptor for part of a subject heading. A subject heading must have at least 1 term associated with it.</p>
+      <p>REQUIRED FIELD. A descriptor for part of a subject heading. A subject heading must have at least 1 term associated with it.</p>
     term_type: Type
     term_type_tooltip: |
-        <p>REQUIRED FIELD. An indicator for expressing the type or category of a subject term.</p>
+      <p>REQUIRED FIELD. An indicator for expressing the type or category of a subject term.</p>
     _singular: Term
     _plural: Terms
 
@@ -2201,30 +2197,30 @@ en:
     <<: *slug_attributes
     authority_id: Authority ID
     authority_id_tooltip: |
-        <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
+      <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
     subject_source: Subject Source
     source_tooltip: |
-        <p>The vocabulary from which an established term is taken.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Medical Subject Headings (mesh)</li>
-        <li>Library of Congress Subject Headings (lcsh)</li>
-        </ul>
+      <p>The vocabulary from which an established term is taken.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Medical Subject Headings (mesh)</li>
+      <li>Library of Congress Subject Headings (lcsh)</li>
+      </ul>
     scope_note: Scope Note
     scope_note_tooltip: |
-        <p>A note that explains and clarifies what is meant and what is not meant in the definition of the term and in its use as a subject heading.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Here are entered works on biological studies of bacteria. Works on the science are entered under the heading Bacteriology.</li>
-        <li>"The right of security and privacy in a man's home." - Black, Law dictionary, 4th ed., 1951.</li>
-        </ul>
+      <p>A note that explains and clarifies what is meant and what is not meant in the definition of the term and in its use as a subject heading.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Here are entered works on biological studies of bacteria. Works on the science are entered under the heading Bacteriology.</li>
+      <li>"The right of security and privacy in a man's home." - Black, Law dictionary, 4th ed., 1951.</li>
+      </ul>
     terms: Terms
     terms_tooltip: |
-        <p>REQUIRED SUBRECORD. Used to manage each term or subdivision within a given subject heading. Each subject record must have at least one term associated with it.</p>
+      <p>REQUIRED SUBRECORD. Used to manage each term or subdivision within a given subject heading. Each subject record must have at least one term associated with it.</p>
     external_documents_tooltip: |
-        <p>Allows links to external documentation, e.g. how a particular heading is to be used.</p>
+      <p>Allows links to external documentation, e.g. how a particular heading is to be used.</p>
     heading: Subject Heading
     _singular: Subject
     _plural: Subjects
@@ -2237,40 +2233,40 @@ en:
   user:
     username: Username
     username_tooltip: |
-        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</p>
+      <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</p>
     name: Full name
     name_tooltip: |
-        <p>REQUIRED FIELD. The full name of the user designated by the username.</p>
+      <p>REQUIRED FIELD. The full name of the user designated by the username.</p>
     password: Password
     password_tooltip: |
-        <p>The password used with the username to authenticate to the application.</p>
+      <p>The password used with the username to authenticate to the application.</p>
     confirm_password: Confirm password
     confirm_password_tooltip: |
-        <p>A second field used to confirm a match with the password entered into the first field.</p>
+      <p>A second field used to confirm a match with the password entered into the first field.</p>
     email: Email
     email_tooltip: |
-        <p>The user's email address.</p>
+      <p>The user's email address.</p>
     first_name: First Name
     first_name_tooltip: |
-        <p>The user's first name.</p>
+      <p>The user's first name.</p>
     last_name: Last Name
     last_name_tooltip: |
-        <p>The user's last name.</p>
+      <p>The user's last name.</p>
     telephone: Phone
     telephone_tooltip: |
-        <p>The user's telephone number.</p>
+      <p>The user's telephone number.</p>
     title: Title
     title_tooltip: |
-        <p>The user's job title.</p>
+      <p>The user's job title.</p>
     department: Department
     department_tooltip: |
-        <p>The user's department.</p>
+      <p>The user's department.</p>
     additional_contact: Additional Contact Information
     additional_contact_tooltip: |
-        <p>Additional contact information for the user, or information such as the user's work schedule.</p>
+      <p>Additional contact information for the user, or information such as the user's work schedule.</p>
     is_admin: Grant system administrator permissions
     is_admin_tooltip: |
-        <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
+      <p>Used to indicate whether the user should have full administrative privileges to the application.</p>
     create_time: Created
     user_mtime: Updated
     admin: Administrator
@@ -2281,79 +2277,78 @@ en:
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged Note
     cataloged_note_tooltip: |
-        <p>A note about cataloging of the archival unit (accession, resource, digital object), including provision of catalog record identifiers.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Catalog record number: 21345672</li>
-        </ul>
+      <p>A note about cataloging of the archival unit (accession, resource, digital object), including provision of catalog record identifiers.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Catalog record number: 21345672</li>
+      </ul>
     processing_hours_per_foot_estimate: Processing hrs/unit Estimate
     processing_hours_per_foot_estimate_tooltip: |
-        <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
+      <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
     processing_total_extent: Processing Total Extent
     processing_total_extent_tooltip: |
-        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed. An Extent Type must be provided in conjunction with this field.</p>
+      <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed. An Extent Type must be provided in conjunction with this field.</p>
     processing_total_extent_type: Extent Type
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
     processing_hours_total: Total Processing Hours
     processing_hours_total_short: Total Hours
     processing_hours_total_tooltip: |
-        <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent". The value can be overwritten to reflect the actual processing time and not a value based on the estimated processing hrs/unit value.</p>
+      <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent". The value can be overwritten to reflect the actual processing time and not a value based on the estimated processing hrs/unit value.</p>
     processing_plan: Processing Plan
     processing_plan_tooltip: |
-        <p>For recording a plan for processing of the archival unit. The plan may include an outline of the arrangement for the archival unit, as well as instructions for how to treat particular objects in the archival unit.  The plan might also specify different assignments for different repository staff.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Arrange subject files alphabetically and project files chronologically.</li>
-        <li>Margaret's students will create descriptive records.</li>
-        <li>Project manager will review, output, and load the encoded finding aid.</li>
-        </ul>
+      <p>For recording a plan for processing of the archival unit. The plan may include an outline of the arrangement for the archival unit, as well as instructions for how to treat particular objects in the archival unit.  The plan might also specify different assignments for different repository staff.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>Arrange subject files alphabetically and project files chronologically.</li>
+      <li>Margaret's students will create descriptive records.</li>
+      <li>Project manager will review, output, and load the encoded finding aid.</li>
+      </ul>
     processing_priority: Processing Priority
     processing_priority_tooltip: |
-        <p>Indicates the priority assigned to processing of an archival unit.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>High</li>
-        <li>Medium</li>
-        <li>Low</li>
-        </ul>
+      <p>Indicates the priority assigned to processing of an archival unit.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>High</li>
+      <li>Medium</li>
+      <li>Low</li>
+      </ul>
     processing_started_date: Processing Started Date
     processing_status: Processing Status
     processing_status_tooltip: |
-        <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>New</li>
-        <li>In Progress</li>
-        <li>Completed</li>
-        </ul>
+      <p>For indicating the current status of processing for an archival unit (accession, resource, or digital object).</p>
+      <p>Values in this Controlled Value List may be modified.</p>
+      <p>Examples:</p>
+      <ul>
+      <li>New</li>
+      <li>In Progress</li>
+      <li>Completed</li>
+      </ul>
     processing_funding_source: Funding Source
     processing_funding_source_tooltip: |
-        <p>Used to indicate the source of funding the processing of the described materials.</p>
+      <p>Used to indicate the source of funding the processing of the described materials.</p>
     processors: Processors
     processors_tooltip: |
-        <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
+      <p>For listing staff to whom processing of the archival unit (accession, resource, or digital objects) has been assigned.</p>
     rights_determined: Rights determined?
     rights_determined_tooltip: |
-        <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
+      <p>Indicates whether the rights for an archival unit (accession, resource, or digital object) have been determined and a rights record created and linked to the archival unit.</p>
     rights_determined_true: Yes
     rights_determined_false: No
     parent: Parent
     _singular: Collection Management
     _plural: Collection Management
 
-
   enumeration:
     # tooltips not displaying
     name: Name
     name_tooltip: |
-        <p>The name of the Controlled Value List of to which you wish to add a value.</p>
+      <p>The name of the Controlled Value List of to which you wish to add a value.</p>
     value: Value
     value_tooltip: |
-        <p>The value for the Controlled Value List you wish to add or edit.</p>
-        <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
+      <p>The value for the Controlled Value List you wish to add or edit.</p>
+      <p>Whenever possible, values should be in lower case and have underscores ("_") instead of spaces. Translations for the values should be added to the locales file.</p>
     translation: Translation
     position: Position
     suppress: Suppress
@@ -2411,7 +2406,7 @@ en:
     show_suppressed_tooltip: Whether to show suppressed records that you have permission to see when browsing.
     publish: Publish?
     rde_sort_alpha: Display RDE Templates Alphabetically?
-    publish_tooltip: Whether to publish new records by default.
+    publish_tooltip: Whether to publish new records by default. This can be overridden by Default Values templates if Pre-populate Records? is checked.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
     digital_object_spawn: Spawn description for Digital Object instances from linked record
@@ -2448,8 +2443,8 @@ en:
     multi_browse_section: Search Columns
     job_browse_section: Background Jobs Columns
     note_order_section: Note Order
-    accept_default_message: '> Accept Default:'
-    no_value: '[no value]'
+    accept_default_message: "> Accept Default:"
+    no_value: "[no value]"
     _singular: Defaults
     _plural: Defaults
 
@@ -2554,7 +2549,7 @@ en:
     ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
     external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
-    mixed_content_invalid_inline_ead: "Invalid EAD markup: use straight quotes (\" or ') for attribute values and ensure tags are well-formed."
+    mixed_content_invalid_inline_ead: 'Invalid EAD markup: use straight quotes (" or '') for attribute values and ensure tags are well-formed.'
     mixed_content_disallowed_tag: "Disallowed HTML tag detected. For security reasons, tags like &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt;, and form elements are not permitted in mixed content fields."
     display_thumbnail_must_be_published: Must be published to be the display thumbnail
     display_link_must_be_published: Must be published to be the display link
@@ -2619,7 +2614,7 @@ en:
     bulk_import_DO_csv: Bulk Import DO CSV
     bulk_import_DO_xlsx: Bulk Import DO XLSX
     import_type_digital_object_csv: Digital Object CSV
-    import_subject_csv:  Subject CSV
+    import_subject_csv: Subject CSV
     import_type_eac_xml: EAC-CPF
     import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML Bibliographic (Resource)
@@ -2675,12 +2670,12 @@ en:
     could_not_find_resource: Could not find provided resource with id %{resource_id}.
 
   ns2_remover_job:
-      description: >
-        Archivists' Toolit-era EADs imported into ASpace may have vestigal "ns2" namespace references pre-pended to various EAD tag attributes inside note subrecords.
-        This may produce validation errors on EAD export from ArchivesSpace, as the root <ead> tag doesn't declare the "ns2" namespace.
-        This job bulk deletes "ns2" references within Notes subrecords attached to resource, archival_object, digital_object, and digital_object_component
-        records. As this job works across all repositories, it is restricted to users with <b>System Administrator permissions only</b>.
-      dry_run: Dry run?
+    description: >
+      Archivists' Toolit-era EADs imported into ASpace may have vestigal "ns2" namespace references pre-pended to various EAD tag attributes inside note subrecords.
+      This may produce validation errors on EAD export from ArchivesSpace, as the root <ead> tag doesn't declare the "ns2" namespace.
+      This job bulk deletes "ns2" references within Notes subrecords attached to resource, archival_object, digital_object, and digital_object_component
+      records. As this job works across all repositories, it is restricted to users with <b>System Administrator permissions only</b>.
+    dry_run: Dry run?
 
   advanced_search:
     type:
@@ -2719,22 +2714,22 @@ en:
     _plural: Acts
     act_type: Act Type
     act_type_tooltip: |
-        <p>The action this rights statement allows.</p>
+      <p>The action this rights statement allows.</p>
     restriction: Restriction
     restriction_tooltip: |
-        <p>A condition or limitation on the act.</p>
-        <p>Examples:</p>
-        <ul>
-          <li>No more than three</li>
-          <li>Allowed only after one year of archival retention has elapsed</li>
-          <li>Rightsholder must be notified after completion of act</li>
-        </ul>
+      <p>A condition or limitation on the act.</p>
+      <p>Examples:</p>
+      <ul>
+        <li>No more than three</li>
+        <li>Allowed only after one year of archival retention has elapsed</li>
+        <li>Rightsholder must be notified after completion of act</li>
+      </ul>
     start_date: Start Date
     start_date_tooltip: |
-        <p>The date the act went into effect.</p>
+      <p>The date the act went into effect.</p>
     end_date: End Date
     end_date_tooltip: |
-        <p>The date the act ends.</p>
+      <p>The date the act ends.</p>
 
   act:
     <<: *rights_statement_act_attributes
@@ -2749,7 +2744,7 @@ en:
   assessment:
     records: Records
     records_tooltip: |
-        <p>REQUIRED FIELD: A link to the resource(s), accession(s), archival object(s), or digital object(s) that are the subjects of the assessment.</p>
+      <p>REQUIRED FIELD: A link to the resource(s), accession(s), archival object(s), or digital object(s) that are the subjects of the assessment.</p>
     accession_report: Accession Report
     appraisal: Appraisal
     container_list: Box/Container List
@@ -2777,10 +2772,10 @@ en:
     monetary_value_note_tooltip: <p>Indicates who provided the monetary value, date of appraisal, and any other relevant information.</p>
     surveyed_by: Surveyed By
     surveyed_by_tooltip: |
-        <p>REQUIRED FIELD: Name(s) of the person(s) who performed the assessment. This field is restricted to those with user records in ArchivesSpace.</p>
+      <p>REQUIRED FIELD: Name(s) of the person(s) who performed the assessment. This field is restricted to those with user records in ArchivesSpace.</p>
     survey_begin: Survey Begin Date
     survey_begin_tooltip: |
-        <p>REQUIRED FIELD: The date the survey began, in yyyy-mm-dd format.</p>
+      <p>REQUIRED FIELD: The date the survey began, in yyyy-mm-dd format.</p>
     survey_end: Survey Completed Date
     survey_end_tooltip: <p>The date the survey ended, in yyyy-mm-dd format.</p>
     surveyed_duration: Time it took to Complete Survey
@@ -2800,10 +2795,10 @@ en:
     reviewer_tooltip: <p>Indicates who needs to perform the review. This field is restricted to those with user records in ArchivesSpace.</p>
     purpose: Purpose of Assessment
     purpose_tooltip: |
-        <p>Indicates the reason the assessment was undertaken. Examples: conservation priorities; processing priorities; appraisal; etc.</p>
+      <p>Indicates the reason the assessment was undertaken. Examples: conservation priorities; processing priorities; appraisal; etc.</p>
     scope: Scope of Assessment
     scope_tooltip: |
-        <p>Indicates the scope of the assessment. Examples: 10% sampling; entirety; a particular format or genre within or across collections; or other constraints or conditions on materials actively reviewed during an assessment.</p>
+      <p>Indicates the scope of the assessment. Examples: 10% sampling; entirety; a particular format or genre within or across collections; or other constraints or conditions on materials actively reviewed during an assessment.</p>
     sensitive_material: Sensitive Material?
     sensitive_material_tooltip: <p>Indicates whether sensitive materials are present.</p>
     sensitive_material_true: "Yes"
@@ -3150,32 +3145,32 @@ en:
 
   metadata_rights_declaration:
     license_tooltip: |
-        <p>Name of the license (if any) that governs the conditions under which the metadata is available for use and reuse.  Examples:</p>
-        <p>This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.</p>
-        <p>This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.</p>
-        <p>This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.</p>
-        <p>This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.</p>
-        <p>This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.</p>
+      <p>Name of the license (if any) that governs the conditions under which the metadata is available for use and reuse.  Examples:</p>
+      <p>This record is made available under an Universal 1.0 Public Domain Dedication Creative Commons license.</p>
+      <p>This record is made available under an Attribution-NonCommercial 4.0 International Creative Commons license.</p>
+      <p>This record is made available under an Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.</p>
+      <p>This record is made available under an Attribution-NoDerivatives 4.0 International Creative Commons license.</p>
+      <p>This record is made available under an Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.</p>
     descriptive_note_tooltip: |
-        <p>Unstructured information about the conditions under which the metadata is available for use and reuse.  Examples:</p>
-        <p>i. Copyright Smith College, 1985</p>
-        <p>ii. This finding aid may be reproduced for any purpose.</p>
-        <p>iii. This work has been dedicated to the public domain, meaning that you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.</p>
-        <p>iv. The biographical note is copyright Ted Smith, 2015.  All other metadata is licensed under CC BY 4.0.</p>
+      <p>Unstructured information about the conditions under which the metadata is available for use and reuse.  Examples:</p>
+      <p>i. Copyright Smith College, 1985</p>
+      <p>ii. This finding aid may be reproduced for any purpose.</p>
+      <p>iii. This work has been dedicated to the public domain, meaning that you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.</p>
+      <p>iv. The biographical note is copyright Ted Smith, 2015.  All other metadata is licensed under CC BY 4.0.</p>
     file_uri_tooltip: |
-        <p>A URI for the online location of the license or other published infomation about the conditions under which the metadata is available for use and reuse. Example: https://creativecommons.org/licenses/by/4.0/</p>
+      <p>A URI for the online location of the license or other published infomation about the conditions under which the metadata is available for use and reuse. Example: https://creativecommons.org/licenses/by/4.0/</p>
     file_version_xlink_actuate_attribute_tooltip: |
-        <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
+      <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |
-        <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
+      <p>Indicates where the remote resource linked in the associated URI should be rendered.</p>
     xlink_title_attribute_tooltip: |
-        <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
+      <p>Title of the remote resources linked in the associated URI, which may be used as a caption.</p>
     xlink_role_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     xlink_arcrole_attribute_tooltip: |
-        <p>Type or nature of the remote resource linked in the associated URI.</p>
+      <p>Type or nature of the remote resource linked in the associated URI.</p>
     last_verified_date_tooltip: |
-        <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
+      <p>Last date or date and time the linked resource linked in the associated URI was verified.</p>
 
   ratings:
     _plural: Ratings
