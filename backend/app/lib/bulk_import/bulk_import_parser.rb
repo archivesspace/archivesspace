@@ -157,11 +157,18 @@ class BulkImportParser
   def row_values(row)
     values = row
     if @is_xslx
-      values = (0...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
+      values = (0...row.size).map { |i| xlsx_cell_text(row[i]) }
     else
       values = (0...values.size).map { |i| (values[i]) ? (values[i].to_s.strip.empty? ? nil : values[i].to_s.strip) : nil }
     end
     values
+  end
+
+  def xlsx_cell_text(cell)
+    value = cell && cell.value
+    return nil unless value
+    text = value.is_a?(Date) ? value.to_date.to_s : value.to_s.strip
+    text.empty? ? nil : text
   end
 
   def check_row

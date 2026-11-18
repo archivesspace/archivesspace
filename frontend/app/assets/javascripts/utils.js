@@ -1008,6 +1008,23 @@ $(function () {
   });
 });
 
+AS.clickRecordFormSaveButton = function () {
+  // A modal (Rapid Data Entry, linker "create", etc.) owns the screen; never
+  // save the record form underneath it.
+  if (document.querySelector('.modal.show')) return;
+
+  const focused = document.activeElement;
+  const form =
+    (focused && focused.closest('form.aspace-record-form')) ||
+    document.querySelector('form.aspace-record-form');
+  if (!form) return;
+
+  const saveButton = form.querySelector(
+    'button[type="submit"].btn-primary:not([name="plus_one"])'
+  );
+  if (saveButton) saveButton.click();
+};
+
 // shortcuts
 $(function () {
   var initFormShortcuts = function () {
@@ -1051,15 +1068,7 @@ $(function () {
     switch (String.fromCharCode(event.which).toLowerCase()) {
       case 's': {
         event.preventDefault();
-        const $form = $('form.aspace-record-form');
-        if ($form.length) {
-          var input = $('<input>')
-            .attr('type', 'hidden')
-            .attr('name', 'ignorewarnings')
-            .val('true');
-          $form.append($(input));
-          $form.submit();
-        }
+        AS.clickRecordFormSaveButton();
         break;
       }
       case 'x': {

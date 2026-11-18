@@ -20,7 +20,7 @@ Feature: Representative image on Accessions, Resources and Archival Objects (ANW
      Then the thumbnail shows 'an image'
       And the thumbnail links to the Digital Object 'Photograph'
       And the thumbnail has the caption 'Photograph image'
-      And no IIIF viewer is embedded
+      And the bundled Universal Viewer is embedded
 
   Scenario: An Archival Object shows the image of its representative Digital Object instance, linked to the Digital Object
     Given a Resource 'Collection' has been created

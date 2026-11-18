@@ -500,8 +500,9 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
               )
             dragstart_from(sibling2.uri)
             expect(page).to have_css(
-                'body > .infinite-tree-empty-drag-image + .infinite-tree-drag-preview', visible: :all
+                'body > .infinite-tree-empty-drag-image ~ .infinite-tree-drag-preview', visible: :all
               )
+            expect(page).to have_css('body > .infinite-tree-empty-drag-image', count: 1, visible: :all)
           end
         end
 

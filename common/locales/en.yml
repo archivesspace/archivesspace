@@ -1248,7 +1248,6 @@ en:
   file_version:
     _plural: File Versions
     _singular: File Version
-    file: File
     file_uri: File URI
     file_uri_tooltip: |
         <p>An identifier for a file associated with a digital object, accessible on the web or in a file directory.</p>
@@ -2422,6 +2421,11 @@ en:
     sort_column_tooltip: The default field for sorting results.
     sort_direction: Default Sort Direction
     sort_direction_tooltip: Default direction to sort results.
+    actions_column_position: Action Buttons (View/Edit) Position
+    actions_column_position_tooltip: Whether the View and Edit buttons appear on the left or the right of each row in a results table.
+    actions_column_position_options:
+      start: Left
+      end: Right
     locale: Language Selection
     search_browse_columns: Search and Browse Column Preferences
     accession_browse_section: Accession Browse Columns
@@ -2939,7 +2943,7 @@ en:
       invalid_record_id: "Record ID in group %{index} must be a numeric ID or a full record URI; received %{record_id}"
       unrecognized_record_uri: "Unrecognized record URI in group %{index}: %{record_id}"
       agent_type_uri_mismatch: "Agent group %{index} has an Agent type of %{agent_type} that does not match the record URI %{record_id}"
-      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}', must be one of: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, or blank to use the default"
+      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}', must be one of: %{accepted}, or blank to use the default"
       unconfigured_headers: "Unrecognized CSV headers: %{columns}"
       bad_headers: "Invalid CSV headers: %{columns}"
       duplicate_file_version_headers: "Duplicate File Version columns: %{columns}"
@@ -3019,6 +3023,9 @@ en:
       uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%{row_uri}]"
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
+      note_text_missing: "%{note_column} is blank, but it is required when any of these columns has a value: %{columns}"
+      restriction_date_format: "Invalid date (%{column}: '%{value}' is not a valid YYYY-MM-DD date)"
+      restriction_date_order: "Invalid date (%{column}: end date '%{end_date}' cannot be prior to begin date '%{begin_date}')"
       hier_miss: Missing hierachy -- must be a number greater than 0
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
@@ -3051,7 +3058,8 @@ en:
       has_dig_obj: "Archival object already has an associated digital object"
       dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
       dig_row_not_saved: "Nothing from this row was saved because the digital object could not be created"
-      dig_not_representative: "Digital object instance not made representative: the archival object had a representative instance before the import, or an earlier row makes one representative"
+      dig_representative_existing: "Digital object instance cannot be made representative: the archival object already has a representative instance"
+      dig_representative_earlier_row: "Digital object instance cannot be made representative: row %{row} makes another instance of the archival object representative"
       ref_id_miss: No Ref Id specified
       dig_info_miss: Neither the Digital Object URI or the Thumbnail URI is specified
       dig_validation: "Cannot create the digital object %{err}"
@@ -3080,7 +3088,7 @@ en:
       agent_unsupported_type: "Agent %{num} has an unsupported agent type. Accepted values: %{accepted}"
       agent_required_field: "Agent %{num}, field %{field}, is required"
       agent_invalid_value: "Agent %{num}, field %{field}, is not an existing value: '%{value}'"
-      agent_unrecognized_boolean: "Agent %{num}, field %{field}, requires a boolean value; received '%{value}', must be one of: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, or blank to use the default"
+      agent_unrecognized_boolean: "Agent %{num}, field %{field}, requires a boolean value; received '%{value}', must be one of: %{accepted}, or blank to use the default"
       agent_incompatible_field: "Agent %{num}, field %{field}, is not valid for agent type '%{agent_type}'. No agent was created or linked"
       agent_mode_conflict: "Agent %{num}, field %{field}, cannot be combined with agent creation fields (%{creation_fields}). No agent was created or linked"
       agent_invalid_record_id: "Agent %{num}, field %{field}, must be a positive numeric ID or a canonical agent URI; received '%{value}'"
@@ -3094,9 +3102,10 @@ en:
       agent_match_difference: "%{field} is '%{supplied}' here and '%{existing}' on that agent"
       agent_authority_id_collision: "Agent %{num} was not created: an existing agent already uses this authority ID. To use that agent, link it by record ID or URI"
       process_error: "Error processing %{type} %{num}: %{why}"
-      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}'"
+      unrecognized_boolean: "Column %{column} requires a boolean value; received '%{value}', must be one of: %{accepted}, or blank to use the default"
       invalid_user_defined_integer: "Invalid User Defined integer: %{value}"
       invalid_file_version_size: "Column %{column} requires a whole number of bytes; received '%{value}'"
+      file_version_display_flag_unpublished: "Column %{column} is TRUE but %{publish_column} is not TRUE; a file version must be published to be the display thumbnail or display link"
       invalid_user_defined_real: "Invalid User Defined real: %{value}"
       bad_ao_uri: " with uri %{uri}"
       bad_accession_uri: "Accession not found with uri %{uri}"

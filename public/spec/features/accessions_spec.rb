@@ -7,7 +7,6 @@ describe 'Accessions', js: true do
       visit('/')
       click_link 'Unprocessed Material'
       expect(current_path).to eq ('/accessions')
-      finished_all_ajax_requests?
 
       within all('.col-sm-12')[0] do
         expect(page).to have_content(/Showing Unprocessed Materials: 1 - \d[0]? of \d{1,2}/)

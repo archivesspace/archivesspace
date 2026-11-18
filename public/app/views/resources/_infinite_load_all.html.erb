@@ -10,6 +10,10 @@
       <%= "#{t('resource.load_records.alert', count: num_records)}" %>
     </p>
 
+    <p id="load-all-error" class="mb-0 d-none" role="alert">
+      <%= t('resource.load_records.error') %>
+    </p>
+
     <div class="d-flex gap-x-8">
       <p class="align-self-center mb-0 px-2 py-1 d-flex align-items-center gap-2 bg-secondary rounded">
         <span class="text-white"><%= t('resource.load_records.showing') %></span>

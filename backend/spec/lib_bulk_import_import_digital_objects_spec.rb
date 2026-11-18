@@ -1181,6 +1181,7 @@ describe "Import Digital Objects" do
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
         digital_object_row['file_version_1_file_uri'] = "http://example.com/av1"
+        digital_object_row['file_version_1_publish'] = "true"
         digital_object_row['file_version_1_is_display_thumbnail'] = "true"
         digital_object_row['file_version_1_use_statement'] = "image-service"
 
@@ -1230,9 +1231,11 @@ describe "Import Digital Objects" do
         digital_object_row['ao_uri'] = @archival_object.uri
         digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
         digital_object_row['file_version_1_file_uri'] = "http://example.com/display-thumbnail"
+        digital_object_row['file_version_1_publish'] = "true"
         digital_object_row['file_version_1_is_display_thumbnail'] = "true"
         digital_object_row['file_version_1_use_statement'] = "image-service"
         digital_object_row['file_version_2_file_uri'] = "http://example.com/display-link"
+        digital_object_row['file_version_2_publish'] = "true"
         digital_object_row['file_version_2_is_display_link'] = "true"
         digital_object_row['file_version_2_use_statement'] = "image-thumbnail"
 
@@ -1268,6 +1271,48 @@ describe "Import Digital Objects" do
         expect(digital_object.file_versions.map { |fv| fv['is_display_link'] }).to contain_exactly(false, true)
         expect(digital_object.file_versions.map { |fv| fv['file_uri'] }).to contain_exactly(
           "http://example.com/display-thumbnail", "http://example.com/display-link")
+      end
+
+      it 'reports an error for an unpublished display thumbnail file version and creates no digital object' do
+        digital_object_count_before = ::DigitalObject.count
+
+        csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+        columns = csv_data[0]
+        column_explanations = csv_data[1]
+
+        digital_object_row = {}
+        columns.each { |column| digital_object_row[column] = nil }
+
+        digital_object_row['res_uri'] = @resource.uri
+        digital_object_row['ao_uri'] = @archival_object.uri
+        digital_object_row['digital_object_title'] = "Digital Object Title #{@now}"
+        digital_object_row['file_version_1_file_uri'] = "http://example.com/unpublished-thumbnail"
+        digital_object_row['file_version_1_publish'] = "FALSE"
+        digital_object_row['file_version_1_is_display_thumbnail'] = "TRUE"
+
+        csv_string = CSV.generate(col_sep: ',') do |csv|
+          csv << columns
+          csv << column_explanations
+          csv << digital_object_row.values
+        end
+
+        csv_filename = "bulk_import_DO_template_#{@now}_#{SecureRandom.uuid}.csv"
+        csv_path = File.join(Dir.tmpdir, csv_filename)
+        File.write(csv_path, csv_string)
+
+        opts = { :repo_id => @resource[:repo_id], :rid => @resource[:id],
+                 :type => "resource", :filename => csv_filename,
+                 :filepath => csv_path, :load_type => "digital_object" }
+        importer = ImportDigitalObjects.new(opts[:filepath], "csv", @current_user, opts)
+        report = importer.run
+
+        expect(report.terminal_error).to eq(nil)
+        expect(report.row_count).to eq(1)
+        expect(report.rows[0].errors).to include(
+          "Column file_version_1_is_display_thumbnail is TRUE but file_version_1_publish is not TRUE; " \
+          "a file version must be published to be the display thumbnail or display link"
+        )
+        expect(::DigitalObject.count).to eq digital_object_count_before
       end
 
       it 'reports an error for each invalid file version and creates no records' do
@@ -2340,7 +2385,7 @@ describe "Import Digital Objects" do
     def file_version_boolean(index, field, token)
       row = {
         "file_version_#{index}_file_uri" => "http://example.com/file-version-#{index}",
-        "file_version_#{index}_publish" => (field == :publish ? token : false),
+        "file_version_#{index}_publish" => (field == :publish ? token : true),
         "file_version_#{index}_is_display_thumbnail" => (field == :is_display_thumbnail ? token : false),
       }
       importer_for(row).file_versions.first[field]
@@ -2479,7 +2524,7 @@ describe "Import Digital Objects" do
         "file_version_2_publish" => "YES",
         "file_version_2_is_display_thumbnail" => "NO",
         "file_version_9_file_uri" => "http://example.com/display-thumbnail",
-        "file_version_9_publish" => "NO",
+        "file_version_9_publish" => "YES",
         "file_version_9_is_display_thumbnail" => "YES",
         "user_defined_boolean_1" => "YES",
         "user_defined_boolean_2" => "YES",

@@ -1421,7 +1421,7 @@ pl:
       invalid_record_id: "Identyfikator rekordu w grupie %{index} musi być identyfikatorem liczbowym lub pełnym URI rekordu; otrzymano %{record_id}"
       unrecognized_record_uri: "Nierozpoznany URI rekordu w grupie %{index}: %{record_id}"
       agent_type_uri_mismatch: "Grupa Agenta %{index} ma typ Agenta %{agent_type}, który nie odpowiada URI rekordu %{record_id}"
-      unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}', musi być jedną z: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, lub pusta, aby użyć wartości domyślnej"
+      unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}', musi być jedną z: %{accepted}, lub pusta, aby użyć wartości domyślnej"
       unconfigured_headers: "Nierozpoznane nagłówki CSV: %{columns}"
       bad_headers: "Nieprawidłowe nagłówki CSV: %{columns}"
       duplicate_file_version_headers: "Zduplikowane kolumny Wersji Pliku: %{columns}"
@@ -1449,9 +1449,10 @@ pl:
       bad_ao_uri: ' z identyfikatorem URI %{uri}'
       bad_accession_uri: 'Nie znaleziono akcesji z identyfikatorem URI %{uri}'
       process_error: 'Błąd podczas przetwarzania %{type} %{num}: %{why}'
-      unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}'"
+      unrecognized_boolean: "Kolumna %{column} wymaga wartości logicznej; otrzymano '%{value}', musi być jedną z: %{accepted}, lub pusta, aby użyć wartości domyślnej"
       invalid_user_defined_integer: "Nieprawidłowa liczba całkowita zdefiniowana przez użytkownika: %{value}"
       invalid_file_version_size: "Kolumna %{column} wymaga całkowitej liczby bajtów; otrzymano '%{value}'"
+      file_version_display_flag_unpublished: "Kolumna %{column} ma wartość TRUE, ale %{publish_column} nie ma wartości TRUE; wersja pliku musi być opublikowana, aby była miniaturą lub linkiem wyświetlania"
       invalid_user_defined_real: "Nieprawidłowa liczba rzeczywista zdefiniowana przez użytkownika: %{value}"
       script_code: Nie można zweryfikować skryptu językowego (%{script}).
       lang_code: Nie można zweryfikować języka (%{lang})
@@ -1461,7 +1462,7 @@ pl:
       agent_unsupported_type: "Agent %{num} ma nieobsługiwany typ agenta. Dozwolone wartości: %{accepted}"
       agent_required_field: "Agent %{num}, pole %{field}, jest wymagane"
       agent_invalid_value: "Agent %{num}, pole %{field}, nie jest istniejącą wartością: '%{value}'"
-      agent_unrecognized_boolean: "Agent %{num}, pole %{field}, wymaga wartości logicznej; otrzymano '%{value}', dozwolone wartości: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE lub puste, aby użyć wartości domyślnej"
+      agent_unrecognized_boolean: "Agent %{num}, pole %{field}, wymaga wartości logicznej; otrzymano '%{value}', dozwolone wartości: %{accepted} lub puste, aby użyć wartości domyślnej"
       agent_incompatible_field: "Agent %{num}, pole %{field}, jest nieprawidłowe dla typu agenta '%{agent_type}'. Nie utworzono ani nie powiązano żadnego agenta"
       agent_mode_conflict: "Agent %{num}, pole %{field}, nie może być łączone z polami tworzenia agenta (%{creation_fields}). Nie utworzono ani nie połączono żadnego agenta"
       agent_invalid_record_id: "Agent %{num}, pole %{field}, wymaga dodatniego identyfikatora liczbowego lub kanonicznego URI agenta; otrzymano: '%{value}'"
@@ -1534,6 +1535,9 @@ pl:
       hier_zero: Hierarchia musi być większa od 0.
       hier_miss: Brak hierarchii – musi to być liczba większa od 0.
       title_and_date: Brak tytułu ORAZ prawidłowej definicji daty.
+      note_text_missing: "%{note_column} jest puste, ale jest wymagane, gdy którakolwiek z tych kolumn zawiera wartość: %{columns}"
+      restriction_date_format: "Nieprawidłowa data (%{column}: '%{value}' nie jest prawidłową datą w formacie RRRR-MM-DD)"
+      restriction_date_order: "Nieprawidłowa data (%{column}: data końcowa '%{end_date}' nie może być wcześniejsza niż data początkowa '%{begin_date}')"
       title: Brak tytułu
       uri_mismatch: Podany identyfikator URI zasobu [%{res_uri}] nie zgadza się z identyfikatorem 
         URI wiersza [%{row_uri}].

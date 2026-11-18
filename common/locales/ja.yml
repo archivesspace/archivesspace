@@ -728,7 +728,6 @@ ja:
   file_version:
     _plural: ファイルバージョン
     _singular: ファイルのバージョン
-    file: ファイル
     file_uri: ファイルURI
     file_uri_tooltip: "<p>ウェブ上またはファイルディレクトリ内でアクセス可能なデジタルオブジェクトに関連付けられたファイルの識別子。 </p>"
     publish: 公開しますか？
@@ -1511,6 +1510,11 @@ ja:
     sort_column_tooltip: 結果をソートするための既定のフィールド。
     sort_direction: 既定のソート方向
     sort_direction_tooltip: 結果をソートする既定の方向。
+    actions_column_position: アクションボタン（表示/編集）の位置
+    actions_column_position_tooltip: 結果テーブルの各行で、表示ボタンと編集ボタンを左右どちらに表示するか。
+    actions_column_position_options:
+      start: 左
+      end: 右
     locale: 言語選択
     search_browse_columns: 検索・一覧表示の列設定
     accession_browse_section: 受入一覧の列
@@ -2025,8 +2029,7 @@ ja:
       invalid_record_id: "グループ %{index} のレコード ID は数値 ID または完全なレコード URI である必要があります。受け取った値: %{record_id}"
       unrecognized_record_uri: "グループ %{index} に認識されないレコード URI があります: %{record_id}"
       agent_type_uri_mismatch: "エージェントグループ %{index} のエージェントの種類 %{agent_type} は、レコード URI %{record_id} と一致しません"
-      unrecognized_boolean: "列 %{column} にはブール値が必要です。受け取った値: '%{value}'、次のいずれかである必要があります: 1, T, Y, YES,
-        TRUE, 0, F, N, NO, FALSE、または既定値を使用する場合は空欄"
+      unrecognized_boolean: "列 %{column} にはブール値が必要です。受け取った値: '%{value}'、次のいずれかである必要があります: %{accepted}、または既定値を使用する場合は空欄"
       unconfigured_headers: "認識されない CSV ヘッダー: %{columns}"
       bad_headers: "無効な CSV ヘッダー: %{columns}"
       duplicate_file_version_headers: "重複するファイルバージョンの列: %{columns}"
@@ -2103,6 +2106,9 @@ ja:
       uri_mismatch: "入力リソースのURI [%{res_uri}]が、行のURI [%{row_uri}]と一致しません"
       title: タイトルがありません
       title_and_date: タイトルと有効な日付定義がありません
+      note_text_missing: "%{note_column} は空欄ですが、次のいずれかの列に値がある場合は必須です: %{columns}"
+      restriction_date_format: "無効な日付 (%{column}: '%{value}' は有効な YYYY-MM-DD 形式の日付ではありません)"
+      restriction_date_order: "無効な日付 (%{column}: 終了日 '%{end_date}' を開始日 '%{begin_date}' より前にすることはできません)"
       hier_miss: 階層がありません -- 0より大きい数値である必要があります
       hier_zero: 階層は0より大きくなければなりません
       hier_wrong: 階層を前の行より2レベル以上深くすることはできません
@@ -2134,7 +2140,8 @@ ja:
       has_dig_obj: "アーカイバルオブジェクトには、すでに関連するデジタルオブジェクトがあります"
       dig_unassoc: "関連するデジタルオブジェクトとアーカイブオブジェクトを保存することができません：%{msg}"
       dig_row_not_saved: "デジタルオブジェクトを作成できなかったため、この行のデータは何も保存されませんでした"
-      dig_not_representative: "デジタルオブジェクトのインスタンスは代表に設定されませんでした：アーカイバルオブジェクトにはインポート前から代表インスタンスがあるか、前の行で別のインスタンスが代表に設定されています"
+      dig_representative_existing: "デジタルオブジェクトのインスタンスを代表に設定できません：アーカイバルオブジェクトにはすでに代表インスタンスがあります"
+      dig_representative_earlier_row: "デジタルオブジェクトのインスタンスを代表に設定できません：%{row}行目でアーカイバルオブジェクトの別のインスタンスが代表に設定されています"
       ref_id_miss: Ref IDが指定されていません
       dig_info_miss: デジタルオブジェクトURIもサムネイルURIも指定されていません
       dig_validation: "%{err}デジタルオブジェクトを作成できません"
@@ -2167,7 +2174,7 @@ ja:
       agent_unsupported_type: "エージェント %{num} には未対応のエージェントの種類があります。使用できる値: %{accepted}"
       agent_required_field: "エージェント %{num} のフィールド %{field} は必須です"
       agent_invalid_value: "エージェント %{num} のフィールド %{field} は既存の値ではありません: '%{value}'"
-      agent_unrecognized_boolean: "エージェント %{num} のフィールド %{field} にはブール値が必要です。受け取った値: '%{value}'。使用できる値: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE、または空欄（デフォルトを使用）"
+      agent_unrecognized_boolean: "エージェント %{num} のフィールド %{field} にはブール値が必要です。受け取った値: '%{value}'。使用できる値: %{accepted}、または空欄（デフォルトを使用）"
       agent_incompatible_field: "エージェント %{num} のフィールド %{field} はエージェントの種類 '%{agent_type}' では無効です。エージェントは作成もリンクもされませんでした"
       agent_mode_conflict: "エージェント %{num} のフィールド %{field} は、エージェント作成用フィールド（%{creation_fields}）と併用できません。エージェントは作成もリンクもされませんでした"
       agent_invalid_record_id: "エージェント %{num} のフィールド %{field} には、正の数値IDまたは正規のエージェントURIが必要です。受け取った値: '%{value}'"
@@ -2181,9 +2188,10 @@ ja:
       agent_match_difference: "%{field} はここでは '%{supplied}'、そのエージェントでは '%{existing}' です"
       agent_authority_id_collision: "エージェント %{num} は作成されませんでした。このオーソリティIDは既存のエージェントで使用されています。そのエージェントを使用するには、レコードIDまたはURIでリンクしてください"
       process_error: "%{type} %{num} の処理中にエラー: %{why}"
-      unrecognized_boolean: "列 %{column} には真偽値が必要です。受け取った値: '%{value}'"
+      unrecognized_boolean: "列 %{column} にはブール値が必要です。受け取った値: '%{value}'、次のいずれかである必要があります: %{accepted}、または既定値を使用する場合は空欄"
       invalid_user_defined_integer: "無効なユーザー定義の整数: %{value}"
       invalid_file_version_size: "列 %{column} にはバイト単位の整数が必要です。受け取った値: '%{value}'"
+      file_version_display_flag_unpublished: "列 %{column} は TRUE ですが、%{publish_column} は TRUE ではありません。表示サムネイルまたは表示リンクにするには、ファイルバージョンが公開されている必要があります"
       invalid_user_defined_real: "無効なユーザー定義の実数: %{value}"
       bad_ao_uri: "URIを持つ%{uri}"
       bad_accession_uri: "URI %{uri} の受入が見つかりません"

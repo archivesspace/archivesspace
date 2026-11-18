@@ -381,7 +381,7 @@ module ASpaceImport
           I18n.t('importer.error.bad_headers', :columns => columns)
         when :unrecognized_boolean
           column, value = Array(@element)
-          I18n.t('importer.error.unrecognized_boolean', :column => column, :value => value)
+          I18n.t('importer.error.unrecognized_boolean', :column => column, :value => value, :accepted => ASpaceImport::Utils::ACCEPTED_BOOLEAN_VALUES)
         when :duplicate_file_version_headers
           I18n.t('importer.error.duplicate_file_version_headers', :columns => columns)
         else

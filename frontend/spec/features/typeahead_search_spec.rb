@@ -6,17 +6,16 @@ require 'rails_helper'
 describe 'Resources Form', js: true do
   before(:all) do
     @repository = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
+    set_repo(@repository)
     create_subjects
 
-    run_all_indexers
+    run_index_round
   end
 
   before(:each) do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
 
     @resource = create(:resource)
-    run_index_round
   end
 
   describe 'search dropdown and subject selection' do

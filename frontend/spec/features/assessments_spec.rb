@@ -11,9 +11,9 @@ describe 'Assessments', js: true do
   end
 
   before(:each) do
-    login_user(@manager_user)
+    login_user_and_select_repository(@manager_user, @repository)
     set_repo(@repository)
-    select_repository(@repository)
+    visit '/'
   end
 
   it 'can add repository assessment attribute definitions and can delete them' do
@@ -173,9 +173,8 @@ describe 'Assessments', js: true do
     # Click on save
     find('button', text: 'Save Assessment', match: :first).click
 
-    run_index_round
-
     expect(page).to have_text 'Assessment Created'
+    run_index_round
     expect(page).to have_text accession.title
     expect(page).to have_text digital_object.title
     expect(page).to have_text archival_object.title
@@ -332,21 +331,21 @@ describe 'Assessments', js: true do
     visit "accessions/#{accession.id}"
     within '#linked_assessments #tabledSearchResults' do
       expect(page).to have_css('tbody tr', count: 1)
-      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
+      expect(page).to have_css('tbody tr td.assessment_id', text: assessment.id.to_s)
     end
 
     # Check for linked assessments on the archival object page
     visit "/resolve/readonly?uri=#{archival_object.uri}"
     within '#linked_assessments #tabledSearchResults' do
       expect(page).to have_css('tbody tr', count: 1)
-      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
+      expect(page).to have_css('tbody tr td.assessment_id', text: assessment.id.to_s)
     end
 
     # Check for linked assessments on the digital object page
     visit "/resolve/readonly?uri=#{digital_object.uri}"
     within '#linked_assessments #tabledSearchResults' do
       expect(page).to have_css('tbody tr', count: 1)
-      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
+      expect(page).to have_css('tbody tr td.assessment_id', text: assessment.id.to_s)
     end
 
     visit '/'
@@ -367,7 +366,7 @@ describe 'Assessments', js: true do
     element = all('#linked_assessments_surveyed_by #tabledSearchResults tbody tr')
     expect(element.length).to eq(1)
     within element[0] do
-      cells = all('td')
+      cells = all('td:not(.table-record-actions)')
       expect(cells[1]).to have_text(assessment.id)
     end
   end

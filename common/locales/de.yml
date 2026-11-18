@@ -1452,7 +1452,6 @@ de:
     checksum_tooltip: "<p>Eine digitale Signatur zur Überwachung der Integrität und Authentizität einer
       digitalen Datei.</p>\n"
     _plural: Dateiversionen
-    file: Datei
     xlink_actuate_attribute_tooltip: "<p>Ein XLink-Attribut, das beim Export verwendet wird, um anzugeben,
       wie das digitale Objekt angezeigt werden soll (z.B. ob der Link automatisch erfolgt oder vom Benutzer
       angefordert werden muss). Es wird in Verbindung mit dem XLink Show-Attribut verwendet.</p>\n"
@@ -1966,6 +1965,11 @@ de:
     default_values_tooltip: Ob neue Eingangs- und Ressourcenaufzeichnungen mit Standardwerten 
       vorbefüllt werden sollen.
     sort_direction_tooltip: Standardrichtung zum Sortieren der Ergebnisse.
+    actions_column_position: Position der Aktionsschaltflächen (Ansehen/Bearbeiten)
+    actions_column_position_tooltip: Ob die Schaltflächen Ansehen und Bearbeiten links oder rechts in jeder Zeile einer Ergebnistabelle erscheinen.
+    actions_column_position_options:
+      start: Links
+      end: Rechts
     classification_browse_section: Spalten der Klassifizerung beim Blättern
     repositories_browse_section: Spalten des Aufbewahrungsorts beim Blättern
     locale: Sprachauswahl
@@ -2707,7 +2711,7 @@ de:
       invalid_record_id: "Die Datensatz-ID in Gruppe %{index} muss eine numerische ID oder eine vollständige Datensatz-URI sein; erhalten %{record_id}"
       unrecognized_record_uri: "Unbekannte Datensatz-URI in Gruppe %{index}: %{record_id}"
       agent_type_uri_mismatch: "Akteur-Gruppe %{index} hat den Akteur-Typ %{agent_type}, der nicht zur Datensatz-URI %{record_id} passt"
-      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE, oder leer, um den Standardwert zu verwenden"
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: %{accepted}, oder leer, um den Standardwert zu verwenden"
       unconfigured_headers: "Unbekannte CSV-Spaltenüberschriften: %{columns}"
       bad_headers: "Ungültige CSV-Spaltenüberschriften: %{columns}"
       duplicate_file_version_headers: "Doppelte Dateiversions-Spalten: %{columns}"
@@ -2735,6 +2739,9 @@ de:
         [%{row_uri}] überein
       title: Fehlender Titel
       title_and_date: Fehlende Definition von Titel UND Definition des Gültigkeitsdatums
+      note_text_missing: "%{note_column} ist leer, ist aber erforderlich, wenn eine dieser Spalten einen Wert enthält: %{columns}"
+      restriction_date_format: "Ungültiges Datum (%{column}: '%{value}' ist kein gültiges Datum im Format JJJJ-MM-TT)"
+      restriction_date_order: "Ungültiges Datum (%{column}: Enddatum '%{end_date}' darf nicht vor dem Anfangsdatum '%{begin_date}' liegen)"
       hier_miss: Fehlende Hierarchie -- muss eine Zahl größer als 0 sein
       hier_zero: Hierarchie muss größer als 0 sein
       hier_wrong_resource: Wollten Sie die Bearbeitung mit einem ausgewählten Archiv-Objekt starten?
@@ -2754,7 +2761,8 @@ de:
       bad_role: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist keine gültige Rolle"
       dig_unassoc: 'Archiv-Objekt mit zugehörigem digitalen Objekt kann nicht gespeichert werden: %{msg}'
       dig_row_not_saved: "Aus dieser Zeile wurde nichts gespeichert, da das digitale Objekt nicht erstellt werden konnte"
-      dig_not_representative: 'Instanz des digitalen Objekts wurde nicht repräsentativ gemacht: Das Archiv-Objekt hatte vor dem Import bereits eine repräsentative Instanz, oder eine frühere Zeile macht eine repräsentativ'
+      dig_representative_existing: 'Instanz des digitalen Objekts kann nicht repräsentativ gemacht werden: Das Archiv-Objekt hat bereits eine repräsentative Instanz'
+      dig_representative_earlier_row: 'Instanz des digitalen Objekts kann nicht repräsentativ gemacht werden: Zeile %{row} macht eine andere Instanz des Archiv-Objekts repräsentativ'
       dig_validation: Das digitale Objekt kann nicht erstellt werden %{err}
       event_validation: "Ereignisgruppe %{group} (%{type}) kann nicht erstellt werden: %{err}"
       invalid_event_type: "Ereignisgruppe %{group}, Feld %{field}, ist kein vorhandener Ereignistyp: '%{value}'"
@@ -2778,7 +2786,7 @@ de:
       agent_unsupported_type: "Agent %{num} hat einen nicht unterstützten Agententyp. Zulässige Werte: %{accepted}"
       agent_required_field: "Agent %{num}, Feld %{field}, ist erforderlich"
       agent_invalid_value: "Agent %{num}, Feld %{field}, ist kein vorhandener Wert: '%{value}'"
-      agent_unrecognized_boolean: "Agent %{num}, Feld %{field}, erfordert einen booleschen Wert; erhalten: '%{value}', zulässig sind: 1, T, Y, YES, TRUE, 0, F, N, NO, FALSE oder leer, um den Standardwert zu verwenden"
+      agent_unrecognized_boolean: "Agent %{num}, Feld %{field}, erfordert einen booleschen Wert; erhalten: '%{value}', zulässig sind: %{accepted} oder leer, um den Standardwert zu verwenden"
       agent_incompatible_field: "Agent %{num}, Feld %{field}, ist für den Agent-Typ '%{agent_type}' nicht zulässig. Es wurde kein Agent erstellt oder verknüpft"
       agent_mode_conflict: "Agent %{num}, Feld %{field}, kann nicht mit Feldern zur Agentenerstellung (%{creation_fields}) kombiniert werden. Es wurde kein Agent erstellt oder verknüpft"
       agent_invalid_record_id: "Agent %{num}, Feld %{field}, erfordert eine positive numerische ID oder eine kanonische Agent-URI; erhalten: '%{value}'"
@@ -2792,9 +2800,10 @@ de:
       agent_match_difference: "%{field} ist hier '%{supplied}' und bei diesem Agenten '%{existing}'"
       agent_authority_id_collision: "Agent %{num} wurde nicht erstellt: Ein vorhandener Agent verwendet diese Normdaten-ID bereits. Um diesen Agenten zu verwenden, verknüpfen Sie ihn über Datensatz-ID oder URI"
       process_error: 'Fehler bei der Verarbeitung von %{type} %{num}: %{why}'
-      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}'"
+      unrecognized_boolean: "Spalte %{column} erfordert einen booleschen Wert; erhalten '%{value}', muss einer der folgenden sein: %{accepted}, oder leer, um den Standardwert zu verwenden"
       invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
       invalid_file_version_size: "Spalte %{column} erfordert eine ganze Zahl von Bytes; erhalten '%{value}'"
+      file_version_display_flag_unpublished: "Spalte %{column} ist TRUE, aber %{publish_column} ist nicht TRUE; eine Dateiversion muss veröffentlicht sein, um das Anzeige-Vorschaubild oder der Anzeige-Link zu sein"
       invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
       bad_ao_uri: ' mit URI %{uri}'
       bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'

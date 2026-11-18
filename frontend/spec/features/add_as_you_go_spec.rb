@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Add As You Go buttons', js: true do
   before(:each) do
-    login_admin
+    login_admin_and_select_repository($repo)
   end
 
   context 'when editing a non-Agent record type' do

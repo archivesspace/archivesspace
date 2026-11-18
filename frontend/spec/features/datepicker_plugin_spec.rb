@@ -6,7 +6,8 @@ describe 'DatepickerPlugin', js: true do
   let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:each) do
-    login_user(admin)
+    login_user_and_select_repository(admin, $repo)
+    visit '/'
     wait_for_ajax
     expect(page).to have_css('button[title="Show Advanced Search"]')
     first('button[title="Show Advanced Search"]').click

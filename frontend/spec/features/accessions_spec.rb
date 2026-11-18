@@ -16,7 +16,7 @@ describe 'Accessions', js: true do
 
   before(:each) do
     login_user(user)
-    run_all_indexers
+    set_repo(repo)
     select_repository(repo)
   end
 
@@ -113,8 +113,6 @@ describe 'Accessions', js: true do
       ]
     )
 
-    run_index_round
-
     visit "/accessions/#{accession.id}"
 
     click_on('Spawn')
@@ -154,7 +152,6 @@ describe 'Accessions', js: true do
 
   it 'can edit an accession, add two extents and list them on the view page' do
     accession = create(:accession)
-    run_index_round
     visit "/accessions/#{accession.id}/edit"
 
     # Add first extent
@@ -185,7 +182,6 @@ describe 'Accessions', js: true do
     accession = create(:json_accession,
       extents: [build(:json_extent), build(:json_extent)]
     )
-    run_index_round
 
     visit "/accessions/#{accession.id}/edit"
 
@@ -214,8 +210,6 @@ describe 'Accessions', js: true do
         }
       ]
     )
-
-    run_index_round
 
     visit "/accessions/#{accession.id}/edit"
 
@@ -253,8 +247,6 @@ describe 'Accessions', js: true do
         }
       ]
     )
-
-    run_index_round
 
     visit "/accessions/#{accession.id}/edit"
 
@@ -420,7 +412,6 @@ describe 'Accessions', js: true do
 
   it 'can add collection management to an accession and can remove it' do
     accession = create(:json_accession)
-    run_index_round
     visit "/accessions/#{accession.id}"
     click_on('Edit')
 
@@ -511,7 +502,6 @@ describe 'Accessions', js: true do
   describe 'toolbar' do
     it 'has a "more" dropdown menu that is aligned to the right side of its control button' do
       accession = create(:json_accession)
-      run_index_round
       visit "/accessions/#{accession.id}"
       expect(page).to have_css(
         '#other-dropdown > .dropdown-menu.dropdown-menu-right',
@@ -927,8 +917,7 @@ describe 'Accessions', js: true do
     end
 
     before(:each) do
-      login_admin
-      select_repository(@tc_repo)
+      login_admin_and_select_repository(@tc_repo)
     end
 
     it 'opens from the accession edit toolbar and shows linked containers' do
@@ -962,8 +951,7 @@ describe 'Accessions (view-only permissions)', js: true do
   end
 
   before(:each) do
-    login_user(@view_only_user)
-    select_repository(@view_only_repo)
+    login_user_and_select_repository(@view_only_user, @view_only_repo)
   end
 
   it 'sees only the View Published button on accession show page' do

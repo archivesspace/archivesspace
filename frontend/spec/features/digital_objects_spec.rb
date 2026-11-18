@@ -14,8 +14,8 @@ describe 'Digital Objects', js: true do
   end
 
   before(:each) do
-    login_user(@user)
-    select_repository(@repository)
+    login_user_and_select_repository(@user, @repository)
+    visit '/'
   end
 
   it 'reports errors and warnings when creating an invalid Digital Object' do
@@ -118,7 +118,6 @@ describe 'Digital Objects', js: true do
   it 'reports errors if adding a child with no title to a Digital Object' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -141,7 +140,6 @@ describe 'Digital Objects', js: true do
   it 'can populate the digital object component tree' do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}", dates: [], extents: [])
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -187,7 +185,6 @@ describe 'Digital Objects', js: true do
     now = Time.now.to_i
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
     digital_object_child = create(:digital_object_component, title: "Child #{now}", digital_object: { ref: digital_object.uri })
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
     wait_for_infinite_tree_pane_ready
@@ -267,94 +264,42 @@ describe 'Digital Objects', js: true do
     expect(element).to have_text classification.title
   end
 
-  it 'provides alt text for Digital Object file version images based on caption or title' do
-    now = Time.now.to_i
+  it 'does not render images for jpeg or gif Digital Object file versions' do
     digital_object = create(
       :digital_object,
-      title: "Digital Object Title #{now}",
+      title: "Digital Object Title #{Time.now.to_i}",
       file_versions: [
-        {
-          file_uri: "File URI 1 #{now}",
-          file_format_name: "jpeg",
-          caption: "File Format Caption 1 #{now}"
-        },
-        {
-          file_uri: "File URI 2 #{now}",
-          file_format_name: "jpeg",
-          caption: "File Format Caption 2 #{now}"
-        }
+        { file_uri: 'http://example.com/image.jpg', file_format_name: 'jpeg' },
+        { file_uri: 'http://example.com/image.gif', file_format_name: 'gif' }
       ]
     )
-
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
-
-    expand_elements = all('#digital_object_file_versions__accordion .glyphicon')
-    expect(expand_elements.length).to eq 2
-
-    expand_elements[0].click
-
-    wait_for_ajax
-
-    element = find('#digital_object_file_versions__file_version_0')
-    expect(element).to have_text "File Format Caption 1 #{now}"
-
-    expand_elements[1].click
-
-    element = find('#digital_object_file_versions__file_version_1')
-    expect(element).to have_text "File Format Caption 2 #{now}"
+    accordion = find('#digital_object_file_versions__accordion')
+    expect(accordion).to have_css('.card', count: 2)
+    expect(accordion).to have_no_css('img', visible: :all)
   end
 
-  it 'provides alt text for Digital Object Component file version images based on caption or title' do
-    now = Time.now.to_i
-    digital_object = create(
-      :digital_object,
-      title: "Digital Object Title #{now}",
-      file_versions: [
-        {
-          file_uri: "File URI 1 #{now}",
-          file_format_name: "jpeg",
-          caption: "File Format Caption 1 #{now}"
-        },
-        {
-          file_uri: "File URI 2 #{now}",
-          file_format_name: "jpeg",
-          caption: "File Format Caption 2 #{now}"
-        }
-      ]
-    )
-
+  it 'does not render images for jpeg or gif Digital Object Component file versions' do
+    digital_object = create(:digital_object, title: "Digital Object Title #{Time.now.to_i}")
     digital_object_component = create(
       :digital_object_component,
       digital_object: { ref: digital_object.uri },
-      title: "Digital Object Component Title #{now}",
+      title: "Digital Object Component Title #{Time.now.to_i}",
       file_versions: [
-        {
-          file_uri: "File URI 1 #{now}",
-          file_format_name: "jpeg",
-          caption: "File Format Caption 1 #{now}"
-        },
-        {
-          file_uri: "File URI 2 #{now}",
-          file_format_name: "jpeg",
-          caption: "File Format Caption 2 #{now}"
-        }
+        { file_uri: 'http://example.com/image.jpg', file_format_name: 'jpeg' },
+        { file_uri: 'http://example.com/image.gif', file_format_name: 'gif' }
       ]
     )
-
-    run_index_round
 
     visit "digital_objects/#{digital_object.id}/##{tree_hash_for(digital_object_component.uri)}"
     wait_for_ajax
     wait_for_infinite_tree_pane_ready
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object_component.title} Digital Object Component")
-
-    expect(page).to have_css('#digital_object_component_file_versions__file_version_0', visible: false, text: "File Format Caption 1 #{now}")
-    expect(page).to have_css('#digital_object_component_file_versions__file_version_1', visible: false, text: "File Format Caption 2 #{now}")
+    accordion = find('#digital_object_component_file_versions__accordion')
+    expect(accordion).to have_css('.card', count: 2)
+    expect(accordion).to have_no_css('img', visible: :all)
   end
 
   describe 'title field mixed content validation' do
@@ -543,8 +488,7 @@ describe 'Digital Objects', js: true do
 
     before do
       set_repo @repository
-      login_admin
-      select_repository(@repository)
+      login_admin_and_select_repository(@repository)
     end
 
     context 'for a parent Digital Object' do

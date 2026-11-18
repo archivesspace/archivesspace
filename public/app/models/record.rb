@@ -536,18 +536,11 @@ class Record
     file_version_candidates = []
 
     if ['resource', 'archival_object', 'accession'].include?(@primary_type)
-      Array(json['instances']).each do |instance|
-        if (digital_object = instance.dig('digital_object', '_resolved'))
-          # skip unpublished digital objects
-          next unless digital_object['publish']
+      representative = Array(json['instances']).find { |instance| instance['is_representative'] }
+      digital_object = representative&.dig('digital_object', '_resolved')
 
-          if instance['is_representative']
-            file_version_candidates = Array(digital_object['file_versions'])
-            break
-          else
-            file_version_candidates += Array(digital_object['file_versions'])
-          end
-        end
+      if digital_object && digital_object['publish'] && !digital_object['suppressed']
+        file_version_candidates = Array(digital_object['file_versions'])
       end
     else
       file_version_candidates = Array(json['file_versions'])

@@ -4,8 +4,10 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'RDE', js: true do
-  let(:user) { create_user(repo => ['repository-archivists']) }
-  let(:repo) { create(:repo, repo_code: "accession_test_#{Time.now.to_i}") }
+  before(:all) do
+    @repo = create(:repo, repo_code: "accession_test_#{Time.now.to_i}")
+    @user = create_user(@repo => ['repository-archivists'])
+  end
 
   def expect_infinite_tree_level(title, expected_level)
     link = find("#infinite-tree-container a.record-title", text: title)
@@ -14,10 +16,8 @@ describe 'RDE', js: true do
   end
 
   before(:each) do
-    set_repo repo
-    login_user(user)
-    ensure_repository_access
-    select_repository(repo)
+    set_repo @repo
+    login_user_and_select_repository(@user, @repo)
   end
 
   it 'can review error messages on an invalid entry' do

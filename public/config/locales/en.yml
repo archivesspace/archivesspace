@@ -388,6 +388,7 @@ en:
       scroll: On scroll
       all: All at once
       loading: Loading
+      error: Some records could not be loaded. Reload the page to try again.
 
   top_container:
     _singular: Container

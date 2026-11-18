@@ -21,7 +21,8 @@ describe 'Detailed Merging of Agents', js: true do
       agent_a
       agent_b
       run_index_round
-      login_admin
+      login_admin_and_select_repository($repo)
+      visit '/'
     end
 
 
@@ -251,7 +252,7 @@ describe 'Detailed Merging of Agents', js: true do
 
       visit 'logout'
 
-      run_periodic_index
+      run_index_round
 
       login_user(user)
 

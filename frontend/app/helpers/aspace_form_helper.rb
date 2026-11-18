@@ -422,6 +422,7 @@ module AspaceFormHelper
         opts[:"aria-label"] = I18n.t(i18n_for(name))
       end
       selection = obj[name]
+      options = with_suppressed_options(options, dynamic_enum_for(name), selection)
       @forms.select_tag(path(name), @forms.options_for_select(options, selection || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
@@ -715,6 +716,32 @@ module AspaceFormHelper
     end
 
 
+    def dynamic_enum_for(name)
+      if @active_template && @parent.templates[@active_template]
+        @parent.templates[@active_template][:definition].dynamic_enum_for(name)
+      end
+    end
+
+
+    def saved_record?
+      @context.first.second['lock_version'].present?
+    end
+
+
+    def with_suppressed_options(options, enum_name, values)
+      return options if enum_name.nil? || !saved_record?
+
+      offered = options.map {|option| Array(option).last}
+      kept = (Array(values) & JSONModel.enum_suppressed_values(enum_name)) - offered
+
+      options + kept.map {|value|
+        [I18n.t("enumeration._frontend.messages.suppressed_value",
+                :value => I18n.t("enumerations.#{enum_name}.#{value}", :default => value)),
+         value]
+      }
+    end
+
+
     def label_with_field(name, field_html, opts = {})
       opts[:label_opts] ||= {}
       opts[:label_opts][:plugin] = opts[:plugin]
@@ -930,6 +957,8 @@ module AspaceFormHelper
     def select(name, options, opts = {})
       return nil if obj[name].blank?
 
+      options = with_suppressed_options(options, dynamic_enum_for(name), obj[name])
+
       # Attempt a match in the options to give dynamic enums a chance.
       match = options.find {|label, value| value == obj[name]}
 
@@ -1037,6 +1066,10 @@ module AspaceFormHelper
       false
     end
 
+    def dynamic_enum_for(name)
+      nil
+    end
+
     def record_type
       nil
     end
@@ -1120,6 +1153,11 @@ module AspaceFormHelper
 
     def record_type
       @jsonmodel.record_type
+    end
+
+    def dynamic_enum_for(property)
+      defn = jsonmodel_schema_definition(property)
+      defn['dynamic_enum'] if defn
     end
 
     private

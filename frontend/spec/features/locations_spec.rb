@@ -12,13 +12,11 @@ describe 'Locations', js: true do
 
     @manager_user = create_user(@repository => ['repository-managers'])
     @archivist_user = create_user(@repository => ['repository-archivists'])
-
-    run_index_round
   end
 
   before(:each) do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
+    visit '/'
   end
 
   it 'downloads all locations to CSV regardless of the current page' do

@@ -294,8 +294,8 @@ describe 'Collection Organization', js: true do
       end
 
       it 'are collapsed by default' do
-        num_first_level_nodes = page.all('#infinite-tree .root.node > .node-children > .node').count
-        num_all_nodes = page.all('#infinite-tree .root.node .node').count
+        num_first_level_nodes = page.all('#infinite-tree-container .root.node > .node-children > .node', minimum: 1).count
+        num_all_nodes = page.all('#infinite-tree-container .root.node .node').count
         expect(num_first_level_nodes).to eq num_all_nodes
 
         [@ao3, @ao4, @ao5, @ao6].each do |parent|
@@ -409,6 +409,56 @@ describe 'Collection Organization', js: true do
       JS
     end
 
+    # Wait for the initial waypoints, then make every later waypoints request
+    # return a JSON error body with a 429, as a rate-limiting proxy might
+    def visit_and_fail_later_waypoint_requests(resource)
+      visit "/repositories/#{@repo.id}/resources/#{resource.id}/collection_organization"
+
+      aggregate_failures do
+        expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="0"]')
+        expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
+        expect(page).not_to have_css('#records-loading-dialog[open]', visible: :all)
+      end
+
+      allow_any_instance_of(ResourcesController).to receive(:waypoints) do |controller|
+        controller.render json: { error: 'Too Many Requests' }, status: 429
+      end
+    end
+
+    def expect_no_undefined_records_after_load_all
+      # Waypoint 2 may have loaded on its own before the stub, so note which
+      # waypoints are populated when Load All starts
+      populated_before = page.evaluate_script(<<~JS)
+        Array.from(document.querySelectorAll('#infinite-records-container .waypoint.populated'))
+          .map(wp => wp.dataset.waypointNumber)
+      JS
+
+      # There is no dialog 'open' event, so mark the page when it closes
+      page.execute_script(<<~JS)
+        document.querySelector('#records-loading-dialog').addEventListener('close', () => {
+          document.body.dataset.loadAllDialogClosed = 'true';
+        }, { once: true });
+      JS
+
+      page.find('.load-all__label-toggle').click
+
+      aggregate_failures do
+        expect(page).to have_css('body[data-load-all-dialog-closed]')
+        expect(page).not_to have_css(
+          '#infinite-records-container .infinite-record-record',
+          exact_text: 'undefined',
+          visible: :all
+        )
+      end
+
+      # Waypoints whose fetch failed should stay empty so they can be fetched again
+      populated_after = page.evaluate_script(<<~JS)
+        Array.from(document.querySelectorAll('#infinite-records-container .waypoint.populated'))
+          .map(wp => wp.dataset.waypointNumber)
+      JS
+      expect(populated_after).to match_array(populated_before)
+    end
+
     it 'is not shown for a resource with less than 3 waypoints of records' do
       visit "/repositories/#{@repo.id}/resources/#{@res_1wp.id}/collection_organization"
       expect(page).not_to have_css('#load-all-section')
@@ -514,7 +564,8 @@ describe 'Collection Organization', js: true do
 
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
-      expect(page).to have_css('#records-loading-dialog', visible: false)
+      expect(page).to have_css('#infinite-records-container .waypoint.populated')
+      expect(page).to have_no_css('#records-loading-dialog[open]', visible: :all)
       toggle = page.find('.load-all__label-toggle')
       total_records = page.find('#infinite-records-container')['data-total-records'].to_i
 
@@ -572,6 +623,101 @@ describe 'Collection Organization', js: true do
 
         expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records)
         expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+      end
+    end
+
+    context 'when waypoint requests from the background thread keep failing' do
+      it 'stops retrying and shows an error message' do
+        visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
+
+        expect(page).to have_css('#infinite-records-container .waypoint.populated')
+
+        num_empty_waypoints = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
+
+        # Fail every waypoint request from now on, as a rate limit or bot challenge
+        # in front of the app would
+        lock = Mutex.new
+        waypoint_requests = 0
+        counting = false
+        allow_any_instance_of(ResourcesController).to receive(:waypoints) do |controller|
+          lock.synchronize { waypoint_requests += 1 if counting }
+          controller.render plain: 'Forbidden', status: 403
+        end
+
+        lock.synchronize { counting = true }
+        page.find('.load-all__label-toggle').click
+
+        expect(page).to have_css('#load-all-error', visible: true, wait: 30)
+        expect(page.evaluate_script("document.querySelector('#records-loading-dialog').open")).to eq false
+
+        requests_at_error = lock.synchronize { waypoint_requests }
+        sleep 5
+        expect(lock.synchronize { waypoint_requests }).to eq requests_at_error
+        expect(requests_at_error).to be <= num_empty_waypoints * 3
+      end
+    end
+
+    context 'when a waypoint request from the background thread fails once' do
+      it 'retries and loads all records' do
+        visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
+
+        expect(page).to have_css('#infinite-records-container .waypoint.populated')
+
+        total_records = page.find('#infinite-records-container')['data-total-records']
+
+        # Fail the first request for each waypoint, as a brief network error would
+        lock = Mutex.new
+        failed_waypoints = []
+        allow_any_instance_of(ResourcesController).to receive(:waypoints).and_wrap_original do |original, *args|
+          controller = original.receiver
+          first_request = lock.synchronize do
+            next false if failed_waypoints.include?(controller.params[:urls])
+
+            failed_waypoints << controller.params[:urls]
+            true
+          end
+
+          if first_request
+            controller.render plain: 'Service Unavailable', status: 503
+          else
+            original.call(*args)
+          end
+        end
+
+        page.find('.load-all__label-toggle').click
+
+        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i, wait: 30)
+        expect(page).not_to have_css('#load-all-error', visible: true)
+      end
+    end
+
+    context 'when waypoint requests return a JSON error' do
+      context 'when the remaining waypoints load on the main thread' do
+        it 'does not render "undefined" records or mark failed waypoints populated' do
+          visit_and_fail_later_waypoint_requests(@res_5wp)
+
+          aggregate_failures do
+            expect_no_undefined_records_after_load_all
+            expect(page).to have_css('#load-all-error', visible: :visible)
+            expect(page.evaluate_script(
+              "document.querySelector('#records-loading-dialog').open"
+            )).to be(false)
+          end
+        end
+      end
+
+      context 'when the remaining waypoints load in the web worker' do
+        it 'does not render "undefined" records or mark failed waypoints populated' do
+          visit_and_fail_later_waypoint_requests(@res_10wp)
+
+          aggregate_failures do
+            expect_no_undefined_records_after_load_all
+            expect(page).to have_css('#load-all-error', visible: :visible)
+            expect(page.evaluate_script(
+              "document.querySelector('#records-loading-dialog').open"
+            )).to be(false)
+          end
+        end
       end
     end
   end

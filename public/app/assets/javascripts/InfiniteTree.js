@@ -230,6 +230,12 @@
 
       if (this.pageCurrentUri === this.rootUri) {
         this.markCurrent(this.rootUri);
+      } else if (
+        this.currentUri &&
+        !this.container.querySelector('.node.current')
+      ) {
+        // The coordinator may have set the current record before the root rendered
+        this.markCurrent(this.currentUri);
       }
     }
 

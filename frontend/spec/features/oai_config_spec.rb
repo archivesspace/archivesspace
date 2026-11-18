@@ -12,8 +12,8 @@ describe 'OAI-PMH Settings', js: true do
   end
 
   before(:each) do
-    login_admin
-    select_repository(@first_repository)
+    login_admin_and_select_repository(@first_repository)
+    visit '/'
 
     visit_oai_config
     remove_every_oai_set

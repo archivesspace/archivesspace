@@ -66,8 +66,7 @@ describe 'Space Calculator', js: true do
 
   it 'can be accessed via the container profile toolbar and calculate space by building '\
   'with a floor, room, and area' do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
 
     visit "container_profiles/#{@container_profile.id}"
     expect(page).to have_text @container_profile.name
@@ -96,8 +95,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'shows building, floor, room, and area fields on load when calculating by building' do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
     visit "container_profiles/#{@container_profile.id}"
     click_on 'Space Calculator'
 
@@ -109,8 +107,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'allows a building location to have a room and no floor' do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
     visit "container_profiles/#{@container_profile.id}"
     click_on 'Space Calculator'
     select @location_room_no_floor.building, from: 'building'
@@ -121,8 +118,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'allows a building location to have an area with no room or floor' do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
     visit "container_profiles/#{@container_profile.id}"
     click_on 'Space Calculator'
     select @location_area_no_floor_no_room.building, from: 'building'
@@ -133,8 +129,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'allows a building location to have an area on a floor with no room' do
-    login_user(@manager_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@manager_user, @repository)
     visit "container_profiles/#{@container_profile.id}"
     click_on 'Space Calculator'
     select @location_area_no_room.building, from: 'building'
@@ -145,8 +140,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'can be accessed from a top container form' do
-    login_user(@admin_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@admin_user, @repository)
 
     visit "top_containers/#{@top_container.id}/edit"
     expect(page).to have_text @top_container.indicator
@@ -162,8 +156,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'can calculate space for a specific location' do
-    login_user(@admin_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@admin_user, @repository)
 
     visit "container_profiles/#{@container_profile.id}"
     expect(page).to have_text @container_profile.name
@@ -190,8 +183,7 @@ describe 'Space Calculator', js: true do
   end
 
   it "can select a location from the calculator results to populate the Container's Location field" do
-    login_user(@admin_user)
-    select_repository(@repository)
+    login_user_and_select_repository(@admin_user, @repository)
 
     visit "top_containers/#{@top_container.id}/edit"
     expect(page).to have_text @top_container.indicator
@@ -228,8 +220,7 @@ describe 'Space Calculator', js: true do
   end
 
   it 'is axe clean' do
-    login_admin
-    select_repository(@repository)
+    login_admin_and_select_repository(@repository)
 
     visit "container_profiles/#{@container_profile.id}"
     expect(page).to have_text @container_profile.name

@@ -29,6 +29,11 @@ Feature: Resource Create
         | Extents            | Type                          | Cassettes                       |
         | Finding Aid Data   | Language of Description       | English                         |
         | Finding Aid Data   | Script of Description         | Old Hungarian (Hungarian Runic) |
+  Scenario: Resource form does not offer a suppressed date label
+    Given a value has been added to the 'Date Label (date_label)' controlled value list
+      And the added controlled value is suppressed
+     When the user is on the New Resource page
+     Then the added controlled value is not offered in 'Label' in the 'Dates' form
   Scenario: Resource is not created because required fields are missing
     Given the user is on the New Resource page
      When the user clicks on 'Save'

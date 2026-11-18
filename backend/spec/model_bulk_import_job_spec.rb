@@ -30,8 +30,8 @@ describe 'Bulk Import Jobs' do
 
       tmp = ASUtils.tempfile("bulk-import-digital-object-csv-#{Time.now.to_i}")
       tmp.write("ArchivesSpace digital object import field codes (please don't edit this row),collection_id,ead,ref_id,res_uri,ao_ref_id,ao_uri,digital_object_id,digital_object_title,digital_object_publish,file_version_1_file_uri,file_version_1_is_display_thumbnail,file_version_1_publish,file_version_2_file_uri,file_version_2_is_display_thumbnail,file_version_2_publish\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR,blah blah,t,http://blahblah.com,t,,http://thumbnail.com,f,f\n")
-      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR_2,hide me,f,http://hideme.com,t,,http://thumbnail.com,f,t\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR,blah blah,t,http://blahblah.com,t,t,http://thumbnail.com,f,f\n")
+      tmp.write(",,#{resource.ead_id},,,#{archival_object.ref_id},,DOFOOBAR_2,hide me,f,http://hideme.com,t,t,http://thumbnail.com,f,t\n")
       tmp.rewind
       user = create_nobody_user
       job = Job.create_from_json(json,
@@ -154,8 +154,8 @@ describe 'Bulk Import Jobs' do
 
       tmp = ASUtils.tempfile("bulk-import-archival-object-csv-#{Time.now.to_i}")
       tmp.write("ArchivesSpace field code (please don't edit this row),collection_id,ead,res_uri,ref_id,title,unit_id,hierarchy,level,other_level,publish,restrictions_flag,processing_note,l_lang,l_langscript,n_langmaterial,p_langmaterial,l_lang_2,l_langscript_2,n_langmaterial_2,p_langmaterial_2,dates_label,begin,end,date_type,expression,date_certainty,dates_label_2,begin_2,end_2,date_type_2,expression_2,date_certainty_2,portion,number,extent_type,container_summary,physical_details,dimensions,portion_2,number_2,extent_type_2,container_summary_2,physical_details_2,dimensions_2,cont_instance_type,type_1,indicator_1,barcode,type_2,indicator_2,type_3,indicator_3,cont_instance_type_2,type_1_2,indicator_1_2,barcode_2,type_2_2,indicator_2_2,type_3_2,indicator_3_2,digital_object_id,digital_object_title,digital_object_publish,file_version_file_uri_1,file_version_publish_1,file_version_use_statement_1,file_version_xlink_actuate_attribute_1,file_version_xlink_show_attribute_1,file_version_file_format_name_1,file_version_file_format_version_1,file_version_file_size_bytes_1,file_version_checksum_1,file_version_checksum_method_1,file_version_is_display_thumbnail_1,file_version_is_display_link_1,file_version_caption_1,file_version_file_uri_2,file_version_publish_2,file_version_use_statement_2,file_version_xlink_actuate_attribute_2,file_version_xlink_show_attribute_2,file_version_file_format_name_2,file_version_file_format_version_2,file_version_file_size_bytes_2,file_version_checksum_2,file_version_checksum_method_2,file_version_is_display_thumbnail_2,file_version_is_display_link_2,file_version_caption_2,people_agent_record_id_1,people_agent_header_1,people_agent_role_1,people_agent_relator_1,people_agent_record_id_2,people_agent_header_2,people_agent_role_2,people_agent_relator_2,people_agent_record_id_3,people_agent_header_3,people_agent_role_3,people_agent_relator_3,people_agent_record_id_4,people_agent_header_4,people_agent_role_4,people_agent_relator_4,people_agent_record_id_5,people_agent_header_5,people_agent_role_5,people_agent_relator_5,families_agent_record_id_1,families_agent_header_1,families_agent_role_1,families_agent_relator_1,families_agent_record_id_2,families_agent_header_2,families_agent_role_2,families_agent_relator_2,corporate_entities_agent_record_id_1,corporate_entities_agent_header_1,corporate_entities_agent_role_1,corporate_entities_agent_relator_1,corporate_entities_agent_record_id_2,corporate_entities_agent_header_2,corporate_entities_agent_role_2,corporate_entities_agent_relator_2,corporate_entities_agent_record_id_3,corporate_entities_agent_header_3,corporate_entities_agent_role_3,corporate_entities_agent_relator_3,accession_uri_1,subject_1_record_id,subject_1_term,subject_1_type,subject_1_source,subject_2_record_id,subject_2_term,subject_2_type,subject_2_source,n_abstract,p_abstract,n_accessrestrict,p_accessrestrict,b_accessrestrict,e_accessrestrict,n_acqinfo,p_acqinfo,n_arrangement,p_arrangement,n_bioghist,p_bioghist,n_custodhist,p_custodhist,n_dimensions,p_dimensions,n_odd,p_odd,n_physdesc,p_physdesc,n_physfacet,p_physfacet,n_physloc,p_physloc,n_prefercite,p_prefercite,n_processinfo,p_processinfo,n_relatedmaterial,p_relatedmaterial,n_scopecontent,p_scopecontent,n_separatedmaterial,p_separatedmaterial,n_userestrict,p_userestrict\n")
-      tmp.write(",,#{resource.ead_id},,foobar1,One,foobar_1,1,series,,t,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,DOFOOBAR,Foo Bar and Friends,t,http://foo.bar,,,,,,,,,,TRUE,,,http://foo.thumb,f,,,,,,,,,,f,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n")
-      tmp.write(",,#{resource.ead_id},,Foobar2,Two,foobar_2,1,series,,f,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,DOFOOBAR_2,Foo Bar and Friends Dos,t,http://foo.bar2,,,,,,,,,,TRUE,,,http://foo.thumb2,t,,,,,,,,,,t,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
+      tmp.write(",,#{resource.ead_id},,foobar1,One,foobar_1,1,series,,t,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,DOFOOBAR,Foo Bar and Friends,t,http://foo.bar,t,,,,,,,,,TRUE,,,http://foo.thumb,f,,,,,,,,,,f,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n")
+      tmp.write(",,#{resource.ead_id},,Foobar2,Two,foobar_2,1,series,,f,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,DOFOOBAR_2,Foo Bar and Friends Dos,t,http://foo.bar2,t,,,,,,,,,TRUE,,,http://foo.thumb2,t,,,,,,,,,,t,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
 
       tmp.rewind
       user = create_nobody_user
@@ -191,6 +191,60 @@ describe 'Bulk Import Jobs' do
       expect(ao1.instances[0]['digital_object']['_resolved']['file_versions'][1]['file_uri']).to eq 'http://foo.thumb2'
       expect(ao1.instances[0]['digital_object']['_resolved']['file_versions'][1]['publish']).to be true
       expect(ao1.instances[0]['digital_object']['_resolved']['file_versions'][1]['is_display_link']).to be true
+    end
+  end
+
+  describe "archival object spreadsheet imports with an unknown controlled value" do
+
+    let(:resource) do
+      create(:json_resource)
+    end
+
+    def run_restriction_type_import(restriction_type, validate_only)
+      template = CSV.read(File.join(File.dirname(__FILE__), "../", "../", "frontend", "public", "bulk_import_templates", "bulk_import_template.csv"))
+      columns = template[0]
+      row = columns.to_h { |column| [column, nil] }
+      row.merge!('res_uri' => resource.uri, 'title' => 'Restricted Archival Object', 'hierarchy' => '1', 'level' => 'file',
+                 'n_accessrestrict' => 'Closed until 2030', 't_accessrestrict_1' => restriction_type)
+
+      tmp = ASUtils.tempfile("bulk-import-unknown-restriction-type-#{Time.now.to_i}")
+      tmp.write(CSV.generate { |csv| csv << columns << template[1] << row.values })
+      tmp.rewind
+
+      json = build(:json_job,
+                   :job_type => 'bulk_import_job',
+                   :job_params => {rid: resource.id}.to_json,
+                   :job => JSONModel(:bulk_import_job).new({
+                                                             resource_id: resource.id.to_s,
+                                                             filename: 'unknown-restriction-type.csv',
+                                                             load_type: 'ao',
+                                                             content_type: 'csv',
+                                                             format: 'csv',
+                                                             only_validate: validate_only.to_s
+                                                           }))
+      job = Job.create_from_json(json, :repo_id => $repo_id, :user => User.find(:username => 'admin'))
+      job.add_file(tmp)
+
+      BackgroundJobQueue.new.run_pending_job
+      job.reload
+    end
+
+    it "adds the unknown value to the controlled value list during a real import", :disable_database_transaction do
+      restriction_type = "ZZRealImport#{SecureRandom.hex(4)}"
+
+      job = run_restriction_type_import(restriction_type, false)
+
+      expect(job.status).to eq('completed')
+      expect(BackendEnumSource.values_for('restriction_type', true)).to include(restriction_type)
+    end
+
+    it "does not add the unknown value to the controlled value list during a validate-only run", :disable_database_transaction do
+      restriction_type = "ZZValidateOnly#{SecureRandom.hex(4)}"
+
+      job = run_restriction_type_import(restriction_type, true)
+
+      expect(job.status).to eq('completed')
+      expect(BackendEnumSource.values_for('restriction_type', true)).not_to include(restriction_type)
     end
   end
 end

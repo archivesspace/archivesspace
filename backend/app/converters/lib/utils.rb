@@ -86,12 +86,16 @@ module ASpaceImport
     end
 
 
+    TRUE_BOOLEAN_VALUES = %w[1 T Y YES TRUE].freeze
+    FALSE_BOOLEAN_VALUES = %w[0 F N NO FALSE].freeze
+    ACCEPTED_BOOLEAN_VALUES = (TRUE_BOOLEAN_VALUES + FALSE_BOOLEAN_VALUES).join(', ').freeze
+
     def self.normalize_boolean
       @normalize_boolean ||= Proc.new {|val|
         case val.to_s.strip.upcase
         when '' then nil
-        when '1', 'T', 'Y', 'YES', 'TRUE' then true
-        when '0', 'F', 'N', 'NO', 'FALSE' then false
+        when *TRUE_BOOLEAN_VALUES then true
+        when *FALSE_BOOLEAN_VALUES then false
         else raise UnrecognizedBooleanValue.new(val)
         end
       }

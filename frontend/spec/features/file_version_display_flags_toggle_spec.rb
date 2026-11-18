@@ -18,7 +18,7 @@ describe 'File Version Display Thumbnail and Display Link Toggles', js: true do
   end
 
   before(:each) do
-    login_admin
+    login_admin_and_select_repository($repo)
     visit '/digital_objects/new'
   end
 
