@@ -2383,7 +2383,7 @@ es:
       %{resource_duplicated_id}.
     resource_failure_message:
       No se pudo duplicar el recurso del recurso con ID %{resource_id};
-      Error de validación %{mensaje}.
+      Error de validación %{message}.
     archival_object_failure_message:
       No se pudo duplicar el objeto de archivo con ID
       %{archival_object_id} del recurso con ID %{resource_id}; Error de validación %{message}.
