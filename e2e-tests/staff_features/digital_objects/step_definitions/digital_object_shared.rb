@@ -38,8 +38,7 @@ Given 'the user is on the Digital Objects page' do
 end
 
 When 'the user filters by text with the Digital Object title' do
-  fill_in 'Filter by text', with: "Digital Object Identifier #{@uuid}"
-  click_button 'Filter by text'
+  filter_listing_by_text("Digital Object Identifier #{@uuid}", row_text: @uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr', count: 1)
 end
 
@@ -76,10 +75,9 @@ Given 'the Digital Object appears in the search results list' do
 end
 
 Then 'the Digital Object is opened in the edit mode' do
-  wait_for_ajax
+  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
   expect(current_url).to include 'edit'
   expect(@digital_object_id).to eq current_url[%r{/digital_objects/(\d+)}, 1]
-  wait_for_infinite_tree_inline_edit_form(form_prefix: 'digital_object')
 end
 
 Given 'the Digital Object is opened in the view mode' do

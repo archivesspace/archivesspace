@@ -8,7 +8,6 @@ Then 'the new Location form has the following default values' do |form_values_ta
   visit "#{STAFF_URL}/locations/new"
 
   expect(page).to have_selector('h2', visible: true, text: 'Location')
-  wait_for_ajax
 
   aggregate_failures do
     form_values_table.hashes.each do |row|

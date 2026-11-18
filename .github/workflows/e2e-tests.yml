@@ -64,21 +64,11 @@ jobs:
         id: shard-files
         working-directory: e2e-tests
         run: |
-          # Split feature files across shards
+          # Split feature files across shards, balanced by e2e-tests/feature_durations.json
           TOTAL_SHARDS=${{ strategy.job-total }}
           CURRENT_SHARD=${{ matrix.shard }}
 
-          # Get all feature files
-          ALL_FILES=(staff_features/**/*.feature pui_features/**/*.feature)
-          TOTAL_FILES=${#ALL_FILES[@]}
-
-          # Calculate files per shard
-          FILES_PER_SHARD=$(( (TOTAL_FILES + TOTAL_SHARDS - 1) / TOTAL_SHARDS ))
-          START_INDEX=$(( (CURRENT_SHARD - 1) * FILES_PER_SHARD ))
-          END_INDEX=$(( START_INDEX + FILES_PER_SHARD ))
-
-          # Get files for this shard
-          SHARD_FILES="${ALL_FILES[@]:$START_INDEX:$FILES_PER_SHARD}"
+          SHARD_FILES=$(bundle exec rake "shard:files[$TOTAL_SHARDS,$CURRENT_SHARD]")
 
           echo "Running tests for shard $CURRENT_SHARD of $TOTAL_SHARDS"
           echo "Files to test: $SHARD_FILES"

@@ -19,11 +19,9 @@ Given 'an Accession has been created' do
   select 'Collection', from: 'accession_resource_type_'
 
   fill_in 'accession_language_', with: 'english'
-  wait_for_ajax
   find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
 
   fill_in 'accession_script_', with: 'adlam'
-  wait_for_ajax
   find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Adlam', match: :first).click
 
   find('#accession_restrictions_apply_').check
@@ -37,12 +35,10 @@ Given 'an Accession has been created' do
 
     within 'li.sort-enabled.initialised' do
       fill_in 'Language', with: 'English'
-      wait_for_ajax
       find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
       expect(page).to have_css('#accession_lang_materials_ .dropdown-item.active[data-value="English"]', visible: false)
 
       fill_in 'accession_lang_materials__0__language_and_script__script_', with: 'adlam'
-      wait_for_ajax
       sleep 1
       find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Adlam', match: :first).click
       expect(page).to have_css('#accession_lang_materials_ .dropdown-item.active[data-value="Adlam"]', visible: false)

@@ -31,33 +31,15 @@ end
 When 'the user selects the Agent B from the search results in the modal' do
   within '.modal-content' do
     within '#tabledSearchResults' do
-      rows = all('tr', text: "Agent B #{@uuid}")
-      expect(rows.length).to eq 1
-
-      rows[0].click
+      expect(page).to have_css('tr', text: "Agent B #{@uuid}", count: 1)
+      find('tr', text: "Agent B #{@uuid}").click
     end
   end
 end
 
 When 'the user filters by text with the Agent B name in the modal' do
   within '.modal-content' do
-    fill_in 'Filter by text', with: "Agent B #{@uuid}"
-    find('.search-filter button').click
-
-    rows = []
-    checks = 0
-
-    while checks < 5
-      checks += 1
-
-      begin
-        rows = all('tr', text: "Agent B #{@uuid}")
-      rescue Selenium::WebDriver::Error::JavascriptError
-        sleep 1
-      end
-
-      break if rows.length == 1
-    end
+    submit_listing_filter("Agent B #{@uuid}")
   end
 end
 
