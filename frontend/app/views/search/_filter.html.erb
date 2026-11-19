@@ -1,10 +1,7 @@
 <div class="search-listing-filter">
 <% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
-    <h3 class="d-flex">
-      <%= I18n.t "search_results.filtered_by" %>
-      <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-sm btn-default ml-auto" %>
-    </h3>
+    <h2 class="h3"><%= I18n.t "search_results.filtered_by" %></h2>
     <ul>
       <% if @search_data.query? %>
         <% query_array = @search_data[:criteria]["q"].split(" AND ") %>
@@ -22,6 +19,7 @@
         <% end %>
       <% end %>
     </ul>
+    <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-sm btn-default ml-auto" %>
   </div>
 <% end %>
 
