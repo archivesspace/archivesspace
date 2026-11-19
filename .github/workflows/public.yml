@@ -91,6 +91,15 @@ jobs:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
 
+    - name: Run Public proxy prefix feature specs
+      run: |
+        ./build/run public:test -Dpattern="features/public_proxy_prefix_spec.rb"
+      env:
+        ASPACE_TEST_PUBLIC_PROXY_PREFIX: 'true'
+        SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
+        RSPEC_RETRIES: 2
+
     - name: Upload the ci logs
       if: failure()
       uses: actions/upload-artifact@v7
