@@ -244,6 +244,14 @@ describe ResourcesController, type: :controller do
       expect(response).to have_http_status(:bad_request)
     end
 
+    it 'responds 400 to a page key without a value' do
+      # params: {page: nil} would send "page=", not a bare key
+      request.query_string = 'page'
+      get(:index)
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
     it 'does not reject a valid page' do
       get(:index, params: {page: '1'})
 
