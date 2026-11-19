@@ -89,16 +89,26 @@ $(function () {
     event.stopPropagation();
     event.preventDefault();
 
-    $('.nav .search-switcher span').toggleClass('glyphicon-chevron-down');
-    $('.nav .search-switcher span').toggleClass('glyphicon-chevron-up');
-    if ($('.nav .search-switcher span').hasClass('glyphicon-chevron-down')) {
-      $('.nav .search-switcher').attr('aria-expanded', false);
-    } else if (
-      $('.nav .search-switcher span').hasClass('glyphicon-chevron-up')
-    ) {
-      $('.nav .search-switcher').attr('aria-expanded', true);
-    }
     $advancedSearchContainer.slideToggle();
+
+    var $switcherSpan = $('.nav .search-switcher span');
+
+    $switcherSpan.toggleClass('glyphicon-chevron-down');
+    $switcherSpan.toggleClass('glyphicon-chevron-up');
+    if ($switcherSpan.hasClass('glyphicon-chevron-down')) {
+      $('.nav .search-switcher').attr('aria-expanded', false);
+    } else if ($switcherSpan.hasClass('glyphicon-chevron-up')) {
+      $('.nav .search-switcher').attr('aria-expanded', true);
+      // Either focus the first available Operator element (which is the first
+      // search field), or the add row button if there are no rows to select.
+      // Ideally this should be '#op0,.advanced-search-add-row-dropdown', but it
+      // is possible to remove the first row when other rows exist.  In that
+      // scenario, there is no #op0 element.
+      var $next = $(
+        '.advanced-search-row-op-input,.advanced-search-add-row-dropdown'
+      );
+      $next.first().trigger('focus');
+    }
   });
 
   $('.search-switcher-hide').click(function (event) {
@@ -107,6 +117,7 @@ $(function () {
 
     $('.nav .search-switcher span').removeClass('glyphicon-chevron-up');
     $('.nav .search-switcher span').addClass('glyphicon-chevron-down');
+    $('.nav .search-switcher').trigger('focus');
     $advancedSearchContainer.slideUp();
   });
 
@@ -164,7 +175,7 @@ $(function () {
         index += 1;
       }
 
-      addAdvancedSearchRow(
+      var $row = addAdvancedSearchRow(
         index,
         $(this).data('type'),
         adding_as_first_row,
@@ -177,6 +188,8 @@ $(function () {
         .closest('.dropdown-menu')
         .siblings('.advanced-search-add-row-dropdown')
         .trigger('click');
+
+      $row.find('.advanced-search-row-op-input').trigger('focus');
     }
   );
 
@@ -279,6 +292,8 @@ $(function () {
     $(document).trigger('initadvancedsearchrow.aspace', [field_data, $row]);
     $(document).trigger('initdatefields.aspace', [$row]);
     $(document).trigger('initcomboboxfields.aspace', [$row]);
+
+    return $row;
   };
 
   if ($advancedSearchRowContainer.length > 0) {
