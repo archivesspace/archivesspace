@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
   REDIRECTED_BACK_KEY = 'pui_redirected_back'
 
   before_action :authenticate_user!
+  before_action :reject_invalid_page_param
   around_action :set_locale
   after_action :clear_redirected_back
 
@@ -92,6 +93,14 @@ class ApplicationController < ActionController::Base
       @skip_pui_autocheck = skip_pui_autocheck?
       render 'shared/login', layout: 'login', status: :unauthorized
     end
+  end
+
+  # Answer 400 when page is present (a bare ?page included) and is not a positive integer,
+  # before any action reaches its Integer(params.fetch(:page, "1")) call and raises.
+  def reject_invalid_page_param
+    return unless params.key?(:page)
+
+    head :bad_request unless params[:page].to_s.match?(/\A[1-9]\d*\z/)
   end
 
   def skip_pui_autocheck?
