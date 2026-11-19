@@ -1,12 +1,22 @@
 require 'spec_helper'
 require 'rails_helper'
+require 'base64'
+require 'puma'
 
 describe 'Thumbnails', js: true do
+  # A valid 1x1 GIF, served for every file URI so that no image depends on an external host
+  gif = Base64.decode64('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+
   before(:all) do
-    @img_1 = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
-    @img_2 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_001.jpg'
-    @link_1 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_002.pdf'
-    @link_2 = 'https://www.archivesspace.org/demos/Congreave%20E-1/ms292_003.pdf'
+    @file_host = Puma::Server.new(->(_env) { [200, { 'content-type' => 'image/gif' }, [gif]] }, nil, log_writer: Puma::LogWriter.null)
+    @file_host.binder.parse(['tcp://127.0.0.1:0'])
+    @file_host.run
+    demos = "http://127.0.0.1:#{@file_host.binder.connected_ports.first}/demos"
+
+    @img_1 = "#{demos}/Congreave%20E-4/ms292_008.jpg"
+    @img_2 = "#{demos}/Congreave%20E-1/ms292_001.jpg"
+    @link_1 = "#{demos}/Congreave%20E-1/ms292_002.pdf"
+    @link_2 = "#{demos}/Congreave%20E-1/ms292_003.pdf"
     @caption_1 = 'This is caption 1'
     @caption_2 = 'This is caption 2'
 
@@ -135,6 +145,10 @@ describe 'Thumbnails', js: true do
                                           instances: non_representative_instances)
 
     run_indexers
+  end
+
+  after(:all) do
+    @file_host&.stop(true)
   end
 
   describe 'on digital objects and components' do
