@@ -27,7 +27,6 @@ Given 'two Resources A & B have been created' do
   element.send_keys(:tab)
 
   find('button', text: 'Save Resource', match: :first).click
-  wait_for_ajax
   expect(page).to have_text "Resource Resource A #{@uuid} created"
 
   uri_parts = current_url.split('/')
@@ -85,7 +84,6 @@ Given 'two Resources A & B have been created' do
   dropdown_items.first.click
 
   find('button', text: 'Save Resource', match: :first).click
-  wait_for_ajax
   expect(page).to have_text "Resource Resource B #{@uuid} created"
 
   uri_parts = current_url.split('/')
@@ -100,8 +98,7 @@ end
 When 'the user selects the Resource B from the search results in the modal' do
   within '.modal-content' do
     within '#tabledSearchResults' do
-      rows = all('tr', text: "Resource B #{@uuid}")
-      expect(rows.length).to eq 1
+      expect(page).to have_css('tr', text: "Resource B #{@uuid}", count: 1)
 
       find('input[type="radio"]').click
     end
@@ -110,23 +107,7 @@ end
 
 When 'the user filters by text with the Resource B title in the modal' do
   within '.modal-content' do
-    fill_in 'Filter by text', with: "Resource B #{@uuid}"
-    find('.search-filter button').click
-
-    rows = []
-    checks = 0
-
-    while checks < 5
-      checks += 1
-
-      begin
-        rows = all('tr', text: "Resource B #{@uuid}")
-      rescue Selenium::WebDriver::Error::JavascriptError
-        sleep 1
-      end
-
-      break if rows.length == 1
-    end
+    submit_listing_filter("Resource B #{@uuid}")
   end
 end
 

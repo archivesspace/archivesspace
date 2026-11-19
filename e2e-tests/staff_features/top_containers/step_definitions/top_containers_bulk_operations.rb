@@ -32,8 +32,7 @@ Given 'a Resource with two Top Containers has been created' do
   within '#resource_instances__0__sub_container__top_container__ref__combobox' do
     click_on 'Create'
   end
-  wait_for_ajax
-  fill_in 'Indicator', with: "Indicator A #{@uuid}"
+  fill_in 'top_container_indicator_', with: "Indicator A #{@uuid}"
 
   click_on 'Add Location'
   fill_in 'token-input-top_container_container_locations__0__ref_', with: 'test_location'
@@ -41,6 +40,7 @@ Given 'a Resource with two Top Containers has been created' do
   dropdown_items.first.click
 
   click_on 'Create and Link'
+  expect_top_containers_linked(1)
 
   sleep 3 # ensure created top container is indexed
 
@@ -53,16 +53,16 @@ Given 'a Resource with two Top Containers has been created' do
     end
   end
 
-  fill_in 'Indicator', with: "Indicator B #{@uuid}"
+  fill_in 'top_container_indicator_', with: "Indicator B #{@uuid}"
   click_on 'Add Location'
   fill_in 'token-input-top_container_container_locations__0__ref_', with: 'test_location'
   dropdown_items = all('li.token-input-dropdown-item2')
   dropdown_items.first.click
   click_on 'Create and Link'
+  expect_top_containers_linked(2)
 
   find('button', text: 'Save Resource', match: :first).click
 
-  wait_for_ajax
   expect(page).to have_text "Resource Resource #{@uuid} created"
 
   url_parts = current_url.split('/')
@@ -121,13 +121,10 @@ When 'the user fills in and selects Container Profile in the modal' do
 end
 
 When 'the user selects Location in the modal' do
-  fill_in 'filter-text', with: 'test_location'
-  find('.search-filter button').click
-
-  wait_for_ajax
+  submit_listing_filter('test_location')
 
   within '#tabledSearchResults' do
-    find('input', match: :first).click
+    find('tbody tr', text: 'test_location', match: :first).find('input').click
   end
 end
 
@@ -136,26 +133,21 @@ When 'the user clicks on the dropdown in the Bulk Update form' do
 end
 
 When 'the user selects Container Profile in the modal' do
-  fill_in 'filter-text', with: 'test_container_profile'
-  find('.search-filter button').click
-
-  wait_for_ajax
+  submit_listing_filter('test_container_profile')
 
   within '#tabledSearchResults' do
-    find('input', match: :first).click
+    find('tbody tr', text: 'test_container_profile', match: :first).find('input').click
   end
 end
 
 When 'the user clicks on {string} in the Browse Container Profiles modal' do |string|
-  wait_for_ajax
-
   within '#container_profile_modal' do
     click_on_string string
   end
 end
 
 Then 'the Top Container A profile is linked to the Container Profile' do
-  sleep 3 # ensure the changes are indexed
+  wait_for_top_container_bulk_update
 
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
@@ -175,21 +167,21 @@ When 'the user fills in {string} in the Create Container Profiles modal' do |lab
 end
 
 Then 'the Top Container A profile is linked to the created Container Profile' do
+  wait_for_top_container_bulk_update
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
   expect(page).to have_css('.container_profile', text: @uuid)
 end
 
 When 'the user clicks on {string} in the Browse Locations modal' do |string|
-  wait_for_ajax
-
   within '#location_modal' do
     click_on_string string
   end
 end
 
 Then 'the Top Container profile is linked to the Location' do
-  sleep 3 # ensure changes are indexed
+  wait_for_top_container_bulk_update
 
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
@@ -204,17 +196,13 @@ When 'the user fills in {string} with {string} in the Create Location modal' do 
 end
 
 When 'the user clicks on {string} in the Create Location modal' do |string|
-  wait_for_ajax
-
   within '#location_modal' do
     click_on_string string
   end
-
-  wait_for_ajax
 end
 
 Then 'the Top Container profile is linked to the created Location' do
-  sleep 3 # ensure changes are indexed
+  wait_for_top_container_bulk_update
 
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
@@ -246,6 +234,8 @@ Given 'the two Top Containers are selected' do
 end
 
 Then 'the Locations are removed from the Top Containers' do
+  wait_for_top_container_bulk_update
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
   expect(page).to_not have_css '.location'
 
@@ -268,6 +258,8 @@ When 'the user fills in New Barcode for Top Container B' do
 end
 
 Then 'the Top Containers have new Barcodes' do
+  wait_for_top_container_bulk_update
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
   expect(find_field('Barcode').value).to eq @top_container_first_barcode
 
@@ -312,4 +304,14 @@ Then 'the two Top Containers are deleted' do
   visit "#{STAFF_URL}/top_containers/#{@top_container_second_id}/edit"
   expect(page).to have_text 'Record Not Found'
   expect(page).to have_text "The record you've tried to access may no longer exist or you may not have permission to view it."
+end
+
+def wait_for_top_container_bulk_update
+  expect(page).to have_css('.alert.alert-success', text: 'Top Containers successfully updated')
+end
+
+# Create and Link fades its modal out after linking the new Top Container
+def expect_top_containers_linked(count)
+  expect(page).to have_css('.top_container', count:)
+  expect(page).to have_no_css('.modal')
 end

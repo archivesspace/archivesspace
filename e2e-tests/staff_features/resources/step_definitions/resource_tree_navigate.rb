@@ -28,7 +28,6 @@ Given 'a Resource with two Archival Objects has been created' do
 
   find('button', text: 'Save Resource', match: :first).click
 
-  wait_for_ajax
   expect(page).to have_text "Resource Resource #{@uuid} created"
 
   url_parts = current_url.split('/')

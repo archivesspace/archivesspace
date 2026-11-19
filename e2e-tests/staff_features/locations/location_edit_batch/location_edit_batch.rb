@@ -49,7 +49,6 @@ end
 Then 'the two Locations have the following values' do |form_values_table|
   visit "#{STAFF_URL}/locations/#{@location_first_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Location')
-  wait_for_ajax
 
   aggregate_failures do
     form_values_table.hashes.each do |row|
@@ -59,7 +58,6 @@ Then 'the two Locations have the following values' do |form_values_table|
 
   visit "#{STAFF_URL}/locations/#{@location_second_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Location')
-  wait_for_ajax
 
   aggregate_failures do
     form_values_table.hashes.each do |row|

@@ -10,7 +10,6 @@ When "the user views a top container's details" do
   within '#accessTopContainersModal' do
     find('.inline-tc-view-btn', match: :first).click
   end
-  wait_for_ajax
 end
 
 When 'the user updates the barcode of a top container' do
@@ -18,12 +17,10 @@ When 'the user updates the barcode of a top container' do
   within '#accessTopContainersModal' do
     find('.inline-tc-edit-btn', match: :first).click
   end
-  wait_for_ajax
   within '#accessTopContainerSubModal' do
     fill_in 'Barcode', with: @new_barcode
     click_on 'Save Top Container'
   end
-  wait_for_ajax
 end
 
 Then 'the updated barcode is reflected in the top container management view' do
@@ -41,12 +38,10 @@ When 'the user applies a bulk barcode update to the selected top containers' do
     find('button', text: 'Bulk Operations', match: :first).click
   end
   find('#showBulkActionRapidBarcodeEntry').click
-  wait_for_ajax
   within '#bulkActionBarcodeRapidEntryModal' do
     find('input[type="text"]').fill_in with: @new_barcode
     click_on 'Update 1 records'
   end
-  wait_for_ajax
   within '#bulkActionBarcodeRapidEntryModal' do
     expect(page).to have_css('.alert-success')
   end
@@ -61,13 +56,11 @@ When 'the user opens the top container management panel' do
   button = '.access-top-containers-btn'
 
   # The button can only enable after a reload re-runs the indexed count query,
-  # so check the current page immediately (wait: 0) rather than blocking here.
+  # so wait briefly on the current page, then reload.
   retry_with_reload(attempts: 10, interval: 4) do
     expect(page).to have_selector('h2', visible: true, wait: 15)
     expect(page).to have_css("#{button}[data-tc-initialized]", visible: :all, wait: 10)
-    wait_for_ajax
-
-    expect(page).not_to have_css("#{button}:disabled", visible: :all, wait: 0)
+    expect(page).not_to have_css("#{button}:disabled", visible: :all, wait: 3)
   end
 
   within '#other-dropdown' do
@@ -75,5 +68,4 @@ When 'the user opens the top container management panel' do
   end
 
   find(button).click
-  wait_for_ajax
 end

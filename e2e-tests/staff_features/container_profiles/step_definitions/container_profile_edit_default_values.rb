@@ -7,7 +7,6 @@ end
 Given 'a Container Profile Default has been set with Width as Extent Dimension' do
   visit "#{STAFF_URL}/container_profiles"
   click_link('Edit Default Values')
-  wait_for_ajax
 
   fill_in 'Name', with: 'DEFAULT BOX'
   select 'Width', from: 'Extent Dimension'

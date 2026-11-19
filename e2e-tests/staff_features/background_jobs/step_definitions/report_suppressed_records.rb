@@ -14,7 +14,6 @@ Given 'the user selects the {string} report' do |report_title|
     find('button.select-report').click
   end
 
-  wait_for_ajax
   expect(page).to have_css('#report-fields .form-group')
 end
 
