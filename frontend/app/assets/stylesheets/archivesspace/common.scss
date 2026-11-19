@@ -4,6 +4,11 @@ body {
   position: relative;
 }
 
+.text-link {
+  color: $linkColor;
+  text-decoration: underline;
+}
+
 h2 > .label {
   margin-top: $baseLineHeight / 2;
   vertical-align: top;
