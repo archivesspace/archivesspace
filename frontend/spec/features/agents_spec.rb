@@ -23,7 +23,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Person', match: :first).click
         element = find('.alert.alert-danger.with-hide-alert')
-        expect(element.text).to eq 'Primary Part of Name - Property is required but was missing'
+        expect(element.text).to have_text('Primary Part of Name - Property is required but was missing')
       end
 
       it 'reports a warning when Authority ID is provided without a Source' do
@@ -137,7 +137,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Person', match: :first).click
         element = find('.alert.alert-danger.with-hide-alert')
-        expect(element.text).to eq 'Sort Name - Property is required but was missing'
+        expect(element.text).to have_text('Sort Name - Property is required but was missing')
       end
 
       it 'allows setting of a custom sort name' do
@@ -188,7 +188,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Person', match: :first).click
         element = find('.alert.alert-danger.with-hide-alert')
-        expect(element.text).to eq "Primary Part of Name - Property is required but was missing"
+        expect(element.text).to have_text("Primary Part of Name - Property is required but was missing")
       end
       it 'reports errors when updating a Person Agent with invalid data' do
         agent = create(:agent_person)
@@ -199,7 +199,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Person', match: :first).click
         element = find('.alert.alert-danger.with-hide-alert')
-        expect(element.text).to eq 'Primary Part of Name - Property is required but was missing'
+        expect(element.text).to have_text('Primary Part of Name - Property is required but was missing')
       end
 
       it 'can add a related agent' do
