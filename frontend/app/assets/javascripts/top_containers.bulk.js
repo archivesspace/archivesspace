@@ -1,5 +1,9 @@
 //= require tablesorter/jquery.tablesorter.min
 
+function menuItemToToolbarButton(menuItem) {
+  return $(menuItem).parents('.dropdown-menu').siblings('.dropdown-toggle')[0];
+}
+
 /***************************************************************************
  * BulkContainerSearch - provides all the behaviour to the ajax search
  * and selection of records.
@@ -467,7 +471,9 @@ BulkActionIlsHoldingUpdate.prototype.show = function () {
     'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
-    'full'
+    'full',
+    {},
+    menuItemToToolbarButton(this.$menuItem[0])
   );
 
   this.setup_update_form($modal);
@@ -544,7 +550,9 @@ BulkActionContainerProfileUpdate.prototype.show = function () {
     'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
-    'full'
+    'full',
+    {},
+    menuItemToToolbarButton(this.$menuItem[0])
   );
 
   this.setup_update_form($modal);
@@ -613,7 +621,9 @@ BulkActionLocationUpdate.prototype.show = function () {
     'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
-    'full'
+    'full',
+    {},
+    menuItemToToolbarButton(this.$menuItem[0])
   );
 
   this.setup_update_form($modal);
@@ -687,7 +697,9 @@ BulkActionMultipleLocationUpdate.prototype.show = function () {
     'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
-    'full'
+    'full',
+    {},
+    menuItemToToolbarButton(this.$menuItem[0])
   );
 
   this.setup_update_form($modal);
@@ -725,7 +737,9 @@ BulkActionBarcodeRapidEntry.prototype.show = function () {
     'bulkActionBarcodeRapidEntryModal',
     this.$menuItem[0].text,
     dialog_content,
-    'full'
+    'full',
+    {},
+    menuItemToToolbarButton(this.$menuItem[0])
   );
 
   this.setup_keyboard_handling($modal);
@@ -820,7 +834,9 @@ BulkActionIndicatorRapidEntry.prototype.show = function () {
     'bulkActionIndicatorRapidEntryModal',
     this.$menuItem[0].text,
     dialog_content,
-    'full'
+    'full',
+    {},
+    menuItemToToolbarButton(this.$menuItem[0])
   );
 
   this.setup_keyboard_handling($modal);
@@ -911,7 +927,9 @@ function BulkActionMerge(bulkContainerSearch) {
       AS.renderTemplate('bulk_action_merge', {
         selection: self.bulkContainerSearch.get_selection(),
       }),
-      'full'
+      'full',
+      {},
+      menuItemToToolbarButton($link)
     );
 
     // Access modal1 DOM
@@ -997,7 +1015,9 @@ function BulkActionMerge(bulkContainerSearch) {
           mergeWarning,
           mergeDestination,
         }),
-        'large'
+        'large',
+        {},
+        $mergeBtn
       );
     });
   });
@@ -1021,7 +1041,9 @@ function BulkActionDelete(bulkContainerSearch) {
       AS.renderTemplate('bulk_action_delete', {
         selection: self.bulkContainerSearch.get_selection(),
       }),
-      'full'
+      'full',
+      {},
+      menuItemToToolbarButton($link)
     );
   });
 }

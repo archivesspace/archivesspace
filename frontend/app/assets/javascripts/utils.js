@@ -482,6 +482,12 @@ AS.openQuickModal = function (title, message) {
   );
 };
 
+AS.deriveModalOwner = function (button) {
+  return $(button).hasClass('dropdown-item')
+    ? $(button).parents('.dropdown-menu').siblings('.dropdown-toggle')[0]
+    : button;
+};
+
 /* AS.openCustomModal
  *  id : String - id of the modal element
  *  title : String - to be applied as the modal header

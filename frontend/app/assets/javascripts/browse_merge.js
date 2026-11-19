@@ -28,7 +28,14 @@ $(document).on('click', '#batchMerge', function () {
   let dialog_content = AS.renderTemplate('merge_container_profiles_modal', {
     selection: get_selection(),
   });
-  AS.openCustomModal('batchMergeModal', modal_title, dialog_content, 'full');
+  AS.openCustomModal(
+    'batchMergeModal',
+    modal_title,
+    dialog_content,
+    'full',
+    {},
+    this
+  );
 
   // Access modal1 DOM
   const $selectTargetBtn = $("[data-js='selectTarget']");
@@ -71,7 +78,9 @@ $(document).on('click', '#batchMerge', function () {
         mergeDestination,
         mergeCandidates,
       }),
-      false
+      false,
+      {},
+      this
     );
   });
 });

@@ -19,6 +19,7 @@ $(function () {
       $(this).text(),
       "<div class='alert alert-info'>Loading...</div>",
       'xl',
+      {},
       this
     );
     $.ajax({
