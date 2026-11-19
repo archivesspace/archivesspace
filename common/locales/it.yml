@@ -5,15 +5,19 @@ it:
     agent_would_link_earlier_row: "L'agente %{num} verrebbe collegato all'agente %{name}, che verrebbe
       creato in %{row}"
     error:
-      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve essere uno tra: %{accepted}, o vuoto per usare il valore predefinito"
-      note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando una di queste colonne contiene un valore: %{columns}"
+      unrecognized_boolean: "La colonna %{column} richiede un valore booleano; ricevuto '%{value}', deve
+        essere uno tra: %{accepted}, o vuoto per usare il valore predefinito"
+      note_text_missing: "%{note_column} è vuoto, ma è obbligatorio quando una di queste colonne contiene
+        un valore: %{columns}"
       restriction_date_format: "Data non valida (%{column}: '%{value}' non è una data AAAA-MM-GG valida)"
-      restriction_date_order: "Data non valida (%{column}: la data di fine '%{end_date}' non può essere precedente alla data di inizio '%{begin_date}')"
+      restriction_date_order: "Data non valida (%{column}: la data di fine '%{end_date}' non può essere
+        precedente alla data di inizio '%{begin_date}')"
       invalid_user_defined_integer: "Intero definito dall'utente non valido: %{value}"
       dig_row_not_saved: "Nulla di questa riga è stato salvato perché non è stato possibile creare l'oggetto
         digitale"
       invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
-      file_version_display_flag_unpublished: "La colonna %{column} è TRUE ma %{publish_column} non è TRUE; una versione del file deve essere pubblicata per essere la miniatura o il link di visualizzazione"
+      file_version_display_flag_unpublished: "La colonna %{column} è TRUE ma %{publish_column} non è TRUE;
+        una versione del file deve essere pubblicata per essere la miniatura o il link di visualizzazione"
       invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
       subject_missing_identity: "Il soggetto %{num} richiede un ID record o un termine"
       agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"
@@ -23,8 +27,7 @@ it:
       agent_required_field: "L'agente %{num}, campo %{field}, è obbligatorio"
       agent_invalid_value: "L'agente %{num}, campo %{field}, non è un valore esistente: '%{value}'"
       agent_unrecognized_boolean: "L'agente %{num}, campo %{field}, richiede un valore booleano; ricevuto
-        '%{value}', deve essere uno tra: %{accepted}, oppure vuoto per usare
-        il valore predefinito"
+        '%{value}', deve essere uno tra: %{accepted}, oppure vuoto per usare il valore predefinito"
       agent_incompatible_field: "L'agente %{num}, campo %{field}, non è valido per il tipo di agente '%{agent_type}'.
         Nessun agente è stato creato o collegato"
       agent_mode_conflict: "L'agente %{num}, campo %{field}, non può essere combinato con i campi di creazione
@@ -233,6 +236,16 @@ it:
   classification:
     creator: Creatore
     identifier: Identificatore
+    _singular: Classificazione
+    _plural: Classificazioni
+    new_title: Nuova classificazione
+    title: Titolo
+    description: Descrizione
+    id_separator: /
+    linker:
+      browse: Esplora le classificazioni
+      create: Crea classificazione
+      link_title: Link alla classificazione
   advanced_search:
     text:
       subjects: Soggetto
@@ -1118,6 +1131,15 @@ it:
     new_title: Nuova risorsa
   classification_term:
     identifier: Identificatore
+    _singular: Termine di classificazione
+    _plural: Termini di classificazione
+    title: Titolo
+    description: Descrizione
+    creator: Creatore
+    linker:
+      browse: Esplora i termini di classificazione
+      create: Crea termine di classificazione
+      link_title: Link al termine di classificazione
   file_version:
     identifier: Identificatore
     file_uri_tooltip: "<p>Un identificatore per un file associato a un oggetto digitale, accessibile sul
@@ -2254,6 +2276,59 @@ it:
     processing_total_extent_tooltip: |
       <p>Un'espressione numerica per l'estensione totale (piedi cubi, piedi lineari, articoli, ecc.) elaborata. È necessario fornire un tipo di estensione insieme a questo campo.</p>
     processing_total_extent_type: Tipo di estensione
+    processing_total_extent_type_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Termine che indica il tipo di unità utilizzata per misurare l'estensione dei materiali descritti.</p>
+      <p>I valori presenti in questo elenco a valori controllati possono essere modificati.</p>
+      <p>Si vedano DACS 2.5, ISAD(G) 3.1.5</p>
+    processing_total_extent_type_: --
+    processing_hours_total: Ore totali di elaborazione
+    processing_hours_total_short: Ore totali
+    processing_hours_total_tooltip: |
+      <p>Il risultato numerico ottenuto moltiplicando la "stima delle ore di lavorazione per piede" per l' "estensione totale della lavorazione". Tale valore può essere sovrascritto per riflettere l'effettivo tempo di lavorazione, anziché un valore basato sulla stima delle ore di lavorazione per unità.</p>
+    processing_plan: Piano di elaborazione
+    processing_plan_tooltip: |
+      <p>Serve a registrare un piano per il trattamento dell'unità archivistica. Il piano può includere una bozza dell'ordinamento dell'unità archivistica, nonché istruzioni su come gestire singoli oggetti in essa contenuti. Può inoltre definire compiti specifici per i diversi membri del personale dell'archivio.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Ordinare i fascicoli tematici in ordine alfabetico e quelli relativi ai progetti in ordine cronologico.</li>
+      <li>Gli studenti di Margaret redigeranno le schede descrittive.</li>
+      <li>Il responsabile del progetto si occuperà della revisione, dell'esportazione e del caricamento dello strumento di ricerca codificato.</li>
+      </ul>
+    processing_priority: Priorità di elaborazione
+    processing_priority_tooltip: |
+      <p>Indica la priorità assegnata al trattamento di un'unità archivistica.</p>
+      <p>I valori presenti in questo elenco a valori controllati possono essere modificati.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Alta</li>
+      <li>Media</li>
+      <li>Bassa</li>
+      </ul>
+    processing_started_date: Data di avvio dell'elaborazione
+    processing_status: Stato di elaborazione
+    processing_status_tooltip: |
+      <p>Per indicare lo stato attuale di elaborazione di un'unità archivistica (acquisizione, risorsa o oggetto digitale).</p>
+      <p>I valori presenti in questo elenco a valori controllati possono essere modificati.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Nuovo</li>
+      <li>In corso</li>
+      <li>Completato</li>
+      </ul>
+    processing_funding_source: Fonte di finanziamento
+    processing_funding_source_tooltip: |
+      <p>Utilizzato per indicare la fonte di finanziamento per il trattamento dei materiali descritti.</p>
+    processors: Processori
+    processors_tooltip: |
+      <p>Per il personale addetto alla catalogazione, a cui è stato affidato il trattamento dell'unità archivistica (acquisizione, risorsa o oggetti digitali).</p>
+    rights_determined: Diritti determinati?
+    rights_determined_tooltip: |
+      <p>Indica se i diritti relativi a un'unità archivistica (acquisizione, risorsa o oggetto digitale) sono stati determinati e se è stato creato un record dei diritti, collegato a tale unità archivistica.</p>
+    rights_determined_true: SÌ
+    rights_determined_false: No
+    parent: Genitore
+    _singular: Gestione delle collezioni
+    _plural: Gestione delle collezioni
   assessment_attribute:
     rating:
       "Reformatting Readiness_values_tooltip": '<ul><li><b>Valutazione 1</b>: I materiali risulterebbero
@@ -2376,3 +2451,61 @@ it:
       "Audio Materials": Materiali audio
       "Biological Specimens": Campioni biologici
       "Botanical Specimens": Esemplari botanici
+  enumeration:
+    name: Nome
+    name_tooltip: |
+      <p>Il nome dell'elenco di valori controllati a cui si desidera aggiungere un valore.</p>
+    value: Valore
+    value_tooltip: |
+      <p>Il valore per l'elenco di valori controllati (Controlled Value List) che desideri aggiungere o modificare.</p>
+      <p>Ove possibile, i valori devono essere scritti in minuscolo e contenere trattini bassi ("_") al posto degli spazi. Le traduzioni dei valori devono essere aggiunte al file delle impostazioni locali (locales file).</p>
+    translation: Traduzione
+    position: Posizione
+    suppress: Sopprimere
+    unsuppress: Annulla soppressione
+    merge_into: Unisci in
+    _singular: Elenco di valori controllati
+    _plural: Elenchi di valori controllati
+    default: Predefinita
+  preference:
+    defaults: Impostazioni predefinite
+    global: Impostazioni predefinite globali
+    global_message: Modifica questi valori per impostare le preferenze utente predefinite a livello 
+      di sistema. Tali valori possono essere sovrascritti dalle impostazioni predefinite del 
+      repository o dalle preferenze del singolo utente.
+    repo: Preferenze del repository
+    repo_message: Modifica questi valori per definire le preferenze per tutti gli utenti nel 
+      repository corrente. Tali valori possono essere sovrascritti dalle preferenze del singolo 
+      utente.
+    user_global: Preferenze globali
+    user_global_message: Modifica questi valori per impostare le tue preferenze utente. Tali valori 
+      possono essere sovrascritti dalle impostazioni predefinite del repository o dalle preferenze 
+      che hai definito per uno specifico repository.
+    user_repo: Preferenze utente
+    user_repo_message: Modifica questi valori per impostare le tue preferenze per questo repository.
+      Tali valori non possono essere sovrascritti.
+    _singular: Preferenze
+    _plural: Preferenze
+  defaults:
+    general_section: Impostazioni generali
+    show_suppressed: Mostrare elementi nascosti?
+    include_unpublished: Includere i record non pubblicati nelle esportazioni?
+    show_suppressed_tooltip: Se visualizzare o meno i record soppressi che si è autorizzati a vedere
+      durante la consultazione.
+    publish: Pubblicare?
+    rde_sort_alpha: Visualizzare i modelli RDE in ordine alfabetico?
+    publish_tooltip: Se pubblicare i nuovi record per impostazione predefinita.
+    default_values: Precompilare i record?
+    default_values_tooltip: Se precompilare i nuovi record di Acquisizione e Risorsa con valori 
+      predefiniti.
+    digital_object_spawn: Generazione della descrizione per istanze di oggetti digitali a partire da
+      un record collegato
+    browse_column: Colonna %{number}
+    browse_column_tooltip: Il campo da mostrare nella colonna %{number}.
+    sort_column: Colonna di ordinamento predefinita
+    sort_column_tooltip: Il campo predefinito per l'ordinamento dei risultati.
+    sort_direction: Direzione di ordinamento predefinita
+    sort_direction_tooltip: Direzione predefinita per l'ordinamento dei risultati.
+    actions_column_position: Posizione dei pulsanti di azione (Visualizza/Modifica)
+    actions_column_position_tooltip: Se i pulsanti Visualizza e Modifica compaiono a sinistra o a 
+      destra di ciascuna riga in una tabella dei risultati.
