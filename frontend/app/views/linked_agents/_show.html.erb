@@ -42,22 +42,25 @@
                                  :uri => link["_resolved"]["uri"] %>
               </td>
               <td>
-                <dl>
-                  <% if !ASUtils.wrap(link['terms']).empty? %>
+                <% terms = ASUtils.wrap(link['terms']) %>
+                <% if terms.any? || link['title'].present? %>
+                  <dl>
+                  <% if terms.any? %>
                     <dt><%= t("linked_agent.terms") %></dt>
 
-                    <% ASUtils.wrap(link['terms']).each do |term| %>
+                    <% terms.each do |term| %>
                       <dd class="label label-info badge" title="<%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %>">
                         <%= term['term'] %>
                       </dd>
                     <% end %>
                   <% end %>
 
-                  <% if link['title'] %>
+                  <% if link['title'].present? %>
                     <dt><%= t("linked_agent.title") %></dt>
                     <dd><%= link['title'] %></dd>
                   <% end %>
-                </dl>
+                  </dl>
+                <% end %>
 
               </td>
             </tr>
