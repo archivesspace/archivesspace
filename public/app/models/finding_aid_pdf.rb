@@ -49,7 +49,7 @@ class FindingAidPDF
     return nil if repository.nil? || repository['image_url'].blank?
 
     @logo_file ||= ASHTTP.download_image(repository['image_url'], :contact_url => repository['url'])
-    @logo_file ? "file://#{@logo_file.path}" : repository['image_url']
+    @logo_file ? ASUtils.file_url(@logo_file.path) : repository['image_url']
   end
 
   def source_file

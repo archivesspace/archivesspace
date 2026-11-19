@@ -17,7 +17,8 @@ describe ASHTTP do
         .to eq('ArchivesSpace/4.2.0 (+https://library.example.edu/archives)')
     end
 
-    ['http://localhost:8081', 'http://127.0.0.1:8081', 'http://www.example.com', 'not a url', '', nil,
+    ['http://localhost:8081', 'http://127.0.0.1:8081', 'http://0.0.0.0:8081', 'http://[::1]:8081', 'http://pui:8081',
+     'http://www.example.com', 'https://www.example.org', 'http://example.net', 'not a url', '', nil,
      'ftp://library.edu/'].each do |unusable|
       it "falls back to the public URL for #{unusable.inspect}" do
         expect(ASHTTP.user_agent(unusable)).to eq('ArchivesSpace/4.2.0 (+https://archives.edu/)')

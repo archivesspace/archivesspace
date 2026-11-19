@@ -6,7 +6,7 @@ require 'asconstants'
 
 class ASHTTP
 
-  PLACEHOLDER_HOSTS = ['localhost', '127.0.0.1', 'example.com'].freeze
+  PLACEHOLDER_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '::1', 'example.com', 'example.org', 'example.net'].freeze
   MAX_REDIRECTS = 5
 
   def self.start_uri(uri, opts = {})
@@ -43,9 +43,10 @@ class ASHTTP
 
   def self.usable_contact_url(url)
     uri = URI.parse(url.to_s.strip)
-    return nil unless uri.is_a?(URI::HTTP) && uri.host
+    return nil unless uri.is_a?(URI::HTTP) && uri.hostname
 
-    host = uri.host.downcase
+    host = uri.hostname.downcase
+    return nil unless host.include?('.') # single-word hosts, e.g. Docker's http://pui:8081
     return nil if PLACEHOLDER_HOSTS.any? { |placeholder| host == placeholder || host.end_with?(".#{placeholder}") }
 
     uri.to_s

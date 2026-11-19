@@ -31,7 +31,7 @@ class PrintToPDFRunner < JobRunner
         if image_for_pdf
           # ANW-3136: Fetch the logo ourself. Some image hosts reject FOP's default Java User-Agent
           image_file = ASHTTP.download_image(image_for_pdf, :contact_url => repository["url"])
-          image_for_pdf = "file://#{image_file.path}" if image_file
+          image_for_pdf = ASUtils.file_url(image_file.path) if image_file
         end
 
         record = JSONModel(:resource).new(obj)
