@@ -2500,8 +2500,8 @@ it:
       predefiniti.
     digital_object_spawn: Generazione della descrizione per istanze di oggetti digitali a partire da
       un record collegato
-    browse_column: Colonna %{number}
-    browse_column_tooltip: Il campo da mostrare nella colonna %{number}.
+    browse_column: Colonna %{num}
+    browse_column_tooltip: Il campo da mostrare nella colonna %{num}.
     sort_column: Colonna di ordinamento predefinita
     sort_column_tooltip: Il campo predefinito per l'ordinamento dei risultati.
     sort_direction: Direzione di ordinamento predefinita
