@@ -25,7 +25,6 @@ Given 'the Extent Type list is long enough that the Type field is a combobox' do
   expect(enumeration_named('extent_extent_type')['values'].length).to be >= 50
 
   page.refresh
-  wait_for_ajax
 
   expect(page).to have_css("input#resource_extents__0__extent_type_[role='combobox']")
 end
