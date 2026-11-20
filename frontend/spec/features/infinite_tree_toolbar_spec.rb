@@ -486,6 +486,25 @@ describe 'Infinite Tree Toolbar', js: true do
         end
       end
 
+      describe 'help links when help is disabled' do
+        before do
+          allow(ArchivesSpaceHelp).to receive(:enabled?).and_return(false)
+          visit edit_path
+          wait_for_infinite_tree_loaded
+        end
+
+        it 'omits the help icons and keeps the buttons fully bordered' do
+          within '#infinite-tree-toolbar' do
+            aggregate_failures do
+              expect(page).to have_no_css('#reorder_mode_help_icon')
+              expect(page).to have_no_css('#load_via_spreadsheet_help_icon')
+              expect(page).to have_css('.js-itree-toolbar-reorder-toggle:not(.border-right-0)')
+              expect(page).to have_css('.js-itree-toolbar-load-bulk:not(.border-right-0)')
+            end
+          end
+        end
+      end
+
       describe 'Modal controls' do
         before do
           visit edit_path
