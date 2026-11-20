@@ -16,9 +16,7 @@ module KeyboardShortcutHelpers
   #   window.location.href; beforeunload is the fallback for browsers
   #   without it.
   # - close-shortcut-handled: set by a keydown listener when the shortcut's
-  #   keydown reaches the page. Waiting for it confirms the keypress was
-  #   delivered; by the time the next check runs, the whole keydown dispatch,
-  #   including the app's handler, has finished.
+  #   keydown reaches the page.
   def press_close_shortcut_and_expect_nothing
     url = page.current_url
     page.execute_script(<<~JS)
@@ -40,9 +38,8 @@ module KeyboardShortcutHelpers
 
     press_close_shortcut
 
-    expect(page).to have_css('body.close-shortcut-handled')
     aggregate_failures do
-      expect(page).to have_no_css('body.navigation-started')
+      expect(page).to have_css('body.close-shortcut-handled:not(.navigation-started)')
       expect(page).to have_current_path(url, url: true)
     end
   end

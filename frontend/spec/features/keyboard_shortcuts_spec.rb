@@ -35,6 +35,21 @@ describe 'Keyboard Shortcuts', js: true do
                       saved_message: ->(title) { "Accession #{title} updated" }
       it_behaves_like 'closing the record to its readonly view', field: 'accession_title_'
 
+      it 'closes the record to the same section of its readonly view with Shift+Ctrl+X' do
+        accession = create(:accession, title: "Accession #{now}", extents: [build(:extent)])
+        visit "/accessions/#{accession.id}/edit"
+        find('#archivesSpaceSidebar .sidebar-entry-accession_extents_ a').click
+        expect(page.evaluate_script('window.location.hash')).to eq('#accession_extents_')
+
+        press_close_shortcut
+
+        aggregate_failures do
+          expect(page).to have_current_path("/accessions/#{accession.id}")
+          expect(page.evaluate_script('window.location.hash')).to eq('#accession_extents_')
+          expect(page).to have_css('section#accession_extents_')
+        end
+      end
+
       it 'does not save the record with Ctrl+S alone' do
         visit edit_path
         fill_in 'accession_title_', with: "UPDATED #{now}"

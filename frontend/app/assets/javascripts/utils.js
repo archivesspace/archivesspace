@@ -1047,7 +1047,7 @@ AS.closeRecordForm = function () {
   if (!form) return;
 
   const target = form.dataset.readonlyPath;
-  if (target) window.location.href = target;
+  if (target) window.location.href = target + location.hash;
 };
 
 // shortcuts
