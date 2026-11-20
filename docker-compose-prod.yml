@@ -38,7 +38,7 @@ services:
       - .env
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_buffer_pool_size=1G  --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306" # only reachable from this computer
     volumes:
       - db-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
@@ -77,7 +77,7 @@ services:
       - archivesspace
       - /opt/solr/server/solr/configsets/archivesspace
     ports:
-      - "8983:8983"
+      - "127.0.0.1:8983:8983" # only reachable from this computer
     volumes:
       - solr-data:/var/solr
 

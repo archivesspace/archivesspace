@@ -1,0 +1,143 @@
+# Optional: HTTPS with free, automatically renewed certificates from Let's Encrypt.
+#
+# Use this only on a server that people reach with a domain name (for example archives.example.org).
+# You do not need it to run ArchivesSpace on your own computer.
+#
+# To turn it on, set COMPOSE_FILE and DOMAIN in .env (EMAIL is optional; see the HTTPS section there),
+# then run "docker compose up -d" as usual.
+#
+# Requirements:
+#   - DOMAIN must point (DNS) to this server.
+#   - Ports 80 and 443 must be open to the internet. Let's Encrypt checks the domain on port 80,
+#     so keep NGINX_PORT=80 in .env.
+
+services:
+  app:
+    environment:
+      APPCONFIG_FRONTEND_PROXY_URL: https://${DOMAIN}/staff
+      APPCONFIG_OAI_PROXY_URL: https://${DOMAIN}/oai
+      APPCONFIG_PUBLIC_PROXY_URL: https://${DOMAIN}
+
+  proxy:
+    depends_on:
+      certbot:
+        condition: service_healthy
+    ports:
+      - "443:443"
+    volumes:
+      - ./proxy-config-https:/etc/nginx/conf.d/
+      - certbot-web:/var/www/certbot:ro
+      - certbot-etc:/etc/letsencrypt:ro
+    # Start nginx. Reload it each time the certificate changes (first certificate and each renewal).
+    command:
+      - /bin/sh
+      - -c
+      - |
+        cert=/etc/letsencrypt/live/archivesspace/fullchain.pem
+        (
+          last=$$(stat -L -c %Y "$$cert" 2>/dev/null)
+          while :; do
+            sleep 60
+            cur=$$(stat -L -c %Y "$$cert" 2>/dev/null)
+            if [ -n "$$cur" ] && [ "$$cur" != "$$last" ]; then
+              echo "Certificate changed, reloading nginx"
+              nginx -s reload && last=$$cur
+            fi
+          done
+        ) &
+        exec nginx -g 'daemon off;'
+
+  certbot:
+    image: certbot/certbot:v5.10.0
+    container_name: certbot
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    environment:
+      DOMAIN: ${DOMAIN:?To use HTTPS, set DOMAIN in .env}
+      EMAIL: ${EMAIL:-}
+      NGINX_PORT: ${NGINX_PORT:-80}
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-web:/var/www/certbot
+    # Healthy when a certificate (real or temporary) exists, so nginx can start.
+    healthcheck:
+      test: ["CMD", "test", "-f", "/etc/letsencrypt/live/archivesspace/fullchain.pem"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    entrypoint: []
+    command:
+      - sh
+      - -c
+      - |
+        live=/etc/letsencrypt/live/archivesspace
+        renewal=/etc/letsencrypt/renewal/archivesspace.conf
+
+        # DOMAIN must be only the name, for example archives.example.org (no https://, no /, no port).
+        case "$$DOMAIN" in
+          *[!A-Za-z0-9.-]* | .* | *. | *..* | -* )
+            echo "ERROR: DOMAIN in .env is \"$$DOMAIN\". Use only the name, for example: DOMAIN=archives.example.org"
+            exit 1 ;;
+          *.*) ;;
+          *)
+            echo "ERROR: DOMAIN in .env is \"$$DOMAIN\". Use the full name, for example: DOMAIN=archives.example.org"
+            exit 1 ;;
+        esac
+
+        if [ "$$NGINX_PORT" != "80" ]; then
+          echo "WARNING: NGINX_PORT in .env is $$NGINX_PORT. Let's Encrypt checks the domain on port 80, so the certificate request will fail. Set NGINX_PORT=80."
+        fi
+
+        # nginx cannot start without a certificate. Until Let's Encrypt gives one, use a temporary self-signed one.
+        make_temp_cert() {
+          echo "Creating a temporary self-signed certificate for $$DOMAIN"
+          mkdir -p "$$live"
+          openssl req -x509 -nodes -newkey rsa:2048 -days 1 -quiet \
+            -keyout "$$live/privkey.pem" -out "$$live/fullchain.pem" -subj "/CN=$$DOMAIN"
+        }
+
+        wait_for_proxy() {
+          mkdir -p /var/www/certbot/.well-known/acme-challenge
+          echo ok > /var/www/certbot/.well-known/acme-challenge/ping
+          i=0
+          until wget -q -O /dev/null http://proxy/.well-known/acme-challenge/ping 2>/dev/null || [ $$i -ge 60 ]; do
+            i=$$((i + 1)); sleep 5
+          done
+          rm -f /var/www/certbot/.well-known/acme-challenge/ping
+        }
+
+        [ -f "$$renewal" ] || [ -f "$$live/fullchain.pem" ] || make_temp_cert
+
+        # EMAIL is optional. Let's Encrypt no longer sends expiry warnings; it adds the address to its mailing list.
+        if [ -n "$$EMAIL" ]; then
+          set -- --email "$$EMAIL" --no-eff-email
+        else
+          set --
+        fi
+
+        while :; do
+          if [ ! -f "$$renewal" ]; then
+            wait_for_proxy
+            # certbot does not write into a folder it did not make, so remove the temporary certificate.
+            rm -rf "$$live"
+          fi
+          # Gets the first certificate, renews it when it is close to expiry, and follows a change of DOMAIN.
+          if certbot certonly --webroot --webroot-path=/var/www/certbot \
+              --cert-name archivesspace -d "$$DOMAIN" \
+              --agree-tos --keep-until-expiring --non-interactive "$$@"; then
+            echo "Certificate for $$DOMAIN is in place. Next check in 12 hours."
+          else
+            echo "Could not get a certificate for $$DOMAIN. Check that DOMAIN points to this server and port 80 is open. Next try in 12 hours."
+            [ -f "$$renewal" ] || make_temp_cert
+          fi
+          sleep 12h
+        done
+
+volumes:
+  certbot-etc:
+  certbot-web:
