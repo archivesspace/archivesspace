@@ -59,8 +59,9 @@ table {
 
     overflow-wrap: normal;
   }
-  .table-record-actions {
-    // Shrink to fit the buttons so the column looks the same at the start or end of the row
+  .table-record-actions,
+  .multiselect-column {
+    // Shrink to fit controls so these columns stay compact wherever they appear
     width: 1%;
     white-space: nowrap;
   }
@@ -190,6 +191,6 @@ table.table-spreadsheet {
   background-color: #ffe6e6 !important;
 }
 
-table .col {
+table .col:not(.table-record-actions, .multiselect-column) {
   width: fit-content;
 }
