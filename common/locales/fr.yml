@@ -2139,7 +2139,7 @@ fr:
     show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous
       avez la permission de voir.
     publish: Publier ?
-    publish_tooltip: Publier ou non par défaut les nouvelles notices.
+    publish_tooltip: Publier ou non par défaut les nouvelles notices. Cette option peut être remplacée par les modèles de valeurs par défaut si la case « Pré-remplir notices? ? » est cochée.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des 
       valeurs par défaut.

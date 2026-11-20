@@ -1500,7 +1500,7 @@ ja:
     show_suppressed: 非表示のレコードを表示しますか？
     show_suppressed_tooltip: ブラウズ時に表示することが許可されている非表示のレコードを表示するかどうか。
     publish: 公開しますか？
-    publish_tooltip: 新規レコードを既定で公開するかどうか。
+    publish_tooltip: 新規レコードを既定で公開するかどうか。「レコードレコードの事前入力？」にチェックが入っている場合、これは「デフォルト値」テンプレートによって上書きされることがあります。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しい受入レコードとリソースレコードに既定値をあらかじめ設定するかどうか。
     digital_object_spawn: リンク元レコードの記述をデジタルオブジェクトのインスタンスに引き継ぐ
