@@ -69,6 +69,10 @@ module ASUtils
     Tempfile.new("#{base}_#{java.lang.System.currentTimeMillis}")
   end
 
+  def self.file_url(path)
+    java.nio.file.Paths.get(path.to_s).toUri.to_s
+  end
+
   def self.to_json(obj, opts = {})
     if obj.respond_to?(:jsonize)
       obj.jsonize(opts.merge(max_nesting: false))

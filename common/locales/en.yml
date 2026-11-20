@@ -2174,6 +2174,7 @@ en:
     image_url: Branding Image URL
     image_url_tooltip: |
         <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs, staff side PDFs and on the repositories page.</p>
+        <p>The image must be openly available on the web and not require a login. Some websites block ArchivesSpace from downloading their images. If your logo appears on the repositories page but not in PDFs, use an image stored on your own website.</p>
     _singular: Repository
     _plural: Repositories
     new_title: New Repository
