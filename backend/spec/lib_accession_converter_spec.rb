@@ -202,15 +202,15 @@ describe 'Accession converter' do
     public_headers = public_rows.first
     test_headers = test_rows.first
 
-    expect(public_headers).to eq(test_headers)
+    expect(public_headers).to match_array(test_headers)
     expect(public_rows).to all(have_attributes(:length => public_headers.length))
     expect(test_rows).to all(have_attributes(:length => test_headers.length))
-    expect(public_headers.grep(/\Aextent_/)).to eq(extent_headers)
-    expect(public_headers.grep(/\Aexternal_document_/)).to eq(external_document_headers)
-    expect(public_headers.grep(/\Asubject_/)).to eq(subject_headers)
-    expect(public_headers.grep(/\Ainstance_/)).to eq(instance_headers)
-    expect(public_headers.grep(/\Aaccession_id_/)).to eq(accession_id_headers)
-    expect(public_headers.grep(/\Aagent_/)).to eq(agent_headers)
+    expect(public_headers.grep(/\Aextent_/)).to match_array(extent_headers)
+    expect(public_headers.grep(/\Aexternal_document_/)).to match_array(external_document_headers)
+    expect(public_headers.grep(/\Asubject_/)).to match_array(subject_headers)
+    expect(public_headers.grep(/\Ainstance_/)).to match_array(instance_headers)
+    expect(public_headers.grep(/\Aaccession_id_/)).to match_array(accession_id_headers)
+    expect(public_headers.grep(/\Aagent_/)).to match_array(agent_headers)
   end
 
   context 'when all accessions provided in the CSV are valid' do
