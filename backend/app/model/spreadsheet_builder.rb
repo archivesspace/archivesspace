@@ -554,6 +554,7 @@ class SpreadsheetBuilder
             .join(:top_container, Sequel.qualify(:top_container, :id) => Sequel.qualify(:top_container_link_rlshp, :top_container_id))
             .filter(Sequel.qualify(:instance, :archival_object_id) => batch)
             .filter(Sequel.~(Sequel.qualify(:instance, :instance_type_id) => BackendEnumSource.id_for_value('instance_instance_type', 'digital_object')))
+            .or(Sequel.qualify(:instance, :instance_type_id) => nil)
             .select(
               Sequel.as(Sequel.qualify(:instance, :archival_object_id), :archival_object_id),
               Sequel.as(Sequel.qualify(:instance, :instance_type_id), :instance_type_id),

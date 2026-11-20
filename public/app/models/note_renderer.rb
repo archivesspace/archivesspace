@@ -104,6 +104,7 @@ class ERBNoteRenderer < NoteRenderer
     'note_index',
     'note_orderedlist',
     'note_outline',
+    'note_unorderedist',
   ]
 
   def render(type, note, result)

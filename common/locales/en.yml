@@ -1070,6 +1070,7 @@ en:
     content_item: Content Item
     note_singlepart: Single Part Note
     note_orderedlist: Ordered List
+    note_unorderedlist: Unordered List
     note_multipart: Multipart Note
     note_definedlist: Defined List
     note_chronology: Chronology
@@ -1174,6 +1175,10 @@ en:
     enumeration: Enumeration
     enumeration_tooltip: |
         <p>An attribute for indicating the type of numeration to be applied to the note items</p>
+
+  note_unorderedlist:
+    <<: *note_attributes
+    option: Unordered List
 
   note_bioghist:
     <<: *note_attributes
@@ -2104,6 +2109,14 @@ en:
     publish: Publish?
     publish_tooltip: |
         <p>Determines whether this Revision Statement is published to public (patron) interfaces.</p>
+    agent: Agent
+    agent_type: Agent Type
+    agent_type_machine: Machine
+    agent_type_human: Human
+    type: Type
+    type_created: Created
+    type_updated: Updated
+    type_revised: Revised
 
   related_resource:
     _singular: Related Resource

@@ -93,4 +93,19 @@ describe 'Instance model' do
     }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "allows an instance to have no instance_type" do
+    top = create(:json_top_container)
+    opts = {:instances => [build(:json_instance,
+                                 instance_type: nil,
+                                 sub_container: build(:json_sub_container,
+                                                      top_container: {ref: top.uri}))]}
+
+    resource = create_resource(opts)
+    res = Resource[resource[:id]]
+    expect(res.instance.length).to eq(1)
+    expect(res.instance[0].instance_type).to eq(opts[:instances][0]['instance_type'])
+
+    res = URIResolver.resolve_references(Resource.to_jsonmodel(resource[:id]), ['top_container'])
+    expect(res['instances'][0]["sub_container"]['top_container']['_resolved']["type"]).to eq(top["type"])
+  end
 end

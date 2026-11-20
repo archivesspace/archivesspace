@@ -1284,6 +1284,7 @@ en:
         add_for_contact_note: Add Contact Note
         add_content_item: Add Content Item
         add_note_orderedlist: Add Item
+        add_note_unorderedlist: Add Item
         add_sub_note: Add Sub Note
         add_note_index_item: Add Item
         add_note_chronology_item: Add Event

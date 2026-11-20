@@ -1042,6 +1042,12 @@ FactoryBot.define do
     items { (0..rand(3)).map { generate(:alphanumstr) } }
   end
 
+  factory :json_note_unorderedlist, class: JSONModel(:note_unorderedlist) do
+    title { generate(:alphanumstr) }
+    enumeration { generate(:orderedlist_enumeration) }
+    items { (0..rand(3)).map { generate(:alphanumstr) } }
+  end
+
   factory :json_note_outline_level, class: JSONModel(:note_outline_level) do
     items { [ generate(:alphanumstr) ] }
   end

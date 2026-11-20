@@ -188,6 +188,30 @@
   <div class="subrecord-form-inline"><%= form.textfield(nil, item, :escape => false) %></div>
 <% end %>
 
+<% define_template "note_unorderedlist", jsonmodel_definition(:note_unorderedlist) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_unorderedlist">
+    <h3 class="subrecord-form-heading"><%= t("note.note_unorderedlist") %></h3>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_unorderedlist") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("title") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <div class="form-group">
+        <label class="control-label"><%= t("note_unorderedlist.items") %></label>
+        <div class="controls">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("unorderedlist_item", item) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "unorderedlist_item" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :escape => false) %></div>
+<% end %>
 
 <% define_template "note_multipart_selector" do |form, item| %>
   <% if item %>
