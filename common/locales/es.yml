@@ -2038,7 +2038,7 @@ es:
     show_suppressed_tooltip: Si se muestran registros bloqueados que tiene permiso para ver al 
       navegar.
     publish: ¿Publicar?
-    publish_tooltip: Si desea publicar nuevos registros por defecto.
+    publish_tooltip: Si desea publicar nuevos registros por defecto. Esto puede ser anulado por plantillas de valores predeterminados si se selecciona la casilla de verificación "¿Pre-popular registros?".
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
     browse_column: Columna %{num}
