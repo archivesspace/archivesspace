@@ -237,18 +237,25 @@ describe 'Action Buttons (View/Edit) Position', js: true do
       end
     end
 
-    it 'keeps the action buttons compact when few columns are displayed' do
+    it 'keeps the selection and action columns compact when few columns are displayed' do
       search_top_containers
-      compact_width = find("#{results} tbody tr:first-child .table-record-actions .btn", text: 'View')
-                      .evaluate_script('this.getBoundingClientRect().width')
+      compact_selection_width = find("#{results} tbody tr:first-child .multiselect-column")
+                                .evaluate_script('this.getBoundingClientRect().width')
+      compact_action_width = find("#{results} tbody tr:first-child .table-record-actions .btn", text: 'View')
+                             .evaluate_script('this.getBoundingClientRect().width')
 
       with_browse_column_preferences('top_container_mgmt',
                                      (2..AppConfig[:max_search_columns]).to_h { |column| [column, '[no value]'] }) do
         search_top_containers
-        sparse_table_width = find("#{results} tbody tr:first-child .table-record-actions .btn", text: 'View')
-                             .evaluate_script('this.getBoundingClientRect().width')
+        sparse_selection_width = find("#{results} tbody tr:first-child .multiselect-column")
+                                 .evaluate_script('this.getBoundingClientRect().width')
+        sparse_action_width = find("#{results} tbody tr:first-child .table-record-actions .btn", text: 'View')
+                              .evaluate_script('this.getBoundingClientRect().width')
 
-        expect(sparse_table_width).to be_within(1).of(compact_width)
+        aggregate_failures do
+          expect(sparse_selection_width).to be_within(1).of(compact_selection_width)
+          expect(sparse_action_width).to be_within(1).of(compact_action_width)
+        end
       end
     end
 
