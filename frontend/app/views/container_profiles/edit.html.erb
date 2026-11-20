@@ -1,6 +1,6 @@
 <%= setup_context :object => @container_profile, :title => @container_profile.name %>
 
-<%= form_for @container_profile, :as => "container_profile", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@container_profile)) do |f| %>
+<%= form_for @container_profile, :as => "container_profile", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@container_profile)).merge(readonly_view_params(url_for(:controller => :container_profiles, :action => :show, :id => @container_profile.id))) do |f| %>
   <%= form_context :container_profile, @container_profile do |form| %>
     <div class="d-flex">
       <div class="col-md-3">

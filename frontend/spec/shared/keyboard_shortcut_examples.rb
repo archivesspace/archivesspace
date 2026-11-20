@@ -92,31 +92,30 @@ RSpec.shared_examples 'closing the record to its readonly view' do |config|
   end
 end
 
-RSpec.shared_examples 'closing a form that has no readonly view' do |config|
-  it 'leaves the form without showing the record with Shift+Ctrl+X' do
+# For forms with no readonly view: Shift+Ctrl+X does nothing and the
+# unsaved input stays.
+#
+# config:
+#   field:  id of the field to change
+#   value:  value to enter (default: a unique string)
+#   select: true when field is a select (value is the option text)
+RSpec.shared_examples 'ignoring the close shortcut' do |config|
+  it 'does nothing with Shift+Ctrl+X and keeps unsaved input' do
+    new_value = config[:value] || "Unsaved #{SecureRandom.hex(4)}"
+
     visit edit_path
-    expect(page).to have_css('form.aspace-record-form')
-
-    press_close_shortcut
-
-    aggregate_failures do
-      expect(page).to have_current_path(config[:lands_on])
-      expect(page).to have_no_css('form.aspace-record-form')
+    if config[:select]
+      select new_value, from: config[:field]
+    else
+      fill_in config[:field], with: new_value
     end
-  end
-end
 
-RSpec.shared_examples 'reloading a form whose URL has no /edit with the close shortcut' do
-  it 'reloads the form with Shift+Ctrl+X' do
-    visit edit_path
-    page.execute_script("document.body.classList.add('before-close-shortcut')")
+    press_close_shortcut_and_expect_nothing
 
-    press_close_shortcut
-
-    aggregate_failures do
-      expect(page).to have_no_css('body.before-close-shortcut')
-      expect(page).to have_current_path(edit_path)
-      expect(page).to have_css('form.aspace-record-form')
+    if config[:select]
+      expect(page).to have_select(config[:field], selected: new_value)
+    else
+      expect(page).to have_field(config[:field], with: new_value)
     end
   end
 end
@@ -159,6 +158,7 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
   it 'closes the root record to its readonly view with Shift+Ctrl+X' do
     visit "#{edit_path}#{root_hash}"
     wait_for_infinite_tree_loaded
+    expect(page).to have_field(config[:root_dirty_field])
 
     press_close_shortcut
 
@@ -173,9 +173,21 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
     end
   end
 
+  it 'does nothing with Shift+Ctrl+X while the record has unsaved changes, like Close Record' do
+    visit "#{edit_path}#{root_hash}"
+    wait_for_infinite_tree_loaded
+    fill_in config[:root_dirty_field], with: "Unsaved Root #{now}"
+    expect(page).to have_css('.js-itree-toolbar-finish-editing.disabled')
+
+    press_close_shortcut_and_expect_nothing
+
+    expect(page).to have_field(config[:root_dirty_field], with: "Unsaved Root #{now}")
+  end
+
   it 'closes a child record to its readonly view with Shift+Ctrl+X' do
     visit "#{edit_path}#{child_record_hash}"
     wait_for_infinite_tree_loaded
+    expect(page).to have_field(config[:child_post_save_field])
 
     press_close_shortcut
 
