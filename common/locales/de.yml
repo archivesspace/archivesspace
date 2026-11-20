@@ -2003,7 +2003,7 @@ de:
     note_order_section: Anmerkungsreihenfolge
     _singular: Standardeinstellungen
     _plural: Standardeinstellungen
-    publish_tooltip: Ob neue Datensätze standardmäßig veröffentlicht werden sollen.
+    publish_tooltip: Ob neue Datensätze standardmäßig veröffentlicht werden sollen. Dies kann durch Vorlagen für Standardwerte überschrieben werden, wenn das Kontrollkästchen „Datensätze vorbefüllen?“ aktiviert ist.
     show_suppressed_tooltip: Ob unterdrückte Aufzeichnungen, die Sie beim Blättern sehen können, 
       angezeigt werden sollen.
     default_values: Datensätze vorbefüllen?
