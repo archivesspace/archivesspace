@@ -33,6 +33,7 @@ topics:
   resource_collection_management: '4465000449/Collection+Management+Sub-Record'
   resource_classifications: '4465000474/Classifications+Sub-Record'
   resource_load_via_spreadsheet: '1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'
+  tree_reorder_mode: '894140803/Reordering+Components+in+Resource+Records+from+version+3.5.0'
   resource_user_defined: '4523229191/User-Defined+Fields+Sub-Record'
   # Archival Objects
   archival_object: '894107902/Resource+Records+Components'

@@ -4,15 +4,33 @@
   role="toolbar"
   aria-label="<%= I18n.t('tree.toolbar_aria_label') %>"
 >
-  <button
-    type="button"
-    class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle js-itree-toolbar-reorder-toggle"
-    data-itree-action="reorder-toggle"
-    data-label-enable-reorder="<%= h(I18n.t('actions.enable_reorder')) %>"
-    data-label-reorder-active="<%= h(I18n.t('actions.reorder_active')) %>"
+  <div
+    class="btn-group js-itree-toolbar-reorder-group"
+    role="group"
+    aria-label="<%= I18n.t('actions.enable_reorder') %>"
   >
-    <%= I18n.t('actions.enable_reorder') %>
-  </button>
+    <button
+      type="button"
+      class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle border-right-0 js-itree-toolbar-reorder-toggle"
+      data-itree-action="reorder-toggle"
+      data-label-enable-reorder="<%= h(I18n.t('actions.enable_reorder')) %>"
+      data-label-reorder-active="<%= h(I18n.t('actions.reorder_active')) %>"
+    >
+      <%= I18n.t('actions.enable_reorder') %>
+    </button>
+    <a
+      target="_blank"
+      class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-reorder-mode-help"
+      id="reorder_mode_help_icon"
+      href="<%= ArchivesSpaceHelp.url_for_topic('tree_reorder_mode') %>"
+      data-toggle="tooltip"
+      data-placement="bottom"
+      title="<%= t('help.topics.tree_reorder_mode') %>"
+      data-container="body"
+    >
+      <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
+    </a>
+  </div>
 
   <div class="btn-group infinite-tree-toolbar__group ml-1 js-itree-toolbar-cut-paste-group" role="group" aria-label="<%= I18n.t('actions.cut_paste_group', default: 'Cut and paste') %>">
     <button
@@ -123,7 +141,7 @@
           id="load_via_spreadsheet_help_icon"
           href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>"
           data-toggle="tooltip"
-          data-placement="auto"
+          data-placement="bottom"
           title="<%= t('help.topics.resource_load_via_spreadsheet') %>"
           data-container="body"
         >

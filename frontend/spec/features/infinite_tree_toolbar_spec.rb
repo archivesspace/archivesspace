@@ -64,6 +64,7 @@ describe 'Infinite Tree Toolbar', js: true do
             within '#infinite-tree-toolbar' do
               aggregate_failures do
                 expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.enable_reorder'))
+                expect(page).to have_css('#reorder_mode_help_icon')
                 expect(page).to have_css('.js-itree-toolbar-expand-mode', text: I18n.t('actions.expand_tree_mode_on'))
                 expect(page).to have_css('.js-itree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
                 expect(page).to have_css('.js-itree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
@@ -93,6 +94,7 @@ describe 'Infinite Tree Toolbar', js: true do
             within '#infinite-tree-toolbar' do
               aggregate_failures do
                 expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
+                expect(page).to have_css('#reorder_mode_help_icon')
                 expect(page).to have_css('.js-itree-toolbar-cut.disabled[disabled]')
                 expect(page).to have_css('.js-itree-toolbar-paste.disabled[disabled]')
                 expect(page).to have_css('.js-itree-toolbar-move-toggle.disabled[disabled]')
@@ -123,6 +125,7 @@ describe 'Infinite Tree Toolbar', js: true do
             within '#infinite-tree-toolbar' do
               aggregate_failures do
                 expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.enable_reorder'))
+                expect(page).to have_css('#reorder_mode_help_icon')
                 expect(page).to have_css('.js-itree-toolbar-expand-mode', text: I18n.t('actions.expand_tree_mode_on'))
                 expect(page).to have_css('.js-itree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
                 expect(page).to have_css('.js-itree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
@@ -152,6 +155,7 @@ describe 'Infinite Tree Toolbar', js: true do
             within '#infinite-tree-toolbar' do
               aggregate_failures do
                 expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
+                expect(page).to have_css('#reorder_mode_help_icon')
                 expect(page).to have_css('.js-itree-toolbar-cut:not(.disabled[disabled])')
                 expect(page).to have_css('.js-itree-toolbar-paste.disabled[disabled]')
                 expect(page).to have_css('.js-itree-toolbar-move-toggle:not(.disabled[disabled])')
@@ -503,6 +507,24 @@ describe 'Infinite Tree Toolbar', js: true do
             doc_url = 'https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/1173913646/Import+Archival+Objects+from+Excel+or+CSV+File+from+v2.8.1)'
             help_link = find('#infinite-tree-toolbar #load_via_spreadsheet_help_icon')
             expect(help_link[:href]).to eq(doc_url)
+          end
+        end
+
+        describe 'Enable Reorder Mode help' do
+          it 'links to help documentation for reorder mode in a new tab' do
+            doc_url = 'https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/894140803/Reordering+Components+in+Resource+Records+from+version+3.5.0'
+            help_link = find('#infinite-tree-toolbar #reorder_mode_help_icon')
+
+            aggregate_failures do
+              expect(help_link[:href]).to eq(doc_url)
+              expect(help_link[:target]).to eq('_blank')
+            end
+          end
+
+          it 'shows its tooltip below the icon, like the Load via Spreadsheet help' do
+            find('#infinite-tree-toolbar #reorder_mode_help_icon').hover
+
+            expect(page).to have_css('.tooltip.bs-tooltip-bottom', text: I18n.t('help.topics.tree_reorder_mode'))
           end
         end
 
@@ -913,6 +935,8 @@ describe 'Infinite Tree Toolbar', js: true do
         ].each do |selector|
           expect(page).to have_css("#{selector}.disabled")
         end
+
+        expect(page).to have_css('#reorder_mode_help_icon:not(.disabled)')
       end
     end
   end

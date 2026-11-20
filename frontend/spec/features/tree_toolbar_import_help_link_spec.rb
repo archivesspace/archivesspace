@@ -33,7 +33,8 @@ describe 'Tree toolbar import help link', js: true do
   it 'should display a tooltip when hovered on edit resource page' do
     page.should have_no_css("#$help_link_id[aria-describedby*='tooltip']")
     page.find($help_link_id).hover
-    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='auto']")
+    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='bottom']")
+    page.should have_css('.tooltip.bs-tooltip-bottom')
   end
 
   it 'should be hidden when resource tree is in reorder mode' do
@@ -51,7 +52,8 @@ describe 'Tree toolbar import help link', js: true do
   it 'should display a tooltip when hovered on edit archival object page' do
     page.should have_no_css("#$help_link_id[aria-describedby*='tooltip']")
     page.find($help_link_id).hover
-    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='auto']")
+    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='bottom']")
+    page.should have_css('.tooltip.bs-tooltip-bottom')
   end
 
   it 'should be hidden when archival object tree is in reorder mode' do
