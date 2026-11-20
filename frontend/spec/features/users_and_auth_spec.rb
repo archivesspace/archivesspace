@@ -4,6 +4,15 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Users and Authentication', js: true do
+  it 'provides persistent labels for login fields' do
+    visit '/'
+
+    within 'form.login' do
+      expect(page).to have_css('label[for="user_username"]', text: 'User Name')
+      expect(page).to have_css('label[for="user_password"]', text: 'User Password')
+    end
+  end
+
   it 'fails logins with invalid credentials' do
     now = Time.now.to_i
 
