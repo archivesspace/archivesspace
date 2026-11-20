@@ -4,6 +4,8 @@ require "bigdecimal"
 # Builds JSONModel fragments (dates, notes, file versions) from spreadsheet row
 # cells. Shared by the Archival Object and Digital Object bulk importers.
 module RowFieldBuilders
+  FILE_VERSION_DISPLAY_FLAGS = %w[is_display_thumbnail is_display_link].freeze
+
   # The following methods assume @report is defined, and is a BulkImportReport object
   def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty, date_era = nil, date_calendar = nil)
     date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
@@ -101,16 +103,33 @@ module RowFieldBuilders
     return nil if columns.values.all? { |column| @row_hash[column].nil? }
 
     fv = columns.to_h { |field, column| [field.to_sym, @row_hash[column]] }
-    %w[publish is_display_thumbnail is_display_link].each do |field|
+    ['publish', *FILE_VERSION_DISPLAY_FLAGS].each do |field|
       fv[field.to_sym] = row_boolean(columns[field]) if columns.key?(field)
     end
-    display_flag = %w[is_display_thumbnail is_display_link].find { |field| fv[field.to_sym] }
+    display_flag = FILE_VERSION_DISPLAY_FLAGS.find { |field| fv[field.to_sym] }
     if display_flag && !fv[:publish]
       raise BulkImportException.new(I18n.t("bulk_import.error.file_version_display_flag_unpublished",
                                             :column => columns[display_flag], :publish_column => columns['publish']))
     end
     fv[:file_size_bytes] = file_version_file_size_bytes(columns['file_size_bytes'], fv[:file_size_bytes])
     fv
+  end
+
+  # column_groups: the build_file_version columns of each file version of one digital object.
+  def build_file_versions(column_groups)
+    built = column_groups.filter_map do |columns|
+      fv = build_file_version(columns)
+      [fv, columns] if fv
+    end
+    errors = FILE_VERSION_DISPLAY_FLAGS.filter_map do |flag|
+      marked = built.select { |fv, _| fv[flag.to_sym] }.map { |_, columns| columns[flag] }
+      next if marked.length < 2
+
+      I18n.t("bulk_import.error.file_version_display_flag_repeated", :columns => marked.join(", "), :field => flag)
+    end
+    raise BulkImportException.new(errors.join("; ")) unless errors.empty?
+
+    built.map(&:first)
   end
 
   private

@@ -229,9 +229,10 @@ class ImportDigitalObjects < BulkImportParser
       .grep(/\Afile_version_\d+_.+\z/)
       .group_by { |key| key[/\Afile_version_(\d+)_/, 1] }
 
-    groups.keys.sort_by(&:to_i).filter_map do |index|
-      build_file_version(groups[index].to_h { |key| [key.sub(/\Afile_version_\d+_/, ""), key] })
+    column_groups = groups.keys.sort_by(&:to_i).map do |index|
+      groups[index].to_h { |key| [key.sub(/\Afile_version_\d+_/, ""), key] }
     end
+    build_file_versions(column_groups)
   end
 
   private

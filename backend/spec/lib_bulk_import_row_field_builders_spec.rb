@@ -238,4 +238,61 @@ describe RowFieldBuilders do
       expect(build_file_version(columns)[:publish]).to be false
     end
   end
+
+  describe '#build_file_versions' do
+    let(:column_groups) do
+      (1..3).map { |index| %w[file_uri publish is_display_thumbnail is_display_link].to_h { |field| [field, "file_version_#{index}_#{field}"] } }
+    end
+
+    def fill_row(*file_versions)
+      @row_hash = column_groups.flat_map(&:values).to_h { |column| [column, nil] }
+      file_versions.each_with_index do |values, i|
+        values.each { |field, value| @row_hash[column_groups[i][field]] = value }
+      end
+    end
+
+    def published(file_uri, flags = {})
+      { 'file_uri' => file_uri, 'publish' => 'TRUE' }.merge(flags)
+    end
+
+    def repeated(field, *indexes)
+      I18n.t('bulk_import.error.file_version_display_flag_repeated',
+             :columns => indexes.map { |index| "file_version_#{index}_#{field}" }.join(', '), :field => field)
+    end
+
+    it 'keeps one display thumbnail and one display link, skipping blank file versions' do
+      fill_row(published('http://example.com/1', 'is_display_thumbnail' => 'TRUE'), {},
+               published('http://example.com/3', 'is_display_link' => 'TRUE'))
+
+      expect(build_file_versions(column_groups).map { |fv| fv[:file_uri] }).to eq(['http://example.com/1', 'http://example.com/3'])
+    end
+
+    it 'keeps a file version marked both display thumbnail and display link' do
+      fill_row(published('http://example.com/1', 'is_display_thumbnail' => 'TRUE', 'is_display_link' => 'TRUE'),
+               published('http://example.com/2'))
+
+      expect(build_file_versions(column_groups).map { |fv| fv[:file_uri] }).to eq(['http://example.com/1', 'http://example.com/2'])
+    end
+
+    %w[is_display_thumbnail is_display_link].each do |flag|
+      it "rejects two file versions marked #{flag}" do
+        fill_row(published('http://example.com/1', flag => 'TRUE'), {}, published('http://example.com/3', flag => 'TRUE'))
+
+        expect { build_file_versions(column_groups) }.to raise_error(
+          BulkImportException,
+          "Columns file_version_1_#{flag}, file_version_3_#{flag} are TRUE; " \
+          "a digital object can have only one file version marked #{flag}"
+        )
+      end
+    end
+
+    it 'reports both flags when each is repeated' do
+      both = { 'is_display_thumbnail' => 'TRUE', 'is_display_link' => 'TRUE' }
+      fill_row(published('http://example.com/1', both), published('http://example.com/2', both))
+
+      expect { build_file_versions(column_groups) }.to raise_error(
+        BulkImportException, "#{repeated('is_display_thumbnail', 1, 2)}; #{repeated('is_display_link', 1, 2)}"
+      )
+    end
+  end
 end
