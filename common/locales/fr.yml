@@ -2966,6 +2966,7 @@ fr:
       invalid_user_defined_integer: "Entier défini par l'utilisateur non valide : %{value}"
       invalid_file_version_size: "La colonne %{column} requiert un nombre entier d'octets ; valeur reçue : '%{value}'"
       file_version_display_flag_unpublished: "La colonne %{column} vaut TRUE mais %{publish_column} ne vaut pas TRUE ; une version de fichier doit être publiée pour être la miniature ou le lien d'affichage"
+      file_version_display_flag_repeated: "Les colonnes %{columns} valent TRUE ; un objet numérique ne peut avoir qu'une seule version de fichier marquée %{field}"
       invalid_user_defined_real: "Réel défini par l'utilisateur non valide : %{value}"
       bad_ao_uri: " Avec uri %{uri}"
       bad_accession_uri: "Entrée non trouvée avec uri %{uri}"

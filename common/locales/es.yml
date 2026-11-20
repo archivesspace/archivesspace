@@ -2865,6 +2865,7 @@ es:
       invalid_user_defined_integer: "Entero definido por el usuario no válido: %{value}"
       invalid_file_version_size: "La columna %{column} requiere un número entero de bytes; se recibió '%{value}'"
       file_version_display_flag_unpublished: "La columna %{column} es TRUE pero %{publish_column} no es TRUE; una versión de archivo debe estar publicada para ser la miniatura o el enlace de visualización"
+      file_version_display_flag_repeated: "Las columnas %{columns} son TRUE; un objeto digital solo puede tener una versión de archivo marcada como %{field}"
       invalid_user_defined_real: "Real definido por el usuario no válido: %{value}"
       bad_ao_uri: " con uri %{uri}"
       bad_accession_uri: "Adquisición no encontrada con uri %{uri}"
