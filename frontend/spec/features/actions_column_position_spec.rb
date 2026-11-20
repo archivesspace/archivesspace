@@ -237,6 +237,21 @@ describe 'Action Buttons (View/Edit) Position', js: true do
       end
     end
 
+    it 'keeps the action buttons compact when few columns are displayed' do
+      search_top_containers
+      compact_width = find("#{results} tbody tr:first-child .table-record-actions .btn", text: 'View')
+                      .evaluate_script('this.getBoundingClientRect().width')
+
+      with_browse_column_preferences('top_container_mgmt',
+                                     (2..AppConfig[:max_search_columns]).to_h { |column| [column, '[no value]'] }) do
+        search_top_containers
+        sparse_table_width = find("#{results} tbody tr:first-child .table-record-actions .btn", text: 'View')
+                             .evaluate_script('this.getBoundingClientRect().width')
+
+        expect(sparse_table_width).to be_within(1).of(compact_width)
+      end
+    end
+
     it 'applies the default sort to the displayed column wherever the actions column is' do
       with_preference_selections({ 'top_container_mgmt_sort_column' => 'Indicator' }) do
         search_top_containers(clear_saved_sort: true)

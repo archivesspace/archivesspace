@@ -190,6 +190,6 @@ table.table-spreadsheet {
   background-color: #ffe6e6 !important;
 }
 
-table .col {
+table .col:not(.table-record-actions) {
   width: fit-content;
 }
