@@ -115,4 +115,72 @@ describe "FindingAidPDF" do
 
     expect(html).to include "box series 1: accession 2"
   end
+
+  context "repository logo" do
+    let(:logo_url) { 'https://images.example.org/logo.png' }
+    let(:now) { Time.now.to_i }
+    let(:logo) do
+      file = Tempfile.new(['pdf_image', '.png'])
+      file.close
+      file
+    end
+
+    def build_pdf(image_url: logo_url)
+      repository = create(:repo,
+                          repo_code: "finding_aid_pdf_logo_#{now}_#{SecureRandom.hex(3)}",
+                          publish: true,
+                          url: 'https://archives.example.edu/',
+                          image_url: image_url)
+      set_repo repository
+      resource = create(:resource, title: "Resource Title #{now}", publish: true)
+      run_indexers
+
+      [repository, FindingAidPDF.new(repository.id, resource.id, ArchivesSpaceClient.instance, nil)]
+    end
+
+    after { logo.unlink }
+
+    it "puts a local copy of the logo on the title page" do
+      path = logo.path
+      expect(ASHTTP).to receive(:download_image)
+        .with(logo_url, contact_url: 'https://archives.example.edu/')
+        .and_return(logo)
+
+      _repository, pdf = build_pdf
+      html = File.read(pdf.source_file)
+
+      expect(html).to include "file://#{path}"
+      expect(html).not_to include logo_url
+    end
+
+    it "falls back to the original logo URL when the download fails" do
+      allow(ASHTTP).to receive(:download_image).and_return(nil)
+
+      _repository, pdf = build_pdf
+      html = File.read(pdf.source_file)
+
+      expect(html).to include logo_url
+    end
+
+    it "uses the default logo and downloads nothing when the repository has no logo" do
+      expect(ASHTTP).not_to receive(:download_image)
+
+      _repository, pdf = build_pdf(image_url: nil)
+      html = File.read(pdf.source_file)
+
+      expect(html).to include 'ArchivesSpaceLogo_for_pdf'
+    end
+
+    it "removes the downloaded logo once the PDF is generated" do
+      path = logo.path
+      allow(ASHTTP).to receive(:download_image).and_return(logo)
+
+      _repository, pdf = build_pdf
+      pdf_file = pdf.generate
+
+      expect(File.exist?(path)).to be false
+    ensure
+      pdf_file&.unlink
+    end
+  end
 end

@@ -14,24 +14,7 @@ Given 'a Location has been created' do
 end
 
 When 'the user filters by text with the Location building' do
-  fill_in 'Filter by text', with: "Location Building #{@uuid}"
-
-  find('#filter-text').send_keys(:enter)
-
-  rows = []
-  checks = 0
-
-  while checks < 5
-    checks += 1
-
-    begin
-      rows = all('tr', text: @uuid)
-    rescue Selenium::WebDriver::Error::JavascriptError
-      sleep 1
-    end
-
-    break if rows.length == 1
-  end
+  filter_listing_by_text("Location Building #{@uuid}", row_text: @uuid)
 end
 
 Given 'the Location view page is displayed' do

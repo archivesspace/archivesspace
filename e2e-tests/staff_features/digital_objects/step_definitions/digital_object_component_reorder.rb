@@ -92,7 +92,6 @@ When 'the user selects the first Digital Object Component from the dropdown menu
       visible: true
     ).click
   end
-  wait_for_ajax
 end
 
 When 'the user selects the second Digital Object Component from the dropdown menu' do
@@ -103,7 +102,6 @@ When 'the user selects the second Digital Object Component from the dropdown men
       visible: true
     ).click
   end
-  wait_for_ajax
 end
 
 Then 'the second Digital Object Component moves as a child into the first Digital Object Component' do

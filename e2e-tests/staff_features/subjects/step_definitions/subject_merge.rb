@@ -2,7 +2,6 @@
 
 Given 'two Subjects A & B have been created' do
   visit "#{STAFF_URL}/subjects/new"
-  wait_for_ajax
 
   fill_in 'subject_terms__0__term_', with: "subject_term_A_#{@uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
@@ -10,14 +9,13 @@ Given 'two Subjects A & B have been created' do
 
   find('button', text: 'Save Subject', match: :first).click
   expect(page).to have_selector('h2', visible: true, text: "subject_term_A_#{@uuid}")
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  expect_subject_saved
 
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_first_id = uri_parts.pop
 
   visit "#{STAFF_URL}/subjects/new"
-  wait_for_ajax
 
   fill_in 'subject_terms__0__term_', with: "subject_term_B_#{@uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
@@ -25,7 +23,7 @@ Given 'two Subjects A & B have been created' do
 
   find('button', text: 'Save Subject', match: :first).click
   expect(page).to have_selector('h2', visible: true, text: "subject_term_B_#{@uuid}")
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  expect_subject_saved
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -46,23 +44,7 @@ end
 
 When 'the user filters by text with the Subject B title in the modal' do
   within '.modal-content' do
-    fill_in 'Filter by text', with: "subject_term_B_#{@uuid}"
-    find('.search-filter button').click
-
-    rows = []
-    checks = 0
-
-    while checks < 5
-      checks += 1
-
-      begin
-        rows = all('tr', text: "subject_term_B_#{@uuid}")
-      rescue Selenium::WebDriver::Error::JavascriptError
-        sleep 1
-      end
-
-      break if rows.length == 1
-    end
+    submit_listing_filter("subject_term_B_#{@uuid}")
   end
 end
 

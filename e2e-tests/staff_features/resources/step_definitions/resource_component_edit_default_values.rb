@@ -2,7 +2,6 @@
 
 Given 'the user is on the Component Record Default page' do
   visit "#{STAFF_URL}/archival_objects/defaults"
-  wait_for_ajax
 end
 
 Then 'the Component Record Defaults page is displayed' do
@@ -12,7 +11,7 @@ end
 Then 'the new Resource Component form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Resource')
-  wait_for_ajax
+  wait_for_infinite_tree_ready_for_rde
 
   click_on 'Add Child'
 

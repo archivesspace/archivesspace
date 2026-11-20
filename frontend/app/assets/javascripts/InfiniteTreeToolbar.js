@@ -200,7 +200,10 @@ class InfiniteTreeToolbar {
     if (!this.toolbarEl) return;
 
     const isChildTypeCurrent = this.#isChildTypeCurrent();
-    const moveEnabled = this.reorderMode && this.#hasNonRootCurrentNode();
+    const moveEnabled =
+      this.reorderMode &&
+      this.#hasNonRootCurrentNode() &&
+      !this.#hasNonCurrentMultiSelection();
     const moveToggle = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-toggle'
     );
@@ -310,6 +313,7 @@ class InfiniteTreeToolbar {
   }
 
   #onSelectionCleared() {
+    if (this.reorderMode) this.#applyCurrentNodeState();
     if (this.reorderMode || this.cutActive) this.#applyCutPasteState();
   }
 
@@ -637,6 +641,17 @@ class InfiniteTreeToolbar {
     if (!this.treeContainerEl) return false;
 
     return !!this.treeContainerEl.querySelector('li.node.current:not(.root)');
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  #hasNonCurrentMultiSelection() {
+    if (!this.treeContainerEl) return false;
+
+    return !!this.treeContainerEl.querySelector(
+      'li.node.multiselected:not(.current)'
+    );
   }
 
   /**

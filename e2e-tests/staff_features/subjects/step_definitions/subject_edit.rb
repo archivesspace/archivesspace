@@ -48,9 +48,8 @@ Given 'the Subject has one Metadata Rights Declarations' do
 end
 
 Then 'the Subject does not have Metadata Rights Declarations' do
-  elements = all('#subject_metadata_rights_declarations_ li')
-
-  expect(elements.length).to eq 0
+  expect(page).to have_css('#subject_metadata_rights_declarations_')
+  expect(page).to have_no_css('#subject_metadata_rights_declarations_ li')
 end
 
 Then 'a new External Document is added to the Subject with the following values' do |form_values_table|

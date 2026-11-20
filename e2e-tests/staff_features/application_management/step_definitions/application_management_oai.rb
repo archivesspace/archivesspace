@@ -20,7 +20,7 @@ end
 
 def add_oai_set_entry(section_id, add_button_label)
   section = oai_set_section(section_id)
-  entry_count = section.all(OAI_SET_ENTRIES).length
+  entry_count = section.all(OAI_SET_ENTRIES, wait: 0).length
 
   section.find('.subrecord-form-heading').click_on add_button_label
 
@@ -31,7 +31,7 @@ end
 
 def remove_oai_set_entry(section_id, entry)
   section = oai_set_section(section_id)
-  entry_count = section.all(OAI_SET_ENTRIES).length
+  entry_count = section.all(OAI_SET_ENTRIES, wait: 0).length
 
   within entry do
     find('.subrecord-form-remove').click
@@ -43,7 +43,7 @@ end
 
 When 'the user removes every OAI set' do
   %w[repository_set sponsor_set].each do |section_id|
-    while (entry = oai_set_section(section_id).all(OAI_SET_ENTRIES).first)
+    while (entry = oai_set_section(section_id).all(OAI_SET_ENTRIES, wait: 0).first)
       remove_oai_set_entry section_id, entry
     end
   end

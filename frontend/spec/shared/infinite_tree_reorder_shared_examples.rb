@@ -129,42 +129,46 @@ RSpec.shared_examples 'moving records in reorder mode' do
       end
     end
 
-    it 'moves only the current row even when multiple rows are selected' do
-      install_accept_children_capture
-      before_order = root_child_uris
-
+    it 'disables Move while rows other than the current row are selected' do
       select_tree_row(sibling2)
-      meta_click_row(child_record.uri)
-      meta_click_row(sibling3.uri)
+      expect_infinite_tree_toolbar_move_enabled(true)
 
+      meta_click_row(child_record.uri)
       aggregate_failures do
         expect(page).to have_css("li.node[data-uri='#{sibling2.uri}'].current")
         expect(page).to have_css("li.node[data-uri='#{child_record.uri}'].multiselected")
-        expect(page).to have_css("li.node[data-uri='#{sibling3.uri}'].multiselected")
+        expect_infinite_tree_toolbar_move_enabled(false)
       end
 
-      click_infinite_tree_toolbar_move_menu
-      click_move_menu_action('up')
-      wait_for_reorder_idle
+      meta_click_row(child_record.uri)
+      expect_infinite_tree_toolbar_move_enabled(true)
 
-      request = accept_children_requests.last
-      expect(request).not_to be_nil
+      meta_click_row(sibling3.uri)
+      expect_infinite_tree_toolbar_move_enabled(false)
+
+      page.execute_script(<<~JS)
+        document.body.dispatchEvent(
+          new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+        );
+      JS
+      aggregate_failures do
+        expect(page).to have_no_css('li.node.multiselected')
+        expect_infinite_tree_toolbar_move_enabled(true)
+      end
+    end
+
+    it 'disables Move when a plain row-body click selects a row other than the current row' do
+      select_tree_row(sibling2)
+      click_tree_row(sibling3.uri)
 
       aggregate_failures do
-        expect(root_child_uris).to eq(
-          expected_sibling_order_after_move(before_order, sibling2.uri, -1)
-        )
-        expect(current_uri).to eq(sibling2.uri)
-        expect(request['body']).to include(
-          "children%5B%5D=#{ERB::Util.url_encode(sibling2.uri)}"
-        )
-        expect(request['body']).not_to include(
-          "children%5B%5D=#{ERB::Util.url_encode(child_record.uri)}"
-        )
-        expect(request['body']).not_to include(
-          "children%5B%5D=#{ERB::Util.url_encode(sibling3.uri)}"
-        )
+        expect(page).to have_css("li.node[data-uri='#{sibling2.uri}'].current")
+        expect(page).to have_css("li.node[data-uri='#{sibling3.uri}'].multiselected")
+        expect_infinite_tree_toolbar_move_enabled(false)
       end
+
+      select_tree_row(sibling3)
+      expect_infinite_tree_toolbar_move_enabled(true)
     end
   end
 end
