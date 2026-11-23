@@ -2509,3 +2509,10 @@ it:
     actions_column_position: Posizione dei pulsanti di azione (Visualizza/Modifica)
     actions_column_position_tooltip: Se i pulsanti Visualizza e Modifica compaiono a sinistra o a 
       destra di ciascuna riga in una tabella dei risultati.
+    actions_column_position_options:
+      start: Sinistra
+      end: Destra
+    locale: Selezione della lingua
+    search_browse_columns: Preferenze per la colonna di ricerca e navigazione
+    accession_browse_section: Colonne di consultazione per numero di accessione
+    resource_browse_section: Colonne di esplorazione delle risorse
