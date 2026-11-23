@@ -86,7 +86,7 @@ The copyright and licensing terms in [CONTRIBUTING.md](https://github.com/archiv
 * Use AI tools whose terms of service allow you to contribute their output under the ArchivesSpace license.
 * Watch for output that looks copied from an existing project, such as long blocks of familiar code, license headers, or distinctive comments. If you find it, remove it, or credit it if its license is compatible.
 * If your tool has a setting that blocks or flags output matching public code, turn it on.
-* Disclose AI use as described under Transparency, so maintainers can act if a licensing question comes up later.
+* Disclose AI use as described under [Transparency](#transparency), so maintainers can act if a licensing question comes up later.
 * If you have reason to believe AI output reproduces code you are not able to license to ArchivesSpace, do not submit it.
 
 # **Enforcement**
