@@ -388,6 +388,18 @@ describe 'User controller' do
 
         expect(last_response.status).to eq(403)
         expect(JSON(last_response.body)["error"]).to eq("User does not have permission to view the PUI")
+        expect(JSON(last_response.body)["code"]).to eq("PUI_PERMISSION_DENIED")
+      end
+
+      it "returns the generic login failure, not the PUI permission error, for a bad password" do
+        post "/users/admin/login", {
+          password: 'wrong',
+          pui: true
+        }
+
+        expect(last_response.status).to eq(403)
+        expect(JSON(last_response.body)["error"]).to eq("Login failed")
+        expect(JSON(last_response.body)).not_to have_key("code")
       end
 
       it "creates a pui_only-scoped session, usable only for current-user and logout" do
