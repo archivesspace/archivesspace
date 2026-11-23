@@ -2624,6 +2624,7 @@ en:
     filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
+    import_type_ead3_xml: EAD3
     import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
     import_type_subject_csv: Subject CSV

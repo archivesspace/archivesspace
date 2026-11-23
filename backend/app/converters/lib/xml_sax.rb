@@ -221,10 +221,10 @@ module ASpaceImport
         if obj.nil?
           Log.warn "Tried to set property #{property} on an object that couldn't be found"
           return false
-        end
-
-        if property.nil?
+        elsif property.nil?
           Log.warn("Can't set <#{obj.class.record_type}> <#{property}>: nil value")
+          return false
+        elsif value.nil?
           return false
         end
 
