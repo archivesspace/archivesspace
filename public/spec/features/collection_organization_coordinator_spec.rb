@@ -26,6 +26,11 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     run_indexers
   end
 
+  after(:all) do
+    @late_tree_resource&.delete
+    @resource&.delete
+  end
+
   before(:each) do
     visit "#{@resource.uri}/collection_organization"
     @records_container = find('#infinite-records-container')

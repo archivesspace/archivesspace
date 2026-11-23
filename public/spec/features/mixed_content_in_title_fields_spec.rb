@@ -193,28 +193,30 @@ describe 'Mixed Content in title fields', js: true do
       end
 
       describe 'from an index view' do
+        # Filter by @now so the record is on page 1 regardless of how many
+        # records other specs have left in the shared test database
         it 'for resources' do
-          visit '/repositories/resources'
+          visit "/repositories/resources?filter_q[]=#{@now}"
           expect(page).to have_css ".search-results .record-title > span#{@title_selector}", text: "Resource #{@now}"
         end
 
         it 'for accessions' do
-          visit '/accessions'
+          visit "/accessions?filter_q[]=#{@now}"
           expect(page).to have_css ".search-results .record-title > span#{@emph_selector}", text: "Accession #{@now}"
         end
 
         it 'for subjects' do
-          visit '/subjects'
+          visit "/subjects?filter_q[]=#{@now}"
           expect(page).to have_css ".search-results .record-title > span#{@emph_selector}", text: "Subject #{@now}"
         end
 
         it 'for agents' do
-          visit '/agents'
+          visit "/agents?filter_q[]=#{@now}"
           expect(page).to have_css ".search-results .record-title > span#{@title_selector}", text: "Agent Person #{@now}"
         end
 
         it 'for classifications' do
-          visit '/classifications'
+          visit "/classifications?filter_q[]=#{@now}"
           expect(page).to have_css ".search-results .record-title > span#{@emph_selector}", text: "Classification #{@now}"
         end
       end
