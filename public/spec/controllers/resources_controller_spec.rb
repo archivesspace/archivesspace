@@ -228,4 +228,34 @@ describe ResourcesController, type: :controller do
       end
     end
   end
+
+  describe 'page parameter validation' do
+    it 'responds 400 to a non-integer page instead of raising' do
+      get(:index, params: {page: '2zzSearch'})
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'responds 400 to a zero or negative page' do
+      get(:index, params: {page: '0'})
+      expect(response).to have_http_status(:bad_request)
+
+      get(:index, params: {page: '-1'})
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'responds 400 to a page key without a value' do
+      # params: {page: nil} would send "page=", not a bare key
+      request.query_string = 'page'
+      get(:index)
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'does not reject a valid page' do
+      get(:index, params: {page: '1'})
+
+      expect(response).not_to have_http_status(:bad_request)
+    end
+  end
 end
