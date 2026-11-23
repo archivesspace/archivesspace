@@ -81,7 +81,7 @@ The policy does not cover large scale initiatives which may significantly change
 
 # **Copyright & Legal**
 
-The copyright and licensing terms in [CONTRIBUTING.md](https://github.com/archivesspace/archivesspace/blob/master/CONTRIBUTING.md) apply to all contributions, including AI-assisted ones. When you use AI tools, take reasonable care that the output can be contributed under the ArchivesSpace license:
+The copyright and licensing terms in [CONTRIBUTING.md](https://github.com/archivesspace/archivesspace/blob/master/CONTRIBUTING.md) apply to all contributions, including AI-assisted ones. When you use AI tools, take reasonable care that the output can be contributed under the ArchivesSpace license. Be sure to:
 
 * Use AI tools whose terms of service allow you to contribute their output under the ArchivesSpace license.
 * Watch for output that looks copied from an existing project, such as long blocks of familiar code, license headers, or distinctive comments. If you find it, remove it, or credit it if its license is compatible.
