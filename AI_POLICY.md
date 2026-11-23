@@ -77,7 +77,7 @@ The review summary MUST list all AI tools used, along with a description of thei
 
 ## Large scale initiatives
 
-The policy does not cover the large scale initiatives which may significantly change the ways the project operates or lead to exponential growth in contributions in some parts of the project. Such initiatives need to be discussed separately with the ArchivesSpace Program Team.
+The policy does not cover large scale initiatives which may significantly change the ways the project operates or lead to exponential growth in contributions in some parts of the project. Such initiatives need to be discussed separately with the ArchivesSpace Program Team.
 
 # **Copyright & Legal**
 
