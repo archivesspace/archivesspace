@@ -1,18 +1,43 @@
+<%
+  help_enabled = ArchivesSpaceHelp.enabled?
+  show_reorder_help = help_enabled && ArchivesSpaceHelp.topic?('tree_reorder_mode')
+  show_load_bulk_help = help_enabled && ArchivesSpaceHelp.topic?('resource_load_via_spreadsheet')
+%>
 <div
   id="infinite-tree-toolbar"
   class="infinite-tree-toolbar btn-toolbar"
   role="toolbar"
   aria-label="<%= I18n.t('tree.toolbar_aria_label') %>"
 >
-  <button
-    type="button"
-    class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle js-itree-toolbar-reorder-toggle"
-    data-itree-action="reorder-toggle"
-    data-label-enable-reorder="<%= h(I18n.t('actions.enable_reorder')) %>"
-    data-label-reorder-active="<%= h(I18n.t('actions.reorder_active')) %>"
+  <div
+    class="btn-group js-itree-toolbar-reorder-group"
+    role="group"
+    aria-label="<%= I18n.t('actions.enable_reorder') %>"
   >
-    <%= I18n.t('actions.enable_reorder') %>
-  </button>
+    <button
+      type="button"
+      class="btn btn-sm btn-default infinite-tree-toolbar__btn infinite-tree-toolbar__btn--reorder-toggle<%= ' border-right-0' if show_reorder_help %> js-itree-toolbar-reorder-toggle"
+      data-itree-action="reorder-toggle"
+      data-label-enable-reorder="<%= h(I18n.t('actions.enable_reorder')) %>"
+      data-label-reorder-active="<%= h(I18n.t('actions.reorder_active')) %>"
+    >
+      <%= I18n.t('actions.enable_reorder') %>
+    </button>
+    <% if show_reorder_help %>
+      <a
+        target="_blank"
+        class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-reorder-mode-help"
+        id="reorder_mode_help_icon"
+        href="<%= ArchivesSpaceHelp.url_for_topic('tree_reorder_mode') %>"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        title="<%= t('help.topics.tree_reorder_mode') %>"
+        data-container="body"
+      >
+        <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
+      </a>
+    <% end %>
+  </div>
 
   <div class="btn-group infinite-tree-toolbar__group ml-1 js-itree-toolbar-cut-paste-group" role="group" aria-label="<%= I18n.t('actions.cut_paste_group', default: 'Cut and paste') %>">
     <button
@@ -112,23 +137,25 @@
       >
         <button
           type="button"
-          class="btn btn-sm btn-default infinite-tree-toolbar__btn border-right-0 js-itree-toolbar-load-bulk"
+          class="btn btn-sm btn-default infinite-tree-toolbar__btn<%= ' border-right-0' if show_load_bulk_help %> js-itree-toolbar-load-bulk"
           data-itree-action="load-bulk"
         >
           <%= I18n.t('resource._frontend.action.load_bulk') %>
         </button>
-        <a
-          target="_blank"
-          class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-load-via-spreadsheet-help"
-          id="load_via_spreadsheet_help_icon"
-          href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>"
-          data-toggle="tooltip"
-          data-placement="auto"
-          title="<%= t('help.topics.resource_load_via_spreadsheet') %>"
-          data-container="body"
-        >
-          <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
-        </a>
+        <% if show_load_bulk_help %>
+          <a
+            target="_blank"
+            class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-load-via-spreadsheet-help"
+            id="load_via_spreadsheet_help_icon"
+            href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="<%= t('help.topics.resource_load_via_spreadsheet') %>"
+            data-container="body"
+          >
+            <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
+          </a>
+        <% end %>
       </div>
     <% end %>
     <% if show_rde %>

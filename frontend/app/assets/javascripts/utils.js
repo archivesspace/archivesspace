@@ -285,7 +285,7 @@ $(function () {
 
       var tooltipOptions = {
         container: 'body',
-        placement: 'auto',
+        placement: $this.data('placement') || 'auto',
       };
       $this.tooltip(tooltipOptions).addClass('initialised');
 

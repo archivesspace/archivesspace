@@ -148,6 +148,7 @@ ja:
       agent_required: 必須フィールドの編集に関するヘルプ
       agent_merge: エージェントのマージに関するヘルプ
       resource_load_via_spreadsheet: スプレッドシートを介したロードに関するヘルプ
+      tree_reorder_mode: 並べ替えモードに関するヘルプ
       bulk_archival_object_updater_job: アーカイバルオブジェクトの一括更新に関するヘルプ
       agent_identifiers: エンティティIDに関するヘルプ
       agent_genders: ジェンダーに関するヘルプ
