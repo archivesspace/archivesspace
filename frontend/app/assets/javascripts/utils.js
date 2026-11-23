@@ -1009,8 +1009,6 @@ $(function () {
 });
 
 AS.clickRecordFormSaveButton = function () {
-  // A modal (Rapid Data Entry, linker "create", etc.) owns the screen; never
-  // save the record form underneath it.
   if (document.querySelector('.modal.show')) return;
 
   const focused = document.activeElement;
@@ -1023,6 +1021,33 @@ AS.clickRecordFormSaveButton = function () {
     'button[type="submit"].btn-primary:not([name="plus_one"])'
   );
   if (saveButton) saveButton.click();
+};
+
+AS.closeRecordForm = function () {
+  if (document.querySelector('.modal.show')) return;
+
+  const closeButton = document.querySelector(
+    '.js-itree-toolbar-finish-editing'
+  );
+  if (closeButton) {
+    // An inline "new child" form sets the hash to #new: nothing to close yet.
+    if (location.hash === '#new') return;
+
+    const disabled =
+      closeButton.classList.contains('disabled') ||
+      closeButton.getAttribute('aria-disabled') === 'true';
+    if (!disabled) closeButton.click();
+    return;
+  }
+
+  const focused = document.activeElement;
+  const form =
+    (focused && focused.closest('form.aspace-record-form')) ||
+    document.querySelector('form.aspace-record-form');
+  if (!form) return;
+
+  const target = form.dataset.readonlyPath;
+  if (target) window.location.href = target + location.hash;
 };
 
 // shortcuts
@@ -1073,8 +1098,7 @@ $(function () {
       }
       case 'x': {
         event.preventDefault();
-        const readonlyPath = location.pathname.replace(/\/edit$/, '');
-        window.location.href = readonlyPath + location.hash;
+        AS.closeRecordForm();
         break;
       }
     }
