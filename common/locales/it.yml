@@ -1363,6 +1363,93 @@ it:
     display_thumbnail_must_be_published: Deve essere pubblicato per essere la miniatura di 
       visualizzazione
     display_link_must_be_published: Deve essere pubblicato per essere il link di visualizzazione
+    agent_must_be_unique: I record degli agenti non possono essere identici
+    subject_must_be_unique: I record dei soggetti non possono essere identici
+    subject_heading_identifier_must_be_unique_within_source: L'identificatore dell'intestazione di 
+      soggetto deve essere univoco all'interno della fonte
+    missing_required_property: La proprietà è obbligatoria ma risultava mancante
+    missing_required_subrecord: Il sottorecord è obbligatorio ma risultava mancante
+    missing_property: Mancava un bene
+    not_a_valid_date: Data non valida
+    must_not_be_before_begin: non deve precedere l'inizio
+    must_be_in_yyyy-mm-dd_format: La data deve essere nel formato aaaa-mm-gg
+    is_required_unless_a_begin_or_end_date_is_given: è richiesto, a meno che non venga indicata una 
+      data di inizio o di fine
+    is_required_unless_an_expression_or_an_end_date_is_given: è obbligatorio a meno che non venga 
+      fornita un'espressione o una data di fine
+    is_required_unless_an_expression_or_a_begin_date_is_given: è richiesto, a meno che non venga 
+      fornita un'espressione o una data di inizio
+    must_specify_either_a_date_or_a_timestamp: è necessario specificare una data o un timestamp
+    did_not_match_regular_expression: Non corrisponde al modello previsto %{regexp}
+    too_few_characters: Deve contenere almeno %{min_length} caratteri
+    too_many_characters: Deve essere di massimo %{max_length} caratteri
+    max_length_is_50_characters: Non deve superare i 50 caratteri
+    too_few_items: È richiesto almeno %{min_items} elemento/i
+    must_contain_at_least_one_subnote: Deve contenere almeno una sotto-nota
+    must_contain_at_least_one_language: Deve contenere almeno una lingua
+    invalid_value: Valore non valido '%{value}'. Deve essere uno tra '%{valid_set}'
+    wrong_type: Deve essere un/a %{desired_type} (hai fornito un/a %{actual_type})
+    must_be_one_of: Deve essere uno tra %{allowed_types} (hai fornito un %{actual_type})
+    id_already_in_use: Quell'ID è già in uso
+    username_already_in_use: Il nome utente '%{username}' è già in uso
+    cant_be_empty: non può essere vuoto
+    password_did_not_match: Il valore inserito non corrisponde alla password
+    group_code_already_in_use: Il codice di gruppo deve essere univoco all'interno di un repository
+    one_or_more_required_(or_enter_a_title): uno o più campi obbligatori (oppure inserisci un 
+      titolo)
+    must_not_be_an_empty_string_(or_enter_a_date): non deve essere una stringa vuota (oppure 
+      inserisci una data)
+    is_required_when__source__is_blank: è richiesto quando 'Source' è vuoto
+    is_required_when__rules__is_blank: è richiesto quando 'Regole' è vuoto
+    is_required_if_there_is_an_authority_id: è richiesto se è presente un 'Authority ID'
+    you_must_provide_a_label__title_or_date: È necessario fornire un'etichetta, un titolo o una data
+    location_fields_error: |
+      È necessario specificare un codice a barre, una classificazione, oppure sia un'etichetta per la coordinata 1 che un indicatore per la coordinata 1
+    location_must_be_unique_within_a_record: Deve essere univoco all'interno di un record
+    location_cannot_be_deleted_if_linked: Il record di ubicazione è attualmente collegato a uno o 
+      più record di istanza e non può essere eliminato. Si prega di collegare tali istanze a nuove 
+      ubicazioni prima di eliminare il record di ubicazione.
+    cannot_be_previous_if_location_is_not_temporary: Impossibile trasferire al precedente se la 
+      posizione non è temporanea.
+    authority_id_must_be_unique: L'ID autorità è già in uso
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Deve essere un numero 
+      con non più di nove cifre e cinque posizioni decimali.
+    container_2_requires_both_a_type_and_indicator: È necessario fornire un indicatore se si 
+      fornisce un tipo
+    container_3_requires_both_a_type_and_indicator: È necessario fornire un indicatore se si 
+      fornisce un tipo
+    container_2_is_required_if_container_3_is_provided: È necessario fornire un contenitore figlio 
+      (Child Container) se si fornisce un contenitore nipote (Grandchild Container)
+    a_barcode_must_be_unique_within_a_repository: Un codice a barre deve essere univoco all'interno 
+      di un archivio
+    container_profile_name_not_unique: Il nome del profilo del container deve essere univoco
+    must_be_a_number_with_no_more_than_2_decimal_places: Deve essere un numero con non più di 2 
+      cifre decimali
+    length_must_be_within_the_range_set_in_configuration: La lunghezza deve rientrare 
+      nell'intervallo stabilito nella configurazione
+    is_required_if_status_is_previous: è obbligatorio se 'Stato' è 'Precedente'
+    location_profile_name_not_unique: Il nome del profilo della posizione deve essere univoco
+    must_be_a_positive_integer: Deve essere un numero intero positivo o zero
+    must_be_unique_to_its_level_in_the_tree: Questo valore deve essere univoco per questo livello 
+      della gerarchia
+    short_name_already_in_use: Il nome breve del repository deve essere univoco all'interno di 
+      questo ArchivesSpace
+    custom_report_template_name_not_unique: Il nome del modello di report personalizzato deve essere
+      univoco.
+    custom_report_must_include_field_or_subreport: Il modello di report personalizzato deve 
+      includere almeno un campo o un sottoreport.
+    missing_end_filter_date: Per filtrare per data sono necessarie una data di inizio e una di fine.
+      Si prega di indicare una data di fine.
+    missing_start_filter_date: Per filtrare per data sono necessarie una data di inizio e una di 
+      fine. Si prega di indicare una data di inizio.
+    must_be_a_valid_email_address: Il campo dell'indirizzo e-mail deve contenere un indirizzo valido
+    is_not_present: Campo obbligatorio mancante
+    oai_set_name_unique: I nomi dei set OAI devono essere univoci nell'ambito dei set del repository
+      e dei set degli sponsor
+    oai_set_name_matches_level: I nomi dei set OAI non possono ripetere un livello di descrizione 
+      che possiede già un proprio set
+    invalid_characters: Contiene caratteri non validi
+    conflicting_record: Visualizza record in conflitto
   lang_material:
     _plural: Lingue
     _singular: Lingua
@@ -2516,3 +2603,26 @@ it:
     search_browse_columns: Preferenze per la colonna di ricerca e navigazione
     accession_browse_section: Colonne di consultazione per numero di accessione
     resource_browse_section: Colonne di esplorazione delle risorse
+    archival_object_browse_section: Colonne di esplorazione degli oggetti archivistici
+    digital_object_browse_section: Colonne di esplorazione degli oggetti digitali
+    digital_object_component_browse_section: Colonne di esplorazione dei componenti di oggetti 
+      digitali
+    subject_browse_section: Esplora le rubriche per argomento
+    agent_browse_section: Colonne di esplorazione agente
+    location_browse_section: Esplora le rubriche per località
+    event_browse_section: Colonne di esplorazione eventi
+    collection_management_browse_section: 'Gestione delle collezioni: Esplora le rubriche'
+    top_container_browse_section: Esplora le colonne del contenitore principale
+    top_container_mgmt_browse_section: Inizio Gestione contenitori Sfoglia colonne
+    classification_browse_section: Classificazione - Esplora le colonne
+    assessment_browse_section: Esamina le colonne di valutazione
+    repositories_browse_section: Esplora le colonne del repository
+    location_profile_browse_section: Profilo della località - Esplora le colonne
+    container_profile_browse_section: Profilo del contenitore - Esplora le colonne
+    multi_browse_section: Cerca nelle colonne
+    job_browse_section: Colonne dei processi in background
+    note_order_section: Ordine delle note
+    accept_default_message: 'Accetta impostazione predefinita:'
+    no_value: '[nessun valore]'
+    _singular: Impostazioni predefinite
+    _plural: Impostazioni predefinite
