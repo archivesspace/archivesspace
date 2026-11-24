@@ -7,6 +7,9 @@ describe EventBuilder do
     "date_label",
     "event_outcome",
     "linked_agent_event_roles",
+    "date_certainty",
+    "date_era",
+    "date_calendar",
   ].freeze
 
   CANONICAL_VALUES = {
@@ -19,6 +22,9 @@ describe EventBuilder do
     ["event_outcome", "pass"] => "pass",
     ["linked_agent_event_roles", "Implementer"] => "implementer",
     ["linked_agent_event_roles", "implementer"] => "implementer",
+    ["date_certainty", "Approximate"] => "approximate",
+    ["date_era", "ce"] => "ce",
+    ["date_calendar", "gregorian"] => "gregorian",
   }.freeze
 
   def controlled_value_resolver
@@ -127,6 +133,79 @@ describe EventBuilder do
 
     expect(builder.errors).to eq([
       { :code => :required, :attribute => :date, :value => nil },
+    ])
+  end
+
+  it "builds a single date with begin, expression, certainty, era, and calendar" do
+    resolver = controlled_value_resolver
+    builder = builder_for(
+      :resolver => resolver,
+      :date => "1999-03-03",
+      :date_expression => "early March 1999",
+      :date_certainty => "Approximate",
+      :date_era => "ce",
+      :date_calendar => "gregorian"
+    )
+
+    aggregate_failures do
+      expect(builder.errors).to eq([])
+      expect(materialize(builder)["date"]).to eq(
+        "jsonmodel_type" => "date",
+        "label" => "other",
+        "date_type" => "single",
+        "begin" => "1999-03-03",
+        "expression" => "early March 1999",
+        "certainty" => "approximate",
+        "era" => "ce",
+        "calendar" => "gregorian"
+      )
+      expect(resolver.calls).to eq([
+        ["event_event_type", "cataloged"],
+        ["date_certainty", "Approximate"],
+        ["date_era", "ce"],
+        ["date_calendar", "gregorian"],
+      ])
+    end
+  end
+
+  it "accepts an expression without a begin date" do
+    builder = builder_for(:date => nil, :date_expression => "undated")
+
+    aggregate_failures do
+      expect(builder.errors).to eq([])
+      expect(materialize(builder)["date"]).to eq(
+        "jsonmodel_type" => "date",
+        "label" => "other",
+        "date_type" => "single",
+        "expression" => "undated"
+      )
+    end
+  end
+
+  it "rejects certainty, era, and calendar values that are not in their lists" do
+    builder = builder_for(
+      :date_certainty => "nope-certainty",
+      :date_era => "nope-era",
+      :date_calendar => "nope-calendar"
+    )
+
+    expect(builder.errors).to eq([
+      { :code => :invalid, :attribute => :date_certainty, :value => "nope-certainty" },
+      { :code => :invalid, :attribute => :date_era, :value => "nope-era" },
+      { :code => :invalid, :attribute => :date_calendar, :value => "nope-calendar" },
+    ])
+  end
+
+  it "reports each date qualifier that has no begin or expression" do
+    builder = builder_for(
+      :date => nil,
+      :date_certainty => "Approximate",
+      :date_calendar => "gregorian"
+    )
+
+    expect(builder.errors).to eq([
+      { :code => :requires_date, :attribute => :date_certainty, :value => "Approximate" },
+      { :code => :requires_date, :attribute => :date_calendar, :value => "gregorian" },
     ])
   end
 

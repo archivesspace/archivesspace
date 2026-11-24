@@ -1959,6 +1959,16 @@ it:
       bad_headers: "Intestazioni CSV non valide: %{columns}"
       duplicate_file_version_headers: "Colonne di Versione File duplicate: %{columns}"
       csv_syntax_error: "Errore di importazione CSV (%{type}): %{element}"
+      event_without_digital_object: "Il gruppo evento %{index} può essere compilato solo in una riga che crea un oggetto digitale, non un componente dell'oggetto digitale"
+      event_required_field: "Il gruppo evento %{index}, campo %{field}, è obbligatorio"
+      event_date_required: "Il gruppo evento %{index} richiede %{begin_field} o %{expression_field}"
+      event_field_requires_date: "Il gruppo evento %{index}, campo %{field}, richiede %{begin_field} o %{expression_field}: '%{value}'"
+      event_agent_type_with_uri: "Il gruppo evento %{index}, campo %{field}, deve essere vuoto quando %{record_field} è un URI: '%{value}'"
+      event_agent_unsupported_type: "Il gruppo evento %{index}, campo %{field}, non è un tipo di agente supportato: '%{value}'; Valori accettati: %{accepted}"
+      event_invalid_date_begin: "Il gruppo evento %{index}, campo %{field}, non è una data valida; usare AAAA, AAAA-MM o AAAA-MM-GG: '%{value}'"
+      event_invalid_agent_record_id: "Il gruppo evento %{index}, campo %{field}, deve essere un ID numerico o un URI completo dell'agente: '%{value}'"
+      event_invalid_controlled_value: "Il gruppo evento %{index}, campo %{field}, non è un valore del suo elenco di valori controllati: '%{value}'"
+      event_agent_not_found: "Il gruppo evento %{index}, campo %{field}, non corrisponde a un agente esistente: '%{value}'"
   group:
     group_code: Codice di gruppo
     group_code_tooltip: |

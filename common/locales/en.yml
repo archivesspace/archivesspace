@@ -2948,6 +2948,16 @@ en:
       bad_headers: "Invalid CSV headers: %{columns}"
       duplicate_file_version_headers: "Duplicate File Version columns: %{columns}"
       csv_syntax_error: "CSV import error (%{type}): %{element}"
+      event_without_digital_object: "Event group %{index} can only be filled on a row that creates a Digital Object, not a Digital Object Component"
+      event_required_field: "Event group %{index}, field %{field}, is required"
+      event_date_required: "Event group %{index} requires %{begin_field} or %{expression_field}"
+      event_field_requires_date: "Event group %{index}, field %{field}, requires %{begin_field} or %{expression_field}: '%{value}'"
+      event_agent_type_with_uri: "Event group %{index}, field %{field}, must be blank when %{record_field} is a URI: '%{value}'"
+      event_agent_unsupported_type: "Event group %{index}, field %{field}, is not a supported Agent type: '%{value}'; must be one of: %{accepted}"
+      event_invalid_date_begin: "Event group %{index}, field %{field}, is not a valid date; use YYYY, YYYY-MM, or YYYY-MM-DD: '%{value}'"
+      event_invalid_agent_record_id: "Event group %{index}, field %{field}, must be a numeric ID or a full Agent URI: '%{value}'"
+      event_invalid_controlled_value: "Event group %{index}, field %{field}, is not a value in its controlled value list: '%{value}'"
+      event_agent_not_found: "Event group %{index}, field %{field}, does not match an existing Agent: '%{value}'"
   bulk_import:
     templates: Bulk Import Templates
     row: "Row %{row}"
