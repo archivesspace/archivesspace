@@ -137,8 +137,8 @@ class Enumeration < Sequel::Model(:enumeration)
 
     if opts[:default_value] != existing_default
       if opts[:default_value]
-        new_default = EnumerationValue[:value => opts[:default_value]]
-        return obj if new_default.nil? #just move along if the default isn't in the values table
+        new_default = EnumerationValue[:enumeration_id => obj.id, :value => opts[:default_value], :suppressed => 0]
+        return obj if new_default.nil? #just move along if the default isn't an unsuppressed value of this list
         obj.default_value = new_default[:id]
       else
         obj.default_value = nil

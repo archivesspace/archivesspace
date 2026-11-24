@@ -79,3 +79,21 @@ end
 Then 'the suppressed controlled value is displayed' do
   expect(page).to have_text "#{@controlled_value} (suppressed)"
 end
+
+Given 'the added controlled value is set as the default' do
+  within(find('tbody tr', text: @controlled_value)) { click_on 'Set as Default' }
+
+  expect(page).to have_text 'Default Value Set'
+  within(find('tbody tr', text: @controlled_value)) { expect(page).to have_link 'Unset Default' }
+end
+
+Then 'the added controlled value cannot be set as the default' do
+  within(find('tbody tr', text: @controlled_value)) { expect(page).not_to have_link 'Set as Default' }
+end
+
+Then 'the added controlled value is not the default' do
+  within(find('tbody tr', text: @controlled_value)) do
+    expect(page).not_to have_link 'Unset Default'
+    expect(find('td:nth-child(5)').text).to be_empty
+  end
+end

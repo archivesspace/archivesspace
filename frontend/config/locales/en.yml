@@ -1114,6 +1114,7 @@ en:
         delete_error: Failed to delete Value
         delete_conflict: "Unable to delete Value as it's currently being referenced by a record"
         default_set: Default Value Set
+        default_set_error: Failed to set Default Value
         created: Value Created
         create_error: Failed to create Value
         merged: Value Merged

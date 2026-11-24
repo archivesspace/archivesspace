@@ -1560,6 +1560,9 @@ it:
         delete_conflict: Impossibile eliminare il valore poiché è attualmente 
           referenziato da un record
         default_set: Imposta il valore predefinito
+        default_set_error: Impossibile impostare il valore predefinito
+        suppressed_value: "%{value} (soppresso)"
+        saved_with_suppressed_values: "Questo record è stato salvato con valori controllati soppressi: %{values}"
         created: Valore creato
         create_error: Non è stato possibile creare valore
         merged: Valore unito

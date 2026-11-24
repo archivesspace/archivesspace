@@ -1116,6 +1116,9 @@ es:
         delete_conflict: "No se puede eliminar el valor como lo es actualmente que
           se hace referencia mediante un registro"
         default_set: Conjunto de valores predeterminado
+        default_set_error: No se pudo establecer el valor predeterminado
+        suppressed_value: "%{value} (bloqueado)"
+        saved_with_suppressed_values: "Este registro se guardó con valores controlados bloqueados: %{values}"
         created: Valor creado
         create_error: No se pudo crear valor
         merged: Valor combinado

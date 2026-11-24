@@ -2,6 +2,27 @@ require 'spec_helper'
 
 describe "Enumeration controller" do
 
+  before(:all) do
+    DB.open do |db|
+      if !db.table_exists?(:controller_enum_model)
+        db.create_table(:controller_enum_model) do
+          primary_key :id
+          Integer :my_enum_id
+          Integer :lock_version, :default => 0
+          DateTime :create_time
+          DateTime :system_mtime
+          DateTime :user_mtime
+          String :created_by
+          String :last_modified_by
+        end
+
+        db.alter_table(:controller_enum_model) do
+          add_foreign_key([:my_enum_id], :enumeration_value, :key => :id)
+        end
+      end
+    end
+  end
+
   before(:each) do
     enum = $testdb[:enumeration].filter(:name => 'test_enum')
     if enum.count > 0
@@ -11,23 +32,6 @@ describe "Enumeration controller" do
 
     @enum_id = JSONModel(:enumeration).from_hash(:name => "test_enum",
                                                  :values => ["abc", "def"]).save
-
-    if !$testdb.table_exists?(:controller_enum_model)
-      $testdb.create_table(:controller_enum_model) do
-        primary_key :id
-        Integer :my_enum_id
-        Integer :lock_version, :default => 0
-        DateTime :create_time
-        DateTime :system_mtime
-        DateTime :user_mtime
-        String :created_by
-        String :last_modified_by
-      end
-
-      $testdb.alter_table(:controller_enum_model) do
-        add_foreign_key([:my_enum_id], :enumeration_value, :key => :id)
-      end
-    end
 
     @model = Class.new(Sequel::Model(:controller_enum_model)) do
       include ASModel
@@ -135,6 +139,50 @@ describe "Enumeration controller" do
     obj = JSONModel(:enumeration).find(@enum_id)
     expect(obj.default_value).to be_nil
 
+  end
+
+  it "ignores a suppressed value as the default" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    JSONModel(:enumeration_value).find(obj.enumeration_values[0]['id']).set_suppressed(true)
+
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value = obj.enumeration_values[0]['value']
+    obj.save
+
+    expect(JSONModel(:enumeration).find(@enum_id).default_value).to be_nil
+  end
+
+  it "unsets the default when its value is suppressed" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value = obj.enumeration_values[0]['value']
+    obj.save
+
+    JSONModel(:enumeration_value).find(obj.enumeration_values[0]['id']).set_suppressed(true)
+
+    expect(JSONModel(:enumeration).find(@enum_id).default_value).to be_nil
+  end
+
+  it "keeps the default when another value is suppressed" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value = obj.enumeration_values[0]['value']
+    obj.save
+
+    JSONModel(:enumeration_value).find(obj.enumeration_values[1]['id']).set_suppressed(true)
+
+    expect(JSONModel(:enumeration).find(@enum_id).default_value).to eq(obj.enumeration_values[0]['value'])
+  end
+
+  it "sets the default to the value of its own list when another list has the same value" do
+    JSONModel(:enumeration).from_hash(:name => 'other_test_enum', :values => ['shared']).save
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values += ['shared']
+    obj.save
+
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value = 'shared'
+    obj.save
+
+    expect(Enumeration[@enum_id].default_value).to eq(EnumerationValue[:enumeration_id => @enum_id, :value => 'shared'].id)
   end
 
   it "can suppress and unsuppress  values" do

@@ -55,6 +55,7 @@ class EnumerationValue < Sequel::Model(:enumeration_value)
 
   def self.handle_suppressed(ids, val)
     obj = super
+    Enumeration.filter(:default_value => ids).update(:default_value => nil, :system_mtime => Time.now) if val
     Enumeration.broadcast_changes
     obj
   end
