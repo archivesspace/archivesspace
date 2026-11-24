@@ -2716,6 +2716,15 @@ de:
       bad_headers: "Ungültige CSV-Spaltenüberschriften: %{columns}"
       duplicate_file_version_headers: "Doppelte Dateiversions-Spalten: %{columns}"
       csv_syntax_error: "CSV-Importfehler (%{type}): %{element}"
+      event_without_digital_object: "Ereignisgruppe %{index} darf nur in einer Zeile ausgefüllt werden, die ein Digitales Objekt erstellt, nicht eine Komponente des digitalen Objekts"
+      event_required_field: "Ereignisgruppe %{index}, Feld %{field}, ist erforderlich"
+      event_date_required: "Ereignisgruppe %{index} erfordert %{begin_field} oder %{expression_field}"
+      event_field_requires_date: "Ereignisgruppe %{index}, Feld %{field}, erfordert %{begin_field} oder %{expression_field}: '%{value}'"
+      event_agent_type_with_uri: "Ereignisgruppe %{index}, Feld %{field}, muss leer sein, wenn %{record_field} eine URI ist: '%{value}'"
+      event_agent_unsupported_type: "Ereignisgruppe %{index}, Feld %{field}, ist kein unterstützter Agententyp: '%{value}'; Zulässige Werte: %{accepted}"
+      event_invalid_date_begin: "Ereignisgruppe %{index}, Feld %{field}, ist kein gültiges Datum; verwenden Sie JJJJ, JJJJ-MM oder JJJJ-MM-TT: '%{value}'"
+      event_invalid_agent_record_id: "Ereignisgruppe %{index}, Feld %{field}, muss eine numerische ID oder eine vollständige Agenten-URI sein: '%{value}'"
+      event_invalid_controlled_value: "Ereignisgruppe %{index}, Feld %{field}, ist kein Wert in seiner Aufzählungs-Liste: '%{value}'"
   bulk_import:
     processing_row: Verarbeite Zeile %{row}
     max_file_info: '%{size}K und %{rows} Zeilen'

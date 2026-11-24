@@ -28,13 +28,14 @@ class EventBuilder
       "linked_agents" => [linked_agent(system_agent_ref)],
     }
 
-    if @date
-      event["date"] = {
+    if @date || @date_expression
+      date = {
         "jsonmodel_type" => "date",
-        "label" => @date_label,
         "date_type" => "single",
-        "begin" => @date,
       }
+      date["begin"] = @date if @date
+      date["expression"] = @date_expression if @date_expression
+      event["date"] = date.merge(@date_qualifiers)
     end
 
     event["outcome"] = @outcome if @outcome
@@ -46,7 +47,7 @@ class EventBuilder
 
   def canonicalize(attributes, resolver)
     canonicalize_event_type(attributes[:event_type], resolver)
-    canonicalize_date(attributes[:date], attributes[:date_label], resolver)
+    canonicalize_date(attributes, resolver)
     canonicalize_outcome(attributes[:outcome], attributes[:outcome_note], resolver)
     canonicalize_agent(
       attributes[:agent_record_id],
@@ -70,32 +71,47 @@ class EventBuilder
     end
   end
 
-  def canonicalize_date(date, date_label, resolver)
-    date_present = !blank?(date)
-    label_present = !blank?(date_label)
+  def canonicalize_date(attributes, resolver)
+    date = attributes[:date]
+    expression = attributes[:date_expression]
+    qualifiers = {
+      :date_label => attributes[:date_label],
+      :date_certainty => attributes[:date_certainty],
+      :date_era => attributes[:date_era],
+      :date_calendar => attributes[:date_calendar],
+    }.reject { |_attribute, value| blank?(value) }
 
-    if date_present
+    if !blank?(date)
       if valid_date?(date)
         @date = freeze_copy(date)
       else
         add_error(:invalid, :date, date)
       end
-    elsif label_present
-      add_error(:requires_date, :date_label, date_label)
-    else
-      add_error(:required, :date)
+    end
+    @date_expression = freeze_copy(expression) unless blank?(expression)
+
+    if blank?(date) && blank?(expression)
+      if qualifiers.empty?
+        add_error(:required, :date)
+      else
+        qualifiers.each { |attribute, value| add_error(:requires_date, attribute, value) }
+      end
     end
 
-    if label_present
-      canonical_label = resolver.call("date_label", date_label)
-      if canonical_label.nil?
-        add_error(:invalid, :date_label, date_label)
-      elsif @date
-        @date_label = freeze_copy(canonical_label)
+    canonicalize_date_qualifiers(qualifiers, resolver)
+  end
+
+  def canonicalize_date_qualifiers(qualifiers, resolver)
+    @date_qualifiers = {}
+    qualifiers.each do |attribute, value|
+      canonical_value = resolver.call(attribute.to_s, value)
+      if canonical_value.nil?
+        add_error(:invalid, attribute, value)
+      elsif @date || @date_expression
+        @date_qualifiers[attribute.to_s.delete_prefix("date_")] = freeze_copy(canonical_value)
       end
-    elsif @date
-      @date_label = freeze_copy("other")
     end
+    @date_qualifiers["label"] ||= freeze_copy("other") if @date || @date_expression
   end
 
   def canonicalize_outcome(outcome, outcome_note, resolver)

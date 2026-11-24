@@ -20,7 +20,8 @@ class BatchImportRunner < JobRunner
     ReferenceError,
     NotFoundException,
     ASpaceImport::CSVConvert::CSVSyntaxException,
-    AccessionConverterError
+    AccessionConverterError,
+    DigitalObjectConverterError
   ].freeze
 
   def run
