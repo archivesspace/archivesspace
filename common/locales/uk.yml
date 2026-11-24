@@ -2468,6 +2468,15 @@ uk:
       bad_headers: "Недійсні заголовки CSV: %{columns}"
       duplicate_file_version_headers: "Дубльовані стовпці Версії Файлу: %{columns}"
       csv_syntax_error: "Помилка імпорту CSV (%{type}): %{element}"
+      event_without_digital_object: "Групу події %{index} можна заповнювати лише в рядку, який створює цифровий об'єкт, а не компонент цифрового об'єкта"
+      event_required_field: "Група події %{index}, поле %{field}, є обов'язковим"
+      event_date_required: "Група події %{index} потребує %{begin_field} або %{expression_field}"
+      event_field_requires_date: "Група події %{index}, поле %{field}, потребує %{begin_field} або %{expression_field}: '%{value}'"
+      event_agent_type_with_uri: "Група події %{index}, поле %{field}, має бути порожнім, коли %{record_field} є URI: '%{value}'"
+      event_agent_unsupported_type: "Група події %{index}, поле %{field}, не є підтримуваним типом агента: '%{value}'; Допустимі значення: %{accepted}"
+      event_invalid_date_begin: "Група події %{index}, поле %{field}, не є дійсною датою; використовуйте РРРР, РРРР-ММ або РРРР-ММ-ДД: '%{value}'"
+      event_invalid_agent_record_id: "Група події %{index}, поле %{field}, має бути числовим ідентифікатором або повним URI агента: '%{value}'"
+      event_invalid_controlled_value: "Група події %{index}, поле %{field}, не є значенням зі свого списку контрольованих значень: '%{value}'"
   bulk_import:
     templates: Шаблони масового імпорту
     row: Рядок %{row}

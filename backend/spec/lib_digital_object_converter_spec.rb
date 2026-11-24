@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
 require 'converter_spec_helper'
+require 'csv'
 
 require_relative '../app/converters/digital_object_converter'
 
@@ -14,7 +15,7 @@ describe 'Digital Object converter' do
   before(:all) do
     test_file = File.expand_path("../../frontend/public/bulk_import_templates/aspace_digital_object_import_template.csv",
                                  File.dirname(__FILE__))
-    @records = convert(test_file)
+    @records = RequestContext.open(:current_username => 'admin') { convert(test_file) }
     @digital_objects = @records.select {|r| r['jsonmodel_type'] == 'digital_object' }
   end
 
@@ -176,6 +177,176 @@ describe 'Digital Object converter' do
       expect(@compat_dos[0]['file_versions'][0]['file_uri']).to eq('http://example.com/oldstyle.jpg')
       expect(@compat_dos[0]['file_versions'][0]['publish']).to be true
       expect(@compat_dos[0]['file_versions'][0]['caption']).to eq('Old style')
+    end
+  end
+
+
+  describe "events" do
+    def convert_csv(headers, *rows)
+      convert(get_tempfile_path(CSV.generate do |csv|
+        csv << headers
+        rows.each { |row| csv << row }
+      end))
+    end
+
+    def records_of_type(records, type)
+      records.select { |record| record['jsonmodel_type'] == type }
+    end
+
+    it "creates an Event linked to the row's Digital Object" do
+      records = convert_csv(
+        %w[digital_object_id digital_object_title event_1_type event_1_date_begin],
+        ['do-event-1', 'Event DO', 'cataloged', '1999-03-03'],
+      )
+      digital_object = records_of_type(records, 'digital_object').first
+      events = records_of_type(records, 'event')
+
+      aggregate_failures do
+        expect(events.length).to eq(1)
+        expect(events[0]['event_type']).to eq('cataloged')
+        expect(events[0]['linked_records']).to eq([{ 'role' => 'source', 'ref' => digital_object['uri'] }])
+        expect(events[0]['linked_agents']).to eq([
+          { 'role' => 'executing_program', 'ref' => AgentSoftware.archivesspace_record.uri },
+        ])
+        expect(events[0]['date']).to include('begin' => '1999-03-03', 'label' => 'other', 'date_type' => 'single')
+      end
+    end
+
+    it "maps every Event field from the maintained template" do
+      agent_uri = JSONModel(:agent_person).uri_for(15)
+      records = convert_csv(
+        %w[digital_object_id digital_object_title event_1_type event_1_outcome event_1_outcome_note
+           event_1_date_begin event_1_date_label event_1_date_expression event_1_date_certainty
+           event_1_date_era event_1_date_calendar event_1_agent_1_record_id event_1_agent_1_agent_type
+           event_1_agent_1_role],
+        ['do-event-full', 'Event DO', 'processed', 'pass', 'Checked', '2001-02', 'creation', 'February 2001',
+         'approximate', 'ce', 'gregorian', agent_uri, '', 'implementer'],
+      )
+      event = records_of_type(records, 'event').first
+
+      aggregate_failures do
+        expect(event['outcome']).to eq('pass')
+        expect(event['outcome_note']).to eq('Checked')
+        expect(event['date']).to include(
+          'begin' => '2001-02', 'label' => 'creation', 'expression' => 'February 2001',
+          'certainty' => 'approximate', 'era' => 'ce', 'calendar' => 'gregorian', 'date_type' => 'single'
+        )
+        expect(event['linked_agents']).to eq([{ 'role' => 'implementer', 'ref' => agent_uri }])
+      end
+    end
+
+    it "links an Agent by numeric ID and Agent Type" do
+      records = convert_csv(
+        %w[digital_object_id digital_object_title event_1_type event_1_date_expression
+           event_1_agent_1_record_id event_1_agent_1_agent_type event_1_agent_1_role],
+        ['do-event-numeric', 'Event DO', 'cataloged', 'undated', '27', 'corporate_entity', 'implementer'],
+      )
+
+      expect(records_of_type(records, 'event').first['linked_agents']).to eq([
+        { 'role' => 'implementer', 'ref' => JSONModel(:agent_corporate_entity).uri_for(27) },
+      ])
+    end
+
+    it "ignores a blank Event group" do
+      records = convert_csv(
+        %w[digital_object_id digital_object_title event_1_type event_1_date_begin],
+        ['do-event-blank', 'Event DO', '', ' '],
+      )
+
+      aggregate_failures do
+        expect(records_of_type(records, 'digital_object').length).to eq(1)
+        expect(records_of_type(records, 'event')).to be_empty
+      end
+    end
+
+    it "creates one Event per filled group across gaps" do
+      records = convert_csv(
+        %w[digital_object_id digital_object_title event_5_type event_5_date_begin
+           event_1_type event_1_date_begin event_2_type event_2_date_expression],
+        ['do-event-groups', 'Event DO', 'processed', '2005', 'cataloged', '2001', 'acknowledgement_sent', 'later'],
+      )
+
+      expect(records_of_type(records, 'event').map { |event| event['event_type'] }).to contain_exactly(
+        'cataloged', 'acknowledgement_sent', 'processed'
+      )
+    end
+
+    it "fails on a partly filled Event group" do
+      expect {
+        convert_csv(
+          %w[digital_object_id digital_object_title event_1_type event_1_date_begin event_1_outcome],
+          ['do-event-partial', 'Event DO', '', '', 'pass'],
+        )
+      }.to raise_error(
+        DigitalObjectConverterEventError,
+        [
+          I18n.t('importer.error.event_required_field', :index => 1, :field => 'event_1_type'),
+          I18n.t('importer.error.event_date_required', :index => 1,
+                 :begin_field => 'event_1_date_begin', :expression_field => 'event_1_date_expression'),
+        ].join("\n")
+      )
+    end
+
+    it "fails on controlled values that are not in their lists, without adding them" do
+      expect {
+        convert_csv(
+          %w[digital_object_id digital_object_title event_1_type event_1_date_begin event_1_date_certainty],
+          ['do-event-invalid', 'Event DO', 'not_a_type', '1999', 'not_a_certainty'],
+        )
+      }.to raise_error(
+        DigitalObjectConverterEventError,
+        [
+          I18n.t('importer.error.event_invalid_controlled_value', :index => 1,
+                 :field => 'event_1_type', :value => 'not_a_type'),
+          I18n.t('importer.error.event_invalid_controlled_value', :index => 1,
+                 :field => 'event_1_date_certainty', :value => 'not_a_certainty'),
+        ].join("\n")
+      )
+
+      expect(Enumeration.filter(:name => 'event_event_type').first.enumeration_value.map(&:value))
+        .not_to include('not_a_type')
+    end
+
+    it "fails on Event fields in a Digital Object Component row" do
+      expect {
+        convert_csv(
+          %w[digital_object_id digital_object_title digital_object_is_component digital_object_component_id
+             event_1_type event_1_date_begin],
+          ['do-event-parent', 'Parent DO', 'FALSE', '', '', ''],
+          ['do-event-parent', 'Child', 'TRUE', 'child-1', 'cataloged', '1999'],
+        )
+      }.to raise_error(
+        DigitalObjectConverterEventError,
+        I18n.t('importer.error.event_without_digital_object', :index => 1)
+      )
+    end
+
+    it "imports an Event that appears among the linked Agent's Events" do
+      agent = create(:json_agent_person)
+      csv_file = get_tempfile_path(CSV.generate do |csv|
+        csv << %w[digital_object_id digital_object_title event_1_type event_1_date_begin
+                  event_1_agent_1_record_id event_1_agent_1_role]
+        csv << ['do-event-import', 'Imported DO', 'cataloged', '1999-03-03', agent.uri, 'implementer']
+      end)
+      converter = Converter.for('digital_object_csv', csv_file, {})
+      converter.run
+
+      created = File.open(converter.get_output_path, 'r') do |fh|
+        batch = StreamingImport.new(fh, Ticker.new(Job.new))
+        batch.process
+        batch.created_records.values
+      end
+      digital_object_uri = created.find { |uri| uri.include?('/digital_objects/') }
+      agent_events = Event.find_relationship(:linked_agents).who_participates_with(AgentPerson[agent.id])
+
+      aggregate_failures do
+        expect(digital_object_uri).not_to be_nil
+        expect(agent_events.length).to eq(1)
+        event = Event.to_jsonmodel(agent_events.first)
+        expect(event['event_type']).to eq('cataloged')
+        expect(event['linked_agents'].map { |link| [link['role'], link['ref']] }).to eq([['implementer', agent.uri]])
+        expect(event['linked_records'].map { |link| [link['role'], link['ref']] }).to eq([['source', digital_object_uri]])
+      end
     end
   end
 end
