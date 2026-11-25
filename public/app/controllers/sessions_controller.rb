@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
       session[:session] = parsed_body['session']
       session[:pui_username] = parsed_body['user']['username']
       redirect_to root_path
-    elsif response.code == '403'
+    elsif response.code == '403' && parsed_body&.dig('code') == 'PUI_PERMISSION_DENIED'
       flash.now[:error] = I18n.t('login.pui_permission_denied', username: params[:user_name])
       render 'shared/login'
     else

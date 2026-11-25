@@ -27,6 +27,11 @@ Feature: PUI Authentication
      Then the user is signed in to the PUI as "admin"
 
   @pui_auth_enabled
+  Scenario: A user with PUI viewer permission is told their login failed when the password is wrong
+     When an administrator logs in directly on the PUI with an incorrect password
+     Then the PUI login failed message is displayed
+
+  @pui_auth_enabled
   Scenario: A user without PUI viewer permission is denied a direct PUI login
     Given a user without PUI viewer permission exists
      When that user logs in directly on the PUI
