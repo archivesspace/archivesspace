@@ -250,6 +250,23 @@ it:
     text:
       subjects: Soggetto
       identifier: Identificatore
+      keyword: Parola chiave
+      title: Titolo
+      creators: Creatore
+      notes: Note
+      created_by: Creato da
+      last_modified_by: Ultima modifica a cura di
+    type:
+      text: Testo
+      date: Data
+      boolean: Booleano
+      controlled_value: Valore controllato
+    boolean:
+      published: Pubblicata?
+      suppressed: Soppressa?
+    date:
+      create_time: Creata
+      user_mtime: Aggiornata
   digital_object:
     digital_object_id_tooltip: "<p>Un Identificatore unico per l'oggetto digitale nel suo complesso. Può
       essere un ARK, HANDLE, un URI, o ogni stringa che identifica unicamente l'oggetto digitale. Il campo
@@ -1327,6 +1344,61 @@ it:
     _singular: Documento esterno
   assessment:
     appraisal: Valutazione
+    records: Documenti
+    records_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Un link alla/e risorsa/e, acquisizione/i, unità archivistica/he o oggetto/i digitale/i che sono oggetto della valutazione.</p>
+    accession_report: Rapporto di acquisizione
+    container_list: Elenco di scatole/contenitori
+    catalog_record: Record di catalogo (MARC)
+    collections: Collezioni
+    control_file: File di raccolta/controllo
+    conservation_note: Nota di conservazione
+    conservation_note_tooltip: <p>Indica aree di particolare rilevanza in relazione alle esigenze di
+      conservazione della collezione.</p>
+    deed_of_gift: Atto di donazione
+    existing_description_notes: Note sulla descrizione esistente
+    existing_description_notes_tooltip: <p>Eventuali ulteriori informazioni sulla descrizione 
+      esistente dei materiali.</p>
+    finding_aid_ead: Strumento di ricerca (codifica EAD)
+    finding_aid_online: Strumento di ricerca (online)
+    finding_aid_paper: Strumento di ricerca (solo cartaceo)
+    finding_aid_word: Strumento di ricerca (documento di elaborazione testi)
+    finding_aid_spreadsheet: Strumento di ricerca (foglio di calcolo)
+    id: ID
+    inactive: Inattivo?
+    inactive_tooltip: <p>Indica se il record di valutazione non è più considerato “attivo” e, 
+      pertanto, non deve essere incluso in ricerche o report.</p>
+    inactive_true: Si
+    inactive_false: No
+    monetary_value: Valore monetario
+    monetary_value_tooltip: <p>Valore di mercato stimato o valutato dei materiali oggetto di 
+      valutazione (valore numerico).</p>
+    monetary_value_note: Nota sul valore monetario
+    monetary_value_note_tooltip: <p>Indica chi ha fornito il valore monetario, la data della 
+      valutazione e qualsiasi altra informazione pertinente.</p>
+    surveyed_by: Esaminato da
+    surveyed_by_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Nome/i della/e persona/e che ha/hanno effettuato la valutazione. Questo campo è limitato a coloro che dispongono di un profilo utente in ArchivesSpace.</p>
+    survey_begin: Data di inizio del sondaggio
+    survey_begin_tooltip: |
+      <p>CAMPO OBBLIGATORIO: La data di inizio dell'indagine, nel formato aaaa-mm-gg.</p>
+    survey_end: Data di completamento del sondaggio
+    survey_end_tooltip: <p>La data in cui si è concluso il sondaggio, nel formato aaaa-mm-gg.</p>
+    surveyed_duration: Tempo impiegato per completare il sondaggio
+    surveyed_duration_tooltip: <p>Il tempo impiegato per completare il sondaggio, misurato in 
+      incrementi di un'ora.</p>
+    surveyed_extent: Estensione rilevata
+    surveyed_extent_tooltip: <p>L'estensione del materiale esaminato, espressa in unità quali piedi 
+      cubi o piedi lineari.</p>
+    related_eac_records: Record EAC correlati
+    research_value: Valore della ricerca
+    research_value_tooltip: <p>Questo valore viene calcolato automaticamente sommando il valore 
+      presente nel campo Qualità della documentazione al valore presente nel campo Interesse.</p>
+    review_required: È richiesta una revisione?
+    review_required_tooltip: <p>Indica se, per la collezione, è richiesta una revisione in ragione 
+      del suo formato, dell'argomento trattato o delle circostanze.</p>
+    review_required_true: Si
+    review_required_false: No
   reports:
     parameters:
       from: Da
@@ -2641,3 +2713,153 @@ it:
     no_value: '[nessun valore]'
     _singular: Impostazioni predefinite
     _plural: Impostazioni predefinite
+  job:
+    _singular: Attività in background
+    _plural: Attività in background
+    new_title: Nuovo job in background
+    job_type: Tipo di lavoro
+    types:
+      print_to_pdf_job: Genera PDF
+      report_job: Crea report
+      container_labels_job: Etichette per contenitori
+      container_conversion_job: Crea report
+      import_job: Importa dati
+      generate_slugs_job: Genera slug in blocco
+      generate_arks_job: Genera ARK in blocco
+      find_and_replace_job: Trova e sostituisci in blocco (Beta)
+      trim_whitespace_job: Rimuovi spazi bianchi
+      resource_duplicate_job: Risorsa duplicata
+      unknown_job_type: Tipo di lavoro sconosciuto
+      bulk_import_job: Caricamento tramite foglio di calcolo
+      top_container_linker_job: Collegamento al contenitore principale
+      ns2_remover_job: Rimozione dello spazio dei nomi ns2
+      bulk_archival_object_updater_job: Strumento di aggiornamento in blocco per oggetti d'archivio
+    status: Stato
+    status_completed: Completato
+    status_queued: In coda
+    status_running: Corsa
+    status_failed: Fallito
+    status_canceled: Annullata
+    queue_position: N. %{position}
+    time_submitted: Orario di invio
+    time_started: Tempo iniziato
+    time_finished: Tempo di completamento
+    owner: Proprietaria
+    show_description: Descrizione dello spettacolo
+    input_file: File di input
+    output_file: File di output
+  container_labels_job:
+    source: Fonte
+    format: Formato
+  report_job:
+    report_type: Tipo di report
+    format: Formato
+  import_job:
+    _singular: Operazione di importazione
+    import_events: Importare eventi di manutenzione?
+    import_subjects: Importare e collegare argomenti correlati?
+    import_repository: Collegare le posizioni importate al repository corrente?
+    filenames: File
+    import_type: Tipo di importazione
+    import_type_ead_xml: EAD
+    import_type_assessment_csv: CSV di valutazione
+    import_type_accession_csv: CSV di acquisizione
+    import_type_subject_csv: Oggetto CSV
+    bulk_import_csv: Importazione massiva di file CSV AO
+    bulk_import_xlsx: Importazione massiva AO XLSX
+    bulk_import_DO_csv: Importazione massiva da file CSV
+    bulk_import_DO_xlsx: Importazione massiva da file XLSX
+    import_type_digital_object_csv: CSV di oggetti digitali
+    import_subject_csv: Oggetto CSV
+    import_type_eac_xml: EAC-CPF
+    import_type_location_csv: CSV delle posizioni
+    import_type_marcxml: MarcXML bibliografico (risorsa)
+    import_type_marcxml_accession: MarcXML bibliografico (acquisizione)
+    import_type_marcxml_subjects_and_agents: Bibliografia MarcXML (solo soggetti e agenti)
+    import_type_marcxml_auth_agent: MarcXML Authority (Agenti)
+    import_type_marcxml_auth_subject: MarcXML Authority (Soggetti)
+  find_and_replace_job:
+    _singular: Operazione di ricerca e sostituzione
+    find: Stringa da cercare
+    replace: Stringa sostitutiva
+    jsonmodel_type: Tipo di record o sottorecord
+    record_type: Tipo di record o sottorecord
+    property: Proprietà target
+    base_record_uri: URI del record di base
+  print_to_pdf_job:
+    include_unpublished: Includi elementi non pubblicati
+    source: Fonte
+  top_container_linker_job:
+    _singular: Posizione di Top Container Linker
+    filename: File
+    content_type: Tipo di file
+    resource_id: ID risorsa
+    load_type: Tipo di carico
+    type:
+      top_container_linker_job: Collegamento al contenitore principale
+  bulk_import_job:
+    resource_uri: URI della risorsa
+    content_type: Tipo di foglio di calcolo
+    load_type: Tipo di carico
+    only_validate: Solo convalida
+    type:
+      csv: CSV
+      xlsx: Foglio di calcolo Excel
+      ao: Caricamento di oggetti d'archivio
+      digital: Caricamento di oggetti digitali
+  trim_whitespace_job:
+    description: Rimuove gli spazi bianchi all'inizio e alla fine dei titoli di risorse, 
+      acquisizioni, oggetti digitali, unità archivistiche e componenti di oggetti digitali.
+  resource_duplicate_job:
+    going_to_duplicate_job: Sto per duplicare la risorsa con ID %{resource_id}.
+    success_message: Risorsa %{resource_source_id} duplicata con successo nella risorsa 
+      %{resource_duplicated_id}.
+    resource_failure_message: 'Impossibile duplicare la risorsa a partire dalla risorsa con ID %{resource_id};
+      errore di convalida: %{message}.'
+    archival_object_failure_message: Impossibile duplicare l'oggetto d'archivio con ID 
+      %{archival_object_id} dalla risorsa con ID %{resource_id}; errore di convalida %{message}.
+    source_archival_object: Oggetto di archivio sorgente %{source_archival_object_inspect}.
+    success_reload_message: Fatto. Clicca su aggiorna per ottenere un link alla nuova risorsa.
+    job_failed: Lavoro non riuscito.
+    could_not_find_resource: Impossibile trovare la risorsa specificata con ID %{resource_id}.
+  ns2_remover_job:
+    description: |
+      I file EAD creati con "Archivists' Toolkit" e importati in ArchivesSpace possono contenere riferimenti residui allo spazio dei nomi (namespace) "ns2", anteposti ad alcuni attributi dei tag EAD all'interno dei sottoregistri delle note. Ciò può causare errori di validazione durante l'esportazione di file EAD da ArchivesSpace, poiché il tag radice <ead> non dichiara lo spazio dei nomi "ns2". Questa procedura elimina in blocco i riferimenti a "ns2" presenti nei sottoregistri delle note associati a record di tipo "resource", "archival_object", "digital_object" e "digital_object_component". Poiché l'operazione interessa tutti i repository, il suo utilizzo è riservato esclusivamente agli utenti dotati di privilegi di <b>amministratore di sistema (System Administrator)</b>.
+    dry_run: Prova generale?
+  system_info:
+    frontend: Interfaccia utente frontend
+    backend: Backend
+    frontend_info: Informazioni sul sistema frontend
+    frontend_log: Log del frontend
+    backend_info: Informazioni sul sistema backend
+    backend_log: Log del backend
+  resource_component:
+    _singular: Componente risorsa
+  rights_statement_act:
+    _singular: Atto
+    _plural: Atti
+    act_type: Tipo di atto
+    act_type_tooltip: |
+      <p>L'azione consentita da questa dichiarazione sui diritti.</p>
+    restriction: Restrizione
+    restriction_tooltip: |
+      <p>Una condizione o limitazione relativa all'azione.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Non più di tre</li>
+      <li>Consentito solo dopo che è trascorso un anno di conservazione in archivio</li>
+      <li>Il titolare dei diritti deve essere informato al termine dell'azione</li>
+      </ul>
+    start_date: Data di inizio
+    start_date_tooltip: |
+      <p>La data in cui la legge è entrata in vigore.</p>
+    end_date: Data di fine
+    end_date_tooltip: |
+      <p>La data in cui l'atto termina.</p>
+  oai:
+    sample_page:
+      title: '%{oai_repository_name} - Esempi di richieste OAI-PMH'
+      introduction: <p>Esempi di richieste che utilizzano l'Open Archives Initiative Protocol for 
+        Metadata Harvesting (OAI-PMH v 2.0).</p>
+      form_header: Invia una richiesta '%{verb}'
+      form_submit: Invia
