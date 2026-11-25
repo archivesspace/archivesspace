@@ -1450,6 +1450,21 @@ it:
       che possiede già un proprio set
     invalid_characters: Contiene caratteri non validi
     conflicting_record: Visualizza record in conflitto
+    or_date_expression_is_required: Le date devono specificare almeno un'espressione di data
+    must_specify_either_a_single_or_ranged_date: Le date devono essere specificate come singole 
+      oppure come intervalli
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Le date standardizzate 
+      devono essere in un formato standardizzato
+    generic_validation_error: Errore di convalida
+    requires_that_end_dates_are_after_begin_dates: Le date di fine devono essere successive alle 
+      date di inizio
+    must_specify_a_primary_subject: 'Informazioni sulla descrizione: al record manca un soggetto principale'
+    subrecord_not_allowed_for_agent_software: Gli agenti software non possono disporre del controllo
+      sui record né di sottorecord correlati
+    ark_collision: Si è verificato un problema durante la generazione di un ARK per questo record. 
+      Si prega di contattare l'amministratore di sistema.
+    external_ark_collision: ARK esterno già in uso
+    ark_format_error: Uno degli ARK forniti non era un ARK valido.
   lang_material:
     _plural: Lingue
     _singular: Lingua
