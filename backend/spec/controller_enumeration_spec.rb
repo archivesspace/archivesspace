@@ -124,32 +124,37 @@ describe "Enumeration controller" do
     expect(obj.default_value).to eq(val)
   end
 
-  it "can quietly ignore a non-viable default value" do
+  it "rejects a default value that is not in the list" do
     obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value = "banana"
 
-    default = "banana"
-
-    expect(obj.values).not_to include(default)
-
-    obj.default_value = default
-    obj.save
-
-    obj = nil
-
-    obj = JSONModel(:enumeration).find(@enum_id)
-    expect(obj.default_value).to be_nil
-
+    expect { obj.save }.to raise_error(JSONModel::ValidationException)
+    expect(JSONModel(:enumeration).find(@enum_id).default_value).to be_nil
   end
 
-  it "ignores a suppressed value as the default" do
+  it "rejects a suppressed value as the default" do
     obj = JSONModel(:enumeration).find(@enum_id)
     JSONModel(:enumeration_value).find(obj.enumeration_values[0]['id']).set_suppressed(true)
 
     obj = JSONModel(:enumeration).find(@enum_id)
     obj.default_value = obj.enumeration_values[0]['value']
+
+    expect { obj.save }.to raise_error(JSONModel::ValidationException)
+    expect(JSONModel(:enumeration).find(@enum_id).default_value).to be_nil
+  end
+
+  it "unsets the default when its value is removed" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.default_value = "abc"
     obj.save
 
-    expect(JSONModel(:enumeration).find(@enum_id).default_value).to be_nil
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values -= ["abc"]
+    obj.save
+
+    obj = JSONModel(:enumeration).find(@enum_id)
+    expect(obj.default_value).to be_nil
+    expect(obj.values).to eq(["def"])
   end
 
   it "unsets the default when its value is suppressed" do

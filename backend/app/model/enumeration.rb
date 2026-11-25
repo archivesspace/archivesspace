@@ -138,7 +138,12 @@ class Enumeration < Sequel::Model(:enumeration)
     if opts[:default_value] != existing_default
       if opts[:default_value]
         new_default = EnumerationValue[:enumeration_id => obj.id, :value => opts[:default_value], :suppressed => 0]
-        return obj if new_default.nil? #just move along if the default isn't an unsuppressed value of this list
+        if new_default.nil?
+          # the default went away with its removed value
+          return obj if removed_values.include?(opts[:default_value])
+
+          raise JSONModel::ValidationException.new(:errors => {"default_value" => ["must be an unsuppressed value of this list"]})
+        end
         obj.default_value = new_default[:id]
       else
         obj.default_value = nil

@@ -34,18 +34,12 @@ class EnumerationsController < ApplicationController
   end
 
   def set_default
-    default_set = begin
+    begin
       @enumeration = JSONModel(:enumeration).find(params[:id])
-      @enumeration['default_value'] = params[:value]
+      @enumeration['default_value'] = params[:value].presence
       @enumeration.save
-      JSONModel(:enumeration).find(params[:id])['default_value'] == params[:value].presence
-    rescue
-      false
-    end
-
-    if default_set
       flash[:success] = t("enumeration._frontend.messages.default_set")
-    else
+    rescue
       flash[:error] = t("enumeration._frontend.messages.default_set_error")
     end
 
