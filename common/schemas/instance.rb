@@ -4,7 +4,7 @@
     "version" => 1,
     "type" => "object",
     "properties" => {
-      "instance_type" => {"type" => "string", "minLength" => 1, "ifmissing" => "error", "dynamic_enum" => "instance_instance_type"},
+      "instance_type" => {"type" => "string", "minLength" => 1, "dynamic_enum" => "instance_instance_type"},
 
       "sub_container" => {"type" => "JSONModel(:sub_container) object"},
 

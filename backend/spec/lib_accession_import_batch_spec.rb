@@ -1401,27 +1401,6 @@ describe 'Accession import batch' do
       end
     end
 
-    it 'rejects a populated Instance without an Instance type and imports no rows' do
-      top_container = create(:json_top_container)
-      accession_count = Accession.count
-      headers = [
-        'accession_title',
-        'accession_id_1',
-        'instance_1_instance_type',
-        'instance_1_top_container_1_uri',
-      ]
-      rows = [
-        ['Valid row', generate(:alphanumstr), 'mixed_materials', top_container.uri],
-        ['Partial row', generate(:alphanumstr), ' ', top_container.uri],
-      ]
-
-      expect do
-        import_accession_csv(headers, rows)
-      end.to raise_error(JSONModel::ValidationException)
-
-      expect(Accession.count).to eq(accession_count)
-    end
-
     it 'rejects a canonical URI for a missing Top Container and imports no rows' do
       top_container = create(:json_top_container)
       missing_id = top_container.uri.split('/').last.to_i + 100_000

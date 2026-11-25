@@ -404,7 +404,11 @@ class Record
     show_barcodes = opts.fetch(:barcode, AppConfig[:pui_display_barcodes] && !citation)
     parts = []
 
-    instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
+    instance_type = if (it = inst.fetch('instance_type', nil))
+                      I18n.t("enumerations.instance_instance_type.#{it}", :default => it)
+                    else
+                      nil
+                    end
 
     # add the top container type and indicator
     if sub_container.has_key?('top_container')
@@ -450,7 +454,7 @@ class Record
       parts << "#{type}: #{sub_container.fetch('indicator_3')}"
     end
 
-    (summary || citation) ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
+    (summary || citation || instance_type.nil?) ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
   end
 
   def barcode_display_string(barcode)

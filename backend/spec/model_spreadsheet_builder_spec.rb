@@ -184,4 +184,31 @@ describe 'Spreadsheet Builder model' do
     expect(SpreadsheetBuilder.note_jsonmodel_for_type('abstract')).to eq('note_singlepart')
     expect {SpreadsheetBuilder.note_jsonmodel_for_type('fakenote')}.to raise_error(RuntimeError, /Note type not supported: fakenote/)
   end
+
+  it "can handle instances with no instance type" do
+    resource = create(:json_resource)
+    top = create(:json_top_container)
+    opts = {instances: [build(:json_instance,
+                              instance_type: nil,
+                              sub_container: build(:json_sub_container,
+                                                   top_container: {ref: top.uri})),
+                        build(:json_instance_digital)],
+            resource: { ref: resource.uri }}
+
+    ao = create(:json_archival_object, opts)
+
+    builder = SpreadsheetBuilder.new(resource.uri,
+                                     [ao.uri],
+                                     1,
+                                     0,
+                                     1,
+                                     [
+                                       'instance'
+                                     ])
+
+    builder.dataset_iterator do |current_row, locked_column_indexes|
+      instances = current_row.select {|r| r.column.property_name == "instances" }
+      expect(instances[2].value).to eq top.indicator
+    end
+  end
 end

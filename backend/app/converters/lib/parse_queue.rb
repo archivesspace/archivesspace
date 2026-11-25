@@ -22,6 +22,7 @@ module ASpaceImport
 
       @working_file = opts[:working_file] || ASUtils.tempfile("import_batch_working_file")
       @working_area = []
+      @post_serialization_record_filter = ->(record) { true }
     end
 
 
@@ -101,6 +102,19 @@ module ASpaceImport
       @record_filter = predicate
     end
 
+    def post_serialization_record_filter=(predicate)
+      @post_serialization_record_filter = predicate
+    end
+
+    def closest_archival_object
+      obj = self.working_area.reverse.find { |o| o.class.record_type == "archival_object" }
+      block_given? ? yield(obj) : obj
+    end
+
+    def find_by_uri(uri)
+      obj = self.working_area.reverse.find { |o| o.uri == uri }
+      obj
+    end
 
     private
 
@@ -145,6 +159,7 @@ module ASpaceImport
 
         rec = ASUtils.json_parse(line)
         rec = ASpaceImport::Utils.update_record_references(rec, @uri_remapping)
+        @post_serialization_record_filter.call(rec)
 
         uris << rec['uri']
 
