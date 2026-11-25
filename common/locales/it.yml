@@ -188,20 +188,20 @@ it:
     updated: '%{cosa è}'
     clip_btn: Copia negli appunti
     clip_created: "\t%{what} creato: \t%{nm}\t%{id}\t%{ref_id}"
-    clip_what: "\t%{cosa} : %{nm} %{id} %{ref_id}"
+    clip_what: "\t%{what} : %{nm} %{id} %{ref_id}"
     clip_info: |
-      					%{Che cosa}
+      					%{what}
     clip_err: |
       					ERRORE: %{err}
     clip_header: "Riga\tStato\tTitolo\tURI\tID di riferimento\tInformazioni o errore"
     log_complete: Importazione di %{file} completata
     log_validation: Validazione di %{file} completata
     log_created: '%{row}: Creato %{what}'
-    log_created_be: '%{row}: %{cosa} verrebbe creato'
-    log_info: '%{riga}: %{cosa}'
+    log_created_be: '%{row}: %{what} verrebbe creato'
+    log_info: '%{row}: %{what}'
     log_error: "%{row}:\tERRORE %{what}"
-    log_obj: "%{cosa} '%{nm}' %{id} %{ref_id}"
-    log_obj_be: "%{cosa} '%{nm}' "
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_obj_be: "%{what} '%{nm}' "
     log_results: Compilazione del file CSV dei risultati
     ao: Elemento archivistico
     tc: Contenitore superiore
@@ -2944,8 +2944,8 @@ it:
       predefiniti.
     digital_object_spawn: Generazione della descrizione per istanze di oggetti digitali a partire da
       un record collegato
-    browse_column: Colonna %{number}
-    browse_column_tooltip: Il campo da mostrare nella colonna %{number}.
+    browse_column: Colonna %{num}
+    browse_column_tooltip: Il campo da mostrare nella colonna %{num}.
     sort_column: Colonna di ordinamento predefinita
     sort_column_tooltip: Il campo predefinito per l'ordinamento dei risultati.
     sort_direction: Direzione di ordinamento predefinita
