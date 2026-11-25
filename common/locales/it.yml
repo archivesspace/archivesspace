@@ -71,9 +71,161 @@ it:
         o un URI agente canonico: '%{value}'"
       event_agent_not_found: "Il gruppo evento %{group}, campo %{field}, non corrisponde a un agente esistente:
         '%{value}'"
+      date_type: Tipo di data [%{what}] non valido per %{date_str}. La data non verrà elaborata.
+      date_label: L'etichetta di data [%{what}] non è valida per %{date_str}. La data non verrà 
+        elaborata.
+      certainty: "'Certezza della data' non valida ignorata per %{date_str}: (%{what})"
+      era: "'Era della data' non valida ignorata per %{date_str}: (%{what})"
+      calendar: "'Calendario delle date' non valido ignorato per %{date_str}: (%{what})"
+      below_bad_ao: Impossibile elaborare poiché si tratta di un elemento figlio di un oggetto 
+        archivistico non valido
+      enum: "NON VALIDO: %{which}: '%{label}'. Deve essere uno dei seguenti: %{valid_values}"
+      error: 'ERRORE: Errore/i rilevato/i: %{term}'
+      invalid_date: Definizione della data non valida (%{what}) per %{date_str}. La data non verrà 
+        elaborata.
+      invalid_date_label: Definizione dell'etichetta della data non valida nella prima data 
+        (%{what})
+      too_many: Nel database è stata trovata più di una corrispondenza
+      type_undef: Impossibile determinare il tipo
+      file_name: Impossibile determinare il nome del file
+      system: Si è verificato un errore di sistema [%{msg}].
+      initialize: L'elaborazione è terminata [%{msg}]
+      stopped: Elaborazione interrotta alla riga %{row} [%{msg}]
+      duplicates: 'Questo foglio di calcolo contiene codici di campo ArchivesSpace duplicati: %{codes}'
+      unknown_columns: 'Queste colonne non sono riconosciute (potresti utilizzare un modello obsoleto):
+        %{codes}'
+      res_ead: La risorsa di questo modulo è priva di un ID EAD
+      row_ead: A questa riga manca un ID EAD
+      row_missing_ead_uri: A questa riga mancano SIA un EAD ID CHE un URI
+      ead_mismatch: L'ID EAD del modulo [%{res_ead}] non corrisponde all'ID EAD della riga 
+        [%{row_ead}]
+      uri_mismatch: L'URI della risorsa di input [%{res_uri}] non corrisponde all'URI della riga 
+        [%{row_uri}]
+      title: Titolo mancante
+      title_and_date: Definizione di Titolo mancante E Data valida
+      hier_miss: 'Gerarchia mancante: deve essere un numero maggiore di 0'
+      hier_zero: La gerarchia deve essere maggiore di 0
+      hier_wrong: La gerarchia non può essere più profonda di un livello rispetto alla riga 
+        precedente
+      hier_wrong_resource: Intendevi avviare l'elaborazione avendo selezionato un oggetto 
+        archivistico?
+      hier_wrong_resource_validation: 'ATTENZIONE: nulla di ciò che si trova al di sotto di questa riga
+        sarebbe stato elaborato'
+      hier_below_error_level: L'oggetto archivistico padre non è stato creato
+      level: Manca un livello di descrizione valido
+      date: 'La data deve includere almeno uno dei seguenti elementi: Data di inizio, Data di fine o Espressione
+        di data'
+      number: Numero di estensione mancante
+      extent_type: Tipo di estensione mancante
+      extent_validation: "Impossibile convalidare l'estensione (%{ext}): %{msg}"
+      no_header: Nessuna riga di intestazione (codici campo) trovata; stai utilizzando il modello 
+        corretto?
+      no_data: Nessuna riga di dati elaborabile trovata!
+      spreadsheet: "Errore/i durante l'analisi del foglio di calcolo: %{errs}"
+      no_agent: "Impossibile creare l'agente %{num}: [%{why}]"
+      find_tc: 'Impossibile trovare il contenitore principale (Top Container) con i parametri: %{where}.'
+      no_tc: 'Impossibile creare il contenitore principale %{number}: [%{why}]'
+      missing_instance_type: Tipo di istanza del contenitore mancante
+      no_ao: Nessun oggetto d'archivio creato
+      no_ao_be: L'oggetto d'archivio non verrebbe creato
+      no_container_instance: "Impossibile creare l'istanza di container %{number}: [%{why}]"
+      no_create: 'Impossibile creare: [%{why}]'
+      no_move: Impossibile spostare gli oggetti archivistici dalla fine dell'elenco (codice di 
+        risposta %{code})
+      bad_note: 'La nota %{type} non è ben formata: %{msg}'
+      bad_note_type: Il tipo di nota '%{type}' non è supportato
+      bad_relator: "Impossibile creare il collegamento all'agente: '%{label}' non è un Relator valido"
+      relator_invalid: "Impossibile creare il collegamento agente a causa di un problema con il Relator
+        '%{label}': %{why}"
+      bad_role: "Impossibile creare il collegamento all'agente: '%{label}' non è un ruolo valido"
+      role_invalid: "Impossibile creare il link dell'agente a causa di un problema con il ruolo '%{label}':
+        %{why}"
+      has_dig_obj: L'oggetto archivistico ha già un oggetto digitale associato
+      dig_unassoc: "Impossibile salvare l'oggetto archivistico con l'oggetto digitale associato: %{msg}"
+      dig_representative_existing: "Un'istanza di oggetto digitale non può essere resa rappresentativa:
+        l'oggetto archivistico possiede già un'istanza rappresentativa"
+      dig_representative_earlier_row: "L'istanza di oggetto digitale non può essere resa rappresentativa:
+        la riga %{row} rende rappresentativa un'altra istanza dell'oggetto archivistico"
+      ref_id_miss: Nessun ID di riferimento specificato
+      dig_info_miss: Non è specificato né l'URI dell'oggetto digitale né l'URI della miniatura
+      dig_validation: Impossibile creare l'oggetto digitale %{err}
+      initial_save_error: Problema durante il salvataggio iniziale di %{title} -- %{msg}
+      second_save_error: "Errore durante il tentativo di salvare nuovamente l'oggetto archivistico con
+        'istanze' %{title} in posizione: %{pos}. Ciò significa che l'oggetto archivistico è stato creato,
+        ma potrebbe non essere stato collegato alle relative istanze (oggetto digitale, contenitore principale,
+        soggetto, ecc.) [%{what}]"
+      ao_validation: "Errore di validazione durante il tentativo di salvare l'oggetto d'archivio: %{err}"
+      validation_error: 'Impossibile convalidare %{what}: %{err}'
+      validated: '%{what} convalidato'
+      lang_code: Impossibile convalidare la lingua (%{lang})
+      script_code: Impossibile convalidare uno script di lingua (%{script})
+      process_error: "Errore durante l'elaborazione di %{type} %{num}: %{why}"
+      bad_ao_uri: ' con uri %{uri}'
+      bad_accession_uri: Elemento non trovato con URI %{uri}
+      bad_ao_ref_id: ' con ID di riferimento %{ref_id}'
+      bad_ao: Impossibile trovare l'oggetto d'archivio %{errs}
+      no_uri_or_ref: Non è stato fornito né un URI dell'oggetto d'archivio né un ID di riferimento 
+        (Ref ID)
+      file_too_big: Questo file, in %{file_info}, supera i limiti di dimensione e/o di numero di 
+        righe pari a %{limits}
+      wrong_file_type: Il file non è né un foglio di calcolo Excel né un file CSV
+      dig_obj_unique: L'identificativo di oggetto digitale '%{id}' esiste già.
+      cannot: Impossibile proseguire a causa di errori precedenti
+      sc_barcode: Impossibile trovare un sottocontenitore con questo codice a barre figlio 
+        %{barcode}
+      utf8: Questo foglio di calcolo contiene del testo non valido o danneggiato che non può essere 
+        elaborato.
     agent: Agente
     event_created: "Gruppo evento %{group} creato: %{type}"
     event_would_be_created: "Gruppo evento %{group} verrebbe creato: %{type}"
+    templates: Modelli per l'importazione in blocco
+    row: Riga %{row}
+    processing_row: Elaborazione della riga %{row}
+    dig_assoc: Oggetto digitale aggiunto a un'unità archivistica
+    row_error: 'La riga %{row} non verrà elaborata a causa di errori: %{errs}'
+    created: '%{what} creato: %{id}'
+    could_be: '%{what} verrebbe creato'
+    updated: '%{cosa è}'
+    clip_btn: Copia negli appunti
+    clip_created: "\t%{what} creato: \t%{nm}\t%{id}\t%{ref_id}"
+    clip_what: "\t%{cosa} : %{nm} %{id} %{ref_id}"
+    clip_info: |
+      					%{Che cosa}
+    clip_err: |
+      					ERRORE: %{err}
+    clip_header: "Riga\tStato\tTitolo\tURI\tID di riferimento\tInformazioni o errore"
+    log_complete: Importazione di %{file} completata
+    log_validation: Validazione di %{file} completata
+    log_created: '%{row}: Creato %{what}'
+    log_created_be: '%{row}: %{cosa} verrebbe creato'
+    log_info: '%{riga}: %{cosa}'
+    log_error: "%{row}:\tERRORE %{what}"
+    log_obj: "%{cosa} '%{nm}' %{id} %{ref_id}"
+    log_obj_be: "%{cosa} '%{nm}' "
+    log_results: Compilazione del file CSV dei risultati
+    ao: Elemento archivistico
+    tc: Contenitore superiore
+    subj: Soggetta
+    dig: Oggetto digitale
+    cont_inst: Istanza di container
+    unfound_id: '%{type} con ID %{id} NON TROVATO. Questo è un SEGNAPOSTO'
+    ref_id_notfound: ID di riferimento %{refid} non trovato
+    processed: Il file è stato elaborato
+    file_info: '%{size}K con %{rows} righe'
+    max_file_info: '%{size}K e %{rows} righe'
+    object_created: '%{what} creato'
+    object_created_be: '%{what} verrebbe creato'
+    object_not_created_be: '%{what} non verrebbe creato'
+    date_type_default: Non è stato specificato alcun tipo di data. Verrà utilizzato il valore 
+      predefinito 'inclusive'.
+    warn:
+      dup: L'elenco di valori controllato e gestito %{which} presenta più istanze per la traduzione 
+        «%{trans}». Verrà utilizzato «%{used}» come valore.
+      disam: Trovate più corrispondenze per '%{which}'. Creazione di '%{name}' per risolvere 
+        l'ambiguità.
+      disamuse: Trovate più corrispondenze per '%{which}'. Per risolvere l'ambiguità, viene 
+        utilizzato l'elemento '%{name}' già creato.
+      single_date_end: La data singola %{date_str} presenta una data di fine che verrà ignorata.
   states:
     suppressed: Bloccato
     deleted: Eliminato
@@ -1399,6 +1551,44 @@ it:
       del suo formato, dell'argomento trattato o delle circostanze.</p>
     review_required_true: Si
     review_required_false: No
+    review_note: Nota di revisione
+    review_note_tooltip: <p>Spiegazione dell'esito di un'eventuale revisione speciale.</p>
+    reviewer: Chi deve effettuare la revisione
+    reviewer_tooltip: <p>Indica chi deve effettuare la revisione. Questo campo è limitato ai 
+      soggetti che dispongono di un profilo utente in ArchivesSpace.</p>
+    purpose: Scopo della valutazione
+    purpose_tooltip: |
+      <p>Indica il motivo per cui è stata effettuata la valutazione. Esempi: priorità di conservazione; priorità di trattamento; stima; ecc.</p>
+    scope: Ambito della valutazione
+    scope_tooltip: |
+      <p>Indica l'ambito della valutazione. Esempi: campionamento al 10%; l'insieme completo; un formato o genere specifico all'interno di una o più collezioni; oppure altri vincoli o condizioni relativi ai materiali effettivamente esaminati durante una valutazione.</p>
+    sensitive_material: Materiale sensibile?
+    sensitive_material_tooltip: <p>Indica se sono presenti materiali sensibili.</p>
+    sensitive_material_true: Si
+    sensitive_material_false: No
+    general_assessment_note: Nota di valutazione generale
+    general_assessment_note_tooltip: <p>Eventuali ulteriori note su una valutazione.</p>
+    special_format_note: Nota sul formato speciale
+    special_format_note_tooltip: <p>Informazioni aggiuntive o esplicative sui formati speciali 
+      presenti.</p>
+    exhibition_value_note: Nota sul valore espositivo
+    exhibition_value_note_tooltip: <p>Indica se la collezione nel suo complesso, o singoli elementi 
+      in essa contenuti, possano essere particolarmente adatti a essere esposti. Ad esempio, questo 
+      campo potrebbe segnalare un reperto unico, oppure una lettera o una fotografia di rilevanza 
+      storica.</p>
+    rating_attributes_value:
+      rating_none: Nessuna valutazione
+      rating_1: '1'
+      rating_2: '2'
+      rating_3: '3'
+      rating_4: '4'
+      rating_5: '5'
+    rating_note: Nota %{label}
+    _singular: Valutazione
+    _plural: Valutazioni
+    new_title: Nuova valutazione
+    linker:
+      link_title: Link al record
   reports:
     parameters:
       from: Da
@@ -2383,6 +2573,34 @@ it:
         database (vedere %{ref_id} alla riga %{row_num}).
       loc_not_in_db: L'ID posizione specificato, %{loc_id}, non è stato trovato nel database (si 
         veda %{ref_id} alla riga %{row_num}).
+      ref_id_miss: ID di riferimento mancante nel foglio di calcolo alla riga %{row_num}.
+      ao_not_in_db: Impossibile trovare l'oggetto di archivio %{ref_id} nel database nella riga 
+        %{row_num}.
+      instance_type_miss: "Nel foglio di calcolo, per la riga %{row_num} relativa all'oggetto d'archivio
+        %{ref_id}, manca il tipo di istanza (Instance Type). "
+      instance_type_does_not_exist: "Il tipo di istanza %{instance_type} non esiste nel database (vedi
+        riga %{row_num}, oggetto d'archivio %{ref_id}). "
+      tc_indicator_and_record_no_miss: Per %{ref_id} nella riga %{row_num} deve essere presente un 
+        indicatore di contenitore principale (Top Container Indicator) oppure un numero di record TC
+        (TC Record Number).
+      tc_indicator_and_record_no_exist: Per %{ref_id} nella riga %{row_num} può essere presente solo
+        un indicatore di contenitore principale (Top Container Indicator) OPPURE un numero di record
+        TC (TC Record Number).
+      tc_barcode_exists: Il codice a barre del contenitore principale, %{barcode}, esiste già nel 
+        database (vedi %{ref_id} alla riga %{row_num}).
+      tc_barcode_differs: Il codice a barre del contenitore principale, %{barcode}, è diverso da 
+        un'altra voce presente nel foglio di calcolo per %{type} %{indicator} (vedi %{ref_id} alla 
+        riga %{row_num}).
+      tc_ind_ct_exists: La combinazione di indicatore di contenitore principale (Top Container 
+        Indicator) e tipo di contenitore (Container Type) %{tc_type} %{indicator} esiste già nel 
+        database per un'unità archivistica (AO) nella risorsa %{ead_id} (si veda %{ref_id} alla riga
+        %{row_num}).
+      sc_barcode_exists: La combinazione di indicatore di contenitore principale (Top Container 
+        Indicator) e tipo di contenitore (Container Type) %{tc_type} %{indicator} esiste già nel 
+        database per un'unità archivistica (AO) nella risorsa %{ead_id} (si veda %{ref_id} alla riga
+        %{row_num}).
+      sc_barcode_differs: Il codice a barre figlio %{barcode} è diverso da un'altra voce presente 
+        nel foglio di calcolo per %{type} %{indicator} (vedi %{ref_id} alla riga %{row_num}).
   term:
     term: Termine
     term_tooltip: |
@@ -2618,6 +2836,37 @@ it:
         lo stato di conservazione della collezione.
       "Reformatting Readiness_note_tooltip": 'Indica aspetti critici riguardo alla potenziale digitalizzazione
         o ad altre forme di riconversione del formato dei materiali. '
+      "Reformatting Readiness": Predisposizione alla riformattazione
+      "Reformatting Readiness_tooltip": <p>Una valutazione da 1 a 5 che indica con quanta facilità i
+        materiali possono essere riformattati.</p>
+      "Housing Quality": Qualità dell'alloggio
+      "Housing Quality_tooltip": <p>Una valutazione da 1 a 5 volta a descrivere la qualità 
+        complessiva del sistema di conservazione dei materiali all'interno di una collezione; 
+        singoli elementi o gruppi di materiali possono trovarsi in condizioni di conservazione 
+        migliori o peggiori rispetto a quanto indicato dalla valutazione generale.</p>
+      "Physical Condition": Condizione fisica
+      "Physical Condition_tooltip": <p>Una valutazione da 1 a 5 volta a descrivere lo stato generale
+        dei materiali in una collezione; gli oggetti o i gruppi di materiali che destano particolare
+        preoccupazione saranno segnalati nella nota di conservazione.</p>
+      "Physical Access (arrangement)": Accesso fisico (disposizione)
+      "Physical Access (arrangement)_tooltip": <p>Una valutazione da 1 a 5 relativa 
+        all'organizzazione fisica di una collezione, che tiene conto della sua complessità e delle 
+        sue dimensioni. Ad esempio, una collezione piccola e relativamente omogenea, ordinata in 
+        modo approssimativo, è generalmente più accessibile dal punto di vista fisico rispetto a una
+        collezione ampia ed eterogenea, anch'essa ordinata in modo approssimativo; le valutazioni 
+        rifletteranno tale differenza. (Si noti che, per molte collezioni, un'organizzazione spinta 
+        fino al singolo elemento potrebbe non essere auspicabile; pertanto, un punteggio pari a 4 
+        potrebbe rappresentare il livello massimo di organizzazione desiderabile per una determinata
+        collezione.)</p>
+      "Intellectual Access (description)": Accesso intellettuale (descrizione)
+      "Intellectual Access (description)_tooltip": <p>Una valutazione da 1 a 5 che si riferisce alla
+        descrizione intellettuale di una collezione e all'accessibilità di tale descrizione per gli 
+        utenti.</p>
+      "Interest": Interesse
+      "Interest_tooltip": <p>Una valutazione da 1 a 5 che indica l'interesse di ricercatori, 
+        donatori o soggetti locali per i materiali. L'interesse, unito alla qualità della 
+        documentazione, determina il punteggio di "valore di ricerca".</p>
+      "Documentation Quality": Qualità della documentazione
     format:
       "Architectural Materials": Materiali architettonici
       "Art Originals": Opere d'arte originali
@@ -2625,6 +2874,27 @@ it:
       "Audio Materials": Materiali audio
       "Biological Specimens": Campioni biologici
       "Botanical Specimens": Esemplari botanici
+      "Computer Storage Units": Unità di memorizzazione per computer
+      "Film (negative, slide, or motion picture)": Pellicola (negativo, diapositiva o film 
+        cinematografico)
+      "Glass": Bicchiere
+      "Photographs": Fotografie
+      "Scrapbooks": Album di ritagli
+      "Technical Drawings & Schematics": Disegni tecnici e schemi
+      "Textiles": Tessili
+      "Vellum & Parchment": Vello e pergamena
+      "Video Materials": Materiali video
+      "Other": Altra
+    conservation_issue:
+      "Potential Mold or Mold Damage": Possibile presenza di muffa o danni causati dalla muffa
+      "Recent Pest Damage": Danni recenti causati da parassiti
+      "Deteriorating Film Base": Degrado del supporto della pellicola
+      "Brittle Paper": Carta fragile
+      "Metal Fasteners": Elementi di fissaggio in metallo
+      "Newspaper": Giornale
+      "Tape": Nastro
+      "Heat-Sensitive Paper": Carta termosensibile
+      "Water Damage": Danni da acqua
   enumeration:
     name: Nome
     name_tooltip: |
@@ -2863,3 +3133,40 @@ it:
         Metadata Harvesting (OAI-PMH v 2.0).</p>
       form_header: Invia una richiesta '%{verb}'
       form_submit: Invia
+  custom_report_template:
+    name: Nome
+    description: Descrizione
+    record_type: Tipo di record
+    display: Display?
+    limit: Limite
+    values: Filtra per valori
+    value: Filtra per valore
+    "true": Si
+    "false": No
+    start_date: Filtra per data di inizio
+    end_date: Filtra per data di fine
+    field: Campo
+    include: Includi
+    _singular: Modello di report personalizzato
+    _plural: Modelli di report personalizzati
+  bulk_import_template:
+    _singular: Modello per l'importazione in blocco
+    _plural: Modelli per l'importazione in blocco
+  repository_oai:
+    oai_is_disabled_tooltip: Tooltip per OAI disabilitato
+    oai_sets_available_tooltip: Suggerimento per i set OAI disponibili
+  oai_config:
+    oai_record_prefix_tooltip: Suggerimento per il prefisso del record OAI
+    oai_admin_email_tooltip: Suggerimento per l'email dell'amministratore OAI
+    oai_repository_name_tooltip: Suggerimento per il nome del repository OAI
+  oai_repository_set:
+    set_name_tooltip: Il setSpec utilizzato dagli harvester per richiedere questo set. Deve essere 
+      univoco tra tutti i set OAI, inclusi quelli generati a partire dai livelli di descrizione.
+    repo_codes_tooltip: I repository i cui record costituiscono questo insieme.
+    set_description_tooltip: La descrizione fornita per questo set.
+  oai_sponsor_set:
+    set_name_tooltip: Il setSpec utilizzato dagli harvester per richiedere questo set. Deve essere 
+      univoco tra tutti i set OAI, inclusi quelli generati a partire dai livelli di descrizione.
+    sponsor_names_tooltip: Gli enti promotori degli strumenti di ricerca i cui documenti 
+      costituiscono questo insieme. Premi invio dopo il nome di ciascun ente promotore.
+    set_description_tooltip: La descrizione fornita per questo set.
