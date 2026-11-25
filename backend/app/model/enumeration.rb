@@ -86,7 +86,9 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
     incoming_values = Array(json['values'])
-    existing_values = obj.enumeration_value.select {|val| val[:suppressed] != 1 }.map {|val| val[:value] }
+    suppressed, unsuppressed = obj.enumeration_value.partition {|val| val[:suppressed] == 1 }
+    existing_values = unsuppressed.map {|val| val[:value] }
+    suppressed_values = suppressed.map {|val| val[:value] }
     # we need to keep suppressed values in mind for positioning
     existing_length = obj.enumeration_value.length
 
@@ -110,7 +112,6 @@ class Enumeration < Sequel::Model(:enumeration)
     default_value = opts[:default_value]
     # the stored default goes away with its removed value
     default_value = nil if default_value == opts[:stored_default] && removed_values.include?(default_value)
-    suppressed_values = obj.enumeration_value.select {|val| val[:suppressed] == 1 }.map {|val| val[:value] }
 
     if default_value && !(incoming_values - suppressed_values).include?(default_value)
       raise JSONModel::ValidationException.new(:errors => {"default_value" => ["must be an unsuppressed value of this list"]})
@@ -141,10 +142,9 @@ class Enumeration < Sequel::Model(:enumeration)
 
     obj.refresh
 
-    existing_default = obj.default_value.nil? ? nil : obj.default_value[:value]
-
-    if default_value != existing_default
-      obj.default_value = default_value && EnumerationValue[:enumeration_id => obj.id, :value => default_value][:id]
+    # create_from_json/update_from_json saved the record without a default
+    if default_value
+      obj.default_value = EnumerationValue[:enumeration_id => obj.id, :value => default_value][:id]
       obj.save
     end
 

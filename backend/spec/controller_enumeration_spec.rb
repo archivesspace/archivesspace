@@ -122,6 +122,11 @@ describe "Enumeration controller" do
 
     obj = JSONModel(:enumeration).find(@enum_id)
     expect(obj.default_value).to eq(val)
+
+    obj.default_value = nil
+    obj.save
+
+    expect(JSONModel(:enumeration).find(@enum_id).default_value).to be_nil
   end
 
   it "rejects a default value that is not in the list" do
