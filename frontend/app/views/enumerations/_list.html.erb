@@ -57,16 +57,10 @@
           </td>
           <td>
             <div class="btn-group" role="group">
-              <% if enum_value['suppressed'] %>
-                <% disable_set_default = true %>
-              <% else %>
-                <% disable_set_default = false %>
-              <% end %>
-
-              <% if enum_value['value'] != @enumeration['default_value'] %>
-                <%= link_to t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value["value"]}, :method => :post, :class=> "btn btn-sm btn-default", :disabled => disable_set_default %>
-              <% else %>
+              <% if enum_value['value'] == @enumeration['default_value'] %>
                 <%= link_to t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-sm btn-default" %>
+              <% elsif !enum_value['suppressed'] %>
+                <%= link_to t("actions.set_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => enum_value["value"]}, :method => :post, :class=> "btn btn-sm btn-default" %>
               <% end %>
               <% if enum_value['suppressed'] %>
                 <%= link_to t("actions.unsuppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 0 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary" %>

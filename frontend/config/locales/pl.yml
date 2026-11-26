@@ -1099,6 +1099,9 @@ pl:
         delete_conflict: Nie można usunąć wartości, ponieważ jest ona obecnie 
           używana przez inny rekord.
         default_set: Ustawiono wartość domyślną.
+        default_set_error: Nie udało się ustawić wartości domyślnej.
+        suppressed_value: "%{value} (ukryta)"
+        saved_with_suppressed_values: "Ten rekord został zapisany z ukrytymi wartościami kontrolowanymi: %{values}"
         created: Value Created
         merged: Scalona wartość
         no_selection: Proszę wybrać listę wartości kontrolowanych.

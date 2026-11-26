@@ -1195,6 +1195,9 @@ fr:
         delete_conflict: "La valeur étant actuellement référencée par une notice,
           elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
+        default_set_error: Échec de la définition de la valeur par défaut
+        suppressed_value: "%{value} (bloquée)"
+        saved_with_suppressed_values: "Cette notice a été enregistrée avec des valeurs contrôlées bloquées : %{values}"
         created: Valeur créée
         create_error: Echec de la création de valeur
         merged: Valeur fusionnée

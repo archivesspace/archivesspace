@@ -36,11 +36,11 @@ class EnumerationsController < ApplicationController
   def set_default
     begin
       @enumeration = JSONModel(:enumeration).find(params[:id])
-      @enumeration['default_value'] = params[:value]
+      @enumeration['default_value'] = params[:value].presence
       @enumeration.save
       flash[:success] = t("enumeration._frontend.messages.default_set")
     rescue
-      flash.now[:error] = t("enumeration._frontend.messages.default_set_error")
+      flash[:error] = t("enumeration._frontend.messages.default_set_error")
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])

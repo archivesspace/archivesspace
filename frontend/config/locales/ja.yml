@@ -1136,6 +1136,9 @@ ja:
         delete_error: 値の削除に失敗しました
         delete_conflict: レコードによって現在参照されている値を削除できません
         default_set: 既定値を設定しました
+        default_set_error: 既定値を設定できませんでした
+        suppressed_value: "%{value}（非表示）"
+        saved_with_suppressed_values: "このレコードは非表示の統制値を含んだまま保存されました: %{values}"
         created: 作成された値
         create_error: 値の作成に失敗しました
         merged: 値をマージしました
