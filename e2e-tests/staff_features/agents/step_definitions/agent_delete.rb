@@ -38,7 +38,6 @@ Given 'an Accession with a Linked Agent has been created' do
   click_on 'Add Agent Link'
   select 'Source', from: 'accession_linked_agents__0__role_'
   fill_in 'token-input-accession_linked_agents__0__ref_', with: "Agent #{@uuid}"
-  wait_for_ajax
   dropdown_items = all('li.token-input-dropdown-item2')
   dropdown_items.first.click
 

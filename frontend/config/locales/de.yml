@@ -1313,6 +1313,9 @@ de:
         delete_conflict: Konnte den Wert nicht löschen, weil eine Aufzeichnung 
           auf ihn verweist
         default_set: Standardwerte-Menge
+        default_set_error: Standardwert konnte nicht gesetzt werden
+        suppressed_value: "%{value} (unterdrückt)"
+        saved_with_suppressed_values: "Dieser Datensatz wurde mit unterdrückten kontrollierten Werten gespeichert: %{values}"
         created: Wert erstellt
         create_error: Konnte Wert nicht erstellen
         merged: Wert zusammengeführt

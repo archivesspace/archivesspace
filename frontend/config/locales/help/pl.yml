@@ -33,6 +33,7 @@ pl:
       resource_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
       resource_load_via_spreadsheet: Pomoc dotycząca ładowania danych za pomocą arkusza 
         kalkulacyjnego
+      tree_reorder_mode: Pomoc dotycząca trybu zmiany kolejności
       bulk_archival_object_updater_job: Pomoc dotycząca masowej aktualizacji obiektów archiwalnych
       archival_object: Pomoc dotycząca obiektów archiwalnych
       archival_object_basic_information: Pomoc dotycząca podstawowych informacji

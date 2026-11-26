@@ -241,9 +241,10 @@ class ImportArchivalObjects < BulkImportParser
       .select { |match| FILE_VERSION_FIELDS.include?(match[:field]) }
       .group_by { |match| match[:index] }
 
-    groups.keys.sort_by(&:to_i).filter_map do |index|
-      build_file_version(groups[index].to_h { |match| [match[:field], match.string] })
+    column_groups = groups.keys.sort_by(&:to_i).map do |index|
+      groups[index].to_h { |match| [match[:field], match.string] }
     end
+    build_file_versions(column_groups)
   end
 
   # create an archival_object

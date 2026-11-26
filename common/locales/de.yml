@@ -282,7 +282,10 @@ de:
     image_url_tooltip: "<p>Eine entfernte URL oder ein Pfad zu einer lokalen Datei, die ein Branding-Bild
       (wie ein Logo oder ein Siegel) enthält, das in den Online-Findmitteln des Aufbewahrungsorts verwendet
       werden soll. Dieses Bild erscheint auf den öffentlichen PDFs, den internen PDFs und auf der Seite
-      des Aufbewahrungsorts.</p>\n"
+      des Aufbewahrungsorts.</p>\n<p>Das Bild muss im Internet frei zugänglich sein und darf keine Anmeldung
+      erfordern. Einige Websites blockieren das Herunterladen ihrer Bilder durch ArchivesSpace. Wenn Ihr
+      Logo auf der Seite des Aufbewahrungsorts erscheint, aber nicht in den PDFs, verwenden Sie ein Bild,
+      das auf Ihrer eigenen Website gespeichert ist.</p>\n"
     publish_tooltip: "<p>Gibt an, ob dieser Aufbewahrungsort und jede darin enthaltene Aufzeichnung auf
       öffentlichen Besucher-Schnittstellen veröffentlicht wird.</p>\n"
     _plural: Aufbewahrungsorte
@@ -2000,7 +2003,7 @@ de:
     note_order_section: Anmerkungsreihenfolge
     _singular: Standardeinstellungen
     _plural: Standardeinstellungen
-    publish_tooltip: Ob neue Datensätze standardmäßig veröffentlicht werden sollen.
+    publish_tooltip: Ob neue Datensätze standardmäßig veröffentlicht werden sollen. Dies kann durch Vorlagen für Standardwerte überschrieben werden, wenn das Kontrollkästchen „Datensätze vorbefüllen?“ aktiviert ist.
     show_suppressed_tooltip: Ob unterdrückte Aufzeichnungen, die Sie beim Blättern sehen können, 
       angezeigt werden sollen.
     default_values: Datensätze vorbefüllen?
@@ -2804,6 +2807,7 @@ de:
       invalid_user_defined_integer: "Ungültige benutzerdefinierte Ganzzahl: %{value}"
       invalid_file_version_size: "Spalte %{column} erfordert eine ganze Zahl von Bytes; erhalten '%{value}'"
       file_version_display_flag_unpublished: "Spalte %{column} ist TRUE, aber %{publish_column} ist nicht TRUE; eine Dateiversion muss veröffentlicht sein, um das Anzeige-Vorschaubild oder der Anzeige-Link zu sein"
+      file_version_display_flag_repeated: "Die Spalten %{columns} sind TRUE; ein digitales Objekt kann nur eine als %{field} markierte Dateiversion haben"
       invalid_user_defined_real: "Ungültige benutzerdefinierte reelle Zahl: %{value}"
       bad_ao_uri: ' mit URI %{uri}'
       bad_accession_uri: 'Akzession mit URI %{uri} nicht gefunden'

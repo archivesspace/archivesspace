@@ -23,24 +23,7 @@ Given 'an Assessment has been created' do
 end
 
 When 'the user filters by text with the Assessment record' do
-  fill_in 'Filter by text', with: "Accession #{@uuid}"
-
-  find('#filter-text').send_keys(:enter)
-
-  rows = []
-  checks = 0
-
-  while checks < 5
-    checks += 1
-
-    begin
-      rows = all('tr', text: @uuid)
-    rescue Selenium::WebDriver::Error::JavascriptError
-      sleep 1
-    end
-
-    break if rows.length == 1
-  end
+  filter_listing_by_text("Accession #{@uuid}", row_text: @uuid)
 end
 
 Given 'two Assessments have been created with a common keyword in their record' do

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 Given 'the user selects {string} in the List Name dropdown menu' do |string|
-  select string, from: 'enum_selector' do
-    wait_for_ajax
-  end
+  select string, from: 'enum_selector'
+  expect(page).to have_current_path(/[?&]id=\d+/)
 end
 
 Given 'the value {string} is added to the list' do |string|
@@ -16,7 +15,7 @@ Given 'a value has been added to the {string} controlled value list' do |list|
 
   visit "#{STAFF_URL}/enumerations"
   select list, from: 'enum_selector'
-  wait_for_ajax
+  expect(page).to have_current_path(/[?&]id=\d+/)
 
   click_on 'Create Value'
   within '.modal-content' do
@@ -47,7 +46,6 @@ end
 When 'the added controlled value is suppressed' do
   visit "#{STAFF_URL}/enumerations"
   select @controlled_value_list, from: 'enum_selector'
-  wait_for_ajax
 
   within(find('tbody tr', text: @controlled_value)) { click_on 'Suppress' }
 
@@ -80,4 +78,22 @@ end
 
 Then 'the suppressed controlled value is displayed' do
   expect(page).to have_text "#{@controlled_value} (suppressed)"
+end
+
+Given 'the added controlled value is set as the default' do
+  within(find('tbody tr', text: @controlled_value)) { click_on 'Set as Default' }
+
+  expect(page).to have_text 'Default Value Set'
+  within(find('tbody tr', text: @controlled_value)) { expect(page).to have_link 'Unset Default' }
+end
+
+Then 'the added controlled value cannot be set as the default' do
+  within(find('tbody tr', text: @controlled_value)) { expect(page).not_to have_link 'Set as Default' }
+end
+
+Then 'the added controlled value is not the default' do
+  within(find('tbody tr', text: @controlled_value)) do
+    expect(page).not_to have_link 'Unset Default'
+    expect(find('td:nth-child(5)').text).to be_empty
+  end
 end

@@ -14,6 +14,7 @@ it:
         digitale"
       invalid_file_version_size: "La colonna %{column} richiede un numero intero di byte; ricevuto '%{value}'"
       file_version_display_flag_unpublished: "La colonna %{column} è TRUE ma %{publish_column} non è TRUE; una versione del file deve essere pubblicata per essere la miniatura o il link di visualizzazione"
+      file_version_display_flag_repeated: "Le colonne %{columns} sono TRUE; un oggetto digitale può avere una sola versione del file contrassegnata come %{field}"
       invalid_user_defined_real: "Reale definito dall'utente non valido: %{value}"
       subject_missing_identity: "Il soggetto %{num} richiede un ID record o un termine"
       agent_missing_identity: "L'agente %{num} richiede un ID record o un'intestazione"

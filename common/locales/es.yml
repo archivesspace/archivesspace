@@ -1815,6 +1815,7 @@ es:
     image_url: URL de imagen de marca
     image_url_tooltip: |
       <p>Una URL o ruta remota a un archivo local que contiene una imagen de marca (como un logotipo o sello) para usar en las ayudas de búsqueda en línea del repositorio. Esta imagen aparece en los PDF del lado público, los PDF del lado del personal y en la página de repositorios.</p>
+      <p>La imagen debe estar disponible abiertamente en la web y no requerir inicio de sesión. Algunos sitios web impiden que ArchivesSpace descargue sus imágenes. Si su logotipo aparece en la página de repositorios pero no en los PDF, utilice una imagen almacenada en su propio sitio web.</p>
     _singular: Repositorio
     _plural: Repositorios
     publish: ¿Publicar?
@@ -2037,7 +2038,7 @@ es:
     show_suppressed_tooltip: Si se muestran registros bloqueados que tiene permiso para ver al 
       navegar.
     publish: ¿Publicar?
-    publish_tooltip: Si desea publicar nuevos registros por defecto.
+    publish_tooltip: Si desea publicar nuevos registros por defecto. Esto puede ser anulado por plantillas de valores predeterminados si se selecciona la casilla de verificación "¿Pre-popular registros?".
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
     browse_column: Columna %{num}
@@ -2864,6 +2865,7 @@ es:
       invalid_user_defined_integer: "Entero definido por el usuario no válido: %{value}"
       invalid_file_version_size: "La columna %{column} requiere un número entero de bytes; se recibió '%{value}'"
       file_version_display_flag_unpublished: "La columna %{column} es TRUE pero %{publish_column} no es TRUE; una versión de archivo debe estar publicada para ser la miniatura o el enlace de visualización"
+      file_version_display_flag_repeated: "Las columnas %{columns} son TRUE; un objeto digital solo puede tener una versión de archivo marcada como %{field}"
       invalid_user_defined_real: "Real definido por el usuario no válido: %{value}"
       bad_ao_uri: " con uri %{uri}"
       bad_accession_uri: "Adquisición no encontrada con uri %{uri}"

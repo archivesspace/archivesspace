@@ -12,18 +12,14 @@ Given 'the Resource is suppressed' do
     click_on 'Suppress'
   end
 
-  wait_for_ajax
-
-  expect(current_url).to include "resources/#{@resource_id}"
   expect(page).to have_text "Resource Resource #{@uuid} suppressed"
+  expect(current_url).to include "resources/#{@resource_id}"
   expect(page).to have_text 'Resource is suppressed and cannot be edited'
 end
 
 Then 'the Resource now is suppressed' do
-  wait_for_ajax
-
-  expect(current_url).to include "resources/#{@resource_id}"
   expect(page).to have_text "Resource Resource #{@uuid} suppressed"
+  expect(current_url).to include "resources/#{@resource_id}"
   expect(page).to have_text 'Resource is suppressed and cannot be edited'
 end
 

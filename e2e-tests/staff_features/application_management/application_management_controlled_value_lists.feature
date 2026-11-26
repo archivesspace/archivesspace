@@ -15,3 +15,12 @@ Feature: User can modify and configure Controlled Value Lists appropriately
       And the user clicks on 'Manage Controlled Value Lists'
       And the user selects 'Language ISO 639-2 (language_iso639_2)' in the List Name dropdown menu
      Then the 'Create Value' button is not present on the page
+  Scenario: A suppressed value cannot be set as the default
+    Given a value has been added to the 'Subject Source (subject_source)' controlled value list
+     When the added controlled value is suppressed
+     Then the added controlled value cannot be set as the default
+  Scenario: Suppressing the default value unsets the default
+    Given a value has been added to the 'Subject Source (subject_source)' controlled value list
+      And the added controlled value is set as the default
+     When the added controlled value is suppressed
+     Then the added controlled value is not the default

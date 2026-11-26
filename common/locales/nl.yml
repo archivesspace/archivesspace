@@ -13,6 +13,7 @@ nl:
       dig_row_not_saved: "Niets uit deze rij is opgeslagen omdat het digitale object niet kon worden aangemaakt"
       invalid_file_version_size: "Kolom %{column} vereist een geheel aantal bytes; ontvangen '%{value}'"
       file_version_display_flag_unpublished: "Kolom %{column} is TRUE maar %{publish_column} is niet TRUE; een bestandsversie moet gepubliceerd zijn om de weergaveminiatuur of weergavelink te zijn"
+      file_version_display_flag_repeated: "Kolommen %{columns} zijn TRUE; een digitaal object kan maar één bestandsversie hebben die als %{field} is gemarkeerd"
       invalid_user_defined_real: "Ongeldig gebruikergedefinieerd reëel getal: %{value}"
       subject_missing_identity: "Onderwerp %{num} vereist een record-ID of term"
       agent_missing_identity: "Agent %{num} vereist een record-ID of koptekst"
@@ -82,6 +83,9 @@ nl:
   repository:
     _singular: Collectiebeherende instelling
     _plural: Collectiebeherende instellingen
+    image_url_tooltip: |
+      <p>Een externe URL of pad naar een lokaal bestand met een huisstijlafbeelding (zoals een logo of zegel) die wordt gebruikt in de online toegangen van de collectiebeherende instelling. Deze afbeelding verschijnt in de PDF's aan de publieke kant, de PDF's aan de medewerkerskant en op de pagina met collectiebeherende instellingen.</p>
+      <p>De afbeelding moet vrij toegankelijk zijn op het web, zonder dat inloggen nodig is. Sommige websites blokkeren het downloaden van hun afbeeldingen door ArchivesSpace. Als uw logo wel op de pagina met collectiebeherende instellingen verschijnt maar niet in PDF's, gebruik dan een afbeelding die op uw eigen website staat.</p>
   subject:
     _singular: Onderwerp
     _plural: Onderwerpen

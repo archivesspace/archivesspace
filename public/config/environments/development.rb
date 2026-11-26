@@ -62,8 +62,8 @@ Rails.application.configure do
   # Allow the web console to work in the browser
   config.web_console.allowed_ips = ['172.18.0.0/16', '172.27.0.0/16', '0.0.0.0/0']
 
-  # Infinite Tree and Records config
-  config.infinite_tree_batch_size = 200
+  # Tree and InfiniteRecords config
+  config.tree_batch_size = 200
   config.infinite_records_waypoint_size = 20
   config.infinite_records_main_max_concurrent_waypoint_fetches = 20
   config.infinite_records_worker_max_concurrent_waypoint_fetches = 100

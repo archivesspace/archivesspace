@@ -37,6 +37,14 @@ When 'an administrator logs in directly on the PUI' do
   click_on 'Sign In'
 end
 
+When 'an administrator logs in directly on the PUI with an incorrect password' do
+  visit PUBLIC_URL
+
+  fill_in 'user_name', with: 'admin'
+  fill_in 'password', with: 'not-the-admin-password'
+  click_on 'Sign In'
+end
+
 When 'that user logs in directly on the PUI' do
   visit PUBLIC_URL
 
@@ -59,6 +67,12 @@ Then 'the user is signed in to the PUI as {string}' do |username|
   within '.user-container' do
     expect(page).to have_text username
   end
+end
+
+Then 'the PUI login failed message is displayed' do
+  expect(page).to have_text 'Login failed. Please check your username and password.'
+  expect(page).not_to have_text 'does not have permission to view the public user interface'
+  expect(page).to have_text 'Please Sign In'
 end
 
 Then 'the PUI permission denied message is displayed' do

@@ -10,7 +10,6 @@ end
 
 Given 'the user is on the Accession Record Default page' do
   visit "#{STAFF_URL}/accessions/defaults"
-  wait_for_ajax
 end
 
 Then 'the new Accession form has the following default values' do |form_values_table|

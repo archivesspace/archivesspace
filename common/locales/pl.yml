@@ -1453,6 +1453,7 @@ pl:
       invalid_user_defined_integer: "Nieprawidłowa liczba całkowita zdefiniowana przez użytkownika: %{value}"
       invalid_file_version_size: "Kolumna %{column} wymaga całkowitej liczby bajtów; otrzymano '%{value}'"
       file_version_display_flag_unpublished: "Kolumna %{column} ma wartość TRUE, ale %{publish_column} nie ma wartości TRUE; wersja pliku musi być opublikowana, aby była miniaturą lub linkiem wyświetlania"
+      file_version_display_flag_repeated: "Kolumny %{columns} mają wartość TRUE; obiekt cyfrowy może mieć tylko jedną wersję pliku oznaczoną jako %{field}"
       invalid_user_defined_real: "Nieprawidłowa liczba rzeczywista zdefiniowana przez użytkownika: %{value}"
       script_code: Nie można zweryfikować skryptu językowego (%{script}).
       lang_code: Nie można zweryfikować języka (%{lang})

@@ -1,6 +1,6 @@
 <%= setup_context :object => @location, :title => @location.title %>
 
-<%= form_for @location, :as => "location", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@location)) do |f| %>
+<%= form_for @location, :as => "location", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@location)).merge(readonly_view_params(url_for(:controller => :locations, :action => :show, :id => @location.id))) do |f| %>
   <%= form_context :location, @location do |form| %>
     <div class="d-flex">
       <div class="col-md-3">

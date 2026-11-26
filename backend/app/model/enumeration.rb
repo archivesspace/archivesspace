@@ -86,7 +86,9 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
     incoming_values = Array(json['values'])
-    existing_values = obj.enumeration_value.select {|val| val[:suppressed] != 1 }.map {|val| val[:value] }
+    suppressed, unsuppressed = obj.enumeration_value.partition {|val| val[:suppressed] == 1 }
+    existing_values = unsuppressed.map {|val| val[:value] }
+    suppressed_values = suppressed.map {|val| val[:value] }
     # we need to keep suppressed values in mind for positioning
     existing_length = obj.enumeration_value.length
 
@@ -107,6 +109,13 @@ class Enumeration < Sequel::Model(:enumeration)
       raise AccessDeniedException.new("Can't remove read-only enumeration values")
     end
 
+    default_value = opts[:default_value]
+    # the stored default goes away with its removed value
+    default_value = nil if default_value == opts[:stored_default] && removed_values.include?(default_value)
+
+    if default_value && !(incoming_values - suppressed_values).include?(default_value)
+      raise JSONModel::ValidationException.new(:errors => {"default_value" => ["must be an unsuppressed value of this list"]})
+    end
 
     added_values.each_with_index do |value, i|
       obj.add_enumeration_value(:value => value, :position => (existing_length + i + 1) )
@@ -133,17 +142,9 @@ class Enumeration < Sequel::Model(:enumeration)
 
     obj.refresh
 
-    existing_default = obj.default_value.nil? ? nil : obj.default_value[:value]
-
-    if opts[:default_value] != existing_default
-      if opts[:default_value]
-        new_default = EnumerationValue[:value => opts[:default_value]]
-        return obj if new_default.nil? #just move along if the default isn't in the values table
-        obj.default_value = new_default[:id]
-      else
-        obj.default_value = nil
-      end
-
+    # create_from_json/update_from_json saved the record without a default
+    if default_value
+      obj.default_value = EnumerationValue[:enumeration_id => obj.id, :value => default_value][:id]
       obj.save
     end
 
@@ -163,8 +164,9 @@ class Enumeration < Sequel::Model(:enumeration)
   def update_from_json(json, opts = {}, apply_nested_records = true)
     default_value = json['default_value']
     json['default_value'] = nil
+    stored_default = self.default_value && EnumerationValue[self.default_value][:value]
 
-    self.class.apply_values(super, json, opts.merge({:default_value => default_value}))
+    self.class.apply_values(super, json, opts.merge({:default_value => default_value, :stored_default => stored_default}))
   end
 
 

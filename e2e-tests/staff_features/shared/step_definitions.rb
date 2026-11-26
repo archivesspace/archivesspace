@@ -5,18 +5,9 @@ Before do
 end
 
 Given 'an administrator user is logged in' do
-  visit "#{STAFF_URL}/logout"
-
   login_admin
 
-  ensure_test_repository_exists
-  ensure_test_user_exists
-  ensure_test_agent_exists
-  ensure_test_subject_exists
-  ensure_test_accession_exists
-  ensure_test_classification_exists
-  ensure_test_location_exists
-  ensure_test_container_profile_exists
+  ensure_test_records_exist
 end
 
 Given 'an archivist user is logged in' do
@@ -32,19 +23,15 @@ Given 'a Repository with name {string} has been created' do |repository_name|
     find('button').click
   end
 
-  begin
-    find('tr', text: repository_name, match: :first)
-  rescue Capybara::ElementNotFound
-    visit "#{STAFF_URL}/repositories/new"
-    fill_in 'Repository Short Name', with: repository_name
-    fill_in 'Repository Name', with: repository_name
+  expect(page).to have_current_path(/[?&]q=/)
+  expect(page).to have_css('#tabledSearchResults tbody tr, .alert.alert-info.with-hide-alert')
+  next if page.has_css?('tr', text: repository_name, wait: 0)
 
-    click_on 'Save'
-  end
-end
+  visit "#{STAFF_URL}/repositories/new"
+  fill_in 'Repository Short Name', with: repository_name
+  fill_in 'Repository Name', with: repository_name
 
-When 'the user waits for the page to update' do
-  wait_for_ajax
+  save_new_record_form
 end
 
 When 'the user selects {string} as the current repository' do |repository_name|
@@ -60,8 +47,8 @@ When 'the user selects {string} as the current repository' do |repository_name|
 end
 
 When 'the user clicks on {string}' do |string|
-  if infinite_tree_toolbar_click?(string)
-    click_infinite_tree_toolbar_button(string)
+  if tree_toolbar_click?(string)
+    click_tree_toolbar_button(string)
   else
     click_on_string string
 
@@ -71,8 +58,8 @@ When 'the user clicks on {string}' do |string|
       'merge_selector',
       'defaults'
     ].any? { |s| current_url.include?(s) }
-      wait_for_ajax
       sleep 2
+      wait_for_tree_pane_ready
     end
   end
 end
@@ -92,8 +79,6 @@ When 'the user clicks on {string} in the record toolbar' do |string|
 end
 
 When 'the user clicks on {string} in the modal' do |string|
-  wait_for_ajax
-
   within '.modal-content' do
     click_on_string string
   end
@@ -120,8 +105,6 @@ When 'the user clicks on {string} in the dropdown menu' do |string|
       end
     end
   end
-
-  wait_for_ajax
 end
 
 When 'the user clicks on {string} in the spawn dropdown menu' do |string|
@@ -169,7 +152,6 @@ When 'the user clicks on {string} in the dropdown menu in the {string} form' do 
     within '.dropdown-menu' do
       click_on string
     end
-    wait_for_ajax
   end
 end
 
@@ -265,25 +247,18 @@ end
 
 When 'the user selects {string} from {string}' do |option, label|
   select option, from: label, match: :first
-  wait_for_ajax
 end
 
 When 'the user selects {string} in the modal' do |select_option|
   within '.modal-content' do
     find('#label').select select_option
   end
-
-  wait_for_ajax
 end
 
 When 'the user selects {string} from {string} in the modal' do |option, label|
-  wait_for_ajax
-
   within '.modal-content' do
     select option, from: label
   end
-
-  wait_for_ajax
 end
 
 When 'the user selects {string} from {string} in the {string} form' do |option, label, form_title|
@@ -294,8 +269,6 @@ When 'the user selects {string} from {string} in the {string} form' do |option, 
   within section do
     select option, from: label
   end
-
-  wait_for_ajax
 end
 
 When 'the user checks {string}' do |label|
@@ -651,8 +624,6 @@ When 'the user checks {string} in the LCNAF Import form' do |string|
 end
 
 When 'the user selects the first LCNAF importer search result' do
-  wait_for_ajax
-
   find('#results div.lcnaf-result button', match: :first).click
 end
 

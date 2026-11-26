@@ -31,7 +31,7 @@
          data-default-sort-dir="<%= @default_sort_dir %>">
     <thead>
       <tr class="sortable-columns">
-        <th><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
+        <th class="multiselect-column"><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
         <% if actions_at_start %>
           <%= render_aspace_partial :partial => "top_containers/bulk_operations/results_actions_header" %>
         <% end %>
@@ -48,7 +48,7 @@
       <% top_containers.each do |doc| %>
         <% container_json = ASUtils.json_parse(doc['json']) %>
         <tr>
-          <td>
+          <td class="multiselect-column">
             <% if multiselect %>
               <label>
                 <span class="sr-only"><%= t("search_results.selected") %></span>

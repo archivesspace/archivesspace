@@ -55,6 +55,24 @@ describe 'FileVersionDisplayFlags' do
                     file_version(2, :file_uri => 'https://example.com/2', :xlink_show_attribute_id => enum_ids[:embed])).first).to eq(2)
     end
 
+    it 'is else the last embedded data: file version, which 4.2.1 showed' do
+      expect(choose(file_version(1, :file_format_name_id => enum_ids[:images].first),
+                    file_version(2, :file_uri => 'data:image/png;base64,2', :xlink_show_attribute_id => enum_ids[:embed]),
+                    file_version(3, :file_uri => 'data:image/png;base64,3', :xlink_show_attribute_id => enum_ids[:embed]),
+                    file_version(4, :file_uri => 'data:image/png;base64,4')).first).to eq(3)
+    end
+
+    it 'is the embedded data: file version marked representative, not the last one' do
+      expect(choose(file_version(1, :file_uri => 'data:image/png;base64,1', :xlink_show_attribute_id => enum_ids[:embed],
+                                    :is_representative => 1),
+                    file_version(2, :file_uri => 'data:image/png;base64,2', :xlink_show_attribute_id => enum_ids[:embed])).first).to eq(1)
+    end
+
+    it 'is an embedded http(s) file version before an embedded data: one' do
+      expect(choose(file_version(1, :file_uri => 'data:image/png;base64,1', :xlink_show_attribute_id => enum_ids[:embed]),
+                    file_version(2, :xlink_show_attribute_id => enum_ids[:embed])).first).to eq(2)
+    end
+
     it 'is else a jpeg or gif file version' do
       expect(choose(file_version(1, :file_format_name_id => pdf),
                     file_version(2, :file_format_name_id => enum_ids[:images].last)).first).to eq(2)
@@ -95,6 +113,11 @@ describe 'FileVersionDisplayFlags' do
 
     it 'is nothing when the display thumbnail is the last file version' do
       expect(choose(file_version(1), file_version(2, :is_representative => 1))).to eq([2, nil])
+    end
+
+    it 'is the last published link, as in 4.2.1, when the display thumbnail is an embedded data: file version' do
+      expect(choose(file_version(1, :file_uri => 'data:image/png;base64,1', :xlink_show_attribute_id => enum_ids[:embed]),
+                    file_version(2), file_version(3), file_version(4, :publish => 0))).to eq([1, 3])
     end
 
     context 'without a display thumbnail' do

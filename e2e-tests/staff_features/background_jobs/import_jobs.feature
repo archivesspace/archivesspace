@@ -1,6 +1,8 @@
 Feature: Import Jobs
+
   Background:
     Given an administrator user is logged in
+
   Scenario: Import Location CSV job can be created
     Given the user is on the 'Import Data' background job page
      When the user selects 'Location CSV' from 'Import Type'
@@ -12,3 +14,5 @@ Feature: Import Jobs
       And the 'New & Modified Records' section is displayed
       And the New & Modified Records section contains 3 links
       And the record links do not display 'Record belongs to a different repository'
+      And the user clicks on 'File' in the 'Files' form
+      And a CSV file is downloaded for the job

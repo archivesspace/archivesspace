@@ -1,6 +1,6 @@
 <%= setup_context :object => @agent, :controller => :agents, :agent_type => @agent.agent_type, :title => @agent.title %>
 
-<%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"}.merge(update_monitor_params(@agent)) do |f| %>
+<%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"}.merge(update_monitor_params(@agent)).merge(readonly_view_params(url_for(:controller => :agents, :action => :show, :agent_type => @agent.agent_type, :id => @agent.id))) do |f| %>
   <%= form_context :agent, @agent do |form| %>
     <div class="d-flex">
       <div class="col-md-3">

@@ -18,8 +18,6 @@ def login_admin
     click_on 'Sign In'
   end
 
-  wait_for_ajax
-
   expect(page).not_to have_content('Please Sign In')
   expect(page).to have_content 'Welcome to ArchivesSpace'
   expect(page).to have_content 'Your friendly archives management tool.'
@@ -28,75 +26,38 @@ def login_admin
 end
 
 def login_archivist
-  uuid = SecureRandom.uuid
-
-  login_admin
-
-  visit "#{STAFF_URL}/users/new"
-
-  fill_in 'user_username_', with: "archivist-user-#{uuid}"
-  fill_in 'user_name_', with: "archivist-user-#{uuid}"
-  fill_in 'user_password_', with: "archivist-user-#{uuid}"
-  fill_in 'user_confirm_password_', with: "archivist-user-#{uuid}"
-
-  find('#create_account').click
-
-  expect(page).to have_text "User Created: archivist-user-#{uuid}"
-
-  visit "#{STAFF_URL}/users/manage_access"
-
-  find_user_element = find_user_table_row_in_manage_user_access_page("archivist-user-#{uuid}")
-
-  within find_user_element do
-    click_on 'Edit Groups'
-  end
-
-  check 'repository-archivists'
-
-  click_on 'Update Account'
-
-  expect(page).to have_text 'User Saved'
-
-  visit "#{STAFF_URL}/logout"
-
-  fill_in 'username', with: "archivist-user-#{uuid}"
-  fill_in 'password', with: "archivist-user-#{uuid}"
-
-  click_on 'Sign In'
-
-  begin
-    element = find('.alert.alert-danger.with-hide-alert')
-    raise "Login failed for user: archivist-user-#{uuid}" if element.text == 'Login attempt failed'
-  rescue Capybara::ElementNotFound
-    # Pass on successful login
-  end
+  login_new_repository_user('archivist-user', 'repository-archivists')
 end
 
 def login_viewer
-  uuid = SecureRandom.uuid
+  login_new_repository_user('viewer-user', 'repository-viewers')
+end
+
+def login_new_repository_user(username_prefix, group)
+  username = "#{username_prefix}-#{SecureRandom.uuid}"
 
   login_admin
 
   visit "#{STAFF_URL}/users/new"
 
-  fill_in 'user_username_', with: "viewer-user-#{uuid}"
-  fill_in 'user_name_', with: "viewer-user-#{uuid}"
-  fill_in 'user_password_', with: "viewer-user-#{uuid}"
-  fill_in 'user_confirm_password_', with: "viewer-user-#{uuid}"
+  fill_in 'user_username_', with: username
+  fill_in 'user_name_', with: username
+  fill_in 'user_password_', with: username
+  fill_in 'user_confirm_password_', with: username
 
   find('#create_account').click
 
-  expect(page).to have_text "User Created: viewer-user-#{uuid}"
+  expect(page).to have_text "User Created: #{username}"
 
   visit "#{STAFF_URL}/users/manage_access"
 
-  find_user_element = find_user_table_row_in_manage_user_access_page("viewer-user-#{uuid}")
+  find_user_element = find_user_table_row_in_manage_user_access_page(username)
 
   within find_user_element do
     click_on 'Edit Groups'
   end
 
-  check 'repository-viewers'
+  check group
 
   click_on 'Update Account'
 
@@ -104,17 +65,39 @@ def login_viewer
 
   visit "#{STAFF_URL}/logout"
 
-  fill_in 'username', with: "viewer-user-#{uuid}"
-  fill_in 'password', with: "viewer-user-#{uuid}"
+  fill_in 'username', with: username
+  fill_in 'password', with: username
 
   click_on 'Sign In'
 
-  begin
-    element = find('.alert.alert-danger.with-hide-alert')
-    raise "Login failed for user: viewer-user-#{uuid}" if element.text == 'Login attempt failed'
-  rescue Capybara::ElementNotFound
-    # Pass on successful login
-  end
+  expect(page).to have_css('.global-header .user-container', text: username)
+end
+
+SharedTestRecords = Struct.new(:created, :repository_id).new
+
+def ensure_test_records_exist
+  ensure_test_repository_exists
+
+  return if SharedTestRecords.created
+
+  ensure_test_user_exists
+  ensure_test_agent_exists
+  ensure_test_subject_exists
+  ensure_test_accession_exists
+  ensure_test_classification_exists
+  ensure_test_location_exists
+  ensure_test_container_profile_exists
+
+  SharedTestRecords.created = true
+end
+
+# Waits for the response page, whether the record was saved or rejected (e.g. as a duplicate)
+def save_new_record_form(button = 'Save', **)
+  form_path = URI.parse(current_url).path
+
+  click_on(button, **)
+
+  expect(page).to have_no_current_path(form_path)
 end
 
 # Ensure the system has at least one repository
@@ -149,8 +132,11 @@ def ensure_test_repository_selected
   end
   expect(find('.alert.alert-success').text).to eq 'The Repository repository_test is now active'
 
-  click_on 'repository_test'
-  @repository_id = current_url.split('/').pop
+  unless SharedTestRecords.repository_id
+    click_on 'repository_test'
+    SharedTestRecords.repository_id = current_url.split('/').pop
+  end
+  @repository_id = SharedTestRecords.repository_id
 rescue Capybara::ElementNotFound
   visit STAFF_URL
   click_on 'System'
@@ -181,39 +167,36 @@ def ensure_test_user_exists
 
   click_on 'Create Account', match: :first
 
-  raise 'Could not create test user' if page.has_text?('User not created') &&
-                                        !page.has_text?("Username - Username 'test' is already in use")
-
-  visit STAFF_URL
+  expect(page).to have_text(/User Created: test|Username - Username 'test' is already in use/)
 end
 
 def ensure_test_agent_exists
   visit "#{STAFF_URL}/agents/agent_person/new"
   check 'Publish'
   fill_in 'Primary Part of Name', with: 'test_agent'
-  click_on 'Save'
+  save_new_record_form
 end
 
 def ensure_test_subject_exists
   visit "#{STAFF_URL}/subjects/new"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
-  fill_in 'subject_terms__0__term_', with: 'test_subject_term'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
-  click_on 'Save'
+  fill_in 'subject_terms__0__term_', with: 'test_subject_term'
+  save_new_record_form
 end
 
 def ensure_test_accession_exists
   visit "#{STAFF_URL}/accessions/new"
   fill_in 'accession_id_0_', with: 'test_accession'
   fill_in 'accession_title_', with: 'test_accession'
-  click_on 'Save'
+  save_new_record_form
 end
 
 def ensure_test_classification_exists
   visit "#{STAFF_URL}/classifications/new"
   fill_in 'classification_identifier_', with: 'test_classification'
   fill_in 'classification_title_', with: 'test_classification'
-  click_on 'Save'
+  save_new_record_form
 end
 
 def ensure_test_location_exists
@@ -221,7 +204,7 @@ def ensure_test_location_exists
   fill_in 'Building', with: 'test_location'
   fill_in 'Barcode', with: 'test_location'
   fill_in 'Classification', with: 'test_location'
-  click_on 'Save', match: :first
+  save_new_record_form('Save', match: :first)
 end
 
 def ensure_test_container_profile_exists
@@ -231,7 +214,7 @@ def ensure_test_container_profile_exists
   fill_in 'Depth', with: '1.1'
   fill_in 'Height', with: '2.2'
   fill_in 'Width', with: '3.3'
-  click_on 'Save', match: :first
+  save_new_record_form('Save', match: :first)
 end
 
 def find_user_table_row_in_manage_user_access_page(username)
@@ -325,11 +308,11 @@ end
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 
 def create_resource_archival_object(uuid)
-  within '#infinite-tree-toolbar' do
+  within '#tree-toolbar' do
     click_on 'Add Child'
   end
 
-  wait_for_infinite_tree_inline_new_form(form_prefix: 'archival_object')
+  wait_for_tree_inline_new_form(form_prefix: 'archival_object')
 
   fill_in 'Title', with: "Archival Object #{uuid}"
   fill_in 'Component Unique Identifier', with: uuid
@@ -430,37 +413,26 @@ def expect_record_to_not_be_in_search_results(search_term)
   fill_in 'global-search-box', with: search_term
   find('#global-search-button').click
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 0
   expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'No records found')
+  expect(page).to have_no_css('#tabledSearchResults tbody tr')
 end
 
 def form_section(form_title)
   find('h3', text: form_title).find(:xpath, './ancestor::section[1]')
 end
 
+# Capybara retries an ambiguous match until the wait time runs out, so wait for any match and click without waiting
 def click_on_string(string)
-  click_on string
-rescue Capybara::Ambiguous
-  elements = all(:xpath, "//*[contains(text(), '#{string}')]")
+  first(:link_or_button, string)
 
-  elements.first.click
-end
+  begin
+    click_on string, wait: 0
+  rescue Capybara::Ambiguous
+    elements = all(:xpath, "//*[contains(text(), '#{string}')]")
 
-def wait_for_ajax
-  Timeout.timeout(Capybara.default_max_wait_time) do
-    javascript_error_tries = 0
-
-    begin
-      sleep 1 until page.evaluate_script('jQuery.active')&.zero?
-    rescue Selenium::WebDriver::Error::JavascriptError => e
-      raise e if javascript_error_tries == 5
-
-      javascript_error_tries += 1
-      sleep 3
-      retry
-    end
+    elements.first.click
+  rescue Capybara::ElementNotFound
+    click_on string
   end
 end
 
@@ -494,12 +466,32 @@ def expect_link_with_href(href_matcher)
 end
 
 def add_file_version(form_prefix)
+  section = find("##{form_prefix}_file_versions_")
   file_versions = "##{form_prefix}_file_versions_ .subrecord-form-list > li"
-  existing = all(file_versions).length
+  # all waits for a first match by default, which a new record never has
+  existing = all(file_versions, wait: 0).length
 
-  within("##{form_prefix}_file_versions_") { find('button', text: 'Add File Version', match: :first).click }
+  section.find('button', text: 'Add File Version', match: :first).click
 
   all(file_versions, count: existing + 1).last
+end
+
+# The filtered results replace the current ones, which may already list the record
+def submit_listing_filter(text)
+  fill_in 'Filter by text', with: text
+  find('.search-filter button').click
+  expect(page).to have_css('.search-listing-filter .facet-selected', text:)
+end
+
+# Filters a browse listing, reloading it until the indexer has caught up with the record
+def filter_listing_by_text(text, row_text: text)
+  fill_in 'Filter by text', with: text
+  find('#filter-text').send_keys(:enter)
+  expect(page).to have_current_path(/[?&]q=/)
+
+  retry_with_reload(attempts: 10, interval: 1) do
+    expect(page).to have_css('#tabledSearchResults tbody tr', text: row_text, wait: 3)
+  end
 end
 
 # For pages that only change on reload, e.g. public interface pages waiting for the indexer
@@ -518,13 +510,13 @@ def retry_with_reload(attempts: 20, interval: 3)
   end
 end
 
-# InfiniteTree loads/saves record-pane HTML with fetch (not jQuery.ajax), so wait_for_ajax is
-# not enough. These helpers wait for the pane to finish loading and become interactable.
+# Tree loads/saves record-pane HTML with fetch. These helpers wait for the pane to finish
+# loading and become interactable.
 # form_prefix is the record type form id prefix (e.g. 'archival_object', 'digital_object_component').
-def wait_for_infinite_tree_inline_edit_form(form_prefix:)
+def wait_for_tree_inline_edit_form(form_prefix:)
   explicit_form_id = "#{form_prefix}_form"
   form_context_id = "form_#{form_prefix}"
-  pane = '#infinite-tree-record-pane'
+  pane = '#tree-record-pane'
 
   aggregate_failures do
     expect(page).to have_no_css("#{pane}.blocked")
@@ -536,10 +528,10 @@ def wait_for_infinite_tree_inline_edit_form(form_prefix:)
   end
 end
 
-def wait_for_infinite_tree_inline_new_form(form_prefix:)
+def wait_for_tree_inline_new_form(form_prefix:)
   form_id = "#{form_prefix}_form"
   form_context_id = "form_#{form_prefix}"
-  pane = '#infinite-tree-record-pane'
+  pane = '#tree-record-pane'
 
   aggregate_failures do
     expect(page).to have_no_css("#{pane}.blocked")
@@ -549,64 +541,66 @@ def wait_for_infinite_tree_inline_new_form(form_prefix:)
   end
 end
 
-def wait_for_infinite_tree_pane_ready
-  expect(page).to have_no_css('#infinite-tree-record-pane.blocked')
+def wait_for_tree_pane_ready
+  expect(page).to have_no_css('#tree-record-pane.blocked')
 end
 
-def wait_for_infinite_tree_reorder_idle
-  expect(page).to have_no_css('#infinite-tree-container[data-reorder-move-in-flight]')
+def wait_for_tree_reorder_idle
+  expect(page).to have_no_css('#tree-container[data-reorder-move-in-flight]')
 end
 
-def wait_for_infinite_tree_auto_expand_toolbar_idle
+def wait_for_tree_auto_expand_toolbar_idle
   expect(page).to have_css(
-    '.js-itree-toolbar-expand-mode:not(.disabled):not([disabled])'
+    '.js-tree-toolbar-expand-mode:not(.disabled):not([disabled])'
   )
 end
 
-def wait_for_infinite_tree_auto_expand_mode_on
+def wait_for_tree_auto_expand_mode_on
   aggregate_failures do
-    expect(page).to have_css('#infinite-tree-container.expand-all')
-    expect(page).to have_css('.js-itree-toolbar-expand-mode.btn-success')
+    expect(page).to have_css('#tree-container.expand-all')
+    expect(page).to have_css('.js-tree-toolbar-expand-mode.btn-success')
   end
-  wait_for_infinite_tree_auto_expand_toolbar_idle
+  wait_for_tree_auto_expand_toolbar_idle
 end
 
-def wait_for_infinite_tree_auto_expand_mode_off
+def wait_for_tree_auto_expand_mode_off
   aggregate_failures do
-    expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
-    expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
+    expect(page).to have_css('#tree-container:not(.expand-all)')
+    expect(page).to have_no_css('.js-tree-toolbar-expand-mode.btn-success')
   end
-  wait_for_infinite_tree_auto_expand_toolbar_idle
+  wait_for_tree_auto_expand_toolbar_idle
 end
 
-def wait_for_infinite_tree_collapsed
+def wait_for_tree_collapsed
   expect(page).to have_no_css(
-    '#infinite-tree-container li.node[aria-expanded="true"]:not(.root)'
+    '#tree-container li.node[aria-expanded="true"]:not(.root)'
   )
-  wait_for_infinite_tree_auto_expand_toolbar_idle
+  wait_for_tree_auto_expand_toolbar_idle
 end
 
-def click_infinite_tree_toolbar_enable_auto_expand
-  return if page.has_css?('#infinite-tree-container.expand-all')
+def click_tree_toolbar_enable_auto_expand
+  wait_for_tree_auto_expand_toolbar_idle
+  return if page.has_css?('#tree-container.expand-all', wait: 0)
 
-  find('.js-itree-toolbar-expand-mode').click
-  wait_for_infinite_tree_auto_expand_mode_on
+  find('.js-tree-toolbar-expand-mode').click
+  wait_for_tree_auto_expand_mode_on
 end
 
-def click_infinite_tree_toolbar_disable_auto_expand
-  return unless page.has_css?('#infinite-tree-container.expand-all')
+def click_tree_toolbar_disable_auto_expand
+  wait_for_tree_auto_expand_toolbar_idle
+  return unless page.has_css?('#tree-container.expand-all', wait: 0)
 
-  find('.js-itree-toolbar-expand-mode').click
-  wait_for_infinite_tree_auto_expand_mode_off
+  find('.js-tree-toolbar-expand-mode').click
+  wait_for_tree_auto_expand_mode_off
 end
 
-def click_infinite_tree_toolbar_collapse_tree
-  find('.js-itree-toolbar-collapse-tree').click
-  wait_for_infinite_tree_auto_expand_mode_off
-  wait_for_infinite_tree_collapsed
+def click_tree_toolbar_collapse_tree
+  find('.js-tree-toolbar-collapse-tree').click
+  wait_for_tree_auto_expand_mode_off
+  wait_for_tree_collapsed
 end
 
-INFINITE_TREE_TOOLBAR_CLICK_LABELS = [
+TREE_TOOLBAR_CLICK_LABELS = [
   'Add Child',
   'Add Sibling',
   'Add Duplicate',
@@ -615,71 +609,66 @@ INFINITE_TREE_TOOLBAR_CLICK_LABELS = [
   'Collapse Tree'
 ].freeze
 
-# Clicks a known InfiniteTree toolbar control with fetch/DOM-aware waits.
-def click_infinite_tree_toolbar_button(label)
+# Clicks a known Tree toolbar control with fetch/DOM-aware waits.
+def click_tree_toolbar_button(label)
   case label
   when 'Auto-Expand All'
-    click_infinite_tree_toolbar_enable_auto_expand
+    click_tree_toolbar_enable_auto_expand
   when 'Disable Auto-Expand'
-    click_infinite_tree_toolbar_disable_auto_expand
+    click_tree_toolbar_disable_auto_expand
   when 'Collapse Tree'
-    click_infinite_tree_toolbar_collapse_tree
+    click_tree_toolbar_collapse_tree
   when 'Add Child', 'Add Sibling', 'Add Duplicate'
-    within '#infinite-tree-toolbar' do
+    within '#tree-toolbar' do
       click_on_string label
     end
 
-    wait_for_ajax
-
-    child_type = find('#infinite-tree-component', visible: :all)['data-child-type']
-    wait_for_infinite_tree_inline_new_form(form_prefix: child_type) if child_type
+    child_type = find('#tree-component', visible: :all)['data-child-type']
+    wait_for_tree_inline_new_form(form_prefix: child_type) if child_type
   end
 end
 
-def infinite_tree_toolbar_click?(label)
-  INFINITE_TREE_TOOLBAR_CLICK_LABELS.include?(label) &&
-    page.has_css?('#infinite-tree-toolbar', visible: :all, wait: 0)
+def tree_toolbar_click?(label)
+  TREE_TOOLBAR_CLICK_LABELS.include?(label) &&
+    page.has_css?('#tree-toolbar', visible: :all, wait: 0)
 end
 
 def saved_digital_object_component_id_from_pane
-  within('#infinite-tree-record-pane') do
+  within('#tree-record-pane') do
     find('#uri', visible: :all).value.split('/').last
   end
 end
 
 def wait_for_digital_object_component_create_settled
-  wait_for_infinite_tree_pane_ready
+  wait_for_tree_pane_ready
   expect(page).to have_no_css(
-    '#infinite-tree-container li.js-itree-synthetic-new',
+    '#tree-container li.js-tree-synthetic-new',
     visible: :all
   )
   @created_record_id = saved_digital_object_component_id_from_pane
 end
 
-# InfiniteTree RDE silently no-ops until a current tree node with data-uri exists.
-# wait_for_ajax alone is not enough because tree/root navigation uses fetch.
-def wait_for_infinite_tree_ready_for_rde
+# Tree RDE silently no-ops until a current tree node with data-uri exists.
+def wait_for_tree_ready_for_rde
   aggregate_failures do
     expect(page).to have_css(
-      '#infinite-tree-container li.node.current[data-uri]',
+      '#tree-container li.node.current[data-uri]',
       visible: true
     )
     expect(page).to have_css(
-      '#infinite-tree-toolbar .js-itree-toolbar-rde:not(.disabled)',
+      '#tree-toolbar .js-tree-toolbar-rde:not(.disabled)',
       visible: true
     )
-    expect(page).to have_css('#infinite-tree-record-pane:not(.blocked)')
+    expect(page).to have_css('#tree-record-pane:not(.blocked)')
   end
 end
 
 def open_rapid_data_entry_modal
-  wait_for_infinite_tree_ready_for_rde
+  wait_for_tree_ready_for_rde
 
-  within '#infinite-tree-toolbar' do
-    find('.js-itree-toolbar-rde:not(.disabled)', visible: true).click
+  within '#tree-toolbar' do
+    find('.js-tree-toolbar-rde:not(.disabled)', visible: true).click
   end
-
-  wait_for_ajax
 
   aggregate_failures do
     expect(page).to have_css('#rapidDataEntryModal', visible: true)
@@ -692,38 +681,37 @@ end
 # @param action [Symbol] :child (Add Child) or :sibling (Add Sibling)
 def add_digital_object_component_via_toolbar(label, action: :child)
   button_selector = case action
-                    when :child then '.js-itree-toolbar-add-child'
-                    when :sibling then '.js-itree-toolbar-add-sibling'
+                    when :child then '.js-tree-toolbar-add-child'
+                    when :sibling then '.js-tree-toolbar-add-sibling'
                     else raise ArgumentError, "unsupported action: #{action.inspect}"
                     end
   find("#{button_selector}:not(.disabled)").click
-  wait_for_infinite_tree_inline_new_form(form_prefix: 'digital_object_component')
+  wait_for_tree_inline_new_form(form_prefix: 'digital_object_component')
 
   fill_in 'Label', with: label
   click_on 'Save'
 
   expect(page).to have_css('.alert.alert-success', text: /Digital Object Component .*created/i)
 
-  wait_for_infinite_tree_pane_ready
+  wait_for_tree_pane_ready
   component_id = saved_digital_object_component_id_from_pane
   expect(page).to have_css("#digital_object_component_#{component_id}.current")
   component_id
 end
 
-def select_digital_object_root_in_infinite_tree
-  within '#infinite-tree-container' do
+def select_digital_object_root_in_tree
+  within '#tree-container' do
     find("#digital_object_#{@digital_object_id} > .node-row a.record-title", match: :first).click
   end
 
-  wait_for_ajax
   expect(page).to have_css("#digital_object_#{@digital_object_id}.current")
-  wait_for_infinite_tree_pane_ready
+  wait_for_tree_pane_ready
 end
 
-def select_digital_object_component_in_infinite_tree(component_id, label: nil)
+def select_digital_object_component_in_tree(component_id, label: nil)
   row_title_selector = "#digital_object_component_#{component_id} > .node-row a.record-title"
 
-  within '#infinite-tree-container' do
+  within '#tree-container' do
     if label
       find(row_title_selector, text: label).click
     else
@@ -731,25 +719,24 @@ def select_digital_object_component_in_infinite_tree(component_id, label: nil)
     end
   end
 
-  wait_for_ajax
   expect(page).to have_css("#digital_object_component_#{component_id}.current")
-  wait_for_infinite_tree_pane_ready
+  wait_for_tree_pane_ready
 end
 
 def digital_object_root_child_component_nodes
   all(
-    "#infinite-tree-container #digital_object_#{@digital_object_id} > ol.node-children > li.node",
+    "#tree-container #digital_object_#{@digital_object_id} > ol.node-children > li.node",
     minimum: 0
   )
 end
 
 # @param component_ids [Array<Integer, String>] numeric component ids in expected DOM order
 def expect_digital_object_root_child_order(*component_ids)
-  wait_for_infinite_tree_reorder_idle
+  wait_for_tree_reorder_idle
 
   expected_dom_ids = component_ids.map { |id| "digital_object_component_#{id}" }
   root_children_selector =
-    "#infinite-tree-container #digital_object_#{@digital_object_id} > ol.node-children > li.node"
+    "#tree-container #digital_object_#{@digital_object_id} > ol.node-children > li.node"
 
   expect(page).to have_css(root_children_selector, count: expected_dom_ids.length)
 
@@ -766,7 +753,6 @@ def extract_created_record_id(string)
 end
 
 def expect_form_values(form_values_table)
-  wait_for_ajax
   sleep 2
 
   aggregate_failures do

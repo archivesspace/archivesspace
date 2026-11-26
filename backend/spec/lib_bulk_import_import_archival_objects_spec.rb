@@ -1806,6 +1806,36 @@ describe "Import Archival Objects" do
       expect(report.rows[0].errors).to eq([I18n.t('bulk_import.row_error', :row => 3, :errs => boolean_error('file_version_is_display_thumbnail_1', 'maybe'))])
     end
 
+    describe 'two file versions marked as display link' do
+      let(:two_display_links) {
+        [1, 2].each_with_object({}) do |index, cells|
+          cells.merge!("file_version_file_uri_#{index}" => "http://example.com/#{index}",
+                       "file_version_publish_#{index}" => 'TRUE',
+                       "file_version_is_display_link_#{index}" => 'TRUE')
+        end
+      }
+      let(:error) {
+        I18n.t('bulk_import.row_error', :row => 3,
+               :errs => I18n.t('bulk_import.error.file_version_display_flag_repeated',
+                               :columns => 'file_version_is_display_link_1, file_version_is_display_link_2',
+                               :field => 'is_display_link'))
+      }
+
+      it 'fails the row without saving the archival object' do
+        report = nil
+        expect { report = import_row(two_display_links) }.not_to change { [::ArchivalObject.count, ::DigitalObject.count] }
+
+        expect(report.rows[0].errors).to eq([error])
+      end
+
+      it 'fails the row in a validation run' do
+        report = import_row(two_display_links, [], true)
+
+        expect(report.rows[0].archival_object_id).to be_nil
+        expect(report.rows[0].errors).to eq([error])
+      end
+    end
+
     describe 'digital_object_is_representative' do
       let(:published_thumbnail) {
         { 'digital_object_publish' => 'TRUE',

@@ -1892,6 +1892,7 @@ fr:
     image_url: URL du logo de marquage
     image_url_tooltip: |
       <p>Une URL distante ou un chemin d'accès à un fichier local contenant une image de marque (comme un logo ou un sceau) à utiliser dans les outils de recherche en ligne du service d'archives. Cette image apparaît sur les PDF côté public, les PDF côté personnel et sur la page du service d'archives.</p>
+      <p>L'image doit être accessible librement sur le web et ne pas nécessiter de connexion. Certains sites web empêchent ArchivesSpace de télécharger leurs images. Si votre logo apparaît sur la page du service d'archives mais pas dans les PDF, utilisez une image hébergée sur votre propre site web.</p>
     _singular: Service d'archives
     _plural: Services d'archives
     publish: Publier ?
@@ -2138,7 +2139,7 @@ fr:
     show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous
       avez la permission de voir.
     publish: Publier ?
-    publish_tooltip: Publier ou non par défaut les nouvelles notices.
+    publish_tooltip: Publier ou non par défaut les nouvelles notices. Cette option peut être remplacée par les modèles de valeurs par défaut si la case « Pré-remplir notices? ? » est cochée.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des 
       valeurs par défaut.
@@ -2965,6 +2966,7 @@ fr:
       invalid_user_defined_integer: "Entier défini par l'utilisateur non valide : %{value}"
       invalid_file_version_size: "La colonne %{column} requiert un nombre entier d'octets ; valeur reçue : '%{value}'"
       file_version_display_flag_unpublished: "La colonne %{column} vaut TRUE mais %{publish_column} ne vaut pas TRUE ; une version de fichier doit être publiée pour être la miniature ou le lien d'affichage"
+      file_version_display_flag_repeated: "Les colonnes %{columns} valent TRUE ; un objet numérique ne peut avoir qu'une seule version de fichier marquée %{field}"
       invalid_user_defined_real: "Réel défini par l'utilisateur non valide : %{value}"
       bad_ao_uri: " Avec uri %{uri}"
       bad_accession_uri: "Entrée non trouvée avec uri %{uri}"

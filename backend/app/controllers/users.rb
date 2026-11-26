@@ -291,7 +291,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     if user
       if params[:pui] && !user.can?(:view_pui)
-        halt 403, {"Content-Type" => "application/json"}, [{"error" => "User does not have permission to view the PUI"}.to_json]
+        halt 403, {"Content-Type" => "application/json"}, [{"error" => "User does not have permission to view the PUI", "code" => "PUI_PERMISSION_DENIED"}.to_json]
       end
 
       session = create_session_for(username, params[:expiring], pui_only: params[:pui])

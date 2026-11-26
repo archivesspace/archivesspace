@@ -1315,6 +1315,43 @@ describe "Import Digital Objects" do
         expect(::DigitalObject.count).to eq digital_object_count_before
       end
 
+      describe 'two file versions marked as display thumbnail' do
+        let(:repeated) {
+          I18n.t('bulk_import.error.file_version_display_flag_repeated',
+                 :columns => 'file_version_1_is_display_thumbnail, file_version_2_is_display_thumbnail',
+                 :field => 'is_display_thumbnail')
+        }
+
+        def import_two_display_thumbnails(validate_only)
+          csv_data = CSV.read(TEMPLATES_DIR + "/bulk_import_DO_template.csv")
+          columns, column_explanations = columns_with_second_file_version(csv_data[0], csv_data[1])
+          row = columns.to_h { |column| [column, nil] }
+          row.merge!('res_uri' => @resource.uri, 'ao_uri' => @archival_object.uri,
+                     'digital_object_title' => "Digital Object Title #{@now}")
+          [1, 2].each do |index|
+            row.merge!("file_version_#{index}_file_uri" => "http://example.com/thumbnail-#{index}.jpg",
+                       "file_version_#{index}_publish" => 'TRUE',
+                       "file_version_#{index}_is_display_thumbnail" => 'TRUE')
+          end
+          import_digital_object_csv(columns, column_explanations, row, validate_only: validate_only)
+        end
+
+        it 'reports the error and saves nothing from the row' do
+          report = nil
+          expect { report = import_two_display_thumbnails(false) }.not_to change { ::DigitalObject.count }
+
+          expect(report.rows[0].errors).to eq([repeated, I18n.t('bulk_import.error.dig_row_not_saved')])
+        end
+
+        it 'reports the error in a validation run' do
+          report = import_two_display_thumbnails(true)
+
+          expect(report.rows[0].errors).to eq(
+            [repeated, I18n.t('bulk_import.object_not_created_be', :what => I18n.t('bulk_import.dig'))]
+          )
+        end
+      end
+
       it 'reports an error for each invalid file version and creates no records' do
         digital_object_count_before = ::DigitalObject.count
 

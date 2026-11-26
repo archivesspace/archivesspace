@@ -10,13 +10,16 @@ describe JobsController, type: :controller do
   let(:mod_job) { JSONModel(:job).from_hash({uri: "/jobs/1", job_type: "report_job", status: "completed", time_submitted: "2021-10-01 07:09:44 UTC", time_started: "2021-10-01 07:09:44 UTC", time_finished: "2021-10-01 07:09:44 UTC", repository: {ref: "/repositories/1", _resolved: {repo_code: "foobar"}}, has_modified_records: true}) }
 
   describe '#show' do
-    it "only shows modified records section if there are modified records" do
+    before do
       allow(controller).to receive(:user_must_have).and_return(true)
 
       allow(JSONModel::HTTP).to receive(:get_json).and_call_original
-      allow(JSONModel::HTTP).to receive(:get_json).with(/output_files/).and_return([1, 2, 3])
       allow(JSONModel::HTTP).to receive(:get_json).with("/job_types").and_return({'report_job' => {'cancel_permissions' => [], 'create_permissions' => []}})
       allow(JSONModel::HTTP).to receive(:get_json).with("/notifications").and_call_original
+    end
+
+    it "only shows modified records section if there are modified records" do
+      allow(JSONModel::HTTP).to receive(:get_json).with(/output_files/).and_return([1, 2, 3])
 
       allow(JSONModel(:job)).to receive(:find).with("1", "resolve[]" => "repository").and_return(mod_job)
       allow(mod_job).to receive(:id).and_return 1
@@ -31,6 +34,34 @@ describe JobsController, type: :controller do
 
       get :show, params: {id: 2}
       expect(response.body).not_to have_text "New & Modified Records"
+    end
+
+    it "passes the extension of the uploaded filename to the download link" do
+      allow(JSONModel::HTTP).to receive(:get_json).with(/output_files/).and_return([7])
+
+      allow(JSONModel(:job)).to receive(:find).with("2", "resolve[]" => "repository").and_return(unmod_job)
+      allow(unmod_job).to receive(:id).and_return 2
+      allow(unmod_job).to receive(:job).and_return({'jsonmodel_type' => "report_job", 'filenames' => ['ead.xml']})
+
+      get :show, params: {id: 2}
+
+      link = Capybara.string(response.body).find('#job_files li a')
+      expect(link[:href]).to end_with('/file/7?ext=.xml')
+    end
+  end
+
+  describe '#download_file' do
+    let(:import_job) { JSONModel(:job).from_hash({uri: "/jobs/1", job_type: "import_job"}) }
+
+    it 'names the download with the extension passed in the link' do
+      allow(controller).to receive(:user_must_have).and_return(true)
+      allow(JSONModel(:job)).to receive(:find).with("1", "resolve[]" => "repository").and_return(import_job)
+      allow(import_job).to receive(:job).and_return({})
+      allow(controller).to receive(:xml_response).and_yield("<ead/>", 100)
+
+      get :download_file, params: {job_id: 1, id: 5, ext: '.xml'}
+
+      expect(response.headers['Content-Disposition']).to include('job_1_file_5.xml')
     end
   end
 
@@ -65,6 +96,41 @@ describe JobsController, type: :controller do
       controller.instance_variable_set(:@job, top_container_linker_job)
 
       result = controller.send(:download_file_format, top_container_linker_job)
+
+      expect(result).to eq("xlsx")
+    end
+
+    {
+      'ead_xml' => 'xml',
+      'eac_xml' => 'xml',
+      'marcxml' => 'xml',
+      'marcxml_accession' => 'xml',
+      'marcxml_subjects_and_agents' => 'xml',
+      'marcxml_auth_agent' => 'xml',
+      'accession_csv' => 'csv',
+      'assessment_csv' => 'csv',
+      'digital_object_csv' => 'csv',
+      'subject_csv' => 'csv',
+      'location_csv' => 'csv'
+    }.each do |import_type, expected_ext|
+      it "returns #{expected_ext} for an import job of type #{import_type}" do
+        allow(controller).to receive(:params).and_return({})
+        allow(import_job).to receive(:job).and_return({ 'jsonmodel_type' => 'import_job', 'import_type' => import_type })
+        controller.instance_variable_set(:@job, import_job)
+
+        result = controller.send(:download_file_format, import_job)
+
+        expect(result).to eq(expected_ext)
+      end
+    end
+
+    it 'returns xlsx for bulk archival object updater jobs' do
+      updater_job = JSONModel(:job).from_hash({uri: "/jobs/1", job_type: "bulk_archival_object_updater_job"})
+      allow(controller).to receive(:params).and_return({})
+      allow(updater_job).to receive(:job).and_return({ 'jsonmodel_type' => 'bulk_archival_object_updater_job' })
+      controller.instance_variable_set(:@job, updater_job)
+
+      result = controller.send(:download_file_format, updater_job)
 
       expect(result).to eq("xlsx")
     end

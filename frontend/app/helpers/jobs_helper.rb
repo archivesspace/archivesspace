@@ -11,6 +11,21 @@ module JobsHelper
     end
   end
 
+  def job_download_files(job, file_ids)
+    filenames = (job.job['filenames'] || [job.job['filename']]).compact.dup
+
+    files = file_ids.map do |file_id|
+      ext = File.extname(filenames.shift.to_s)
+      [file_id, ext.blank? ? nil : ext]
+    end
+
+    # Bulk import lists its uploaded spreadsheet first and report second;
+    # only the report is offered for download.
+    files.shift if job['job_type'] == 'bulk_import_job' && files.length == 2
+
+    files
+  end
+
   def badge_class_for_status(status)
     if status === "running"
       "badge badge-info"
