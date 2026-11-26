@@ -358,6 +358,7 @@
     <mkdir dir="docker_prod/archivesspace/plugins/local/public/locales" />
     <mkdir dir="docker_prod/archivesspace/sql" />
     <mkdir dir="docker_prod/archivesspace/proxy-config" />
+    <mkdir dir="docker_prod/archivesspace/proxy-config-https" />
 
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
@@ -382,6 +383,8 @@
     <copy file="../.env.docker.prod" tofile="docker_prod/archivesspace/.env" />
     <replace file="docker_prod/archivesspace/.env" token="@docker-tag@" value="${docker-tag}"/>
     <copy file="../proxy/default.conf.docker.release" tofile="docker_prod/archivesspace/proxy-config/default.conf"/>
+    <copy file="../docker-compose-https.yml" tofile="docker_prod/archivesspace/docker-compose-https.yml"/>
+    <copy file="../proxy/default.conf.docker.release.https" tofile="docker_prod/archivesspace/proxy-config-https/default.conf"/>
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
