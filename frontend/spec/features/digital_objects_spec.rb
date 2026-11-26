@@ -120,18 +120,18 @@ describe 'Digital Objects', js: true do
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
 
-    click_infinite_tree_toolbar_add_child
+    click_tree_toolbar_add_child
 
     element = find('h2')
     expect(element.text).to eq "Digital Object Component Digital Object Component"
 
     fill_in 'digital_object_component_component_id_', with: "Digital Object Identifier #{now}"
 
-    click_infinite_tree_create_plus_one
+    click_tree_create_plus_one
 
     element = find('.alert.alert-danger.with-hide-alert')
     expect(element.text).to eq "Dates - you must provide a Label, Title or Date\nTitle - you must provide a Label, Title or Date\nLabel - you must provide a Label, Title or Date"
@@ -142,16 +142,16 @@ describe 'Digital Objects', js: true do
     digital_object = create(:digital_object, title: "Digital Object Title #{now}", dates: [], extents: [])
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
 
-    click_infinite_tree_toolbar_add_child
+    click_tree_toolbar_add_child
 
     fill_in 'digital_object_component_component_id_', with: "Child 1 #{now}"
     fill_in 'digital_object_component_title_', with: "Child 1 #{now}"
 
-    click_infinite_tree_create_plus_one
+    click_tree_create_plus_one
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
     expect(page).to have_content "Digital Object Component Child 1 #{now} created on Digital Object Digital Object Title #{now}"
@@ -159,7 +159,7 @@ describe 'Digital Objects', js: true do
     fill_in 'digital_object_component_component_id_', with: "Child 2 #{now}"
     fill_in 'digital_object_component_title_', with: "Child 2 #{now}"
 
-    click_infinite_tree_create_plus_one
+    click_tree_create_plus_one
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
     expect(page).to have_content "Digital Object Component Child 2 #{now} created on Digital Object Digital Object Title #{now}"
@@ -169,7 +169,7 @@ describe 'Digital Objects', js: true do
 
     find('button', text: 'Save Digital Object', match: :first).click
 
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     expect(page).to have_selector('h2', visible: true, text: "Child 3 #{now}")
     expect(page).to have_content "Digital Object Component Child 3 #{now} created on Digital Object Digital Object Title #{now}"
@@ -187,23 +187,23 @@ describe 'Digital Objects', js: true do
     digital_object_child = create(:digital_object_component, title: "Child #{now}", digital_object: { ref: digital_object.uri })
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
 
     select_tree_row_by_id(digital_object_child)
-    wait_for_infinite_tree_pane_ready
-    click_infinite_tree_toolbar_add_child
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
+    click_tree_toolbar_add_child
+    wait_for_tree_pane_ready
 
     fill_in 'digital_object_component_title_', with: "Sub-Child #{now}"
     fill_in 'digital_object_component_component_id_', with: "Sub-Child #{now}"
     find('button', text: 'Save Digital Object', match: :first).click
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Component Sub-Child #{now} created as child of Child #{now} on Digital Object Digital Object Title #{now}")
 
-    find('#infinite-tree-resizer [data-resize-toggle]').click
+    find('#tree-resizer [data-resize-toggle]').click
 
     sub_child_uri = current_uri
     expect(tree_node(digital_object.uri)).to have_text "Digital Object Title #{now}"
@@ -213,7 +213,7 @@ describe 'Digital Objects', js: true do
 
     enable_reorder_mode
     wait_for_reorder_mode_ready
-    # Root row bottom edge inserts at index 0 (see InfiniteTreeDragDrop#targetPosition).
+    # Root row bottom edge inserts at index 0 (see TreeDragDrop#targetPosition).
     drag_to_root(source_uri: sub_child_uri, edge: :bottom, pause_ms: 0)
     wait_for_reorder_idle
 
@@ -227,7 +227,7 @@ describe 'Digital Objects', js: true do
     ]
 
     visit "digital_objects/#{digital_object.id}/edit"
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
 
@@ -295,7 +295,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/##{tree_hash_for(digital_object_component.uri)}"
     wait_for_ajax
-    wait_for_infinite_tree_pane_ready
+    wait_for_tree_pane_ready
 
     accordion = find('#digital_object_component_file_versions__accordion')
     expect(accordion).to have_css('.card', count: 2)

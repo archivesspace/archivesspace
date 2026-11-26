@@ -33,7 +33,7 @@ describe 'Resource Tree', js: true do
 
     within "#record-tree-container" do
       aggregate_failures "marks the tree up as nested lists" do
-        expect(page).to have_css("ol.infinite-tree > li.root#resource_#{@resource.id} > .node-row .node-title")
+        expect(page).to have_css("ol.tree > li.root#resource_#{@resource.id} > .node-row .node-title")
         expect(page).not_to have_css('[role]')
       end
 

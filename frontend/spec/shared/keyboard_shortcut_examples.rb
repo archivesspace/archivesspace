@@ -3,7 +3,7 @@
 # Host groups define the paths the examples visit:
 #   edit_path     - the edit form (every record edit page)
 #   readonly_path - where Shift+Ctrl+X should land (pages with a readonly view)
-# Tree pages get their paths from the 'infinite tree integration hierarchy
+# Tree pages get their paths from the 'tree integration hierarchy
 # setup' shared context.
 
 # config:
@@ -120,19 +120,19 @@ RSpec.shared_examples 'ignoring the close shortcut' do |config|
   end
 end
 
-RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' do |config|
+RSpec.shared_examples 'using keyboard shortcuts on a Tree edit page' do |config|
   it_behaves_like 'using the global shortcuts'
 
   it 'saves the root record with Shift+Ctrl+S without navigating away from the edit page' do
     new_title = "Shortcut Root #{now}"
     visit "#{edit_path}#{root_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     fill_in config[:root_dirty_field], with: new_title
 
-    wait_for_infinite_tree_record_pane_submit { press_save_shortcut }
+    wait_for_tree_record_pane_submit { press_save_shortcut }
 
     aggregate_failures do
-      expect(page).to have_css('#infinite-tree-record-pane .alert-success', text: new_title)
+      expect(page).to have_css('#tree-record-pane .alert-success', text: new_title)
       expect(page).to have_current_path(edit_path)
       expect(page.evaluate_script('window.location.hash')).to eq(root_hash)
       expect(page).to have_field(config[:root_dirty_field], with: new_title)
@@ -142,13 +142,13 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
   it 'saves a child record with Shift+Ctrl+S without navigating away from the edit page' do
     new_title = "Shortcut Child #{now}"
     visit "#{edit_path}#{child_record_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     fill_in config[:child_post_save_field], with: new_title
 
-    wait_for_infinite_tree_record_pane_submit { press_save_shortcut }
+    wait_for_tree_record_pane_submit { press_save_shortcut }
 
     aggregate_failures do
-      expect(page).to have_css('#infinite-tree-record-pane .alert-success', text: new_title)
+      expect(page).to have_css('#tree-record-pane .alert-success', text: new_title)
       expect(page).to have_current_path(edit_path)
       expect(page.evaluate_script('window.location.hash')).to eq(child_record_hash)
       expect(page).to have_field(config[:child_post_save_field], with: new_title)
@@ -157,16 +157,16 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
 
   it 'closes the root record to its readonly view with Shift+Ctrl+X' do
     visit "#{edit_path}#{root_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     expect(page).to have_field(config[:root_dirty_field])
 
     press_close_shortcut
 
     expect(page).to have_current_path(show_path)
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     aggregate_failures do
       expect(page.evaluate_script('window.location.hash')).to eq(root_hash)
-      within '#infinite-tree-record-pane' do
+      within '#tree-record-pane' do
         expect(page).to have_css('h2', text: root_record.title)
         expect(page).to have_no_field(config[:root_dirty_field])
       end
@@ -175,9 +175,9 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
 
   it 'does nothing with Shift+Ctrl+X while the record has unsaved changes, like Close Record' do
     visit "#{edit_path}#{root_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     fill_in config[:root_dirty_field], with: "Unsaved Root #{now}"
-    expect(page).to have_css('.js-itree-toolbar-finish-editing.disabled')
+    expect(page).to have_css('.js-tree-toolbar-finish-editing.disabled')
 
     press_close_shortcut_and_expect_nothing
 
@@ -186,16 +186,16 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
 
   it 'closes a child record to its readonly view with Shift+Ctrl+X' do
     visit "#{edit_path}#{child_record_hash}"
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     expect(page).to have_field(config[:child_post_save_field])
 
     press_close_shortcut
 
     expect(page).to have_current_path(show_path)
-    wait_for_infinite_tree_loaded
+    wait_for_tree_loaded
     aggregate_failures do
       expect(page.evaluate_script('window.location.hash')).to eq(child_record_hash)
-      within '#infinite-tree-record-pane' do
+      within '#tree-record-pane' do
         expect(page).to have_css('h2', text: child_record.title)
         expect(page).to have_no_field(config[:child_post_save_field])
       end
@@ -205,8 +205,8 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
   if config[:supports_rde]
     it 'does not save the root record with Shift+Ctrl+S while the Rapid Data Entry modal is open' do
       visit "#{edit_path}#{root_hash}"
-      wait_for_infinite_tree_loaded
-      open_infinite_tree_rapid_data_entry_modal
+      wait_for_tree_loaded
+      open_tree_rapid_data_entry_modal
 
       start_counting_form_submissions
       press_save_shortcut
@@ -219,7 +219,7 @@ RSpec.shared_examples 'using keyboard shortcuts on an Infinite Tree edit page' d
       within('#rapidDataEntryModal') { click_on 'Cancel' }
       aggregate_failures do
         expect(page).not_to have_css('#rapidDataEntryModal.show')
-        expect(page).not_to have_css('#infinite-tree-record-pane .alert-success')
+        expect(page).not_to have_css('#tree-record-pane .alert-success')
       end
     end
   end

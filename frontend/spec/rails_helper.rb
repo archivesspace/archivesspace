@@ -94,8 +94,8 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include Capybara::DSL
   config.include ASpaceHelpers
-  config.include InfiniteTreeInteractionHelpers, type: :feature
-  config.include InfiniteTreeRequestSpies, type: :feature
+  config.include TreeInteractionHelpers, type: :feature
+  config.include TreeRequestSpies, type: :feature
 
   if Capybara.current_driver == :chrome
     log_files = {}

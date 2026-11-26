@@ -11,7 +11,7 @@ end
 Then 'the new Resource Component form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Resource')
-  wait_for_infinite_tree_ready_for_rde
+  wait_for_tree_ready_for_rde
 
   click_on 'Add Child'
 

@@ -358,16 +358,16 @@ describe 'Keyboard Shortcuts', js: true do
     end
   end
 
-  describe 'on Infinite Tree edit pages' do
+  describe 'on Tree edit pages' do
     context 'Resources' do
-      config = InfiniteTreeHierarchyConfigs::INTEGRATION[:resources]
-      include_context 'infinite tree integration hierarchy setup', config
+      config = TreeHierarchyConfigs::INTEGRATION[:resources]
+      include_context 'tree integration hierarchy setup', config
 
-      it_behaves_like 'using keyboard shortcuts on an Infinite Tree edit page', config
+      it_behaves_like 'using keyboard shortcuts on a Tree edit page', config
 
       it 'starts only one save when triggered again while a save is in flight' do
         visit "#{edit_path}#{child_record_hash}"
-        wait_for_infinite_tree_loaded
+        wait_for_tree_loaded
         fill_in config[:child_post_save_field], with: "Shortcut Child #{now}"
 
         start_counting_form_submissions
@@ -376,14 +376,14 @@ describe 'Keyboard Shortcuts', js: true do
         page.execute_script('AS.clickRecordFormSaveButton(); AS.clickRecordFormSaveButton();')
 
         expect(form_submission_count).to eq(1)
-        expect(page).to have_css('#infinite-tree-record-pane .alert-success', text: "Shortcut Child #{now}")
-        expect(page).not_to have_css('#infinite-tree-record-pane .alert-danger')
+        expect(page).to have_css('#tree-record-pane .alert-success', text: "Shortcut Child #{now}")
+        expect(page).not_to have_css('#tree-record-pane .alert-danger')
       end
 
       it 'does nothing with Shift+Ctrl+X while the record pane shows a new child form' do
         visit "#{edit_path}#{root_hash}"
-        wait_for_infinite_tree_loaded
-        click_infinite_tree_toolbar_add_child
+        wait_for_tree_loaded
+        click_tree_toolbar_add_child
         expect(page).to have_field(config[:child_post_save_field])
         expect(page.evaluate_script('window.location.hash')).to eq('#new')
         fill_in config[:child_post_save_field], with: "Unsaved Child #{now}"
@@ -395,17 +395,17 @@ describe 'Keyboard Shortcuts', js: true do
     end
 
     context 'Digital Objects' do
-      config = InfiniteTreeHierarchyConfigs::INTEGRATION[:digital_objects]
-      include_context 'infinite tree integration hierarchy setup', config
+      config = TreeHierarchyConfigs::INTEGRATION[:digital_objects]
+      include_context 'tree integration hierarchy setup', config
 
-      it_behaves_like 'using keyboard shortcuts on an Infinite Tree edit page', config
+      it_behaves_like 'using keyboard shortcuts on a Tree edit page', config
     end
 
     context 'Classifications' do
-      config = InfiniteTreeHierarchyConfigs::INTEGRATION[:classifications]
-      include_context 'infinite tree integration hierarchy setup', config
+      config = TreeHierarchyConfigs::INTEGRATION[:classifications]
+      include_context 'tree integration hierarchy setup', config
 
-      it_behaves_like 'using keyboard shortcuts on an Infinite Tree edit page', config
+      it_behaves_like 'using keyboard shortcuts on a Tree edit page', config
     end
   end
 end

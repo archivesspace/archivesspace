@@ -26,16 +26,21 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     run_indexers
   end
 
+  after(:all) do
+    @late_tree_resource&.delete
+    @resource&.delete
+  end
+
   before(:each) do
     visit "#{@resource.uri}/collection_organization"
     @records_container = find('#infinite-records-container')
     @ao1_record = @records_container.find("[data-uri='#{@ao1.uri}']")
     @ao2_record = @records_container.find("[data-uri='#{@ao2.uri}']")
-    @tree_container = find('#infinite-tree-container')
+    @tree_container = find('#tree-container')
     @ao2_expand_btn = @tree_container.find("[data-uri='#{@ao2.uri}'] .node-expand")
   end
 
-  describe 'shares current record state between InfiniteTree and InfiniteRecords' do
+  describe 'shares current record state between Tree and InfiniteRecords' do
     it 'should change the current tree node when the current record changes via scroll' do
       expect(@tree_container).to have_css('.root.current')
       @records_container.scroll_to(@ao1_record, align: :top)
@@ -50,7 +55,7 @@ describe 'Collection Organization Infinite Coordinator', js: true do
     it 'should mark the current record set before the tree renders' do
       # A second tree whose coordinator already has a current record, as when
       # the records' observer fires while the tree is still rendering
-      page.execute_script(<<~JS, @late_tree_resource.uri, Rails.configuration.infinite_tree_batch_size, AppConfig[:public_proxy_url])
+      page.execute_script(<<~JS, @late_tree_resource.uri, Rails.configuration.tree_batch_size, AppConfig[:public_proxy_url])
         const [rootUri, batchSize, fetchPrefix] = arguments;
         const container = document.createElement('div');
         container.id = 'late-tree-container';
@@ -59,7 +64,7 @@ describe 'Collection Organization Infinite Coordinator', js: true do
         const coordinator = new InfiniteCoordinator();
         coordinator.currentRecord = rootUri;
 
-        new InfiniteTree({
+        new Tree({
           container,
           rootUri,
           batchSize,

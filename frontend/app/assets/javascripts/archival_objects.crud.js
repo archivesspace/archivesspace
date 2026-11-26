@@ -11,8 +11,8 @@
 
 /**
  * Modal for choosing the new Archival Object's parent and position within the
- * selected Resource, on a browse-only InfiniteTree (InfiniteTreeParentPicker,
- * loaded by the archival_objects/infinite_tree_parent_picker partial).
+ * selected Resource, on a browse-only Tree (TreeParentPicker,
+ * loaded by the archival_objects/tree_parent_picker partial).
  * @param {Object} config
  * @param {string} config.root_record_uri - Backend URI of the Resource
  * @param {string} config.title - Modal title
@@ -36,10 +36,10 @@ function TreeLinkingModal(config) {
   self.confirmButton = self.$modal.find('#addSelectedButton').get(0);
   self.setConfirmEnabled(false);
 
-  self.picker = new InfiniteTreeParentPicker({
+  self.picker = new TreeParentPicker({
     mountEl: self.$modal.find('.linker-container').get(0),
     rootUri: config.root_record_uri,
-    i18n: window.InfiniteTreeParentPickerI18n,
+    i18n: window.TreeParentPickerI18n,
     menuLabels: SPAWN_MENU_ITEMS,
     placeholderHtml: SPAWN_PLACEHOLDER_TEXT,
     onPlacementChange: function (placement, { userInitiated }) {

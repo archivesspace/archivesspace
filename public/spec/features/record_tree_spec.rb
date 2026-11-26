@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-# Record show-page hierarchy sidebar (InfiniteTree, record links)
+# Record show-page hierarchy sidebar (Tree, record links)
 describe 'Record show page tree', js: true do
   before(:all) do
     @repo = create(:repo, repo_code: "record_tree_test_#{Time.now.to_i}")
@@ -175,7 +175,7 @@ describe 'Record show page tree', js: true do
     end
 
     it 'puts the sidebar in the configured position' do
-      expect(page).to have_css('#sidebar.infinite-tree-sidebar[data-sidebar-position]')
+      expect(page).to have_css('#sidebar.tree-sidebar[data-sidebar-position]')
     end
   end
 

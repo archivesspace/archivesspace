@@ -41,7 +41,7 @@ Given 'a Resource Rapid Data Entry template has been created' do
   end
 
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_infinite_tree_ready_for_rde
+  wait_for_tree_ready_for_rde
 end
 
 Then 'the template is removed from the Resource Rapid Data Entry templates' do
