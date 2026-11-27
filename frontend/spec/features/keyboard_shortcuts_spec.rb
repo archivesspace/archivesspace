@@ -162,7 +162,7 @@ describe 'Keyboard Shortcuts', js: true do
 
       it_behaves_like 'using the global shortcuts'
       it_behaves_like 'saving the record with the save shortcut',
-                      field: 'subject_terms__0__term_',
+                      field: 'subject_scope_note_',
                       saved_message: 'Subject Saved'
       it_behaves_like 'closing the record to its readonly view', field: 'subject_terms__0__term_'
     end
