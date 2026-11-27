@@ -308,9 +308,11 @@ describe 'Thumbnails', js: true do
   end
 
   describe 'search result thumbnail' do
+    # A keyword search for these shared words returns more than a page of results from other specs
     def search_for(title)
       visit('/')
-      page.fill_in 'Enter your search terms', with: title
+      select 'Title', from: 'field0'
+      page.fill_in 'Enter your search terms', with: %("#{title}")
       click_button 'Search'
     end
 
