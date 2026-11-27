@@ -409,6 +409,19 @@ describe 'Collection Organization', js: true do
       JS
     end
 
+    # Read together, so a waypoint loading in between can't skew either value
+    def loaded_records_and_percent_label
+      page.evaluate_script(<<~JS)
+        [document.querySelectorAll('#infinite-records-container .infinite-record-record').length,
+         document.querySelector('#load-all-showing-percent').textContent]
+      JS
+    end
+
+    def percent_of_total_records(records)
+      total_records = page.find('#infinite-records-container')['data-total-records'].to_i
+      "#{(records * 100.0 / total_records).round}%"
+    end
+
     # Wait for the initial waypoints, then make every later waypoints request
     # return a JSON error body with a 429, as a rate-limiting proxy might
     def visit_and_fail_later_waypoint_requests(resource)
@@ -517,32 +530,25 @@ describe 'Collection Organization', js: true do
     it 'shows the percentage of records that have been loaded after page load' do
       visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
 
-      # Waypoints 0 and 1 render on load; waypoint 2 follows once waypoint 1's
-      # records are observed, so wait for it rather than counting straight away
-      expect(page).to have_css('#infinite-records-container .waypoint.populated', count: 3)
+      expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
 
-      loaded_records = page.all('#infinite-records-container .infinite-record-record')
-      total_records = page.find('#infinite-records-container')['data-total-records']
-      percent_loaded = (loaded_records.length.to_f / total_records.to_f * 100).round
-      percent_label = page.find('#load-all-showing-percent')
-      expect(percent_label).to have_text("#{percent_loaded}%")
+      loaded_records, percent_label = loaded_records_and_percent_label
+      expect(percent_label).to eq percent_of_total_records(loaded_records)
     end
 
     it 'updates the percent showing label as more waypoints are loaded' do
-      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
+      visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-      expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="0"]')
       expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
-      expect(page).to have_css('#infinite-records-container .waypoint:not(.populated)[data-waypoint-number="2"]', visible: false)
-      percent_start = page.find('#load-all-showing-percent').text[0..-2].to_i
+      loaded_records_start, percent_label_start = loaded_records_and_percent_label
+      expect(percent_label_start).to eq percent_of_total_records(loaded_records_start)
 
       container = page.find('#infinite-records-container')
-      second_record = page.find('#infinite-records-container [data-record-number="1"]')
-      container.scroll_to(second_record)
+      container.scroll_to(page.all('#infinite-records-container .waypoint.populated .infinite-record-record').last)
 
-      expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="2"]')
-      percent_new = page.find('#load-all-showing-percent').text[0..-2].to_i
-      expect(percent_new).to be > percent_start
+      expect(page).to have_css('#infinite-records-container .infinite-record-record', minimum: loaded_records_start + 1)
+      loaded_records, percent_label = loaded_records_and_percent_label
+      expect(percent_label).to eq percent_of_total_records(loaded_records)
     end
 
     it 'works by clicking on the toggle switch' do
@@ -632,28 +638,26 @@ describe 'Collection Organization', js: true do
 
         expect(page).to have_css('#infinite-records-container .waypoint.populated')
 
-        num_empty_waypoints = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
-
         # Fail every waypoint request from now on, as a rate limit or bot challenge
-        # in front of the app would
+        # in front of the app would. Only the background thread's requests count:
+        # the page can still be loading a waypoint on its own.
         lock = Mutex.new
-        waypoint_requests = 0
-        counting = false
+        background_requests = 0
         allow_any_instance_of(ResourcesController).to receive(:waypoints) do |controller|
-          lock.synchronize { waypoint_requests += 1 if counting }
+          lock.synchronize { background_requests += 1 } if controller.request.referer.to_s.include?('infiniteRecordsWorker')
           controller.render plain: 'Forbidden', status: 403
         end
 
-        lock.synchronize { counting = true }
+        track_load_all_fetches
         page.find('.load-all__label-toggle').click
 
         expect(page).to have_css('#load-all-error', visible: true, wait: 30)
         expect(page.evaluate_script("document.querySelector('#records-loading-dialog').open")).to eq false
 
-        requests_at_error = lock.synchronize { waypoint_requests }
+        requests_at_error = lock.synchronize { background_requests }
         sleep 5
-        expect(lock.synchronize { waypoint_requests }).to eq requests_at_error
-        expect(requests_at_error).to be <= num_empty_waypoints * 3
+        expect(lock.synchronize { background_requests }).to eq requests_at_error
+        expect(requests_at_error).to be_between(1, page.evaluate_script('window.emptyWaypointsAtLoadAll') * 3)
       end
     end
 

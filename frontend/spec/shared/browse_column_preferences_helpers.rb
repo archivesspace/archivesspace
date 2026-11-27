@@ -36,13 +36,35 @@ module BrowseColumnPreferencesHelpers
     end
 
     find('#user-menu-dropdown').click
-    find(selector, visible: true).click
+    wait_for_next_page { find(selector, visible: true).click }
 
     selections.each do |preference_key, option_label|
       select option_label, from: "preference_defaults__#{preference_key}_"
     end
 
-    click_on 'Save Preferences'
+    wait_for_next_page { click_on 'Save Preferences' }
+    expect(page).to have_css('.alert-success', text: 'Preferences updated')
+  end
+
+  # Marks the current page, so a check after the block can't match it instead of the page the block opens
+  def wait_for_next_page
+    page.execute_script("document.body.dataset.previousPage = 'true'")
+    yield
+    expect(page).to have_no_css('body[data-previous-page]')
+  end
+
+  # Runs the reset after the block; when the block fails, a failing reset is only printed so it can't hide that error
+  def run_then_reset(reset)
+    yield
+  rescue StandardError, RSpec::Expectations::ExpectationNotMetError => e
+    begin
+      reset.call
+    rescue StandardError, RSpec::Expectations::ExpectationNotMetError => reset_error
+      warn "Resetting preferences after a failure also failed: #{reset_error.message}"
+    end
+    raise e
+  else
+    reset.call
   end
 
   # Temporarily sets preference <select>s for the duration of a block, then
@@ -51,10 +73,10 @@ module BrowseColumnPreferencesHelpers
   # @param selections [Hash{String => String}] See #set_preference_selections
   # @param scope [Symbol] The preference scope: :global, :repository (default), or :default_repository
   def with_preference_selections(selections, scope: :repository)
-    set_preference_selections(selections, scope: scope)
-    yield
-  ensure
-    set_preference_selections(selections.transform_values { 'Default' }, scope: scope)
+    run_then_reset(-> { set_preference_selections(selections.transform_values { 'Default' }, scope: scope) }) do
+      set_preference_selections(selections, scope: scope)
+      yield
+    end
   end
 
   # Sets the Action Buttons (View/Edit) Position preference for a record type
@@ -114,10 +136,10 @@ module BrowseColumnPreferencesHelpers
   #     # after the block, column 5 is reset back to "Default"
   #   end
   def with_browse_column_preferences(record_type, columns, scope: :repository)
-    set_browse_column_preferences(record_type, columns, scope: scope)
-    yield
-  ensure
-    reset_browse_column_preferences(record_type, columns, scope: scope)
+    run_then_reset(-> { reset_browse_column_preferences(record_type, columns, scope: scope) }) do
+      set_browse_column_preferences(record_type, columns, scope: scope)
+      yield
+    end
   end
 end
 

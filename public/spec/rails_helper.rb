@@ -15,6 +15,9 @@ CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-lo
 
 FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', "-headless --width=#{DEFAULT_WINDOW_WIDTH} --height=#{DEFAULT_WINDOW_HEIGHT}").split(' ')
 
+DOWNLOAD_DIRECTORY = Dir.mktmpdir('aspace_public_spec_downloads')
+at_exit { FileUtils.remove_entry(DOWNLOAD_DIRECTORY, true) }
+
 # Chrome
 Capybara.register_driver(:chrome) do |app|
   chrome_options = Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
@@ -37,7 +40,7 @@ end
 Capybara.register_driver :firefox do |app|
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['webdriver.log.level'] = 'ALL'
-  profile['browser.download.dir'] = Dir.tmpdir
+  profile['browser.download.dir'] = DOWNLOAD_DIRECTORY
   profile['browser.download.folderList'] = 2
   profile['browser.helperApps.alwaysAsk.force'] = false
   profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed'

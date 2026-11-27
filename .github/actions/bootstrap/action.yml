@@ -63,9 +63,10 @@ runs:
           ./common/lib/mysql*.jar
 
     - name: Download mysql connector
+      if: steps.cache-mysql-connector.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        wget -P ./common/lib ${{ inputs.mysql-connector-url }}
+        wget --tries=12 --waitretry=30 --retry-on-http-error=429,503 -P ./common/lib ${{ inputs.mysql-connector-url }}
 
     - name: Install backend gems
       if: ${{ inputs.backend == 'true' }}

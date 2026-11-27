@@ -2,6 +2,22 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Resources', js: true do
+  # click_on returns before the PDF is generated, so wait for Firefox to finish writing it
+  def download_pdf
+    FileUtils.rm_f(Dir.glob(File.join(DOWNLOAD_DIRECTORY, '*')))
+
+    click_on 'Download PDF'
+
+    deadline = Time.now + 60
+    sleep 0.2 while downloaded_pdfs.empty? && Time.now < deadline
+    downloaded_pdfs
+  end
+
+  # Until the download completes, the PDF is empty and its content is in a .part file
+  def downloaded_pdfs
+    Dir.glob(File.join(DOWNLOAD_DIRECTORY, '*.pdf')).select { |file| File.size?(file) }
+  end
+
   it 'should be able to see all published resources in a repository' do
     visit('/')
     click_link 'Collections'
@@ -156,16 +172,10 @@ describe 'Resources', js: true do
     click_on 'Search'
     click_on resource.title
 
-    click_on 'Download PDF'
-
-    pdf_files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
-    expect(pdf_files).to include "#{Dir.tmpdir}/text_us_paav_b_jd99_blake_carver_papers_es_carver_xml.pdf"
+    expect(download_pdf).to eq ["#{DOWNLOAD_DIRECTORY}/text_us_paav_b_jd99_blake_carver_papers_es_carver_xml.pdf"]
   end
 
   it 'downloads PDF from archival object view' do
-    # Clean existing PDFs
-    Dir.glob(File.join(Dir.tmpdir, '*.pdf')).each { |file| File.delete(file) }
-
     resource = create(:resource,
       title: "Resource with Archival Object",
       publish: true
@@ -184,16 +194,10 @@ describe 'Resources', js: true do
     click_on 'Search'
     click_on archival_object.title
 
-    click_on 'Download PDF'
-
-    pdf_files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
-    expect(pdf_files.length).to eq(1)
+    expect(download_pdf.length).to eq(1)
   end
 
   it 'shows PDF download button only for resources and their published components' do
-    # Clean existing PDFs
-    Dir.glob(File.join(Dir.tmpdir, '*.pdf')).each { |file| File.delete(file) }
-
     # Create a resource and an archival object
     resource = create(:resource,
       title: "Resource with Component",

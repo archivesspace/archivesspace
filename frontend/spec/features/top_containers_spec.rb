@@ -37,6 +37,9 @@ describe 'Top Containers and Instances', js: true do
       container_locations: [profile_container_location]
     )
 
+    @saved_search_container = create(:top_container, indicator: "SavedSearch#{Time.now.to_i}")
+    @new_search_container = create(:top_container, indicator: "NewSearch#{Time.now.to_i}")
+
     run_all_indexers
   end
 
@@ -185,6 +188,52 @@ describe 'Top Containers and Instances', js: true do
     expect(find(id: 'q').value).to eq('Letter')
     expect(first('a.searchExport')['href']).to match(/q=Letter/)
     expect(all('tbody tr').length).to eq(n_results)
+  end
+
+  it 'shows the results of a new search when the search rerun on page load finishes after it' do
+    visit '/top_containers'
+    fill_in 'Keyword', with: @saved_search_container.indicator
+    click_button 'Search'
+    expect(page).to have_css('#bulk_operation_results tbody tr', text: @saved_search_container.indicator)
+
+    # Hold the rerun of the saved search until the new search has shown its results
+    release_rerun = Queue.new
+    rerun_finished = Queue.new
+    rerun_held = false
+    lock = Mutex.new
+    allow_any_instance_of(TopContainersController).to receive(:bulk_operation_search).and_wrap_original do |original, *args|
+      hold = lock.synchronize do
+        next false if rerun_held || original.receiver.params['q'] != @saved_search_container.indicator
+
+        rerun_held = true
+      end
+      next original.call(*args) unless hold
+
+      release_rerun.pop
+      begin
+        original.call(*args)
+      ensure
+        rerun_finished << true
+      end
+    end
+
+    begin
+      visit '/'
+      visit '/top_containers'
+      fill_in 'Keyword', with: @new_search_container.indicator
+      click_button 'Search'
+      expect(page).to have_css('#bulk_operation_results tbody tr', text: @new_search_container.indicator)
+    ensure
+      release_rerun << true
+    end
+
+    Timeout.timeout(Capybara.default_max_wait_time) { rerun_finished.pop }
+    wait_for_ajax
+
+    aggregate_failures do
+      expect(page).to have_css('#bulk_operation_results tbody tr', text: @new_search_container.indicator)
+      expect(page).not_to have_css('#bulk_operation_results tbody tr', text: @saved_search_container.indicator)
+    end
   end
 
   it 'can attach instances to resources and create containers and locations along the way' do

@@ -74,6 +74,11 @@ BulkContainerSearch.prototype.setup_form = function () {
 BulkContainerSearch.prototype.perform_search = function (data) {
   var self = this;
 
+  // A search still running, like the saved search rerun on page load, must not replace the new results
+  if (self.current_search) {
+    self.current_search.abort();
+  }
+
   self.$results_container
     .closest('[data-results-wrapper]')
     .removeClass('d-none')
@@ -82,7 +87,7 @@ BulkContainerSearch.prototype.perform_search = function (data) {
     AS.renderTemplate('template_bulk_operation_loading')
   );
 
-  $.ajax({
+  self.current_search = $.ajax({
     url: AS.app_prefix('top_containers/bulk_operations/search'),
     data: data,
     type: 'post',
@@ -93,6 +98,10 @@ BulkContainerSearch.prototype.perform_search = function (data) {
       self.update_button_state();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'abort') {
+        return;
+      }
+
       $.rails.enableFormElements(self.$search_form);
       var html = AS.renderTemplate('template_bulk_operation_error_message', {
         message: jqXHR.responseText,
