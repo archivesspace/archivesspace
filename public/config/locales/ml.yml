@@ -192,7 +192,7 @@ ml:
     toggle_navigation: നാവിഗേഷൻ ടോഗിൾ ചെയ്യുക
   navigation:
     hierarchical: സ്ഥാനശ്രേണിബദ്ധമായ നാവിഗേഷൻ
-    top_level: അഗ്രഗണ്യ നാവിഗേഷൻ
+    top_level: ഉന്നതതല നാവിഗേഷൻ
     mobile_menu: ചെറിയ ഉപകരണങ്ങൾക്കായുള്ള നാവിഗേഷൻ മെനു
   internal_links:
     main: പ്രധാന ഖണ്ഡങ്ങൾ
@@ -207,3 +207,16 @@ ml:
       AND: കൂടാതെ
       OR: അല്ലെങ്കിൽ
       NOT: അല്ല
+    limit_label: രേഖ തരം അനുസരിച്ച് പരിമിതപ്പെടുത്തുക
+    add_row: നിര ചേർക്കുക
+    remove_row: നിര നീക്കം ചെയ്യുക
+  coll_obj:
+    _singular: ശേഖരം അല്ലെങ്കിൽ രേഖ
+    _plural: ശേഖരങ്ങൾ കൂടാതെ/അല്ലെങ്കിൽ രേഖകൾ
+  scope_note: വിശദീകരണത്തെക്കുറിച്ചുള്ള കുറിപ്പ്
+  multiple_containers: അനവധി പാത്രകങ്ങൾ
+  external_docs: പുറത്തുനിന്നുള്ള രേഖകൾ
+  more_about: കൂടുതൽ വിവരങ്ങൾ
+  cont_arr: ശേഖരണ ക്രമീകരണം
+  dig_cont_arr: ഡിജിറ്റൽ വസ്തുവിന്റെ ക്രമീകരണം
+  subgroups: ഉപവിഭാഗങ്ങൾ
