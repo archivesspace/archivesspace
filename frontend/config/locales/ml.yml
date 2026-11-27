@@ -9,7 +9,7 @@ ml:
   search_results:
     filtered_by: ഈ വഴിയേ ഫിൽട്ടർ ചെയ്തത്
   search_sorting:
-    sort_by: ഇങ്ങനെ തരം തിരിക്കുക
+    sort_by: 'ഇങ്ങനെ തരം തിരിക്കുക:'
   login:
     login_please: ദയവായി സൈൻ ഇൻ ചെയ്യുക
     login: സൈൻ ഇൻ ചെയ്യുക
